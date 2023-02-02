@@ -3722,7 +3722,21 @@ namespace BinderJetting
             {
                 ///(1)JOB参数设置：
                 royal.royal.g_PrtJobItem.nJobID = 1;//世彪新增0104
-                royal.royal.g_PrtJobItem.nPixelGrayBits = 1;//灰度位数：世彪新增0104://20200429新增
+                //royal.royal.g_PrtJobItem.nPixelGrayBits = 1;//灰度位数：世彪新增0104://20200429新增//20230202新增：灰度数据位数修改
+                int bpp = 1;//20230202新增：灰度数据位数修改
+                if (bpp == 1)
+                {
+                    royal.royal.g_PrtJobItem.nPixelGrayBits = 1;//灰度位数：世彪新增0104://20200429新增
+                }
+                else if (bpp == 2)
+                {
+                    royal.royal.g_PrtJobItem.nPixelGrayBits = 2;//灰度位数：世彪新增0104://20200429新增
+                }
+                else if (bpp == 3)
+                {
+                    royal.royal.g_PrtJobItem.nPixelGrayBits = 3;//灰度位数：世彪新增0104://20200429新增
+                }
+
                 royal.royal.g_PrtJobItem.fPrtYPos = 0;//世彪新增0104
                 //royal.royal.g_PrtJobItem.nPrtXEncPos = 71000/*63000*//*72000*//*54800*//*52000*//*0*//*0x100018*/;//世彪修改：20200711：//20200715修改：330的位置比较合适//20200804：63000//20200923新增：315MM调整到355MM(修复双驱限位移动+重新设置零位值)
                 //royal.royal.g_PrtJobItem.nPrtXEncPos = 355*200;//20200923新增：从成形参数模块中获取并设置对应的参数值

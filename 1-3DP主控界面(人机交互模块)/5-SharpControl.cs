@@ -37,6 +37,7 @@ namespace BinderJetting
     using System.Drawing.Imaging;
     using System.IO;
     using SharpDX.IO;
+    using System.Collections;
 
     class SharpControl
     {
@@ -1447,16 +1448,18 @@ namespace BinderJetting
                 Marshal.FreeHGlobal(ImgPtr);//释放内存
                 clone.SetResolution(600f, 600f);//Windows7的系统BUG
 
-                #region//20230202新建：根据1bpp,2bpp,3bpp++以及GrayScale来重新编码为最新需要下发的数据
-                int bpp = 1;
-                if (bpp==1)//1bpp模式
-                { }
-                else if (bpp == 2) //2bpp模式下的3个灰度等级（灰阶）
-                { }
-                else if (bpp == 3) //3bpp模式下的7个灰度等级（灰阶）
-                { }
-                else { }
-                #endregion
+                //#region//20230202新建：根据1bpp,2bpp,3bpp++以及GrayScale来重新编码为最新需要下发的数据
+                //int bpp = 1;
+                //if (bpp==1)//1bpp模式
+                //{
+                    
+                //}
+                //else if (bpp == 2) //2bpp模式下的3个灰度等级（灰阶）
+                //{ }
+                //else if (bpp == 3) //3bpp模式下的7个灰度等级（灰阶）
+                //{ }
+                //else { }
+                //#endregion
 
 #if false//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
                 clone.Save("output1bpp.bmp", ImageFormat.Bmp);//保存到BMPFile
@@ -1702,7 +1705,7 @@ namespace BinderJetting
         {        
             //(贰)校验传输的数据是否准确：20200409新增
             //(贰)校验传输的数据是否准确：20200409新增
-            if (clone.PixelFormat != System.Drawing.Imaging.PixelFormat.Format1bppIndexed)
+            if (clone.PixelFormat != System.Drawing.Imaging.PixelFormat.Format1bppIndexed)//20230202新建:中间数据为1bpp数据，后续进一步处理为所需的2bpp或者3bpp数据
             {
                 MessageBox.Show("目前不支持非单点图像的打印");
                 return -1;//退出程序//20200411批注：本部分有待验证是否合理，理论上是不太存在问题的
@@ -1729,13 +1732,115 @@ namespace BinderJetting
             }
             else { }
 #endif
+            #region//20230202新建：根据1bpp,2bpp,3bpp++以及GrayScale来重新编码为最新需要下发的数据
+            int bpp = 1;//打印数据格式
+            int GrayScale = 1;//打印灰阶
+            byte[] Rgb2bppValues = new byte[2 * bytes];//2bpp打印数据
+            byte[] Rgb3bppValues = new byte[3 * bytes];//3bpp打印数据
+            BitArray Rgb1bppBits = new BitArray(rgbValues);
+            BitArray Rgb2bppBits = new BitArray(Rgb2bppValues);
+            BitArray Rgb3bppBits = new BitArray(Rgb3bppValues);
+
+            if (bpp == 1)//1bpp模式
+            {
+                //不需要执行任何操作
+            }
+            else if (bpp == 2) //2bpp模式下的3个灰度等级（灰阶）
+            {
+                for (int i = 0; i < Rgb1bppBits.Length; i++)
+                {
+                    if (Rgb1bppBits[i] == false) 
+                    {
+                        Rgb2bppBits[2*i] = false; Rgb2bppBits[2*i+1] = false;
+                    }
+                    else
+                    {
+                        switch (GrayScale)
+                        {
+                            case 1:
+                                Rgb2bppBits[2 * i] = false; Rgb2bppBits[2 * i + 1] = true;
+                                break;
+                            case 2:
+                                Rgb2bppBits[2 * i] = true; Rgb2bppBits[2 * i + 1] = false;
+                                break;
+                            case 3:
+                                Rgb2bppBits[2 * i] = true; Rgb2bppBits[2 * i + 1] = true;
+                                break;
+                        }
+                    }
+                }
+            }
+            else if (bpp == 3) //3bpp模式下的7个灰度等级（灰阶）
+            {
+                for (int i = 0; i < Rgb1bppBits.Length; i++)
+                {
+                    if (Rgb1bppBits[i] == false)
+                    {
+                        Rgb3bppBits[3 * i] = false; Rgb3bppBits[3 * i + 1] = false; Rgb3bppBits[3 * i + 2] = false;
+                    }
+                    else
+                    {
+                        switch (GrayScale)
+                        {
+                            case 1:
+                                Rgb3bppBits[3 * i] = false; Rgb3bppBits[3 * i + 1] = false; Rgb3bppBits[3 * i + 2] = true;
+                                break;
+                            case 2:
+                                Rgb3bppBits[3 * i] = false; Rgb3bppBits[3 * i + 1] = true; Rgb3bppBits[3 * i + 2] = false;
+                                break;
+                            case 3:
+                                Rgb3bppBits[3 * i] = false; Rgb3bppBits[3 * i + 1] = true; Rgb3bppBits[3 * i + 2] = true;
+                                break;
+                            case 4:
+                                Rgb3bppBits[3 * i] = true; Rgb3bppBits[3 * i + 1] = false; Rgb3bppBits[3 * i + 2] = false;
+                                break;
+                            case 5:
+                                Rgb3bppBits[3 * i] = true; Rgb3bppBits[3 * i + 1] = false; Rgb3bppBits[3 * i + 2] = true;
+                                break;
+                            case 6:
+                                Rgb3bppBits[3 * i] = true; Rgb3bppBits[3 * i + 1] = true; Rgb3bppBits[3 * i + 2] = false;
+                                break;
+                            case 7:
+                                Rgb3bppBits[3 * i] = true; Rgb3bppBits[3 * i + 1] = true; Rgb3bppBits[3 * i + 2] = true;
+                                break;
+                        }
+                    }
+                }
+            }
+            else { }
+            #endregion
+
             // （6）Copy the RGB values back to the bitmap
             Marshal.Copy(rgbValues, 0, ptr, bytes);/*System.Runtime.InteropServices.*/
+
             /***********************20200423调试新增：************************/
             int size2 = Marshal.SizeOf(rgbValues[0]) * rgbValues.Length;
-            IntPtr ImgPtr = Marshal.AllocHGlobal(size2);
-            Marshal.Copy(rgbValues, 0, ImgPtr, rgbValues.Length);//复制到非托管区内存
-            //Marshal.FreeHGlobal(ImgPtr);//释放内存
+            IntPtr ImgPtr = new IntPtr();
+            if (bpp == 1)
+            {
+                //size2 = Marshal.SizeOf(rgbValues[0]) * rgbValues.Length;
+                ImgPtr = Marshal.AllocHGlobal(size2);
+                Marshal.Copy(rgbValues, 0, ImgPtr, rgbValues.Length);//复制到非托管区内存
+            }
+            else if (bpp == 2)
+            {
+                size2 = Marshal.SizeOf(rgbValues[0]) * rgbValues.Length * bpp;
+
+                ImgPtr = Marshal.AllocHGlobal(size2);
+                Rgb2bppBits.CopyTo(Rgb2bppValues, 0);
+                Marshal.Copy(Rgb2bppValues, 0, ImgPtr, Rgb2bppValues.Length);//复制到非托管区内存
+            }
+            else if (bpp == 3)
+            {
+                size2 = Marshal.SizeOf(rgbValues[0]) * rgbValues.Length * bpp;
+
+                ImgPtr = Marshal.AllocHGlobal(size2);
+                Rgb3bppBits.CopyTo(Rgb3bppValues, 0);
+                Marshal.Copy(Rgb3bppValues, 0, ImgPtr, Rgb3bppValues.Length);//复制到非托管区内存
+            }
+            //IntPtr ImgPtr = Marshal.AllocHGlobal(size2);
+            //Marshal.Copy(rgbValues, 0, ImgPtr, rgbValues.Length);//复制到非托管区内存
+
             /***********************20200423调试新增：************************/
             /***************************20200423调试新增：*************************/
             IntPtr[] NewImgPtr = new IntPtr[3];//存放3种颜色的数组//20200423新增：
@@ -1754,7 +1859,10 @@ namespace BinderJetting
             //royal.royal.g_prtimg_layer.nYJetOff = k_dYJetOff/*(int)(g_RYSYSParam.m_dYJetOff * 600)*/;//20210311修正：Y向的位置起始偏差。
             royal.royal.g_prtimg_layer.nXDPI = XDpi/*635*//*XDpi*//*635*//*1270*2*//*635*/;//图像的XDPI，本质必须与光栅的DPI保持协调//20200802批注：修改原有的X向分辨率，本来应该是635DPI，提升到635*2DPI//20210324修改：打印校准图应该为635DPI
             royal.royal.g_prtimg_layer.nYDPI = 600;//图像的XDPI，本值必须与喷头的DPI保持一致
-            royal.royal.g_prtimg_layer.nBytesPerLine = bmpData.Stride;//bmpData每行的数据字节数
+            if (true/*bpp == 1*/) 
+            {
+                royal.royal.g_prtimg_layer.nBytesPerLine = bmpData.Stride * bpp;///*bmpData每行的数据字节数*/
+            }
             royal.royal.g_prtimg_layer.nWidth = clone.Width;//bmpDat9a的像素宽度
             royal.royal.g_prtimg_layer.nHeight = clone.Height;//bmpData的像素高度
             //int i = 1;//第1层的数据：20200409新增：具体实现的时候，会移植到为爱面
@@ -1762,9 +1870,7 @@ namespace BinderJetting
             royal.royal.g_prtimg_layer.nColorCnts = 1;//颜色个数，打印图形颜色为单色
             //不同的层需要进行不同的设置：20200429新增批注：单层需要正向打印，双层需要方向打印
             royal.royal.g_prtimg_layer.nPrtFlag = 1;//双向打印 bit[0] 控制单双向打印
-            royal.royal.g_prtimg_layer.nPrtDir = 0/*((index * RePrintTimes + subindex) % 2)*/ /*1*//*1*//*PrtDirFlag*/;//起始打印方向为增序：光栅计数增大的方向开始计数//201030修改：增加重喷控制参数
-
-            
+            royal.royal.g_prtimg_layer.nPrtDir = 0/*((index * RePrintTimes + subindex) % 2)*/ /*1*//*1*//*PrtDirFlag*/;//起始打印方向为增序：光栅计数增大的方向开始计数//201030修改：增加重喷控制参数   
             //royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / 25.4 * 600);//20210311新增：Y向起打位置修订//20210330修改：
 
             //（伍） 完成数据的传输
@@ -1773,7 +1879,19 @@ namespace BinderJetting
 #if true//测试数据传输：20200613批注：
             do
             {
-                nRet = royal.royal.IDP_WriteImgLayerData(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, bytes);
+                if (bpp == 1)
+                {
+                    nRet = royal.royal.IDP_WriteImgLayerData(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, bytes * bpp);
+                }
+                else if (bpp == 2) 
+                {
+                    nRet = royal.royal.IDP_WriteImgLayerData(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, bytes * bpp);
+                }
+                else if (bpp == 3) 
+                {
+                    nRet = royal.royal.IDP_WriteImgLayerData(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, bytes * bpp);
+                }
+
                 if (nRet > 0)//返回值是33，计算出来的PASS总数；只要在PCS里面进行修改，即可然返回的值发生变化
                 {
                     //break;
