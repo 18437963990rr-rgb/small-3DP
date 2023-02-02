@@ -46,7 +46,6 @@
             this.textBox28 = new System.Windows.Forms.TextBox();
             this.label65 = new System.Windows.Forms.Label();
             this.label64 = new System.Windows.Forms.Label();
-            this.textBox27 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.checkBox14 = new System.Windows.Forms.CheckBox();
             this.checkBox13 = new System.Windows.Forms.CheckBox();
@@ -213,6 +212,10 @@
             this.label71 = new System.Windows.Forms.Label();
             this.label75 = new System.Windows.Forms.Label();
             this.label77 = new System.Windows.Forms.Label();
+            this.GrayScaleBox = new System.Windows.Forms.ComboBox();
+            this.label99 = new System.Windows.Forms.Label();
+            this.GrayValueBox = new System.Windows.Forms.ComboBox();
+            this.label100 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -225,7 +228,7 @@
             this.MoveParamPropertyGrid.AllowDrop = true;
             this.MoveParamPropertyGrid.BackColor = System.Drawing.Color.Snow;
             this.MoveParamPropertyGrid.CausesValidation = false;
-            this.MoveParamPropertyGrid.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.MoveParamPropertyGrid.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.MoveParamPropertyGrid.HelpVisible = false;
             this.MoveParamPropertyGrid.Location = new System.Drawing.Point(356, 376);
             this.MoveParamPropertyGrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -241,7 +244,7 @@
             this.button17.BackColor = System.Drawing.Color.Transparent;
             this.button17.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button17.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button17.Font = new System.Drawing.Font("SimSun", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button17.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button17.Image = ((System.Drawing.Image)(resources.GetObject("button17.Image")));
             this.button17.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button17.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -257,7 +260,7 @@
             // label5
             // 
             this.label5.BackColor = System.Drawing.Color.Aquamarine;
-            this.label5.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label5.Location = new System.Drawing.Point(356, 359);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
@@ -269,8 +272,8 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label1.Location = new System.Drawing.Point(19, 344);
+            this.label1.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label1.Location = new System.Drawing.Point(19, 405);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(77, 14);
@@ -281,8 +284,8 @@
             // 
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.GhostWhite;
-            this.label6.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label6.Location = new System.Drawing.Point(19, 370);
+            this.label6.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label6.Location = new System.Drawing.Point(19, 431);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(126, 14);
@@ -293,8 +296,8 @@
             // 
             this.label12.AutoSize = true;
             this.label12.BackColor = System.Drawing.Color.GhostWhite;
-            this.label12.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label12.Location = new System.Drawing.Point(19, 396);
+            this.label12.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label12.Location = new System.Drawing.Point(19, 457);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(140, 14);
@@ -303,7 +306,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(189, 341);
+            this.textBox2.Location = new System.Drawing.Point(189, 402);
             this.textBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(71, 23);
@@ -317,7 +320,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(189, 367);
+            this.textBox4.Location = new System.Drawing.Point(189, 428);
             this.textBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(71, 23);
@@ -326,7 +329,7 @@
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(190, 393);
+            this.textBox7.Location = new System.Drawing.Point(190, 454);
             this.textBox7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(71, 23);
@@ -336,8 +339,8 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label7.Location = new System.Drawing.Point(264, 344);
+            this.label7.Font = new System.Drawing.Font("宋体", 10F);
+            this.label7.Location = new System.Drawing.Point(264, 405);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(49, 14);
@@ -347,8 +350,8 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label13.Location = new System.Drawing.Point(264, 369);
+            this.label13.Font = new System.Drawing.Font("宋体", 10F);
+            this.label13.Location = new System.Drawing.Point(264, 430);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(21, 14);
@@ -358,8 +361,8 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label15.Location = new System.Drawing.Point(264, 396);
+            this.label15.Font = new System.Drawing.Font("宋体", 10F);
+            this.label15.Location = new System.Drawing.Point(264, 457);
             this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(21, 14);
@@ -368,7 +371,7 @@
             // 
             // textBox28
             // 
-            this.textBox28.Location = new System.Drawing.Point(189, 471);
+            this.textBox28.Location = new System.Drawing.Point(191, 498);
             this.textBox28.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox28.Name = "textBox28";
             this.textBox28.Size = new System.Drawing.Size(71, 23);
@@ -379,8 +382,8 @@
             // 
             this.label65.AutoSize = true;
             this.label65.BackColor = System.Drawing.Color.GhostWhite;
-            this.label65.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label65.Location = new System.Drawing.Point(20, 471);
+            this.label65.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label65.Location = new System.Drawing.Point(18, 501);
             this.label65.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label65.Name = "label65";
             this.label65.Size = new System.Drawing.Size(98, 14);
@@ -390,29 +393,20 @@
             // label64
             // 
             this.label64.AutoSize = true;
-            this.label64.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label64.Location = new System.Drawing.Point(263, 449);
+            this.label64.Font = new System.Drawing.Font("宋体", 10F);
+            this.label64.Location = new System.Drawing.Point(266, 36);
             this.label64.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label64.Name = "label64";
             this.label64.Size = new System.Drawing.Size(28, 14);
             this.label64.TabIndex = 90;
             this.label64.Text = "bit";
             // 
-            // textBox27
-            // 
-            this.textBox27.Location = new System.Drawing.Point(188, 445);
-            this.textBox27.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.textBox27.Name = "textBox27";
-            this.textBox27.Size = new System.Drawing.Size(71, 23);
-            this.textBox27.TabIndex = 90;
-            this.textBox27.Text = "4000";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.GhostWhite;
-            this.label4.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label4.Location = new System.Drawing.Point(20, 445);
+            this.label4.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label4.Location = new System.Drawing.Point(20, 36);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(105, 14);
@@ -425,8 +419,8 @@
             this.checkBox14.BackColor = System.Drawing.Color.GhostWhite;
             this.checkBox14.Checked = true;
             this.checkBox14.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox14.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.checkBox14.Location = new System.Drawing.Point(21, 542);
+            this.checkBox14.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.checkBox14.Location = new System.Drawing.Point(21, 562);
             this.checkBox14.Name = "checkBox14";
             this.checkBox14.Size = new System.Drawing.Size(131, 18);
             this.checkBox14.TabIndex = 131;
@@ -438,8 +432,8 @@
             this.checkBox13.AutoSize = true;
             this.checkBox13.Checked = true;
             this.checkBox13.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox13.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.checkBox13.Location = new System.Drawing.Point(189, 519);
+            this.checkBox13.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.checkBox13.Location = new System.Drawing.Point(189, 547);
             this.checkBox13.Name = "checkBox13";
             this.checkBox13.Size = new System.Drawing.Size(96, 18);
             this.checkBox13.TabIndex = 130;
@@ -451,8 +445,8 @@
             this.checkBox12.AutoSize = true;
             this.checkBox12.Checked = true;
             this.checkBox12.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox12.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.checkBox12.Location = new System.Drawing.Point(21, 518);
+            this.checkBox12.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.checkBox12.Location = new System.Drawing.Point(21, 546);
             this.checkBox12.Name = "checkBox12";
             this.checkBox12.Size = new System.Drawing.Size(110, 18);
             this.checkBox12.TabIndex = 129;
@@ -464,8 +458,8 @@
             this.checkBox11.AutoSize = true;
             this.checkBox11.Checked = true;
             this.checkBox11.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox11.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.checkBox11.Location = new System.Drawing.Point(189, 495);
+            this.checkBox11.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.checkBox11.Location = new System.Drawing.Point(189, 523);
             this.checkBox11.Name = "checkBox11";
             this.checkBox11.Size = new System.Drawing.Size(96, 18);
             this.checkBox11.TabIndex = 128;
@@ -476,8 +470,8 @@
             // 
             this.checkBox10.AutoSize = true;
             this.checkBox10.Enabled = false;
-            this.checkBox10.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.checkBox10.Location = new System.Drawing.Point(21, 494);
+            this.checkBox10.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.checkBox10.Location = new System.Drawing.Point(21, 522);
             this.checkBox10.Name = "checkBox10";
             this.checkBox10.Size = new System.Drawing.Size(82, 18);
             this.checkBox10.TabIndex = 127;
@@ -497,7 +491,7 @@
             // checkBox8
             // 
             this.checkBox8.AutoSize = true;
-            this.checkBox8.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.checkBox8.Font = new System.Drawing.Font("宋体", 10.5F);
             this.checkBox8.Location = new System.Drawing.Point(488, 463);
             this.checkBox8.Name = "checkBox8";
             this.checkBox8.Size = new System.Drawing.Size(124, 18);
@@ -508,7 +502,7 @@
             // checkBox7
             // 
             this.checkBox7.AutoSize = true;
-            this.checkBox7.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.checkBox7.Font = new System.Drawing.Font("宋体", 10.5F);
             this.checkBox7.Location = new System.Drawing.Point(356, 463);
             this.checkBox7.Name = "checkBox7";
             this.checkBox7.Size = new System.Drawing.Size(124, 18);
@@ -594,7 +588,7 @@
             // label50
             // 
             this.label50.AutoSize = true;
-            this.label50.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label50.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label50.Location = new System.Drawing.Point(644, 434);
             this.label50.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label50.Name = "label50";
@@ -605,7 +599,7 @@
             // label46
             // 
             this.label46.AutoSize = true;
-            this.label46.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label46.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label46.Location = new System.Drawing.Point(644, 410);
             this.label46.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label46.Name = "label46";
@@ -616,7 +610,7 @@
             // label44
             // 
             this.label44.AutoSize = true;
-            this.label44.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label44.Font = new System.Drawing.Font("宋体", 10F);
             this.label44.Location = new System.Drawing.Point(897, 376);
             this.label44.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label44.Name = "label44";
@@ -627,7 +621,7 @@
             // label45
             // 
             this.label45.AutoSize = true;
-            this.label45.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label45.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label45.Location = new System.Drawing.Point(644, 387);
             this.label45.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label45.Name = "label45";
@@ -647,7 +641,7 @@
             // label47
             // 
             this.label47.AutoSize = true;
-            this.label47.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label47.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label47.Location = new System.Drawing.Point(644, 361);
             this.label47.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label47.Name = "label47";
@@ -668,7 +662,7 @@
             // 
             this.label28.AutoSize = true;
             this.label28.BackColor = System.Drawing.Color.GhostWhite;
-            this.label28.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label28.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label28.Location = new System.Drawing.Point(645, 37);
             this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label28.Name = "label28";
@@ -689,7 +683,7 @@
             // 
             this.label22.AutoSize = true;
             this.label22.BackColor = System.Drawing.Color.GhostWhite;
-            this.label22.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label22.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label22.Location = new System.Drawing.Point(645, 117);
             this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label22.Name = "label22";
@@ -700,7 +694,7 @@
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label33.Font = new System.Drawing.Font("宋体", 10F);
             this.label33.Location = new System.Drawing.Point(897, 32);
             this.label33.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label33.Name = "label33";
@@ -721,7 +715,7 @@
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label48.Font = new System.Drawing.Font("宋体", 10F);
             this.label48.Location = new System.Drawing.Point(897, 348);
             this.label48.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label48.Name = "label48";
@@ -732,7 +726,7 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label27.Font = new System.Drawing.Font("宋体", 10F);
             this.label27.Location = new System.Drawing.Point(897, 116);
             this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
@@ -743,7 +737,7 @@
             // label49
             // 
             this.label49.AutoSize = true;
-            this.label49.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label49.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label49.Location = new System.Drawing.Point(644, 335);
             this.label49.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label49.Name = "label49";
@@ -763,7 +757,7 @@
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label38.Font = new System.Drawing.Font("宋体", 10F);
             this.label38.Location = new System.Drawing.Point(897, 320);
             this.label38.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label38.Name = "label38";
@@ -774,7 +768,7 @@
             // label39
             // 
             this.label39.AutoSize = true;
-            this.label39.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label39.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label39.Location = new System.Drawing.Point(644, 309);
             this.label39.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label39.Name = "label39";
@@ -794,7 +788,7 @@
             // label40
             // 
             this.label40.AutoSize = true;
-            this.label40.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label40.Font = new System.Drawing.Font("宋体", 10F);
             this.label40.Location = new System.Drawing.Point(897, 292);
             this.label40.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label40.Name = "label40";
@@ -805,7 +799,7 @@
             // label41
             // 
             this.label41.AutoSize = true;
-            this.label41.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label41.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label41.Location = new System.Drawing.Point(644, 283);
             this.label41.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label41.Name = "label41";
@@ -825,7 +819,7 @@
             // label42
             // 
             this.label42.AutoSize = true;
-            this.label42.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label42.Font = new System.Drawing.Font("宋体", 10F);
             this.label42.Location = new System.Drawing.Point(897, 264);
             this.label42.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label42.Name = "label42";
@@ -836,7 +830,7 @@
             // label43
             // 
             this.label43.AutoSize = true;
-            this.label43.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label43.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label43.Location = new System.Drawing.Point(644, 257);
             this.label43.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label43.Name = "label43";
@@ -857,7 +851,7 @@
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label36.Font = new System.Drawing.Font("宋体", 10F);
             this.label36.Location = new System.Drawing.Point(897, 236);
             this.label36.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label36.Name = "label36";
@@ -868,7 +862,7 @@
             // label37
             // 
             this.label37.AutoSize = true;
-            this.label37.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label37.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label37.Location = new System.Drawing.Point(644, 231);
             this.label37.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label37.Name = "label37";
@@ -889,7 +883,7 @@
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label34.Font = new System.Drawing.Font("宋体", 10F);
             this.label34.Location = new System.Drawing.Point(897, 208);
             this.label34.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label34.Name = "label34";
@@ -900,7 +894,7 @@
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label35.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label35.Location = new System.Drawing.Point(644, 205);
             this.label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label35.Name = "label35";
@@ -920,7 +914,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label29.Font = new System.Drawing.Font("宋体", 10F);
             this.label29.Location = new System.Drawing.Point(897, 180);
             this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label29.Name = "label29";
@@ -932,7 +926,7 @@
             // 
             this.label30.AutoSize = true;
             this.label30.BackColor = System.Drawing.Color.GhostWhite;
-            this.label30.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label30.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label30.Location = new System.Drawing.Point(645, 144);
             this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label30.Name = "label30";
@@ -943,7 +937,7 @@
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label31.Font = new System.Drawing.Font("宋体", 10F);
             this.label31.Location = new System.Drawing.Point(897, 146);
             this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label31.Name = "label31";
@@ -954,7 +948,7 @@
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label32.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label32.Location = new System.Drawing.Point(645, 179);
             this.label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label32.Name = "label32";
@@ -984,7 +978,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label23.Font = new System.Drawing.Font("宋体", 10F);
             this.label23.Location = new System.Drawing.Point(897, 58);
             this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label23.Name = "label23";
@@ -996,7 +990,7 @@
             // 
             this.label24.AutoSize = true;
             this.label24.BackColor = System.Drawing.Color.GhostWhite;
-            this.label24.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label24.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label24.Location = new System.Drawing.Point(645, 88);
             this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label24.Name = "label24";
@@ -1007,7 +1001,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label25.Font = new System.Drawing.Font("宋体", 10F);
             this.label25.Location = new System.Drawing.Point(897, 86);
             this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label25.Name = "label25";
@@ -1019,7 +1013,7 @@
             // 
             this.label26.AutoSize = true;
             this.label26.BackColor = System.Drawing.Color.GhostWhite;
-            this.label26.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label26.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label26.Location = new System.Drawing.Point(645, 61);
             this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label26.Name = "label26";
@@ -1051,7 +1045,7 @@
             this.button27.BackColor = System.Drawing.Color.Transparent;
             this.button27.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button27.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button27.Font = new System.Drawing.Font("SimSun", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button27.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button27.Image = ((System.Drawing.Image)(resources.GetObject("button27.Image")));
             this.button27.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button27.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -1067,7 +1061,7 @@
             // label11
             // 
             this.label11.BackColor = System.Drawing.Color.Aquamarine;
-            this.label11.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label11.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label11.Location = new System.Drawing.Point(645, 12);
             this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
@@ -1079,8 +1073,8 @@
             // label51
             // 
             this.label51.BackColor = System.Drawing.Color.Aquamarine;
-            this.label51.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label51.Location = new System.Drawing.Point(20, 318);
+            this.label51.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label51.Location = new System.Drawing.Point(20, 380);
             this.label51.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label51.Name = "label51";
             this.label51.Size = new System.Drawing.Size(307, 19);
@@ -1091,8 +1085,8 @@
             // label52
             // 
             this.label52.BackColor = System.Drawing.Color.Aquamarine;
-            this.label52.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label52.Location = new System.Drawing.Point(19, 418);
+            this.label52.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label52.Location = new System.Drawing.Point(20, 479);
             this.label52.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label52.Name = "label52";
             this.label52.Size = new System.Drawing.Size(308, 19);
@@ -1103,7 +1097,7 @@
             // label53
             // 
             this.label53.AutoSize = true;
-            this.label53.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label53.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label53.Location = new System.Drawing.Point(354, 541);
             this.label53.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label53.Name = "label53";
@@ -1114,7 +1108,7 @@
             // ResetCorrectCheckBox
             // 
             this.ResetCorrectCheckBox.AutoSize = true;
-            this.ResetCorrectCheckBox.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.ResetCorrectCheckBox.Font = new System.Drawing.Font("宋体", 10.5F);
             this.ResetCorrectCheckBox.Location = new System.Drawing.Point(467, 540);
             this.ResetCorrectCheckBox.Name = "ResetCorrectCheckBox";
             this.ResetCorrectCheckBox.Size = new System.Drawing.Size(96, 18);
@@ -1125,8 +1119,8 @@
             // label3
             // 
             this.label3.BackColor = System.Drawing.Color.Aquamarine;
-            this.label3.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(21, 12);
+            this.label3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label3.Location = new System.Drawing.Point(21, 10);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(306, 19);
@@ -1137,8 +1131,8 @@
             // label63
             // 
             this.label63.AutoSize = true;
-            this.label63.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label63.Location = new System.Drawing.Point(265, 164);
+            this.label63.Font = new System.Drawing.Font("宋体", 10F);
+            this.label63.Location = new System.Drawing.Point(265, 219);
             this.label63.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(21, 14);
@@ -1147,7 +1141,7 @@
             // 
             // textBox8
             // 
-            this.textBox8.Location = new System.Drawing.Point(190, 162);
+            this.textBox8.Location = new System.Drawing.Point(190, 217);
             this.textBox8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(71, 23);
@@ -1158,8 +1152,8 @@
             // 
             this.label14.AutoSize = true;
             this.label14.BackColor = System.Drawing.Color.GhostWhite;
-            this.label14.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label14.Location = new System.Drawing.Point(21, 166);
+            this.label14.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label14.Location = new System.Drawing.Point(21, 221);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(126, 14);
@@ -1171,7 +1165,7 @@
             this.label61.BackColor = System.Drawing.Color.Aquamarine;
             this.label61.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label61.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label61.Location = new System.Drawing.Point(20, 211);
+            this.label61.Location = new System.Drawing.Point(20, 266);
             this.label61.Name = "label61";
             this.label61.Size = new System.Drawing.Size(300, 4);
             this.label61.TabIndex = 146;
@@ -1179,8 +1173,8 @@
             // label59
             // 
             this.label59.AutoSize = true;
-            this.label59.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label59.Location = new System.Drawing.Point(266, 302);
+            this.label59.Font = new System.Drawing.Font("宋体", 10F);
+            this.label59.Location = new System.Drawing.Point(266, 359);
             this.label59.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label59.Name = "label59";
             this.label59.Size = new System.Drawing.Size(21, 14);
@@ -1189,7 +1183,7 @@
             // 
             // textBox26
             // 
-            this.textBox26.Location = new System.Drawing.Point(189, 298);
+            this.textBox26.Location = new System.Drawing.Point(189, 355);
             this.textBox26.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox26.Name = "textBox26";
             this.textBox26.Size = new System.Drawing.Size(71, 23);
@@ -1200,8 +1194,8 @@
             // 
             this.label60.AutoSize = true;
             this.label60.BackColor = System.Drawing.Color.GhostWhite;
-            this.label60.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label60.Location = new System.Drawing.Point(21, 299);
+            this.label60.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label60.Location = new System.Drawing.Point(21, 356);
             this.label60.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label60.Name = "label60";
             this.label60.Size = new System.Drawing.Size(98, 14);
@@ -1211,8 +1205,8 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label21.Location = new System.Drawing.Point(266, 274);
+            this.label21.Font = new System.Drawing.Font("宋体", 10F);
+            this.label21.Location = new System.Drawing.Point(266, 331);
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(21, 14);
@@ -1221,7 +1215,7 @@
             // 
             // textBox25
             // 
-            this.textBox25.Location = new System.Drawing.Point(189, 270);
+            this.textBox25.Location = new System.Drawing.Point(189, 327);
             this.textBox25.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox25.Name = "textBox25";
             this.textBox25.Size = new System.Drawing.Size(71, 23);
@@ -1232,8 +1226,8 @@
             // 
             this.label20.AutoSize = true;
             this.label20.BackColor = System.Drawing.Color.GhostWhite;
-            this.label20.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label20.Location = new System.Drawing.Point(21, 272);
+            this.label20.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label20.Location = new System.Drawing.Point(21, 329);
             this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(126, 14);
@@ -1243,8 +1237,8 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label17.Location = new System.Drawing.Point(265, 90);
+            this.label17.Font = new System.Drawing.Font("宋体", 10F);
+            this.label17.Location = new System.Drawing.Point(265, 145);
             this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(21, 14);
@@ -1255,8 +1249,8 @@
             // 
             this.label18.AutoSize = true;
             this.label18.BackColor = System.Drawing.Color.GhostWhite;
-            this.label18.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label18.Location = new System.Drawing.Point(20, 142);
+            this.label18.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label18.Location = new System.Drawing.Point(20, 197);
             this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(140, 14);
@@ -1266,7 +1260,7 @@
             // textBox9
             // 
             this.textBox9.Enabled = false;
-            this.textBox9.Location = new System.Drawing.Point(191, 85);
+            this.textBox9.Location = new System.Drawing.Point(191, 140);
             this.textBox9.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(71, 23);
@@ -1276,8 +1270,8 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label19.Location = new System.Drawing.Point(265, 142);
+            this.label19.Font = new System.Drawing.Font("宋体", 10F);
+            this.label19.Location = new System.Drawing.Point(265, 197);
             this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(21, 14);
@@ -1286,7 +1280,7 @@
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(190, 137);
+            this.textBox10.Location = new System.Drawing.Point(190, 192);
             this.textBox10.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(71, 23);
@@ -1311,7 +1305,7 @@
             "200",
             "250",
             "300"});
-            this.SpeedBox.Location = new System.Drawing.Point(191, 33);
+            this.SpeedBox.Location = new System.Drawing.Point(191, 88);
             this.SpeedBox.Name = "SpeedBox";
             this.SpeedBox.Size = new System.Drawing.Size(72, 22);
             this.SpeedBox.TabIndex = 93;
@@ -1321,8 +1315,8 @@
             // 
             this.label16.AutoSize = true;
             this.label16.BackColor = System.Drawing.Color.GhostWhite;
-            this.label16.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label16.Location = new System.Drawing.Point(21, 88);
+            this.label16.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label16.Location = new System.Drawing.Point(21, 143);
             this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(84, 14);
@@ -1332,8 +1326,8 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label10.Location = new System.Drawing.Point(20, 115);
+            this.label10.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label10.Location = new System.Drawing.Point(20, 170);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(140, 14);
@@ -1343,8 +1337,8 @@
             // label54
             // 
             this.label54.AutoSize = true;
-            this.label54.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label54.Location = new System.Drawing.Point(265, 246);
+            this.label54.Font = new System.Drawing.Font("宋体", 10F);
+            this.label54.Location = new System.Drawing.Point(265, 303);
             this.label54.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label54.Name = "label54";
             this.label54.Size = new System.Drawing.Size(21, 14);
@@ -1355,8 +1349,8 @@
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.GhostWhite;
-            this.label2.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label2.Location = new System.Drawing.Point(21, 38);
+            this.label2.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label2.Location = new System.Drawing.Point(20, 90);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(98, 14);
@@ -1366,8 +1360,8 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label8.Location = new System.Drawing.Point(265, 39);
+            this.label8.Font = new System.Drawing.Font("宋体", 10F);
+            this.label8.Location = new System.Drawing.Point(265, 94);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(35, 14);
@@ -1377,8 +1371,8 @@
             // label55
             // 
             this.label55.AutoSize = true;
-            this.label55.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label55.Location = new System.Drawing.Point(20, 218);
+            this.label55.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label55.Location = new System.Drawing.Point(20, 275);
             this.label55.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label55.Name = "label55";
             this.label55.Size = new System.Drawing.Size(126, 14);
@@ -1388,8 +1382,8 @@
             // label56
             // 
             this.label56.AutoSize = true;
-            this.label56.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label56.Location = new System.Drawing.Point(265, 218);
+            this.label56.Font = new System.Drawing.Font("宋体", 10F);
+            this.label56.Location = new System.Drawing.Point(265, 275);
             this.label56.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label56.Name = "label56";
             this.label56.Size = new System.Drawing.Size(21, 14);
@@ -1399,8 +1393,8 @@
             // label57
             // 
             this.label57.AutoSize = true;
-            this.label57.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label57.Location = new System.Drawing.Point(20, 245);
+            this.label57.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label57.Location = new System.Drawing.Point(20, 302);
             this.label57.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label57.Name = "label57";
             this.label57.Size = new System.Drawing.Size(98, 14);
@@ -1410,8 +1404,8 @@
             // label58
             // 
             this.label58.AutoSize = true;
-            this.label58.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label58.Location = new System.Drawing.Point(265, 116);
+            this.label58.Font = new System.Drawing.Font("宋体", 10F);
+            this.label58.Location = new System.Drawing.Point(265, 171);
             this.label58.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label58.Name = "label58";
             this.label58.Size = new System.Drawing.Size(21, 14);
@@ -1420,7 +1414,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(190, 112);
+            this.textBox1.Location = new System.Drawing.Point(190, 167);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(71, 23);
@@ -1429,7 +1423,7 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(190, 242);
+            this.textBox5.Location = new System.Drawing.Point(190, 299);
             this.textBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(71, 23);
@@ -1438,7 +1432,7 @@
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(190, 214);
+            this.textBox6.Location = new System.Drawing.Point(190, 271);
             this.textBox6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(71, 23);
@@ -1451,7 +1445,7 @@
             this.WaveformSelectBtn.BackColor = System.Drawing.Color.Transparent;
             this.WaveformSelectBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("WaveformSelectBtn.BackgroundImage")));
             this.WaveformSelectBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.WaveformSelectBtn.Font = new System.Drawing.Font("SimSun", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.WaveformSelectBtn.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.WaveformSelectBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.WaveformSelectBtn.Location = new System.Drawing.Point(785, 459);
             this.WaveformSelectBtn.Name = "WaveformSelectBtn";
@@ -1469,7 +1463,7 @@
             this.ADIBSetApplyBtn.BackColor = System.Drawing.Color.Transparent;
             this.ADIBSetApplyBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ADIBSetApplyBtn.BackgroundImage")));
             this.ADIBSetApplyBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ADIBSetApplyBtn.Font = new System.Drawing.Font("SimSun", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ADIBSetApplyBtn.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ADIBSetApplyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ADIBSetApplyBtn.Location = new System.Drawing.Point(668, 460);
             this.ADIBSetApplyBtn.Name = "ADIBSetApplyBtn";
@@ -1485,7 +1479,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.SystemColors.Control;
-            this.label9.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label9.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label9.Location = new System.Drawing.Point(354, 515);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
@@ -1505,7 +1499,7 @@
             // 
             this.checkBox9.AutoSize = true;
             this.checkBox9.Enabled = false;
-            this.checkBox9.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.checkBox9.Font = new System.Drawing.Font("宋体", 10.5F);
             this.checkBox9.Location = new System.Drawing.Point(356, 488);
             this.checkBox9.Name = "checkBox9";
             this.checkBox9.Size = new System.Drawing.Size(96, 18);
@@ -1525,6 +1519,10 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label100);
+            this.tabPage2.Controls.Add(this.GrayValueBox);
+            this.tabPage2.Controls.Add(this.label99);
+            this.tabPage2.Controls.Add(this.GrayScaleBox);
             this.tabPage2.Controls.Add(this.comboBox1);
             this.tabPage2.Controls.Add(this.label98);
             this.tabPage2.Controls.Add(this.label97);
@@ -1600,7 +1598,6 @@
             this.tabPage2.Controls.Add(this.label25);
             this.tabPage2.Controls.Add(this.textBox9);
             this.tabPage2.Controls.Add(this.label27);
-            this.tabPage2.Controls.Add(this.textBox27);
             this.tabPage2.Controls.Add(this.label26);
             this.tabPage2.Controls.Add(this.label19);
             this.tabPage2.Controls.Add(this.label48);
@@ -1661,7 +1658,7 @@
             this.tabPage2.Controls.Add(this.checkBox6);
             this.tabPage2.Controls.Add(this.label9);
             this.tabPage2.Controls.Add(this.checkBox5);
-            this.tabPage2.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.tabPage2.Font = new System.Drawing.Font("宋体", 10.5F);
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -1686,7 +1683,7 @@
             // 
             this.label98.AutoSize = true;
             this.label98.BackColor = System.Drawing.Color.GhostWhite;
-            this.label98.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label98.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label98.Location = new System.Drawing.Point(358, 334);
             this.label98.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label98.Name = "label98";
@@ -1697,7 +1694,7 @@
             // label97
             // 
             this.label97.AutoSize = true;
-            this.label97.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label97.Font = new System.Drawing.Font("宋体", 10F);
             this.label97.Location = new System.Drawing.Point(577, 313);
             this.label97.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label97.Name = "label97";
@@ -1718,7 +1715,7 @@
             // 
             this.label96.AutoSize = true;
             this.label96.BackColor = System.Drawing.Color.GhostWhite;
-            this.label96.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label96.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label96.Location = new System.Drawing.Point(358, 311);
             this.label96.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label96.Name = "label96";
@@ -1729,8 +1726,8 @@
             // label95
             // 
             this.label95.AutoSize = true;
-            this.label95.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label95.Location = new System.Drawing.Point(266, 192);
+            this.label95.Font = new System.Drawing.Font("宋体", 10F);
+            this.label95.Location = new System.Drawing.Point(266, 247);
             this.label95.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label95.Name = "label95";
             this.label95.Size = new System.Drawing.Size(21, 14);
@@ -1739,7 +1736,7 @@
             // 
             // textBox37
             // 
-            this.textBox37.Location = new System.Drawing.Point(190, 187);
+            this.textBox37.Location = new System.Drawing.Point(190, 242);
             this.textBox37.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox37.Name = "textBox37";
             this.textBox37.Size = new System.Drawing.Size(71, 23);
@@ -1750,8 +1747,8 @@
             // 
             this.label94.AutoSize = true;
             this.label94.BackColor = System.Drawing.Color.GhostWhite;
-            this.label94.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label94.Location = new System.Drawing.Point(21, 190);
+            this.label94.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label94.Location = new System.Drawing.Point(21, 245);
             this.label94.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label94.Name = "label94";
             this.label94.Size = new System.Drawing.Size(126, 14);
@@ -1771,7 +1768,7 @@
             // 
             this.pictureBox1.ErrorImage = null;
             this.pictureBox1.Image = global::LaserADD_BinderJetter.ResourceMenu.SubAeraAlgo;
-            this.pictureBox1.Location = new System.Drawing.Point(356, 31);
+            this.pictureBox1.Location = new System.Drawing.Point(353, 31);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(256, 192);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -1781,8 +1778,8 @@
             // label93
             // 
             this.label93.BackColor = System.Drawing.Color.Aquamarine;
-            this.label93.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label93.Location = new System.Drawing.Point(357, 12);
+            this.label93.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label93.Location = new System.Drawing.Point(354, 12);
             this.label93.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label93.Name = "label93";
             this.label93.Size = new System.Drawing.Size(255, 19);
@@ -1793,7 +1790,7 @@
             // label87
             // 
             this.label87.AutoSize = true;
-            this.label87.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label87.Font = new System.Drawing.Font("宋体", 10F);
             this.label87.Location = new System.Drawing.Point(577, 234);
             this.label87.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label87.Name = "label87";
@@ -1805,7 +1802,7 @@
             // 
             this.label88.AutoSize = true;
             this.label88.BackColor = System.Drawing.Color.GhostWhite;
-            this.label88.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label88.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label88.Location = new System.Drawing.Point(357, 286);
             this.label88.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label88.Name = "label88";
@@ -1816,7 +1813,7 @@
             // label89
             // 
             this.label89.AutoSize = true;
-            this.label89.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label89.Font = new System.Drawing.Font("宋体", 10F);
             this.label89.Location = new System.Drawing.Point(576, 285);
             this.label89.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label89.Name = "label89";
@@ -1837,7 +1834,7 @@
             // 
             this.label90.AutoSize = true;
             this.label90.BackColor = System.Drawing.Color.GhostWhite;
-            this.label90.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label90.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label90.Location = new System.Drawing.Point(358, 232);
             this.label90.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label90.Name = "label90";
@@ -1848,7 +1845,7 @@
             // label91
             // 
             this.label91.AutoSize = true;
-            this.label91.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label91.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label91.Location = new System.Drawing.Point(357, 259);
             this.label91.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label91.Name = "label91";
@@ -1859,7 +1856,7 @@
             // label92
             // 
             this.label92.AutoSize = true;
-            this.label92.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label92.Font = new System.Drawing.Font("宋体", 10F);
             this.label92.Location = new System.Drawing.Point(577, 260);
             this.label92.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label92.Name = "label92";
@@ -1884,7 +1881,7 @@
             "1270",
             "2540",
             "5080"});
-            this.XDpiBox.Location = new System.Drawing.Point(191, 59);
+            this.XDpiBox.Location = new System.Drawing.Point(191, 114);
             this.XDpiBox.Name = "XDpiBox";
             this.XDpiBox.Size = new System.Drawing.Size(72, 22);
             this.XDpiBox.TabIndex = 154;
@@ -1893,8 +1890,8 @@
             // label86
             // 
             this.label86.AutoSize = true;
-            this.label86.Font = new System.Drawing.Font("SimSun", 10F);
-            this.label86.Location = new System.Drawing.Point(265, 64);
+            this.label86.Font = new System.Drawing.Font("宋体", 10F);
+            this.label86.Location = new System.Drawing.Point(265, 119);
             this.label86.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label86.Name = "label86";
             this.label86.Size = new System.Drawing.Size(28, 14);
@@ -1905,8 +1902,8 @@
             // 
             this.label85.AutoSize = true;
             this.label85.BackColor = System.Drawing.Color.GhostWhite;
-            this.label85.Font = new System.Drawing.Font("SimSun", 10.5F);
-            this.label85.Location = new System.Drawing.Point(21, 62);
+            this.label85.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label85.Location = new System.Drawing.Point(21, 117);
             this.label85.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label85.Name = "label85";
             this.label85.Size = new System.Drawing.Size(98, 14);
@@ -1931,7 +1928,7 @@
             this.tabPage1.Controls.Add(this.listView1);
             this.tabPage1.Controls.Add(this.label66);
             this.tabPage1.Controls.Add(this.label67);
-            this.tabPage1.Font = new System.Drawing.Font("SimSun", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tabPage1.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -1942,7 +1939,7 @@
             // 
             // RenameText
             // 
-            this.RenameText.Font = new System.Drawing.Font("SimSun", 9F);
+            this.RenameText.Font = new System.Drawing.Font("宋体", 9F);
             this.RenameText.Location = new System.Drawing.Point(797, 352);
             this.RenameText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.RenameText.Name = "RenameText";
@@ -1956,7 +1953,7 @@
             this.RenameBtn.AutoSize = true;
             this.RenameBtn.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.RenameBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.RenameBtn.Font = new System.Drawing.Font("SimSun", 9.5F);
+            this.RenameBtn.Font = new System.Drawing.Font("宋体", 9.5F);
             this.RenameBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.RenameBtn.Location = new System.Drawing.Point(704, 350);
             this.RenameBtn.Name = "RenameBtn";
@@ -1969,7 +1966,7 @@
             // label83
             // 
             this.label83.AutoSize = true;
-            this.label83.Font = new System.Drawing.Font("SimSun", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label83.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label83.Location = new System.Drawing.Point(707, 386);
             this.label83.Name = "label83";
             this.label83.Size = new System.Drawing.Size(82, 14);
@@ -1979,7 +1976,7 @@
             // SelectedItemComboBox
             // 
             this.SelectedItemComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.SelectedItemComboBox.Font = new System.Drawing.Font("SimSun", 9F);
+            this.SelectedItemComboBox.Font = new System.Drawing.Font("宋体", 9F);
             this.SelectedItemComboBox.FormattingEnabled = true;
             this.SelectedItemComboBox.ItemHeight = 12;
             this.SelectedItemComboBox.Location = new System.Drawing.Point(797, 384);
@@ -1994,7 +1991,7 @@
             this.AddStrategyBtn.AutoSize = true;
             this.AddStrategyBtn.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.AddStrategyBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.AddStrategyBtn.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.AddStrategyBtn.Font = new System.Drawing.Font("宋体", 10.5F);
             this.AddStrategyBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.AddStrategyBtn.Location = new System.Drawing.Point(220, 517);
             this.AddStrategyBtn.Name = "AddStrategyBtn";
@@ -2009,7 +2006,7 @@
             this.SaveStrategyBtn.AutoSize = true;
             this.SaveStrategyBtn.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.SaveStrategyBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.SaveStrategyBtn.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.SaveStrategyBtn.Font = new System.Drawing.Font("宋体", 10.5F);
             this.SaveStrategyBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.SaveStrategyBtn.Location = new System.Drawing.Point(470, 517);
             this.SaveStrategyBtn.Name = "SaveStrategyBtn";
@@ -2024,7 +2021,7 @@
             this.DeleteBtn2.AutoSize = true;
             this.DeleteBtn2.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.DeleteBtn2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.DeleteBtn2.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.DeleteBtn2.Font = new System.Drawing.Font("宋体", 10.5F);
             this.DeleteBtn2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.DeleteBtn2.Location = new System.Drawing.Point(302, 517);
             this.DeleteBtn2.Name = "DeleteBtn2";
@@ -2071,7 +2068,7 @@
             this.Insert.AutoSize = true;
             this.Insert.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.Insert.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.Insert.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.Insert.Font = new System.Drawing.Font("宋体", 10.5F);
             this.Insert.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.Insert.Location = new System.Drawing.Point(124, 270);
             this.Insert.Name = "Insert";
@@ -2104,7 +2101,7 @@
             // 
             this.label70.AutoSize = true;
             this.label70.BackColor = System.Drawing.Color.Transparent;
-            this.label70.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label70.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label70.Location = new System.Drawing.Point(11, 14);
             this.label70.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label70.Name = "label70";
@@ -2116,7 +2113,7 @@
             // 
             this.label72.AutoSize = true;
             this.label72.BackColor = System.Drawing.Color.Transparent;
-            this.label72.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label72.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label72.Location = new System.Drawing.Point(11, 42);
             this.label72.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label72.Name = "label72";
@@ -2137,7 +2134,7 @@
             // 
             this.label74.AutoSize = true;
             this.label74.BackColor = System.Drawing.Color.Transparent;
-            this.label74.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label74.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label74.Location = new System.Drawing.Point(11, 72);
             this.label74.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label74.Name = "label74";
@@ -2161,7 +2158,7 @@
             // 
             this.label76.AutoSize = true;
             this.label76.BackColor = System.Drawing.Color.Transparent;
-            this.label76.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label76.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label76.Location = new System.Drawing.Point(11, 100);
             this.label76.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label76.Name = "label76";
@@ -2185,7 +2182,7 @@
             // 
             this.label78.AutoSize = true;
             this.label78.BackColor = System.Drawing.Color.Transparent;
-            this.label78.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label78.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label78.Location = new System.Drawing.Point(11, 132);
             this.label78.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label78.Name = "label78";
@@ -2198,7 +2195,7 @@
             this.ModifyBtn.AutoSize = true;
             this.ModifyBtn.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.ModifyBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ModifyBtn.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.ModifyBtn.Font = new System.Drawing.Font("宋体", 10.5F);
             this.ModifyBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.ModifyBtn.Location = new System.Drawing.Point(185, 270);
             this.ModifyBtn.Name = "ModifyBtn";
@@ -2225,7 +2222,7 @@
             this.AddLayerBtn.AutoSize = true;
             this.AddLayerBtn.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.AddLayerBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.AddLayerBtn.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.AddLayerBtn.Font = new System.Drawing.Font("宋体", 10.5F);
             this.AddLayerBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.AddLayerBtn.Location = new System.Drawing.Point(2, 270);
             this.AddLayerBtn.Name = "AddLayerBtn";
@@ -2240,7 +2237,7 @@
             this.DeleteBtn.AutoSize = true;
             this.DeleteBtn.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.DeleteBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.DeleteBtn.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.DeleteBtn.Font = new System.Drawing.Font("宋体", 10.5F);
             this.DeleteBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.DeleteBtn.Location = new System.Drawing.Point(63, 270);
             this.DeleteBtn.Name = "DeleteBtn";
@@ -2254,7 +2251,7 @@
             // 
             this.label80.AutoSize = true;
             this.label80.BackColor = System.Drawing.Color.Transparent;
-            this.label80.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label80.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label80.Location = new System.Drawing.Point(11, 164);
             this.label80.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label80.Name = "label80";
@@ -2274,7 +2271,7 @@
             // label69
             // 
             this.label69.AutoSize = true;
-            this.label69.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label69.Font = new System.Drawing.Font("宋体", 10F);
             this.label69.Location = new System.Drawing.Point(197, 227);
             this.label69.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label69.Name = "label69";
@@ -2285,7 +2282,7 @@
             // label79
             // 
             this.label79.AutoSize = true;
-            this.label79.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label79.Font = new System.Drawing.Font("宋体", 10F);
             this.label79.Location = new System.Drawing.Point(197, 162);
             this.label79.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label79.Name = "label79";
@@ -2306,7 +2303,7 @@
             // 
             this.label82.AutoSize = true;
             this.label82.BackColor = System.Drawing.Color.Transparent;
-            this.label82.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label82.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label82.Location = new System.Drawing.Point(11, 194);
             this.label82.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label82.Name = "label82";
@@ -2318,7 +2315,7 @@
             // 
             this.label73.AutoSize = true;
             this.label73.BackColor = System.Drawing.Color.Transparent;
-            this.label73.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.label73.Font = new System.Drawing.Font("宋体", 10.5F);
             this.label73.Location = new System.Drawing.Point(11, 226);
             this.label73.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label73.Name = "label73";
@@ -2338,7 +2335,7 @@
             // label81
             // 
             this.label81.AutoSize = true;
-            this.label81.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label81.Font = new System.Drawing.Font("宋体", 10F);
             this.label81.Location = new System.Drawing.Point(200, 195);
             this.label81.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label81.Name = "label81";
@@ -2351,7 +2348,7 @@
             this.Modify2Btn.AutoSize = true;
             this.Modify2Btn.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.Modify2Btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.Modify2Btn.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.Modify2Btn.Font = new System.Drawing.Font("宋体", 10.5F);
             this.Modify2Btn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.Modify2Btn.Location = new System.Drawing.Point(386, 517);
             this.Modify2Btn.Name = "Modify2Btn";
@@ -2367,7 +2364,7 @@
             this.button3.BackColor = System.Drawing.Color.Transparent;
             this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button3.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button3.Font = new System.Drawing.Font("SimSun", 10.5F, System.Drawing.FontStyle.Bold);
+            this.button3.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold);
             this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
             this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -2386,7 +2383,7 @@
             this.button2.BackColor = System.Drawing.Color.Transparent;
             this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button2.Font = new System.Drawing.Font("SimSun", 10.5F, System.Drawing.FontStyle.Bold);
+            this.button2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold);
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -2402,7 +2399,7 @@
             // label68
             // 
             this.label68.BackColor = System.Drawing.Color.Aquamarine;
-            this.label68.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label68.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label68.Location = new System.Drawing.Point(8, 8);
             this.label68.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label68.Name = "label68";
@@ -2413,9 +2410,10 @@
             // 
             // listView2
             // 
-            this.listView2.Font = new System.Drawing.Font("SimSun", 8F);
+            this.listView2.Font = new System.Drawing.Font("宋体", 8F);
             this.listView2.FullRowSelect = true;
             this.listView2.GridLines = true;
+            this.listView2.HideSelection = false;
             this.listView2.Location = new System.Drawing.Point(6, 27);
             this.listView2.Name = "listView2";
             this.listView2.Size = new System.Drawing.Size(179, 476);
@@ -2426,9 +2424,10 @@
             // 
             // listView1
             // 
-            this.listView1.Font = new System.Drawing.Font("SimSun", 8F);
+            this.listView1.Font = new System.Drawing.Font("宋体", 8F);
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
+            this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(193, 28);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(498, 475);
@@ -2440,7 +2439,7 @@
             // label66
             // 
             this.label66.BackColor = System.Drawing.Color.Aquamarine;
-            this.label66.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label66.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label66.Location = new System.Drawing.Point(702, 10);
             this.label66.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label66.Name = "label66";
@@ -2452,7 +2451,7 @@
             // label67
             // 
             this.label67.BackColor = System.Drawing.Color.Aquamarine;
-            this.label67.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label67.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label67.Location = new System.Drawing.Point(193, 9);
             this.label67.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label67.Name = "label67";
@@ -2464,7 +2463,7 @@
             // label71
             // 
             this.label71.AutoSize = true;
-            this.label71.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label71.Font = new System.Drawing.Font("宋体", 10F);
             this.label71.Location = new System.Drawing.Point(1220, 121);
             this.label71.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label71.Name = "label71";
@@ -2474,7 +2473,7 @@
             // label75
             // 
             this.label75.AutoSize = true;
-            this.label75.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label75.Font = new System.Drawing.Font("宋体", 10F);
             this.label75.Location = new System.Drawing.Point(1220, 189);
             this.label75.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label75.Name = "label75";
@@ -2484,12 +2483,58 @@
             // label77
             // 
             this.label77.AutoSize = true;
-            this.label77.Font = new System.Drawing.Font("SimSun", 10F);
+            this.label77.Font = new System.Drawing.Font("宋体", 10F);
             this.label77.Location = new System.Drawing.Point(1220, 220);
             this.label77.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label77.Name = "label77";
             this.label77.Size = new System.Drawing.Size(0, 14);
             this.label77.TabIndex = 166;
+            // 
+            // GrayScaleBox
+            // 
+            this.GrayScaleBox.FormattingEnabled = true;
+            this.GrayScaleBox.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3"});
+            this.GrayScaleBox.Location = new System.Drawing.Point(191, 34);
+            this.GrayScaleBox.Name = "GrayScaleBox";
+            this.GrayScaleBox.Size = new System.Drawing.Size(72, 22);
+            this.GrayScaleBox.TabIndex = 187;
+            this.GrayScaleBox.Text = "1";
+            this.GrayScaleBox.SelectedIndexChanged += new System.EventHandler(this.GrayScaleBox_SelectedIndexChanged);
+            // 
+            // label99
+            // 
+            this.label99.AutoSize = true;
+            this.label99.BackColor = System.Drawing.Color.GhostWhite;
+            this.label99.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label99.Location = new System.Drawing.Point(20, 61);
+            this.label99.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label99.Name = "label99";
+            this.label99.Size = new System.Drawing.Size(77, 14);
+            this.label99.TabIndex = 188;
+            this.label99.Text = "打印灰度：";
+            // 
+            // GrayValueBox
+            // 
+            this.GrayValueBox.FormattingEnabled = true;
+            this.GrayValueBox.Location = new System.Drawing.Point(191, 61);
+            this.GrayValueBox.Name = "GrayValueBox";
+            this.GrayValueBox.Size = new System.Drawing.Size(72, 22);
+            this.GrayValueBox.TabIndex = 189;
+            this.GrayValueBox.Text = "1";
+            // 
+            // label100
+            // 
+            this.label100.AutoSize = true;
+            this.label100.Font = new System.Drawing.Font("宋体", 10F);
+            this.label100.Location = new System.Drawing.Point(266, 64);
+            this.label100.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label100.Name = "label100";
+            this.label100.Size = new System.Drawing.Size(21, 14);
+            this.label100.TabIndex = 190;
+            this.label100.Text = "阶";
             // 
             // JOB参数设置
             // 
@@ -2502,7 +2547,7 @@
             this.Controls.Add(this.label71);
             this.Controls.Add(this.tabControl1);
             this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("SimSun", 10.5F);
+            this.Font = new System.Drawing.Font("宋体", 10.5F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -2603,7 +2648,6 @@
         private System.Windows.Forms.TextBox textBox28;
         private System.Windows.Forms.Label label65;
         private System.Windows.Forms.Label label64;
-        private System.Windows.Forms.TextBox textBox27;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.Label label14;
@@ -2710,5 +2754,9 @@
         private System.Windows.Forms.Label label96;
         private System.Windows.Forms.Label label98;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox GrayScaleBox;
+        private System.Windows.Forms.Label label100;
+        private System.Windows.Forms.ComboBox GrayValueBox;
+        private System.Windows.Forms.Label label99;
     }
 }

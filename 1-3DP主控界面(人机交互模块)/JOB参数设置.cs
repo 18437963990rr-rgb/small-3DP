@@ -412,6 +412,41 @@ namespace BinderJetting
             index = XDpiBox.FindString((k_RYSYSParam.m_XPrintDpi).ToString());
             XDpiBox.SelectedIndex = index;
 
+            index = GrayScaleBox.FindString((k_RYSYSParam.m_nPixelGrayBits).ToString());//20220202修改：GrayScale修改控件
+            GrayScaleBox.SelectedIndex = index;
+
+            #region  //20230202修改：更新灰度打印值列表
+            string[] GrayValues1 = new string[] { "1" };//{ "100" };
+            string[] GrayValues2 = new string[] { "1", "2", "3" };//{ "33.3", "66.6", "100" };//3阶灰度
+            string[] GrayValues3 = new string[] { "1", "2", "3", "4", "5", "6", "7" };//{ "14.28", "28.57", "42.86", "57.14", "71.43", "85.71", "100" };//7阶灰度
+            if (k_RYSYSParam.m_nPixelGrayBits == 1)
+            {
+                GrayValueBox.Items.AddRange(GrayValues1);
+
+            }
+            else if (k_RYSYSParam.m_nPixelGrayBits == 2)
+            {
+                GrayValueBox.Items.AddRange(GrayValues2);
+            }
+            else if (k_RYSYSParam.m_nPixelGrayBits == 3)
+            {
+                GrayValueBox.Items.AddRange(GrayValues3);
+            }
+            else { }
+
+            index = GrayValueBox.FindString((k_RYSYSParam.m_dPixelGrayValue).ToString());//20220202修改：GrayScale修改控件
+            if (index == -1)//未检索到
+            {
+                k_RYSYSParam.m_dPixelGrayValue = 1;
+                index = GrayValueBox.FindString((k_RYSYSParam.m_dPixelGrayValue).ToString());
+                GrayValueBox.SelectedIndex = index;
+            }
+            else//检索到
+            {
+                GrayValueBox.SelectedIndex = index;
+            }
+ #endregion
+
             //消除加载时黑框显示的临时定时器：20200527批注：本部分代码非常关键
             Timer = new System.Windows.Forms.Timer() { Interval = 100 };
             Timer.Tick += new EventHandler(Timer_Tick);
@@ -511,7 +546,10 @@ namespace BinderJetting
             checkBox13.DataBindings.Add("Checked", k_RYSYSParam, "FlagSparkWhenPreMoi", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//普通清洗，压墨
             checkBox14.DataBindings.Add("Checked", k_RYSYSParam, "FlagComeXOriginEnding", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//保湿车头高度
 
-            textBox27.DataBindings.Add("Text", k_RYSYSParam, "PixelGrayBits", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//灰度数据格式:20200411新增
+            //textBox27.DataBindings.Add("Text", k_RYSYSParam, "PixelGrayBits", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//灰度数据格式:20200411新增//20230202修改：灰度数据格式:
+            GrayScaleBox.DataBindings.Add("SelectedItem", k_RYSYSParam, "PixelGrayBits", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230202修改：灰度数据格式:
+            GrayValueBox.DataBindings.Add("SelectedItem", k_RYSYSParam, "PixelGrayValue", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230202修改：灰度数据格式:
+
             textBox28.DataBindings.Add("Text", k_RYSYSParam, "PrtCtl", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//JOB控制字：
             textBox8.DataBindings.Add("Text", k_RYSYSParam, "PrtXEncPos", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//任务的X向起打位置:20200411新增
 
@@ -602,6 +640,45 @@ namespace BinderJetting
             ADIBSetApplyBtn.Text = "设置环\r\n境参数";
             //ADIBSetApplyBtn.BackColor = Color.Yellow;
         }
+
+        private void GrayScaleBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            #region  //20230202修改：更新灰度打印值列表
+            string[] GrayValues1 = new string[] { "1" };//{ "100" };
+            string[] GrayValues2 = new string[] { "1", "2", "3" };//{ "33.3", "66.6", "100" };//3阶灰度
+            string[] GrayValues3 = new string[] { "1", "2", "3", "4", "5", "6", "7" };//{ "14.28", "28.57", "42.86", "57.14", "71.43", "85.71", "100" };//7阶灰度
+            if ((sender as ComboBox).SelectedIndex/*k_RYSYSParam.m_nPixelGrayBits */== 0)
+            {
+                GrayValueBox.Items.Clear();
+                GrayValueBox.Items.AddRange(GrayValues1);
+                GrayValueBox.SelectedIndex = 0;//最大墨量
+            }
+            else if ((sender as ComboBox).SelectedIndex == 1)
+            {
+                GrayValueBox.Items.Clear();
+                GrayValueBox.Items.AddRange(GrayValues2);
+                GrayValueBox.SelectedIndex = 2;//最大墨量
+            }
+            else if ((sender as ComboBox).SelectedIndex == 2)
+            {
+                GrayValueBox.Items.Clear();
+                GrayValueBox.Items.AddRange(GrayValues3);
+                GrayValueBox.SelectedIndex = 6;//最大墨量
+            }
+            else { }
+            //index = GrayValueBox.FindString((k_RYSYSParam.m_dPixelGrayValue).ToString());//20220202修改：GrayScale修改控件
+            //if (index == -1)//未检索到
+            //{
+            //    k_RYSYSParam.m_dPixelGrayValue = 1;
+            //    index = GrayValueBox.FindString((k_RYSYSParam.m_dPixelGrayValue).ToString());
+            //    GrayValueBox.SelectedIndex = index;
+            //}
+            //else//检索到
+            //{
+            //    GrayValueBox.SelectedIndex = index;
+            //}
+            #endregion
+        }
     }
 
     public class RYSYSParam : INotifyPropertyChanged, ICloneable//C#中，通知类的属性值已经更改，可以避免大量的通用事件的使用；其中关键是属性的理解及和lambda表达式的使用方法
@@ -683,8 +760,9 @@ namespace BinderJetting
         public bool m_bFlagInkLevelAlarm = false;//允许液位报警
         public bool m_bFlagSparkWhenPreMoi = true;//保湿时闪喷
         public bool m_bFlagComeXOriginEnding = true;//打印结束X回原点
-
-        public int m_nPixelGrayBits = 4000;//灰度数据格式:20200411新增
+        
+        public int m_nPixelGrayBits = 1/*4000*/;//灰度数据格式：20200411新增
+        public double m_dPixelGrayValue = 100;//像素打印灰度值：20220202新增：
         public int m_nPrtCtl = 8;//JOB控制字：bit0:跳白支持，bit1：循环喷嘴偏移，bit2 Y向偏差无重嘴， bit3 X镜像， bit4 Y镜像:20200411新增
         public double m_dPrtXEncPos = 50/*30*//*379.5*//*362*/;////任务的X向起打位置:20200923修改：设置X向启打位置值为362//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改//20220601新建：修改X向启打位置修订
         //20220524修改：起始打印值为幅面的左端起始点，修改为30MM
@@ -945,12 +1023,18 @@ namespace BinderJetting
             get { return this.m_bFlagComeXOriginEnding; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set { if (value != this.m_bFlagComeXOriginEnding) { this.m_bFlagComeXOriginEnding = value; NotifyPropertyChanged(); } }
         }
-
+        public double[] PixelGrayValues = new double[7];
         public int PixelGrayBits//灰度数据格式:20200411新增
         {
             get { return this.m_nPixelGrayBits; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set { if (value != this.m_nPixelGrayBits) { this.m_nPixelGrayBits = value; NotifyPropertyChanged(); } }
         }
+        public double PixelGrayValue//灰度数据格式:20200411新增
+        {
+            get { return this.m_dPixelGrayValue; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+            set { if (value != this.m_dPixelGrayValue) { this.m_dPixelGrayValue = value; NotifyPropertyChanged(); } }
+        }    
+
         public int PrtCtl//JOB控制字：bit0:跳白支持，bit1：循环喷嘴偏移，bit2 Y向偏差无重嘴， bit3 X镜像， bit4 Y镜像:20200411新增
         {
             get { return this.m_nPrtCtl; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
