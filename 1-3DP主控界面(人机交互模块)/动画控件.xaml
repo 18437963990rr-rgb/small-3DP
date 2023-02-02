@@ -1,0 +1,29 @@
+﻿<UserControl x:Name="UserControlMotion" x:Class="LaserADD_BinderJetter.MotionMonitor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LaserADD_BinderJetter"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="150">
+    <Grid Margin="0,0,568,0" >
+        <Canvas Margin="0,0,622,280">
+            <!--(1)定义并添加1个元素-->
+            <Border Name="Bd" Width="100" Height="100" Background="Cyan" Canvas.Left="32" Canvas.Top="31">
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="Border.Loaded">
+                        <!--(4)将演示图板与触发器关联-->
+                        <BeginStoryboard>
+                            <!--(3)创建演示图板-->
+                            <Storyboard>
+                                <!--(2)创建 DoubleAnimation(浮点动画)-->
+                                <DoubleAnimation From="1.0" To="0.0" Duration="0:0:1" RepeatBehavior="Forever" Storyboard.TargetName="Bd" Storyboard.TargetProperty="Opacity">
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Border.Triggers>
+            </Border>
+        </Canvas>
+    </Grid>
+</UserControl>

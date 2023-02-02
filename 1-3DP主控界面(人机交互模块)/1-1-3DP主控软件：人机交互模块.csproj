@@ -1,0 +1,533 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Costura.Fody.3.3.3\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody.3.3.3\build\Costura.Fody.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BCF23539-2C6C-4F5E-B42D-C480D10613FE}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>LaserADD_BinderJetter</RootNamespace>
+    <AssemblyName>LaserADD-BinderJetter V0.0</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>C:\Users\SummerGhost\Desktop\发布软件\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>BinderJetting.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <AllowedReferenceRelatedFileExtensions>
+      <!-- Prevent default XML and PDB files copied to output in RELEASE. 
+           Only *.allowedextension files will be included, which doesn't exist in my case.
+		   20200614, EvanWu Edited.
+       -->
+      .allowedextension
+    </AllowedReferenceRelatedFileExtensions>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>128x128主界面icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CircularProgressBar, Version=2.8.0.16, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
+      <HintPath>..\packages\CircularProgressBar.2.8.0.16\lib\net40\CircularProgressBar.dll</HintPath>
+    </Reference>
+    <Reference Include="Costura, Version=3.3.3.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Costura.Fody.3.3.3\lib\net40\Costura.dll</HintPath>
+    </Reference>
+    <Reference Include="LabelTextboxCheckCompose, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\x64\Debug\LabelTextboxCheckCompose.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MonitoringMessage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\SummerGhost\Documents\Visual Studio 2017\Projects\LaserAdd_3DP_Software\1-3DP主控界面(人机交互模块)\bin\x64\Debug\MonitoringMessage.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NModbus4, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NModbus4.2.1.0\lib\net40\NModbus4.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SharpDX.D3DCompiler, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.D3DCompiler.4.2.0\lib\net45\SharpDX.D3DCompiler.dll</HintPath>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SharpDX.Desktop, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Desktop.4.2.0\lib\net45\SharpDX.Desktop.dll</HintPath>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SharpDX.Diagnostics, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Diagnostics.2.0.4\lib\net20\SharpDX.Diagnostics.dll</HintPath>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct2D1.4.2.0\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D11.4.2.0\lib\net45\SharpDX.Direct3D11.dll</HintPath>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D9.4.0.1\lib\net45\SharpDX.Direct3D9.dll</HintPath>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.2.0\lib\net45\SharpDX.DXGI.dll</HintPath>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SharpDX.Mathematics, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Mathematics.4.2.0\lib\net45\SharpDX.Mathematics.dll</HintPath>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SharpDX.MediaFoundation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.MediaFoundation.4.0.1\lib\net45\SharpDX.MediaFoundation.dll</HintPath>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SharpDX.XAudio2, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.XAudio2.4.0.1\lib\net45\SharpDX.XAudio2.dll</HintPath>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SharpDX.XInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.XInput.4.0.1\lib\net45\SharpDX.XInput.dll</HintPath>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UserControl2, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\x64\Debug\UserControl2.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WinFormAnimation, Version=1.6.0.4, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
+      <HintPath>..\packages\WinFormAnimation.1.6.0.4\lib\net40\WinFormAnimation.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="1-AccessServer.cs" />
+    <Compile Include="10-ModubusMap.cs" />
+    <Compile Include="2-SerializeParam.cs" />
+    <Compile Include="3-GoogolMotionMap.cs" />
+    <Compile Include="5-SharpControl.cs" />
+    <Compile Include="6-BuildBmp.cs" />
+    <Compile Include="6-ReadFile.cs" />
+    <Compile Include="6-BuildTiff.cs" />
+    <Compile Include="6-LineChange.cs" />
+    <Compile Include="7-ComposationCLI.cs" />
+    <Compile Include="8-FinalJOBs.cs" />
+    <Compile Include="3-gts.cs" />
+    <Compile Include="1-JOB管理模块.cs" />
+    <Compile Include="2-JOB调度模块：单层铺粉模块、单层粘接模块.cs" />
+    <Compile Include="5-人机交互组件：KeyGUICompent.cs" />
+    <Compile Include="CLISubAeraAlgorithm.cs" />
+    <Compile Include="JOB传送确认.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JOB传送确认.Designer.cs">
+      <DependentUpon>JOB传送确认.cs</DependentUpon>
+    </Compile>
+    <Compile Include="9-MoveComponent.cs" />
+    <Compile Include="4-royal.cs" />
+    <Compile Include="4-RoyalPrintingMap.cs" />
+    <Compile Include="9-SystemParameter.cs" />
+    <Compile Include="10-LogHelper.cs" />
+    <Compile Include="RTC4-PrintDemo.cs" />
+    <Compile Include="RTC4Wrap.cs" />
+    <Compile Include="SendMessageToCamera.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SendMessageToCamera.Designer.cs">
+      <DependentUpon>SendMessageToCamera.cs</DependentUpon>
+    </Compile>
+    <Compile Include="动画控件.xaml.cs">
+      <DependentUpon>动画控件.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceMenu.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourceMenu.resx</DependentUpon>
+    </Compile>
+    <Compile Include="作业参数.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="作业参数.Designer.cs">
+      <DependentUpon>作业参数.cs</DependentUpon>
+    </Compile>
+    <Compile Include="关闭确认.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="关闭确认.Designer.cs">
+      <DependentUpon>关闭确认.cs</DependentUpon>
+    </Compile>
+    <Compile Include="平移操作.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="平移操作.Designer.cs">
+      <DependentUpon>平移操作.cs</DependentUpon>
+    </Compile>
+    <Compile Include="手动控制模块.cs" />
+    <Compile Include="校准参数输入.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="校准参数输入.Designer.cs">
+      <DependentUpon>校准参数输入.cs</DependentUpon>
+    </Compile>
+    <Compile Include="电气面板.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="电气面板.Designer.cs">
+      <DependentUpon>电气面板.cs</DependentUpon>
+    </Compile>
+    <Compile Include="主界面.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="主界面.Designer.cs">
+      <DependentUpon>主界面.cs</DependentUpon>
+    </Compile>
+    <Compile Include="手动操作界面.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="手动操作界面.Designer.cs">
+      <DependentUpon>手动操作界面.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JOB参数设置.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JOB参数设置.Designer.cs">
+      <DependentUpon>JOB参数设置.cs</DependentUpon>
+    </Compile>
+    <Compile Include="继续打印.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="继续打印.Designer.cs">
+      <DependentUpon>继续打印.cs</DependentUpon>
+    </Compile>
+    <Compile Include="阵列拷贝.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="阵列拷贝.Designer.cs">
+      <DependentUpon>阵列拷贝.cs</DependentUpon>
+    </Compile>
+    <Compile Include="登录确认.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="登录确认.Designer.cs">
+      <DependentUpon>登录确认.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CalibrationMoudle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CalibrationMoudle.Designer.cs">
+      <DependentUpon>CalibrationMoudle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="设备机电参数设置.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="设备机电参数设置.Designer.cs">
+      <DependentUpon>设备机电参数设置.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="软件UI风格设计.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="软件UI风格设计.Designer.cs">
+      <DependentUpon>软件UI风格设计.cs</DependentUpon>
+    </Compile>
+    <Compile Include="退出确认.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="退出确认.Designer.cs">
+      <DependentUpon>退出确认.cs</DependentUpon>
+    </Compile>
+    <None Include="app.manifest" />
+    <None Include="Resources\MonitorIcon-38x38.png" />
+    <None Include="Resources\MonitorIcon-35x35.png" />
+    <None Include="Resources\Stream38x38.png" />
+    <None Include="Resources\Stream-38x38.png" />
+    <None Include="Resources\DataProc - 38x38.png" />
+    <None Include="Resources\Stream.bmp" />
+    <EmbeddedResource Include="JOB传送确认.resx">
+      <DependentUpon>JOB传送确认.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>BinderJetting</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResourceMenu.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourceMenu.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SendMessageToCamera.resx">
+      <DependentUpon>SendMessageToCamera.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="主界面.resx">
+      <DependentUpon>主界面.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="作业参数.resx">
+      <DependentUpon>作业参数.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="关闭确认.resx">
+      <DependentUpon>关闭确认.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="平移操作.resx">
+      <DependentUpon>平移操作.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="手动操作界面.resx">
+      <DependentUpon>手动操作界面.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="校准参数输入.resx">
+      <DependentUpon>校准参数输入.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="电气面板.resx">
+      <DependentUpon>电气面板.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JOB参数设置.resx">
+      <DependentUpon>JOB参数设置.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="继续打印.resx">
+      <DependentUpon>继续打印.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="阵列拷贝.resx">
+      <DependentUpon>阵列拷贝.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="登录确认.resx">
+      <DependentUpon>登录确认.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CalibrationMoudle.resx">
+      <DependentUpon>CalibrationMoudle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="设备机电参数设置.resx">
+      <DependentUpon>设备机电参数设置.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="软件UI风格设计.resx">
+      <DependentUpon>软件UI风格设计.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="退出确认.resx">
+      <DependentUpon>退出确认.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
+    <Content Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\3-附属控件：UserControl3\3-UserControl3.csproj">
+      <Project>{ae7af8ad-5c42-4ddb-a599-602ef4a99d21}</Project>
+      <Name>3-UserControl3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\4-1：3DP数据结构\1-2-3DP数据结构及组件接口.csproj">
+      <Project>{D58326BF-22B5-463C-A961-9560BC83F504}</Project>
+      <Name>1-2-3DP数据结构及组件接口</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\4-RemoteLayersDataStruct\4-RemoteLayersDataStruct.csproj">
+      <Project>{26bb61c8-e39e-413b-a867-6cdba8a30c69}</Project>
+      <Name>4-RemoteLayersDataStruct</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomPanel\CustomPanel.csproj">
+      <Project>{413129E7-20CE-4BA0-AC7C-C5BA8F6B3A27}</Project>
+      <Name>CustomPanel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserControl2\3-附属控件：UserControl2.csproj">
+      <Project>{b55667b1-e18d-4ab9-b565-d77c1a9b8612}</Project>
+      <Name>3-附属控件：UserControl2</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="128x128主界面icon.ico" />
+    <Content Include="FodyWeavers.xml" />
+    <None Include="Resources\SubAeraAlgo.png" />
+    <None Include="Resources\Rotate-64x64.png" />
+    <None Include="Resources\Trash-64x64.png" />
+    <None Include="Resources\Translate-64x64.png" />
+    <None Include="Resources\Array-64X64.png" />
+    <None Include="Resources\state_invalid-BlackGray.png" />
+    <None Include="icon\LaserADDLogo.png" />
+    <None Include="icon\laseradd-1-处理.png" />
+    <None Include="icon\128x128主界面icon.ico" />
+    <None Include="Resources-Menu\Home-35x35-Lean-Black.png" />
+    <None Include="Resources-Menu\Home-35x35-Lean.png" />
+    <None Include="Resources-Menu\Home-35x35-Blue.png" />
+    <None Include="Resources-Menu\Home-35x35.png" />
+    <None Include="Resources-Menu\手动Menu-Yellow.png" />
+    <None Include="Resources-Menu\设备Menu-Yellow.png" />
+    <None Include="Resources-Menu\喷头Menu-Yellow.png" />
+    <None Include="Resources-Menu\波形Menu-Yellow.png" />
+    <None Include="Resources-Menu\校准图Menu-Yellow.png" />
+    <None Include="Resources-Menu\喷头维护Menu-Yellow.png" />
+    <None Include="Resources-Menu\数据单位Menu-Yellow.png" />
+    <None Include="Resources-Menu\风格Menu-Yellow.png" />
+    <None Include="Resources-Menu\权限Menu-Yellow.png" />
+    <None Include="Resources-Menu\软件版本Menu-Yellow.png" />
+    <None Include="Resources-Menu\校准图Menu.png" />
+    <None Include="Resources-Menu\数据单位Menu.png" />
+    <None Include="Resources-Menu\手动Menu.png" />
+    <None Include="Resources-Menu\设备Menu.png" />
+    <None Include="Resources-Menu\软件版本Menu.png" />
+    <None Include="Resources-Menu\权限Menu.png" />
+    <None Include="Resources-Menu\喷头维护Menu.png" />
+    <None Include="Resources-Menu\喷头Menu.png" />
+    <None Include="Resources-Menu\风格Menu.png" />
+    <None Include="Resources-Menu\波形Menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="动画控件.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="软件特效增强\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Fody.4.2.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.4.2.1\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Costura.Fody.3.3.3\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.3.3.3\build\Costura.Fody.props'))" />
+  </Target>
+  <Import Project="..\packages\Fody.4.2.1\build\Fody.targets" Condition="Exists('..\packages\Fody.4.2.1\build\Fody.targets')" />
+</Project>

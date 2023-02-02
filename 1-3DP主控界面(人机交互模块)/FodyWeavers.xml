@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
+  <Costura>
+    <Unmanaged64Assemblies>
+      SharpDX
+      SharpDX.D3DCompiler
+      SharpDX.Desktop
+      SharpDX.Diagnostics
+      SharpDX.Direct2D1
+      SharpDX.Direct3D11
+      SharpDX.Direct3D9
+      SharpDX.DXGI
+      SharpDX.Mathematics
+      SharpDX.MediaFoundation
+      SharpDX.XAudio2
+      SharpDX.XInput
+      Microsoft.Graphics.Canvas
+      CircularProgressBar
+    </Unmanaged64Assemblies>
+    <Unmanaged32Assemblies>
+      SharpDX
+      SharpDX.D3DCompiler
+      SharpDX.Desktop
+      SharpDX.Diagnostics
+      SharpDX.Direct2D1
+      SharpDX.Direct3D11
+      SharpDX.Direct3D9
+      SharpDX.DXGI
+      SharpDX.Mathematics
+      SharpDX.MediaFoundation
+      SharpDX.XAudio2
+      SharpDX.XInput
+      Microsoft.Graphics.Canvas
+      CircularProgressBar
+    </Unmanaged32Assemblies>
+  </Costura>
+</Weavers>
