@@ -1446,6 +1446,18 @@ namespace BinderJetting
 
                 Marshal.FreeHGlobal(ImgPtr);//释放内存
                 clone.SetResolution(600f, 600f);//Windows7的系统BUG
+
+                #region//20230202新建：根据1bpp,2bpp,3bpp++以及GrayScale来重新编码为最新需要下发的数据
+                int bpp = 1;
+                if (bpp==1)//1bpp模式
+                { }
+                else if (bpp == 2) //2bpp模式下的3个灰度等级（灰阶）
+                { }
+                else if (bpp == 3) //3bpp模式下的7个灰度等级（灰阶）
+                { }
+                else { }
+                #endregion
+
 #if false//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
                 clone.Save("output1bpp.bmp", ImageFormat.Bmp);//保存到BMPFile
 #else
