@@ -1733,8 +1733,8 @@ namespace BinderJetting
             else { }
 #endif
             #region//20230202新建：根据1bpp,2bpp,3bpp++以及GrayScale来重新编码为最新需要下发的数据
-            int bpp = 1;//打印数据格式
-            int GrayScale = 1;//打印灰阶
+            int bpp = gc_RysysParam.PixelGrayBits/*2*/;//打印数据格式
+            int GrayScale = gc_RysysParam.PixelGrayValue/*2*/;//打印灰阶
             byte[] Rgb2bppValues = new byte[2 * bytes];//2bpp打印数据
             byte[] Rgb3bppValues = new byte[3 * bytes];//3bpp打印数据
             BitArray Rgb1bppBits = new BitArray(rgbValues);
@@ -1751,20 +1751,20 @@ namespace BinderJetting
                 {
                     if (Rgb1bppBits[i] == false) 
                     {
-                        Rgb2bppBits[2*i] = false; Rgb2bppBits[2*i+1] = false;
+                        Rgb2bppBits[2*i + 1] = false; Rgb2bppBits[2*i] = false;
                     }
                     else
                     {
                         switch (GrayScale)
                         {
                             case 1:
-                                Rgb2bppBits[2 * i] = false; Rgb2bppBits[2 * i + 1] = true;
+                                Rgb2bppBits[2 * i + 1] = false; Rgb2bppBits[2 * i] = true;
                                 break;
                             case 2:
-                                Rgb2bppBits[2 * i] = true; Rgb2bppBits[2 * i + 1] = false;
+                                Rgb2bppBits[2 * i + 1] = true; Rgb2bppBits[2 * i] = false;
                                 break;
                             case 3:
-                                Rgb2bppBits[2 * i] = true; Rgb2bppBits[2 * i + 1] = true;
+                                Rgb2bppBits[2 * i + 1] = true; Rgb2bppBits[2 * i] = true;
                                 break;
                         }
                     }
@@ -1776,32 +1776,32 @@ namespace BinderJetting
                 {
                     if (Rgb1bppBits[i] == false)
                     {
-                        Rgb3bppBits[3 * i] = false; Rgb3bppBits[3 * i + 1] = false; Rgb3bppBits[3 * i + 2] = false;
+                        Rgb3bppBits[3 * i + 2] = false; Rgb3bppBits[3 * i + 1] = false; Rgb3bppBits[3 * i] = false;
                     }
                     else
                     {
                         switch (GrayScale)
                         {
                             case 1:
-                                Rgb3bppBits[3 * i] = false; Rgb3bppBits[3 * i + 1] = false; Rgb3bppBits[3 * i + 2] = true;
+                                Rgb3bppBits[3 * i + 2] = false; Rgb3bppBits[3 * i + 1] = false; Rgb3bppBits[3 * i] = true;
                                 break;
                             case 2:
-                                Rgb3bppBits[3 * i] = false; Rgb3bppBits[3 * i + 1] = true; Rgb3bppBits[3 * i + 2] = false;
+                                Rgb3bppBits[3 * i + 2] = false; Rgb3bppBits[3 * i + 1] = true; Rgb3bppBits[3 * i] = false;
                                 break;
                             case 3:
-                                Rgb3bppBits[3 * i] = false; Rgb3bppBits[3 * i + 1] = true; Rgb3bppBits[3 * i + 2] = true;
+                                Rgb3bppBits[3 * i + 2] = false; Rgb3bppBits[3 * i + 1] = true; Rgb3bppBits[3 * i] = true;
                                 break;
                             case 4:
-                                Rgb3bppBits[3 * i] = true; Rgb3bppBits[3 * i + 1] = false; Rgb3bppBits[3 * i + 2] = false;
+                                Rgb3bppBits[3 * i + 2] = true; Rgb3bppBits[3 * i + 1] = false; Rgb3bppBits[3 * i] = false;
                                 break;
                             case 5:
-                                Rgb3bppBits[3 * i] = true; Rgb3bppBits[3 * i + 1] = false; Rgb3bppBits[3 * i + 2] = true;
+                                Rgb3bppBits[3 * i + 2] = true; Rgb3bppBits[3 * i + 1] = false; Rgb3bppBits[3 * i] = true;
                                 break;
                             case 6:
-                                Rgb3bppBits[3 * i] = true; Rgb3bppBits[3 * i + 1] = true; Rgb3bppBits[3 * i + 2] = false;
+                                Rgb3bppBits[3 * i + 2] = true; Rgb3bppBits[3 * i + 1] = true; Rgb3bppBits[3 * i] = false;
                                 break;
                             case 7:
-                                Rgb3bppBits[3 * i] = true; Rgb3bppBits[3 * i + 1] = true; Rgb3bppBits[3 * i + 2] = true;
+                                Rgb3bppBits[3 * i + 2] = true; Rgb3bppBits[3 * i + 1] = true; Rgb3bppBits[3 * i] = true;
                                 break;
                         }
                     }
@@ -1811,7 +1811,7 @@ namespace BinderJetting
             #endregion
 
             // （6）Copy the RGB values back to the bitmap
-            Marshal.Copy(rgbValues, 0, ptr, bytes);/*System.Runtime.InteropServices.*/
+            //////Marshal.Copy(rgbValues, 0, ptr, bytes);/*System.Runtime.InteropServices.*/
 
             /***********************20200423调试新增：************************/
             int size2 = Marshal.SizeOf(rgbValues[0]) * rgbValues.Length;
@@ -1827,15 +1827,16 @@ namespace BinderJetting
                 size2 = Marshal.SizeOf(rgbValues[0]) * rgbValues.Length * bpp;
 
                 ImgPtr = Marshal.AllocHGlobal(size2);
-                Rgb2bppBits.CopyTo(Rgb2bppValues, 0);
+                Rgb2bppBits.CopyTo(Rgb2bppValues, 0);//20230203新建批注：此处不存在BUG
+                //Rgb2bppValues = ConvertToByteArray(Rgb2bppBits);
                 Marshal.Copy(Rgb2bppValues, 0, ImgPtr, Rgb2bppValues.Length);//复制到非托管区内存
             }
             else if (bpp == 3)
             {
                 size2 = Marshal.SizeOf(rgbValues[0]) * rgbValues.Length * bpp;
-
                 ImgPtr = Marshal.AllocHGlobal(size2);
-                Rgb3bppBits.CopyTo(Rgb3bppValues, 0);
+                Rgb3bppBits.CopyTo(Rgb3bppValues, 0);//20230203新建批注：此处不存在BUG
+                //Rgb3bppValues = ConvertToByteArray(Rgb3bppBits);
                 Marshal.Copy(Rgb3bppValues, 0, ImgPtr, Rgb3bppValues.Length);//复制到非托管区内存
             }
             //IntPtr ImgPtr = Marshal.AllocHGlobal(size2);
@@ -1843,10 +1844,10 @@ namespace BinderJetting
 
             /***********************20200423调试新增：************************/
             /***************************20200423调试新增：*************************/
-            IntPtr[] NewImgPtr = new IntPtr[3];//存放3种颜色的数组//20200423新增：
+            IntPtr[] NewImgPtr = new IntPtr[1/*3*/];//存放3种颜色的数组//20200423新增：//20230203修改：1种颜色
             NewImgPtr[0] = ImgPtr;
-            NewImgPtr[1] = ImgPtr;//20200428新增
-            NewImgPtr[2] = ImgPtr;//20200428新增
+            ////NewImgPtr[1] = ImgPtr;//20200428新增//20230203修改：非必要
+            ////NewImgPtr[2] = ImgPtr;//20200428新增//20230203修改：非必要
             int size3 = Marshal.SizeOf(NewImgPtr[0]) * NewImgPtr.Length;
             IntPtr p_NewImgPtr = Marshal.AllocHGlobal(size3);
             Marshal.Copy(NewImgPtr, 0, p_NewImgPtr, NewImgPtr.Length);//复制到非托管区内存
@@ -1941,7 +1942,31 @@ namespace BinderJetting
             // （8）Another edit way: Draw the modified image.//modified the BMP file with graphics in VC
             //e.Graphics.DrawImage(bmp, 0, 150);
         }
+        private /*static*/ byte[] ConvertToByteArray(BitArray bitArray)//20230203新建：BitArray转换为Byte[]
+        {
+            // pack (in this case, using the first bool as the lsb - if you want
+            // the first bool as the msb, reverse things ;-p)
+            int bytes = (bitArray.Length + 7) / 8;
+            byte[] arr2 = new byte[bytes];
+            int bitIndex = 0;
+            int byteIndex = 0;
 
+            for (int i = 0; i < bitArray.Length; i++)
+            {
+                if (bitArray[i])
+                {
+                    arr2[byteIndex] |= (byte)(1 << bitIndex);
+                }
+
+                bitIndex++;
+                if (bitIndex == 8)
+                {
+                    bitIndex = 0;
+                    byteIndex++;
+                }
+            }
+            return arr2;
+        }
 
         /// <summary>
         /// (3)释放渲染资源

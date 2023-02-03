@@ -762,7 +762,7 @@ namespace BinderJetting
         public bool m_bFlagComeXOriginEnding = true;//打印结束X回原点
         
         public int m_nPixelGrayBits = 1/*4000*/;//灰度数据格式：20200411新增
-        public double m_dPixelGrayValue = 100;//像素打印灰度值：20220202新增：
+        public int m_dPixelGrayValue = 2;//像素打印灰度值：20220202新增：
         public int m_nPrtCtl = 8;//JOB控制字：bit0:跳白支持，bit1：循环喷嘴偏移，bit2 Y向偏差无重嘴， bit3 X镜像， bit4 Y镜像:20200411新增
         public double m_dPrtXEncPos = 50/*30*//*379.5*//*362*/;////任务的X向起打位置:20200923修改：设置X向启打位置值为362//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改//20220601新建：修改X向启打位置修订
         //20220524修改：起始打印值为幅面的左端起始点，修改为30MM
@@ -1023,13 +1023,13 @@ namespace BinderJetting
             get { return this.m_bFlagComeXOriginEnding; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set { if (value != this.m_bFlagComeXOriginEnding) { this.m_bFlagComeXOriginEnding = value; NotifyPropertyChanged(); } }
         }
-        public double[] PixelGrayValues = new double[7];
+        //public double[] PixelGrayValues = new double[7];
         public int PixelGrayBits//灰度数据格式:20200411新增
         {
             get { return this.m_nPixelGrayBits; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set { if (value != this.m_nPixelGrayBits) { this.m_nPixelGrayBits = value; NotifyPropertyChanged(); } }
         }
-        public double PixelGrayValue//灰度数据格式:20200411新增
+        public int PixelGrayValue//灰度数据格式:20200411新增
         {
             get { return this.m_dPixelGrayValue; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set { if (value != this.m_dPixelGrayValue) { this.m_dPixelGrayValue = value; NotifyPropertyChanged(); } }
@@ -1207,6 +1207,8 @@ namespace BinderJetting
         }
         public int SelectedAPrintStategyItem;//当前选中的打印策略项
         public List<APrintStategy> m_PrintStrategys = new List<APrintStategy>();//包含所有加载的策略
+
+        public RYSYSParam LocalRYSYSParam = new RYSYSParam();//20230203新增：修复打印DPI等参数无法本地保存的问题
     }
 
     /// <summary>

@@ -376,6 +376,7 @@ namespace BinderJetting
                 //(4)20200807批注：加载打印策略参数
                 JsonPath = System.Windows.Forms.Application.StartupPath + @"\PrintStrategy-Configuration.json";//json配置文件：启动目录
                 g_PrintStrategys = ObjectCopier.LoadJson<PrintStrategys>(JsonPath);
+                g_RYSYSParam = g_PrintStrategys.LocalRYSYSParam;//20230203新增：修复打印DPI等参数无法本地保存的问题
             }
             catch (Exception)
             {
@@ -1752,6 +1753,7 @@ namespace BinderJetting
 
                 //20210113新增：大零件分区处理算法
                 g_SharpControl.gc_RysysParam = g_RYSYSParam;//20210113新增：大零件分区处理算法
+                f.PrintStrategys.LocalRYSYSParam = g_RYSYSParam;//20230203新增：修复打印DPI等参数无法本地保存的问题
                 //g_RYSYSParam.m_dSubAreaWidth;
                 //g_RYSYSParam.m_dWeakAreaWidth;
                 //g_RYSYSParam.m_dDeviation;
