@@ -3325,7 +3325,6 @@ namespace BinderJetting
                 m_bMasterElecSwitch = false;//开启和关闭状态标志位
                 AutoPrintFlag[0] = false;//线程存在标志位：标志着线程结束
                 UpdateAutoStartInfo();
-
             }
             else//关闭动作：一键关闭系统 ———— 线程执行关闭系列动作
             {
@@ -3344,9 +3343,7 @@ namespace BinderJetting
                     UpdateAutoStartInfo();
                 }
 
-
             }
-
         }
         /// 定义一个代理：加载CLI过程中刷新数据
         private delegate void UpdateAutoStartInfoDelegate(/*int i, string ReadLayerNum*/);
@@ -3386,7 +3383,6 @@ namespace BinderJetting
                 this.MasterSwitchBtn.Invoke(DMSGD/*, i, ReadLayerNum*/);
             }
         }
-
 
         bool[] AutoPrintFlag = new bool[3] { false, false, false };
         public bool m_bInitRoyalSuccess = false;//20200421新增

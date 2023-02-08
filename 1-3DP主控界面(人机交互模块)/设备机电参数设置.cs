@@ -568,40 +568,46 @@ namespace BinderJetting
         //生成指定格式的掩码：
         private void WriteControlMask(int i/*第i条逻辑记录*/)//根据6个控件的ID来生成MASK
         {
-            //(3)PS:按照顺序转换为对应的掩码数组：
-            //(3)掩码结构（64位）：
-            //序号(8bit,256个)|开始条件判断(8bit，256个+4bit，16个逻辑+8bit，256个)
-            //|延时值（16bit,65536s=18.2h）|触发动作(8bit,256种动作)|动作有效状态（2bit,开关4种状态）
-            //8+20+16+8+2=54bit————高位填充10bit的Od1111111111
+            try { 
+                //(3)PS:按照顺序转换为对应的掩码数组：
+                //(3)掩码结构（64位）：
+                //序号(8bit,256个)|开始条件判断(8bit，256个+4bit，16个逻辑+8bit，256个)
+                //|延时值（16bit,65536s=18.2h）|触发动作(8bit,256种动作)|动作有效状态（2bit,开关4种状态）
+                //8+20+16+8+2=54bit————高位填充10bit的Od1111111111
 
-            //20200112：按照技术规格编写对应的掩码值：
-            //(1)读取对应的掩码区域值：
-            //ulong source  = (ulong)this.userControl32.comboBox1.Items.IndexOf(this.userControl32.comboBox1.Text);//8位
-            //ulong source = (ulong)this.userControl32.comboBox1.Tag;//8位//20210312新增修改：修改GPO异常错误
-            string sourceText = this.userControl32.comboBox1.Text;
-            string[] sub1 = Regex.Split(sourceText, "：", RegexOptions.IgnoreCase);
-            ulong source = (ulong)Convert.ToInt64(sub1[0]);
+                //20200112：按照技术规格编写对应的掩码值：
+                //(1)读取对应的掩码区域值：
+                //ulong source  = (ulong)this.userControl32.comboBox1.Items.IndexOf(this.userControl32.comboBox1.Text);//8位
+                //ulong source = (ulong)this.userControl32.comboBox1.Tag;//8位//20210312新增修改：修改GPO异常错误
+                string sourceText = this.userControl32.comboBox1.Text;
+                string[] sub1 = Regex.Split(sourceText, "：", RegexOptions.IgnoreCase);
+                ulong source = (ulong)Convert.ToInt64(sub1[0]);
 
-            ulong logic1 = (ulong)this.userControl32.comboBox2.Items.IndexOf(this.userControl32.comboBox2.Text);//4位——多种逻辑
-            ulong logic2 = (ulong)this.userControl32.comboBox3.Items.IndexOf(this.userControl32.comboBox3.Text);//8位
-            ulong timeout=(ulong)Convert.ToInt64(this.userControl32.textBox1.Text);//16位
+                ulong logic1 = (ulong)this.userControl32.comboBox2.Items.IndexOf(this.userControl32.comboBox2.Text);//4位——多种逻辑
+                ulong logic2 = (ulong)this.userControl32.comboBox3.Items.IndexOf(this.userControl32.comboBox3.Text);//8位
+                ulong timeout=(ulong)Convert.ToInt64(this.userControl32.textBox1.Text);//16位
 
-            //ulong control = (ulong)this.userControl32.comboBox4.Items.IndexOf(this.userControl32.comboBox4.Text);//8位
-            //ulong control = (ulong)this.userControl32.comboBox4.Tag;//8位//20210312新增修改：修改GPO异常错误
-            string controlText = this.userControl32.comboBox4.Text;
-            string[] sub2 = Regex.Split(controlText, "：", RegexOptions.IgnoreCase);
-            ulong control = (ulong)Convert.ToInt64(sub2[0]);
+                //ulong control = (ulong)this.userControl32.comboBox4.Items.IndexOf(this.userControl32.comboBox4.Text);//8位
+                //ulong control = (ulong)this.userControl32.comboBox4.Tag;//8位//20210312新增修改：修改GPO异常错误
+                string controlText = this.userControl32.comboBox4.Text;
+                string[] sub2 = Regex.Split(controlText, "：", RegexOptions.IgnoreCase);
+                ulong control = (ulong)Convert.ToInt64(sub2[0]);
 
-            ulong state = (ulong)this.userControl32.comboBox5.Items.IndexOf(this.userControl32.comboBox5.Text);//2位
-            //(2)写入到掩码值：
-            ulong tempMask = 0x1FFFC00000000000;//初始MASK，高10bit置1
-            ControlMask[i] = (tempMask)
-                |((0x3FC000000000) &(source<<38))
-                |((0x3C00000000) & (logic1<<34)) 
-                |((0x3FC000000) & (logic2)<<26)
-                |((0x3FFFC00) & (timeout)<<10) 
-                |((0x3FC) & (control)<<2)
-                |((0x3) & (state)<<0);//写入souce的掩码
+                ulong state = (ulong)this.userControl32.comboBox5.Items.IndexOf(this.userControl32.comboBox5.Text);//2位
+                //(2)写入到掩码值：
+                ulong tempMask = 0x1FFFC00000000000;//初始MASK，高10bit置1
+                ControlMask[i] = (tempMask)
+                    |((0x3FC000000000) &(source<<38))
+                    |((0x3C00000000) & (logic1<<34)) 
+                    |((0x3FC000000) & (logic2)<<26)
+                    |((0x3FFFC00) & (timeout)<<10) 
+                    |((0x3FC) & (control)<<2)
+                    |((0x3) & (state)<<0);//写入souce的掩码
+            }
+            catch (Exception e)//提示潜在的输入错误
+            {
+                MessageBox.Show(e.ToString());
+            }
         }
 
         //（4）一键启动配置：添加——在最后一行添加记录

@@ -1751,7 +1751,7 @@ namespace BinderJetting
                 {
                     if (Rgb1bppBits[i] == false) 
                     {
-                        Rgb2bppBits[2*i + 1] = false; Rgb2bppBits[2*i] = false;
+                        Rgb2bppBits[2 * i + 1] = false; Rgb2bppBits[2 * i] = false;
                     }
                     else
                     {
