@@ -377,6 +377,7 @@ namespace BinderJetting
                 JsonPath = System.Windows.Forms.Application.StartupPath + @"\PrintStrategy-Configuration.json";//json配置文件：启动目录
                 g_PrintStrategys = ObjectCopier.LoadJson<PrintStrategys>(JsonPath);
                 g_RYSYSParam = g_PrintStrategys.LocalRYSYSParam;//20230203新增：修复打印DPI等参数无法本地保存的问题
+                g_SharpControl.gc_RysysParam = g_RYSYSParam;//20230210修改：修复无法顺利加载本地保存的BPP以及灰阶设置的问题
             }
             catch (Exception)
             {
@@ -3721,7 +3722,7 @@ namespace BinderJetting
                 ///(1)JOB参数设置：
                 royal.royal.g_PrtJobItem.nJobID = 1;//世彪新增0104
                 //royal.royal.g_PrtJobItem.nPixelGrayBits = 1;//灰度位数：世彪新增0104://20200429新增//20230202新增：灰度数据位数修改
-                int bpp = 1;//20230202新增：灰度数据位数修改
+                int bpp = g_RYSYSParam.PixelGrayBits;/*2*/;//20230202新增：灰度数据位数修改      
                 if (bpp == 1)
                 {
                     royal.royal.g_PrtJobItem.nPixelGrayBits = 1;//灰度位数：世彪新增0104://20200429新增
@@ -3741,7 +3742,7 @@ namespace BinderJetting
                 royal.royal.g_PrtJobItem.nPrtXEncPos = (uint)(g_RYSYSParam.m_dPrtXEncPos /0.005/*0.005*/);//20200923新增：从成形参数模块中获取并设置对应的参数值//20220524修改：//20220531修改：1UM读数头光栅
                 royal.royal.g_PrtJobItem.szJobName = "金属3DP打印";//世彪新增0104
                 ///(2)开启JOB使能 
-                int returnCode = royal.royal.IDP_SartPrintJob(ref royal.royal.g_PrtJobItem);
+                int returnCode = royal.royal.IDP_SartPrintJob(ref royal.royal.g_PrtJobItem);//20230209：需要确认灰度数据位数，不需要传入灰度阶数
                 if (returnCode < 0)
                 {
                     MessageBox.Show("Can't Print，错误代码："+ returnCode);
@@ -5116,7 +5117,6 @@ namespace BinderJetting
             }
 
         }
-
         private void CADToolStripMenuItem_Click(object sender, EventArgs e)//20201110新增：动态删除CAD数据、编辑CAD数据
         {
             int myTag = Convert.ToInt32((sender as ToolStripMenuItem).Tag);

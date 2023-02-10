@@ -421,15 +421,18 @@ namespace BinderJetting
             string[] GrayValues3 = new string[] { "1", "2", "3", "4", "5", "6", "7" };//{ "14.28", "28.57", "42.86", "57.14", "71.43", "85.71", "100" };//7阶灰度
             if (k_RYSYSParam.m_nPixelGrayBits == 1)
             {
+                GrayValueBox.Items.Clear();//20230210新建
                 GrayValueBox.Items.AddRange(GrayValues1);
 
             }
             else if (k_RYSYSParam.m_nPixelGrayBits == 2)
             {
+                GrayValueBox.Items.Clear();//20230210新建
                 GrayValueBox.Items.AddRange(GrayValues2);
             }
             else if (k_RYSYSParam.m_nPixelGrayBits == 3)
             {
+                GrayValueBox.Items.Clear();//20230210新建
                 GrayValueBox.Items.AddRange(GrayValues3);
             }
             else { }
