@@ -35,7 +35,7 @@ namespace BinderJetting
         Integral_interface_data dispatch = new Integral_interface_data();
         Integral_interface_data draw_data = new Integral_interface_data();
         Integral_interface_data tempDrawData = new Integral_interface_data();//20200225新增:多线程绘制图像数据
-    
+
         private ConcurrentQueue<Integral_interface_data> g_qDrawQueue = new ConcurrentQueue<Integral_interface_data>();//c#高效的线程安全队列ConcurrentQueue：20200223新增
         //ConcurrentQueue
         bool dequeueSuccesful = false;//20200225新增:多线程绘制图像数据
@@ -330,9 +330,6 @@ namespace BinderJetting
         }
         private void Form1_Load(object sender, EventArgs e)//初始化主程序时，（1）完成界面初始化（2）开启初始线程。
         {
-            //log4net.Config.XmlConfigurator.Configure();//20210327新增：log4net组件初始化
-            LogHelper.log4net_demo();//20210327新增：log4net组件初始化
-
             //this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);//解决闪烁
             //this.SetStyle(ControlStyles.Opaque, true);//解决背景重绘问题(设置不绘制窗口背景，因为重绘窗口背景会导致性能底下)
             //this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);//解决闪烁 
@@ -350,7 +347,7 @@ namespace BinderJetting
             Timer = new System.Windows.Forms.Timer() { Interval = 40 };
             Timer.Tick += new EventHandler(Timer_Tick);
             base.Opacity = 0;
-            Timer.Start();        
+            Timer.Start();
             InitSystem();//（a）初始化控制器（1）打开运动控制器            
             ThreadStart initThreadEntry = new ThreadStart(RunInitThread);//线程入口方法：InitThread，在其中开启了Timer2//（b）开启初始化线程：初始化定时器2
             InitThread = new Thread(initThreadEntry) { IsBackground = true };
@@ -640,13 +637,16 @@ namespace BinderJetting
                 {
 #if true
                     BinaryFormatter bf = new BinaryFormatter();
-                    try {
+                    try
+                    {
                         bf.Serialize(fs, p);
                     }
-                    catch (Exception) {
+                    catch (Exception)
+                    {
                         throw;
                     }
-                    finally {
+                    finally
+                    {
                         fs.Flush(true);
                     }
 #else
@@ -664,13 +664,16 @@ namespace BinderJetting
                 {
 #if true
                     BinaryFormatter bf = new BinaryFormatter();
-                    try {
+                    try
+                    {
                         bf.Serialize(fs, p);
                     }
-                    catch (Exception) {
+                    catch (Exception)
+                    {
                         throw;
                     }
-                    finally {
+                    finally
+                    {
                         fs.Flush(true);
                     }
 #else
@@ -771,262 +774,263 @@ namespace BinderJetting
             }
         }
 
-    ////（1）刷新轴使能报警信号//20200718批注：新增主界面墨水接通状态
-    LaserADD_BinderJetter.InkStateCtrl[] inkStateCtrl2 =
-        { new LaserADD_BinderJetter.InkStateCtrl(),new LaserADD_BinderJetter.InkStateCtrl(),new LaserADD_BinderJetter.InkStateCtrl(),new LaserADD_BinderJetter.InkStateCtrl(),new LaserADD_BinderJetter.InkStateCtrl()};
-    System.Drawing.Bitmap[] inkState2 = { new System.Drawing.Bitmap(500, 100), new System.Drawing.Bitmap(500, 100), new System.Drawing.Bitmap(500, 100), new System.Drawing.Bitmap(500, 100), new System.Drawing.Bitmap(500, 100) };
-    Rectangle[] rectangle2 = new Rectangle[5];//20200718新建批注：修改为5项数据监控项
-    double[] g_dEncpos = new double[8];
-    double[] g_dEncvel = new double[8];
+        ////（1）刷新轴使能报警信号//20200718批注：新增主界面墨水接通状态
+        LaserADD_BinderJetter.InkStateCtrl[] inkStateCtrl2 =
+            { new LaserADD_BinderJetter.InkStateCtrl(),new LaserADD_BinderJetter.InkStateCtrl(),new LaserADD_BinderJetter.InkStateCtrl(),new LaserADD_BinderJetter.InkStateCtrl(),new LaserADD_BinderJetter.InkStateCtrl()};
+        System.Drawing.Bitmap[] inkState2 = { new System.Drawing.Bitmap(500, 100), new System.Drawing.Bitmap(500, 100), new System.Drawing.Bitmap(500, 100), new System.Drawing.Bitmap(500, 100), new System.Drawing.Bitmap(500, 100) };
+        Rectangle[] rectangle2 = new Rectangle[5];//20200718新建批注：修改为5项数据监控项
+        double[] g_dEncpos = new double[8];
+        double[] g_dEncvel = new double[8];
 
-    double[] g_dVoltageValue = new double[4];//20200417新增：总计是8路的值，读取4路的值足够用了
-    UInt32 nValveStateMask = 0b0;//20200718新增：所有的电磁阀状态信息：
-    private Communication.ModbusCommunicateMap modbusCommunicateMap/* = new Communication.ModbusCommunicateMap()*/;//实例化Modbus通讯接口对象;//20220515新建：Modbus通讯映射
-    private void timer2_Monitor(object sender, EventArgs e)//20200220:监控线程定时刷新定时器2//定时器本身就是1种线程处理方式
-    {
-        //（1）刷新6轴限位状态（2）刷新电压温度值（3）刷新墨盒信号（4）刷新打印进度（5）刷新6轴的位置///先获取电压温度值///再刷上去数据///墨盒信号///刷新打印的状态
+        double[] g_dVoltageValue = new double[4];//20200417新增：总计是8路的值，读取4路的值足够用了
+        UInt32 nValveStateMask = 0b0;//20200718新增：所有的电磁阀状态信息：
+        private Communication.ModbusCommunicateMap modbusCommunicateMap/* = new Communication.ModbusCommunicateMap()*/;//实例化Modbus通讯接口对象;//20220515新建：Modbus通讯映射
+        private void timer2_Monitor(object sender, EventArgs e)//20200220:监控线程定时刷新定时器2//定时器本身就是1种线程处理方式
+        {
+            //（1）刷新6轴限位状态（2）刷新电压温度值（3）刷新墨盒信号（4）刷新打印进度（5）刷新6轴的位置///先获取电压温度值///再刷上去数据///墨盒信号///刷新打印的状态
 
-        //(1)刷新6轴对应的限位状态————//20200220更新：
-        Int32[] nIOState = new Int32[6];//20200110：6轴的状态位
-        UInt32 nIOState2 = 0;//状态标志位：20200311//20200327批注：墨车的状态位
-        Int32[] nIOMask = { 0/*6*/, 0, 0, 0/*127*/ }/*new int[3]*/;//20200110：6轴的限位状态，依次为P，Z，N 限位
-        //UInt32 nxpos, ny1pos, ny2pos;//不需要
-        //UInt32 nxAxis, nyAxis1, nyAxis2;//不需要
-        //(a)实时的轴编码器位置//(b)剩余脉冲数获取//(c)实时的轴限位状态
-        for (short AXIS = 1; AXIS <= 6; AXIS++)
-        {
-            nIOState[AXIS - 1] = g_cMotionMap.MointoringAxis2(AXIS);
-        }
-        for (short AXIS = 1; AXIS <= 6; AXIS++)// (1)次序为P，Z，N 限位 (2)实时的多轴报警状态
-        {
-            if (0 != (nIOState[AXIS - 1] & 0x20)) { nIOMask[0] |= (1 << (AXIS - 1)); }//有报警——//20200226修正：主界面报警1号轴限位不正常，无反应
-            else { }//无报警
-            if (0 != (nIOState[AXIS - 1] & 0x00)) { nIOMask[1] |= (1 << (AXIS - 1)); }//有报警2010110:固高控制器不接零限位信号，掩码取值20//20200226修正：主界面报警1号轴限位不正常，无反应                  
-            else { }//无报警
-            if (0 != (nIOState[AXIS - 1] & 0x40)) { nIOMask[2] |= (1 << (AXIS - 1)); }//有报警——//20200226修正：主界面报警1号轴限位不正常，无反应
-            else { }//无报警
-        }
+            //(1)刷新6轴对应的限位状态————//20200220更新：
+            Int32[] nIOState = new Int32[6];//20200110：6轴的状态位
+            UInt32 nIOState2 = 0;//状态标志位：20200311//20200327批注：墨车的状态位
+            Int32[] nIOMask = { 0/*6*/, 0, 0, 0/*127*/ }/*new int[3]*/;//20200110：6轴的限位状态，依次为P，Z，N 限位
+                                                                       //UInt32 nxpos, ny1pos, ny2pos;//不需要
+                                                                       //UInt32 nxAxis, nyAxis1, nyAxis2;//不需要
+                                                                       //(a)实时的轴编码器位置//(b)剩余脉冲数获取//(c)实时的轴限位状态
+            for (short AXIS = 1; AXIS <= 6; AXIS++)
+            {
+                nIOState[AXIS - 1] = g_cMotionMap.MointoringAxis2(AXIS);
+            }
+            for (short AXIS = 1; AXIS <= 6; AXIS++)// (1)次序为P，Z，N 限位 (2)实时的多轴报警状态
+            {
+                if (0 != (nIOState[AXIS - 1] & 0x20)) { nIOMask[0] |= (1 << (AXIS - 1)); }//有报警——//20200226修正：主界面报警1号轴限位不正常，无反应
+                else { }//无报警
+                if (0 != (nIOState[AXIS - 1] & 0x00)) { nIOMask[1] |= (1 << (AXIS - 1)); }//有报警2010110:固高控制器不接零限位信号，掩码取值20//20200226修正：主界面报警1号轴限位不正常，无反应                  
+                else { }//无报警
+                if (0 != (nIOState[AXIS - 1] & 0x40)) { nIOMask[2] |= (1 << (AXIS - 1)); }//有报警——//20200226修正：主界面报警1号轴限位不正常，无反应
+                else { }//无报警
+            }
 
-        ////（2-1）刷新轴使能报警信号
-        for (int i = 0; i < 3; i++)
-        {
-            inkStateCtrl2[i].SetInkCount(6, 0);//20200220新建：
-            inkStateCtrl2[i].SetInkState(nIOMask[i]);//很关键//20200220新建：
-            inkState2[i].SetPixel(pictureBox1.Width, pictureBox1.Height, Color.FromArgb(0, 0, 0));//inkState是bitmap
-            Graphics g2 = Graphics.FromImage(inkState2[i]);
-            g2.Clear(pictureBox1.BackColor);
-            rectangle2[i].Width = pictureBox1.Width; rectangle2[i].Height = pictureBox1.Height;//rectanle是bitmap的大小
+            ////（2-1）刷新轴使能报警信号
+            for (int i = 0; i < 3; i++)
+            {
+                inkStateCtrl2[i].SetInkCount(6, 0);//20200220新建：
+                inkStateCtrl2[i].SetInkState(nIOMask[i]);//很关键//20200220新建：
+                inkState2[i].SetPixel(pictureBox1.Width, pictureBox1.Height, Color.FromArgb(0, 0, 0));//inkState是bitmap
+                Graphics g2 = Graphics.FromImage(inkState2[i]);
+                g2.Clear(pictureBox1.BackColor);
+                rectangle2[i].Width = pictureBox1.Width; rectangle2[i].Height = pictureBox1.Height;//rectanle是bitmap的大小
 #if true
-            inkStateCtrl2[i].OnPaint(g2, rectangle2[i]);
+                inkStateCtrl2[i].OnPaint(g2, rectangle2[i]);
 #else
             inkStateCtrl2[i].OnPaintCircle(g2, rectangle2[i]);
 #endif
-            switch (i)
-            {
-                case 0:
-                    pictureBox1.CreateGraphics().DrawImage(inkState2[i], new Point(0, 0));
-                    pictureBox1.Image = inkState2[i];
-                    break;
-                case 1:
-                    pictureBox2.CreateGraphics().DrawImage(inkState2[i], new Point(0, 0));
-                    pictureBox2.Image = inkState2[i];
-                    break;
-                case 2:
-                    pictureBox3.CreateGraphics().DrawImage(inkState2[i], new Point(0, 0));
-                    pictureBox3.Image = inkState2[i];
-                    break;
+                switch (i)
+                {
+                    case 0:
+                        pictureBox1.CreateGraphics().DrawImage(inkState2[i], new Point(0, 0));
+                        pictureBox1.Image = inkState2[i];
+                        break;
+                    case 1:
+                        pictureBox2.CreateGraphics().DrawImage(inkState2[i], new Point(0, 0));
+                        pictureBox2.Image = inkState2[i];
+                        break;
+                    case 2:
+                        pictureBox3.CreateGraphics().DrawImage(inkState2[i], new Point(0, 0));
+                        pictureBox3.Image = inkState2[i];
+                        break;
+                }
             }
-        }
 
-        ////（2-2）刷新剩余墨量信号//20200331新增：
-        ////（0）首先把数据刷上来//20200418新增：
-        //UInt32 nInkMask = royal.royal.DEV_GetInputIO() >> 16;
-        UInt32 nTempInkMask = royal.royal.DEV_GetInput();//我估计不够
-        UInt32 nInkMask = ((nTempInkMask >> 16) & 0b1111)
-            | ((nTempInkMask >> 10) & 0b10000)
-            | ((nTempInkMask >> 10) & 0b100000)
-            | ((nTempInkMask >> 19) & 0b1000000);
+            ////（2-2）刷新剩余墨量信号//20200331新增：
+            ////（0）首先把数据刷上来//20200418新增：
+            //UInt32 nInkMask = royal.royal.DEV_GetInputIO() >> 16;
+            UInt32 nTempInkMask = royal.royal.DEV_GetInput();//我估计不够
+            UInt32 nInkMask = ((nTempInkMask >> 16) & 0b1111)
+                | ((nTempInkMask >> 10) & 0b10000)
+                | ((nTempInkMask >> 10) & 0b100000)
+                | ((nTempInkMask >> 19) & 0b1000000);
 
-        inkStateCtrl2[3].SetInkCount(7, 0);//20200220新建：//依次是1级墨盒，2级墨x4，1级清洗液x1，空气保护瓶x1
-        inkStateCtrl2[3].SetInkState((int)nInkMask/*nIOMask[3]*/);//很关键//20200220新建：
-        inkState2[3].SetPixel(pictureBox5.Width, pictureBox5.Height, Color.FromArgb(0, 0, 0));//inkState是bitmap
-        Graphics g3 = Graphics.FromImage(inkState2[3]);
-        g3.Clear(Color.DarkCyan/*pictureBox5.BackColor*/);
-        rectangle2[3].Width = pictureBox5.Width; rectangle2[3].Height = pictureBox5.Height;//rectanle是bitmap的大小
+            inkStateCtrl2[3].SetInkCount(7, 0);//20200220新建：//依次是1级墨盒，2级墨x4，1级清洗液x1，空气保护瓶x1
+            inkStateCtrl2[3].SetInkState((int)nInkMask/*nIOMask[3]*/);//很关键//20200220新建：
+            inkState2[3].SetPixel(pictureBox5.Width, pictureBox5.Height, Color.FromArgb(0, 0, 0));//inkState是bitmap
+            Graphics g3 = Graphics.FromImage(inkState2[3]);
+            g3.Clear(Color.DarkCyan/*pictureBox5.BackColor*/);
+            rectangle2[3].Width = pictureBox5.Width; rectangle2[3].Height = pictureBox5.Height;//rectanle是bitmap的大小
 #if false
         inkStateCtrl2[3].OnPaint(g3, rectangle2[3]);
 #else
-        inkStateCtrl2[3].OnPaintCircle(g3, rectangle2[3]);
+            inkStateCtrl2[3].OnPaintCircle(g3, rectangle2[3]);
 #endif
-        pictureBox5.CreateGraphics().DrawImage(inkState2[3], new Point(0, 0));
-        pictureBox5.Image = inkState2[3];
+            pictureBox5.CreateGraphics().DrawImage(inkState2[3], new Point(0, 0));
+            pictureBox5.Image = inkState2[3];
 
-        //(2)刷新正负压及三通电磁阀的接通状态
-        UInt32 nTempValveStateMask = 0b0/*0b00000001*/;//第8位为正负压接通状态，1-7位为清洗/墨水阀的接通状态          
+            //(2)刷新正负压及三通电磁阀的接通状态
+            UInt32 nTempValveStateMask = 0b0/*0b00000001*/;//第8位为正负压接通状态，1-7位为清洗/墨水阀的接通状态          
 
-        nTempValveStateMask = royal.royal./*DEV_GetInput*//*DEV_GetUsbOutput*/DBG_GetPrtInfo(0,7);//20200718测试：需要经过全面的测试
+            nTempValveStateMask = royal.royal./*DEV_GetInput*//*DEV_GetUsbOutput*/DBG_GetPrtInfo(0, 7);//20200718测试：需要经过全面的测试
 
-        nValveStateMask = ((nTempValveStateMask >> 8) & 0b00111111)
-            | ((nTempValveStateMask >> 8) & 0b01000000) << 1
-            | ((nTempValveStateMask >> 8) & 0b10000000) >> 1;//20200718修改批注：修复车头板保留输出7/8端口颠倒的BUG
-        //    | ((nTempInkMask >> 19) & 0b1000000);
+            nValveStateMask = ((nTempValveStateMask >> 8) & 0b00111111)
+                | ((nTempValveStateMask >> 8) & 0b01000000) << 1
+                | ((nTempValveStateMask >> 8) & 0b10000000) >> 1;//20200718修改批注：修复车头板保留输出7/8端口颠倒的BUG
+                                                                 //    | ((nTempInkMask >> 19) & 0b1000000);
 
-        inkStateCtrl2[4].SetInkCount(8, 0);//20200220新建：//依次是：第8位为正负压接通状态，1-7位为清洗/墨水阀的接通状态
-        inkStateCtrl2[4].SetInkState((int)nValveStateMask/*nIOMask[3]*/);//很关键//20200220新建：
-        inkState2[4].SetPixel(pictureBox6.Width, pictureBox6.Height, Color.FromArgb(0, 0, 0));//inkState是bitmap
-        Graphics g4 = Graphics.FromImage(inkState2[4]);
-        g4.Clear(Color.DarkCyan/*pictureBox6.BackColor*/);
-        rectangle2[4].Width = pictureBox6.Width; rectangle2[4].Height = pictureBox6.Height;//rectanle是bitmap的大小
+            inkStateCtrl2[4].SetInkCount(8, 0);//20200220新建：//依次是：第8位为正负压接通状态，1-7位为清洗/墨水阀的接通状态
+            inkStateCtrl2[4].SetInkState((int)nValveStateMask/*nIOMask[3]*/);//很关键//20200220新建：
+            inkState2[4].SetPixel(pictureBox6.Width, pictureBox6.Height, Color.FromArgb(0, 0, 0));//inkState是bitmap
+            Graphics g4 = Graphics.FromImage(inkState2[4]);
+            g4.Clear(Color.DarkCyan/*pictureBox6.BackColor*/);
+            rectangle2[4].Width = pictureBox6.Width; rectangle2[4].Height = pictureBox6.Height;//rectanle是bitmap的大小
 #if false
         inkStateCtrl2[4].OnPaint(g3, rectangle2[4]);
 #else
-        inkStateCtrl2[4].OnPaintValveState(g4, rectangle2[4]);
+            inkStateCtrl2[4].OnPaintValveState(g4, rectangle2[4]);
 #endif
-        pictureBox6.CreateGraphics().DrawImage(inkState2[4], new Point(0, 0));
-        pictureBox6.Image = inkState2[4];
+            pictureBox6.CreateGraphics().DrawImage(inkState2[4], new Point(0, 0));
+            pictureBox6.Image = inkState2[4];
 
-        ////（4）刷新打印进度
-        this.WorkProgressBar.Minimum = 0;//进度条:异步刷新
-        this.WorkProgressBar.Maximum = g_nLayerEnd;//进度条
-        UpdateBarValueMethod2(g_nLayerCurrent);
+            ////（4）刷新打印进度
+            this.WorkProgressBar.Minimum = 0;//进度条:异步刷新
+            this.WorkProgressBar.Maximum = g_nLayerEnd;//进度条
+            UpdateBarValueMethod2(g_nLayerCurrent);
 
-        //（5）刷新6轴的位置+刷新墨车系统正负压的读数：20200417新建批注
-        g_dEncpos = g_cMotionMap.GetEncPos();
-        g_dEncvel = g_cMotionMap.GetEncVel();
-        //textBox4.Clear();
-        g_dVoltageValue = g_cMotionMap.GetAi();//读取固高的8路ADC电压输入
-                                                //this.PressureLabel.Clear();//20200417新增：原来的TEXT控件更换为label控件，不支持本方法
+            //（5）刷新6轴的位置+刷新墨车系统正负压的读数：20200417新建批注
+            g_dEncpos = g_cMotionMap.GetEncPos();
+            g_dEncvel = g_cMotionMap.GetEncVel();
+            //textBox4.Clear();
+            g_dVoltageValue = g_cMotionMap.GetAi();//读取固高的8路ADC电压输入
+                                                   //this.PressureLabel.Clear();//20200417新增：原来的TEXT控件更换为label控件，不支持本方法
 
-        //(5-3)计算并显示实际的正负压值
-        if ((1 < g_dVoltageValue[0]) && (g_dVoltageValue[0] <= 5))//正负压在-100kPa到+100kPa之间
-        {
-            this.PressureLabel.ForeColor = Color.Blue;
-            string PosNetPressure = ((g_dVoltageValue[0] - 3) * 200 / 4).ToString("F2");//20200427新增：显示2位数值的正负压
-            this.PressureLabel.Text = PosNetPressure;
-        }
-        else if ((g_dVoltageValue[0] > 5.0))//超出数显表的正常的工作区间：正负压在-100kPa到+100kPa之间
-        {
-            //this.PressureLabel.ForeColor = Color.Red;
-            this.PressureLabel.Text = "报警：气压过高！";
-
-        }
-        else if (g_dVoltageValue[0] < 1.0)
-        {
-            //this.PressureLabel.ForeColor = Color.Red;
-            this.PressureLabel.Text = "报警：气压过低！";
-        }
-
-        ////(5-4)读取实时温度并显示：20220515新建////建立Modbus通讯，并读取实时党的温度值（工程值）：20220514新建
-        //int SlaveNumber = 1; int RegisterAddress = 2000; int RegisterNumber = 1;//读取输入寄存器值并完成显示
-        //ushort[] CurrentTemperature = null;
-        //if (AutoPrintMotion2!= null)
-        //{
-        //    /******读取30001的内部计算值******/
-        //    CurrentTemperature = AutoPrintMotion2.modbusCommunicateMap.ReadInputRegisters((byte)SlaveNumber, (ushort)RegisterAddress, (ushort)RegisterNumber);
-        //}
-       
-        //if (CurrentTemperature != null)
-        //{
-        //    this.TemperatureLabel.Text = CurrentTemperature[0].ToString();//显示当前温度值为
-        //}
-        //else
-        //{
-        //    //this.TemperatureLabel.ForeColor = Color.Red;
-        //    this.TemperatureLabel.Text = "报警：温控仪关闭!";//return;
-        //}
-
-        //(5-1)刷新墨车的位置信号//20200327新增：
-        UInt32 ny1pos = royal.royal.DEV_GetPrintEncoderValue();//20200306新增：编码器位置设置
-        //string ny1pos0 = ((double)(ny1pos / 5080)).ToString("F2");
-        //string ny1pos0 = (((double)ny1pos) / 5080).ToString("F3");
-        //string szTxt = ny1pos.ToString("X");//16进制显示——20200108
-        double XPosValue = 0, YPosValue = 0, Z1PosValue = 0, Z2PosValue = 0, Z3PosValue = 0;
-        string PositonText = null;
-        string ny1pos0 = String.Format("{0,9:#0000.000}", ((double)ny1pos) * 0.005);
-        XPosValue = ((double)ny1pos) * 0.005;
-        //textBox4.AppendText(" " + "墨车当前位置：" + ny1pos0 + "mm\r\n");
-        PositonText = " " + "墨车当前位置：" + ny1pos0 + " MM\r\n";
-        //（5-2）刷新6轴的位置
-        string PosString;
-        for (short i = 0; i < 6; i++)
-        {
-            double PosValue = g_dEncpos[i] / 1000;
-            //PosString = (PosValue/*(double)(g_dEncpos[i] / 1000)*/).ToString("F3");//20200227：显示两位小数点位置，即精确到10um
-            PosString = String.Format("{0,9:#0000.000,}", PosValue);
-            switch (i)
+            //(5-3)计算并显示实际的正负压值
+            if ((1 < g_dVoltageValue[0]) && (g_dVoltageValue[0] <= 5))//正负压在-100kPa到+100kPa之间
             {
-                case 0:
-                    //textBox4.AppendText(" " + "主成型缸位置：" + PosString + "mm\r\n");
-                    PositonText += " " + "主成型缸位置：" + PosString + " MM\r\n";
-                    g_cPrinterSysParam.g_dPositon[0] = PosValue;
-                    Z1PosValue = PosValue;
-                    break;
-                case 1:
-                    //textBox4.AppendText(" " + "后粉料缸位置：" + PosString + "mm\r\n");
-                    PositonText += " " + "后粉料缸位置：" + PosString + " MM\r\n";
-                    g_cPrinterSysParam.g_dPositon[1] = PosValue;
-                    Z2PosValue = PosValue;
-                    break;
-                case 2:
-                    //textBox4.AppendText(" " + "前粉料缸位置：" + PosString + "mm\r\n");
-                    PositonText += " " + "前粉料缸位置：" + PosString + " MM\r\n";
-                    g_cPrinterSysParam.g_dPositon[2] = PosValue;
-                    Z3PosValue = PosValue;
-                    break;
-                case 3:
-                    //textBox4.AppendText(" " + "铺粉小车位置：" + PosString + "mm\r\n");
-                    PositonText += " " + "铺粉小车位置：" + PosString + " MM\r\n";
-                    g_cPrinterSysParam.g_dPositon[3] = PosValue;
-                    YPosValue = PosValue;
-                    break;
-                case 4:
-                    //textBox4.AppendText(" " + "卡紧电机位置：" + PosString + "mm\r\n");
-                    PositonText += " " + "卡紧电机位置：" + PosString + " MM\r\n";
-                    g_cPrinterSysParam.g_dPositon[4] = PosValue;
-                    break;
-                case 5:
-                    //textBox4.AppendText(" " + "刮墨电机位置：" + PosString + "mm");
-                    PosString = String.Format("{0,9:#0000.000,}", PosValue * 125);
-                    PositonText += " " + "刮墨电机位置：" + PosString + " MM";
-                    g_cPrinterSysParam.g_dPositon[5] = PosValue * 125;//20200623批注：修正步进电机的参数：1000pulse/125mm
-                    break;
+                this.PressureLabel.ForeColor = Color.Blue;
+                string PosNetPressure = ((g_dVoltageValue[0] - 3) * 200 / 4).ToString("F2");//20200427新增：显示2位数值的正负压
+                this.PressureLabel.Text = PosNetPressure;
             }
+            else if ((g_dVoltageValue[0] > 5.0))//超出数显表的正常的工作区间：正负压在-100kPa到+100kPa之间
+            {
+                //this.PressureLabel.ForeColor = Color.Red;
+                this.PressureLabel.Text = "报警：气压过高！";
+
+            }
+            else if (g_dVoltageValue[0] < 1.0)
+            {
+                //this.PressureLabel.ForeColor = Color.Red;
+                this.PressureLabel.Text = "报警：气压过低！";
+            }
+
+            ////(5-4)读取实时温度并显示：20220515新建////建立Modbus通讯，并读取实时党的温度值（工程值）：20220514新建
+            //int SlaveNumber = 1; int RegisterAddress = 2000; int RegisterNumber = 1;//读取输入寄存器值并完成显示
+            //ushort[] CurrentTemperature = null;
+            //if (AutoPrintMotion2!= null)
+            //{
+            //    /******读取30001的内部计算值******/
+            //    CurrentTemperature = AutoPrintMotion2.modbusCommunicateMap.ReadInputRegisters((byte)SlaveNumber, (ushort)RegisterAddress, (ushort)RegisterNumber);
+            //}
+
+            //if (CurrentTemperature != null)
+            //{
+            //    this.TemperatureLabel.Text = CurrentTemperature[0].ToString();//显示当前温度值为
+            //}
+            //else
+            //{
+            //    //this.TemperatureLabel.ForeColor = Color.Red;
+            //    this.TemperatureLabel.Text = "报警：温控仪关闭!";//return;
+            //}
+
+            //(5-1)刷新墨车的位置信号//20200327新增：
+            UInt32 ny1pos = royal.royal.DEV_GetPrintEncoderValue();//20200306新增：编码器位置设置
+                                                                   //string ny1pos0 = ((double)(ny1pos / 5080)).ToString("F2");
+                                                                   //string ny1pos0 = (((double)ny1pos) / 5080).ToString("F3");
+                                                                   //string szTxt = ny1pos.ToString("X");//16进制显示——20200108
+            double XPosValue = 0, YPosValue = 0, Z1PosValue = 0, Z2PosValue = 0, Z3PosValue = 0;
+            string PositonText = null;
+            string ny1pos0 = String.Format("{0,9:#0000.000}", ((double)ny1pos) * 0.005);
+            XPosValue = ((double)ny1pos) * 0.005;
+            //textBox4.AppendText(" " + "墨车当前位置：" + ny1pos0 + "mm\r\n");
+            PositonText = " " + "墨车当前位置：" + ny1pos0 + " MM\r\n";
+            //（5-2）刷新6轴的位置
+            string PosString;
+            for (short i = 0; i < 6; i++)
+            {
+                double PosValue = g_dEncpos[i] / 1000;
+                //PosString = (PosValue/*(double)(g_dEncpos[i] / 1000)*/).ToString("F3");//20200227：显示两位小数点位置，即精确到10um
+                PosString = String.Format("{0,9:#0000.000,}", PosValue);
+                switch (i)
+                {
+                    case 0:
+                        //textBox4.AppendText(" " + "主成型缸位置：" + PosString + "mm\r\n");
+                        PositonText += " " + "主成型缸位置：" + PosString + " MM\r\n";
+                        g_cPrinterSysParam.g_dPositon[0] = PosValue;
+                        Z1PosValue = PosValue;
+                        break;
+                    case 1:
+                        //textBox4.AppendText(" " + "后粉料缸位置：" + PosString + "mm\r\n");
+                        PositonText += " " + "后粉料缸位置：" + PosString + " MM\r\n";
+                        g_cPrinterSysParam.g_dPositon[1] = PosValue;
+                        Z2PosValue = PosValue;
+                        break;
+                    case 2:
+                        //textBox4.AppendText(" " + "前粉料缸位置：" + PosString + "mm\r\n");
+                        PositonText += " " + "前粉料缸位置：" + PosString + " MM\r\n";
+                        g_cPrinterSysParam.g_dPositon[2] = PosValue;
+                        Z3PosValue = PosValue;
+                        break;
+                    case 3:
+                        //textBox4.AppendText(" " + "铺粉小车位置：" + PosString + "mm\r\n");
+                        PositonText += " " + "铺粉小车位置：" + PosString + " MM\r\n";
+                        g_cPrinterSysParam.g_dPositon[3] = PosValue;
+                        YPosValue = PosValue;
+                        break;
+                    case 4:
+                        //textBox4.AppendText(" " + "卡紧电机位置：" + PosString + "mm\r\n");
+                        PositonText += " " + "卡紧电机位置：" + PosString + " MM\r\n";
+                        g_cPrinterSysParam.g_dPositon[4] = PosValue;
+                        break;
+                    case 5:
+                        //textBox4.AppendText(" " + "刮墨电机位置：" + PosString + "mm");
+                        PosString = String.Format("{0,9:#0000.000,}", PosValue * 125);
+                        PositonText += " " + "刮墨电机位置：" + PosString + " MM";
+                        g_cPrinterSysParam.g_dPositon[5] = PosValue * 125;//20200623批注：修正步进电机的参数：1000pulse/125mm
+                        break;
+                }
+            }
+            //textBox4.AppendText(PositonText);//PositonText += "\r\n";
+            PositionLable.Text = PositonText;
+            string PositonText2 = String.Format("|| X-{0,5:000.0,} MM; Y-{1,5:000.0,} MM; Z1-{2,5:000.0,} MM; Z2-" +
+                "{3,5:000.0,} MM; Z3-{4,5:000.0,} MM",
+                XPosValue, YPosValue, Z1PosValue, Z2PosValue, Z3PosValue);
+
+            toolStripStatusLabel1.Text = PositonText2;
+
+            //(6)刷新墨车的报警信号//20200327新增：
+            //////////////////////////////////(c)实时的轴限位状态
+            nIOState2 = royal.royal.DEM_GetAxisLmtZeroState(0);//底层接口已经作了12 bit移位处理，对照Reg[12]定义——————世彪批注：获取限位状态20200106
+                                                               //////////////////////////////////(c)实时的多轴报警状态
+                                                               /////////(2)次序为P，Z，N 限位
+            if (0 != (nIOState2 & 0x2))//是否有报警：有限位报警
+            { this.Y1PLLabel.BackColor = Color.Red; }
+            else//无报警
+            { this.Y1PLLabel.BackColor = Color.LimeGreen; }
+            if (0 != (nIOState2 & 0x10))//有报警
+            { this.Y1ZeroLabel.BackColor = Color.Red; }
+            else//无报警
+            { this.Y1ZeroLabel.BackColor = Color.LimeGreen; }
+            if (0 != (nIOState2 & 0x1))//有报警
+            { this.Y1NLLabel.BackColor = Color.Red; }
+            else//无报警
+            { this.Y1NLLabel.BackColor = Color.LimeGreen; }
+
+            //保存位置信息到本地
+            //日志保存：保存校准行程及原点位置及加工日志及异常日志
+            g_cPrinterSysParam.g_dPositon[6] = 888;
+            SerializeToBin(g_cPrinterSysParam);//20200222://(1)存储6个电机的校准行程
         }
-        //textBox4.AppendText(PositonText);//PositonText += "\r\n";
-        PositionLable.Text = PositonText;
-        string PositonText2 = String.Format("|| X-{0,5:000.0,} MM; Y-{1,5:000.0,} MM; Z1-{2,5:000.0,} MM; Z2-" +
-            "{3,5:000.0,} MM; Z3-{4,5:000.0,} MM",
-            XPosValue, YPosValue, Z1PosValue, Z2PosValue, Z3PosValue);
-
-        toolStripStatusLabel1.Text = PositonText2;
-
-        //(6)刷新墨车的报警信号//20200327新增：
-        //////////////////////////////////(c)实时的轴限位状态
-        nIOState2 = royal.royal.DEM_GetAxisLmtZeroState(0);//底层接口已经作了12 bit移位处理，对照Reg[12]定义——————世彪批注：获取限位状态20200106
-        //////////////////////////////////(c)实时的多轴报警状态
-        /////////(2)次序为P，Z，N 限位
-        if (0 != (nIOState2 & 0x2))//是否有报警：有限位报警
-        { this.Y1PLLabel.BackColor = Color.Red; }
-        else//无报警
-        { this.Y1PLLabel.BackColor = Color.LimeGreen; }
-        if (0 != (nIOState2 & 0x10))//有报警
-        { this.Y1ZeroLabel.BackColor = Color.Red; }
-        else//无报警
-        { this.Y1ZeroLabel.BackColor = Color.LimeGreen; }
-        if (0 != (nIOState2 & 0x1))//有报警
-        { this.Y1NLLabel.BackColor = Color.Red; }
-        else//无报警
-        { this.Y1NLLabel.BackColor = Color.LimeGreen; }
-
-        //保存位置信息到本地
-        //日志保存：保存校准行程及原点位置及加工日志及异常日志
-        g_cPrinterSysParam.g_dPositon[6] = 888;
-        SerializeToBin(g_cPrinterSysParam);//20200222://(1)存储6个电机的校准行程
-    }
         private void CreateModbusCommunicate()
         {
             ////建立Modbus通讯，并读取实时党的温度值（工程值）：20220514新建
-            /*Communication.ModbusCommunicateMap */modbusCommunicateMap = new Communication.ModbusCommunicateMap();//实例化Modbus通讯接口对象
+            /*Communication.ModbusCommunicateMap */
+            modbusCommunicateMap = new Communication.ModbusCommunicateMap();//实例化Modbus通讯接口对象
 
             //创建串口参数
             modbusCommunicateMap.serialPort.PortName = /*"ELTIMA Virtual Serial Port(COM2->COM3)"*/ /* "COM3"*/"COM3";
@@ -1071,6 +1075,7 @@ namespace BinderJetting
         /************************打印机框架：喷墨打印数据传输及打印框架*************************/
         private bool StartStopDataTASK(bool OperationFlag)//20201119批注：本部分内容是阻塞操作
         {
+            string msg = null;
             if (true == OperationFlag)//建立数据传输线程:DataTaskTHREAD
             {
                 if (g_nCorrectionTaskThreadFlag == 0)//20210320新增:
@@ -1100,13 +1105,25 @@ namespace BinderJetting
                                 tempThread.Start();
                                 PrinterLogicThreads.Add(tempThread);//没有创建过的时候，才重新添加新的线程
                             }
+
+                            msg = "启动打印线程成功： " + tempThreadName;
+                            Log4Net.Info(msg);
+
                             return true;//创建成功
                         }
                         else//创建失败
-                        { return false; }
+                        {
+                            msg = "启动打印线程失败，原因未知：DataTaskTHREAD";
+                            Log4Net.Info(msg);
+
+                            return false; 
+                        }
                     }
                     else
                     {
+                        msg = "启动打印线程失败，请先载入CAD数据：DataTaskTHREAD";
+                        Log4Net.Info(msg);
+
                         MessageBox.Show("请先载入CAD数据。。。");//没有载入过CAD文件
                         return false;//创建失败
                     }
@@ -1122,6 +1139,9 @@ namespace BinderJetting
                         tempThread = new Thread(initThreadEntry) { IsBackground = true };
                         tempThread.Name = tempThreadName;
                         tempThread.Start();
+                        msg = "启动打印线程成功： " + tempThreadName;
+                        Log4Net.Info(msg);
+
                         PrinterLogicThreads.Add(tempThread);
                     }
                     else//创建开启DataTaskTHREAD：
@@ -1132,6 +1152,9 @@ namespace BinderJetting
                         tempThread = new Thread(initThreadEntry) { IsBackground = true };
                         tempThread.Name = tempThreadName;
                         tempThread.Start();
+                        msg = "启动打印线程成功： " + tempThreadName;
+                        Log4Net.Info(msg);
+
                         PrinterLogicThreads.Add(tempThread);//没有创建过的时候，才重新添加新的线程
                     }
                     return true;//创建成功
@@ -1174,6 +1197,7 @@ namespace BinderJetting
         bool ModifyJobAeraFLag = false;//20201124新增：修改区间标志位：
         private bool StartStopPrintTASK(bool OperationFlag)//20201119修改：更新
         {
+            string msg = null;
             if (true == OperationFlag)//动作1：建立打印线程：PrintTaskTHREAD
             {
                 if (g_nCorrectionTaskThreadFlag == 0)//20210320新增:
@@ -1195,16 +1219,27 @@ namespace BinderJetting
                             tempThread = new Thread(initThreadEntry) { IsBackground = true };
                             tempThread.Name = tempThreadName;
                             tempThread.Start();
+                            msg = "启动打印线程成功：" + tempThreadName;
+                            Log4Net.Info(msg);
+
                             PrinterLogicThreads.Add(tempThread);
-                            PrintTaskFlag = 1;//更新状态为2
                         }
                         return true;//创建成功
                     }
                     else if ((PrintTaskFlag == 2) || (PrintTaskFlag == 3))//处于工作态或者暂停态时则不执行
                     {
+                        msg = "启动打印线程失败，处于工作态以及暂停态：PrintTaskFlag = " + PrintTaskFlag;
+                        Log4Net.Info(msg);
+
                         return false;//创建失败
                     }
-                    else { return false; }//创建失败
+                    else
+                    {
+                        msg = "启动打印线程失败，未知原因！";
+                        Log4Net.Info(msg);
+
+                        return false; 
+                    }//创建失败
                 }
                 else /*if (g_nCorrectionTaskThreadFlag == 1)*///20210320新增:建立数据传输线程:PrintTaskTHREAD
                 {
@@ -1223,6 +1258,9 @@ namespace BinderJetting
                         tempThread = new Thread(initThreadEntry) { IsBackground = true };
                         tempThread.Name = tempThreadName;
                         tempThread.Start();
+                        msg = "启动打印线程成功：" + tempThreadName;
+                        Log4Net.Info(msg);
+
                         PrinterLogicThreads.Add(tempThread);
                         PrintTaskFlag = 1;//更新状态为2
                     }
@@ -1295,9 +1333,16 @@ namespace BinderJetting
                     {
                         UpdateDataAndTransfer(1, 0, 3);
                         if (true == StartStopPrintTASK(true))//刷新：启动成功，提示关闭打印
-                        { UpdateDataAndTransfer(1,0, 4); }
+                        {
+                            UpdateDataAndTransfer(1, 0, 4);
+                        }
                         else//第二阶段失败
-                        { MessageBox.Show("打印任务启动失败:CODE 2"); }
+                        {
+                            string msg = "启动打印失败：" + OperationCode;
+                            Log4Net.Info(msg);
+
+                            MessageBox.Show("打印任务启动失败:CODE 2");
+                        }
                     }
                     else//刷新：启动失败，提示启动打印
                     { UpdateDataAndTransfer(1, 0, 2); }
@@ -1321,8 +1366,6 @@ namespace BinderJetting
 
                     g_TaskThreadSTATE[5] = 3;//20210320更新：
                     break;
-
-
 
                 case "DeleteMust"://删除打印操作:删除的结果一定是成功
                     UpdateDataAndTransfer(0, 0, 10);
@@ -1348,7 +1391,7 @@ namespace BinderJetting
                     g_TaskThreadSTATE[1] = 3;
                     g_TaskThreadSTATE[3] = 1;//20201119新增：DataTaskThread恢复为默认状态（关机后）
                     g_TaskThreadSTATE[4] = 1;//20201119新增：DataTaskThread恢复为默认状态（关机后）
-                    
+
                     //（2）更新打印区间
 
                     //（3）启动所有的打印任务
@@ -1384,7 +1427,7 @@ namespace BinderJetting
             switch (OperationCode)
             {
                 case "CreateFirst":
-                    if((g_TaskThreadSTATE[0] == 1)|| (g_TaskThreadSTATE[0] == 3))
+                    if ((g_TaskThreadSTATE[0] == 1) || (g_TaskThreadSTATE[0] == 3))
                     {
                         if (tempThread != null)
                         {
@@ -1461,10 +1504,10 @@ namespace BinderJetting
                 tempThread.Name = tempThreadName;//(2)第2部曲：多线程3步曲——20200110线程ID和线程名称
                 tempThread.Start(TranferControlInfo);//(3)第3部曲：多线程3步曲 
                 PrinterLogicThreads.Add(tempThread);//没有创建过的时候，才重新添加新的线程
+
             }
             else//不执行
             {
-
             }
         }
         private void TaskAddDeleteTHREAD(string OperationCode)//20201119新增：删除
@@ -1497,20 +1540,27 @@ namespace BinderJetting
         }
         //三大JOB相关线程状态+++外加另外两条线程状态，DataTaskTHREAD和PrintTaskTHREAD;默认状态为1，运行状态为2，终止状态为3；三大线程依次为 "CreateFirst"、 "DeleteMust"、"CreateAgain"
         //20210320新建：第6项为"CreateCorrection"线程
-        private int[] g_TaskThreadSTATE = new int[6/*5*/] {1,1,1,1,1,1};//第4-5项为: DataTaskTHREAD、PrintTaskTHREAD,；//20210320新建批注：第1-2-3项为：三大线程依次为 "CreateFirst"、 "DeleteMust"、"CreateAgain"；
+        private int[] g_TaskThreadSTATE = new int[6/*5*/] { 1, 1, 1, 1, 1, 1 };//第4-5项为: DataTaskTHREAD、PrintTaskTHREAD,；//20210320新建批注：第1-2-3项为：三大线程依次为 "CreateFirst"、 "DeleteMust"、"CreateAgain"；
 
         private void PrintBtn_Click(object sender, EventArgs e)//启动/关闭打印
         {
+
             if (Convert.ToInt32((sender as Button).Tag) == 1)//20201117新增：启动打印按钮的初始Tag为1，标志动作为：开启打印
             {
+                string msg = "启动打印任务：准备开启数据处理及打印线程";
+                Log4Net.Info(msg);
+
                 TaskAddDeleteTHREAD("CreateFirst");
             }
-            else if(Convert.ToInt32((sender as Button).Tag) == 2)//20201117新增：启动打印按钮的初始Tag不为1:，标志动作为：关闭打印
+            else if (Convert.ToInt32((sender as Button).Tag) == 2)//20201117新增：启动打印按钮的初始Tag不为1:，标志动作为：关闭打印
             {
-                TaskAddDeleteTHREAD("DeleteMust");        
+                string msg = "删除打印任务：准备删除数据处理及打印线程";
+                Log4Net.Info(msg);
+
+                TaskAddDeleteTHREAD("DeleteMust");
                 bool nRetVal = royal.royal.DEV_EnableUVPosCtlOut(false, false);//（0）设置UV等使能开启//20210623补充：添加关闭UV灯的指令
             }
-            else{ }
+            else { }
 #if false
             ////            if (JOBStartFlag == false)//没有在加工//补充代码：继续加工
             ////            {
@@ -1593,6 +1643,9 @@ namespace BinderJetting
                 while (tempThread.ThreadState != ThreadState.Aborted)
                 { Thread.Sleep(100); }
                 PrinterLogicThreads.Remove(tempThread);//20200111添加：解决Gohome无法重新执行的BUG
+
+                string msg = "关闭打印线程成功：" + tempThreadName;
+                Log4Net.Info(msg);
             }
         }
 
@@ -1661,7 +1714,7 @@ namespace BinderJetting
                 PrinterLogicThreads.Remove(tempThread);//以防万一
             }
             else//(2) 开启打印线程:20200411新增
-            {              
+            {
                 returnPrintValue = 0;//20200508：复位打印进度值
                 StopPrintFlag = false;//20200508：复位打印进度值
                 ThreadStart initThreadEntry = new ThreadStart(InterSpeedSpark);//20200220:线程入口方法修改为联动线程
@@ -1683,12 +1736,12 @@ namespace BinderJetting
             //开启闪喷线程
             while (true)//不停的循环:处于永不停歇状态
             {
-                if (PrintFlag==false)//处于待机状态
+                if (PrintFlag == false)//处于待机状态
                 {
                     bool nRetVal = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷
-                    Thread.Sleep((int)g_InterSpeedSparkValidTime*1000);//闪喷持续周期:本人设置为1s时间
+                    Thread.Sleep((int)g_InterSpeedSparkValidTime * 1000);//闪喷持续周期:本人设置为1s时间
                     nRetVal = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷
-                    Thread.Sleep((int)(g_InterSpeedSparkCycleTime - g_InterSpeedSparkValidTime)*1000);//闪喷间歇周期：本人设置20s时间
+                    Thread.Sleep((int)(g_InterSpeedSparkCycleTime - g_InterSpeedSparkValidTime) * 1000);//闪喷间歇周期：本人设置20s时间
                 }
                 else//处于打印状态
                 {
@@ -1757,7 +1810,7 @@ namespace BinderJetting
         }
         private UInt32 MM_TO_DOT(float X, int DPI)
         {
-            UInt32 dot = (UInt32)((((float)(X * DPI)) / 25.4 + 0.45f)*2.50);//20200803修改
+            UInt32 dot = (UInt32)((((float)(X * DPI)) / 25.4 + 0.45f) * 2.50);//20200803修改
             return dot;
         }
         /*****************************************主控软件的属性设置及统一刷新*********************************************/
@@ -1773,10 +1826,10 @@ namespace BinderJetting
         /// <summary>
         /// （0）启打位置检测：（a）铺粉启打位置严格控制（避免撞机）+（b）墨车启打位置严格控制（避免撞机）
         /// </summary>
-        private int CheckStartPosition(double InkCarPosition,double PowderCarPosition)//20200627新建：两参数分别为墨车和粉车的启打位置
+        private int CheckStartPosition(double InkCarPosition, double PowderCarPosition)//20200627新建：两参数分别为墨车和粉车的启打位置
         {
             //（1）墨车和铺粉车是否回零成功？？？，没有回零成功一直等待
-            while ((InkCarHomeFlag==false) || (InkCarHomeFlag==false))//
+            while ((InkCarHomeFlag == false) || (InkCarHomeFlag == false))//
             {
                 Thread.Sleep(10);//等待1Oms
                 //MessageBox.Show("启动打印中：系统未回零，请重新回零！！！");//更换为信息提示框进行提示：
@@ -1814,7 +1867,7 @@ namespace BinderJetting
         private int SelectCurrentLayer(int index, APrintStategy aPrintStategy)//20200812批注：
         {
 
-            int tempEndLayer = 0;int tempStartLayer = 0;
+            int tempEndLayer = 0; int tempStartLayer = 0;
             for (int i = 0; i < aPrintStategy.layerStategyContents.Count(); i++)
             {
                 if (aPrintStategy.layerStategyContents[i].b_LayerEnd == -1)
@@ -1827,7 +1880,7 @@ namespace BinderJetting
                     tempEndLayer = aPrintStategy.layerStategyContents[i].b_LayerEnd;//极限层设置为10W层。
                     tempStartLayer = aPrintStategy.layerStategyContents[i].b_LayerIndex;
                 }
-                if ((tempStartLayer <= index)&&(tempEndLayer >= index))//在区间
+                if ((tempStartLayer <= index) && (tempEndLayer >= index))//在区间
                 {
                     return i;//返回找到的参数索引
                 }
@@ -1843,18 +1896,18 @@ namespace BinderJetting
             g_TaskThreadSTATE[4] = 2;//20201119新增：DataTaskThread恢复为运行状态（关机后）
             ReadLayerInfo();//更新指定的加工任务区间
             g_PrintSchedule = g_nLayerStart;//20201118新增：
-            while ((g_PrintSchedule ==-1)||g_PrintSchedule == g_nLayerStart)//20201118新增：处于初始态或者已经传输1层数据
+            while ((g_PrintSchedule == -1) || g_PrintSchedule == g_nLayerStart)//20201118新增：处于初始态或者已经传输1层数据
             {
                 Thread.Sleep(100);//数据传送进度需要领先起始打印层至少2层
             }
             PrintFlag = true;//20200716新增：关闭打印机维护的间歇闪喷使能
             ConfigureJetEnvironmentControlMode();//20200602修改:初始化喷墨系统环境控制，具体包括：下发自动供墨指令、下发设置自动负压指令、下发二级墨盒的温度设置指令、设置墨水搅拌周期指令                                           
             InitCarMotor();//20200327新增：//（1）初始化被控对象及加工任务区间
-            
+
             float m_szMovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增//确定准确的墨车运动速度值
             uint m_unCarMoveSpeed = MM_TO_DOT(m_szMovSpeed, 5080);//20200328新增
             g_nCarSinglePassLength = (int)((g_RYSYSParam.m_dCarMoveBufferLength + g_RYSYSParam.m_dPrintAeraLength + g_RYSYSParam.m_dCarMoveBufferLength2) * 5080);//SinglePass运动距离：20200327新增：
-          
+
             royal.LPPrtRunInfo RTinfo = new LPPrtRunInfo();////（2-2）20200411新增（精华）：正式的打印处理框架：
             LPPassDataItem pPrtPassDes = new LPPassDataItem();//20200411:此处存在比较严重的问题            
             int size2 = Marshal.SizeOf(pPrtPassDes)/* * pPrtPassDes.Length*/;//20200427新增：
@@ -1863,15 +1916,23 @@ namespace BinderJetting
 
             int LayerEndNum = g_nLayerEnd;//20200601修改：打印的终止层数，放在此处，仅仅是方便测试而已
 
-            int CurrentStartPrintLayer = g_nLayerStart- g_nLayerStart;//20201121新增：//20201124修改：初始值永远为0
+            int CurrentStartPrintLayer = g_nLayerStart - g_nLayerStart;//20201121新增：//20201124修改：初始值永远为0
             /*************************************************************************************************/
             /*************************************************************************************************/
 #if true//20220524批注：准备操作（打印机准备开启）
 
             //RoyalMap.OpenUV(false, g_UVLightParam);//20200628批注：提高性能//20200619批注：每1层的UV灯参数完全可调//20201013修改：打印过程不打开UV灯//201030注释掉：UV灯使能不在此处开启。在自动打印逻辑中应用
             bool nRetVal0 = royal.royal.DEM_InitAxis(0, 0x100/*0x100*/);//分别初始化各轴的运动参数：20200305//加速度：256pluse/ms^2
+            string msg = $"初始化墨轴1：DEM_InitAxis：{{0, 0x100}}";
+            Log4Net.Info(msg);
+
             nRetVal0 = royal.royal.DEM_EnableAxisRun(true);//所有的轴共用1个使能，使能一次就OK!:20200305     
+            msg = $"使能所有墨轴：DEM_EnableAxisRun：{{true}}";
+            Log4Net.Info(msg);
+
             bool nRetVal = royal.royal.DEV_EnableInkAutoSupply(true, 0xFF);//使能自动供墨uint ControlBit = 0xFF;//20201114修改：使能第4路墨水的自动供墨
+            msg = $"开启自动供墨：DEV_EnableInkAutoSupply：ControlBit{{0xFF}}";
+            Log4Net.Info(msg);
 #endif
             #region 监控发送指令//20230113新建且批注：
             SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
@@ -1884,7 +1945,7 @@ namespace BinderJetting
                 returnPrintValue = (CurrentStartPrintLayer + 1) * g_nRePrintTimes;//20200508：复位打印进度值   
                 UpdateCircularBarMethod(2);//20201121新增：开启打印进度更新
 
-                for (int k = CurrentStartPrintLayer+1/*(CurrentStartPrintLayer+1) * g_nRePrintTimes*//* + 1*/ ;
+                for (int k = CurrentStartPrintLayer + 1/*(CurrentStartPrintLayer+1) * g_nRePrintTimes*//* + 1*/ ;
                     k <= (LayerEndNum - g_nLayerStart + 1) * g_nRePrintTimes/*(LayerEndNum- g_nLayerStart + 1) * g_nRePrintTimes*/; k++)//核心代码//20200411新建：k为打印层数的Index
                 {
                     if (PrintConrolFlag == "StartPrint" || PrintConrolFlag == "KeepPrint")//每次打印之前，都需要执行指令判断
@@ -1902,31 +1963,86 @@ namespace BinderJetting
                         #region 监控指令：喷墨拍摄位点1
                         sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems])
-                        { 
-                            sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems+1);//20230113新建且批注：监控发送指令
+                        {
+                            sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 1);//20230113新建且批注：监控发送指令
                         }
                         #endregion
 
-                        for (PassItems=0; PassItems<6/*7*/; PassItems++)//20220531修改：总共数量为6 PASS
+                        for (PassItems = 0; PassItems < 6/*7*/; PassItems++)//20220531修改：总共数量为6 PASS
                         {
                             /*****************（1）20220524批注：确保获取打印PASS信息*********************/
                             int nPassID = PassItems/*0*//*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行//20220524新增：修改为多PASS打印
                             bool ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                            /*string*/
+                            msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
+                                $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
+                                $"nHwMemAdrMatchMask{{{pPrtPassDes.nHwMemAdrMatchMask}}}nLayerIndex{{{pPrtPassDes.nLayerIndex}}}" +
+                                $"nLayerPassCount{{{pPrtPassDes.nLayerPassCount}}}nLayerPassIndex{{{pPrtPassDes.nLayerPassIndex}}}" +
+                                $"nMinJet0ImgLinePos{{{pPrtPassDes.nMinJet0ImgLinePos}}}nProcState{{{pPrtPassDes.nProcState}}}" +
+                                $"nPrtColBytes{{{pPrtPassDes.nPrtColBytes}}}nPrtDataOffset{{{pPrtPassDes.nPrtDataOffset}}}" +
+                                $"nPrtMemHwAddr{{{pPrtPassDes.nPrtMemHwAddr}}}nPrtPrecession{{{pPrtPassDes.nPrtPrecession}}}"+
+                                $"nSrcDataSize{{{pPrtPassDes.nSrcDataSize}}}nSrcEndCols{{{pPrtPassDes.nSrcEndCols}}}" +
+                                $"nSrcStartCols{{{pPrtPassDes.nSrcStartCols}}}nStartEncPos{{{pPrtPassDes.nStartEncPos}}}"+
+                                $"nValidPassJets{{{pPrtPassDes.nValidPassJets}}}nValidPrtCols{{{pPrtPassDes.nValidPrtCols}}}" +
+                                $"nValidPrtCtlCnts{{{pPrtPassDes.nValidPrtCtlCnts}}}pDataBuf{{{pPrtPassDes.pDataBuf}}}"+
+                                $"pNextItem{{{pPrtPassDes.pNextItem}}}";
+                            Log4Net.Info(msg);
+
                             while (pPrtPassDes.nProcState != 3)//20200624批注：不成功就重新读
                             {
                                 Thread.Sleep(100);//等待1s时间，再次GetPassItem;
                                 ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                                msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
+                                    $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
+                                    $"nHwMemAdrMatchMask{{{pPrtPassDes.nHwMemAdrMatchMask}}}nLayerIndex{{{pPrtPassDes.nLayerIndex}}}" +
+                                    $"nLayerPassCount{{{pPrtPassDes.nLayerPassCount}}}nLayerPassIndex{{{pPrtPassDes.nLayerPassIndex}}}" +
+                                    $"nMinJet0ImgLinePos{{{pPrtPassDes.nMinJet0ImgLinePos}}}nProcState{{{pPrtPassDes.nProcState}}}" +
+                                    $"nPrtColBytes{{{pPrtPassDes.nPrtColBytes}}}nPrtDataOffset{{{pPrtPassDes.nPrtDataOffset}}}" +
+                                    $"nPrtMemHwAddr{{{pPrtPassDes.nPrtMemHwAddr}}}nPrtPrecession{{{pPrtPassDes.nPrtPrecession}}}" +
+                                    $"nSrcDataSize{{{pPrtPassDes.nSrcDataSize}}}nSrcEndCols{{{pPrtPassDes.nSrcEndCols}}}" +
+                                    $"nSrcStartCols{{{pPrtPassDes.nSrcStartCols}}}nStartEncPos{{{pPrtPassDes.nStartEncPos}}}" +
+                                    $"nValidPassJets{{{pPrtPassDes.nValidPassJets}}}nValidPrtCols{{{pPrtPassDes.nValidPrtCols}}}" +
+                                    $"nValidPrtCtlCnts{{{pPrtPassDes.nValidPrtCtlCnts}}}pDataBuf{{{pPrtPassDes.pDataBuf}}}" +
+                                    $"pNextItem{{{pPrtPassDes.pNextItem}}}";
+                                Log4Net.Info(msg);
                             }
                             /*****************（2）20220524批注：执行打印PASS运动逻辑*********************/
-                            if (ReturnFlag==true/*pPrtPassDes!=null*/)//20200411:读到的数据不为空//20200430开启运动：
+                            if (ReturnFlag == true/*pPrtPassDes!=null*/)//20200411:读到的数据不为空//20200430开启运动：
                             {
                                 bool returnCode2 = royal.royal.IDP_DoPassPrint2((uint)k, nPassID /*-1*/);
                                 if (returnCode2 == false)
                                 {
-                                    MessageBox.Show("启动打印失败！LayerIndex="+ pPrtPassDes.nLayerIndex+ ",nProcState="+ pPrtPassDes.nProcState+"；打印分频值="+ pPrtPassDes.nPrtPrecession +"有效列数"+ pPrtPassDes.nValidPrtCols);//20220531修改：
-                                }                                
+                                    msg = $"使能Pass打印失败：IDP_DoPassPrint2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}";
+                                    Log4Net.Info(msg);
+
+                                    MessageBox.Show("启动打印失败！LayerIndex=" + pPrtPassDes.nLayerIndex + ",nProcState=" + pPrtPassDes.nProcState + "；打印分频值=" + pPrtPassDes.nPrtPrecession + "有效列数" + pPrtPassDes.nValidPrtCols);//20220531修改：
+                                }
                                 else
                                 {
+                                    msg = $"使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}";
+                                    Log4Net.Info(msg);
+
+                                    royal.LPPRINTER_INFO pSysInfo = new royal.LPPRINTER_INFO();//20230213新增：
+                                    bool nRetVal2 = royal.royal.DEV_GetDeviceInfo2(ref pSysInfo);//20230213新增：
+                                    msg = $"PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}"+
+                                        $"LPPRINTER_INFO:nXSysEncDPI{{{pSysInfo.nXSysEncDPI}}}nStatus{{{pSysInfo.nStatus}}}nPrintStatus{{{pSysInfo.nPrintStatus}}}bSuperDevice{{{pSysInfo.bSuperDevice}}}\r\n" +
+                             
+                                        $"LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{{{pSysInfo.prt_rtinfo.bJobPrtRuning}}}bLayerPrtIsOver{{{pSysInfo.prt_rtinfo.bLayerPrtIsOver}}}" +
+                                        $"nContReqMemErr{{{pSysInfo.prt_rtinfo.nContReqMemErr}}}nContWDErr{{{pSysInfo.prt_rtinfo.nContWDErr}}}" +
+                                        $"nCurPrtDir{{{pSysInfo.prt_rtinfo.nCurPrtDir}}}nDTLayerIndex{{{pSysInfo.prt_rtinfo.nDTLayerIndex}}}" +
+                                        $"nDTLayerPassIndex{{{pSysInfo.prt_rtinfo.nDTLayerPassIndex}}}nDTPtrCtlIndex{{{pSysInfo.prt_rtinfo.nDTPtrCtlIndex}}}" +
+                                        $"nLayerPassCount{{{pSysInfo.prt_rtinfo.nLayerPassCount}}}nPrintLayerIndex{{{pSysInfo.prt_rtinfo.nPrintLayerIndex}}}" +
+                                        $"nPrintPassIndex{{{pSysInfo.prt_rtinfo.nPrintPassIndex}}}nProcLayerIndex{{{pSysInfo.prt_rtinfo.nProcLayerIndex}}}" +
+                                        $"nPrtDataMemAddr{{{pSysInfo.prt_rtinfo.nPrtDataMemAddr}}}nPrtState{{{pSysInfo.prt_rtinfo.nPrtState}}}" +
+                                        $"nReverse{{{pSysInfo.prt_rtinfo.nReverse}}}nRevPrtCols{{{pSysInfo.prt_rtinfo.nRevPrtCols}}}\r\n" +
+                                        
+                                        $"LPPRINTER_INFO-LPDRVINFO:nFMVersion{{{pSysInfo.sysDrvInfo[0].nFMVersion}}}nFpgaVersion{{{pSysInfo.sysDrvInfo[0].nFpgaVersion}}}" +
+                                        $"nPCBVersion{{{pSysInfo.sysDrvInfo[0].nPCBVersion}}}" +
+                                        $"nState{{{pSysInfo.sysDrvInfo[0].nState}}}nNextState{{{pSysInfo.sysDrvInfo[0].nNextState}}}" +
+                                        $"nPtvwarnState{{{pSysInfo.sysDrvInfo[0].nPtvwarnState}}}nCrc32{{{pSysInfo.sysDrvInfo[0].nCrc32}}}" +
+                                        $"nRevInfo{{{pSysInfo.sysDrvInfo[0].nRevInfo}}}nSignature{{{pSysInfo.sysDrvInfo[0].nSignature}}}";
+                                    Log4Net.Info(msg);
+
 #if false//20220524批注：刷新进度控件
                                     double rate = (double)g_nLayerCurrent / (double)g_nLayerEnd * 100;//20200617批注
                                     string PintRate = rate.ToString("f1");//20200411新增：本处的显示，应该转移到状态栏的第3个lable                               
@@ -1945,11 +2061,11 @@ namespace BinderJetting
 
                                     bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
                                     float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
-                                    EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, ref sendMessageToCamera,0,0);//自动喷墨运动逻辑
+                                    EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, ref sendMessageToCamera, 0, 0);//自动喷墨运动逻辑
 
                                     #region 监控指令：喷墨拍摄位点2-3-4-5-6-7
                                     //sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
-                                    if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems+1])
+                                    if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems + 1])
                                     {
                                         sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 2);//20230113新建且批注：监控发送指令
                                     }
@@ -2001,7 +2117,8 @@ namespace BinderJetting
                                     CurrentStartPrintLayer = k;
                                 }
                             }
-                            else{//读取PASS数据失败;继续等待
+                            else
+                            {//读取PASS数据失败;继续等待
                                 Thread.Sleep(100);//20200411：间隔500ms to confirm that whether the pass data is get下一层的打印
                                 //PassItems--;
                                 break;
@@ -2056,19 +2173,20 @@ namespace BinderJetting
                         returnPrintValue = k;//20200508新建：更新旋转进度条
                         g_nCurrentLayer = (k - 1) / g_nRePrintTimes/*k*/;//20201121修改：打印进度值
                     }
-                    else if (PrintConrolFlag == "PausePrint"){
+                    else if (PrintConrolFlag == "PausePrint")
+                    {
                         Thread.Sleep(200);//200ms周期在持续等待：继续指令或者停止指令。
                         k--;
                         g_nCurrentLayer = (k - 1) / g_nRePrintTimes/*k*/;//20201121修改：
                     }
-                    else if (PrintConrolFlag == "StopPrint"){break;}
-                    else {}
+                    else if (PrintConrolFlag == "StopPrint") { break; }
+                    else { }
 
-                    System.Diagnostics.Debug.WriteLine("Debug:" + "LaserADD" + "打印完成第" + k + "层");//20200801批注：添加DebugView日志记录
-                    System.Diagnostics.Trace.WriteLine("Trace:" + "LaserADD" + "打印完成第" + k + "层");//20200801批注：添加DebugView日志记录
+                    //System.Diagnostics.Debug.WriteLine("Debug:" + "LaserADD" + "打印完成第" + k + "层");//20200801批注：添加DebugView日志记录
+                    //System.Diagnostics.Trace.WriteLine("Trace:" + "LaserADD" + "打印完成第" + k + "层");//20200801批注：添加DebugView日志记录
                 }
                 RoyalMap.m_bJobStarted = false;
-                PrinterRunInfo(":当前打印任务完成：区间为" + (g_nLayerStart+1) + " 层到 " + (g_nLayerEnd+1) + " 层");
+                PrinterRunInfo(":当前打印任务完成：区间为" + (g_nLayerStart + 1) + " 层到 " + (g_nLayerEnd + 1) + " 层");
             }
             #region 监控发送指令//20230113新建且批注：
             sendMessageToCamera.Dispose(); //20230113新建且批注：监控发送指令
@@ -2076,7 +2194,7 @@ namespace BinderJetting
             Marshal.FreeHGlobal(ImgPtr);//20200429批注：释放内存,一定要及时释放内存//批注：代码位置，需要重点考虑
             PrintFlag = false;//20200716新增：关闭打印机维护的间歇闪喷使能
             g_TaskThreadSTATE[4] = 3;//20201119新增：DataTaskThread恢复为终止状态（打印完）
-#region
+            #region
             //（3）自然执行完毕，自然结束打印区间任务
             DeleteThread("PrintTaskTHREAD");//20200220：本线程结束，需要及时清理相关线程
             if (LayerEnd.InvokeRequired == true)//20200313新增批注：此位置严格来说执行不到
@@ -2087,7 +2205,7 @@ namespace BinderJetting
                         this.LayerStart.Enabled = true;//恢复控件操作
                     }));
             }
-#endregion
+            #endregion
         }
         string[] g_calirationFigurePaths = new string[6] { @"\垂直校准图.bmp", @"\往返差校准图-0.bmp", @"\往返差校准图-1.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-1.bmp", @"\STATUS.bmp" };//20210324新增：//20210325修复BUG:6张图一定要路径准确
         private void PrintTaskTHREAD2()//3DP校准打印主流程：20210321新建批注
@@ -2097,7 +2215,7 @@ namespace BinderJetting
             g_PrintSchedule = g_nLayerStart;//20201118新增：
 
             //string[] g_calirationFigurePaths = new string[6] { @"\垂直校准图.bmp", @"\往返差校准图-0.bmp", @"\往返差校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\STATUS.bmp" };//20210324新增：
-            while (g_PrintSchedule<1/*(g_PrintSchedule == -1) || g_PrintSchedule == g_nLayerStart*/)//20201118新增：处于初始态或者已经传输1层数据
+            while (g_PrintSchedule < 1/*(g_PrintSchedule == -1) || g_PrintSchedule == g_nLayerStart*/)//20201118新增：处于初始态或者已经传输1层数据
             {
                 Thread.Sleep(100);//数据传送进度需要领先起始打印层至少2层
             }
@@ -2151,7 +2269,7 @@ namespace BinderJetting
                     CorrectionFigureOffset = 5;//20210325新增：
                 }
 
-                for (int k = 1/*0*//*CurrentStartPrintLayer + 1*/ ;k <= CorrectionFigureNum/*2*/; k++)//核心代码//20200411新建：k为打印层数的Index
+                for (int k = 1/*0*//*CurrentStartPrintLayer + 1*/ ; k <= CorrectionFigureNum/*2*/; k++)//核心代码//20200411新建：k为打印层数的Index
                 {
                     if (PrintConrolFlag == "StartPrint" || PrintConrolFlag == "KeepPrint")//每次打印之前，都需要执行指令判断
                     {
@@ -2165,7 +2283,7 @@ namespace BinderJetting
                             //20210324新建：刷新当前准备打印的校准图到主界面
                             //string[] calirationFigurePaths = new string[6] { @"\垂直校准图.bmp" , @"\往返差校准图-0.bmp", @"\往返差校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\STATUS.bmp" };
                             string CalibrationFilePath2 = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
-                            string BMPFilePath = CalibrationFilePath2 + g_calirationFigurePaths[k-1+ CorrectionFigureOffset];
+                            string BMPFilePath = CalibrationFilePath2 + g_calirationFigurePaths[k - 1 + CorrectionFigureOffset];
                             //g_SharpControl.LoadingFromBMPFile(BMPFilePath);//20210328临时注释：
                             this.renderControl1.Invalidate();
 
@@ -2468,7 +2586,7 @@ namespace BinderJetting
             return returnCode;
         }
 
-        private void EquipmentMotionLogic3(int index, int Command,int PassIndex,float m_MovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex,int RecordProcessIndex)//20220524新增：PassIndex指示当前打印PASS序号
+        private void EquipmentMotionLogic3(int index, int Command, int PassIndex, float m_MovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex)//20220524新增：PassIndex指示当前打印PASS序号
         {
             手动操作 AutoPrintMotion = new 手动操作(0, nValveStateMask);
             if (AutoPrintMotion2 != null)
@@ -2530,7 +2648,7 @@ namespace BinderJetting
         /// <param name="PrtDirFlag"></param>//参数：墨车运动的方向标志
         /// <param name="SpreadPowerFlagDir"></param>//参数：铺粉运动的方向标志
         private bool EquipmentMotionLogic2(int index, bool PrtDirFlag)//20200411新增：给一写参数即完成//（1）执行打印逻辑任务：20200329批注
-        {          
+        {
             LaserADD_BinderJetter.MoveComponent AutomoveComponent = new LaserADD_BinderJetter.MoveComponent();
             if (PrtDirFlag == true)//（a）正向打印情形
             {
@@ -2539,16 +2657,16 @@ namespace BinderJetting
                 //(C) 逻辑判断：也需要：判断是送粉缸粉料不足，即将触碰到限位//（3-2）PP(3, +, X1);//2号送粉缸电机上升y1mm(PP+)
                 //(D) Y方向铺粉车运动  
 
-                AutomoveComponent.TrapMoveDown(1, p.m_bMoveModeFlag[0], p.m_Svel[0], p.m_Step[0]/1000, RollerParam);
+                AutomoveComponent.TrapMoveDown(1, p.m_bMoveModeFlag[0], p.m_Svel[0], p.m_Step[0] / 1000, RollerParam);
                 Thread.Sleep(200);
                 AutomoveComponent.TrapMoveUp(2, p.m_bMoveModeFlag[1], p.m_Svel[1], p.m_Step[1] / 1000, RollerParam);//外缸上升um;
                 Thread.Sleep(200);
                 AutomoveComponent.TrapMoveDown(3, p.m_bMoveModeFlag[2], p.m_Svel[2], 1, RollerParam);//里缸下降1mm
                 Thread.Sleep(200);
-                
+
                 if (true)//Y方向铺粉车运动：//添加逻辑：//20200220：逻辑判断，必须有，主要是是否到触碰到限位，和双X轴是否存在冲突
                 {
-                    double[] k_dJourney1 = new double[8]; 
+                    double[] k_dJourney1 = new double[8];
                     double encPos1 = 0; double encPos2 = 0;
                     k_dJourney1 = AutomoveComponent.GetEncPos();//运动到正限，读取行程值。单位：脉冲//临时注释掉：
                     encPos1 = k_dJourney1[3];
@@ -2561,7 +2679,7 @@ namespace BinderJetting
                         k_dJourney1 = AutomoveComponent.GetEncPos();//运动到正限，读取行程值。单位：脉冲//临时注释掉：
                         encPos2 = k_dJourney1[3];
                         Thread.Sleep(100);//20200411：间隔1ms再监测是否运动结束
-                    } while ((encPos2-encPos1) >= p.m_Step[3]*1000);//两端距离，分别是：50 MM和1164MM；其中10000是缓冲区长度，长度为50m
+                    } while ((encPos2 - encPos1) >= p.m_Step[3] * 1000);//两端距离，分别是：50 MM和1164MM；其中10000是缓冲区长度，长度为50m
 #endif
                 }
                 return true;
@@ -2592,14 +2710,14 @@ namespace BinderJetting
                         k_dJourney1 = AutomoveComponent.GetEncPos();//运动到正限，读取行程值。单位：脉冲//临时注释掉：
                         encPos2 = k_dJourney1[3];
                         Thread.Sleep(100);//20200411：间隔1ms再监测是否运动结束
-                    } while ((encPos1 - encPos2) >= p.m_Step[3]*1000);//两端距离，分别是：50 MM和1164MM；其中10000是缓冲区长度，长度为50m
+                    } while ((encPos1 - encPos2) >= p.m_Step[3] * 1000);//两端距离，分别是：50 MM和1164MM；其中10000是缓冲区长度，长度为50m
 #endif
                 }
                 return true;
             }
             return true;
         }
-        /********************************传统的运动逻辑2：现在采用（结束）************************/        
+        /********************************传统的运动逻辑2：现在采用（结束）************************/
         /// <summary>
         /// EquipmentMotionLogic1：为本设备的运动逻辑，负责实现3dp设备1层的所有动作：包括送料配合及打印动作：20200411新增
         /// </summary>
@@ -2746,10 +2864,16 @@ namespace BinderJetting
             if (m_bInkSuppy)
             {
                 nRetVal = royal.royal.DEV_EnableInkAutoSupply(true, ControlBit/*0xFF*/);//20200603修改：
+
+                string msg = $"开启自动供墨：DEV_EnableInkAutoSupply：ControlBit{{0x{ControlBit:X}}}";
+                Log4Net.Info(msg);
             }
             else
             {
                 nRetVal = royal.royal.DEV_EnableInkAutoSupply(false, ControlBit /*0*/);//20200603修改：
+
+                string msg = $"关闭自动供墨：DEV_EnableInkAutoSupply：ControlBit{{0x{ControlBit:X}}}";
+                Log4Net.Info(msg);
             }
 #if false//20220601注释掉：新设备不需要该逻辑
             //（4）设置车头吧的三通电磁阀输出信号及工作
@@ -2813,7 +2937,7 @@ namespace BinderJetting
             return result;//返回保存结果
         }
         private UVLightParam g_UVLightParam = new UVLightParam
-        { m_nFrequency=125, m_fPower=100f, nMinPos = new int[]{550,270}, nMaxPos = new int[]{ 1000,720}};//20200619批注：集成到自动出光设置
+        { m_nFrequency = 125, m_fPower = 100f, nMinPos = new int[] { 550, 270 }, nMaxPos = new int[] { 1000, 720 } };//20200619批注：集成到自动出光设置
         private bool g_bRollerDirectionFlag = true/*false*/;//20200925新增：默认反向;20201013修改
         private bool g_bSystemCorrectFlag = false;//20201014新增：系统校准标志位
         private bool g_bAutoSupplyInkFlag = false;//20201028新增：自动供墨标志位
@@ -2823,6 +2947,9 @@ namespace BinderJetting
         //public static AutoPrintParamInTest g_RYSYSParamAutoPrintParamInTest = new AutoPrintParamInTest();//存储所有的的JOB参数//非常关键//20200327新建:
         private void ManulBtn_Click(object sender, EventArgs e)//手动调试按钮
         {
+            string msg = "进入手动调试子模块！";
+            Log4Net.Info(msg);
+
             //（1）多轴行程值初始化（2）多轴运动值初始化
             ////g_cPrinterSysParam.g_dJourney[0] = 350*1000; g_cPrinterSysParam.g_dJourney[1] = 300*1000; g_cPrinterSysParam.g_dJourney[2] = 300*1000;//20200222：初始化行程//测试使用,移动到InitSystem
             ////g_cPrinterSysParam.g_dJourney[3] = 500*1000; g_cPrinterSysParam.g_dJourney[4] = 10*1000; g_cPrinterSysParam.g_dJourney[5] = 350*1000;//20200222：初始化行程//测试使用,移动到InitSystem
@@ -2859,6 +2986,9 @@ namespace BinderJetting
 
                 g_bAutoSupplyInkFlag = f.m_bInkSuppy;
                 //g_RYSYSParamAutoPrintParamInTest = f.k_RYSYSParamAutoPrintParamInTest;//20201020新增：
+
+                msg = "执行修改后，退出手动调试子模块！";
+                Log4Net.Info(msg);
             }
             else if (result == DialogResult.Cancel)//20200222：退出时，什么都不做
             {
@@ -2869,6 +2999,9 @@ namespace BinderJetting
 
                 g_bAutoSupplyInkFlag = f.m_bInkSuppy;
                 //g_RYSYSParamAutoPrintParamInTest = f.k_RYSYSParamAutoPrintParamInTest;//20201020新增：
+
+                msg = "不执行修改，退出手动调试子模块！";
+                Log4Net.Info(msg);
             }
         }
 
@@ -2914,12 +3047,12 @@ namespace BinderJetting
 
                     e.Cancel = false;//继续正常退出
                 }
-//#if true//普通状态退出
-//                //(2)继续退出
-//                e.Cancel = false;//继续正常退出
-//#else//20200719批注：添加退出特效：从四周缩放到中间退出
-//                Win32EffectHelper.Outer2MiddleDisappear(this);//暂时无法使用
-//#endif
+                //#if true//普通状态退出
+                //                //(2)继续退出
+                //                e.Cancel = false;//继续正常退出
+                //#else//20200719批注：添加退出特效：从四周缩放到中间退出
+                //                Win32EffectHelper.Outer2MiddleDisappear(this);//暂时无法使用
+                //#endif
             }
             else if (result == DialogResult.Cancel)//20200224：退出时，什么都不做
             {
@@ -3280,7 +3413,7 @@ namespace BinderJetting
                 else
                 {
                     ThreadStart initThreadEntry = null;
-                    if (tempThreadName == "AutoStartThread") { initThreadEntry = new ThreadStart(AutoStartThread) ; }//20200220:线程入口方法修改为联动线程
+                    if (tempThreadName == "AutoStartThread") { initThreadEntry = new ThreadStart(AutoStartThread); }//20200220:线程入口方法修改为联动线程
                     //else if (tempThreadName == "AutoSupplyPowderThread") { initThreadEntry = new ThreadStart(AutoSupplyPowderThread); }
                     //else if (tempThreadName == "AutoCleanThread") { initThreadEntry = new ThreadStart(AutoCleanThread); }
                     else { return false; }
@@ -3302,8 +3435,11 @@ namespace BinderJetting
         }
         private void AutoStartThread()//线程内容：自动固化清洗
         {
-            if (m_bMasterElecSwitch==true)//打开动作：一键启动系统线程 —————— 线程执行开启系列动作
+            if (m_bMasterElecSwitch == true)//打开动作：一键启动系统线程 —————— 线程执行开启系列动作
             {
+                string msg = "开启系统：一键启动系统开始！";
+                Log4Net.Info(msg);
+
                 OnekeyStartLoadXML();//(0)20200113:加载XML文件并解析到m_ulControlMas   
                 for (int i = 0; i < m_ulControlMask.Count; i++)//(1)读取对应的功能码：
                 {
@@ -3314,7 +3450,13 @@ namespace BinderJetting
                 //m_bInitRoyalSuccess = g_cRoyalPrint.InitRoyalPrintCard();//20200618批注修改：
                 m_bMasterElecSwitch = false;//开启和关闭状态标志位
                 AutoPrintFlag[0] = false;//线程存在标志位：标志着线程结束
+
+                /*string*/
+                msg = "开启系统：一键启动系统结束！";
+                Log4Net.Info(msg);
+
                 UpdateAutoStartInfo();
+
             }
             else//关闭动作：一键关闭系统 ———— 线程执行关闭系列动作
             {
@@ -3330,6 +3472,7 @@ namespace BinderJetting
                 {
                     m_bMasterElecSwitch = false;
                     AutoPrintFlag[0] = false;//线程存在标志位：标志着线程结束
+
                     UpdateAutoStartInfo();
                 }
 
@@ -3351,8 +3494,12 @@ namespace BinderJetting
                 }
                 else
                 {
-                    m_bInitRoyalSuccess = g_cRoyalPrint.InitRoyalPrintCard();//20200618批注修改：    
-                    /*手动操作*/ AutoPrintMotion2 = new 手动操作(0, nValveStateMask);//20220523新建：与温度控制仪表建立通讯
+                    m_bInitRoyalSuccess = g_cRoyalPrint.InitRoyalPrintCard();//20200618批注修改：
+                    string msg = "初始化喷墨控制器！";
+                    Log4Net.Info(msg);
+
+                    /*手动操作*/
+                    AutoPrintMotion2 = new 手动操作(0, nValveStateMask);//20220523新建：与温度控制仪表建立通讯
                     AutoPrintMotion2.InitTemperatureControlCard(true, out g_IRControllerOpenCloseState);//20220523新建：与温度控制仪表建立通讯
                     AutoPrintMotion2.InitModbusFlag = true;
 
@@ -3379,7 +3526,9 @@ namespace BinderJetting
         private bool m_bMasterElecSwitch = true;//标志需要执行的动作
         private void MasterSwitchBtn_Click(object sender, EventArgs e)
         {
-            LogHelper.Log("开启系统");//20210327新增：开机
+            string msg = "开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！";
+            Log4Net.Info(msg);
+
 #if true
             if (AutoPrintFlag[0] == false)//不存在线程：一键启动关闭线程
             {
@@ -3392,8 +3541,8 @@ namespace BinderJetting
                 }
                 if (m_bMasterElecSwitch == true) { this.MasterSwitchBtn.Text = "开启\r\n当中"; }
                 else { this.MasterSwitchBtn.Text = "关闭\r\n当中"; }
-                
-                if (true == CreateAndDeleteThread("AutoStartThread", AutoPrintThreads, true)) { AutoPrintFlag[0] = true;}//开启
+
+                if (true == CreateAndDeleteThread("AutoStartThread", AutoPrintThreads, true)) { AutoPrintFlag[0] = true; }//开启
                 else { }
             }
             else//存在线程：
@@ -3463,6 +3612,9 @@ namespace BinderJetting
             DialogResult result = f.ShowDialog();
             if (result == DialogResult.OK)//OK时，执行对应操作
             {
+                string msg = "关闭系统：一键关闭系统开始！";
+                Log4Net.Info(msg);
+
                 //手动操作 AutoPrintMotion = new 手动操作(0, nValveStateMask);//20220523新建：关闭与温度控制仪表之间的通讯
                 AutoPrintMotion2.InitTemperatureControlCard(false, out g_IRControllerOpenCloseState);//20220523新建：与温度控制仪表建立通讯
                 AutoPrintMotion2.InitModbusFlag = false;
@@ -3475,12 +3627,23 @@ namespace BinderJetting
                     m_ulControlMask[i] = ((m_ulControlMask[i]) & (0xFFFFFFFFFFFFFC));//输出状态:(0xFFFFFFFFFFFFFC)为各位state为00:最后为各位设置为0：20200312新增
                     ExcuteACommand(m_ulControlMask[i]);//(2)动作逐条执行：————20200113暂时不测，后续还需要放在新线程中执行。
                 }
+
+                /*string*/
+                msg = "关闭系统：一键关闭系统结束！";
+                Log4Net.Info(msg);
+
                 //加载一键启动/关机配置文件：20200112   
                 m_ulControlMask.Clear();//最多存储256条逻辑记录——不再使用数组修饰//MessageBox.Show("正在关机处理中，请稍等。。。");//关机策略是类似的
                 //(1)关闭RoyalPrintCard控制器
                 bool nRetVal = royal.royal.DEM_StopAxisRun(false, 0x7);//同时停止X/Y/Z的运动3轴运动：20200305
+                /*string*/
+                msg = "喷墨控制器的所有轴输出关闭！";
+                Log4Net.Info(msg);
                 //(2)关闭RoyalPrintCard控制器
                 bool ReturnCode = royal.royal.DEV_CloseDevice();
+
+                msg = "喷墨控制器关闭！";
+                Log4Net.Info(msg);
                 return false;
             }
             else if (result == DialogResult.Cancel)//20200224：退出时，什么都不做
@@ -3513,8 +3676,10 @@ namespace BinderJetting
 
         private void ShowMoreBtnDialog(GoogolMotionMap e)//220200312新增：
         {
-            OutputXML = XElement.Load("端口、一键启动配置.xml");//20200719新增：每次弹出电气面板之时，均需要刷新读取一次配置文件；本人觉得非常好
+            string msg = "进入电气控制模块";
+            Log4Net.Info(msg);
 
+            OutputXML = XElement.Load("端口、一键启动配置.xml");//20200719新增：每次弹出电气面板之时，均需要刷新读取一次配置文件；本人觉得非常好
             电气面板 f = new 电气面板(m_cGoogolMotionMap, OutputXML);//下发数据://20200719修改：
             DialogResult result = f.ShowDialog();
             if (result == DialogResult.OK)
@@ -3526,6 +3691,9 @@ namespace BinderJetting
             else if (result == DialogResult.Cancel)
             {
             }
+
+            msg = "退出电气控制模块";
+            Log4Net.Info(msg);
         }
 
         /************************************创建、中止线程、等待中止线程、线程Sleep、线程优先级设置****************************/
@@ -3706,6 +3874,7 @@ namespace BinderJetting
         /// <returns></returns>
         private bool StartCloseJOB(bool startCloseFlag)//启动JOB:20200514XINJIAN
         {
+            string msg = null;
             if (startCloseFlag == true)//（壹）打开JOB指令：实质是生效打印数据
             {
                 ///(1)JOB参数设置：
@@ -3728,15 +3897,25 @@ namespace BinderJetting
                 royal.royal.g_PrtJobItem.fPrtYPos = 0;//世彪新增0104
                 //royal.royal.g_PrtJobItem.nPrtXEncPos = 71000/*63000*//*72000*//*54800*//*52000*//*0*//*0x100018*/;//世彪修改：20200711：//20200715修改：330的位置比较合适//20200804：63000//20200923新增：315MM调整到355MM(修复双驱限位移动+重新设置零位值)
                 //royal.royal.g_PrtJobItem.nPrtXEncPos = 355*200;//20200923新增：从成形参数模块中获取并设置对应的参数值
-                royal.royal.g_PrtJobItem.nPrtXEncPos = (uint)(g_RYSYSParam.m_dPrtXEncPos /0.005/*0.005*/);//20200923新增：从成形参数模块中获取并设置对应的参数值//20220524修改：//20220531修改：1UM读数头光栅
+                royal.royal.g_PrtJobItem.nPrtXEncPos = (uint)(g_RYSYSParam.m_dPrtXEncPos / 0.005/*0.005*/);//20200923新增：从成形参数模块中获取并设置对应的参数值//20220524修改：//20220531修改：1UM读数头光栅
                 royal.royal.g_PrtJobItem.szJobName = "金属3DP打印";//世彪新增0104
                 ///(2)开启JOB使能 
                 int returnCode = royal.royal.IDP_SartPrintJob(ref royal.royal.g_PrtJobItem);//20230209：需要确认灰度数据位数，不需要传入灰度阶数
                 if (returnCode < 0)
                 {
-                    MessageBox.Show("Can't Print，错误代码："+ returnCode);
+                    msg = "打印参数设置失败：IDP_SartPrintJob： " + returnCode;
+                    Log4Net.Info(msg);
+
+                    MessageBox.Show("Can't Print，错误代码：" + returnCode);
                     return false;
                 }
+
+                msg = "写入打印任务成功：IDP_SartPrintJob：" + $"nJobID{{{royal.royal.g_PrtJobItem.nJobID}}}" +
+                    $"szJobName{{{royal.royal.g_PrtJobItem.szJobName}}}nPixelGrayBits{{{royal.royal.g_PrtJobItem.nPixelGrayBits}}} " +
+                    $"nPrtCtl{{{ royal.royal.g_PrtJobItem.nPrtCtl}}}nPrtXEncPos{{{ royal.royal.g_PrtJobItem.nPrtXEncPos}}}" +
+                    $"fPrtYPos{{{ royal.royal.g_PrtJobItem.fPrtYPos}}}";
+                Log4Net.Info(msg);
+
                 ///(3)设置对应的标志位
                 RoyalMap.m_nPrintState = 1;
                 RoyalMap.m_bJobStarted = true;
@@ -3756,10 +3935,16 @@ namespace BinderJetting
                     RoyalMap.m_nPrintState = 0;
                     RoyalMap.m_bJobStarted = false;
 
+
+                    msg = "关闭打印任务成功：IDP_StopPrintJob！";
+                    Log4Net.Info(msg);
+
                     return true;
                 }
                 else
                 {
+                    msg = "关闭打印任务失败：IDP_StopPrintJob！";
+                    Log4Net.Info(msg);
                     return false;
                 }
             }
@@ -3884,7 +4069,7 @@ namespace BinderJetting
 #endif
 
         SharpControl g_SharpControl = new SharpControl();//精华
-        
+
         private void 主界面_Paint(object sender, PaintEventArgs e)
         {
 #if false//20200527：更换主界面
@@ -4300,10 +4485,15 @@ namespace BinderJetting
                     //List<CLI> ps = new List<CLI>();
                     bf.Serialize(fs, CliStreams);
                     fs.Close();
+
+                    string msg = "保存.bjgroup格式CAD数据成功：" + localFilePath;
+                    Log4Net.Info(msg);
                 }
             }
             catch (Exception)
             {
+                string msg = "保存.bjgroup格式CAD数据错误，请重新保存！";
+                Log4Net.Info(msg);
                 MessageBox.Show("Error:.bjgroup文件保存错误，请重新保存！");
             }
         }
@@ -4313,11 +4503,14 @@ namespace BinderJetting
         {
             //(1)Create the file System
             //(2)Build the TIFF File in the right file Path
-            
+            string msg = null;
+
             LoadDataTransferObject OperationType = TransferObject as LoadDataTransferObject;//类型转换——输入数据//20201113修改//string OperationType = TransferObject as string;//类型转换——输入数据
             switch (OperationType.CadOperationCode)
             {
                 case "1"://ADD
+
+                    string ImportPathList = null;
                     foreach (string path in tempPath)//Path is the path of CLI file.
                     {
                         string extension = System.IO.Path.GetExtension(path);//20221125新增：获取文件的扩展名
@@ -4335,6 +4528,9 @@ namespace BinderJetting
                                     CliStreams.Add(tempCliStreams[i]);//(2)Read the CLIfile to the memory just only once    
                                     UpdateListView(tempCliStreams[i].recordPathItem, 1, tempCliStreams[i].LayerNumber);//20201111新增：完成JobList的更新
                                 }
+
+                                msg = "数据加载模块：添加.bjgroup格式CAD数据成功-" + path;
+                                Log4Net.Info(msg);
                             }
                             catch (Exception)
                             {
@@ -4357,10 +4553,15 @@ namespace BinderJetting
                                 //tempSTL.Dimension[1].y = -tempSTL.Dimension[1].y + 175;//20221125新增：修复导入数据偏差
 
                                 CliStreams.Add(/*STL.ReadCLI(path)*/tempSTL);//(2)Read the CLIfile to the memory just only once                            
-                                UpdateListView(path,1, tempSTL.LayerNumber);//20201111新增：完成JobList的更新
+                                UpdateListView(path, 1, tempSTL.LayerNumber);//20201111新增：完成JobList的更新
+
+                                msg = "数据加载模块：添加.CLI格式CAD数据成功-" + path;
+                                Log4Net.Info(msg);
                             }
                         }
                     }
+
+
                     tempPath.Clear();//20221125新增：清理完路径
 
                     ////（1）读取文件：.bjgroup类型文件
@@ -4391,11 +4592,15 @@ namespace BinderJetting
                     foreach (string path in g_SharpControl.selectPaths)
                     {
                         CliStreams.RemoveAll(t => t.recordPathItem.Equals(path));//CliStreams.Find(t => t.recordPathItem.Equals(path));
-                        UpdateListView(path,2,0);//20201111新增：完成JobList的更新//参数0无意义，形式而已
+                        UpdateListView(path, 2, 0);//20201111新增：完成JobList的更新//参数0无意义，形式而已
+
+                        msg = "数据删除模块：删除.CLI格式CAD数据成功-" + path;
+                        Log4Net.Info(msg);
                     }
                     break;
                 case "3"://MOVE
                     TranslateCliStreams(ref CliStreams, g_SharpControl.selectPaths, OperationType);
+
                     break;
                 case "4"://SCALE
                     break;
@@ -4470,9 +4675,10 @@ namespace BinderJetting
         int g_CurrentCLI = 0;//当前显示交互的层数
         private int SetCurrentCLI//非常关键
         {
-            set{
+            set
+            {
                 if (value <= g_SharpControl.UILayerCount)
-                {g_CurrentCLI = value;}
+                { g_CurrentCLI = value; }
             }
             get { return g_CurrentCLI; }
         }
@@ -4485,7 +4691,8 @@ namespace BinderJetting
         /// <param name="FilePath"></param>
         private bool GetLayerCLIs(int layerIndex)//20200527新建：从CreateFinalJOB处获取//20200529新增：返回值标志是否调用成功
         {
-            /*RemoteCLIs*/ c_RemoteCLIs = new RemoteCLIs();//20200506新建：存放1层的所有的绘制数据，即是多个零件数据//移动到全局区
+            /*RemoteCLIs*/
+            c_RemoteCLIs = new RemoteCLIs();//20200506新建：存放1层的所有的绘制数据，即是多个零件数据//移动到全局区
             for (int i = 0; i < g_SharpControl.tempJobItems.Count(); i++)//20200505新增：遍历所有零件
             {
                 float x = (float)g_SharpControl.tempJobItems[i].position.X;
@@ -4495,7 +4702,7 @@ namespace BinderJetting
 
                 ///20200506新建批注：完成CLI与（X,Y）排版位置信息的匹配工作
                 CLI correctCLI = CliStreams.Find(t => t.ID.Equals(g_SharpControl.tempJobItems[i].id));//返回满足指定谓词条件的第1个返回值
-                if (layerIndex <= (correctCLI.LayerLine.Count()-1))
+                if (layerIndex <= (correctCLI.LayerLine.Count() - 1))
                 {
                     //跨进程调用：20200506新建// (2)跨进程调用对象关键:Invoke a method on the remote object.//(2-1)附加位置消息结构
                     CountCLI tempCountCLI = new CountCLI();
@@ -4511,7 +4718,7 @@ namespace BinderJetting
                     //RemoteCLIs tempRemoteCLIs = new RemoteCLIs();
                     c_RemoteCLIs.layerIndex = layerIndex;
                     c_RemoteCLIs.aLayerData.Add(tempCountCLI);
-                    
+
                     //return true;
                 }
                 else//指定层的特别零件的零件不存在：跳过
@@ -4592,10 +4799,10 @@ namespace BinderJetting
                 if (null != tempCli)//重复性检查//确保存在所需必要的数据
                 {
                     int tempindex = CliStreams.FindIndex(t => t.recordPathItem.Equals(tempSelectPaths[m]));
-                    if (transferObject.translateMode==true)//绝对移动
+                    if (transferObject.translateMode == true)//绝对移动
                     {
-                        double xtemptranslate = (transferObject.xTranslate - minX)+165/*210*/;//20220530修改：
-                        double ytemptranslate = (-transferObject.yTranslate + 330/*350*/ - maxY)-165/*175*/;//20220530修改：
+                        double xtemptranslate = (transferObject.xTranslate - minX) + 165/*210*/;//20220530修改：
+                        double ytemptranslate = (-transferObject.yTranslate + 330/*350*/ - maxY) - 165/*175*/;//20220530修改：
                         CliStreams[tempindex].Dimension[2].x = CliStreams[tempindex].Dimension[2].x + xtemptranslate;//tempCLIs.Dimension[2].x为为偏移值δx
                         CliStreams[tempindex].Dimension[2].y = CliStreams[tempindex].Dimension[2].y + ytemptranslate;//tempCLIs.Dimension[2].x为为偏移值δy
                         CliStreams[tempindex].Dimension[1].x = CliStreams[tempindex].Dimension[1].x + xtemptranslate;//实际位置值
@@ -4654,10 +4861,11 @@ namespace BinderJetting
                 for (int i = 0; i < xnum; i++)//(1)Array in Y Direction
                 {
                     //foreach (string path in tempSelectPaths)//(3)Copy all the CLI file visually:20201112新增
-                    for(int m=0;m< tempSelectPaths.Count();m++)
+                    for (int m = 0; m < tempSelectPaths.Count(); m++)
                     {
-                        /*var*/ tempCLIs = CliStreams.Find(t => t.recordPathItem.Equals(tempSelectPaths[m]/*path*/));
-                        if (null != tempCLIs )//重复性检查//确保存在所需必要的数据
+                        /*var*/
+                        tempCLIs = CliStreams.Find(t => t.recordPathItem.Equals(tempSelectPaths[m]/*path*/));
+                        if (null != tempCLIs)//重复性检查//确保存在所需必要的数据
                         {
                             string tempPath = null;
                             if (i == 0 && j == 0)
@@ -4669,7 +4877,8 @@ namespace BinderJetting
                             {
                                 var tempCli2 = tempCLIs.Clone();
                                 int count = i;//虚拟阵列编号
-                                /*string */tempPath = RemoveLastChar(tempCli2.recordPathItem, ".cli");
+                                /*string */
+                                tempPath = RemoveLastChar(tempCli2.recordPathItem, ".cli");
                                 tempPath = tempPath + "-copys-" + j + "-" + count + ".cli";//注意：此处是count不是i；j全是统一的，count是可能不一样的
                                 while (null != CliStreams.Find(t => t.recordPathItem.Equals(tempPath)))//count
                                 {
@@ -4703,7 +4912,7 @@ namespace BinderJetting
                                 //}
                                 CliStreams.Add(tempCli2);//(2)Copy the CLIdata visually：20201112新增
                                 UpdateListView(tempPath/*tempSelectPaths[m]*//*path*/, 6, tempCli2.LayerNumber);//20201111新增：完成JobList的更新
-                            }            
+                            }
                         }
                         else { }
                     }
@@ -4711,7 +4920,7 @@ namespace BinderJetting
             }
         }
 
-        public string RemoveLastChar( string str, string value)//20201112新增：删除string末尾指定的字符串
+        public string RemoveLastChar(string str, string value)//20201112新增：删除string末尾指定的字符串
         {
             int startIndex = str.LastIndexOf(value);
             if (startIndex != -1)
@@ -4739,7 +4948,7 @@ namespace BinderJetting
 
         /// 定义一个代理：加载CLI过程中,实时刷新实际打印CAD文件的数量
         private delegate void UpdateListViewDelegate(string tempPaths, int OperationType, int layerNumber);
-        private void UpdateListView(string tempPaths, int OperationType , int layerNumber)
+        private void UpdateListView(string tempPaths, int OperationType, int layerNumber)
         {
             if (this.listView2.InvokeRequired == false)//如果调用该函数的线程和控件lstMain位于同一个线程内
             {
@@ -4806,7 +5015,7 @@ namespace BinderJetting
         }
         /// 定义一个代理：打印过程中，刷新并显示2D渲染图形
         private delegate void PrinterRunInfoDelegate(string RunInfoString);
-        private void PrinterRunInfo (string RunInfoString)//20200601新增
+        private void PrinterRunInfo(string RunInfoString)//20200601新增
         {
             if (this.listView2.InvokeRequired == false)
             {
@@ -4823,7 +5032,7 @@ namespace BinderJetting
 
         /// 定义一个代理：加载CLI完成后，刷新总层数；//20200610新增：测试完需要更改
         private delegate void UpdateDataAndTransferDelegate(int LayerCount, int subLayerCount, int OperationFlag);
-        private void UpdateDataAndTransfer(int LayerCount,int subLayerCount, int OperationFlag)//20201119修改：
+        private void UpdateDataAndTransfer(int LayerCount, int subLayerCount, int OperationFlag)//20201119修改：
         {
             if (this.listView2.InvokeRequired == false)
             {
@@ -4833,8 +5042,8 @@ namespace BinderJetting
                         //SetCurrentCLI = LayerCount;//使用属性方式管理//20200601：实现成形层的逐层预览刷新;类似于HScrollBar控件的事件处理
                         ImportCLIFlag = true;//CLI导入标志
                         circularProgressBar1.Value = LayerCount * g_nRePrintTimes + (subLayerCount + 1);
-                        circularProgressBar1.Text = (((double)LayerCount + ((double)(subLayerCount+1)/(double)g_nRePrintTimes)) / ((double)g_nLayerEnd + 1)).ToString("P1"/*"P0"*/)/*+"%"*/;//精华：20200504新增批注
-                        this.Text = "打印数据：当前处理第" + (LayerCount+ g_nLayerStart + 1) +"-"+ (subLayerCount+1) + "层";
+                        circularProgressBar1.Text = (((double)LayerCount + ((double)(subLayerCount + 1) / (double)g_nRePrintTimes)) / ((double)g_nLayerEnd + 1)).ToString("P1"/*"P0"*/)/*+"%"*/;//精华：20200504新增批注
+                        this.Text = "打印数据：当前处理第" + (LayerCount + g_nLayerStart + 1) + "-" + (subLayerCount + 1) + "层";
                         this.Invalidate();
 
                         break;
@@ -4975,6 +5184,9 @@ namespace BinderJetting
         /// <param name="e"></param>
         private void ImportCliBtn_Click(object sender, EventArgs e)
         {
+            string msg = "进入数据加载模块";
+            Log4Net.Info(msg);
+
             //(1) 判断打开的路径是否存在
             if (!Directory.Exists(System.Windows.Forms.Application.StartupPath + @"\CLI输入文件"))
             {
@@ -5043,7 +5255,7 @@ namespace BinderJetting
             }
         }
 
-        private void UpdateTheJobListView(string tempPaths,int OperationType, int layernumber)//20201111新增：
+        private void UpdateTheJobListView(string tempPaths, int OperationType, int layernumber)//20201111新增：
         {
             //(0)upadate the CLI FILE informatin in the listview2
             //(0)update the four kinds information:ID+FileName+LayerNumber+CompeleteRate//(0)support the add+delete+modified and query action
@@ -5063,7 +5275,7 @@ namespace BinderJetting
                     item.SubItems.Add(LayerNum);//item.SubItems.Add(CompeleteRate);
                     item.SubItems.Add(tempPaths);//20201111新增：记录路径
                     item.ToolTipText = tempPaths;//20201112新增：增加ToolTip
-                    listView2.Items.Add(item);          
+                    listView2.Items.Add(item);
                     break;
                 case 2://DELETE
                     //CliStreams.Find(t => t.recordPathItem.Equals(path)
@@ -5080,7 +5292,7 @@ namespace BinderJetting
                     var item2 = this.listView2.Items.Cast<ListViewItem>()
                         .Where(x => (/*x.Text == "Some Text" ||*/
                                x.SubItems[3].Text == tempPaths/*"Some Text"*/) /*&& x.Group.Name == "group1"*/)
-                        .FirstOrDefault();                   
+                        .FirstOrDefault();
                     if (item2 != null)
                     {
                         listView2.Items.Remove(item2);//ListViewItem item2 = listView2.Items.Find(tempPaths, true).First();
@@ -5157,11 +5369,11 @@ namespace BinderJetting
                         }
                     }
                     g.k_VirtualArrayParam.m_dXTranslate = -(maxX - minX) / 2;
-                    g.k_VirtualArrayParam.m_dYTranslate = -(maxY - minY) / 2 ;
+                    g.k_VirtualArrayParam.m_dYTranslate = -(maxY - minY) / 2;
                     g.k_VirtualArrayParam.m_bTranslateMode = true;
                     DialogResult result2 = g.ShowDialog();
                     if (result2 == DialogResult.OK)
-                    {    
+                    {
                         LoadDataTransferObject transferObject = new LoadDataTransferObject();//1113新增:
                         transferObject.translateMode = g.k_VirtualArrayParam.m_bTranslateMode;
 
@@ -5188,7 +5400,7 @@ namespace BinderJetting
                     break;
                 case 3:
                     break;
-                case 4:                 
+                case 4:
                     阵列拷贝 f = new 阵列拷贝();//20201112新增:阵列拷贝完成编辑阵列
                     DialogResult result = f.ShowDialog();
                     if (result == DialogResult.OK)
@@ -5220,8 +5432,8 @@ namespace BinderJetting
         {
             public string CadOperationCode;
             //阵列拷贝参数
-            public int xnum=1;//阵列拷贝参数//阵列个数X向
-            public int ynum=1;//阵列拷贝参数//阵列个数Y向
+            public int xnum = 1;//阵列拷贝参数//阵列个数X向
+            public int ynum = 1;//阵列拷贝参数//阵列个数Y向
             public double xSpace = 5;//阵列拷贝参数//单位为MM//阵列间距X向
             public double ySpace = 5;//阵列拷贝参数//单位为MM//阵列间距Y向
             //平移参数
@@ -5285,10 +5497,10 @@ namespace BinderJetting
                 //绘制的方框实际上是2点矩形//更新2点矩形坐标即可
                 g_SharpControl.k_nPrepareDeleteFlag = 3;//终止选中操作
                 this.Invalidate(); this.renderControl1.Invalidate();//刷新显示
-                if (g_SharpControl.selectPaths.Count()>=1)
+                if (g_SharpControl.selectPaths.Count() >= 1)
                 {
                     UpdateListViewInGUI(g_SharpControl.selectPaths, 2);//20201112新增：复位选中更新
-                    UpdateListViewInGUI(g_SharpControl.selectPaths,1);//20201112新增：选中更新
+                    UpdateListViewInGUI(g_SharpControl.selectPaths, 1);//20201112新增：选中更新
                 }
                 else
                 {
@@ -5304,7 +5516,7 @@ namespace BinderJetting
             { }
         }
 
-        private void UpdateListViewInGUI(List<string> selectPaths,int OperationType)//20201112新增;
+        private void UpdateListViewInGUI(List<string> selectPaths, int OperationType)//20201112新增;
         {
             switch (OperationType)
             {
@@ -5326,7 +5538,7 @@ namespace BinderJetting
                     {
                         if (tempitems != null)
                         {
-                            
+
                             tempitems.ForeColor = Color.Black;//item2.Checked = true;//更新该条item状态为选中//貌似没什么效果
                             tempitems.BackColor = Color.MintCream;
                         }
@@ -5342,11 +5554,11 @@ namespace BinderJetting
         private void renderControl1_MouseMove(object sender, MouseEventArgs e)//201105新增：动态删除加工零件——移动刷新绘制
         {
             //绘制的方框实际上是2点矩形//更新2点矩形坐标即可
-            if ((e.Button== MouseButtons.Left) && (g_SharpControl.k_nPrepareDeleteFlag ==2))//鼠标移动事件中，监测到左键按下:才持续绘图;且已存在选中
+            if ((e.Button == MouseButtons.Left) && (g_SharpControl.k_nPrepareDeleteFlag == 2))//鼠标移动事件中，监测到左键按下:才持续绘图;且已存在选中
             {
                 g_SharpControl.k_pSelectArea[1] = renderControl1.PointToClient(Cursor.Position);//更新选中区域//刷新//g_pSelectArea[0] = g_pSelectArea[0];//不更新选中区域//复位
 
-                this.Invalidate();this.renderControl1.Invalidate();//刷新显示 //刷新显示 
+                this.Invalidate(); this.renderControl1.Invalidate();//刷新显示 //刷新显示 
 
                 //g_SharpControl.MouseWheelControl(e, point); 
                 //g_SharpControl.PaintControl(ImportCLIFlag, g_CurrentCLI, new RectangleF(renderControl1.Top, renderControl1.Left, renderControl1.Width, renderControl1.Height/*+30*/));
@@ -5379,7 +5591,7 @@ namespace BinderJetting
         bool FinalJOBThreadExistedFlag = false;//JOBTHread是否创建过标志
         string TransferModifyFlag = "StartFlag";//默认标志位为开启传送
         private void PicComposeBtn_Click(object sender, EventArgs e)//图片排版确认按钮————点击之后不可以修改，双击之后才可以修改
-        {            
+        {
             if (ImportCLIFlag == true)//已经载入CAD文件//(1)检测标志位：是否载入CAD文件
             {
                 //(1-2)检测传送线程标志位：
@@ -5400,19 +5612,19 @@ namespace BinderJetting
                         tempThread.Name = tempThreadName;
                         tempThread.Start();
                         PrinterLogicThreads.Add(tempThread);//没有创建过的时候，才重新添加新的线程
-                    
+
                         //(2)UI进行对应的设置：
                         //（A）修改按钮状态为：暂停输出
                         this.PicComposeBtn.Text = "暂停" + "\n" + "传送";
                         this.PicComposeBtn.TextAlign = ContentAlignment.MiddleRight;
                         this.PicComposeBtn.BackgroundImage = Resource.ComposeBlue_38x38;
-                          FinalJOBThreadExistedFlag = true;//20200415批注：个人感觉可以去掉，使用后台辅助工作的话
+                        FinalJOBThreadExistedFlag = true;//20200415批注：个人感觉可以去掉，使用后台辅助工作的话
                         //（B）开启panel3监听：改变panel3的控制状态
                         this.panel3.Enabled = true;//停止监听事件
                     }
                 }
                 else//存在传送线程
-                {                   
+                {
                     this.PicComposeBtn.Text = "修改" + "\n" + "传送";//修改按钮状态为：暂停输出
                     TransferModifyFlag = "PauseFlag";//传送取消标志位
 
@@ -5471,22 +5683,20 @@ namespace BinderJetting
                 UpdateCircularBarMethod(1);//2020061:1：开启数据进度更新circular panel1:其中开启了对应的定时器                                
 
                 int tempRePrintTimes = g_nRePrintTimes;
-                for (int j = g_nLayerStart- g_nLayerStart; j <= g_nLayerEnd- g_nLayerStart; j++)//202006002批注：持续的输出零件：打印任务区间，j为起始层，20为终止层
+                for (int j = g_nLayerStart - g_nLayerStart; j <= g_nLayerEnd - g_nLayerStart; j++)//202006002批注：持续的输出零件：打印任务区间，j为起始层，20为终止层
                 {
                     //UpdateDataAndTransfer(j,0, 1);//20200610:在标题栏刷新当前数据处理层//Rendering2D(j); //20200601：实现成形层的逐层预览刷新
                     switch (TransferModifyFlag)//无论如何，应该等待1层执行完成，再做定夺。这比较合理
                     {
-                        case "StartFlag":           
+                        case "StartFlag":
                             {//以下是数据处理的核心
                                 DataTaskFlag = 2;//工作态标志//工作态不可强制暂停
 
-                                System.Diagnostics.Debug.WriteLine("Debug:"+"LaserADD"+"数据处理传送");//20200801批注：添加DebugView日志记录
-                                System.Diagnostics.Trace.WriteLine("Trace:" + "LaserADD" + "数据处理传送");//20200801批注：添加DebugView日志记录
                                 g_SharpControl.XDpi = g_RYSYSParam.XPrintDpi;
                                 int i = 0;
-                                for (/*int*/i=0;i< tempRePrintTimes; i++)//20201030新增：按照重喷次数发送数据量
+                                for (/*int*/i = 0; i < tempRePrintTimes; i++)//20201030新增：按照重喷次数发送数据量
                                 {
-                                    if (j==0 || ModifyJobAeraFLag==true)//201030批注：第1层额外多发送1层数据
+                                    if (j == 0 || ModifyJobAeraFLag == true)//201030批注：第1层额外多发送1层数据
                                     {
                                         ModifyJobAeraFLag = false;//20201124新增：
                                         tempRePrintTimes = g_nRePrintTimes + 1;
@@ -5495,7 +5705,7 @@ namespace BinderJetting
                                     else
                                     {
                                         tempRePrintTimes = g_nRePrintTimes;
-                                        g_SharpControl.RenderToWic(true, j/*1*/,i+1, g_nRePrintTimes);//需要校对渲染区间是否正确//201030修改：
+                                        g_SharpControl.RenderToWic(true, j/*1*/, i + 1, g_nRePrintTimes);//需要校对渲染区间是否正确//201030修改：
                                     }//201030批注：其余层不做额外补偿
                                     UpdateDataAndTransfer(j, i, 1);//20200610:在标题栏刷新当前数据处理层//Rendering2D(j); //20200601：实现成形层的逐层预览刷新
                                 }
@@ -5518,7 +5728,7 @@ namespace BinderJetting
                         default:
                             break;
                     }
-                    g_PrintSchedule = j+1;//20201118新增：从数据处理形成中更新全局打印进度
+                    g_PrintSchedule = j + 1;//20201118新增：从数据处理形成中更新全局打印进度
                 }
                 DataTaskFlag = 4;//结束态标志
                 g_TaskThreadSTATE[3] = 3;//20201119新增：终止状态
@@ -5687,13 +5897,13 @@ namespace BinderJetting
         private System.Windows.Forms.Timer timer3 = new System.Windows.Forms.Timer();
         private void timer3_Monitor(object sender, EventArgs e)//20200220:监控线程定时刷新定时器2//定时器本身就是1种线程处理方式
         {
-            if ((returnValue <= g_nLayerEnd+1 /*20*/) && (StopRipFlag == false))
+            if ((returnValue <= g_nLayerEnd + 1 /*20*/) && (StopRipFlag == false))
             {
                 /*double */
                 returnValue = GetBackValue();
                 circularProgressBar1.Value = (int)returnValue;
-                circularProgressBar1.Text = (/*circularProgressBar.Value*/(returnValue+1)
-                    / (g_nLayerEnd+1) /*20*//*circularProgressBar.Maximum*/).ToString("P1"/*"P0"*/)/*+"%"*/;//精华：20200504新增批注
+                circularProgressBar1.Text = (/*circularProgressBar.Value*/(returnValue + 1)
+                    / (g_nLayerEnd + 1) /*20*//*circularProgressBar.Maximum*/).ToString("P1"/*"P0"*/)/*+"%"*/;//精华：20200504新增批注
                 if (returnValue == g_nLayerEnd /*20*/)
                 {
                     StopRipFlag = true;
@@ -5712,11 +5922,11 @@ namespace BinderJetting
         private System.Windows.Forms.Timer timer4 = new System.Windows.Forms.Timer();
         private void timer4_Monitor(object sender, EventArgs e)//20200220:监控线程定时刷新定时器2//定时器本身就是1种线程处理方式
         {
-            if ((returnPrintValue <= (g_nLayerEnd+1) * g_nRePrintTimes /*20*/) && (StopPrintFlag == false))//201121修改：
+            if ((returnPrintValue <= (g_nLayerEnd + 1) * g_nRePrintTimes /*20*/) && (StopPrintFlag == false))//201121修改：
             {
                 //returnPrintValue = GetBackValue();
                 circularProgressBar2.Value = (int)returnPrintValue;
-                circularProgressBar2.Text = ((returnPrintValue/*+1*/) /(double)((g_nLayerEnd+1)* g_nRePrintTimes)).ToString("P1")/*+"%"*/;//精华：20200504新增批注//201121修改：
+                circularProgressBar2.Text = ((returnPrintValue/*+1*/) / (double)((g_nLayerEnd + 1) * g_nRePrintTimes)).ToString("P1")/*+"%"*/;//精华：20200504新增批注//201121修改：
                 if (returnPrintValue == (g_nLayerEnd + 1) * g_nRePrintTimes/*g_nLayerEnd*/)//20201121修改：
                 {
                     StopPrintFlag = true;
@@ -5730,7 +5940,7 @@ namespace BinderJetting
         }
 
         public RemoteObject service;//20200504新增：
-        private void StartProgressMonitor(int CircularProgressIndex,int Minimum, int Maximum)//20200601新增：区间Minimum和Maximum
+        private void StartProgressMonitor(int CircularProgressIndex, int Minimum, int Maximum)//20200601新增：区间Minimum和Maximum
         {
             switch (CircularProgressIndex)
             {
@@ -5746,9 +5956,9 @@ namespace BinderJetting
                     this.timer3.Interval = 25;
                     timer3.Enabled = true;
 #else
-            ////(2) 使用多线程定时器：20200507新建
-            //System.Threading.Timer timer3 = new System.Threading.Timer(
-            //    new TimerCallback(TimerProc), null, 10, 600);
+                    ////(2) 使用多线程定时器：20200507新建
+                    //System.Threading.Timer timer3 = new System.Threading.Timer(
+                    //    new TimerCallback(TimerProc), null, 10, 600);
 #endif
                     //(三)初始化控件
                     //（1）CircularProgressBar速度：
@@ -5848,7 +6058,7 @@ namespace BinderJetting
                     //this.ProcessRate.Text = showRate;//保留小数点后两位
                     //this.panel1.Refresh();
 #else
-                            StartProgressMonitor(1, 0/*g_nLayerStart * g_nRePrintTimes*/, (g_nLayerEnd+1) * g_nRePrintTimes);//20200508新建：数据进度
+                            StartProgressMonitor(1, 0/*g_nLayerStart * g_nRePrintTimes*/, (g_nLayerEnd + 1) * g_nRePrintTimes);//20200508新建：数据进度
                             this.panel1.Refresh();
 #endif
                         }
@@ -5895,7 +6105,7 @@ namespace BinderJetting
         bool m_bCleanFlag = true;//20200605修改：
         bool m_bShoveFlag = true;//20200605修改：//20220525修改：默认状态：未压墨
         private void FlashBtn_Click(object sender, EventArgs e)//闪喷控制
-        {     
+        {
             if (m_bFlashFlag == false)//(b)根据ID反转背景图片
             {
                 // (sender as Control).BackColor = Color.DarkOrchid;
@@ -5922,8 +6132,8 @@ namespace BinderJetting
         ///（1）开煤气阀门： 打开对应的泵源。类似于供煤气、供水阀门。如此分析，一切就都顺利成章。
         /// </summary>
         /// <param name="index"></param>
-        private void OpenCloseVALVE(int index,bool action)//index是对应的阀门编号：20200605新增批注
-        {         
+        private void OpenCloseVALVE(int index, bool action)//index是对应的阀门编号：20200605新增批注
+        {
             //(a)设置对应编号阀门的标志位
             RoyalMap.m_bEnable[index] = action;//20200605新增批注：
             //(b)设置对应的编码
@@ -5942,9 +6152,9 @@ namespace BinderJetting
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void CleanBtn_Click(object sender, EventArgs e)//20200604新增：
-        {                       
+        {
 #if true//实质是清洗：20200604新增
-            
+
             if (m_bCleanFlag == false)//(b)根据ID反转背景图片
             {
                 //(sender as Control).BackColor = Color.DarkOrchid;
@@ -5959,7 +6169,7 @@ namespace BinderJetting
             if (m_bCleanFlag == true)//打开和关闭闪喷：
             {
                 //（1）开清洗阀门（==等效：关墨水阀门）。开煤气阀门： 打开对应的泵源。类似于供煤气、供水阀门。
-                OpenCloseVALVE(2-1,false);//20200605批注：Tag-1
+                OpenCloseVALVE(2 - 1, false);//20200605批注：Tag-1
 
                 //（2）开煤气、供水泵源：
                 uint nIoVal = 0x1FF;//控制:P1-P2-P3~P7,依次是清洗泵、压墨泵、供墨泵1-7
@@ -5969,7 +6179,7 @@ namespace BinderJetting
             else
             {
                 //（1）关清洗阀门（==等效：开墨水阀门）。开煤气阀门： 打开对应的泵源。类似于供煤气、供水阀门。
-                OpenCloseVALVE(2-1, true);//20200605批注：Tag-1
+                OpenCloseVALVE(2 - 1, true);//20200605批注：Tag-1
 
                 //（2）开煤气、供水泵源：
                 uint nIoVal = 0x0;//控制:P1-P2-P3~P7,依次是清洗泵、压墨泵、供墨泵1-7
@@ -5999,7 +6209,7 @@ namespace BinderJetting
             bool nRetVal = royal.royal.DEV_SetInkPump((UInt32)nInkMask);////设置压墨输出 bit[0]~bit[1]  P1~P2	J28——清洗泵和压墨泵
 #endif
         }
-        
+
         private void ShoveBtn_Click(object sender, EventArgs e)//挤墨控制
         {
             if (m_bShoveFlag == false)//(b)根据ID反转背景图片
@@ -6116,14 +6326,27 @@ namespace BinderJetting
             //初始化墨车电机参数：
             /////////////////////******初始化墨车电机******///////////
             bool nRetVal = royal.royal.DEM_InitAxis(0, 0x100);//分别初始化各轴的运动参数：20200305
+            string msg = $"初始化墨轴1：DEM_InitAxis：{{0, 0x100}}";
+            Log4Net.Info(msg);
+
             nRetVal = royal.royal.DEM_InitAxis(1, 0x1400);//分别初始化各轴的运动参数：20200305//20220513新建：轴的加速度修改为0x1400
+            msg = $"初始化墨轴2：DEM_InitAxis：{{1, 0x1400}}";
+            Log4Net.Info(msg);
+
             nRetVal = royal.royal.DEM_InitAxis(2, 0x1400);//分别初始化各轴的运动参数：20200305//20220513新建：轴的加速度修改为0x1400
+            msg = $"初始化墨轴3：DEM_InitAxis：{{1, 0x1400}}";
+            Log4Net.Info(msg);
+
             //IOS_SetConfig(0x3000,0x0);			//Reg0x14	复用掩码设置 保留输出1、2
             nRetVal = royal.royal.DEM_EnableAxisRun(true);//所有的轴共用1个使能，使能一次就OK!:20200305
+            msg = $"使能所有墨轴：DEM_EnableAxisRun：{{true}}";
+            Log4Net.Info(msg);
 #if false//20220506新增：
             //nRetVal = royal.royal.DEM_EnableDYOutPut(true, true);//完全不必要使能双Y输出：20200305
 #else
             nRetVal = royal.royal.DEM_EnableDYOutPut(true, true);//完全不必要使能双Y输出：20200305
+            msg = $"使能双Y墨轴输出同步：DEM_EnableDYOutPut：{{true, true}}";
+            Log4Net.Info(msg);
 #endif
         }
 
@@ -6250,7 +6473,7 @@ namespace BinderJetting
         {
 #if true
             bool startCloseFlag = true;
-            StartDataTransControlThread(startCloseFlag/*true*/, 0,50);
+            StartDataTransControlThread(startCloseFlag/*true*/, 0, 50);
 #else
             //(sender as Control).BackgroundImage = System.Drawing.Image.FromFile("ICON资源/Shove-38x38.png");//20200430新增：
             (sender as Control).BackgroundImage = Resource.Shove_38x38;
@@ -6343,22 +6566,22 @@ namespace BinderJetting
             public string OperationCode;//20201119新增：
         }
         //private List<Thread> PrinterLogicThreads = new List<Thread>();//cunfangdayingluoji:20200514: has integrated into the previous code logic
-        private void StartDataTransControlThread(bool StartCloseFlag,int CurrentStartLayer,int LayerEndNum)//StartCloseFlag is 
+        private void StartDataTransControlThread(bool StartCloseFlag, int CurrentStartLayer, int LayerEndNum)//StartCloseFlag is 
         {
-            if (StartCloseFlag==true)//(1) Start the StartDataTransControlThread: 20200514 new create
+            if (StartCloseFlag == true)//(1) Start the StartDataTransControlThread: 20200514 new create
             {
                 TransferParam TranferControlInfo = new TransferParam();//20200110:放到这里主要方便下面的多线程直接调用
                 TranferControlInfo.CurrentStartLayer = /*0*/CurrentStartLayer;
                 TranferControlInfo.LayerEndNum = /*50*/LayerEndNum;//20200111修正:回零点的速度，调整为原来的10分之1
 
-                string tempThreadName = "DataTransControlThread" ;
+                string tempThreadName = "DataTransControlThread";
                 Thread tempThread = PrinterLogicThreads.Where(x => x.Name == (tempThreadName)).FirstOrDefault();
                 if (tempThread != null)//(1)预防潜在问题
                 {
                     PrinterLogicThreads.Remove(tempThread);
                 }
                 else//(1)带参数的多线程方式实现: 20200514 new create
-                {               
+                {
                     tempThread = new Thread(new ParameterizedThreadStart(DataTransControlThread)) { IsBackground = true };//(1)第1部曲：多线程3步曲
                     tempThread.Name = "DataTransControlThread";//(2)第2部曲：多线程3步曲——20200110线程ID和线程名称
                     tempThread.Start(TranferControlInfo);//(3)第3部曲：多线程3步曲 
@@ -6367,7 +6590,7 @@ namespace BinderJetting
             }
             else//(2) Close the StartDataTransControlThread: 20200514 new create
             {
-                string tempThreadName = "DataTransControlThread" ;
+                string tempThreadName = "DataTransControlThread";
                 Thread tempThread = PrinterLogicThreads.Where(x => x.Name == tempThreadName).FirstOrDefault();
                 if (tempThread != null)
                 {
@@ -6394,10 +6617,10 @@ namespace BinderJetting
             int nResult = 0;//核心代码的执行结果
             bool m_bStartJob = true;//
             bool m_bCloseJob = false;//放在此处，仅仅是方便测试而已：20200411新增：
-            
-            while(m_bStartJob==true&& m_bCloseJob==false)
+
+            while (m_bStartJob == true && m_bCloseJob == false)
             {
-                for (int i= CurrentStartLayer; i < LayerEndNum+ 1; i++)//压力测试，连续加载：0x100000 
+                for (int i = CurrentStartLayer; i < LayerEndNum + 1; i++)//压力测试，连续加载：0x100000 
                 {
                     string path = System.Windows.Forms.Application.StartupPath + @"\JOB输出文件\输出.bmp";//20200430新增：
                     nResult = WriteImgLayerData(path, i + 1, 0/*0*/, true);//参数依次是;job文件名称、层索引、打印方向、铺粉方向：20200411新增
@@ -6407,7 +6630,7 @@ namespace BinderJetting
                         CurrentStartLayer = royal.royal.g_prtimg_layer.nLayerIndex;
                         Thread.Sleep(10);//等待10ms//
                     }
-                    else if (nResult==-110001)//20200205:写入失败//(1)分析错误号：做出相应处理
+                    else if (nResult == -110001)//20200205:写入失败//(1)分析错误号：做出相应处理
                     {
                         //MessageBox.Show(i.ToString()+ "层数据传输等待：PC内存不足");//底层，存在1个内存管理机制，内存不足的情况下， 会暂停write线程的工作，挂起
                         Thread.Sleep(100);//等待100ms
@@ -6420,7 +6643,7 @@ namespace BinderJetting
                         break;
                     }
                 }
-            } 
+            }
         }
         public override System.Windows.Forms.AutoValidate AutoValidate { get; set; }
         private void 主界面_SizeChanged(object sender, EventArgs e)
@@ -6552,7 +6775,7 @@ namespace BinderJetting
                     //double rate = (double)iValue / (double)50 * 100;
                     string tempRate = iValue.ToString();
                     string layerNum = this.LayerEnd.Text;
-                    string showRate = "PRT进度： " + tempRate +"/"+layerNum+ "层";//保留小数点后两位
+                    string showRate = "PRT进度： " + tempRate + "/" + layerNum + "层";//保留小数点后两位
                     this.WorkRate.Text = showRate;//保留小数点后两位
                     this.panel1.Refresh();
                 }
@@ -6607,7 +6830,7 @@ namespace BinderJetting
 
             软件UI风格设计 f = new 软件UI风格设计(InputColorCards);//下发数据
             DialogResult result = f.ShowDialog();
-            if (result == DialogResult.OK|| result == DialogResult.Yes)
+            if (result == DialogResult.OK || result == DialogResult.Yes)
             {
                 InputColorCards = f.ColorCards;
                 g_SharpControl.InputColorCards = InputColorCards;//20200612新增：
@@ -6656,7 +6879,7 @@ namespace BinderJetting
         private void 打印校准图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CalibrationMoudle f = new CalibrationMoudle();//20200202修改
-       
+
             DialogResult result = f.ShowDialog();
             if (result == DialogResult.OK)//OK时，执行对应操作
             {
@@ -6719,8 +6942,8 @@ namespace BinderJetting
                 this.panel6.Width = panel6Width;// 246;20210304修改：修正
                 this.panel7.Width = this.panel6.Width + this.panel8.Width;
                 this.panel8.Left = 0;
-                this.panel5.Width = panel1.Width - panel7.Width-1;
-                this.panel5.Left = panel7.Width+1;
+                this.panel5.Width = panel1.Width - panel7.Width - 1;
+                this.panel5.Left = panel7.Width + 1;
                 this.panel8.Width = 24;
                 (sender as Control).Tag = 3;
                 this.panel6.Visible = true;
@@ -6738,7 +6961,7 @@ namespace BinderJetting
                 this.panel7.Width = this.panel6.Width + this.panel8.Width;
                 this.panel8.Left = 0;
                 this.panel5.Width = panel1.Width - panel7.Width - 1;
-                g_SharpControl.ResizeControl(new Rectangle(renderControl1.Top, 
+                g_SharpControl.ResizeControl(new Rectangle(renderControl1.Top,
                     renderControl1.Left, renderControl1.Width, renderControl1.Height));//非常关键
                 this.panel5.Left = panel7.Width + 1;
                 this.panel8.Width = 24;
@@ -6761,7 +6984,7 @@ namespace BinderJetting
                 this.panel8.Left = 0;
                 this.panel5.Width = panel1.Width - panel7.Width - 1;
                 //this.renderControl1.Width = panel5.Width - panel9task.Width;
-                g_SharpControl.ResizeControl(new Rectangle(renderControl1.Top, 
+                g_SharpControl.ResizeControl(new Rectangle(renderControl1.Top,
                     renderControl1.Left, renderControl1.Width, renderControl1.Height));//非常关键
 
                 this.panel5.Left = panel7.Width + 1;
@@ -6779,11 +7002,11 @@ namespace BinderJetting
 
         private void button7_Click(object sender, EventArgs e)
         {
-            g_SharpControl.RenderToWic(true, 2,2,3);
+            g_SharpControl.RenderToWic(true, 2, 2, 3);
         }
 
         private void 主界面_ClientSizeChanged(object sender, EventArgs e)
-        {        
+        {
             g_SharpControl.RepaintDefaultControl(ImportCLIFlag, g_CurrentCLI, new RectangleF(this.renderControl1.Top, this.renderControl1.Left, this.renderControl1.Width, this.renderControl1.Height/*+30*/));
         }
 
@@ -6819,7 +7042,7 @@ namespace BinderJetting
             int UniversalOffsetY = 50;//20210319新建修改：
             try
             {
-                UniversalOffset = (int)(k_PrintNozzleHeadConfigure.m_dUniversalOffset/ 25.4 * 635 / 8);//设置偏移值//mm要转换为像素
+                UniversalOffset = (int)(k_PrintNozzleHeadConfigure.m_dUniversalOffset / 25.4 * 635 / 8);//设置偏移值//mm要转换为像素
                 UniversalOffsetY = (int)(k_PrintNozzleHeadConfigure.m_dUniversalOffsetY / 25.4 * 635 / 8);//设置偏移值//mm要转换为像素//20210325修改：修复残存的BUG,少了一个Y
             }
             catch (Exception)
@@ -6844,12 +7067,12 @@ namespace BinderJetting
             this.label31.Refresh();
             this.label31.Text = "60%";
             this.progressBar1.Refresh();
-            royalCorrectSystem.PD_GenColorOffset(0,UniversalOffset);//X套色 综合
+            royalCorrectSystem.PD_GenColorOffset(0, UniversalOffset);//X套色 综合
             this.progressBar1.Value = 80;
             this.label31.Refresh();
             this.label31.Text = "80%";
             this.progressBar1.Refresh();
-            royalCorrectSystem.PD_GenColorOffset(1,UniversalOffset);//X套色 综合 
+            royalCorrectSystem.PD_GenColorOffset(1, UniversalOffset);//X套色 综合 
             this.progressBar1.Value = 100;
             this.label31.Refresh();
             this.label31.Text = "100%";
@@ -6873,11 +7096,11 @@ namespace BinderJetting
             this.pictureBoxFlag1.Refresh();
         }
 
-        
+
         public FeedbackInCorrection g_RYSYSParamFeedbackInCorrection = new FeedbackInCorrection();//20210304修改：
-        private int[] ShowNozzleCorrectionFigure = new int[4] {0,0,0,0 };//20210325新增：0位起始值，1为显示第1张图，2位显示第2张图。
+        private int[] ShowNozzleCorrectionFigure = new int[4] { 0, 0, 0, 0 };//20210325新增：0位起始值，1为显示第1张图，2位显示第2张图。
         private void SetPrintNozzleHeadConfigBtn_Click(object sender, EventArgs e)//20210304新增:
-        {        
+        {
             int myTag = Convert.ToInt32((sender as Control).Tag);//获取列表控件的Tag中存储的ID        
             //(sender as Control).BackColor = Color.LimeGreen;//根据ID反转颜色状态
 
@@ -7046,9 +7269,9 @@ namespace BinderJetting
                     DialogResult result = f.ShowDialog();
                     if (result == DialogResult.OK)//OK时，执行对应操作
                     {
-                        g_RYSYSParamFeedbackInCorrection= f.k_RYSYSParamFeedbackInCorrection;
+                        g_RYSYSParamFeedbackInCorrection = f.k_RYSYSParamFeedbackInCorrection;
 
-                        int[] temperror1 = new int[64 * 32 * 2]; 
+                        int[] temperror1 = new int[64 * 32 * 2];
                         int[] temperror2 = new int[16 * 32];
                         //(1)非常关键：双向偏差值
                         int BiDirEncPrtOff/*royal.g_sys_param.nBiDirEncPrtOff*/ = g_RYSYSParamFeedbackInCorrection.m_nXBackForthFeedBack - 6;
@@ -7064,8 +7287,8 @@ namespace BinderJetting
                         {
                             for (int j = 1; j < i; j++)
                             {
-                                g_nXBetweenHead[i - 1] = g_nXBetweenHead[i - 1]+ g_nXBetweenHead[j-1];//计算正确的累计的喷头相对于1号喷头的偏移值：正向
-                                g_nXBetweenHead[i - 1 + 6] = g_nXBetweenHead[i - 1 + 6]+ g_nXBetweenHead[j - 1 + 6];//计算正确的累计的喷头相对于1号喷头的偏移值：逆向
+                                g_nXBetweenHead[i - 1] = g_nXBetweenHead[i - 1] + g_nXBetweenHead[j - 1];//计算正确的累计的喷头相对于1号喷头的偏移值：正向
+                                g_nXBetweenHead[i - 1 + 6] = g_nXBetweenHead[i - 1 + 6] + g_nXBetweenHead[j - 1 + 6];//计算正确的累计的喷头相对于1号喷头的偏移值：逆向
                             }
                         }
                         for (int i = 0; i < 7; i++)
@@ -7082,22 +7305,22 @@ namespace BinderJetting
                                 else
                                 {
                                     temperror1[i * 32 * 2 + j * 2]/*royal.g_sys_param.nPhXRowPrtOff*/ =
-                                        g_RYSYSParamFeedbackInCorrection.m_nXNestFeedback[i * 8 + j ] - 2//从索引换算出正确的反馈值
-                                        + g_nXBetweenHead/*g_RYSYSParamFeedbackInCorrection.m_nXBetweenHead*/[i-1];//非常关键：X向套色偏差值//从索引换算出正确的反馈值
+                                        g_RYSYSParamFeedbackInCorrection.m_nXNestFeedback[i * 8 + j] - 2//从索引换算出正确的反馈值
+                                        + g_nXBetweenHead/*g_RYSYSParamFeedbackInCorrection.m_nXBetweenHead*/[i - 1];//非常关键：X向套色偏差值//从索引换算出正确的反馈值
                                     temperror1[i * 32 * 2 + j * 2 + 1]/*royal.g_sys_param.nPhXRowPrtOff*/ =
                                         g_RYSYSParamFeedbackInCorrection.m_nXNestFeedback[i * 8 + j + 4] - 2//从索引换算出正确的反馈值
-                                        + g_nXBetweenHead/*g_RYSYSParamFeedbackInCorrection.m_nXBetweenHead*/[(i - 1)+6];//非常关键：X向套色偏差值//从索引换算出正确的反馈值
+                                        + g_nXBetweenHead/*g_RYSYSParamFeedbackInCorrection.m_nXBetweenHead*/[(i - 1) + 6];//非常关键：X向套色偏差值//从索引换算出正确的反馈值
                                 }
                             }
                         }
                         //(3)更新X向的套色偏差值
                         for (int i = 0; i < 7; i++)
                         {
-                            temperror2[i/**32*/]/*royal.g_sys_param.nPhYJetOff*/ = g_RYSYSParamFeedbackInCorrection.m_nYNestFeedback[i]-2;//非常关键：Y向套色偏差值//20210328修改：正确数据：先颜色再组数
+                            temperror2[i/**32*/]/*royal.g_sys_param.nPhYJetOff*/ = g_RYSYSParamFeedbackInCorrection.m_nYNestFeedback[i] - 2;//非常关键：Y向套色偏差值//20210328修改：正确数据：先颜色再组数
                         }
                         //(4)更新以上3大类的套色偏差值         
                         bool returnValue = RoyalMap.UpdataRoyalPrintCardWithFeedbackData(BiDirEncPrtOff /*k_PrintNozzleHeadConfigure.DoubleError*/, temperror1, temperror2);
-                        if (returnValue==true)
+                        if (returnValue == true)
                         {
                             //pictureBoxFlag6.BackColor = Color.LightCoral;
                             //this.pictureBoxFlag6.Refresh();
@@ -7118,7 +7341,7 @@ namespace BinderJetting
 
         public void SaveJsonFile()
         {
-            string JsonPath = System.Windows.Forms.Application.StartupPath+ @"\NozzleConfigInCorrection.json";//json配置文件：启动目录
+            string JsonPath = System.Windows.Forms.Application.StartupPath + @"\NozzleConfigInCorrection.json";//json配置文件：启动目录
             string JsonPath2 = System.Windows.Forms.Application.StartupPath;
             k_PrintNozzleHeadConfigure.FilePath = JsonPath2;
 
@@ -7314,7 +7537,7 @@ namespace BinderJetting
 
         private void StopOutBtn_Click(object sender, EventArgs e)//停止和继续输出JOBS
         {
-            if(OutputingJOBFlag==false)//停止输出JOBS
+            if (OutputingJOBFlag == false)//停止输出JOBS
             {
                 //补充代码：继续输出
                 _FinalJobEvent.Set();//开启：开启大门
@@ -7324,7 +7547,7 @@ namespace BinderJetting
                 this.StopOutBtn.TextAlign = ContentAlignment.MiddleRight;
                 //this.StopOutBtn.BackgroundImage = System.Drawing.Image.FromFile("ICON资源//Stop-绿.png");
                 this.StopOutBtn.BackgroundImage = Resource.Stop_绿;
-               OutputingJOBFlag = true;
+                OutputingJOBFlag = true;
             }
             else//继续输出JOBS
             {
@@ -7333,7 +7556,7 @@ namespace BinderJetting
                 _FinalJobEvent.Reset();//关闭：关闭大门
 
                 //修改按钮状态为：继续输出
-                this.StopOutBtn.Text = "继续" +"\n"+"输出";
+                this.StopOutBtn.Text = "继续" + "\n" + "输出";
                 this.StopOutBtn.TextAlign = ContentAlignment.MiddleRight;
                 //this.StopOutBtn.BackgroundImage = System.Drawing.Image.FromFile("ICON资源/Keep.png");
                 this.StopOutBtn.BackgroundImage = Resource.Keep;
@@ -7367,7 +7590,7 @@ namespace BinderJetting
             //textBoxError2.DataBindings.Add("Text", k_PrintNozzleHeadConfigure, "SingleError", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//201029新增:
             //textBoxError3.DataBindings.Add("Text", k_PrintNozzleHeadConfigure, "YError", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);
         }
-}
+    }
 
     /// <summary> 
     /// UV灯参数：20200619新增：
@@ -7377,7 +7600,7 @@ namespace BinderJetting
         //UV灯的周期及有效时间：
         public int m_nFrequency/*m_fCycleSec*/;//UV灯周期
         public float m_fPower/*m_fValidSec*/;//UV灯有效时间
-                                 //UV灯开启范围及限位值：
+                                             //UV灯开启范围及限位值：
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
         public Int32[] nMinPos;//灯1的上限、下限
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
@@ -7393,7 +7616,7 @@ namespace BinderJetting
         public const int BLEND = 0x80000;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int AnimateWindow(IntPtr hwand,int dwTime,int dwFlag );
+        public static extern int AnimateWindow(IntPtr hwand, int dwTime, int dwFlag);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int GetScrollPos(int hwnd, int nBar);//20200806新增：获取鼠标点击的项------API

@@ -262,10 +262,16 @@ namespace BinderJetting
             if (m_mGoogolMotionMap.m_bIoEnable[myTag - 1] == true)
             {
                 m_mGoogolMotionMap.SetDo((short)myTag, true);
+
+                string msg = "电气控制模块：手动打开端口"+myTag;
+                Log4Net.Info(msg);
             }
             else
             {
                 m_mGoogolMotionMap.SetDo((short)myTag, false);
+
+                string msg = "电气控制模块：手动关闭端口" + myTag;
+                Log4Net.Info(msg);
             };            
         }
         /*******************************(1)固高的通用输入输出信号控件集体控制初始化***************************/

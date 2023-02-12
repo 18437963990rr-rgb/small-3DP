@@ -6205,12 +6205,18 @@ namespace BinderJetting
                     if (returnFlag == true)//一打开Modbus线程
                     {
                         OpenCloseState = true; //打开状态标记
+                        string msg = "红外灯控制器485通讯建立！";
+                        Log4Net.Info(msg);
                     }
                     else//关闭Modbus线程
                     {
                         OpenCloseState = false;//打开状态标记
                         modbusCommunicateMap.master.Dispose();
                         modbusCommunicateMap.serialPort.Dispose();
+
+                        string msg = "红外灯控制器485通讯建立失败：串口打开失败：请检查子站电源及物理连接！";
+                        Log4Net.Info(msg);
+
                         MessageBox.Show("串口打开失败：请检查子站电源及物理连接");
                     }
                 }

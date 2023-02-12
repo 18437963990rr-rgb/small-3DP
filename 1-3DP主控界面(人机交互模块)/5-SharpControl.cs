@@ -1915,6 +1915,8 @@ namespace BinderJetting
             //（伍） 完成数据的传输
             int nRet = -1;//默认的数据为-1；//70ms:取反处理
 #if true//测试数据传输：20200613批注：
+            string msg = null;
+
             do
             {
                 if (bpp == 1)
@@ -1940,18 +1942,69 @@ namespace BinderJetting
                     switch (nRet)
                     {
                         case -110000://没有按照顺序，增加索引号
-                            MessageBox.Show("作业启动失败：指定图层打印执行时的PASS总数");
+                            /*string*/ msg = "作业写入成功：IDP_WriteImgLayerData：{-110000: 作业启动失败：指定图层打印的PASS总数}" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}" +
+                                $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}" +
+                                $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
+                                $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
+
+                                $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
+                                $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
+                                $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
+                                $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
+                                $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
+                                $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
+                            Log4Net.Info(msg);
+
+                            MessageBox.Show("作业启动失败：指定图层打印的PASS总数");
                             break;
                         case -110001:
+                            /*string*/ msg = "作业写入成功：IDP_WriteImgLayerData：{-110001: 作业启动失败：PC内存不足}" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}" +
+                                $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}" +
+                                $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
+                                $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
+
+                                $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
+                                $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
+                                $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
+                                $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
+                                $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
+                                $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
+                            Log4Net.Info(msg);
+
                             MessageBox.Show("作业启动失败：PC内存不足");
                             break;
                         case -110002:
+                            /*string*/ msg = "作业写入成功：IDP_WriteImgLayerData：{-110002: 作业启动失败：PASS计算小于0}" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}" +
+                                $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}" +
+                                $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
+                                $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
+
+                                $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
+                                $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
+                                $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
+                                $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
+                                $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
+                                $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
+                            Log4Net.Info(msg);
                             MessageBox.Show("作业启动失败：PASS计算小于0");
                             break;
                     }
                     break;
                 }
             } while (nRet <= 0);
+            /*string*/ msg = "作业写入成功：IDP_WriteImgLayerData：" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}"+
+                $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}"+
+                $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
+                $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
+                
+                $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
+                $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
+                $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
+                $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
+                $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
+                $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
+            Log4Net.Info(msg);
+
 #endif
             /***********************20200423调试新增：************************/
             //int size2 = Marshal.SizeOf(rgbValues[0]) * rgbValues.Length;
