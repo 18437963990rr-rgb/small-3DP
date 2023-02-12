@@ -26,19 +26,8 @@ using WinFormAnimation;
 
 namespace BinderJetting
 {
-
     public partial class 主界面 : Form
     {
-        //protected override CreateParams CreateParams
-        //{
-        //    get
-        //    {
-        //        var parms = base.CreateParams;
-        //        parms.Style |= ~0x02000000;  // Turn off WS_CLIPCHILDREN
-        //        return parms;
-        //    }
-        //}
-
         private _3DP_GUI组件 _3DP_GUI = new _3DP_GUI组件();
         //20200223新增:多线程绘制图像数据
         //20200223新增:多线程绘制图像数据

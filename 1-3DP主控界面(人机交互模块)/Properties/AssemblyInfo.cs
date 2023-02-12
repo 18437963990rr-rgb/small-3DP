@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © LaserADD 2020")]
 [assembly: AssemblyTrademark("LaserADD-BinderJetter")]
 [assembly: AssemblyCulture("")]
-[assembly: log4net.Config.XmlConfigurator(ConfigFile ="log4net.config",Watch =true)]//20210327新增：日志系统
+//[assembly: log4net.Config.XmlConfigurator(ConfigFile ="log4net.config",Watch =true)]//20210327新增：日志系统
 
 // 将 ComVisible 设置为 false 会使此程序集中的类型
 //对 COM 组件不可见。如果需要从 COM 访问此程序集中的类型
@@ -35,3 +35,4 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.1")]
 [assembly: AssemblyFileVersion("1.0.0.1")]
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", ConfigFileExtension = "config", Watch = true)]//20230212新建：是否必要
