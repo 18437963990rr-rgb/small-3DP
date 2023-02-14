@@ -77,9 +77,10 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F);
-            this.label5.Location = new System.Drawing.Point(9, 151);
+            this.label5.Location = new System.Drawing.Point(12, 189);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(128, 18);
+            this.label5.Size = new System.Drawing.Size(162, 24);
             this.label5.TabIndex = 25;
             this.label5.Text = "监控记录主路径：";
             // 
@@ -91,9 +92,10 @@
             this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
             this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button4.Location = new System.Drawing.Point(626, 155);
+            this.button4.Location = new System.Drawing.Point(835, 194);
+            this.button4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(123, 51);
+            this.button4.Size = new System.Drawing.Size(164, 64);
             this.button4.TabIndex = 24;
             this.button4.Text = "保存配置";
             this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -107,9 +109,10 @@
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
             this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.Location = new System.Drawing.Point(626, 213);
+            this.button3.Location = new System.Drawing.Point(835, 266);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(123, 51);
+            this.button3.Size = new System.Drawing.Size(164, 64);
             this.button3.TabIndex = 23;
             this.button3.Text = "退出模块";
             this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -117,10 +120,11 @@
             // 
             // textBox3
             // 
-            this.textBox3.Font = new System.Drawing.Font("SimSun", 10F);
-            this.textBox3.Location = new System.Drawing.Point(171, 204);
+            this.textBox3.Font = new System.Drawing.Font("宋体", 10F);
+            this.textBox3.Location = new System.Drawing.Point(228, 255);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(391, 23);
+            this.textBox3.Size = new System.Drawing.Size(520, 27);
             this.textBox3.TabIndex = 22;
             this.textBox3.Text = "1";
             // 
@@ -128,9 +132,10 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F);
-            this.label4.Location = new System.Drawing.Point(9, 205);
+            this.label4.Location = new System.Drawing.Point(12, 256);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(158, 18);
+            this.label4.Size = new System.Drawing.Size(199, 24);
             this.label4.TabIndex = 21;
             this.label4.Text = "打印层数(记录-测试)：";
             // 
@@ -139,9 +144,10 @@
             this.label3.BackColor = System.Drawing.Color.LightPink;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.label3.ForeColor = System.Drawing.Color.Blue;
-            this.label3.Location = new System.Drawing.Point(15, 280);
+            this.label3.Location = new System.Drawing.Point(20, 350);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(760, 106);
+            this.label3.Size = new System.Drawing.Size(1013, 132);
             this.label3.TabIndex = 20;
             this.label3.Text = "格式规范及输入提示：\r\n请勿在打印任务名称框输入特殊字符，如： / : * ？ \\\" < > | \r\n记录路径格式：主路径\\[Record][230107][打印" +
     "任务名称]\r\n记录文件格式：[230107-081931-PM][第1层-工艺时刻][Light115-Expo100-Gain30].bmp";
@@ -149,11 +155,12 @@
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.textBox1.Location = new System.Drawing.Point(171, 148);
+            this.textBox1.Location = new System.Drawing.Point(228, 185);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(391, 23);
+            this.textBox1.Size = new System.Drawing.Size(520, 28);
             this.textBox1.TabIndex = 19;
             // 
             // button2
@@ -164,9 +171,10 @@
             this.button2.ForeColor = System.Drawing.Color.Black;
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(609, 28);
+            this.button2.Location = new System.Drawing.Point(812, 35);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(157, 49);
+            this.button2.Size = new System.Drawing.Size(209, 61);
             this.button2.TabIndex = 18;
             this.button2.Text = "更新记录路径";
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -175,19 +183,21 @@
             // 
             // textBox4
             // 
-            this.textBox4.Font = new System.Drawing.Font("SimSun", 10F);
-            this.textBox4.Location = new System.Drawing.Point(171, 231);
+            this.textBox4.Font = new System.Drawing.Font("宋体", 10F);
+            this.textBox4.Location = new System.Drawing.Point(228, 289);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(391, 23);
+            this.textBox4.Size = new System.Drawing.Size(520, 27);
             this.textBox4.TabIndex = 15;
             this.textBox4.Text = "铺粉后";
             // 
             // textBox2
             // 
-            this.textBox2.Font = new System.Drawing.Font("SimSun", 10F);
-            this.textBox2.Location = new System.Drawing.Point(171, 175);
+            this.textBox2.Font = new System.Drawing.Font("宋体", 10F);
+            this.textBox2.Location = new System.Drawing.Point(228, 219);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(391, 23);
+            this.textBox2.Size = new System.Drawing.Size(520, 27);
             this.textBox2.TabIndex = 14;
             // 
             // button1
@@ -197,9 +207,10 @@
             this.button1.ForeColor = System.Drawing.Color.Black;
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(609, 83);
+            this.button1.Location = new System.Drawing.Point(812, 104);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(157, 49);
+            this.button1.Size = new System.Drawing.Size(209, 61);
             this.button1.TabIndex = 13;
             this.button1.Text = "拍摄记录测试";
             this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -210,9 +221,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F);
-            this.label2.Location = new System.Drawing.Point(9, 231);
+            this.label2.Location = new System.Drawing.Point(12, 289);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(158, 18);
+            this.label2.Size = new System.Drawing.Size(199, 24);
             this.label2.TabIndex = 17;
             this.label2.Text = "工艺时刻(记录-测试)：";
             // 
@@ -220,27 +232,30 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F);
-            this.label1.Location = new System.Drawing.Point(9, 178);
+            this.label1.Location = new System.Drawing.Point(12, 222);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(113, 18);
+            this.label1.Size = new System.Drawing.Size(143, 24);
             this.label1.TabIndex = 16;
             this.label1.Text = "打印任务名称：";
             // 
             // label6
             // 
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F);
-            this.label6.Location = new System.Drawing.Point(20, 22);
+            this.label6.Location = new System.Drawing.Point(27, 28);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(57, 118);
+            this.label6.Size = new System.Drawing.Size(76, 148);
             this.label6.TabIndex = 30;
             this.label6.Text = "喷墨过程监控记录点";
             // 
             // label7
             // 
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F);
-            this.label7.Location = new System.Drawing.Point(294, 22);
+            this.label7.Location = new System.Drawing.Point(392, 28);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(54, 87);
+            this.label7.Size = new System.Drawing.Size(72, 109);
             this.label7.TabIndex = 31;
             this.label7.Text = "铺粉过程监控记录点";
             // 
@@ -270,9 +285,11 @@
             this.打印监控项目.Controls.Add(this.label4);
             this.打印监控项目.Controls.Add(this.label2);
             this.打印监控项目.Controls.Add(this.label1);
-            this.打印监控项目.Location = new System.Drawing.Point(15, 9);
+            this.打印监控项目.Location = new System.Drawing.Point(20, 11);
+            this.打印监控项目.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.打印监控项目.Name = "打印监控项目";
-            this.打印监控项目.Size = new System.Drawing.Size(571, 265);
+            this.打印监控项目.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.打印监控项目.Size = new System.Drawing.Size(761, 331);
             this.打印监控项目.TabIndex = 32;
             this.打印监控项目.TabStop = false;
             this.打印监控项目.Text = "打印监控项目";
@@ -280,9 +297,10 @@
             // checkBox12
             // 
             this.checkBox12.BackColor = System.Drawing.SystemColors.Window;
-            this.checkBox12.Location = new System.Drawing.Point(358, 87);
+            this.checkBox12.Location = new System.Drawing.Point(477, 109);
+            this.checkBox12.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox12.Name = "checkBox12";
-            this.checkBox12.Size = new System.Drawing.Size(200, 16);
+            this.checkBox12.Size = new System.Drawing.Size(267, 20);
             this.checkBox12.TabIndex = 45;
             this.checkBox12.Text = "BackPowderStation";
             this.checkBox12.UseVisualStyleBackColor = false;
@@ -291,9 +309,10 @@
             // 
             this.checkBox11.BackColor = System.Drawing.SystemColors.Window;
             this.checkBox11.Enabled = false;
-            this.checkBox11.Location = new System.Drawing.Point(358, 70);
+            this.checkBox11.Location = new System.Drawing.Point(477, 88);
+            this.checkBox11.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox11.Name = "checkBox11";
-            this.checkBox11.Size = new System.Drawing.Size(200, 16);
+            this.checkBox11.Size = new System.Drawing.Size(267, 20);
             this.checkBox11.TabIndex = 44;
             this.checkBox11.Text = "Recoat-InRecedeCut";
             this.checkBox11.UseVisualStyleBackColor = false;
@@ -301,9 +320,10 @@
             // checkBox10
             // 
             this.checkBox10.BackColor = System.Drawing.SystemColors.Window;
-            this.checkBox10.Location = new System.Drawing.Point(358, 53);
+            this.checkBox10.Location = new System.Drawing.Point(477, 66);
+            this.checkBox10.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox10.Name = "checkBox10";
-            this.checkBox10.Size = new System.Drawing.Size(200, 16);
+            this.checkBox10.Size = new System.Drawing.Size(267, 20);
             this.checkBox10.TabIndex = 43;
             this.checkBox10.Text = "Recoat-RightArrived";
             this.checkBox10.UseVisualStyleBackColor = false;
@@ -312,9 +332,10 @@
             // 
             this.checkBox9.BackColor = System.Drawing.SystemColors.Window;
             this.checkBox9.Enabled = false;
-            this.checkBox9.Location = new System.Drawing.Point(358, 36);
+            this.checkBox9.Location = new System.Drawing.Point(477, 45);
+            this.checkBox9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(200, 16);
+            this.checkBox9.Size = new System.Drawing.Size(267, 20);
             this.checkBox9.TabIndex = 42;
             this.checkBox9.Text = "Recoat-InAdvanceCut";
             this.checkBox9.UseVisualStyleBackColor = false;
@@ -322,9 +343,10 @@
             // checkBox8
             // 
             this.checkBox8.BackColor = System.Drawing.SystemColors.Window;
-            this.checkBox8.Location = new System.Drawing.Point(358, 19);
+            this.checkBox8.Location = new System.Drawing.Point(477, 24);
+            this.checkBox8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(200, 16);
+            this.checkBox8.Size = new System.Drawing.Size(267, 20);
             this.checkBox8.TabIndex = 41;
             this.checkBox8.Text = "LeavePowderStation";
             this.checkBox8.UseVisualStyleBackColor = false;
@@ -333,17 +355,19 @@
             // 
             this.label9.BackColor = System.Drawing.SystemColors.Window;
             this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label9.Location = new System.Drawing.Point(354, 15);
+            this.label9.Location = new System.Drawing.Point(472, 19);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(205, 90);
+            this.label9.Size = new System.Drawing.Size(273, 112);
             this.label9.TabIndex = 46;
             // 
             // checkBox7
             // 
             this.checkBox7.BackColor = System.Drawing.SystemColors.Window;
-            this.checkBox7.Location = new System.Drawing.Point(80, 121);
+            this.checkBox7.Location = new System.Drawing.Point(107, 151);
+            this.checkBox7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(200, 16);
+            this.checkBox7.Size = new System.Drawing.Size(267, 20);
             this.checkBox7.TabIndex = 38;
             this.checkBox7.Text = "BackCleanStation(After-6PASS)";
             this.checkBox7.UseVisualStyleBackColor = false;
@@ -351,9 +375,10 @@
             // checkBox6
             // 
             this.checkBox6.BackColor = System.Drawing.SystemColors.Window;
-            this.checkBox6.Location = new System.Drawing.Point(80, 104);
+            this.checkBox6.Location = new System.Drawing.Point(107, 130);
+            this.checkBox6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(200, 16);
+            this.checkBox6.Size = new System.Drawing.Size(267, 20);
             this.checkBox6.TabIndex = 37;
             this.checkBox6.Text = "5PASS-AfterCut";
             this.checkBox6.UseVisualStyleBackColor = false;
@@ -361,9 +386,10 @@
             // checkBox5
             // 
             this.checkBox5.BackColor = System.Drawing.SystemColors.Window;
-            this.checkBox5.Location = new System.Drawing.Point(80, 87);
+            this.checkBox5.Location = new System.Drawing.Point(107, 109);
+            this.checkBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(200, 16);
+            this.checkBox5.Size = new System.Drawing.Size(267, 20);
             this.checkBox5.TabIndex = 36;
             this.checkBox5.Text = "4PASS-AfterCut";
             this.checkBox5.UseVisualStyleBackColor = false;
@@ -371,9 +397,10 @@
             // checkBox4
             // 
             this.checkBox4.BackColor = System.Drawing.SystemColors.Window;
-            this.checkBox4.Location = new System.Drawing.Point(80, 70);
+            this.checkBox4.Location = new System.Drawing.Point(107, 88);
+            this.checkBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(200, 16);
+            this.checkBox4.Size = new System.Drawing.Size(267, 20);
             this.checkBox4.TabIndex = 35;
             this.checkBox4.Text = "3PASS-AfterCut";
             this.checkBox4.UseVisualStyleBackColor = false;
@@ -381,9 +408,10 @@
             // checkBox3
             // 
             this.checkBox3.BackColor = System.Drawing.SystemColors.Window;
-            this.checkBox3.Location = new System.Drawing.Point(80, 53);
+            this.checkBox3.Location = new System.Drawing.Point(107, 66);
+            this.checkBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(200, 16);
+            this.checkBox3.Size = new System.Drawing.Size(267, 20);
             this.checkBox3.TabIndex = 34;
             this.checkBox3.Text = "2PASS-AfterCut";
             this.checkBox3.UseVisualStyleBackColor = false;
@@ -391,9 +419,10 @@
             // checkBox2
             // 
             this.checkBox2.BackColor = System.Drawing.SystemColors.Window;
-            this.checkBox2.Location = new System.Drawing.Point(80, 36);
+            this.checkBox2.Location = new System.Drawing.Point(107, 45);
+            this.checkBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(200, 16);
+            this.checkBox2.Size = new System.Drawing.Size(267, 20);
             this.checkBox2.TabIndex = 33;
             this.checkBox2.Text = "1PASS-AfterCut";
             this.checkBox2.UseVisualStyleBackColor = false;
@@ -401,9 +430,10 @@
             // checkBox1
             // 
             this.checkBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.checkBox1.Location = new System.Drawing.Point(80, 19);
+            this.checkBox1.Location = new System.Drawing.Point(107, 24);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(200, 16);
+            this.checkBox1.Size = new System.Drawing.Size(267, 20);
             this.checkBox1.TabIndex = 32;
             this.checkBox1.Text = "LeaveCleanStation";
             this.checkBox1.UseVisualStyleBackColor = false;
@@ -412,16 +442,17 @@
             // 
             this.label8.BackColor = System.Drawing.SystemColors.Window;
             this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label8.Location = new System.Drawing.Point(76, 15);
+            this.label8.Location = new System.Drawing.Point(101, 19);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(205, 125);
+            this.label8.Size = new System.Drawing.Size(273, 156);
             this.label8.TabIndex = 40;
             // 
             // SendMessageToCamera
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(787, 395);
+            this.ClientSize = new System.Drawing.Size(1049, 494);
             this.Controls.Add(this.打印监控项目);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -430,6 +461,7 @@
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SendMessageToCamera";

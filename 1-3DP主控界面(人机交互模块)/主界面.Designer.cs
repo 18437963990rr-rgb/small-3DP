@@ -41,6 +41,7 @@
             this.用户及权限管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助HToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label35 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
             this.SendMessageBtn = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
@@ -230,6 +231,7 @@
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.文件ToolStripMenuItem,
             this.用户及权限管理ToolStripMenuItem,
@@ -294,6 +296,7 @@
             this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label35);
             this.panel1.Controls.Add(this.label34);
             this.panel1.Controls.Add(this.SendMessageBtn);
             this.panel1.Controls.Add(this.button16);
@@ -325,6 +328,13 @@
             this.panel1.Controls.Add(this.PrintBtn);
             this.panel1.Name = "panel1";
             // 
+            // label35
+            // 
+            this.label35.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label35.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            resources.ApplyResources(this.label35, "label35");
+            this.label35.Name = "label35";
+            // 
             // label34
             // 
             this.label34.BackColor = System.Drawing.SystemColors.ControlLightLight;
@@ -334,8 +344,8 @@
             // 
             // SendMessageBtn
             // 
-            resources.ApplyResources(this.SendMessageBtn, "SendMessageBtn");
             this.SendMessageBtn.BackColor = System.Drawing.Color.MintCream;
+            resources.ApplyResources(this.SendMessageBtn, "SendMessageBtn");
             this.SendMessageBtn.ForeColor = System.Drawing.Color.Black;
             this.SendMessageBtn.Image = global::BinderJetting.Resource.MonitorIcon_35x35;
             this.SendMessageBtn.Name = "SendMessageBtn";
@@ -345,9 +355,9 @@
             // 
             // button16
             // 
-            resources.ApplyResources(this.button16, "button16");
             this.button16.BackColor = System.Drawing.Color.MintCream;
             this.button16.BackgroundImage = global::BinderJetting.Resource.Stream38x38;
+            resources.ApplyResources(this.button16, "button16");
             this.button16.ForeColor = System.Drawing.Color.Black;
             this.button16.Name = "button16";
             this.toolTip1.SetToolTip(this.button16, resources.GetString("button16.ToolTip"));
@@ -453,8 +463,8 @@
             // 
             // JobsParaBtn
             // 
-            resources.ApplyResources(this.JobsParaBtn, "JobsParaBtn");
             this.JobsParaBtn.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            resources.ApplyResources(this.JobsParaBtn, "JobsParaBtn");
             this.JobsParaBtn.ForeColor = System.Drawing.Color.Black;
             this.JobsParaBtn.Name = "JobsParaBtn";
             this.toolTip1.SetToolTip(this.JobsParaBtn, resources.GetString("JobsParaBtn.ToolTip"));
@@ -525,9 +535,9 @@
             // 
             // ImportCliBtn
             // 
-            resources.ApplyResources(this.ImportCliBtn, "ImportCliBtn");
             this.ImportCliBtn.BackColor = System.Drawing.Color.MintCream;
             this.ImportCliBtn.BackgroundImage = global::BinderJetting.Resource.ImportCli_blue_38x38;
+            resources.ApplyResources(this.ImportCliBtn, "ImportCliBtn");
             this.ImportCliBtn.ForeColor = System.Drawing.Color.Black;
             this.ImportCliBtn.Name = "ImportCliBtn";
             this.toolTip1.SetToolTip(this.ImportCliBtn, resources.GetString("ImportCliBtn.ToolTip"));
@@ -536,8 +546,8 @@
             // 
             // PauseBtn
             // 
-            resources.ApplyResources(this.PauseBtn, "PauseBtn");
             this.PauseBtn.BackColor = System.Drawing.Color.MintCream;
+            resources.ApplyResources(this.PauseBtn, "PauseBtn");
             this.PauseBtn.DialogResult = System.Windows.Forms.DialogResult.No;
             this.PauseBtn.ForeColor = System.Drawing.Color.Black;
             this.PauseBtn.Name = "PauseBtn";
@@ -563,8 +573,8 @@
             // 
             // PrintBtn
             // 
-            resources.ApplyResources(this.PrintBtn, "PrintBtn");
             this.PrintBtn.BackColor = System.Drawing.Color.MintCream;
+            resources.ApplyResources(this.PrintBtn, "PrintBtn");
             this.PrintBtn.ForeColor = System.Drawing.Color.Black;
             this.PrintBtn.Name = "PrintBtn";
             this.PrintBtn.Tag = "1";
@@ -609,6 +619,7 @@
             // 
             // JobContextMenuStrip
             // 
+            this.JobContextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.JobContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.删除选中数据DToolStripMenuItem});
             this.JobContextMenuStrip.Name = "JobContextMenuStrip";
@@ -629,8 +640,8 @@
             // 
             // MasterSwitchBtn
             // 
-            resources.ApplyResources(this.MasterSwitchBtn, "MasterSwitchBtn");
             this.MasterSwitchBtn.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            resources.ApplyResources(this.MasterSwitchBtn, "MasterSwitchBtn");
             this.MasterSwitchBtn.Name = "MasterSwitchBtn";
             this.toolTip1.SetToolTip(this.MasterSwitchBtn, resources.GetString("MasterSwitchBtn.ToolTip"));
             this.MasterSwitchBtn.UseVisualStyleBackColor = true;
@@ -655,9 +666,9 @@
             // 
             // MaintainBtn
             // 
-            resources.ApplyResources(this.MaintainBtn, "MaintainBtn");
             this.MaintainBtn.BackColor = System.Drawing.Color.MintCream;
             this.MaintainBtn.BackgroundImage = global::BinderJetting.Resource.MaintainSys_38x38;
+            resources.ApplyResources(this.MaintainBtn, "MaintainBtn");
             this.MaintainBtn.ForeColor = System.Drawing.Color.Black;
             this.MaintainBtn.Name = "MaintainBtn";
             this.MaintainBtn.Tag = "6";
@@ -711,6 +722,7 @@
             // 
             // toolStripStatusLabel3
             // 
+            this.toolStripStatusLabel3.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
             resources.ApplyResources(this.toolStripStatusLabel3, "toolStripStatusLabel3");
             // 
@@ -729,6 +741,7 @@
             // 
             // CadContextMenuStrip
             // 
+            this.CadContextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.CadContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CADToolStripMenuItem,
             this.toolStripSeparator4,
@@ -818,6 +831,7 @@
             // statusStrip1
             // 
             resources.ApplyResources(this.statusStrip1, "statusStrip1");
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.statusStrip1.SizingGrip = false;
@@ -860,6 +874,7 @@
             resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
             this.toolStripStatusLabel1.BackColor = System.Drawing.Color.Snow;
             this.toolStripStatusLabel1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.toolStripStatusLabel1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             // 
             // PrinterStatusLabel
@@ -867,6 +882,7 @@
             resources.ApplyResources(this.PrinterStatusLabel, "PrinterStatusLabel");
             this.PrinterStatusLabel.BackColor = System.Drawing.Color.Snow;
             this.PrinterStatusLabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.PrinterStatusLabel.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.PrinterStatusLabel.Name = "PrinterStatusLabel";
             // 
             // button4
@@ -1683,7 +1699,6 @@
             this.panel5.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.doublePanel2.ResumeLayout(false);
-            this.doublePanel2.PerformLayout();
             this.menuStrip3.ResumeLayout(false);
             this.menuStrip3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -1875,6 +1890,7 @@
         private System.Windows.Forms.Button button16;
         private System.Windows.Forms.Button SendMessageBtn;
         private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label35;
     }
 }
 

@@ -253,10 +253,17 @@ namespace BinderJetting
                 if (!File.Exists(JsonPath))// 返回bool类型，存在返回true，不存在返回false
                 {
                     File.Create(JsonPath);//不存在则创建文件
+
+                    string msg = $"加载监控配置文件：文件不存在，已创建：LoadJsonFile";
+                    Log4Net.Info(msg);
+
                     MessageBox.Show("监控配置文件不存在，已创建");
                 }
                 else
                 {
+                    string msg = $"加载监控配置文件：加载异常，已创建：LoadJsonFile";
+                    Log4Net.Info(msg);
+
                     MessageBox.Show("监控配置文件加载异常");
                 }
                 k_MonitorPrintParam = new MonitorPrintParam();
@@ -274,8 +281,25 @@ namespace BinderJetting
             }
             string json = JsonConvert.SerializeObject(k_MonitorPrintParam, Formatting.Indented);
             File.WriteAllText(JsonPath, json);
-        }
 
+            string msg = $"更新监控配置文件：" +
+                $"SaveJsonFile：配置文件路径{{{JsonPath}}}" +
+                $"m_sMonitorRecordPath{{{k_MonitorPrintParam.m_sMonitorRecordPath}}}" +
+                $"m_sPrintJobName{{{k_MonitorPrintParam.m_sPrintJobName}}}" +
+                $"m_anJettingBinderBedMonitorFlags{{{k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0]}," +
+                $"{k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1]}," +
+                $"{k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2]}," +
+                $"{k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3]}," +
+                $"{k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[4]}," +
+                $"{k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5]}," +
+                $"{k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6]}," +
+                $"{k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[7]}," +
+                $"{k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[8]}," +
+                $"{k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9]}," +
+                $"{k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[10]}," +
+                $"{k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11]},}}";
+            Log4Net.Info(msg);
+        }
     }
 
     public class MonitorPrintParam : INotifyPropertyChanged, ICloneable//C#中，通知类的属性值已经更改，可以避免大量的通用事件的使用；其中关键是属性的理解及和lambda表达式的使用方法

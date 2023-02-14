@@ -1,6 +1,7 @@
 ﻿using Composation;
 using ComposationConfirm;
 using JOB管理_调度类库_JOB管理模块_JOB调度模块;
+using Microsoft.VisualBasic.Devices;
 using Modbus.Device;
 using Motion;//导入GoogolMotionMap引用包
 using Newtonsoft.Json;
@@ -12,10 +13,12 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -508,6 +511,32 @@ namespace BinderJetting
             this.ImportCliBtn.Focus();//20200602新建：软件启动后的鼠标焦点设置
         }
 
+#if true //20230214新增：获取硬件信息
+
+        //PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "", true);
+        //PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes,"",true");
+        //public string getCurrentCpuUsage()
+        //{
+        //    return $"{cpuCounter.NextValue()} %";
+        //}
+
+        //public string getAvailableRAM()
+        //{
+        //    return $"{ramCounter.NextValue()} MB";
+        //}
+        public string GetOSFriendlyName()
+        {
+            string result = string.Empty;
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Caption FROM Win32_OperatingSystem");
+            foreach (ManagementObject os in searcher.Get())
+            {
+                result = os["Caption"].ToString();
+                break;
+            }
+            return result;
+        }
+#endif
+
         public AccountPassward g_AccountPassward;
         /// <summary>
         /// 开机账户登录界面：20200405新增
@@ -523,11 +552,77 @@ namespace BinderJetting
                 if ((LoginForm.m_AccountPassward.m_sAccount == "123456@laseradd.com")
                     && (LoginForm.m_AccountPassward.m_sPassward == "123456"))
                 {
+#if true
+                    // (1)获取CPU使用率
+                    PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total", true);
+                    cpuCounter.NextValue();
+                    System.Threading.Thread.Sleep(100/*1000*/); // 等待一秒
+                    float cpuUsage = cpuCounter.NextValue();//string msg1 = $"CPU使用率：{cpuUsage}%";
+
+                    // (2)获取可用内存大小
+                    ComputerInfo info = new ComputerInfo();
+                    long freeMemory = (long)info.AvailablePhysicalMemory / 1024 / 1024;//MB
+
+                    // (3)获取硬盘剩余空间
+                    string msg3 = null;
+                    System.IO.DriveInfo[] drives = DriveInfo.GetDrives();
+                    foreach (DriveInfo drive in drives)
+                    {
+                        if (drive.IsReady)
+                        {
+                            msg3 = msg3 + $"  盘符 { drive.Name} 的剩余空间：{drive.TotalFreeSpace / 1024 / 1024 / 1024} GB\r\n";
+                        }
+                    }
+
+                    // (4)获取 CPU 信息
+                    string CpuInfo = null; string MemoryInfo = null; string DiskInfo = null;
+                    ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
+                    foreach (ManagementObject queryObj in searcher.Get())
+                    {
+                        CpuInfo = CpuInfo+ string.Format("  CPU 厂家: {0} CPU 型号: {1}\r\n", queryObj["Manufacturer"], queryObj["Name"]);
+                    }
+                    // (5)获取内存条信息
+                    searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMemory");
+                    foreach (ManagementObject queryObj in searcher.Get())
+                    {
+                        MemoryInfo = MemoryInfo + string.Format("  内存条厂家: {0} 内存条型号: {1}\r\n", queryObj["Manufacturer"], queryObj["PartNumber"]);
+                    }
+                    // (6)获取硬盘信息
+                    searcher = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
+                    foreach (ManagementObject queryObj in searcher.Get())
+                    {
+                        DiskInfo = DiskInfo + string.Format("  硬盘厂家: {0} 硬盘型号: {1}\r\n", queryObj["Manufacturer"], queryObj["Model"]);
+                    }
+
+                    // (7)获取当前系统的.NET Framework版本
+                    string version = Environment.Version.ToString();
+
+                    // (8)获取当前进程所在的盘符
+                    string driveLetter = Process.GetCurrentProcess().MainModule.FileName.Substring(0, 1);
+
+                    string msg = $"软件开机密码正确，登录成功1次\r\n" +
+                        $"==========================================================================\r\n"+
+                        $"操作系统:{{{GetOSFriendlyName()}}}\r\n" +
+                        $"运行环境:{{ .Net Framework Enviroment Version {version}}}\r\n" +
+                        $"盘符：{driveLetter}\r\n" +
+                        $"CPU使用率：{{{cpuUsage}%}} ，可用内存大小:{{{freeMemory}MB}}，硬盘剩余空间：\r\n" +
+                        $"{msg3}" +
+                        $"硬件配置情况：\r\n" +
+                        $"{CpuInfo}" +
+                        $"{MemoryInfo}" +
+                        $"{DiskInfo}" +
+                        $"==========================================================================";
+                    Log4Net.Info(msg);
+#endif
+
                     this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.主界面_FormClosing);//20200405：退出前，需要确认
                     return 1;
                 }
                 else
                 {
+                    String msg = $"设备开机密码错误，登录失败1次：输入错误密码为：{{{LoginForm.m_AccountPassward.m_sPassward}}}";
+                    Log4Net.Info(msg);
+
                     g_AccountPassward = (AccountPassward)LoginForm.m_AccountPassward.Clone();
                     g_AccountPassward.ShowReminderFlag = true;
                     return 2;
@@ -1219,6 +1314,7 @@ namespace BinderJetting
                             tempThread = new Thread(initThreadEntry) { IsBackground = true };
                             tempThread.Name = tempThreadName;
                             tempThread.Start();
+
                             msg = "启动打印线程成功：" + tempThreadName;
                             Log4Net.Info(msg);
 
@@ -1409,7 +1505,9 @@ namespace BinderJetting
                         }
                     }
                     else//刷新：启动失败，提示启动打印
-                    { UpdateDataAndTransfer(1, 0, 2); }
+                    {
+                        UpdateDataAndTransfer(1, 0, 2); 
+                    }
 
                     g_TaskThreadSTATE[2] = 3;
                     break;
@@ -1640,7 +1738,7 @@ namespace BinderJetting
             if (tempThread != null)
             {
                 tempThread.Abort();//20200221修改:当调用非托管线程时，有时会抛出异常但不一定及时停止
-                while (tempThread.ThreadState != ThreadState.Aborted)
+                while (tempThread.ThreadState != System.Threading.ThreadState.Aborted)
                 { Thread.Sleep(100); }
                 PrinterLogicThreads.Remove(tempThread);//20200111添加：解决Gohome无法重新执行的BUG
 
@@ -1663,6 +1761,9 @@ namespace BinderJetting
                         this.PauseBtn.TextAlign = ContentAlignment.MiddleRight;
                         this.PauseBtn.BackgroundImage = Resource.Stop_绿_38x38;
                         PrintConrolFlag = "PausePrint";//20200618批注：继续打印
+                      
+                        string msg = "发送暂停打印指令：{PausePrint}";
+                        Log4Net.Info(msg);
                     }
                     this.LayerStart.BackColor = Color.LightBlue;//可修改打印区间
                     this.LayerEnd.BackColor = Color.LightBlue;//可修改打印区间
@@ -1682,6 +1783,9 @@ namespace BinderJetting
                         this.PauseBtn.BackgroundImage = Resource.Keep_38x38;
                         PrintConrolFlag = "KeepPrint";//20200618批注：暂停打印
 
+                        string msg = "发送继续打印指令：{KeepPrint}";
+                        Log4Net.Info(msg);
+
                         this.LayerStart.BackColor = Color.MintCream;//可修改打印区间
                         this.LayerEnd.BackColor = Color.MintCream;//可修改打印区间
                         this.LayerEnd.Enabled = false;//可修改打印区间
@@ -1691,7 +1795,9 @@ namespace BinderJetting
                     }
                     else if (result == DialogResult.Retry)//修订续打//从第N层重新发送数据，然后开启打印：20201118新增：
                     {
+#if false
                         TaskAddDeleteTHREAD("CreateAgain");
+#endif
                     }
                     else
                     {
@@ -1769,6 +1875,13 @@ namespace BinderJetting
             f.k_RYSYSParam.m_bFlagResetCorrect = this.g_bResetCorrectEnabled;
             f.k_RYSYSParam = (RYSYSParam)g_RYSYSParam.Clone();//20200326新增//20200401新增：避免直接赋值形成的引用，形成真正的复制
             f.PrintStrategys = ObjectCopier.Clone(g_PrintStrategys);//20200806新增：保存打印策略
+
+            string msg = $"进入JOB参数设置：修改前初始参数：灰度数据格式{{{g_RYSYSParam.m_nPixelGrayBits}bits}}" +
+                $"打印灰阶{{{g_RYSYSParam.m_dPixelGrayValue}阶}}m_XPrintDpi{{{g_RYSYSParam.m_XPrintDpi}Dpi}}"+
+            $"墨车运动速度{{{g_RYSYSParam.CarMoveSpeed}MM/s}}X向起打位置{{{g_RYSYSParam.m_dPrtXEncPos}MM}}"+
+            $"Y向起打位置{{{g_RYSYSParam.m_dYJetOff}MM}}";
+            Log4Net.Info(msg);
+
             DialogResult result = f.ShowDialog();
             if (result == DialogResult.OK)//OK时，执行对应操作
             {
@@ -1800,12 +1913,18 @@ namespace BinderJetting
                 //g_RYSYSParam.m_dSubAreaWidth;
                 //g_RYSYSParam.m_dWeakAreaWidth;
                 //g_RYSYSParam.m_dDeviation;
-
                 f.SaveJsonFile();
+
+                msg = $"退出JOB参数设置：修改后参数：灰度数据格式{{{g_RYSYSParam.m_nPixelGrayBits}bits}}" +
+                    $"打印灰阶{{{g_RYSYSParam.m_dPixelGrayValue}阶}}m_XPrintDpi{{{g_RYSYSParam.m_XPrintDpi}Dpi}}" +
+                    $"墨车运动速度{{{g_RYSYSParam.CarMoveSpeed}MM/s}}X向起打位置{{{g_RYSYSParam.m_dPrtXEncPos}MM}}" +
+                    $"Y向起打位置{{{g_RYSYSParam.m_dYJetOff}MM}}";
+                Log4Net.Info(msg);
             }
             else if (result == DialogResult.Cancel)//退出时，什么都不做
             {
-
+                msg = $"退出JOB参数设置：未修改直接退出！";
+                Log4Net.Info(msg);
             }
         }
         private UInt32 MM_TO_DOT(float X, int DPI)
@@ -1859,7 +1978,7 @@ namespace BinderJetting
             }
             while (true/*positonX > InkCarPosition || positionY > PowderCarPosition*/);
 
-            return 1;//返回值指令：1为顺利启动进入，打印阶段
+            //return 1;//返回值指令：1为顺利启动进入，打印阶段
         }
         private int g_nCarSinglePassLength = 0;//SinglePass运动距离：20200327新增：
         uint g_nRevPls = 0;//读回的剩余脉冲值//20200328新增：
@@ -1893,6 +2012,8 @@ namespace BinderJetting
         public int g_nCleanFrequency = 10;//20220915新增：清洗频率全局变量
         private void PrintTaskTHREAD()//3DP打印主流程：
         {
+            bool ReturnFlag = false;
+
             g_TaskThreadSTATE[4] = 2;//20201119新增：DataTaskThread恢复为运行状态（关机后）
             ReadLayerInfo();//更新指定的加工任务区间
             g_PrintSchedule = g_nLayerStart;//20201118新增：
@@ -1908,7 +2029,7 @@ namespace BinderJetting
             uint m_unCarMoveSpeed = MM_TO_DOT(m_szMovSpeed, 5080);//20200328新增
             g_nCarSinglePassLength = (int)((g_RYSYSParam.m_dCarMoveBufferLength + g_RYSYSParam.m_dPrintAeraLength + g_RYSYSParam.m_dCarMoveBufferLength2) * 5080);//SinglePass运动距离：20200327新增：
 
-            royal.LPPrtRunInfo RTinfo = new LPPrtRunInfo();////（2-2）20200411新增（精华）：正式的打印处理框架：
+            //royal.LPPrtRunInfo RTinfo = new LPPrtRunInfo();////（2-2）20200411新增（精华）：正式的打印处理框架：//20230213注释
             LPPassDataItem pPrtPassDes = new LPPassDataItem();//20200411:此处存在比较严重的问题            
             int size2 = Marshal.SizeOf(pPrtPassDes)/* * pPrtPassDes.Length*/;//20200427新增：
             IntPtr ImgPtr = Marshal.AllocHGlobal(size2);//20200429批注：类似于C++的NEW的操作
@@ -1934,12 +2055,12 @@ namespace BinderJetting
             msg = $"开启自动供墨：DEV_EnableInkAutoSupply：ControlBit{{0xFF}}";
             Log4Net.Info(msg);
 #endif
-            #region 监控发送指令//20230113新建且批注：
+#region 监控发送指令//20230113新建且批注：
             SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
             //sendMessageToCamera.LoadJsonFile();
             //sendMessageToCamera.SendMessageFromSharedMemory(tempStartMode,10,13);//20230113新建且批注：监控发送指令
             //sendMessageToCamera.Dispose();//20230113新建且批注：监控发送指令
-            #endregion
+#endregion
             while ((RoyalMap.m_bJobStarted == true))//开启打印处理线程：20200411新建
             {
                 returnPrintValue = (CurrentStartPrintLayer + 1) * g_nRePrintTimes;//20200508：复位打印进度值   
@@ -1950,6 +2071,18 @@ namespace BinderJetting
                 {
                     if (PrintConrolFlag == "StartPrint" || PrintConrolFlag == "KeepPrint")//每次打印之前，都需要执行指令判断
                     {
+                        if(PrintConrolFlag == "StartPrint" )//20230213新增
+                        {
+                            msg = "接收到起始打印指令：PrintTaskTHREAD";
+                            Log4Net.Info(msg);
+                        }
+                        else if(PrintConrolFlag == "KeepPrint") 
+                        {
+                            msg = "接收到恢复打印指令：PrintTaskTHREAD";
+                            Log4Net.Info(msg);
+                        }
+                        else { }
+
 #if true//20220524批注：刷新进度控件
                         int renderIndex = ((k - 1) / g_nRePrintTimes) + g_nLayerStart /*k*/;
                         Rendering2D(renderIndex); //20200601：实现成形层的逐层预览刷新//201030修改：
@@ -1960,28 +2093,30 @@ namespace BinderJetting
                         /***********************************20200508:实际打印过程：*********************************/
                         int PassItems = 0;//20220524新增：
 
-                        #region 监控指令：喷墨拍摄位点1
+#region 监控指令：喷墨拍摄位点1
                         sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems])
                         {
                             sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 1);//20230113新建且批注：监控发送指令
                         }
-                        #endregion
+#endregion
 
                         for (PassItems = 0; PassItems < 6/*7*/; PassItems++)//20220531修改：总共数量为6 PASS
                         {
                             /*****************（1）20220524批注：确保获取打印PASS信息*********************/
                             int nPassID = PassItems/*0*//*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行//20220524新增：修改为多PASS打印
-                            bool ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                            /*bool*/ ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
                             /*string*/
-                            msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
+                            msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
                                 $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
                                 $"nHwMemAdrMatchMask{{{pPrtPassDes.nHwMemAdrMatchMask}}}nLayerIndex{{{pPrtPassDes.nLayerIndex}}}" +
                                 $"nLayerPassCount{{{pPrtPassDes.nLayerPassCount}}}nLayerPassIndex{{{pPrtPassDes.nLayerPassIndex}}}" +
-                                $"nMinJet0ImgLinePos{{{pPrtPassDes.nMinJet0ImgLinePos}}}nProcState{{{pPrtPassDes.nProcState}}}" +
-                                $"nPrtColBytes{{{pPrtPassDes.nPrtColBytes}}}nPrtDataOffset{{{pPrtPassDes.nPrtDataOffset}}}" +
-                                $"nPrtMemHwAddr{{{pPrtPassDes.nPrtMemHwAddr}}}nPrtPrecession{{{pPrtPassDes.nPrtPrecession}}}"+
-                                $"nSrcDataSize{{{pPrtPassDes.nSrcDataSize}}}nSrcEndCols{{{pPrtPassDes.nSrcEndCols}}}" +
+                                $"nMinJet0ImgLinePos{{{pPrtPassDes.nMinJet0ImgLinePos}}}" +
+                                
+                                $"nPrtMemHwAddr{{{pPrtPassDes.nPrtMemHwAddr}}}nPrtDataOffset{{{pPrtPassDes.nPrtDataOffset}}}" +
+                                $"nSrcDataSize{{{pPrtPassDes.nSrcDataSize}}}nPrtColBytes{{{pPrtPassDes.nPrtColBytes}}}"+
+                                
+                                $"nPrtPrecession{{{pPrtPassDes.nPrtPrecession}}}nSrcEndCols{{{pPrtPassDes.nSrcEndCols}}}" +
                                 $"nSrcStartCols{{{pPrtPassDes.nSrcStartCols}}}nStartEncPos{{{pPrtPassDes.nStartEncPos}}}"+
                                 $"nValidPassJets{{{pPrtPassDes.nValidPassJets}}}nValidPrtCols{{{pPrtPassDes.nValidPrtCols}}}" +
                                 $"nValidPrtCtlCnts{{{pPrtPassDes.nValidPrtCtlCnts}}}pDataBuf{{{pPrtPassDes.pDataBuf}}}"+
@@ -1992,14 +2127,16 @@ namespace BinderJetting
                             {
                                 Thread.Sleep(100);//等待1s时间，再次GetPassItem;
                                 ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
-                                msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
+                                msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
                                     $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
                                     $"nHwMemAdrMatchMask{{{pPrtPassDes.nHwMemAdrMatchMask}}}nLayerIndex{{{pPrtPassDes.nLayerIndex}}}" +
                                     $"nLayerPassCount{{{pPrtPassDes.nLayerPassCount}}}nLayerPassIndex{{{pPrtPassDes.nLayerPassIndex}}}" +
-                                    $"nMinJet0ImgLinePos{{{pPrtPassDes.nMinJet0ImgLinePos}}}nProcState{{{pPrtPassDes.nProcState}}}" +
-                                    $"nPrtColBytes{{{pPrtPassDes.nPrtColBytes}}}nPrtDataOffset{{{pPrtPassDes.nPrtDataOffset}}}" +
-                                    $"nPrtMemHwAddr{{{pPrtPassDes.nPrtMemHwAddr}}}nPrtPrecession{{{pPrtPassDes.nPrtPrecession}}}" +
-                                    $"nSrcDataSize{{{pPrtPassDes.nSrcDataSize}}}nSrcEndCols{{{pPrtPassDes.nSrcEndCols}}}" +
+                                    $"nMinJet0ImgLinePos{{{pPrtPassDes.nMinJet0ImgLinePos}}}" +
+
+                                    $"nPrtMemHwAddr{{{pPrtPassDes.nPrtMemHwAddr}}}nPrtDataOffset{{{pPrtPassDes.nPrtDataOffset}}}" +
+                                    $"nSrcDataSize{{{pPrtPassDes.nSrcDataSize}}}nPrtColBytes{{{pPrtPassDes.nPrtColBytes}}}" +
+
+                                    $"nPrtPrecession{{{pPrtPassDes.nPrtPrecession}}}nSrcEndCols{{{pPrtPassDes.nSrcEndCols}}}" +
                                     $"nSrcStartCols{{{pPrtPassDes.nSrcStartCols}}}nStartEncPos{{{pPrtPassDes.nStartEncPos}}}" +
                                     $"nValidPassJets{{{pPrtPassDes.nValidPassJets}}}nValidPrtCols{{{pPrtPassDes.nValidPrtCols}}}" +
                                     $"nValidPrtCtlCnts{{{pPrtPassDes.nValidPrtCtlCnts}}}pDataBuf{{{pPrtPassDes.pDataBuf}}}" +
@@ -2055,21 +2192,21 @@ namespace BinderJetting
 
 #if true//20220524批注：（2）自动喷墨运动
 
-                                    #region
+#region
                                     //（1-1）注意：一定要取消跳白功能//（1-2）计算运动参数:运行速度、运行距离，依据SinglePass和MultiPass等运动模式*/
-                                    #endregion
+#endregion
 
                                     bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
                                     float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
                                     EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, ref sendMessageToCamera, 0, 0);//自动喷墨运动逻辑
 
-                                    #region 监控指令：喷墨拍摄位点2-3-4-5-6-7
+#region 监控指令：喷墨拍摄位点2-3-4-5-6-7
                                     //sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
                                     if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems + 1])
                                     {
                                         sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 2);//20230113新建且批注：监控发送指令
                                     }
-                                    #endregion
+#endregion
 
                                     //bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
                                     //float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
@@ -2136,23 +2273,23 @@ namespace BinderJetting
 
                             if (k < (LayerEndNum + 1) * g_nRePrintTimes)//20220524新建：避免埋掉，最后一次不进给铺粉
                             {
-                                #region 监控指令：铺粉拍摄位点1
+#region 监控指令：铺粉拍摄位点1
                                 if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[7])
                                 {
                                     sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, 8);//20230113新建且批注：监控发送指令
                                 }
-                                #endregion
+#endregion
 
                                 //EquipmentMotionLogic3(0, 2);//自动进给预送粉
                                 //EquipmentMotionLogic3(0, 3);//自动进给正式铺粉
                                 EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, ref sendMessageToCamera, renderIndex, 10);//自动铺粉逻辑
 
-                                #region 监控指令：铺粉拍摄位点5
+#region 监控指令：铺粉拍摄位点5
                                 if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
                                 {
                                     sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, 12);//20230113新建且批注：监控发送指令
                                 }
-                                #endregion
+#endregion
                             }
                             else { }
 
@@ -2175,11 +2312,20 @@ namespace BinderJetting
                     }
                     else if (PrintConrolFlag == "PausePrint")
                     {
+                        msg = "接收到暂停打印指令：PrintTaskTHREAD";
+                        Log4Net.Info(msg);
+
                         Thread.Sleep(200);//200ms周期在持续等待：继续指令或者停止指令。
                         k--;
                         g_nCurrentLayer = (k - 1) / g_nRePrintTimes/*k*/;//20201121修改：
                     }
-                    else if (PrintConrolFlag == "StopPrint") { break; }
+                    else if (PrintConrolFlag == "StopPrint") 
+                    {
+                        msg = "接收到中止打印指令：PrintTaskTHREAD";
+                        Log4Net.Info(msg);
+
+                        break;
+                    }
                     else { }
 
                     //System.Diagnostics.Debug.WriteLine("Debug:" + "LaserADD" + "打印完成第" + k + "层");//20200801批注：添加DebugView日志记录
@@ -2188,13 +2334,19 @@ namespace BinderJetting
                 RoyalMap.m_bJobStarted = false;
                 PrinterRunInfo(":当前打印任务完成：区间为" + (g_nLayerStart + 1) + " 层到 " + (g_nLayerEnd + 1) + " 层");
             }
-            #region 监控发送指令//20230113新建且批注：
+#region 监控发送指令//20230113新建且批注：
             sendMessageToCamera.Dispose(); //20230113新建且批注：监控发送指令
-            #endregion
+#endregion
+
+            /*bool*/ ReturnFlag = royal.royal.IDP_StopPrintJob();
+
+            msg = $"停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{{{ReturnFlag}}}";
+            Log4Net.Info(msg);
+
             Marshal.FreeHGlobal(ImgPtr);//20200429批注：释放内存,一定要及时释放内存//批注：代码位置，需要重点考虑
             PrintFlag = false;//20200716新增：关闭打印机维护的间歇闪喷使能
             g_TaskThreadSTATE[4] = 3;//20201119新增：DataTaskThread恢复为终止状态（打印完）
-            #region
+#region
             //（3）自然执行完毕，自然结束打印区间任务
             DeleteThread("PrintTaskTHREAD");//20200220：本线程结束，需要及时清理相关线程
             if (LayerEnd.InvokeRequired == true)//20200313新增批注：此位置严格来说执行不到
@@ -2205,7 +2357,7 @@ namespace BinderJetting
                         this.LayerStart.Enabled = true;//恢复控件操作
                     }));
             }
-            #endregion
+#endregion
         }
         string[] g_calirationFigurePaths = new string[6] { @"\垂直校准图.bmp", @"\往返差校准图-0.bmp", @"\往返差校准图-1.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-1.bmp", @"\STATUS.bmp" };//20210324新增：//20210325修复BUG:6张图一定要路径准确
         private void PrintTaskTHREAD2()//3DP校准打印主流程：20210321新建批注
@@ -2226,7 +2378,7 @@ namespace BinderJetting
             float m_szMovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增//确定准确的墨车运动速度值
             uint m_unCarMoveSpeed = MM_TO_DOT(m_szMovSpeed, 5080);//20200328新增
             g_nCarSinglePassLength = (int)((g_RYSYSParam.m_dCarMoveBufferLength + g_RYSYSParam.m_dPrintAeraLength + g_RYSYSParam.m_dCarMoveBufferLength2) * 5080);//SinglePass运动距离：20200327新增：
-            royal.LPPrtRunInfo RTinfo = new LPPrtRunInfo();////（2-2）20200411新增（精华）：正式的打印处理框架：
+            //royal.LPPrtRunInfo RTinfo = new LPPrtRunInfo();////（2-2）20200411新增（精华）：正式的打印处理框架：
             LPPassDataItem pPrtPassDes = new LPPassDataItem();//20200411:此处存在比较严重的问题            
             int size2 = Marshal.SizeOf(pPrtPassDes)/* * pPrtPassDes.Length*/;//20200427新增：
             IntPtr ImgPtr = Marshal.AllocHGlobal(size2);//20200429批注：类似于C++的NEW的操作
@@ -2369,7 +2521,7 @@ namespace BinderJetting
             Marshal.FreeHGlobal(ImgPtr);//20200429批注：释放内存,一定要及时释放内存//批注：代码位置，需要重点考虑
             PrintFlag = false;//20200716新增：关闭打印机维护的间歇闪喷使能
             g_TaskThreadSTATE[4] = 3;//20201119新增：DataTaskThread恢复为终止状态（打印完）
-            #region
+#region
             //（3）自然执行完毕，自然结束打印区间任务
             DeleteThread("PrintTaskTHREAD2");//20200220：本线程结束，需要及时清理相关线程
             if (LayerEnd.InvokeRequired == true)//20200313新增批注：此位置严格来说执行不到
@@ -2380,17 +2532,18 @@ namespace BinderJetting
                     this.LayerStart.Enabled = true;//恢复控件操作
                 }));
             }
-            #endregion
+#endregion
         }
 
 
         private void BackToStation(double AimPos, float m_MovSpeed)//运动至初始区域：AimPos位置单位为MM：精华
         {
-            royal.LPPrtRunInfo RTinfo = new LPPrtRunInfo();////（2-2）20200411新增（精华）：正式的打印处理框架：
+            //royal.LPPrtRunInfo RTinfo = new LPPrtRunInfo();////（2-2）20200411新增（精华）：正式的打印处理框架：
 
             UInt32 nCtlValue = /*2*/2; UInt32 CurrentPos = 0; bool DirFlag = false;
             //float m_MovSpeed = 50;//50mm/s速度进行移动；到站延时运动精度0.5mm//20201020新增：
-            bool Directory = false; uint nRevPls = 0; double nSpeed = MM_TO_DOT(m_MovSpeed, 5080);//20200803修改：已包含运动修正系统//double nSpeed = 68016;
+            //bool Directory = false;uint nRevPls = 0; 
+            double nSpeed = MM_TO_DOT(m_MovSpeed, 5080);//20200803修改：已包含运动修正系统//double nSpeed = 68016;
 
             CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
             if (CurrentPos * 0.005 >= AimPos)//墨车在清洗站台右侧
@@ -2627,7 +2780,7 @@ namespace BinderJetting
             }
             else if (Command == 4)//20220524新增：自动喷墨逻辑
             {
-                AutoPrintMotion.AutoPrintThread2(1, PassIndex, m_MovSpeed);//
+                AutoPrintMotion.AutoPrintThread2(1, PassIndex, m_MovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex);//
             }
             else
             {
@@ -2947,7 +3100,7 @@ namespace BinderJetting
         //public static AutoPrintParamInTest g_RYSYSParamAutoPrintParamInTest = new AutoPrintParamInTest();//存储所有的的JOB参数//非常关键//20200327新建:
         private void ManulBtn_Click(object sender, EventArgs e)//手动调试按钮
         {
-            string msg = "进入手动调试子模块！";
+            string msg = $"进入手动调试子模块！";
             Log4Net.Info(msg);
 
             //（1）多轴行程值初始化（2）多轴运动值初始化
@@ -2987,7 +3140,8 @@ namespace BinderJetting
                 g_bAutoSupplyInkFlag = f.m_bInkSuppy;
                 //g_RYSYSParamAutoPrintParamInTest = f.k_RYSYSParamAutoPrintParamInTest;//20201020新增：
 
-                msg = "执行修改后，退出手动调试子模块！";
+                msg = "退出手动调试子模块,已执行修改\r\n" +
+                $"==========================================================================";
                 Log4Net.Info(msg);
             }
             else if (result == DialogResult.Cancel)//20200222：退出时，什么都不做
@@ -3000,7 +3154,8 @@ namespace BinderJetting
                 g_bAutoSupplyInkFlag = f.m_bInkSuppy;
                 //g_RYSYSParamAutoPrintParamInTest = f.k_RYSYSParamAutoPrintParamInTest;//20201020新增：
 
-                msg = "不执行修改，退出手动调试子模块！";
+                msg = "退出手动调试子模块，未执行修改\r\n" +
+                $"==========================================================================";
                 Log4Net.Info(msg);
             }
         }
@@ -3017,6 +3172,8 @@ namespace BinderJetting
         bool RipExistFlag = false;//20200508新建：RIP进程存在Flag
         private void 主界面_FormClosing(object sender, FormClosingEventArgs e)//20200224新增：
         {
+            String msg = null;
+            
             退出确认 f = new 退出确认();//20200224修改:
 
             DialogResult result = f.ShowDialog();
@@ -3024,8 +3181,16 @@ namespace BinderJetting
             {
                 //(1)关闭RoyalPrintCard控制器的XYZ3周
                 bool nRetVal = royal.royal.DEM_StopAxisRun(false, 0x7);//同时停止X/Y/Z的运动3轴运动：20200305
-                                                                       //(2)关闭RoyalPrintCard控制器
+
+                msg = $"软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{{{false}}},nAxisMask{{0x7}}";
+                Log4Net.Info(msg);
+
+                //(2)关闭RoyalPrintCard控制器
                 bool ReturnCode = royal.royal.DEV_CloseDevice();
+
+                msg = $"软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice";
+                Log4Net.Info(msg);
+
                 if (RipExistFlag == true)
                 {
                     SendControlCommand(4, 0);//写入到远程：开启远程RIP工作
@@ -3035,17 +3200,64 @@ namespace BinderJetting
                 Thread tempThread1 = PrinterLogicThreads.Where(x => x.Name == (tempThreadName1)).FirstOrDefault();
                 string tempThreadName2 = "DataTaskTHREAD";
                 Thread tempThread2 = PrinterLogicThreads.Where(x => x.Name == (tempThreadName2)).FirstOrDefault();
-                if (tempThread1 != null || tempThread2 != null)
+                if (tempThread1 != null || tempThread2 != null)//退出失败
                 {
+                    msg = $"软件及设备关停失败，仍存在打印任务：{{PrintTaskTHREAD,DataTaskTHREAD}}";
+                    Log4Net.Info(msg);
+
                     MessageBox.Show("请新关闭打印任务！");
                     e.Cancel = true;//继续正常退出
                 }
-                else
+                else//退出成功
                 {
                     g_SharpControl.DisposeClosing();
                     base.OnClosing(e);
 
                     e.Cancel = false;//继续正常退出
+
+#if false
+                    msg = $"软件及设备关停成功\r\n" +
+                        $"==========================================================================";
+                    Log4Net.Info(msg);
+#else
+                    // (1)获取CPU使用率
+                    PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total", true);
+                    cpuCounter.NextValue();
+                    System.Threading.Thread.Sleep(100/*1000*/); // 等待一秒
+                    float cpuUsage = cpuCounter.NextValue();//string msg1 = $"CPU使用率：{cpuUsage}%";
+
+                    // (2)获取可用内存大小
+                    ComputerInfo info = new ComputerInfo();
+                    long freeMemory = (long)info.AvailablePhysicalMemory / 1024 / 1024;//MB
+
+                    // (3)获取硬盘剩余空间
+                    string msg3 = null;
+                    System.IO.DriveInfo[] drives = DriveInfo.GetDrives();
+                    foreach (DriveInfo drive in drives)
+                    {
+                        if (drive.IsReady)
+                        {
+                            msg3 = msg3 + $"  盘符 { drive.Name} 的剩余空间：{drive.TotalFreeSpace / 1024 / 1024 / 1024} GB\r\n";
+                        }
+                    }
+
+                    // (7)获取当前系统的.NET Framework版本
+                    string version = Environment.Version.ToString();
+
+                    // (8)获取当前进程所在的盘符
+                    string driveLetter = Process.GetCurrentProcess().MainModule.FileName.Substring(0, 1);
+
+                    msg = $"软件及设备关停成功\r\n" +
+                        $"==========================================================================\r\n" +
+                        $"操作系统:{{{GetOSFriendlyName()}}}\r\n" +
+                        $"运行环境:{{ .Net Framework Enviroment Version {version}}}\r\n" +
+                        $"盘符：{driveLetter}\r\n" +
+                        $"CPU使用率：{{{cpuUsage}%}} ，可用内存大小:{{{freeMemory}MB}}，硬盘剩余空间：\r\n" +
+                        $"{msg3}" +
+                        $"==========================================================================";
+                    Log4Net.Info(msg);
+#endif
+
                 }
                 //#if true//普通状态退出
                 //                //(2)继续退出
@@ -3059,7 +3271,8 @@ namespace BinderJetting
                 //string ProcessesName = "RIP组件.exe";
                 //KillProcess(ProcessesName);
                 //SendControlCommand(4, 0);//写入到远程：开启远程RIP工作
-
+                msg = $"软件及设备关停中止：手动取消关停";
+                Log4Net.Info(msg);
                 e.Cancel = true;//取消退出
             }
         }
@@ -3393,7 +3606,7 @@ namespace BinderJetting
             if (tempThread != null)
             {
                 tempThread.Abort();//20200221修改:当调用非托管线程时，有时会抛出异常但不一定及时停止
-                while (tempThread.ThreadState != ThreadState.Aborted)
+                while (tempThread.ThreadState != System.Threading.ThreadState.Aborted)
                 { Thread.Sleep(100); }
                 AutoPrintThreads.Remove(tempThread);//20200111添加：解决Gohome无法重新执行的BUG
             }
@@ -3506,13 +3719,8 @@ namespace BinderJetting
                     MasterSwitchBtn.BackgroundImage = Resource.总开关_on_38x38;
                     MasterSwitchBtn.Text = "关闭\r\n系统";
                 }
-                try
-                {
-                    ShowMoreBtnDialog(m_cGoogolMotionMap);//20200313新增：立即弹出电气状态
-                }
-                catch (Exception e) //自定义几类异常：（1）数字输入异常；（2）模拟输入异常；（3）逻辑本身异常；20200312
-                {
-                }
+                
+                ShowMoreBtnDialog(m_cGoogolMotionMap);//20200313新增：立即弹出电气状态
             }
             else//如果调用该函数的线程和控件lstMain不在同一个线程
             {
@@ -3818,6 +4026,7 @@ namespace BinderJetting
         RoyalPrintingMap RoyalMap = new RoyalPrintingMap();//创建GoogolMotionMap对象，供本窗口调用
         private void StartJobBtn_Click(object sender, EventArgs e)//启动JOB
         {
+#if FALSE
             if (JOBEnableFlag == false)//（壹）打开JOB指令
             {
                 ///(1)JOB参数设置：
@@ -3866,6 +4075,7 @@ namespace BinderJetting
 
                 this.LoadDataBtn.Enabled = true;//2020430新增：恢复载入数据控件交互
             }
+#endif
         }
         /// <summary>
         ///  start or close success will return true, while will return false: SET the print file infomation
@@ -3910,7 +4120,7 @@ namespace BinderJetting
                     return false;
                 }
 
-                msg = "写入打印任务成功：IDP_SartPrintJob：" + $"nJobID{{{royal.royal.g_PrtJobItem.nJobID}}}" +
+                msg = "写入打印参数：IDP_SartPrintJob：" + $"nJobID{{{royal.royal.g_PrtJobItem.nJobID}}}" +
                     $"szJobName{{{royal.royal.g_PrtJobItem.szJobName}}}nPixelGrayBits{{{royal.royal.g_PrtJobItem.nPixelGrayBits}}} " +
                     $"nPrtCtl{{{ royal.royal.g_PrtJobItem.nPrtCtl}}}nPrtXEncPos{{{ royal.royal.g_PrtJobItem.nPrtXEncPos}}}" +
                     $"fPrtYPos{{{ royal.royal.g_PrtJobItem.fPrtYPos}}}";
@@ -3930,21 +4140,19 @@ namespace BinderJetting
             {
                 ///(1)关闭JOB使能
                 bool returnCode = royal.royal.IDP_StopPrintJob();
+
+                msg = $"停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{{{returnCode}}}";
+                Log4Net.Info(msg);
+
                 if (returnCode == true)
                 {
                     RoyalMap.m_nPrintState = 0;
                     RoyalMap.m_bJobStarted = false;
 
-
-                    msg = "关闭打印任务成功：IDP_StopPrintJob！";
-                    Log4Net.Info(msg);
-
                     return true;
                 }
                 else
                 {
-                    msg = "关闭打印任务失败：IDP_StopPrintJob！";
-                    Log4Net.Info(msg);
                     return false;
                 }
             }
@@ -4486,7 +4694,7 @@ namespace BinderJetting
                     bf.Serialize(fs, CliStreams);
                     fs.Close();
 
-                    string msg = "保存.bjgroup格式CAD数据成功：" + localFilePath;
+                    string msg = "CAD数据保存：保存.bjgroup格式CAD数据成功：" + localFilePath;
                     Log4Net.Info(msg);
                 }
             }
@@ -4504,13 +4712,14 @@ namespace BinderJetting
             //(1)Create the file System
             //(2)Build the TIFF File in the right file Path
             string msg = null;
+            string tempSelectPATHS = null;
 
             LoadDataTransferObject OperationType = TransferObject as LoadDataTransferObject;//类型转换——输入数据//20201113修改//string OperationType = TransferObject as string;//类型转换——输入数据
             switch (OperationType.CadOperationCode)
             {
                 case "1"://ADD
 
-                    string ImportPathList = null;
+                    //string ImportPathList = null;
                     foreach (string path in tempPath)//Path is the path of CLI file.
                     {
                         string extension = System.IO.Path.GetExtension(path);//20221125新增：获取文件的扩展名
@@ -4529,7 +4738,7 @@ namespace BinderJetting
                                     UpdateListView(tempCliStreams[i].recordPathItem, 1, tempCliStreams[i].LayerNumber);//20201111新增：完成JobList的更新
                                 }
 
-                                msg = "数据加载模块：添加.bjgroup格式CAD数据成功-" + path;
+                                msg = "CAD数据加载：添加.bjgroup格式CAD数据成功-" + path;
                                 Log4Net.Info(msg);
                             }
                             catch (Exception)
@@ -4555,13 +4764,11 @@ namespace BinderJetting
                                 CliStreams.Add(/*STL.ReadCLI(path)*/tempSTL);//(2)Read the CLIfile to the memory just only once                            
                                 UpdateListView(path, 1, tempSTL.LayerNumber);//20201111新增：完成JobList的更新
 
-                                msg = "数据加载模块：添加.CLI格式CAD数据成功-" + path;
+                                msg = "CAD数据加载：添加.CLI格式CAD数据成功-" + path;
                                 Log4Net.Info(msg);
                             }
                         }
                     }
-
-
                     tempPath.Clear();//20221125新增：清理完路径
 
                     ////（1）读取文件：.bjgroup类型文件
@@ -4594,12 +4801,23 @@ namespace BinderJetting
                         CliStreams.RemoveAll(t => t.recordPathItem.Equals(path));//CliStreams.Find(t => t.recordPathItem.Equals(path));
                         UpdateListView(path, 2, 0);//20201111新增：完成JobList的更新//参数0无意义，形式而已
 
-                        msg = "数据删除模块：删除.CLI格式CAD数据成功-" + path;
+                        msg = "CAD数据删除：删除.CLI格式CAD数据成功-" + path;
                         Log4Net.Info(msg);
                     }
                     break;
                 case "3"://MOVE
                     TranslateCliStreams(ref CliStreams, g_SharpControl.selectPaths, OperationType);
+
+                    for (int i = 0; i < g_SharpControl.selectPaths.Count; i++)
+                    {
+                        tempSelectPATHS = tempSelectPATHS + g_SharpControl.selectPaths[i];
+                    }      
+                    msg = $"CAD位置平移：SelectCADFile{{{ tempSelectPATHS}}}\r\n" +
+                        $"平移方式{{true为目标位置平移，false为相对平移{{{OperationType.translateMode}}}}}" +
+                        $"X方向平移目标值{{{OperationType.xTranslate}MM}}Y方向平移目标值{{{OperationType.yTranslate}MM}}" +
+                        $"Z方向平移目标值{{{OperationType.zTranslate}MM}}X方向平移增量{{{OperationType.xDeltaTranslate}MM}}" +
+                        $"Y方向平移增量{{{OperationType.yDeltaTranslate}MM}}Z方向平移增量{{{OperationType.zDeltaTranslate}MM}}" ;
+                    Log4Net.Info(msg);
 
                     break;
                 case "4"://SCALE
@@ -4610,6 +4828,16 @@ namespace BinderJetting
 
                     ArrayCliStreams(ref CliStreams, g_SharpControl.selectPaths, (float)OperationType.xSpace/*60*/,
                         -(float)OperationType.ySpace/*60*/, OperationType.xnum/*5*/, OperationType.ynum/*2*/);//20201112新增，精华：Vitural ADD//20221125修改：修复Y向相反问题
+
+                    for (int i = 0; i < g_SharpControl.selectPaths.Count; i++)
+                    {
+                        tempSelectPATHS = tempSelectPATHS + g_SharpControl.selectPaths[i];
+                    }
+                    msg = $"CAD数据阵列：SelectCADFile{{{ tempSelectPATHS}}}\r\n" +
+                        $"X方向间距{{{OperationType.xSpace}MM}}Y方向间距{{{-(float)OperationType.ySpace}MM}}" +
+                        $"X方向数目{{{ OperationType.xnum}}}Y方向数目{{{ OperationType.ynum}}}";
+                    Log4Net.Info(msg);
+
                     break;
             }
 
@@ -5592,65 +5820,65 @@ namespace BinderJetting
         string TransferModifyFlag = "StartFlag";//默认标志位为开启传送
         private void PicComposeBtn_Click(object sender, EventArgs e)//图片排版确认按钮————点击之后不可以修改，双击之后才可以修改
         {
-            if (ImportCLIFlag == true)//已经载入CAD文件//(1)检测标志位：是否载入CAD文件
-            {
-                //(1-2)检测传送线程标志位：
-                if (FinalJOBThreadExistedFlag == false)//不存在传送线程
-                {
-                    //（1）新建数据处理及传送线程:（耗时操作）
-                    string tempThreadName = "DataTaskTHREAD";
-                    Thread tempThread = PrinterLogicThreads.Where(x => x.Name == (tempThreadName)).FirstOrDefault();
-                    if (tempThread != null)
-                    {
-                        PrinterLogicThreads.Remove(tempThread);//以防万一
-                    }
-                    else//开启数据处理及传送线程:（耗时操作）
-                    {
-                        //(1)开启数据处理及传送线程
-                        ThreadStart initThreadEntry = new ThreadStart(DataTaskTHREAD);//20200220:线程入口方法修改为联动线程
-                        tempThread = new Thread(initThreadEntry) { IsBackground = true };
-                        tempThread.Name = tempThreadName;
-                        tempThread.Start();
-                        PrinterLogicThreads.Add(tempThread);//没有创建过的时候，才重新添加新的线程
+            ////if (ImportCLIFlag == true)//已经载入CAD文件//(1)检测标志位：是否载入CAD文件
+            ////{
+            ////    //(1-2)检测传送线程标志位：
+            ////    if (FinalJOBThreadExistedFlag == false)//不存在传送线程
+            ////    {
+            ////        //（1）新建数据处理及传送线程:（耗时操作）
+            ////        string tempThreadName = "DataTaskTHREAD";
+            ////        Thread tempThread = PrinterLogicThreads.Where(x => x.Name == (tempThreadName)).FirstOrDefault();
+            ////        if (tempThread != null)
+            ////        {
+            ////            PrinterLogicThreads.Remove(tempThread);//以防万一
+            ////        }
+            ////        else//开启数据处理及传送线程:（耗时操作）
+            ////        {
+            ////            //(1)开启数据处理及传送线程
+            ////            ThreadStart initThreadEntry = new ThreadStart(DataTaskTHREAD);//20200220:线程入口方法修改为联动线程
+            ////            tempThread = new Thread(initThreadEntry) { IsBackground = true };
+            ////            tempThread.Name = tempThreadName;
+            ////            tempThread.Start();
+            ////            PrinterLogicThreads.Add(tempThread);//没有创建过的时候，才重新添加新的线程
 
-                        //(2)UI进行对应的设置：
-                        //（A）修改按钮状态为：暂停输出
-                        this.PicComposeBtn.Text = "暂停" + "\n" + "传送";
-                        this.PicComposeBtn.TextAlign = ContentAlignment.MiddleRight;
-                        this.PicComposeBtn.BackgroundImage = Resource.ComposeBlue_38x38;
-                        FinalJOBThreadExistedFlag = true;//20200415批注：个人感觉可以去掉，使用后台辅助工作的话
-                        //（B）开启panel3监听：改变panel3的控制状态
-                        this.panel3.Enabled = true;//停止监听事件
-                    }
-                }
-                else//存在传送线程
-                {
-                    this.PicComposeBtn.Text = "修改" + "\n" + "传送";//修改按钮状态为：暂停输出
-                    TransferModifyFlag = "PauseFlag";//传送取消标志位
+            ////            //(2)UI进行对应的设置：
+            ////            //（A）修改按钮状态为：暂停输出
+            ////            this.PicComposeBtn.Text = "暂停" + "\n" + "传送";
+            ////            this.PicComposeBtn.TextAlign = ContentAlignment.MiddleRight;
+            ////            this.PicComposeBtn.BackgroundImage = Resource.ComposeBlue_38x38;
+            ////            FinalJOBThreadExistedFlag = true;//20200415批注：个人感觉可以去掉，使用后台辅助工作的话
+            ////            //（B）开启panel3监听：改变panel3的控制状态
+            ////            this.panel3.Enabled = true;//停止监听事件
+            ////        }
+            ////    }
+            ////    else//存在传送线程
+            ////    {
+            ////        this.PicComposeBtn.Text = "修改" + "\n" + "传送";//修改按钮状态为：暂停输出
+            ////        TransferModifyFlag = "PauseFlag";//传送取消标志位
 
-                    JOB传送确认 a = new JOB传送确认(ImportCLIFlag);//(1) 弹出对话框，提示：确认要输出最终的排版，开始输出：       
-                    DialogResult result = a.ShowDialog();
-                    if (result == DialogResult.Abort)//取消当前传送：20200611关键代码：中止本线程工作
-                    {
-                        string tempThreadName = "DataTaskTHREAD";//(1)关闭联调线程
-                        DeleteThread(tempThreadName);
-                        this.PicComposeBtn.Text = "处理" + "\n" + "传送";//修改按钮状态为：暂停输出
-                        FinalJOBThreadExistedFlag = false;//20200415批注：个人感觉可以去掉，使用后台辅助工作的话
-                        TransferModifyFlag = "StartFlag";//传送取消标志位
-                    }
-                    else if (result == DialogResult.Cancel)//忽略传送
-                    {
-                        TransferModifyFlag = "CancelFlag";//忽略传送标志位
-                    }
-                    else
-                    {
-                    }
-                }
-            }
-            else//没有载入过CAD文件
-            {
-                MessageBox.Show("请先载入CAD数据。。。");
-            }
+            ////        JOB传送确认 a = new JOB传送确认(ImportCLIFlag);//(1) 弹出对话框，提示：确认要输出最终的排版，开始输出：       
+            ////        DialogResult result = a.ShowDialog();
+            ////        if (result == DialogResult.Abort)//取消当前传送：20200611关键代码：中止本线程工作
+            ////        {
+            ////            string tempThreadName = "DataTaskTHREAD";//(1)关闭联调线程
+            ////            DeleteThread(tempThreadName);
+            ////            this.PicComposeBtn.Text = "处理" + "\n" + "传送";//修改按钮状态为：暂停输出
+            ////            FinalJOBThreadExistedFlag = false;//20200415批注：个人感觉可以去掉，使用后台辅助工作的话
+            ////            TransferModifyFlag = "StartFlag";//传送取消标志位
+            ////        }
+            ////        else if (result == DialogResult.Cancel)//忽略传送
+            ////        {
+            ////            TransferModifyFlag = "CancelFlag";//忽略传送标志位
+            ////        }
+            ////        else
+            ////        {
+            ////        }
+            ////    }
+            ////}
+            ////else//没有载入过CAD文件
+            ////{
+            ////    MessageBox.Show("请先载入CAD数据。。。");
+            ////}
         }
         static ManualResetEventSlim _FinalJobEvent = new ManualResetEventSlim(false); //手动复位事件：线程同步————important for the thread communication: 如果初始事件状态为true,那么 AutoResetEvent实例的状态为signaled
         private int g_PrintSchedule = -1;//目的为任务间同步：初始态为-1；打印完成之后//20201118新增：全局的打印进度，用于协调数据线程和打印线程的启动时机
@@ -5659,6 +5887,7 @@ namespace BinderJetting
         /// </summary>
         private void DataTaskTHREAD()//20200609新建：不适用异步，及多进程加速使用多线程加速
         {
+            string msg = null;
             g_TaskThreadSTATE[3] = 2;//20201119新增：处于运行状态
             g_PrintSchedule = -1;//20201118新增：每次开启数据处理线程时，均复位
 
@@ -5715,6 +5944,10 @@ namespace BinderJetting
                             {//状态转移：挂起本线程
                                 DataTaskFlag = 3;//暂停态标志
                                 j--;//保存当前打印层索引：j--,然后，j++，最后索引保持不变
+
+                                msg = "接收到暂停打印指令：DataTaskTHREAD";
+                                Log4Net.Info(msg);
+
                                 Thread.Sleep(100);//挂起本线程
                             }
                             break;
@@ -5723,6 +5956,9 @@ namespace BinderJetting
                                 DataTaskFlag = 3;//暂停态标志
                                 j--;
                                 TransferModifyFlag = "StartFlag";//返回到状态："StartFlag"
+
+                                msg = "接收到恢复打印指令：DataTaskTHREAD";
+                                Log4Net.Info(msg);
                             }
                             break;
                         default:
@@ -6106,6 +6342,7 @@ namespace BinderJetting
         bool m_bShoveFlag = true;//20200605修改：//20220525修改：默认状态：未压墨
         private void FlashBtn_Click(object sender, EventArgs e)//闪喷控制
         {
+            string msg = null;
             if (m_bFlashFlag == false)//(b)根据ID反转背景图片
             {
                 // (sender as Control).BackColor = Color.DarkOrchid;
@@ -6120,11 +6357,19 @@ namespace BinderJetting
             if (m_bFlashFlag == true)//打开和关闭闪喷：
             {
                 bool nRetVal = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷
+
+                msg = $"开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal}}}";
+                Log4Net.Info(msg);
+
                 m_bFlashFlag = false;
             }
             else
             {
                 bool nRetVal = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷
+
+                msg = $"关闭闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal}}}";
+                Log4Net.Info(msg);
+
                 m_bFlashFlag = true;
             }
         }
@@ -6359,7 +6604,7 @@ namespace BinderJetting
             if (tempThread != null)
             {
                 tempThread.Abort();//20200221修改:当调用非托管线程时，有时会抛出异常但不一定及时停止
-                while (tempThread.ThreadState != ThreadState.Aborted)
+                while (tempThread.ThreadState != System.Threading.ThreadState.Aborted)
                 { Thread.Sleep(100); }
                 EncoderResetThreads.Remove(tempThread);//20200111添加：解决Gohome无法重新执行的BUG
             }
@@ -6595,7 +6840,7 @@ namespace BinderJetting
                 if (tempThread != null)
                 {
                     tempThread.Abort();//20200221修改:当调用非托管线程时，有时会抛出异常但不一定及时停止
-                    while (tempThread.ThreadState != ThreadState.Aborted)
+                    while (tempThread.ThreadState != System.Threading.ThreadState.Aborted)
                     { Thread.Sleep(100); }
                     PrinterLogicThreads.Remove(tempThread);//20200111添加：解决Gohome无法重新执行的BUG
                 }
@@ -6911,6 +7156,9 @@ namespace BinderJetting
                 this.panel4.Visible = true;
 
                 g_SharpControl.ResizeControl(new Rectangle(renderControl1.Top, renderControl1.Left, renderControl1.Width, renderControl1.Height));
+
+                string msg = $"显示JOB任务栏";
+                Log4Net.Info(msg);
             }
             else if (Convert.ToInt32((sender as Control).Tag) == 2)//显示任务栏
             {
@@ -6921,6 +7169,9 @@ namespace BinderJetting
                 this.panel4.Visible = true;
 
                 g_SharpControl.ResizeControl(new Rectangle(renderControl1.Top, renderControl1.Left, renderControl1.Width, renderControl1.Height));
+
+                string msg = $"不显示JOB任务栏";
+                Log4Net.Info(msg);
             }
             else if (Convert.ToInt32((sender as Control).Tag) == 3)//隐藏监控栏
             {
@@ -6935,6 +7186,9 @@ namespace BinderJetting
 
                 g_SharpControl.ResizeControl(new Rectangle(renderControl1.Top, renderControl1.Left, renderControl1.Width, renderControl1.Height));
                 this.button6.Text = "显" + "\n\n" + "示" + "\n\n" + "监" + "\n\n" + "控";
+
+                string msg = $"不显示监控栏";
+                Log4Net.Info(msg);
             }
             else if (Convert.ToInt32((sender as Control).Tag) == 4)//显示监控栏
             {
@@ -6950,6 +7204,9 @@ namespace BinderJetting
 
                 g_SharpControl.ResizeControl(new Rectangle(renderControl1.Top, renderControl1.Left, renderControl1.Width, renderControl1.Height));
                 this.button6.Text = "隐" + "\n\n" + "藏" + "\n\n" + "监" + "\n\n" + "控";
+
+                string msg = $"显示监控栏";
+                Log4Net.Info(msg);
             }
             else if (Convert.ToInt32((sender as Control).Tag) == 5)//隐藏校准栏
             {
@@ -6968,6 +7225,9 @@ namespace BinderJetting
                 this.panel6.Visible = true;
                 (sender as Control).Tag = 6;
                 (sender as Control).Text = "模组\r\n校准";
+
+                string msg = $"不显示模组校准栏";
+                Log4Net.Info(msg);
 
                 //this.panel6.Visible = true;
                 //this.panel5.Visible = true;
@@ -6994,6 +7254,9 @@ namespace BinderJetting
 
                 (sender as Control).Tag = 5;
                 (sender as Control).Text = "关闭\r\n校准";
+
+                string msg = $"显示模组校准栏";
+                Log4Net.Info(msg);
 
                 //this.panel5.Visible = true;
                 //g_SharpControl.ResizeControl(new Rectangle(renderControl1.Top, renderControl1.Left, renderControl1.Width, renderControl1.Height));
@@ -7490,6 +7753,10 @@ namespace BinderJetting
                 //f.k_RYSYSParam.m_bFlagResetCorrect = this.g_bResetCorrectEnabled;
                 //f.k_RYSYSParam = (RYSYSParam)g_RYSYSParam.Clone();//20200326新增//20200401新增：避免直接赋值形成的引用，形成真正的复制
                 //f.PrintStrategys = ObjectCopier.Clone(g_PrintStrategys);//20200806新增：保存打印策略
+
+                string msg = $"监控记录设置！";
+                Log4Net.Info(msg);
+
                 DialogResult result = f.ShowDialog();
                 if (result == DialogResult.OK)//OK时，执行对应操作
                 {
