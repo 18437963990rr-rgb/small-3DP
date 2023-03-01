@@ -5473,7 +5473,7 @@ namespace BinderJetting
 
             //(0000)//20220602修改：Z向进给量:下降一个固定高度
             double vel = 1;//Z向运动速度为1mm/s
-            double TrapSpace = -/*k_RYSYSParamAutoPrintParamInTest.m_nLayerThick*/200 / 1000;//20220525新建批注：层厚：调试用150μm//为负方向
+            double TrapSpace = -/*k_RYSYSParamAutoPrintParamInTest.m_nLayerThick*/(double)200 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
             TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
             Thread.Sleep(800);//等待800 ms
 
@@ -5560,7 +5560,7 @@ namespace BinderJetting
 
             //(9999)//20220602修改：Z向进给量:上升一个固定高度
             vel = 1;//Z向运动速度为1mm/s
-            TrapSpace = /*-*//*k_RYSYSParamAutoPrintParamInTest.m_nLayerThick*/200 / 1000;//20220525新建批注：层厚：调试用150μm//为负方向
+            TrapSpace = /*-*//*k_RYSYSParamAutoPrintParamInTest.m_nLayerThick*/(double)200 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
             TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
             Thread.Sleep(800);//等待800 ms
 
@@ -5577,7 +5577,7 @@ namespace BinderJetting
             Log4Net.Info(msg);
 
             int nIOState = motionMap.MointoringAxis2(2);//铺粉轴的限位状态//第2轴         
-            if ((0 != (nIOState & 0x20)) || (0 != (nIOState & 0x40)))//粉车位于负限位报警区
+            if (/*false*/(0 != (nIOState & 0x20)) || (0 != (nIOState & 0x40)))//粉车位于负限位报警区
             {
                 msg = $"中止手动铺粉逻辑，异常停靠区间退出：NewAutoSupplyPowderThread2：ReturnCode{{{nIOState}}}";
                 Log4Net.Info(msg);
@@ -5633,7 +5633,7 @@ namespace BinderJetting
 #if true//铺粉逻辑，暂时注释掉//20220524新建：成型缸逻辑，一次下降1个层厚
                         //(1)Z向进给：20210125新增//20220525修改：Z向进给量
                         double vel = 1;//Z向运动速度为1mm/s
-                        double TrapSpace = -k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / 1000;//20220525新建批注：层厚：调试用150μm//为负方向
+                        double TrapSpace = -(double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
                         TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
                         Thread.Sleep(800);//等待800 ms
 
@@ -5740,7 +5740,7 @@ namespace BinderJetting
 
                         //20220915新增：铺粉完成 下降一段距离，避免回程压碎
                         vel = 1;//Z向运动速度为1mm/s
-                        TrapSpace = -1500 / 1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
+                        TrapSpace = -(double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
                         TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
 
                         msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
@@ -5764,7 +5764,8 @@ namespace BinderJetting
                         RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
                         double PowderStationCorrection = k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection;
                         AimPos = 1 - PowderStationCorrection;
-                        MovSpeed = 125/*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//更新值到本地变量//回程速度125mm/s
+                        MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed /*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//更新值到本地变量
+                        //回程速度125mm/s//20230228修改：回程固化速度可以修改
                         BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为等停
                         
                         msg = $"铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)";
@@ -5792,7 +5793,7 @@ namespace BinderJetting
 
                         //20220915新增：铺粉完成 下降一段距离，避免回程压碎
                         vel = 1;//Z向运动速度为1mm/s
-                        TrapSpace = 1500 / 1000;//20220525新建批注：层厚：调试用150μm//为负方向
+                        TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
                         TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
                         
                         msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
@@ -5859,7 +5860,6 @@ namespace BinderJetting
                 }
 #endregion
 
-
                 //20220920新建：判断是UV固化还是红外固化
                 if (k_RYSYSParamAutoPrintParamInTest.m_nCureLightStrategy == 0)//判断使用UV还是IR作为固化光源
                 { UVIRLightFlag = true; }
@@ -5875,7 +5875,7 @@ namespace BinderJetting
 #if true//铺粉逻辑，暂时注释掉//20220524新建：成型缸逻辑，一次下降1个层厚
                 //(1)Z向进给：20210125新增//20220525修改：Z向进给量
                 double vel = 1;//Z向运动速度为1mm/s
-                double TrapSpace = -k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / 1000;//20220525新建批注：层厚：调试用150μm//为负方向
+                double TrapSpace = -(double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
                 TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
 
                 msg = $"成形面高度下降层厚 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
@@ -5980,7 +5980,7 @@ namespace BinderJetting
 
                 //20220915新增：铺粉完成 下降一段距离，避免回程压碎
                 vel = 1;//Z向运动速度为1mm/s
-                TrapSpace = -1500 / 1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
+                TrapSpace = -(double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
                 TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//不同于默认，为不等停
                     
                 msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
@@ -6003,7 +6003,7 @@ namespace BinderJetting
                 RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
                 double PowderStationCorrection = k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection;
                 AimPos = 1 - PowderStationCorrection;
-                MovSpeed = 125/*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//更新值到本地变量//回程速度125mm/s
+                MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//更新值到本地变量//回程速度125mm/s
                 BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为等停
 
                 msg = $"铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)";
@@ -6031,7 +6031,7 @@ namespace BinderJetting
 
                 //20220915新增：铺粉完成 下降一段距离，避免回程压碎
                 vel = 1;//Z向运动速度为1mm/s
-                TrapSpace = 1500 / 1000;//20220525新建批注：层厚：调试用150μm//为负方向
+                TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
                 TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
                     
                 msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";

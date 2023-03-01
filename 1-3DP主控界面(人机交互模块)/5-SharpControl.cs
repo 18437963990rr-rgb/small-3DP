@@ -678,7 +678,7 @@ namespace BinderJetting
             //(a)软件版权文字
             deviceContext.Transform = new RawMatrix3x2(1, 0, 0, 1, 0, 0);//deviceContext.ResetTransform();  
 
-            rawVector2.X = xsize - 248; rawVector2.Y = ysize - 33/*33*//*58*/;//20210309修改：//20210310修改：修改变量值，缩减25
+            rawVector2.X = xsize - 295/*248*/; rawVector2.Y = ysize - 55/*33*//*33*//*58*/;//20210309修改：//20210310修改：修改变量值，缩减25
             deviceContext.DrawTextLayout(rawVector2/*new RawVector2(xsize - 248, ysize - 58)*/, textLayout, OutlineBrush);//deviceContext.DrawGlyphRun
             string CurrentLayer = null;                                                                                                             //(b)层数提示信息
             if (CLIImportFlag == true)
@@ -694,7 +694,7 @@ namespace BinderJetting
             while ((textLayout3.IsDisposed == false)) { Thread.Sleep(1); }
             textLayout3 = new TextLayout(dwFactory, CurrentLayer, textFormat3, float.PositiveInfinity, float.PositiveInfinity);//201810100309：存在内存泄漏
 
-            rawVector2.X = xsize - 248; rawVector2.Y = ysize - 63;//20210309修改：
+            rawVector2.X = xsize - 295/*248*/; rawVector2.Y = ysize - 85/*63*/;//20210309修改：
             deviceContext.DrawTextLayout(rawVector2/*new RawVector2(xsize - 248, ysize - 88)*/, textLayout3, OutlineBrush);//deviceContext.DrawGlyphRun
 
             //(9)绘制框选区域

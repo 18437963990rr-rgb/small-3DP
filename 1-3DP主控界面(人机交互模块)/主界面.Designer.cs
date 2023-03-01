@@ -102,11 +102,9 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.退出QToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.doublePanel3 = new CustomPanel.DoublePanel();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.button5 = new System.Windows.Forms.Button();
             this.panel11MainUI = new System.Windows.Forms.Panel();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -210,9 +208,8 @@
             this.JobContextMenuStrip.SuspendLayout();
             this.CadContextMenuStrip.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.doublePanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.panel11MainUI.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -722,7 +719,6 @@
             // 
             // toolStripStatusLabel3
             // 
-            this.toolStripStatusLabel3.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
             resources.ApplyResources(this.toolStripStatusLabel3, "toolStripStatusLabel3");
             // 
@@ -807,19 +803,21 @@
             resources.ApplyResources(this.panel3, "panel3");
             this.panel3.BackColor = System.Drawing.Color.Snow;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.doublePanel3);
-            this.panel3.Controls.Add(this.button5);
             this.panel3.Controls.Add(this.panel11MainUI);
             this.panel3.Controls.Add(this.label15);
             this.panel3.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.panel3.Name = "panel3";
             // 
-            // doublePanel3
+            // panel11MainUI
             // 
-            this.doublePanel3.Controls.Add(this.pictureBox5);
-            this.doublePanel3.Controls.Add(this.statusStrip1);
-            resources.ApplyResources(this.doublePanel3, "doublePanel3");
-            this.doublePanel3.Name = "doublePanel3";
+            resources.ApplyResources(this.panel11MainUI, "panel11MainUI");
+            this.panel11MainUI.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel11MainUI.Controls.Add(this.button5);
+            this.panel11MainUI.Controls.Add(this.pictureBox5);
+            this.panel11MainUI.Controls.Add(this.HScrollBar);
+            this.panel11MainUI.Controls.Add(this.textBox1);
+            this.panel11MainUI.Controls.Add(this.renderControl1);
+            this.panel11MainUI.Name = "panel11MainUI";
             // 
             // pictureBox5
             // 
@@ -827,14 +825,6 @@
             this.pictureBox5.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.TabStop = false;
-            // 
-            // statusStrip1
-            // 
-            resources.ApplyResources(this.statusStrip1, "statusStrip1");
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.statusStrip1.SizingGrip = false;
             // 
             // button5
             // 
@@ -845,15 +835,6 @@
             this.button5.Tag = "2";
             this.button5.UseVisualStyleBackColor = false;
             this.button5.Click += new System.EventHandler(this.ShowHideJobBtns_Click);
-            // 
-            // panel11MainUI
-            // 
-            resources.ApplyResources(this.panel11MainUI, "panel11MainUI");
-            this.panel11MainUI.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel11MainUI.Controls.Add(this.HScrollBar);
-            this.panel11MainUI.Controls.Add(this.textBox1);
-            this.panel11MainUI.Controls.Add(this.renderControl1);
-            this.panel11MainUI.Name = "panel11MainUI";
             // 
             // textBox1
             // 
@@ -874,7 +855,6 @@
             resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
             this.toolStripStatusLabel1.BackColor = System.Drawing.Color.Snow;
             this.toolStripStatusLabel1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.toolStripStatusLabel1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             // 
             // PrinterStatusLabel
@@ -882,7 +862,6 @@
             resources.ApplyResources(this.PrinterStatusLabel, "PrinterStatusLabel");
             this.PrinterStatusLabel.BackColor = System.Drawing.Color.Snow;
             this.PrinterStatusLabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.PrinterStatusLabel.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.PrinterStatusLabel.Name = "PrinterStatusLabel";
             // 
             // button4
@@ -1690,10 +1669,9 @@
             this.JobContextMenuStrip.ResumeLayout(false);
             this.CadContextMenuStrip.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
-            this.doublePanel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.panel11MainUI.ResumeLayout(false);
             this.panel11MainUI.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
@@ -1798,7 +1776,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label PositionLable;
         private System.Windows.Forms.HScrollBar HScrollBar;
-        private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel PrinterStatusLabel;
         private System.Windows.Forms.PictureBox pictureBox5;
@@ -1872,7 +1849,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private CustomPanel.DoublePanel doublePanel1;
         private CustomPanel.DoublePanel doublePanel2;
-        private CustomPanel.DoublePanel doublePanel3;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.Button button13;
