@@ -2200,13 +2200,13 @@ namespace BinderJetting
                                     float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
                                     EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, ref sendMessageToCamera, 0, 0);//自动喷墨运动逻辑
 
-#region 监控指令：喷墨拍摄位点2-3-4-5-6-7
-                                    //sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
-                                    if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems + 1])
-                                    {
-                                        sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 2);//20230113新建且批注：监控发送指令
-                                    }
-#endregion
+////#region 监控指令：喷墨拍摄位点2-3-4-5-6-7
+////                                    //sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
+////                                    if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems + 1])
+////                                    {
+////                                        sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 2);//20230113新建且批注：监控发送指令
+////                                    }
+////#endregion
 
                                     //bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
                                     //float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
@@ -2273,23 +2273,23 @@ namespace BinderJetting
 
                             if (k < (LayerEndNum + 1) * g_nRePrintTimes)//20220524新建：避免埋掉，最后一次不进给铺粉
                             {
-#region 监控指令：铺粉拍摄位点1
-                                if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[7])
-                                {
-                                    sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, 8);//20230113新建且批注：监控发送指令
-                                }
-#endregion
+////#region 监控指令：铺粉拍摄位点1
+////                                if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[7])
+////                                {
+////                                    sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, 8);//20230113新建且批注：监控发送指令
+////                                }
+////#endregion
 
                                 //EquipmentMotionLogic3(0, 2);//自动进给预送粉
                                 //EquipmentMotionLogic3(0, 3);//自动进给正式铺粉
                                 EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, ref sendMessageToCamera, renderIndex, 10);//自动铺粉逻辑
 
-#region 监控指令：铺粉拍摄位点5
-                                if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
-                                {
-                                    sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, 12);//20230113新建且批注：监控发送指令
-                                }
-#endregion
+////#region 监控指令：铺粉拍摄位点5
+////                                if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
+////                                {
+////                                    sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, 12);//20230113新建且批注：监控发送指令
+////                                }
+////#endregion
                             }
                             else { }
 

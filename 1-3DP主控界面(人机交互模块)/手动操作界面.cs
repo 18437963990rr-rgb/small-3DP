@@ -1963,7 +1963,9 @@ namespace BinderJetting
             {
                 case 1:
                     if (m_bMoveModeFlag[0] == true)
-                    { TrapMoveUp(1, m_bMoveModeFlag[0], m_sVel[0], m_sStep[0],false,false); }
+                    {
+                        TrapMoveUp(1, m_bMoveModeFlag[0], m_sVel[0], m_sStep[0],false,false); 
+                    }
                     else {/*不执行任何操作*/}
                     break;
                 case 2:
@@ -5573,6 +5575,38 @@ namespace BinderJetting
         //20220512新建：新的上送粉铺粉逻辑
         public void NewAutoSupplyPowderThread()//20220512新建：新的上送粉铺粉逻辑
         {
+#if false//20230308调试Z轴运动精度，临时使用
+            //(1)
+            string msg = $"20230308修改+++++：开启手动铺粉逻辑：NewAutoSupplyPowderThread";
+            Log4Net.Info(msg);
+            //(1)Z向进给：20210125新增//20220525修改：Z向进给量
+            double vel = 1;//Z向运动速度为1mm/s
+            double TrapSpace = -(double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
+            TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+            Thread.Sleep(2000);//等待800 ms
+            msg = $"成形面高度下降层厚 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
+            Log4Net.Info(msg);
+
+            //(2)
+            //20220915新增：铺粉完成 下降一段距离，避免回程压碎
+            vel = 1;//Z向运动速度为1mm/s
+            TrapSpace = -(double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
+            TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+            msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
+            Log4Net.Info(msg);
+            Thread.Sleep(2000);//等待800 ms
+
+            //(3)
+            //20220915新增：铺粉完成 下降一段距离，避免回程压碎
+            vel = 1;//Z向运动速度为1mm/s
+            TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
+            TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+
+            msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
+            Log4Net.Info(msg);
+
+#endif
+
             string msg = $"开启手动铺粉逻辑：NewAutoSupplyPowderThread";
             Log4Net.Info(msg);
 
@@ -5587,25 +5621,25 @@ namespace BinderJetting
             else//粉车位于正常停靠区
             {
 #if false
-                //(1)判断是否可以执行自动进给铺粉动作
-                int DirFlag = 0;
-                UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-                if ((CurrentPos * 0.005 <= 50) && (0 <= CurrentPos * 0.005)) { DirFlag = 1; }//墨车在清洗站台右侧;
-                else if ((1180 <= CurrentPos * 0.005) && (CurrentPos * 0.005 <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
-                else { DirFlag = 3; }
+                            //(1)判断是否可以执行自动进给铺粉动作
+                            int DirFlag = 0;
+                            UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
+                            if ((CurrentPos * 0.005 <= 50) && (0 <= CurrentPos * 0.005)) { DirFlag = 1; }//墨车在清洗站台右侧;
+                            else if ((1180 <= CurrentPos * 0.005) && (CurrentPos * 0.005 <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
+                            else { DirFlag = 3; }
 #endif
-#region 监控发送指令//20230113新建且批注：
+                #region 监控发送指令//20230113新建且批注：
                 SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
-                //sendMessageToCamera.LoadJsonFile();
-                //sendMessageToCamera.SendMessageFromSharedMemory(tempStartMode,10,13);//20230113新建且批注：监控发送指令
-                //sendMessageToCamera.Dispose();//20230113新建且批注：监控发送指令
-#endregion
+                                                                                         //sendMessageToCamera.LoadJsonFile();
+                                                                                         //sendMessageToCamera.SendMessageFromSharedMemory(tempStartMode,10,13);//20230113新建且批注：监控发送指令
+                                                                                         //sendMessageToCamera.Dispose();//20230113新建且批注：监控发送指令
+                #endregion
 
                 if (true/*(DirFlag == 1) || (DirFlag == 2)*/)//墨车在非安全区域++粉车在正常工作区间内==粉末在正负限位区间内
                 {
                     if (true/*0 == k_RYSYSParamAutoPrintParamInTest.m_nRecoaterStrategy*/)//20220512新建批注：新设备只需要使用直接铺粉逻辑即可//(2)直接铺粉方式：20210125新增
                     {
-#region 监控指令：铺粉拍摄位点1
+                        #region 监控指令：铺粉拍摄位点1
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[7])
                         {
                             sendMessageToCamera.SendMessageFromSharedMemory(false, 0, 8);//20230113新建且批注：监控发送指令
@@ -5614,7 +5648,7 @@ namespace BinderJetting
                             Log4Net.Info(msg);
 
                         }
-#endregion
+                        #endregion
 
                         //20220920新建：判断是UV固化还是红外固化
                         if (k_RYSYSParamAutoPrintParamInTest.m_nCureLightStrategy == 0)//判断使用UV还是IR作为固化光源
@@ -5654,7 +5688,7 @@ namespace BinderJetting
                         RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
                         double AimPos = 695; double MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed; //更新值到本地变量
                         BackToStation2(AimPos, MovSpeed, false);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
-                        
+
                         msg = $"开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2";
                         Log4Net.Info(msg);
 
@@ -5672,15 +5706,15 @@ namespace BinderJetting
                             //20220920新建：打开UV或者IR灯
                             if (PosValue >= (255 - LightSourceOffset/*70*/) && m_startLightFlag == false)//开启UV灯及IR灯：UV灯距离落粉中心位置70MM,IR灯距离落粉中心位置为110MM
                             {
-                                if (UVIRLightFlag == true) 
-                                { 
+                                if (UVIRLightFlag == true)
+                                {
                                     OpenUVLamp(true, 0, 1000, 0, 1000);/*开启UV灯*/
 
                                     msg = $"打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)";
                                     Log4Net.Info(msg);
 
                                 }
-                                else 
+                                else
                                 {
                                     OpenIRLamp(true);/*打开红外灯*/
 
@@ -5694,14 +5728,14 @@ namespace BinderJetting
                             if (PosValue > (620 - LightSourceOffset/*-200*//*70*/) && m_startLightFlag2 == false)//开启UV灯及IR灯：UV灯距离落粉中心位置70MM,IR灯距离落粉中心位置为110MM
                             {
                                 if (UVIRLightFlag == true)
-                                { 
+                                {
                                     OpenUVLamp(false, 0, 1000, 0, 1000);/*关闭UV灯*/
 
                                     msg = $"关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)";
                                     Log4Net.Info(msg);
                                 }
-                                else 
-                                { 
+                                else
+                                {
                                     OpenIRLamp(false);/*关闭红外灯*/
 
                                     msg = $"关闭IR灯：OpenIRLamp(false)";
@@ -5715,7 +5749,7 @@ namespace BinderJetting
                             {
                                 double DispenseRollerSpeed = 0.5 / (255 / k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed);//20220512新建批注：有效区域宽度为460MM;起始打印位置：255MM;
                                 TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed)/*"0.25"*/, "0.5"/*Convert.ToString(TrapSpace)*/, true, true);//20220512批注：此处不同于默认，为不等停/*(2)铺粉车移动到手动填粉位置;//30mm位置处*/
-                               
+
                                 msg = $"开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)";
                                 Log4Net.Info(msg);
 
@@ -5725,7 +5759,7 @@ namespace BinderJetting
                         }
                         while (PosValue <= 620);//20220512新建批注：有效区域宽度为360MM;起始打印位置：255MM;终止洒粉位置620MM
                         TrapMoveUp(3, true, "2", "0.5"/*Convert.ToString(TrapSpace)*/, true, false);//20220512新建：转完剩余的圈数，回到其轴的零位
-                        
+
                         msg = $"落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)";
                         Log4Net.Info(msg);
 
@@ -5748,7 +5782,7 @@ namespace BinderJetting
 
                         Thread.Sleep(1000);//等待800 ms
 
-#region 监控指令：铺粉拍摄位点3
+                        #region 监控指令：铺粉拍摄位点3
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9])
                         {
                             sendMessageToCamera.SendMessageFromSharedMemory(false, 0, 10);//20230113新建且批注：监控发送指令
@@ -5756,7 +5790,7 @@ namespace BinderJetting
                             msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
                             Log4Net.Info(msg);
                         }
-#endregion
+                        #endregion
 
 
                         //(2)洒粉车回到落粉站位置（回站）：20220512批注
@@ -5765,9 +5799,9 @@ namespace BinderJetting
                         double PowderStationCorrection = k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection;
                         AimPos = 1 - PowderStationCorrection;
                         MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed /*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//更新值到本地变量
-                        //回程速度125mm/s//20230228修改：回程固化速度可以修改
+                                                                                                                                                       //回程速度125mm/s//20230228修改：回程固化速度可以修改
                         BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为等停
-                        
+
                         msg = $"铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)";
                         Log4Net.Info(msg);
 
@@ -5795,7 +5829,7 @@ namespace BinderJetting
                         vel = 1;//Z向运动速度为1mm/s
                         TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
                         TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
-                        
+
                         msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
                         Log4Net.Info(msg);
 
@@ -5804,7 +5838,7 @@ namespace BinderJetting
                         msg = $"手动铺粉正常结束：NewAutoSupplyPowderThread";
                         Log4Net.Info(msg);
 
-#region 监控指令：铺粉拍摄位点5
+                        #region 监控指令：铺粉拍摄位点5
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
                         {
                             sendMessageToCamera.SendMessageFromSharedMemory(false, 0, 12);//20230113新建且批注：监控发送指令
@@ -5812,17 +5846,17 @@ namespace BinderJetting
                             msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
                             Log4Net.Info(msg);
                         }
-#endregion
+                        #endregion
                     }
-                    else {}
+                    else { }
 
                 }
                 else
                 { MessageBox.Show("墨车不在正常停靠区间"); }
 
-#region 监控发送指令//20230113新建且批注：
+                #region 监控发送指令//20230113新建且批注：
                 sendMessageToCamera.Dispose(); //20230113新建且批注：监控发送指令
-#endregion
+                #endregion
             }
         }
         public void NewAutoSupplyPowderThread2(ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex)//20220512新建：新的上送粉铺粉逻辑
@@ -5852,7 +5886,7 @@ namespace BinderJetting
 #region 监控指令：铺粉拍摄位点1
                 if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[7])
                 {
-                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, RecordProcessIndex);//20230113新建且批注：监控发送指令
+                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 8/*RecordProcessIndex*/);//20230113新建且批注：监控发送指令//202303013修改：修改为8
 
                     msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
                     Log4Net.Info(msg);
@@ -5880,8 +5914,33 @@ namespace BinderJetting
 
                 msg = $"成形面高度下降层厚 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
                 Log4Net.Info(msg);
-
                 Thread.Sleep(800);//等待800 ms
+
+                //20230313新增：单独下降层厚，精度不够：继续下降1500um
+                //20230313新增：单独下降层厚，精度不够：继续下降1500um
+                //20230313新增：单独下降层厚，精度不够：继续下降1500um
+                //20220915新增：铺粉完成 下降一段距离，避免回程压碎
+                vel = 1;//Z向运动速度为1mm/s
+                TrapSpace = -(double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
+                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//不同于默认，为不等停
+
+                msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
+                Log4Net.Info(msg);
+
+                Thread.Sleep(1000);//等待800 ms
+
+                //20230313新增：单独下降层厚，精度不够：回程1500um
+                //20230313新增：单独下降层厚，精度不够：回程1500um
+                //20230313新增：单独下降层厚，精度不够：回程1500um
+                //20220915新增：铺粉完成 下降一段距离，避免回程压碎
+                vel = 1;//Z向运动速度为1mm/s
+                TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
+                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+
+                msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
+                Log4Net.Info(msg);
+                Thread.Sleep(1000);//等待800 ms
+
 #endif
                 //(1)落 粉站漏斗阀门转3圈-再停止（接粉）：20220512批注
                 double rotateNuM = k_RYSYSParamAutoPrintParamInTest.m_dPowderSupplyRotateNum;
@@ -5991,7 +6050,7 @@ namespace BinderJetting
 #region 监控指令：铺粉拍摄位点3
                 if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9])
                 {
-                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, RecordProcessIndex);//20230113新建且批注：监控发送指令
+                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 10/*RecordProcessIndex*/);//20230113新建且批注：监控发送指令
 
                     msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
                     Log4Net.Info(msg);
@@ -6044,7 +6103,7 @@ namespace BinderJetting
 #region 监控指令：铺粉拍摄位点5
                 if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
                 {
-                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, RecordProcessIndex);//20230113新建且批注：监控发送指令
+                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 12/*RecordProcessIndex*/);//20230113新建且批注：监控发送指令
 
                     msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
                     Log4Net.Info(msg);
@@ -6156,23 +6215,23 @@ namespace BinderJetting
             SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
 #endregion
 
-#region 监控指令：喷墨拍摄位点1
-            sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
-            if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
-            {
-                sendMessageToCamera.SendMessageFromSharedMemory(false, 0, 1);//20230113新建且批注：监控发送指令
-
-                msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
-                Log4Net.Info(msg);
-            }
-#endregion
-
             double PrintWidth = 350;/*宽度值设为350MM*/ double PrintHeadWidth = 54;/*宽度值设为5MM*/ double ReturnVelocity1 = m_szMovSpeed/*20*/;//喷墨移动速度
             for (int i = 0; i < 6; i++)//i为PASS序号；PASS宽度为喷头宽度
             {
                 switch (i)
                 {
                     case 0:
+#region 监控指令：喷墨拍摄位点1
+                        sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
+                        if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
+                        {
+                            sendMessageToCamera.SendMessageFromSharedMemory(false, 0, 1);//20230113新建且批注：监控发送指令
+
+                            msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
+                            Log4Net.Info(msg);
+                        }
+#endregion
+
                         BackToStation(10, (float)ReturnVelocity1, true, false/*true*/);//停靠在里侧，向外侧步进喷头幅面
                         BackToStation(25, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅面<---------------
                         BackToStation(10 + PrintHeadWidth, (float)ReturnVelocity1, true, true);//停靠在里侧，向外侧步进喷头幅面
@@ -6282,22 +6341,19 @@ namespace BinderJetting
             if (Command == 0) {}
             else if (Command == 1)//第2代设备的打印PASS总数为6
             {
-
-#region 监控指令：喷墨拍摄位点1
-                //toCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
-                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
-                {
-                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 1);//20230113新建且批注：监控发送指令
-                }
-#endregion
-
-
                 double PrintWidth = 350;/*宽度值设为350MM*/ double PrintHeadWidth = 54;/*宽度值设为5MM*/ double ReturnVelocity1 = m_szMovSpeed/*20*/;//喷墨移动速度
                 ReturnVelocity1 = m_MovSpeed;
                 { 
                     switch (PassIndex)
                     {
                         case 0:
+#region 监控指令：喷墨拍摄位点1
+                            //toCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
+                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
+                            {
+                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 1);//20230113新建且批注：监控发送指令
+                            }
+#endregion
                             //20220920新增：在第1PASS打印运动之前，需要关闭闪喷：否则会导致打印乱码
                             bool nRetVal = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷
                             string msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal}}}";
@@ -6378,7 +6434,6 @@ namespace BinderJetting
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 7);//20230113新建且批注：监控发送指令
                             }
 #endregion
-
 
                             //20220920新增：在第5PASS打印运动之后，需要开启闪喷：否则会因为胶水的流动性问题，导致打印不连续
                             bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷
