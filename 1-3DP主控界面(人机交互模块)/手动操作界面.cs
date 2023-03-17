@@ -30,12 +30,14 @@ namespace BinderJetting
             InitializeComponent();
             InitShoveInk(nValveStateMask);//初始化挤墨控件集体控制————应该移到主界面中去：
 
+#if false //20230317新建：开启定时器进行刷新，此处存在潜在BUG，需要进行修正
             //刷新（1）墨量余量（2）温度、电压、气压状态定时器
             Timer3 = new System.Windows.Forms.Timer() { Interval = 300 };
             Timer3.Tick += new EventHandler(Timer3_Tick);
             Timer3.Start();
 
             StartUpadateMAixsMoveStatus();//开启6轴轴MOVE限位信号：20200110
+#endif
             InitDynamicConfigureMotionMode();// 互斥配置多轴的点动和JOG运动配置：动态挂载初始化：20200110
 
             k_EnvironmentParam = new EnvironmentParam();//20200402新增：
@@ -68,6 +70,15 @@ namespace BinderJetting
         //Bitmap inkState = new Bitmap(500,500);
         private void 手动操作_Load(object sender, EventArgs e)//窗口加载完成前，完成本部分的工作
         {
+#if true //20230317新建：开启定时器进行刷新，此处存在潜在BUG，需要进行修正//20230317重新实现在此处
+            //刷新（1）墨量余量（2）温度、电压、气压状态定时器
+            Timer3 = new System.Windows.Forms.Timer() { Interval = 300 };
+            Timer3.Tick += new EventHandler(Timer3_Tick);
+            Timer3.Start();
+
+            StartUpadateMAixsMoveStatus();//开启6轴轴MOVE限位信号：20200110
+#endif
+
             StartCloseMoveBtn(true);//是否开启双Y轴运动监控:20200514 new created
 
             if (m_PowerBackBtnFlag == 1)//执行手动铺粉系统回零操作，进入对应的模块
@@ -6395,6 +6406,9 @@ namespace BinderJetting
 
         public void AutoPrintThread2(int Command, int PassIndex,float m_MovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex)//20220513新建:自动喷墨运动动作
         {
+            string msg = $"进入：AutoPrintThread2！";
+            Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+
             if (Command == 0) {}
             else if (Command == 1)//第2代设备的打印PASS总数为6
             {
@@ -6413,7 +6427,7 @@ namespace BinderJetting
 #endregion
                             //20220920新增：在第1PASS打印运动之前，需要关闭闪喷：否则会导致打印乱码
                             bool nRetVal = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷
-                            string msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal}}}";
+                            /*string*/ msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal}}}";
                             Log4Net.Info(msg);
 
                             BackToStation(15, (float)ReturnVelocity1, true, false/*true*/);//停靠在里侧，向外侧步进喷头幅面
