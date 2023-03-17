@@ -22,6 +22,7 @@ using System.Management;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -579,7 +580,7 @@ namespace BinderJetting
                     ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
                     foreach (ManagementObject queryObj in searcher.Get())
                     {
-                        CpuInfo = CpuInfo+ string.Format("  CPU 厂家: {0} CPU 型号: {1}\r\n", queryObj["Manufacturer"], queryObj["Name"]);
+                        CpuInfo = CpuInfo + string.Format("  CPU 厂家: {0} CPU 型号: {1}\r\n", queryObj["Manufacturer"], queryObj["Name"]);
                     }
                     // (5)获取内存条信息
                     searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMemory");
@@ -601,7 +602,7 @@ namespace BinderJetting
                     string driveLetter = Process.GetCurrentProcess().MainModule.FileName.Substring(0, 1);
 
                     string msg = $"软件开机密码正确，登录成功1次\r\n" +
-                        $"==========================================================================\r\n"+
+                        $"==========================================================================\r\n" +
                         $"操作系统:{{{GetOSFriendlyName()}}}\r\n" +
                         $"运行环境:{{ .Net Framework Enviroment Version {version}}}\r\n" +
                         $"盘符：{driveLetter}\r\n" +
@@ -1211,7 +1212,7 @@ namespace BinderJetting
                             msg = "启动打印线程失败，原因未知：DataTaskTHREAD";
                             Log4Net.Info(msg);
 
-                            return false; 
+                            return false;
                         }
                     }
                     else
@@ -1334,7 +1335,7 @@ namespace BinderJetting
                         msg = "启动打印线程失败，未知原因！";
                         Log4Net.Info(msg);
 
-                        return false; 
+                        return false;
                     }//创建失败
                 }
                 else /*if (g_nCorrectionTaskThreadFlag == 1)*///20210320新增:建立数据传输线程:PrintTaskTHREAD
@@ -1506,7 +1507,7 @@ namespace BinderJetting
                     }
                     else//刷新：启动失败，提示启动打印
                     {
-                        UpdateDataAndTransfer(1, 0, 2); 
+                        UpdateDataAndTransfer(1, 0, 2);
                     }
 
                     g_TaskThreadSTATE[2] = 3;
@@ -1761,7 +1762,7 @@ namespace BinderJetting
                         this.PauseBtn.TextAlign = ContentAlignment.MiddleRight;
                         this.PauseBtn.BackgroundImage = Resource.Stop_绿_38x38;
                         PrintConrolFlag = "PausePrint";//20200618批注：继续打印
-                      
+
                         string msg = "发送暂停打印指令：{PausePrint}";
                         Log4Net.Info(msg);
                     }
@@ -1877,8 +1878,8 @@ namespace BinderJetting
             f.PrintStrategys = ObjectCopier.Clone(g_PrintStrategys);//20200806新增：保存打印策略
 
             string msg = $"进入JOB参数设置：修改前初始参数：灰度数据格式{{{g_RYSYSParam.m_nPixelGrayBits}bits}}" +
-                $"打印灰阶{{{g_RYSYSParam.m_dPixelGrayValue}阶}}m_XPrintDpi{{{g_RYSYSParam.m_XPrintDpi}Dpi}}"+
-            $"墨车运动速度{{{g_RYSYSParam.CarMoveSpeed}MM/s}}X向起打位置{{{g_RYSYSParam.m_dPrtXEncPos}MM}}"+
+                $"打印灰阶{{{g_RYSYSParam.m_dPixelGrayValue}阶}}m_XPrintDpi{{{g_RYSYSParam.m_XPrintDpi}Dpi}}" +
+            $"墨车运动速度{{{g_RYSYSParam.CarMoveSpeed}MM/s}}X向起打位置{{{g_RYSYSParam.m_dPrtXEncPos}MM}}" +
             $"Y向起打位置{{{g_RYSYSParam.m_dYJetOff}MM}}";
             Log4Net.Info(msg);
 
@@ -2055,12 +2056,12 @@ namespace BinderJetting
             msg = $"开启自动供墨：DEV_EnableInkAutoSupply：ControlBit{{0xFF}}";
             Log4Net.Info(msg);
 #endif
-#region 监控发送指令//20230113新建且批注：
+            #region 监控发送指令//20230113新建且批注：
             SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
-            //sendMessageToCamera.LoadJsonFile();
-            //sendMessageToCamera.SendMessageFromSharedMemory(tempStartMode,10,13);//20230113新建且批注：监控发送指令
-            //sendMessageToCamera.Dispose();//20230113新建且批注：监控发送指令
-#endregion
+                                                                                     //sendMessageToCamera.LoadJsonFile();
+                                                                                     //sendMessageToCamera.SendMessageFromSharedMemory(tempStartMode,10,13);//20230113新建且批注：监控发送指令
+                                                                                     //sendMessageToCamera.Dispose();//20230113新建且批注：监控发送指令
+            #endregion
             while ((RoyalMap.m_bJobStarted == true))//开启打印处理线程：20200411新建
             {
                 returnPrintValue = (CurrentStartPrintLayer + 1) * g_nRePrintTimes;//20200508：复位打印进度值   
@@ -2071,12 +2072,12 @@ namespace BinderJetting
                 {
                     if (PrintConrolFlag == "StartPrint" || PrintConrolFlag == "KeepPrint")//每次打印之前，都需要执行指令判断
                     {
-                        if(PrintConrolFlag == "StartPrint" )//20230213新增
+                        if (PrintConrolFlag == "StartPrint")//20230213新增
                         {
                             msg = "接收到起始打印指令：PrintTaskTHREAD";
                             Log4Net.Info(msg);
                         }
-                        else if(PrintConrolFlag == "KeepPrint") 
+                        else if (PrintConrolFlag == "KeepPrint")
                         {
                             msg = "接收到恢复打印指令：PrintTaskTHREAD";
                             Log4Net.Info(msg);
@@ -2093,33 +2094,34 @@ namespace BinderJetting
                         /***********************************20200508:实际打印过程：*********************************/
                         int PassItems = 0;//20220524新增：
 
-#region 监控指令：喷墨拍摄位点1
+                        #region 监控指令：喷墨拍摄位点1
                         sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems])
                         {
                             sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 1);//20230113新建且批注：监控发送指令
                         }
-#endregion
+                        #endregion
 
                         for (PassItems = 0; PassItems < 6/*7*/; PassItems++)//20220531修改：总共数量为6 PASS
                         {
                             /*****************（1）20220524批注：确保获取打印PASS信息*********************/
                             int nPassID = PassItems/*0*//*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行//20220524新增：修改为多PASS打印
-                            /*bool*/ ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                            /*bool*/
+                            ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
                             /*string*/
                             msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
                                 $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
                                 $"nHwMemAdrMatchMask{{{pPrtPassDes.nHwMemAdrMatchMask}}}nLayerIndex{{{pPrtPassDes.nLayerIndex}}}" +
                                 $"nLayerPassCount{{{pPrtPassDes.nLayerPassCount}}}nLayerPassIndex{{{pPrtPassDes.nLayerPassIndex}}}" +
                                 $"nMinJet0ImgLinePos{{{pPrtPassDes.nMinJet0ImgLinePos}}}" +
-                                
+
                                 $"nPrtMemHwAddr{{{pPrtPassDes.nPrtMemHwAddr}}}nPrtDataOffset{{{pPrtPassDes.nPrtDataOffset}}}" +
-                                $"nSrcDataSize{{{pPrtPassDes.nSrcDataSize}}}nPrtColBytes{{{pPrtPassDes.nPrtColBytes}}}"+
-                                
+                                $"nSrcDataSize{{{pPrtPassDes.nSrcDataSize}}}nPrtColBytes{{{pPrtPassDes.nPrtColBytes}}}" +
+
                                 $"nPrtPrecession{{{pPrtPassDes.nPrtPrecession}}}nSrcEndCols{{{pPrtPassDes.nSrcEndCols}}}" +
-                                $"nSrcStartCols{{{pPrtPassDes.nSrcStartCols}}}nStartEncPos{{{pPrtPassDes.nStartEncPos}}}"+
+                                $"nSrcStartCols{{{pPrtPassDes.nSrcStartCols}}}nStartEncPos{{{pPrtPassDes.nStartEncPos}}}" +
                                 $"nValidPassJets{{{pPrtPassDes.nValidPassJets}}}nValidPrtCols{{{pPrtPassDes.nValidPrtCols}}}" +
-                                $"nValidPrtCtlCnts{{{pPrtPassDes.nValidPrtCtlCnts}}}pDataBuf{{{pPrtPassDes.pDataBuf}}}"+
+                                $"nValidPrtCtlCnts{{{pPrtPassDes.nValidPrtCtlCnts}}}pDataBuf{{{pPrtPassDes.pDataBuf}}}" +
                                 $"pNextItem{{{pPrtPassDes.pNextItem}}}";
                             Log4Net.Info(msg);
 
@@ -2161,9 +2163,9 @@ namespace BinderJetting
 
                                     royal.LPPRINTER_INFO pSysInfo = new royal.LPPRINTER_INFO();//20230213新增：
                                     bool nRetVal2 = royal.royal.DEV_GetDeviceInfo2(ref pSysInfo);//20230213新增：
-                                    msg = $"PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}"+
+                                    msg = $"PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
                                         $"LPPRINTER_INFO:nXSysEncDPI{{{pSysInfo.nXSysEncDPI}}}nStatus{{{pSysInfo.nStatus}}}nPrintStatus{{{pSysInfo.nPrintStatus}}}bSuperDevice{{{pSysInfo.bSuperDevice}}}\r\n" +
-                             
+
                                         $"LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{{{pSysInfo.prt_rtinfo.bJobPrtRuning}}}bLayerPrtIsOver{{{pSysInfo.prt_rtinfo.bLayerPrtIsOver}}}" +
                                         $"nContReqMemErr{{{pSysInfo.prt_rtinfo.nContReqMemErr}}}nContWDErr{{{pSysInfo.prt_rtinfo.nContWDErr}}}" +
                                         $"nCurPrtDir{{{pSysInfo.prt_rtinfo.nCurPrtDir}}}nDTLayerIndex{{{pSysInfo.prt_rtinfo.nDTLayerIndex}}}" +
@@ -2172,7 +2174,7 @@ namespace BinderJetting
                                         $"nPrintPassIndex{{{pSysInfo.prt_rtinfo.nPrintPassIndex}}}nProcLayerIndex{{{pSysInfo.prt_rtinfo.nProcLayerIndex}}}" +
                                         $"nPrtDataMemAddr{{{pSysInfo.prt_rtinfo.nPrtDataMemAddr}}}nPrtState{{{pSysInfo.prt_rtinfo.nPrtState}}}" +
                                         $"nReverse{{{pSysInfo.prt_rtinfo.nReverse}}}nRevPrtCols{{{pSysInfo.prt_rtinfo.nRevPrtCols}}}\r\n" +
-                                        
+
                                         $"LPPRINTER_INFO-LPDRVINFO:nFMVersion{{{pSysInfo.sysDrvInfo[0].nFMVersion}}}nFpgaVersion{{{pSysInfo.sysDrvInfo[0].nFpgaVersion}}}" +
                                         $"nPCBVersion{{{pSysInfo.sysDrvInfo[0].nPCBVersion}}}" +
                                         $"nState{{{pSysInfo.sysDrvInfo[0].nState}}}nNextState{{{pSysInfo.sysDrvInfo[0].nNextState}}}" +
@@ -2192,21 +2194,21 @@ namespace BinderJetting
 
 #if true//20220524批注：（2）自动喷墨运动
 
-#region
+                                    #region
                                     //（1-1）注意：一定要取消跳白功能//（1-2）计算运动参数:运行速度、运行距离，依据SinglePass和MultiPass等运动模式*/
-#endregion
+                                    #endregion
 
                                     bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
                                     float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
                                     EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, ref sendMessageToCamera, 0, 0);//自动喷墨运动逻辑
 
-////#region 监控指令：喷墨拍摄位点2-3-4-5-6-7
-////                                    //sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
-////                                    if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems + 1])
-////                                    {
-////                                        sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 2);//20230113新建且批注：监控发送指令
-////                                    }
-////#endregion
+                                    ////#region 监控指令：喷墨拍摄位点2-3-4-5-6-7
+                                    ////                                    //sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
+                                    ////                                    if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems + 1])
+                                    ////                                    {
+                                    ////                                        sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 2);//20230113新建且批注：监控发送指令
+                                    ////                                    }
+                                    ////#endregion
 
                                     //bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
                                     //float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
@@ -2273,23 +2275,23 @@ namespace BinderJetting
 
                             if (k < (LayerEndNum + 1) * g_nRePrintTimes)//20220524新建：避免埋掉，最后一次不进给铺粉
                             {
-////#region 监控指令：铺粉拍摄位点1
-////                                if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[7])
-////                                {
-////                                    sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, 8);//20230113新建且批注：监控发送指令
-////                                }
-////#endregion
+                                ////#region 监控指令：铺粉拍摄位点1
+                                ////                                if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[7])
+                                ////                                {
+                                ////                                    sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, 8);//20230113新建且批注：监控发送指令
+                                ////                                }
+                                ////#endregion
 
                                 //EquipmentMotionLogic3(0, 2);//自动进给预送粉
                                 //EquipmentMotionLogic3(0, 3);//自动进给正式铺粉
                                 EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, ref sendMessageToCamera, renderIndex, 10);//自动铺粉逻辑
 
-////#region 监控指令：铺粉拍摄位点5
-////                                if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
-////                                {
-////                                    sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, 12);//20230113新建且批注：监控发送指令
-////                                }
-////#endregion
+                                ////#region 监控指令：铺粉拍摄位点5
+                                ////                                if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
+                                ////                                {
+                                ////                                    sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, 12);//20230113新建且批注：监控发送指令
+                                ////                                }
+                                ////#endregion
                             }
                             else { }
 
@@ -2319,7 +2321,7 @@ namespace BinderJetting
                         k--;
                         g_nCurrentLayer = (k - 1) / g_nRePrintTimes/*k*/;//20201121修改：
                     }
-                    else if (PrintConrolFlag == "StopPrint") 
+                    else if (PrintConrolFlag == "StopPrint")
                     {
                         msg = "接收到中止打印指令：PrintTaskTHREAD";
                         Log4Net.Info(msg);
@@ -2334,11 +2336,12 @@ namespace BinderJetting
                 RoyalMap.m_bJobStarted = false;
                 PrinterRunInfo(":当前打印任务完成：区间为" + (g_nLayerStart + 1) + " 层到 " + (g_nLayerEnd + 1) + " 层");
             }
-#region 监控发送指令//20230113新建且批注：
+            #region 监控发送指令//20230113新建且批注：
             sendMessageToCamera.Dispose(); //20230113新建且批注：监控发送指令
-#endregion
+            #endregion
 
-            /*bool*/ ReturnFlag = royal.royal.IDP_StopPrintJob();
+            /*bool*/
+            ReturnFlag = royal.royal.IDP_StopPrintJob();
 
             msg = $"停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{{{ReturnFlag}}}";
             Log4Net.Info(msg);
@@ -2346,7 +2349,7 @@ namespace BinderJetting
             Marshal.FreeHGlobal(ImgPtr);//20200429批注：释放内存,一定要及时释放内存//批注：代码位置，需要重点考虑
             PrintFlag = false;//20200716新增：关闭打印机维护的间歇闪喷使能
             g_TaskThreadSTATE[4] = 3;//20201119新增：DataTaskThread恢复为终止状态（打印完）
-#region
+            #region
             //（3）自然执行完毕，自然结束打印区间任务
             DeleteThread("PrintTaskTHREAD");//20200220：本线程结束，需要及时清理相关线程
             if (LayerEnd.InvokeRequired == true)//20200313新增批注：此位置严格来说执行不到
@@ -2357,7 +2360,7 @@ namespace BinderJetting
                         this.LayerStart.Enabled = true;//恢复控件操作
                     }));
             }
-#endregion
+            #endregion
         }
         string[] g_calirationFigurePaths = new string[6] { @"\垂直校准图.bmp", @"\往返差校准图-0.bmp", @"\往返差校准图-1.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-1.bmp", @"\STATUS.bmp" };//20210324新增：//20210325修复BUG:6张图一定要路径准确
         private void PrintTaskTHREAD2()//3DP校准打印主流程：20210321新建批注
@@ -2521,7 +2524,7 @@ namespace BinderJetting
             Marshal.FreeHGlobal(ImgPtr);//20200429批注：释放内存,一定要及时释放内存//批注：代码位置，需要重点考虑
             PrintFlag = false;//20200716新增：关闭打印机维护的间歇闪喷使能
             g_TaskThreadSTATE[4] = 3;//20201119新增：DataTaskThread恢复为终止状态（打印完）
-#region
+            #region
             //（3）自然执行完毕，自然结束打印区间任务
             DeleteThread("PrintTaskTHREAD2");//20200220：本线程结束，需要及时清理相关线程
             if (LayerEnd.InvokeRequired == true)//20200313新增批注：此位置严格来说执行不到
@@ -2532,7 +2535,7 @@ namespace BinderJetting
                     this.LayerStart.Enabled = true;//恢复控件操作
                 }));
             }
-#endregion
+            #endregion
         }
 
 
@@ -3162,13 +3165,351 @@ namespace BinderJetting
 
         private void ElecBtn_Click(object sender, EventArgs e)//设备参数
         {
+            SliceSTL(1);
+#if false
             设备参数设置 f = new 设备参数设置();
             //f.Show();
             //Application.DoEvents();
             f.ShowDialog();
             //填充参数设置 g = new 填充参数设置();
             //g.ShowDialog();
+#endif
         }
+        //20230316新增:切片STL文件为CLI格式，并保存
+        //struct Vector3D
+        //{
+        //    public Single X;
+        //    public Single Y;
+        //    public Single Z;
+        //}
+        public class Vertex
+        {
+            public Vertex(Single x, Single y, Single z)
+            {
+                X = x; Y = y; Z = z;
+            }
+            public Vertex(/*Single x, Single y, Single z*/)
+            {
+                //X = x; Y = y; Z = z;
+            }
+            public Single X { get; set; }
+            public Single Y { get; set; }
+            public Single Z { get; set; }
+        }
+
+        public class Triangle
+        {
+            public Vertex V1 { get; set; }
+            public Vertex V2 { get; set; }
+            public Vertex V3 { get; set; }
+        }
+
+        public static List<Triangle> ReadSTL(string filename)
+        {
+            List<Triangle> STLTriangle = new List<Triangle>();
+            using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
+            {
+                // Read the 80-byte file header
+                reader.ReadBytes(80);
+
+                // Read the 4-byte number of triangles
+                byte[] countBytes = reader.ReadBytes(4);
+                int count = BitConverter.ToInt32(countBytes, 0);
+
+                // Read each triangle
+                for (int i = 0; i < count; i++)
+                {
+                    // Read the normal vector (not used)
+                    reader.ReadBytes(12);//3个法向量
+
+                    // Read the vertex positions
+                    Vertex v1 = new Vertex();//3个坐标
+                    v1.X = reader.ReadSingle();
+                    v1.Y = reader.ReadSingle();
+                    v1.Z = reader.ReadSingle();
+
+                    Vertex v2 = new Vertex();//3个坐标
+                    v2.X = reader.ReadSingle();
+                    v2.Y = reader.ReadSingle();
+                    v2.Z = reader.ReadSingle();
+
+                    Vertex v3 = new Vertex();//3个坐标
+                    v3.X = reader.ReadSingle();
+                    v3.Y = reader.ReadSingle();
+                    v3.Z = reader.ReadSingle();
+
+                    // Add the triangle to the list
+                    STLTriangle.Add(new Triangle { V1 = v1, V2 = v2, V3 = v3 });
+
+                    ////// Read the 2-byte "attribute count" (not used)
+                    //reader.ReadUInt16();
+                    reader.ReadBytes(2);
+                    ////int count2 = BitConverter.ToInt16(countBytes, 0);
+                    ////reader.ReadBytes(count2);
+                }
+            }
+
+            return STLTriangle;
+        }
+
+
+        static void SliceSTL(Single layerThickness)
+        {
+            // (1) read STL file
+            //List<Vector3D> vertices = new List<Vector3D>();
+            string STLFilePath = "E:\\LaserAdd_3DP_Software_220426\\1-3DP主控界面(人机交互模块)\\bin\\x64\\Debug\\打印测试件：GEAR-32T_R2.stl";
+            List<Triangle> STLTriangle = ReadSTL(STLFilePath);
+
+            // find model bounds
+            // (2) Find model bounds
+            Single minX = STLTriangle[0].V1.X/* Single.MaxValue*/;
+            Single minY = STLTriangle[0].V1.Y/*Single.MaxValue*/;
+            Single minZ = STLTriangle[0].V1.Z/*Single.MaxValue*/;
+            Single maxX = STLTriangle[0].V1.X/*Single.MinValue*/;
+            Single maxY = STLTriangle[0].V1.Y/*Single.MinValue*/;
+            Single maxZ = STLTriangle[0].V1.Z/*Single.MinValue*/;
+
+            foreach (Triangle triangle in STLTriangle)
+            {
+                if (triangle.V1.X < minX) minX = triangle.V1.X;
+                if (triangle.V2.X < minX) minX = triangle.V2.X;
+                if (triangle.V3.X < minX) minX = triangle.V3.X;
+
+                if (triangle.V1.Y < minY) minY = triangle.V1.Y;
+                if (triangle.V2.Y < minY) minY = triangle.V2.Y;
+                if (triangle.V3.Y < minY) minY = triangle.V3.Y;
+
+                if (triangle.V1.Z < minZ) minZ = triangle.V1.Z;
+                if (triangle.V2.Z < minZ) minZ = triangle.V2.Z;
+                if (triangle.V3.Z < minZ) minZ = triangle.V3.Z;
+
+                if (triangle.V1.X > maxX) maxX = triangle.V1.X;
+                if (triangle.V2.X > maxX) maxX = triangle.V2.X;
+                if (triangle.V3.X > maxX) maxX = triangle.V3.X;
+
+                if (triangle.V1.Y > maxY) maxY = triangle.V1.Y;
+                if (triangle.V2.Y > maxY) maxY = triangle.V2.Y;
+                if (triangle.V3.Y > maxY) maxY = triangle.V3.Y;
+
+                if (triangle.V1.Z > maxZ) maxZ = triangle.V1.Z;
+                if (triangle.V2.Z > maxZ) maxZ = triangle.V2.Z;
+                if (triangle.V3.Z > maxZ) maxZ = triangle.V3.Z;
+            }
+
+
+            // (3) slice model
+            // Determine the number of layers
+            int numLayers = (int)Math.Ceiling((maxZ - minZ) / layerThickness);
+
+            // Slice the model into closed polylines for each layer
+            List<List<List<Vertex>>> slicePolylines = new List<List<List<Vertex>>>();
+            List<List<Vertex>> polylines = new List<List<Vertex>>();
+            for (int i = 0; i < numLayers; i++)//生成每一层的Polylines
+            {
+                Single layerZ = minZ + layerThickness * i;
+                List<Vertex> layerVertices = new List<Vertex>();
+                foreach (Triangle triangle in STLTriangle)
+                {
+                    // Check if the triangle intersects the current layer
+                    if ((triangle.V1.Z <= layerZ && triangle.V2.Z >= layerZ) ||
+                        (triangle.V2.Z <= layerZ && triangle.V1.Z >= layerZ))
+                    {
+                        // Calculate the intersection point with the current layer
+                        Single t = (layerZ - triangle.V1.Z) / (triangle.V2.Z - triangle.V1.Z);
+                        Single x = triangle.V1.X + t * (triangle.V2.X - triangle.V1.X);
+                        Single y = triangle.V1.Y + t * (triangle.V2.Y - triangle.V1.Y);
+                        layerVertices.Add(new Vertex(x, y, layerZ));
+
+                        // Check if the other two vertices of the triangle also intersect the current layer
+                        if ((triangle.V2.Z <= layerZ && triangle.V3.Z >= layerZ) ||
+                            (triangle.V3.Z <= layerZ && triangle.V2.Z >= layerZ))
+                        {
+                            t = (layerZ - triangle.V2.Z) / (triangle.V3.Z - triangle.V2.Z);
+                            x = triangle.V2.X + t * (triangle.V3.X - triangle.V2.X);
+                            y = triangle.V2.Y + t * (triangle.V3.Y - triangle.V2.Y);
+                            layerVertices.Add(new Vertex(x, y, layerZ));
+                        }
+                        if ((triangle.V3.Z <= layerZ && triangle.V1.Z >= layerZ) ||
+                            (triangle.V1.Z <= layerZ && triangle.V3.Z >= layerZ))
+                        {
+                            t = (layerZ - triangle.V3.Z) / (triangle.V1.Z - triangle.V3.Z);
+                            x = triangle.V3.X + t * (triangle.V1.X - triangle.V3.X);
+                            y = triangle.V3.Y + t * (triangle.V1.Y - triangle.V3.Y);
+                            layerVertices.Add(new Vertex(x, y, layerZ));
+                        }
+                    }
+                }
+
+                List<List<Vertex>> slicePolylinesList = new List<List<Vertex>>();
+                while (layerVertices.Count > 0)
+                {
+                    List<Vertex> polyline = new List<Vertex>();
+                    Vertex currentVertex = layerVertices[0];
+                    layerVertices.Remove(currentVertex);
+                    polyline.Add(currentVertex);
+                    while (true)
+                    {
+                        // find adjacent vertices
+                        Vertex nextVertex = FindAdjacentVertex(currentVertex, layerVertices);
+                        if (nextVertex.Equals(currentVertex))
+                            break; // no more adjacent vertices, polyline complete
+                        polyline.Add(nextVertex);
+                        layerVertices.Remove(nextVertex);
+                        currentVertex = nextVertex;
+                    }
+                    slicePolylinesList.Add(polyline);//添加1条多段线
+                }
+
+                // Close the polylines
+                //List<List<List<Vertex>>> slicePolylines = new List<List<List<Vertex>>>();
+                slicePolylines.Add(slicePolylinesList);
+            }
+
+            // (4) write polylines to CLI file
+            //根据生成的polylines，提取出CLI所需要的全部关键数据，先书写文件头，再书写polyline数据
+            string CLIFilePath = "E:\\LaserAdd_3DP_Software_220426\\1-3DP主控界面(人机交互模块)\\bin\\x64\\Debug\\打印测试件：GEAR-32T_R2.cli";
+            Single layerthickness =1;
+            CLIWriter cLIWriter = new CLIWriter(CLIFilePath,layerthickness);
+            cLIWriter.Write(slicePolylines);
+
+        }
+        static Vertex FindAdjacentVertex(Vertex vertex, List<Vertex> vertices)
+        {
+            foreach (Vertex v in vertices)
+            {
+                if (v.Equals(vertex))
+                    continue;
+                double distance = Math.Sqrt(Math.Pow(v.X - vertex.X, 2) + Math.Pow(v.Y - vertex.Y, 2) + Math.Pow(v.Z - vertex.Z, 2));
+                if (distance < 0.001)
+                    return v;
+            }
+            return vertex;
+        }
+        public class CLIWriter
+        {
+            private const string HeaderStart = "$$HEADERSTART";
+            private const string Binary = "$$BINARY";
+            private const string Units = "$$UNITS/";
+            private const string Version = "$$VERSION/200";
+            private const string Label = "$$LABEL/{0},part{0}";
+            private const string Date = "$$DATE/";
+            private const string Dimension = "$$DIMENSION";
+            private const string Layers = "$$LAYERS/";
+            private const string HeaderEnd = "$$HEADEREND";
+
+            private readonly string filename;
+            private readonly Single layerThickness;
+
+            public CLIWriter(string filename, Single layerThickness)
+            {
+                this.filename = filename;
+                this.layerThickness = layerThickness;
+            }
+
+            public void Write(List<List<List<Vertex>>> slicePolylines)
+            {
+                using (var writer = new BinaryWriter(File.Open(filename, FileMode.Create)))
+                {
+                    // Write header
+                    WriteHeader(writer, slicePolylines.Count);
+
+                    // Write layers
+                    for (ushort i = 0; i < slicePolylines.Count; i++)
+                    {
+                        WriteLayer(writer, i, slicePolylines[i]);
+                    }
+                }
+            }
+
+            private void WriteHeader(BinaryWriter writer, int layerCount)
+            {
+                // Start header
+                writer.Write(Encoding.UTF8.GetBytes(HeaderStart));
+                writer.Write((short)0); // Null terminator
+
+                // Binary format
+                writer.Write(Encoding.UTF8.GetBytes(Binary));
+                writer.Write((short)0); // Null terminator
+
+                // Units
+                writer.Write(Encoding.UTF8.GetBytes(Units));
+                writer.Write((Single)0.005); // Null terminator
+
+                // Version
+                writer.Write(Encoding.UTF8.GetBytes(Version));
+                writer.Write((short)0); // Null terminator
+
+                // Label
+                string label = string.Format(Label, layerThickness);
+                writer.Write(Encoding.UTF8.GetBytes(label));
+                writer.Write((short)0); // Null terminator
+
+                // Date
+                writer.Write(Encoding.UTF8.GetBytes(Date));
+                writer.Write((short)0); // Null terminator
+
+                // Dimension
+                writer.Write(Encoding.UTF8.GetBytes(Dimension));
+                writer.Write((short)0); // Null terminator
+
+                // Layers
+                writer.Write(Encoding.UTF8.GetBytes(Layers));
+                writer.Write((short)0); // Null terminator
+
+                // Layer count
+                writer.Write(layerCount);
+
+                // End header
+                writer.Write(Encoding.UTF8.GetBytes(HeaderEnd));
+                writer.Write((short)0); // Null terminator
+            }
+
+            private void WriteLayer(BinaryWriter writer, ushort layerIndex, List<List<Vertex>> polylines)
+            {
+                // Command CI and Layer ID
+                writer.Write((byte)128/*0x43*/);
+                writer.Write(layerIndex/*(byte)0x49*/);//2字节
+
+                // Command CI
+                writer.Write((byte)129/*0x43*/);
+                //writer.Write((ushort)0/*(byte)0x49*/);//2字节
+
+                // Part ID
+                writer.Write((ushort)0);//2字节
+
+                // Direction
+                writer.Write((ushort)0/*(byte)0x43*/);//其实，方向并无所谓
+                //writer.Write((byte)0x57);
+
+                //// Polyline count
+                //writer.Write(polylines.Count);
+
+                foreach (var polyline in polylines)
+                {
+                    //// Command PP
+                    //writer.Write((byte)0x50);
+                    //writer.Write((byte)0x50);
+
+                    // Point count
+                    writer.Write((ushort)polyline.Count);
+
+                    // Points
+                    foreach (var vertex in polyline)
+                    {
+                        // X coordinate
+                        writer.Write(vertex.X);
+
+                        // Y coordinate
+                        writer.Write(vertex.Y);
+
+                        //// Z coordinate
+                        //writer.Write(layerIndex * layerThickness); // Calculate Z from layer index and layer thickness
+                    }
+                }
+            }
+        }
+
+
         bool RipExistFlag = false;//20200508新建：RIP进程存在Flag
         private void 主界面_FormClosing(object sender, FormClosingEventArgs e)//20200224新增：
         {
@@ -3626,7 +3967,10 @@ namespace BinderJetting
                 else
                 {
                     ThreadStart initThreadEntry = null;
-                    if (tempThreadName == "AutoStartThread") { initThreadEntry = new ThreadStart(AutoStartThread); }//20200220:线程入口方法修改为联动线程
+                    if (tempThreadName == "AutoStartThread") 
+                    {
+                        initThreadEntry = new ThreadStart(AutoStartThread); 
+                    }//20200220:线程入口方法修改为联动线程
                     //else if (tempThreadName == "AutoSupplyPowderThread") { initThreadEntry = new ThreadStart(AutoSupplyPowderThread); }
                     //else if (tempThreadName == "AutoCleanThread") { initThreadEntry = new ThreadStart(AutoCleanThread); }
                     else { return false; }
@@ -3662,6 +4006,7 @@ namespace BinderJetting
                 royal.royal.g_sys_param.szLogPath = g_RYSYSParam.m_sLogPath;//20200326新增
                 //m_bInitRoyalSuccess = g_cRoyalPrint.InitRoyalPrintCard();//20200618批注修改：
                 m_bMasterElecSwitch = false;//开启和关闭状态标志位
+                PauseStopFlag = false;//20230317新建批注：中断退出关闭标志
                 AutoPrintFlag[0] = false;//线程存在标志位：标志着线程结束
 
                 /*string*/
@@ -3684,13 +4029,16 @@ namespace BinderJetting
                 else//中断退出关闭动作
                 {
                     m_bMasterElecSwitch = false;
+                    PauseStopFlag = true;//20230317新建批注：中断退出关闭标志
                     AutoPrintFlag[0] = false;//线程存在标志位：标志着线程结束
 
-                    UpdateAutoStartInfo();
+                    UpdateAutoStartInfo();//20230317新建批注：问题出现在这里：中断退出关闭动作，会导致后续打印过程的紊乱
                 }
 
             }
         }
+        bool PauseStopFlag = false;//20230317新建批注：问题出现在这里：中断退出关闭动作，会导致后续打印过程的紊乱
+
         /// 定义一个代理：加载CLI过程中刷新数据
         private delegate void UpdateAutoStartInfoDelegate(/*int i, string ReadLayerNum*/);
         private bool g_IRControllerOpenCloseState = false;
@@ -3700,27 +4048,42 @@ namespace BinderJetting
             if (this.MasterSwitchBtn.InvokeRequired == false)//如果调用该函数的线程和控件lstMain位于同一个线程内
             {
                 //委托执行内容
-                if (m_bMasterElecSwitch == true)
+                if (m_bMasterElecSwitch == true)//20230317新建：开机流程后处理
                 {
                     MasterSwitchBtn.BackgroundImage = Resource.总开关_off_38x38;
                     MasterSwitchBtn.Text = "开启\r\n系统";
+
+                    ShowMoreBtnDialog(m_cGoogolMotionMap);//20200313新增：立即弹出电气状态
                 }
-                else
+                else//20230317新建：关闭流程后处理
                 {
-                    m_bInitRoyalSuccess = g_cRoyalPrint.InitRoyalPrintCard();//20200618批注修改：
-                    string msg = "初始化喷墨控制器！";
-                    Log4Net.Info(msg);
+                    if (PauseStopFlag == false) 
+                    {
+                        m_bInitRoyalSuccess = g_cRoyalPrint.InitRoyalPrintCard();//20200618批注修改：
+                        string msg = "初始化喷墨控制器！";
+                        Log4Net.Info(msg);
 
-                    /*手动操作*/
-                    AutoPrintMotion2 = new 手动操作(0, nValveStateMask);//20220523新建：与温度控制仪表建立通讯
-                    AutoPrintMotion2.InitTemperatureControlCard(true, out g_IRControllerOpenCloseState);//20220523新建：与温度控制仪表建立通讯
-                    AutoPrintMotion2.InitModbusFlag = true;
+                        /*手动操作*/
+                        AutoPrintMotion2 = new 手动操作(0, nValveStateMask);//20220523新建：与温度控制仪表建立通讯
+                        AutoPrintMotion2.InitTemperatureControlCard(true, out g_IRControllerOpenCloseState);//20220523新建：与温度控制仪表建立通讯
+                        AutoPrintMotion2.InitModbusFlag = true;
 
-                    MasterSwitchBtn.BackgroundImage = Resource.总开关_on_38x38;
-                    MasterSwitchBtn.Text = "关闭\r\n系统";
-                }
-                
-                ShowMoreBtnDialog(m_cGoogolMotionMap);//20200313新增：立即弹出电气状态
+                        MasterSwitchBtn.BackgroundImage = Resource.总开关_on_38x38;
+                        MasterSwitchBtn.Text = "关闭\r\n系统";
+
+                        ShowMoreBtnDialog(m_cGoogolMotionMap);//20200313新增：立即弹出电气状态
+                    }
+                    else 
+                    {
+                        MasterSwitchBtn.BackgroundImage = Resource.总开关_on_38x38;
+                        MasterSwitchBtn.Text = "关闭\r\n系统";
+
+                        string msg = "中止并退出关闭流程！";
+                        Log4Net.Info(msg);
+                    }
+
+                }       
+                //ShowMoreBtnDialog(m_cGoogolMotionMap);//20200313新增：立即弹出电气状态
             }
             else//如果调用该函数的线程和控件lstMain不在同一个线程
             {
@@ -3750,7 +4113,10 @@ namespace BinderJetting
                 if (m_bMasterElecSwitch == true) { this.MasterSwitchBtn.Text = "开启\r\n当中"; }
                 else { this.MasterSwitchBtn.Text = "关闭\r\n当中"; }
 
-                if (true == CreateAndDeleteThread("AutoStartThread", AutoPrintThreads, true)) { AutoPrintFlag[0] = true; }//开启
+                if (true == CreateAndDeleteThread("AutoStartThread", AutoPrintThreads, true)) 
+                { 
+                    AutoPrintFlag[0] = true;
+                }//开启
                 else { }
             }
             else//存在线程：

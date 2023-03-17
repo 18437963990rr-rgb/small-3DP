@@ -4927,9 +4927,12 @@ namespace BinderJetting
                     UInt32 nCtlValue = 2; UInt32 CurrentPos = 0; bool DirFlag = false;
                     bool Directory = false; uint nRevPls = 0; double nSpeed = MM_TO_DOT(m_MovSpeed, 5080, 0);//20220506修改：第1轴//20200803修改：已包含运动修正系统//double nSpeed = 68016;
 
+                    string msg = $"准备读取编码器位置：X方向！";
+                    Log4Net.Info(msg);//20230315新建：解决20230314打印94层中途停止的潜在问题
+
                     CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
 
-                    string msg = $"准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{{false为Y方向：{MoveDirectionFlag}}}CurrentPos{{{CurrentPos*0.005}}}AimPos{{{AimPos}}}";
+                    /*string*/ msg = $"准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{{false为Y方向：{MoveDirectionFlag}}}CurrentPos{{{CurrentPos*0.005}}}AimPos{{{AimPos}}}";
                     Log4Net.Info(msg);
 
                     if (CurrentPos * 0.005 >= AimPos) { DirFlag = false; }/*墨车在目标位置右侧*/else { DirFlag = true; }//墨车在目标位置左侧
@@ -4958,6 +4961,9 @@ namespace BinderJetting
                 case true://20220513新建：为Y方向的运动指令
                     nCtlValue = 0; CurrentPos = 0; DirFlag = false;
                     Directory = false; nRevPls = 0; nSpeed = MM_TO_DOT(m_MovSpeed, 5080, 0);//20220506修改：第1轴//20200803修改：已包含运动修正系统//double nSpeed = 68016;
+
+                    /*string*/ msg = $"准备读取编码器位置：Y方向！";
+                    Log4Net.Info(msg);//20230315新建：解决20230314打印94层中途停止的潜在问题
 
                     CurrentPos = royal.royal.DEM_GetAxisEncodeVal(1/*获取第2轴编码器*/);//初始编码器位置：
 
@@ -5575,7 +5581,7 @@ namespace BinderJetting
         //20220512新建：新的上送粉铺粉逻辑
         public void NewAutoSupplyPowderThread()//20220512新建：新的上送粉铺粉逻辑
         {
-#if false//20230308调试Z轴运动精度，临时使用
+#if false //20230308调试Z轴运动精度，临时使用
             //(1)
             string msg = $"20230308修改+++++：开启手动铺粉逻辑：NewAutoSupplyPowderThread";
             Log4Net.Info(msg);
@@ -5583,24 +5589,51 @@ namespace BinderJetting
             double vel = 1;//Z向运动速度为1mm/s
             double TrapSpace = -(double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
             TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
-            Thread.Sleep(2000);//等待800 ms
+            //Thread.Sleep(1000);//等待800 ms
             msg = $"成形面高度下降层厚 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
             Log4Net.Info(msg);
+
+            //20230313新增：单独下降层厚，精度不够：继续下降1500um
+            //20230313新增：单独下降层厚，精度不够：继续下降1500um
+            //20230313新增：单独下降层厚，精度不够：继续下降1500um
+            //20220915新增：铺粉完成 下降一段距离，避免回程压碎
+            vel = 1;//Z向运动速度为1mm/s
+            TrapSpace = -(double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
+            TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//不同于默认，为不等停
+
+            msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
+            Log4Net.Info(msg);
+
+            //Thread.Sleep(2000);//等待800 ms
+
+            //20230313新增：单独下降层厚，精度不够：回程1500um
+            //20230313新增：单独下降层厚，精度不够：回程1500um
+            //20230313新增：单独下降层厚，精度不够：回程1500um
+            //20220915新增：铺粉完成 下降一段距离，避免回程压碎
+            vel = 1;//Z向运动速度为1mm/s
+            TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
+            TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+
+            msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
+            Log4Net.Info(msg);
+            //Thread.Sleep(800);//等待800 ms
+
+
 
             //(2)
             //20220915新增：铺粉完成 下降一段距离，避免回程压碎
             vel = 1;//Z向运动速度为1mm/s
             TrapSpace = -(double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
-            TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+            TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
             msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
             Log4Net.Info(msg);
-            Thread.Sleep(2000);//等待800 ms
+            //Thread.Sleep(1000);//等待800 ms
 
             //(3)
             //20220915新增：铺粉完成 下降一段距离，避免回程压碎
             vel = 1;//Z向运动速度为1mm/s
             TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
-            TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+            TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
 
             msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
             Log4Net.Info(msg);
@@ -5668,11 +5701,35 @@ namespace BinderJetting
                         //(1)Z向进给：20210125新增//20220525修改：Z向进给量
                         double vel = 1;//Z向运动速度为1mm/s
                         double TrapSpace = -(double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
-                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
-                        Thread.Sleep(800);//等待800 ms
+                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+                        //Thread.Sleep(800/*800*/);//等待800 ms
 
                         msg = $"成形面高度下降层厚 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
                         Log4Net.Info(msg);
+
+                        //20230313新增：单独下降层厚，精度不够：继续下降1500um
+                        //20230313新增：单独下降层厚，精度不够：继续下降1500um
+                        //20230313新增：单独下降层厚，精度不够：继续下降1500um
+                        //20220915新增：铺粉完成 下降一段距离，避免回程压碎
+                        vel = 1;//Z向运动速度为1mm/s
+                        TrapSpace = -(double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
+                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//不同于默认，为不等停
+
+                        msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
+                        Log4Net.Info(msg);
+                        //Thread.Sleep(1000);//等待800 ms
+
+                        //20230313新增：单独下降层厚，精度不够：回程1500um
+                        //20230313新增：单独下降层厚，精度不够：回程1500um
+                        //20230313新增：单独下降层厚，精度不够：回程1500um
+                        //20220915新增：铺粉完成 下降一段距离，避免回程压碎
+                        vel = 1;//Z向运动速度为1mm/s
+                        TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
+                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+
+                        msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
+                        Log4Net.Info(msg);
+                        //Thread.Sleep(1000);//等待800 ms
 #endif
                         //(1)落 粉站漏斗阀门转3圈-再停止（接粉）：20220512批注
                         double rotateNuM = k_RYSYSParamAutoPrintParamInTest.m_dPowderSupplyRotateNum;
@@ -5775,12 +5832,12 @@ namespace BinderJetting
                         //20220915新增：铺粉完成 下降一段距离，避免回程压碎
                         vel = 1;//Z向运动速度为1mm/s
                         TrapSpace = -(double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
-                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
 
                         msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
                         Log4Net.Info(msg);
 
-                        Thread.Sleep(1000);//等待800 ms
+                        //Thread.Sleep(1000);//等待800 ms
 
                         #region 监控指令：铺粉拍摄位点3
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9])
@@ -5828,12 +5885,12 @@ namespace BinderJetting
                         //20220915新增：铺粉完成 下降一段距离，避免回程压碎
                         vel = 1;//Z向运动速度为1mm/s
                         TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
-                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
 
                         msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
                         Log4Net.Info(msg);
 
-                        Thread.Sleep(1000);//等待800 ms
+                        //Thread.Sleep(1000);//等待800 ms
 
                         msg = $"手动铺粉正常结束：NewAutoSupplyPowderThread";
                         Log4Net.Info(msg);
@@ -5910,11 +5967,11 @@ namespace BinderJetting
                 //(1)Z向进给：20210125新增//20220525修改：Z向进给量
                 double vel = 1;//Z向运动速度为1mm/s
                 double TrapSpace = -(double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
-                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
 
                 msg = $"成形面高度下降层厚 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
                 Log4Net.Info(msg);
-                Thread.Sleep(800);//等待800 ms
+                //Thread.Sleep(800);//等待800 ms
 
                 //20230313新增：单独下降层厚，精度不够：继续下降1500um
                 //20230313新增：单独下降层厚，精度不够：继续下降1500um
@@ -5922,12 +5979,12 @@ namespace BinderJetting
                 //20220915新增：铺粉完成 下降一段距离，避免回程压碎
                 vel = 1;//Z向运动速度为1mm/s
                 TrapSpace = -(double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
-                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//不同于默认，为不等停
+                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//不同于默认，为不等停
 
                 msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
                 Log4Net.Info(msg);
 
-                Thread.Sleep(1000);//等待800 ms
+                //Thread.Sleep(1000);//等待800 ms
 
                 //20230313新增：单独下降层厚，精度不够：回程1500um
                 //20230313新增：单独下降层厚，精度不够：回程1500um
@@ -5935,11 +5992,11 @@ namespace BinderJetting
                 //20220915新增：铺粉完成 下降一段距离，避免回程压碎
                 vel = 1;//Z向运动速度为1mm/s
                 TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
-                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
 
                 msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
                 Log4Net.Info(msg);
-                Thread.Sleep(1000);//等待800 ms
+                //Thread.Sleep(1000);//等待800 ms
 
 #endif
                 //(1)落 粉站漏斗阀门转3圈-再停止（接粉）：20220512批注
@@ -6040,12 +6097,12 @@ namespace BinderJetting
                 //20220915新增：铺粉完成 下降一段距离，避免回程压碎
                 vel = 1;//Z向运动速度为1mm/s
                 TrapSpace = -(double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
-                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//不同于默认，为不等停
+                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//不同于默认，为不等停
                     
                 msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
                 Log4Net.Info(msg);
 
-                Thread.Sleep(1000);//等待800 ms
+                //Thread.Sleep(1000);//等待800 ms
 
 #region 监控指令：铺粉拍摄位点3
                 if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9])
@@ -6091,11 +6148,11 @@ namespace BinderJetting
                 //20220915新增：铺粉完成 下降一段距离，避免回程压碎
                 vel = 1;//Z向运动速度为1mm/s
                 TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
-                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
                     
                 msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
                 Log4Net.Info(msg);
-                Thread.Sleep(1000);//等待800 ms
+                //Thread.Sleep(1000);//等待800 ms
 
                 msg = $"自动铺粉正常结束：NewAutoSupplyPowderThread2";
                 Log4Net.Info(msg);
