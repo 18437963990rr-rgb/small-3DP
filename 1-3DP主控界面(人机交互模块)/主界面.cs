@@ -6295,12 +6295,14 @@ namespace BinderJetting
                                     {
                                         ModifyJobAeraFLag = false;//20201124新增：
                                         tempRePrintTimes = g_nRePrintTimes + 1;
-                                        g_SharpControl.RenderToWic(true, j/*1*/, i, g_nRePrintTimes);//第一层无效
+                                        int ActualStartNum = g_nLayerStart;
+                                        g_SharpControl.RenderToWic(true, j/*1*/, i, g_nRePrintTimes, ActualStartNum);//第一层无效
                                     }
                                     else
                                     {
                                         tempRePrintTimes = g_nRePrintTimes;
-                                        g_SharpControl.RenderToWic(true, j/*1*/, i + 1, g_nRePrintTimes);//需要校对渲染区间是否正确//201030修改：
+                                        int ActualStartNum = g_nLayerStart;
+                                        g_SharpControl.RenderToWic(true, j/*1*/, i + 1, g_nRePrintTimes, ActualStartNum);//需要校对渲染区间是否正确//201030修改：
                                     }//201030批注：其余层不做额外补偿
                                     UpdateDataAndTransfer(j, i, 1);//20200610:在标题栏刷新当前数据处理层//Rendering2D(j); //20200601：实现成形层的逐层预览刷新
                                 }
@@ -7631,7 +7633,8 @@ namespace BinderJetting
 
         private void button7_Click(object sender, EventArgs e)
         {
-            g_SharpControl.RenderToWic(true, 2, 2, 3);
+            //20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
+            g_SharpControl.RenderToWic(true, 2, 2, 3, 1);//20230317新建批注：默认起始打印层为1//
         }
 
         private void 主界面_ClientSizeChanged(object sender, EventArgs e)

@@ -81,6 +81,11 @@
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.MasterSwitchBtn = new System.Windows.Forms.Button();
+            this.ManulBtn = new System.Windows.Forms.Button();
+            this.button20 = new System.Windows.Forms.Button();
+            this.MaintainBtn = new System.Windows.Forms.Button();
+            this.textBoxFigurepaht = new System.Windows.Forms.TextBox();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.button6 = new System.Windows.Forms.Button();
             this.PressureTestBtn = new System.Windows.Forms.Button();
@@ -115,8 +120,6 @@
             this.label14 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.panel8 = new System.Windows.Forms.Panel();
             this.doublePanel2 = new CustomPanel.DoublePanel();
             this.TemperatureLabel = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -137,7 +140,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.Y1PLLabel = new System.Windows.Forms.Label();
             this.circularProgressBar1 = new CircularProgressBar.CircularProgressBar();
-            this.MasterSwitchBtn = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
             this.circularProgressBar2 = new CircularProgressBar.CircularProgressBar();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -147,15 +149,12 @@
             this.label5 = new System.Windows.Forms.Label();
             this.Y1ZeroLabel = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.ManulBtn = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.button20 = new System.Windows.Forms.Button();
             this.Y1NLLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.MaintainBtn = new System.Windows.Forms.Button();
             this.label19 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.doublePanel1 = new CustomPanel.DoublePanel();
@@ -170,7 +169,6 @@
             this.button12 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
-            this.textBoxFigurepaht = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
@@ -203,6 +201,8 @@
             this.label26 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.panel8 = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.JobContextMenuStrip.SuspendLayout();
@@ -214,8 +214,6 @@
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
-            this.panel7.SuspendLayout();
-            this.panel8.SuspendLayout();
             this.doublePanel2.SuspendLayout();
             this.menuStrip3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -223,6 +221,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.doublePanel1.SuspendLayout();
+            this.panel7.SuspendLayout();
+            this.panel8.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -635,6 +635,52 @@
             this.openFileDialog1.FileName = "CLI加工文件";
             this.openFileDialog1.Multiselect = true;
             // 
+            // MasterSwitchBtn
+            // 
+            this.MasterSwitchBtn.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            resources.ApplyResources(this.MasterSwitchBtn, "MasterSwitchBtn");
+            this.MasterSwitchBtn.Name = "MasterSwitchBtn";
+            this.toolTip1.SetToolTip(this.MasterSwitchBtn, resources.GetString("MasterSwitchBtn.ToolTip"));
+            this.MasterSwitchBtn.UseVisualStyleBackColor = true;
+            this.MasterSwitchBtn.Click += new System.EventHandler(this.MasterSwitchBtn_Click);
+            // 
+            // ManulBtn
+            // 
+            this.ManulBtn.BackColor = System.Drawing.Color.MintCream;
+            resources.ApplyResources(this.ManulBtn, "ManulBtn");
+            this.ManulBtn.Name = "ManulBtn";
+            this.toolTip1.SetToolTip(this.ManulBtn, resources.GetString("ManulBtn.ToolTip"));
+            this.ManulBtn.UseVisualStyleBackColor = true;
+            this.ManulBtn.Click += new System.EventHandler(this.ManulBtn_Click);
+            // 
+            // button20
+            // 
+            resources.ApplyResources(this.button20, "button20");
+            this.button20.Name = "button20";
+            this.toolTip1.SetToolTip(this.button20, resources.GetString("button20.ToolTip"));
+            this.button20.UseVisualStyleBackColor = true;
+            this.button20.Click += new System.EventHandler(this.button20_Click);
+            // 
+            // MaintainBtn
+            // 
+            this.MaintainBtn.BackColor = System.Drawing.Color.MintCream;
+            this.MaintainBtn.BackgroundImage = global::BinderJetting.Resource.MaintainSys_38x38;
+            resources.ApplyResources(this.MaintainBtn, "MaintainBtn");
+            this.MaintainBtn.ForeColor = System.Drawing.Color.Black;
+            this.MaintainBtn.Name = "MaintainBtn";
+            this.MaintainBtn.Tag = "6";
+            this.toolTip1.SetToolTip(this.MaintainBtn, resources.GetString("MaintainBtn.ToolTip"));
+            this.MaintainBtn.UseVisualStyleBackColor = true;
+            this.MaintainBtn.Click += new System.EventHandler(this.ShowHideJobBtns_Click);
+            // 
+            // textBoxFigurepaht
+            // 
+            resources.ApplyResources(this.textBoxFigurepaht, "textBoxFigurepaht");
+            this.textBoxFigurepaht.Name = "textBoxFigurepaht";
+            this.textBoxFigurepaht.ReadOnly = true;
+            this.toolTip1.SetToolTip(this.textBoxFigurepaht, resources.GetString("textBoxFigurepaht.ToolTip"));
+            this.textBoxFigurepaht.TextChanged += new System.EventHandler(this.textBoxFigurepaht_TextChanged);
+            // 
             // timer2
             // 
             this.timer2.Interval = 40;
@@ -673,7 +719,6 @@
             // 
             // toolStripStatusLabel3
             // 
-            this.toolStripStatusLabel3.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
             resources.ApplyResources(this.toolStripStatusLabel3, "toolStripStatusLabel3");
             // 
@@ -810,7 +855,6 @@
             resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
             this.toolStripStatusLabel1.BackColor = System.Drawing.Color.Snow;
             this.toolStripStatusLabel1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.toolStripStatusLabel1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             // 
             // PrinterStatusLabel
@@ -818,7 +862,6 @@
             resources.ApplyResources(this.PrinterStatusLabel, "PrinterStatusLabel");
             this.PrinterStatusLabel.BackColor = System.Drawing.Color.Snow;
             this.PrinterStatusLabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.PrinterStatusLabel.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.PrinterStatusLabel.Name = "PrinterStatusLabel";
             // 
             // button4
@@ -909,22 +952,6 @@
             this.panel6.Controls.Add(this.WorkProgressBar);
             resources.ApplyResources(this.panel6, "panel6");
             this.panel6.Name = "panel6";
-            // 
-            // panel7
-            // 
-            this.panel7.BackColor = System.Drawing.Color.Snow;
-            this.panel7.Controls.Add(this.panel6);
-            this.panel7.Controls.Add(this.panel8);
-            resources.ApplyResources(this.panel7, "panel7");
-            this.panel7.Name = "panel7";
-            // 
-            // panel8
-            // 
-            resources.ApplyResources(this.panel8, "panel8");
-            this.panel8.BackColor = System.Drawing.Color.LightGray;
-            this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel8.Controls.Add(this.button6);
-            this.panel8.Name = "panel8";
             // 
             // doublePanel2
             // 
@@ -1123,15 +1150,6 @@
             this.circularProgressBar1.TextMargin = new System.Windows.Forms.Padding(0);
             this.circularProgressBar1.Value = 1;
             // 
-            // MasterSwitchBtn
-            // 
-            this.MasterSwitchBtn.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            resources.ApplyResources(this.MasterSwitchBtn, "MasterSwitchBtn");
-            this.MasterSwitchBtn.Name = "MasterSwitchBtn";
-            this.toolTip1.SetToolTip(this.MasterSwitchBtn, resources.GetString("MasterSwitchBtn.ToolTip"));
-            this.MasterSwitchBtn.UseVisualStyleBackColor = true;
-            this.MasterSwitchBtn.Click += new System.EventHandler(this.MasterSwitchBtn_Click);
-            // 
             // label20
             // 
             this.label20.BackColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -1217,15 +1235,6 @@
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.TabStop = false;
             // 
-            // ManulBtn
-            // 
-            this.ManulBtn.BackColor = System.Drawing.Color.MintCream;
-            resources.ApplyResources(this.ManulBtn, "ManulBtn");
-            this.ManulBtn.Name = "ManulBtn";
-            this.toolTip1.SetToolTip(this.ManulBtn, resources.GetString("ManulBtn.ToolTip"));
-            this.ManulBtn.UseVisualStyleBackColor = true;
-            this.ManulBtn.Click += new System.EventHandler(this.ManulBtn_Click);
-            // 
             // label12
             // 
             this.label12.BackColor = System.Drawing.Color.Transparent;
@@ -1252,14 +1261,6 @@
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.TabStop = false;
             // 
-            // button20
-            // 
-            resources.ApplyResources(this.button20, "button20");
-            this.button20.Name = "button20";
-            this.toolTip1.SetToolTip(this.button20, resources.GetString("button20.ToolTip"));
-            this.button20.UseVisualStyleBackColor = true;
-            this.button20.Click += new System.EventHandler(this.button20_Click);
-            // 
             // Y1NLLabel
             // 
             this.Y1NLLabel.BackColor = System.Drawing.Color.Gold;
@@ -1274,18 +1275,6 @@
             this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
-            // 
-            // MaintainBtn
-            // 
-            this.MaintainBtn.BackColor = System.Drawing.Color.MintCream;
-            this.MaintainBtn.BackgroundImage = global::BinderJetting.Resource.MaintainSys_38x38;
-            resources.ApplyResources(this.MaintainBtn, "MaintainBtn");
-            this.MaintainBtn.ForeColor = System.Drawing.Color.Black;
-            this.MaintainBtn.Name = "MaintainBtn";
-            this.MaintainBtn.Tag = "6";
-            this.toolTip1.SetToolTip(this.MaintainBtn, resources.GetString("MaintainBtn.ToolTip"));
-            this.MaintainBtn.UseVisualStyleBackColor = true;
-            this.MaintainBtn.Click += new System.EventHandler(this.ShowHideJobBtns_Click);
             // 
             // label19
             // 
@@ -1423,14 +1412,6 @@
             this.label16.BackColor = System.Drawing.Color.LightGray;
             resources.ApplyResources(this.label16, "label16");
             this.label16.Name = "label16";
-            // 
-            // textBoxFigurepaht
-            // 
-            resources.ApplyResources(this.textBoxFigurepaht, "textBoxFigurepaht");
-            this.textBoxFigurepaht.Name = "textBoxFigurepaht";
-            this.textBoxFigurepaht.ReadOnly = true;
-            this.toolTip1.SetToolTip(this.textBoxFigurepaht, resources.GetString("textBoxFigurepaht.ToolTip"));
-            this.textBoxFigurepaht.TextChanged += new System.EventHandler(this.textBoxFigurepaht_TextChanged);
             // 
             // label32
             // 
@@ -1647,6 +1628,22 @@
             resources.ApplyResources(this.label24, "label24");
             this.label24.Name = "label24";
             // 
+            // panel7
+            // 
+            this.panel7.BackColor = System.Drawing.Color.Snow;
+            this.panel7.Controls.Add(this.panel6);
+            this.panel7.Controls.Add(this.panel8);
+            resources.ApplyResources(this.panel7, "panel7");
+            this.panel7.Name = "panel7";
+            // 
+            // panel8
+            // 
+            resources.ApplyResources(this.panel8, "panel8");
+            this.panel8.BackColor = System.Drawing.Color.LightGray;
+            this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel8.Controls.Add(this.button6);
+            this.panel8.Name = "panel8";
+            // 
             // 主界面
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1679,8 +1676,6 @@
             this.panel2.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
-            this.panel7.ResumeLayout(false);
-            this.panel8.ResumeLayout(false);
             this.doublePanel2.ResumeLayout(false);
             this.menuStrip3.ResumeLayout(false);
             this.menuStrip3.PerformLayout();
@@ -1690,6 +1685,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.doublePanel1.ResumeLayout(false);
             this.doublePanel1.PerformLayout();
+            this.panel7.ResumeLayout(false);
+            this.panel8.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

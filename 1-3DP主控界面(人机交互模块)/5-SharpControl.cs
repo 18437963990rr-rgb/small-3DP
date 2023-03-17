@@ -1096,8 +1096,13 @@ namespace BinderJetting
         /// <param name="CLIlayerIndex"></param>
         /// <param name="xsize"></param>
         /// <param name="ysize"></param>
-        public void DrawLayerBMP(bool CLIImportFlag, int CLIlayerIndex, float xsize, float ysize, SolidColorBrush solidColorBrush)
+        ///  //20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
+        public void DrawLayerBMP(bool CLIImportFlag, int CLIlayerIndex, float xsize, float ysize, SolidColorBrush solidColorBrush,int ActualStartNum)
         {
+#if true //20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
+            CLIlayerIndex = CLIlayerIndex + (ActualStartNum-1);
+#endif
+
             ////d2dRenderTarget.UnitMode = UnitMode.Dips;//wicRenderTarget的绘图方式应该是像素
             //Size2F size2F = new Size2F(96f/*96 * 2f*/, 96f/* 96 * 2f*/);//设备无关像素单位设置：≈=物理单位设置
             //d2dRenderTarget.DotsPerInch = size2F;
@@ -1332,7 +1337,7 @@ namespace BinderJetting
         /// 20200609：生成1帧的加工数据//20220524新增:新设备 幅面330MM*330MM
         /// </summary>
         /// <param name="action"></param>
-        public void RenderToWic(bool action,int index,int subindex,int RePrintTimes)//subindex:重喷索引，取值为0-1-2-3-....-n//201030新增：
+        public void RenderToWic(bool action,int index,int subindex,int RePrintTimes,int ActualStartNum)//subindex:重喷索引，取值为0-1-2-3-....-n//201030新增：//20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
         {
             if (action == true)
             {
@@ -1374,8 +1379,9 @@ namespace BinderJetting
 #if false//测试
                 d2dRenderTarget.FillGeometry(rectangleGeometry, solidColorBrush, null);
 #else
-                DrawLayerBMP(true,index,width, height,solidColorBrush);//20201117批注：生成正式打印数据
-#endif  
+                //20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
+                DrawLayerBMP(true,index,width, height,solidColorBrush,ActualStartNum);//20201117批注：生成正式打印数据
+#endif
 
                 long tag1, tag2;
                 Result EndDrawResult = d2dRenderTarget.TryEndDraw(out tag1, out tag2);//deviceContext.EndDraw(); //long a, b;deviceContext.TryEndDraw(out a,out b);
@@ -1733,7 +1739,7 @@ namespace BinderJetting
             }
             else { }
 #endif
-            #region//20230202新建：根据1bpp,2bpp,3bpp++以及GrayScale来重新编码为最新需要下发的数据
+#region//20230202新建：根据1bpp,2bpp,3bpp++以及GrayScale来重新编码为最新需要下发的数据
             int bpp = gc_RysysParam.PixelGrayBits/*2*/;//打印数据格式
             int GrayScale = gc_RysysParam.PixelGrayValue/*2*/;//打印灰阶
 
@@ -1822,7 +1828,7 @@ namespace BinderJetting
                 }
             }
             else { }
-            #endregion
+#endregion
 
             // （6）Copy the RGB values back to the bitmap
             /***********************20200423调试新增：************************/
