@@ -54,7 +54,7 @@ namespace BinderJetting
             }
         }
 
-        private System.Windows.Forms.Timer Timer = null;
+        public/*private*/ System.Windows.Forms.Timer Timer = null;
         private void Timer_Tick(object sender, EventArgs e)
         {
             if (this.Opacity >= 1)
@@ -212,7 +212,7 @@ namespace BinderJetting
 
         }
 
-        public bool LoadJsonFile()//20201029新增：实例化类之后，不一定必要显示
+        public bool LoadJsonFile(bool FromFormFlag)//20201029新增：实例化类之后，不一定必要显示
         {
             string JsonPath = "";
             try//20201020新增：读取JSON配置文件
@@ -221,7 +221,10 @@ namespace BinderJetting
                 JsonPath = System.Windows.Forms.Application.StartupPath + @"\AutoPrint-Configuration.json";//json配置文件：启动目录
                 k_RYSYSParamAutoPrintParamInTest = ObjectCopier.LoadJson<AutoPrintParamInTest>(JsonPath);
 
-                InitKidFormWithAutoPrintParamInTest();//20201020新增：开启ParamInText自动打印参数的绑定
+                if (FromFormFlag == true) 
+                {
+                    InitKidFormWithAutoPrintParamInTest();//20201020新增：开启ParamInText自动打印参数的绑定   
+                }
                 return true;
             }
             catch (Exception)
@@ -237,7 +240,10 @@ namespace BinderJetting
                     MessageBox.Show("自动打印参数配置文件加载异常");
                 }
                 k_RYSYSParamAutoPrintParamInTest = new AutoPrintParamInTest();
-                InitKidFormWithAutoPrintParamInTest();//20201020新增：开启ParamInText自动打印参数的绑定
+                if (FromFormFlag == true)
+                {
+                    InitKidFormWithAutoPrintParamInTest();//20201020新增：开启ParamInText自动打印参数的绑定
+                }
                 return false;
             }
         }
@@ -506,7 +512,7 @@ namespace BinderJetting
         //    //listView2.Columns.Add(" T4(C)", 75, HorizontalAlignment.Center);        //第1列标题添加
         //}
 
-        private System.Windows.Forms.Timer Timer2 = null;//刷新墨量显示状态定时器
+        //private System.Windows.Forms.Timer Timer2 = null;//刷新墨量显示状态定时器
                                                          //////（1）刷新液位报警信号
                                                          //InkStateCtrl inkStateCtrl = new InkStateCtrl();
                                                          //Bitmap inkState = new Bitmap(500, 100);
@@ -2070,7 +2076,7 @@ namespace BinderJetting
 
         }
         //刷新虚拟打印编码器状态显示定时器
-        private System.Windows.Forms.Timer TimerMAxis = null;//刷新虚拟打印编码器状态显示定时器
+        public/*private*/ System.Windows.Forms.Timer TimerMAxis = null;//刷新虚拟打印编码器状态显示定时器
         private void StartUpadateMAixsMoveStatus()//开启6轴轴MOVE限位信号
         {
             //(1)刷新MAxis运动监测显示定时器
@@ -2827,7 +2833,7 @@ namespace BinderJetting
             bool returncoded = royal.royal.DEV_SetMcbOutPut(0, (UInt32)nInkMask);//暂时用不了
         }
         /*******************************墨量剩余信号集控显示***************************/
-        private System.Windows.Forms.Timer Timer3 = null;//刷新墨量显示状态定时器
+        public/*private*/ System.Windows.Forms.Timer Timer3 = null;//刷新墨量显示状态定时器
         bool m_FlagUpdateAdibInfo = false;//默认不刷新温度、电压、负压：20200403新增
 
         ////（1）刷新液位报警信号
@@ -3478,7 +3484,7 @@ namespace BinderJetting
         public bool InkCarHomeFlag = false; public bool PowderCarHomeFlag = false;
 
         //刷新虚拟打印编码器状态显示定时器
-        private System.Windows.Forms.Timer Timer4 = null;//刷新虚拟打印编码器状态显示定时器
+        public/*private*/ System.Windows.Forms.Timer Timer4 = null;//刷新虚拟打印编码器状态显示定时器
         private void StartUpadateDYMoveStatus()//开启双Y轴MOVE限位信号
         {
             bool nRetVal = false;
@@ -3917,7 +3923,7 @@ namespace BinderJetting
 
 
         //刷新虚拟打印编码器状态显示定时器
-        private System.Windows.Forms.Timer Timer5 = null;//刷新虚拟打印编码器状态显示定时器
+        public/*private*/ System.Windows.Forms.Timer Timer5 = null;//刷新虚拟打印编码器状态显示定时器
         private void StartUpadatePrintEncoder()
         {
             //刷新墨量显示状态定时器
@@ -5275,7 +5281,7 @@ namespace BinderJetting
 #if true//20220518新建：新设备使用的自动清洗逻辑
             //（1）撒粉轴找回零位：20220527新建：
             double SinkPosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;//刮墨轴的HOME位置
-
+            
             //motionMap.SetDo(7, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵//20220915注释：无效掉
 
             bool ReturnCode = motionMap.SetBackSpreaderAxis(4, 1/*0.5*/, 2, -SinkPosition);//旋转速度：0.5 圈/s//下//20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s

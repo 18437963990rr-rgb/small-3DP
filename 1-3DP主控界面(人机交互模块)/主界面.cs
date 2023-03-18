@@ -2303,7 +2303,15 @@ namespace BinderJetting
                         if (AutoPrintMotion1 == null)
                         {
                             /*手动操作*/ AutoPrintMotion1 = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
+                            msg = $"创建：AutoPrintMotion1=》初次创建完成-手动操作！";
+                            Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                         }
+                        else
+                        {
+                            msg = $"创建：AutoPrintMotion1=》不需重新创建-手动操作！";
+                            Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                        }
+
                         bool returnCode = LoadAutoParamsFromJson(ref AutoPrintMotion1);//20201030新增：读取自动打印参数
                         g_nCleanFrequency = AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nCleanFrequency;//20201030新增：读取自动打印参数
                         if ((g_nCurrentLayer % (g_nCleanFrequency * g_nRePrintTimes) == 0) && (g_nCurrentLayer != 0))
@@ -2365,8 +2373,11 @@ namespace BinderJetting
             }
             #endregion
         }
-        手动操作 AutoPrintMotion1 = null;//20230317修正:修正潜在的闪退问题
-        手动操作 AutoPrintMotion3 = null;//20230317修正:修正潜在的闪退问题
+        //手动操作 ManualControl = null;//20230317修正:修正潜在的闪退问题
+        手动操作 AutoPrintMotion1 = null;//20230317修正:修正潜在的闪退问题//PrintTask中
+        手动操作 AutoPrintMotion2 = null;//20230317修正:修正潜在的闪退问题//温控Modbus中
+        手动操作 AutoPrintMotion3 = null;//20230317修正:修正潜在的闪退问题//EquipmentMotionLogic3中
+        手动操作 AutoPrintMotion4 = null;//20230317修正:修正潜在的闪退问题//DataTask中
 
         string[] g_calirationFigurePaths = new string[6] { @"\垂直校准图.bmp", @"\往返差校准图-0.bmp", @"\往返差校准图-1.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-1.bmp", @"\STATUS.bmp" };//20210324新增：//20210325修复BUG:6张图一定要路径准确
         private void PrintTaskTHREAD2()//3DP校准打印主流程：20210321新建批注
@@ -2744,73 +2755,96 @@ namespace BinderJetting
             AutoPrintMotion.CorrectFlag = g_bSystemCorrectFlag;//20201014新增：系统校准标志位
             AutoPrintMotion.k_nCurrentLayer = g_nCurrentLayer;//20201021新增：同步打印进度
             //（2）加载自动供给送粉的配置文件
-            bool returnCode = AutoPrintMotion.LoadJsonFile();//加载自动供给送粉的配置文件
+            bool returnCode = AutoPrintMotion.LoadJsonFile(false);//加载自动供给送粉的配置文件
             return returnCode;
         }
 
         private void EquipmentMotionLogic3(int index, int Command, int PassIndex, float m_MovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex)//20220524新增：PassIndex指示当前打印PASS序号
         {
-            string msg = $"进入：EquipmentMotionLogic3=》准备创建对象-手动操作！";
-            Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
-
-            /*手动操作*/ AutoPrintMotion3 = new 手动操作(0, nValveStateMask);//20230317修正:修正潜在的闪退问题
-
-            msg = $"进入：EquipmentMotionLogic3=》创建完成-手动操作！";
-            Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
-
-            if (AutoPrintMotion2 != null)//20230317批注：AutoPrintMotion2:在初始化设备时候，建立与温度控制器之间的通讯联系
+            try 
             {
-                AutoPrintMotion3.modbusCommunicateMap = AutoPrintMotion2.modbusCommunicateMap/*.Clone()*/;
-                AutoPrintMotion3.InitModbusFlag = AutoPrintMotion2.InitModbusFlag;
+                string msg = $"进入：EquipmentMotionLogic3=》准备创建对象-手动操作！";
+                Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+
+                /*手动操作*/
+                if (AutoPrintMotion3 == null)
+                {
+                    AutoPrintMotion3 = new 手动操作(0, nValveStateMask);//20230317修正:修正潜在的闪退问题
+                    msg = $"进入：EquipmentMotionLogic3=》初次创建完成-手动操作！";
+                    Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                }
+                else 
+                {
+                    msg = $"进入：EquipmentMotionLogic3=》不需重新创建-手动操作！";
+                    Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                }
+
+                if (AutoPrintMotion2 != null)//20230317批注：AutoPrintMotion2:在初始化设备时候，建立与温度控制器之间的通讯联系
+                {
+                    AutoPrintMotion3.modbusCommunicateMap = AutoPrintMotion2.modbusCommunicateMap/*.Clone()*/;
+                    AutoPrintMotion3.InitModbusFlag = AutoPrintMotion2.InitModbusFlag;
+                    msg = $"进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！";
+                    Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                }
+
+                //（1）传递必要的参数到非显示模态类
+                AutoPrintMotion3.k_dJourney = g_cPrinterSysParam.g_dJourney;
+                AutoPrintMotion3.k_bInitRoyalSuccess = m_bInitRoyalSuccess;
+                AutoPrintMotion3.InkCarHomeFlag = InkCarHomeFlag;//20200627批注：
+                AutoPrintMotion3.PowderCarHomeFlag = PowderCarHomeFlag;//20200627批注：默认反向
+                AutoPrintMotion3.m_bInkSuppy = g_bAutoSupplyInkFlag;
+                AutoPrintMotion3.RollerDirectionFlag = g_bRollerDirectionFlag;//
+                AutoPrintMotion3.CorrectFlag = g_bSystemCorrectFlag;//20201014新增：系统校准标志位
+                AutoPrintMotion3.k_nCurrentLayer = g_nCurrentLayer;//20201021新增：同步打印进度
+                //（2）加载自动供给送粉的配置文件
+                bool returnCode = AutoPrintMotion3.LoadJsonFile(false);//加载自动供给送粉的配置文件
+                msg = $"进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！";
+                Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
             }
-            msg = $"进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！";
-            Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
-
-            //（1）传递必要的参数到非显示模态类
-            AutoPrintMotion3.k_dJourney = g_cPrinterSysParam.g_dJourney;
-            AutoPrintMotion3.k_bInitRoyalSuccess = m_bInitRoyalSuccess;
-            AutoPrintMotion3.InkCarHomeFlag = InkCarHomeFlag;//20200627批注：
-            AutoPrintMotion3.PowderCarHomeFlag = PowderCarHomeFlag;//20200627批注：默认反向
-            AutoPrintMotion3.m_bInkSuppy = g_bAutoSupplyInkFlag;
-            AutoPrintMotion3.RollerDirectionFlag = g_bRollerDirectionFlag;//
-            AutoPrintMotion3.CorrectFlag = g_bSystemCorrectFlag;//20201014新增：系统校准标志位
-            AutoPrintMotion3.k_nCurrentLayer = g_nCurrentLayer;//20201021新增：同步打印进度
-            //（2）加载自动供给送粉的配置文件
-            bool returnCode = AutoPrintMotion3.LoadJsonFile();//加载自动供给送粉的配置文件
-
-            msg = $"进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！";
-            Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
-
-            if (Command == 1)//自动清洗逻辑
+            catch (Exception e) 
             {
-                //（3）执行对应的逻辑：
-                AutoPrintMotion3.AutoCleanThread();//20201029:自动固化清洗//20220518修改：修改为自动清洗逻辑
+                string msg = $"对象发生异常，区间位点1："+e.ToString();
+                Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
             }
-            else if (Command == 2)//自动送粉逻辑
+
+            try
             {
+                if (Command == 1)//自动清洗逻辑
+                {
+                    //（3）执行对应的逻辑：
+                    AutoPrintMotion3.AutoCleanThread();//20201029:自动固化清洗//20220518修改：修改为自动清洗逻辑
+                }
+                else if (Command == 2)//自动送粉逻辑
+                {
 #if false//下送粉逻辑
                 AutoPrintMotion.AutoSupplyPowderThread();//20201029:自动进给预送粉
 #else//上送粉逻辑
-                AutoPrintMotion3.NewAutoSupplyPowderThread2/*NewAutoSupplyPowderThread*/(ref toCamera, RecordLayerIndex, RecordProcessIndex);//20201029:自动上送粉//20230114修改：添加新的参数NewAutoSupplyPowderThread2
+                    AutoPrintMotion3.NewAutoSupplyPowderThread2/*NewAutoSupplyPowderThread*/(ref toCamera, RecordLayerIndex, RecordProcessIndex);//20201029:自动上送粉//20230114修改：添加新的参数NewAutoSupplyPowderThread2
 #endif
-            }
-            else if (Command == 3)//自动固化逻辑
-            {
-                AutoPrintMotion3.AutoCureThread();//20201029:自动上送粉
+                }
+                else if (Command == 3)//自动固化逻辑
+                {
+                    AutoPrintMotion3.AutoCureThread();//20201029:自动上送粉
 
+                }
+                else if (Command == 4)//20220524新增：自动喷墨逻辑
+                {
+                    AutoPrintMotion3.AutoPrintThread2(1, PassIndex, m_MovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex);//
+                }
+                else
+                {
+                    ////（1）自动固化-清洗逻辑：
+                    //AutoPrintMotion.AutoCureThread();//20201029:自动固化清洗
+                    ////（2）1st自动进给送粉逻辑——自动送粉到送粉位置：
+                    //AutoPrintMotion.AutoSupplyPowderThread();//20201029:自动进给送粉
+                    ////（3）2st自动铺粉逻辑：
+                    //AutoPrintMotion.AutoSupplyPowder2Thread();//内部逻辑需要增加供粉缸1逻辑//20220513新建批注：暂时注释
+                }
             }
-            else if (Command == 4)//20220524新增：自动喷墨逻辑
+            catch (Exception e)
             {
-                AutoPrintMotion3.AutoPrintThread2(1, PassIndex, m_MovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex);//
-            }
-            else
-            {
-                ////（1）自动固化-清洗逻辑：
-                //AutoPrintMotion.AutoCureThread();//20201029:自动固化清洗
-                ////（2）1st自动进给送粉逻辑——自动送粉到送粉位置：
-                //AutoPrintMotion.AutoSupplyPowderThread();//20201029:自动进给送粉
-                ////（3）2st自动铺粉逻辑：
-                //AutoPrintMotion.AutoSupplyPowder2Thread();//内部逻辑需要增加供粉缸1逻辑//20220513新建批注：暂时注释
+                string msg = $"对象发生异常，区间位点2：" + e.ToString();
+                Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
             }
         }
 
@@ -3122,6 +3156,55 @@ namespace BinderJetting
         //手动操作 f2 = null;
         private void ManulBtn_Click(object sender, EventArgs e)//手动调试按钮
         {
+#if false//20230318新增：调试自动打印逻辑用
+            try
+            {
+                string msg = $"进入：EquipmentMotionLogic3=》准备创建对象-手动操作！";
+                Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+
+                /*手动操作*/
+                if (AutoPrintMotion3 == null)
+                {
+                    AutoPrintMotion3 = new 手动操作(0, nValveStateMask);//20230317修正:修正潜在的闪退问题
+                    msg = $"进入：EquipmentMotionLogic3=》初次创建完成-手动操作！";
+                    Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                }
+                else
+                {
+                    msg = $"进入：EquipmentMotionLogic3=》不需重新创建-手动操作！";
+                    Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                }
+
+                if (AutoPrintMotion2 != null)//20230317批注：AutoPrintMotion2:在初始化设备时候，建立与温度控制器之间的通讯联系
+                {
+                    AutoPrintMotion3.modbusCommunicateMap = AutoPrintMotion2.modbusCommunicateMap/*.Clone()*/;
+                    AutoPrintMotion3.InitModbusFlag = AutoPrintMotion2.InitModbusFlag;
+                    msg = $"进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！";
+                    Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                }
+
+                //（1）传递必要的参数到非显示模态类
+                AutoPrintMotion3.k_dJourney = g_cPrinterSysParam.g_dJourney;
+                AutoPrintMotion3.k_bInitRoyalSuccess = m_bInitRoyalSuccess;
+                AutoPrintMotion3.InkCarHomeFlag = InkCarHomeFlag;//20200627批注：
+                AutoPrintMotion3.PowderCarHomeFlag = PowderCarHomeFlag;//20200627批注：默认反向
+                AutoPrintMotion3.m_bInkSuppy = g_bAutoSupplyInkFlag;
+                AutoPrintMotion3.RollerDirectionFlag = g_bRollerDirectionFlag;//
+                AutoPrintMotion3.CorrectFlag = g_bSystemCorrectFlag;//20201014新增：系统校准标志位
+                AutoPrintMotion3.k_nCurrentLayer = g_nCurrentLayer;//20201021新增：同步打印进度
+                                                                   //（2）加载自动供给送粉的配置文件
+                bool returnCode = AutoPrintMotion3.LoadJsonFile(false);//加载自动供给送粉的配置文件
+
+                msg = $"进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！";
+                Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+            }
+            catch (Exception e2)
+            {
+                string msg = $"对象发生异常，位点1：" + e2.ToString();
+                Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+            }
+#else//20230318修改：调试自动打印逻辑用
+
             string msg = $"进入手动调试子模块！";
             Log4Net.Info(msg);
 
@@ -3129,48 +3212,48 @@ namespace BinderJetting
             ////g_cPrinterSysParam.g_dJourney[0] = 350*1000; g_cPrinterSysParam.g_dJourney[1] = 300*1000; g_cPrinterSysParam.g_dJourney[2] = 300*1000;//20200222：初始化行程//测试使用,移动到InitSystem
             ////g_cPrinterSysParam.g_dJourney[3] = 500*1000; g_cPrinterSysParam.g_dJourney[4] = 10*1000; g_cPrinterSysParam.g_dJourney[5] = 350*1000;//20200222：初始化行程//测试使用,移动到InitSystem
 
-            /*string*/ msg = $"进入：EquipmentMotionLogic3=》准备创建对象-手动操作！";
+            /*string*/
+            msg = $"进入：ManulBtn_Click=》准备创建对象-手动操作！";
             Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 
-            手动操作 f = new 手动操作(0, nValveStateMask);//20200718修改：
-
-            msg = $"进入：EquipmentMotionLogic3=》创建完成-手动操作！";
+            /*手动操作*/
+            手动操作 ManualControl = new 手动操作(0, nValveStateMask);//20200718修改：
+            msg = $"创建：ManualControl=》创建完成-手动操作！";
             Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 
             if (AutoPrintMotion2 != null)
             {
-                f.modbusCommunicateMap = AutoPrintMotion2.modbusCommunicateMap/*.Clone()*/;
-                f.InitModbusFlag = AutoPrintMotion2.InitModbusFlag;
+                ManualControl.modbusCommunicateMap = AutoPrintMotion2.modbusCommunicateMap/*.Clone()*/;
+                ManualControl.InitModbusFlag = AutoPrintMotion2.InitModbusFlag;
+                msg = $"加载成功：温控Modbus接口！";
+                Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
             }
-            msg = $"进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！";
-            Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 
-
-            f.k_dJourney = g_cPrinterSysParam.g_dJourney;
-            f.k_bInitRoyalSuccess = m_bInitRoyalSuccess;
+            ManualControl.k_dJourney = g_cPrinterSysParam.g_dJourney;
+            ManualControl.k_bInitRoyalSuccess = m_bInitRoyalSuccess;
             //f.k_UVLightParam = g_UVLightParam;//从手动控制端传回设置的UV灯参数：20200619批注//20201029注释：
-            f.InkCarHomeFlag = InkCarHomeFlag;//20200627批注：
-            f.PowderCarHomeFlag = PowderCarHomeFlag;//20200627批注：默认反向
-            f.m_bInkSuppy = g_bAutoSupplyInkFlag;
+            ManualControl.InkCarHomeFlag = InkCarHomeFlag;//20200627批注：
+            ManualControl.PowderCarHomeFlag = PowderCarHomeFlag;//20200627批注：默认反向
+            ManualControl.m_bInkSuppy = g_bAutoSupplyInkFlag;
 
             //f.k_RYSYSParamAutoPrintParamInTest = g_RYSYSParamAutoPrintParamInTest;//20201020新增：
-            f.RollerDirectionFlag = g_bRollerDirectionFlag;//
-            f.CorrectFlag = g_bSystemCorrectFlag;//20201014新增：系统校准标志位
-            f.k_nCurrentLayer = g_nCurrentLayer;//20201021新增：同步打印进度
-#if true
-            DialogResult result = f.ShowDialog();
+            ManualControl.RollerDirectionFlag = g_bRollerDirectionFlag;//
+            ManualControl.CorrectFlag = g_bSystemCorrectFlag;//20201014新增：系统校准标志位
+            ManualControl.k_nCurrentLayer = g_nCurrentLayer;//20201021新增：同步打印进度
+
+            DialogResult result = ManualControl.ShowDialog();
             if (result == DialogResult.OK)//OK时，执行对应操作
             {
-                g_cPrinterSysParam.g_dJourney = f.k_dJourney; //20200222：回传行程值及零点位置
+                g_cPrinterSysParam.g_dJourney = ManualControl.k_dJourney; //20200222：回传行程值及零点位置
                 //g_UVLightParam= f.k_UVLightParam;//从手动控制端传回设置的UV灯参数：20200619批注//20201029注释：
 
-                InkCarHomeFlag = f.InkCarHomeFlag;//20200627批注：
-                PowderCarHomeFlag = f.PowderCarHomeFlag;//20200627批注：
-                g_bRollerDirectionFlag = f.RollerDirectionFlag;//20200925新增：默认方向
+                InkCarHomeFlag = ManualControl.InkCarHomeFlag;//20200627批注：
+                PowderCarHomeFlag = ManualControl.PowderCarHomeFlag;//20200627批注：
+                g_bRollerDirectionFlag = ManualControl.RollerDirectionFlag;//20200925新增：默认方向
 
-                g_bSystemCorrectFlag = f.CorrectFlag;//20201014新增：系统校准标志位
+                g_bSystemCorrectFlag = ManualControl.CorrectFlag;//20201014新增：系统校准标志位
 
-                g_bAutoSupplyInkFlag = f.m_bInkSuppy;
+                g_bAutoSupplyInkFlag = ManualControl.m_bInkSuppy;
                 //g_RYSYSParamAutoPrintParamInTest = f.k_RYSYSParamAutoPrintParamInTest;//20201020新增：
 
                 msg = "退出手动调试子模块,已执行修改\r\n" +
@@ -3179,18 +3262,45 @@ namespace BinderJetting
             }
             else if (result == DialogResult.Cancel)//20200222：退出时，什么都不做
             {
-                InkCarHomeFlag = f.InkCarHomeFlag;//20200627批注：
-                PowderCarHomeFlag = f.PowderCarHomeFlag;//20200627批注：
+                InkCarHomeFlag = ManualControl.InkCarHomeFlag;//20200627批注：
+                PowderCarHomeFlag = ManualControl.PowderCarHomeFlag;//20200627批注：
 
-                g_bSystemCorrectFlag = f.CorrectFlag;//20201014新增：系统校准标志位
+                g_bSystemCorrectFlag = ManualControl.CorrectFlag;//20201014新增：系统校准标志位
 
-                g_bAutoSupplyInkFlag = f.m_bInkSuppy;
+                g_bAutoSupplyInkFlag = ManualControl.m_bInkSuppy;
                 //g_RYSYSParamAutoPrintParamInTest = f.k_RYSYSParamAutoPrintParamInTest;//20201020新增：
 
                 msg = "退出手动调试子模块，未执行修改\r\n" +
                 $"==========================================================================";
                 Log4Net.Info(msg);
             }
+
+            if (ManualControl.Timer != null)//20230318修复BUG:定时器必须要手动关闭
+            {
+                ManualControl.Timer.Enabled = false;
+                ManualControl.Timer.Dispose();
+            }
+            if (ManualControl.Timer3 != null)
+            {
+                ManualControl.Timer3.Enabled = false;
+                ManualControl.Timer3.Dispose();
+            }
+            if (ManualControl.Timer4 != null)
+            {
+                ManualControl.Timer4.Enabled = false;
+                ManualControl.Timer4.Dispose();
+            }
+            if (ManualControl.Timer5 != null)
+            {
+                ManualControl.Timer5.Enabled = false;
+                ManualControl.Timer5.Dispose();
+            }
+            if (ManualControl.TimerMAxis != null)
+            {
+                ManualControl.TimerMAxis.Enabled = false;
+                ManualControl.TimerMAxis.Dispose();
+            }
+            ManualControl.Dispose();//20230318新增：
 #endif
         }
 
@@ -4073,7 +4183,7 @@ namespace BinderJetting
         /// 定义一个代理：加载CLI过程中刷新数据
         private delegate void UpdateAutoStartInfoDelegate(/*int i, string ReadLayerNum*/);
         private bool g_IRControllerOpenCloseState = false;
-        private 手动操作 AutoPrintMotion2 /*= new 手动操作()*/;//20220523新建：与温度控制仪表建立通讯
+        //private 手动操作 AutoPrintMotion2 /*= new 手动操作()*/;//20220523新建：与温度控制仪表建立通讯
         private void UpdateAutoStartInfo(/*int i, string ReadLayerNum*/)
         {
             if (this.MasterSwitchBtn.InvokeRequired == false)//如果调用该函数的线程和控件lstMain位于同一个线程内
@@ -6312,12 +6422,21 @@ namespace BinderJetting
 
                 msg = $"进入：EquipmentMotionLogic3=》准备创建对象-手动操作！";
                 Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
-                手动操作 AutoPrintMotion = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数
-                msg = $"进入：EquipmentMotionLogic3=》创建完成-手动操作！";
-                Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+               
+                if (AutoPrintMotion4 == null)
+                {
+                    /*手动操作*/AutoPrintMotion4 = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
+                    msg = $"创建：AutoPrintMotion4=》初次创建完成-手动操作！";
+                    Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                }
+                else
+                {
+                    msg = $"创建：AutoPrintMotion4=》不需重新创建-手动操作！";
+                    Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                }
 
-                bool returnCode = LoadAutoParamsFromJson(ref AutoPrintMotion);//20201030新增：读取自动打印参数
-                g_nRePrintTimes = AutoPrintMotion.k_RYSYSParamAutoPrintParamInTest.m_nRePrintTimes;//20201030新增：读取自动打印参数                                                                                      //20220915新智能：读取清洗频率参数
+                bool returnCode = LoadAutoParamsFromJson(ref AutoPrintMotion4);//20201030新增：读取自动打印参数
+                g_nRePrintTimes = AutoPrintMotion4.k_RYSYSParamAutoPrintParamInTest.m_nRePrintTimes;//20201030新增：读取自动打印参数                                                                                      //20220915新智能：读取清洗频率参数
                 UpdateCircularBarMethod(1);//2020061:1：开启数据进度更新circular panel1:其中开启了对应的定时器                                
 
                 int tempRePrintTimes = g_nRePrintTimes;
