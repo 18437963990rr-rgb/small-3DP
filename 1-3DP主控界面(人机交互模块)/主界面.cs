@@ -1871,7 +1871,17 @@ namespace BinderJetting
         public static RYSYSParam g_RYSYSParam = new RYSYSParam();//存储所有的的JOB参数//非常关键//20200327新建:
         private void JobsParaBtn_Click(object sender, EventArgs e)//JOBS参数设置
         {
-            JOB参数设置 f = new JOB参数设置(p);//20200202修改
+            bool PrintJobOnFlag = false;//20230320新增：
+            if (((g_TaskThreadSTATE[3] == 1) && (g_TaskThreadSTATE[4] == 1))||((g_TaskThreadSTATE[3] == 3) && (g_TaskThreadSTATE[4] == 3)))//20230320新增：
+            {
+                PrintJobOnFlag = false;//(1)未开启打印任务;(2)此前的打印任务已经结束
+            }
+            else 
+            {
+                PrintJobOnFlag = true;//已开启打印任务
+            }
+
+            JOB参数设置 f = new JOB参数设置(p, PrintJobOnFlag);//20200202修改
             f.nValveStateMask = nValveStateMask;//20200718新增：原因在于，需要在JOB参数设置中打开手动控制，在此过程中，需要为手动控制传递阀状态参数
             f.k_RYSYSParam.m_bFlagResetCorrect = this.g_bResetCorrectEnabled;
             f.k_RYSYSParam = (RYSYSParam)g_RYSYSParam.Clone();//20200326新增//20200401新增：避免直接赋值形成的引用，形成真正的复制
@@ -1897,9 +1907,10 @@ namespace BinderJetting
                 royal.royal.g_sys_param.szLogPath = g_RYSYSParam.m_sLogPath;
                 //royal.royal.g_sys_param.szWavePath = g_RYSYSParam.m_sWavePath;
 
-                royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / 25.4 * 600);//20210311新增：Y向起打位置修订
-
-                //royal.royal.g_prtimg_layer.nYJetOff=(int)(g_RYSYSParam.m_dYJetOff/25.4*600);//20210311新增：Y向起打位置修订
+#if fasle//临时注释：进行相应的修改需要匹配合适的运动参数
+                ////royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / 25.4 * 600);//20210311新增：Y向起打位置修订
+                //////royal.royal.g_prtimg_layer.nYJetOff=(int)(g_RYSYSParam.m_dYJetOff/25.4*600);//20210311新增：Y向起打位置修订
+#endif
 
                 //20200327新增:
                 //float m_szMovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);
@@ -2056,12 +2067,12 @@ namespace BinderJetting
             msg = $"开启自动供墨：DEV_EnableInkAutoSupply：ControlBit{{0xFF}}";
             Log4Net.Info(msg);
 #endif
-            #region 监控发送指令//20230113新建且批注：
+#region 监控发送指令//20230113新建且批注：
             SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
                                                                                      //sendMessageToCamera.LoadJsonFile();
                                                                                      //sendMessageToCamera.SendMessageFromSharedMemory(tempStartMode,10,13);//20230113新建且批注：监控发送指令
                                                                                      //sendMessageToCamera.Dispose();//20230113新建且批注：监控发送指令
-            #endregion
+#endregion
             while ((RoyalMap.m_bJobStarted == true))//开启打印处理线程：20200411新建
             {
                 returnPrintValue = (CurrentStartPrintLayer + 1) * g_nRePrintTimes;//20200508：复位打印进度值   
@@ -2094,13 +2105,13 @@ namespace BinderJetting
                         /***********************************20200508:实际打印过程：*********************************/
                         int PassItems = 0;//20220524新增：
 
-                        #region 监控指令：喷墨拍摄位点1
+#region 监控指令：喷墨拍摄位点1
                         sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems])
                         {
                             sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 1);//20230113新建且批注：监控发送指令
                         }
-                        #endregion
+#endregion
 
                         for (PassItems = 0; PassItems < 6/*7*/; PassItems++)//20220531修改：总共数量为6 PASS
                         {
@@ -2194,9 +2205,9 @@ namespace BinderJetting
 
 #if true//20220524批注：（2）自动喷墨运动
 
-                                    #region
+#region
                                     //（1-1）注意：一定要取消跳白功能//（1-2）计算运动参数:运行速度、运行距离，依据SinglePass和MultiPass等运动模式*/
-                                    #endregion
+#endregion
 
                                     bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
                                     float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
@@ -2284,7 +2295,8 @@ namespace BinderJetting
 
                                 //EquipmentMotionLogic3(0, 2);//自动进给预送粉
                                 //EquipmentMotionLogic3(0, 3);//自动进给正式铺粉
-                                EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, ref sendMessageToCamera, renderIndex, 10);//自动铺粉逻辑
+
+                                //////EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, ref sendMessageToCamera, renderIndex, 10);//自动铺粉逻辑//20230319调试修改此处
 
                                 ////#region 监控指令：铺粉拍摄位点5
                                 ////                                if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
@@ -2347,9 +2359,9 @@ namespace BinderJetting
                 RoyalMap.m_bJobStarted = false;
                 PrinterRunInfo(":当前打印任务完成：区间为" + (g_nLayerStart + 1) + " 层到 " + (g_nLayerEnd + 1) + " 层");
             }
-            #region 监控发送指令//20230113新建且批注：
+#region 监控发送指令//20230113新建且批注：
             sendMessageToCamera.Dispose(); //20230113新建且批注：监控发送指令
-            #endregion
+#endregion
 
             /*bool*/
             ReturnFlag = royal.royal.IDP_StopPrintJob();
@@ -2360,7 +2372,7 @@ namespace BinderJetting
             Marshal.FreeHGlobal(ImgPtr);//20200429批注：释放内存,一定要及时释放内存//批注：代码位置，需要重点考虑
             PrintFlag = false;//20200716新增：关闭打印机维护的间歇闪喷使能
             g_TaskThreadSTATE[4] = 3;//20201119新增：DataTaskThread恢复为终止状态（打印完）
-            #region
+#region
             //（3）自然执行完毕，自然结束打印区间任务
             DeleteThread("PrintTaskTHREAD");//20200220：本线程结束，需要及时清理相关线程
             if (LayerEnd.InvokeRequired == true)//20200313新增批注：此位置严格来说执行不到
@@ -2371,7 +2383,7 @@ namespace BinderJetting
                         this.LayerStart.Enabled = true;//恢复控件操作
                     }));
             }
-            #endregion
+#endregion
         }
         //手动操作 ManualControl = null;//20230317修正:修正潜在的闪退问题
         手动操作 AutoPrintMotion1 = null;//20230317修正:修正潜在的闪退问题//PrintTask中
@@ -2541,7 +2553,7 @@ namespace BinderJetting
             Marshal.FreeHGlobal(ImgPtr);//20200429批注：释放内存,一定要及时释放内存//批注：代码位置，需要重点考虑
             PrintFlag = false;//20200716新增：关闭打印机维护的间歇闪喷使能
             g_TaskThreadSTATE[4] = 3;//20201119新增：DataTaskThread恢复为终止状态（打印完）
-            #region
+#region
             //（3）自然执行完毕，自然结束打印区间任务
             DeleteThread("PrintTaskTHREAD2");//20200220：本线程结束，需要及时清理相关线程
             if (LayerEnd.InvokeRequired == true)//20200313新增批注：此位置严格来说执行不到
@@ -2552,7 +2564,7 @@ namespace BinderJetting
                     this.LayerStart.Enabled = true;//恢复控件操作
                 }));
             }
-            #endregion
+#endregion
         }
 
 

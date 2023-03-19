@@ -24,7 +24,7 @@ namespace BinderJetting
         private LayerStategyContent m_mlayerStategyContent;//单层策略：层参数设计:20200806新增
 
         //public List<APrintStategy> layerStategyContentss = new List<APrintStategy>();//打印策略内容
-        public JOB参数设置(LaserADD_BinderJetter.PowderLayerParam m_cPowderLayerParam)
+        public JOB参数设置(LaserADD_BinderJetter.PowderLayerParam m_cPowderLayerParam, bool PrintJobExistedFlag)
         {
             InitializeComponent();
             //InitKidFormWithSysparam();//20200225：
@@ -54,6 +54,23 @@ namespace BinderJetting
             listView2.Columns.Add("名称", 150);
             listView2.LabelEdit = false;//允许ListView处于可编辑状态
             //ListView2Binding(PrintStrategys);
+
+            if (PrintJobExistedFlag == false) //不存在打印任务
+            { }
+            else
+            {
+                GrayScaleBox.Enabled = false;
+                GrayValueBox.Enabled = false;
+                XDpiBox.Enabled = false;
+                textBox9.Enabled = false;
+                textBox1.Enabled = false;
+                textBox10.Enabled = false;
+                textBox8.Enabled = false;
+                textBox37.Enabled = false;
+
+                checkBox10.Enabled = false;
+
+            }
         }
 
 
@@ -769,7 +786,7 @@ namespace BinderJetting
         public int m_nPrtCtl = 8;//JOB控制字：bit0:跳白支持，bit1：循环喷嘴偏移，bit2 Y向偏差无重嘴， bit3 X镜像， bit4 Y镜像:20200411新增
         public double m_dPrtXEncPos = 50/*30*//*379.5*//*362*/;////任务的X向起打位置:20200923修改：设置X向启打位置值为362//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改//20220601新建：修改X向启打位置修订
         //20220524修改：起始打印值为幅面的左端起始点，修改为30MM
-        public double m_dYJetOff = 20;//Y向起打位置修订:20210311新增//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改
+        public double m_dYJetOff = 0/*20*/;//Y向起打位置修订:20210311新增//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改//20230319新建：此值修改为默认值0，消除此前的相关BUGS
 
 
         /// <summary>
