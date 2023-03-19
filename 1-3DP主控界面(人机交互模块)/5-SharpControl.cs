@@ -1097,10 +1097,10 @@ namespace BinderJetting
         /// <param name="xsize"></param>
         /// <param name="ysize"></param>
         ///  //20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
-        public void DrawLayerBMP(bool CLIImportFlag, int CLIlayerIndex, float xsize, float ysize, SolidColorBrush solidColorBrush,int ActualStartNum)
+        public void DrawLayerBMP(bool CLIImportFlag, int InputCLIlayerIndex, float xsize, float ysize, SolidColorBrush solidColorBrush,int ActualStartNum)
         {
 #if true //20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
-            CLIlayerIndex = CLIlayerIndex + (ActualStartNum-1);
+            int CLIlayerIndex = InputCLIlayerIndex/*CLIlayerIndex*/ + (ActualStartNum/*-1*/);
 #endif
 
             ////d2dRenderTarget.UnitMode = UnitMode.Dips;//wicRenderTarget的绘图方式应该是像素
@@ -1380,7 +1380,11 @@ namespace BinderJetting
                 d2dRenderTarget.FillGeometry(rectangleGeometry, solidColorBrush, null);
 #else
                 //20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
+                string msg = $"完成处理第{index}层数据：准备调用DrawLayerBMP，index为{index}，起始层为{ActualStartNum}";
+                Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                 DrawLayerBMP(true,index,width, height,solidColorBrush,ActualStartNum);//20201117批注：生成正式打印数据
+                msg = $"完成处理第{index}层数据：准备调用DrawLayerBMP，index为{index}，起始层为{ActualStartNum}";
+                Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 #endif
 
                 long tag1, tag2;

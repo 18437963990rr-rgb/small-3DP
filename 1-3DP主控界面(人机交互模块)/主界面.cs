@@ -6458,13 +6458,22 @@ namespace BinderJetting
                                         ModifyJobAeraFLag = false;//20201124新增：
                                         tempRePrintTimes = g_nRePrintTimes + 1;
                                         int ActualStartNum = g_nLayerStart;
+                                        msg = $"准备处理第1层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
+                                        Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                                         g_SharpControl.RenderToWic(true, j/*1*/, i, g_nRePrintTimes, ActualStartNum);//第一层无效
+                                        msg = $"完成处理第1层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
+                                        Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                                     }
                                     else
                                     {
                                         tempRePrintTimes = g_nRePrintTimes;
                                         int ActualStartNum = g_nLayerStart;
+                                        msg = $"准备处理第1层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
+                                        Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                                         g_SharpControl.RenderToWic(true, j/*1*/, i + 1, g_nRePrintTimes, ActualStartNum);//需要校对渲染区间是否正确//201030修改：
+                                        msg = $"完成处理第1层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
+                                        Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+
                                     }//201030批注：其余层不做额外补偿
                                     UpdateDataAndTransfer(j, i, 1);//20200610:在标题栏刷新当前数据处理层//Rendering2D(j); //20200601：实现成形层的逐层预览刷新
                                 }
