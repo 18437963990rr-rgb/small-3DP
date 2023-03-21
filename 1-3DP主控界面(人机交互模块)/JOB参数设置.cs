@@ -67,9 +67,9 @@ namespace BinderJetting
                 textBox10.Enabled = false;
                 textBox8.Enabled = false;
                 textBox37.Enabled = false;
-
+                textBox27.Enabled = false;//20230321新增：
                 checkBox10.Enabled = false;
-
+                comboBox2.Enabled = false;//20230320新增：
             }
         }
 
@@ -572,12 +572,10 @@ namespace BinderJetting
 
             textBox28.DataBindings.Add("Text", k_RYSYSParam, "PrtCtl", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//JOB控制字：
             textBox8.DataBindings.Add("Text", k_RYSYSParam, "PrtXEncPos", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//任务的X向起打位置:20200411新增
-
+            
+            textBox27.DataBindings.Add("Text", k_RYSYSParam, "XJetOff", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//任务的X向起打位置修正:20230321修订
             textBox37.DataBindings.Add("Text", k_RYSYSParam, "YJetOff", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//任务的X向起打位置:20200411新增
-
-
-
-
+            
             // 送粉系统校准
             ResetCorrectCheckBox.DataBindings.Add("Checked", k_RYSYSParam, "FlagResetCorrect", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//保湿车头高度
             textBox3.DataBindings.Add("Text", k_RYSYSParam, "LogPath", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//日志路径：20200326新增
@@ -603,6 +601,9 @@ namespace BinderJetting
             textBox38.DataBindings.Add("Text", k_RYSYSParam, "UnactDepth", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//灰度数据格式:20200411新增
             ////20210605新增：是否应用子区域处理算法
             comboBox1.DataBindings.Add("SelectedIndex", k_RYSYSParam, "ApplaySubAreaAlthogrim", true, DataSourceUpdateMode.OnPropertyChanged);//车头运动速度：20200326新增
+            
+            ////20230320新增：是否处于调试状态
+            comboBox2.DataBindings.Add("SelectedIndex", k_RYSYSParam, "ApplyPowderSupplyMotion", true, DataSourceUpdateMode.OnPropertyChanged);//车头运动速度：20200326新增
         }
 
         private void WaveformSelectBtn_Click(object sender, EventArgs e)
@@ -786,8 +787,9 @@ namespace BinderJetting
         public int m_nPrtCtl = 8;//JOB控制字：bit0:跳白支持，bit1：循环喷嘴偏移，bit2 Y向偏差无重嘴， bit3 X镜像， bit4 Y镜像:20200411新增
         public double m_dPrtXEncPos = 50/*30*//*379.5*//*362*/;////任务的X向起打位置:20200923修改：设置X向启打位置值为362//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改//20220601新建：修改X向启打位置修订
         //20220524修改：起始打印值为幅面的左端起始点，修改为30MM
-        public double m_dYJetOff = 0/*20*/;//Y向起打位置修订:20210311新增//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改//20230319新建：此值修改为默认值0，消除此前的相关BUGS
-
+        public double m_dXJetOff = 0;//20230321新建：修改X向启打位置修订
+        public double m_dYJetOff = 0/*20*/;//Y向起打位置修订:20210311新增//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改//20230319新建：此值修改为默认值0，消除此前的相关BUGS       
+        
 
         /// <summary>
         /// 送粉系统校准
@@ -1065,6 +1067,11 @@ namespace BinderJetting
             get { return this.m_dPrtXEncPos; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set { if (value != this.m_dPrtXEncPos) { this.m_dPrtXEncPos = value; NotifyPropertyChanged(); } }
         }
+        public double XJetOff//Y向起打位置修订:20210311新增
+        {
+            get { return this.m_dXJetOff; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+            set { if (value != this.m_dXJetOff) { this.m_dXJetOff = value; NotifyPropertyChanged(); } }
+        }
 
         public double YJetOff//Y向起打位置修订:20210311新增
         {
@@ -1095,6 +1102,7 @@ namespace BinderJetting
         public double m_dDeviation = 3;//层间偏移：默认4mm//20210201新建批注：优选参数应该为3mm
         public double m_dUnactDepth = 5;//202105303新增：大零件子区域处理算法设置的无效深度：距上表面深度，目前设置为层数，方便使用；优选参数应该为5层
         public int m_bApplaySubAreaAlthogrim = 1;//20210605新增：是否应用子区域处理算法————特别的，0是采用，1是不采用//20220530修改:修改为默认不采用
+        public int m_bApplyPowderSupplyMotion = 0;//20230320新增：是否处于调试状态————特别的，0是采用，1是不采用
 
         public double SubAreaWidth//任务的X向起打位置:20200411新增
         {
@@ -1122,6 +1130,11 @@ namespace BinderJetting
         {
             get { return this.m_bApplaySubAreaAlthogrim; }
             set { if (value != this.m_bApplaySubAreaAlthogrim) { this.m_bApplaySubAreaAlthogrim = value; NotifyPropertyChanged(); } }
+        }
+        public int ApplyPowderSupplyMotion//20230320新增：是否处于调试状态
+        {
+            get { return this.m_bApplyPowderSupplyMotion; }
+            set { if (value != this.m_bApplyPowderSupplyMotion) { this.m_bApplyPowderSupplyMotion = value; NotifyPropertyChanged(); } }
         }
     }
     /// <summary>

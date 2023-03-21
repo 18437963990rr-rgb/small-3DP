@@ -13,11 +13,11 @@ namespace Composation//统一修改为BinderJetting命名空间
         public List<JobItem> jobItems = new List<JobItem>();//save the INFO from JobItems
         public int jobItemsCount = 0;//Record the NUM of TIFF data：记录总的零件的个数
         //CountNum is the number of TIFF Path， CountNum is contained in the CliStreams
-        public void Composation(ref List<CLI> CliStreams,double innerSafeGap,double borderSafeGap)// 内部安全和外部安全距离默认采取2mm
+        public void Composation(ref List<CLI> CliStreams,double innerSafeGap,double borderSafeGap/*, string CadOperationCode*/)// 内部安全和外部安全距离默认采取2mm
         {
             //int CountNum = CliStreams.Count;
             //Initialization: inputing data and sorting the TIFF PATH according to the TIFF area 
-            InitiateTIFF(ref CliStreams);//recordPath存了Paths, CliStreams
+            InitiateTIFF(ref CliStreams/*, CadOperationCode*/);//recordPath存了Paths, CliStreams
 
 #if false//20200513注释：本部分排版任务，移到Magics中实现
             SortTIFF(jobItems,ref CliStreams);//在生成新的jobItems序列的同时，CliStreams序列也必须得到维护
@@ -59,7 +59,7 @@ namespace Composation//统一修改为BinderJetting命名空间
         }
 
         //when ref 使用之前必须初始化    
-        public void InitiateTIFF(ref List<CLI> CliStreams)//玩一玩引用吧，要不怎么办？内存空间太大了
+        public void InitiateTIFF(ref List<CLI> CliStreams/*, string CadOperationCode*/)//玩一玩引用吧，要不怎么办？内存空间太大了
         {
             jobItems.Clear();
             //JobItem tempJobItem = new JobItem();//差点搞死
@@ -82,6 +82,13 @@ namespace Composation//统一修改为BinderJetting命名空间
 #else//20200513修改：false:在Magics中重排
                 tempJobItem.position.X = CliStreams.ElementAt(i).Dimension[0/*1*/].x;//暂时先不设置，直接reset为0；之后支持在magics中进行完成的排版文件的导入————！！！！！//20200514xiugai
                 tempJobItem.position.Y = CliStreams.ElementAt(i).Dimension[0/*1*/].y;//暂时先不设置，直接reset为0；之后支持在magics中进行完成的排版文件的导入————！！！！！//20200514xiugai
+                
+                //if (CadOperationCode=="1")
+                //{
+                //    double originalY/*tempJobItem.position.Y */= CliStreams.ElementAt(i).Dimension[0/*1*/].y;//暂时先不设置，直接reset为0；之后支持在magics中进行完成的排版文件的导入————！！！！！//20200514xiugai
+                //   tempJobItem.position.Y = -originalY + 330 / 2;//20230320修改：修复坐标系不协调的问题
+                //}
+
                 tempJobItem.deltaX = CliStreams.ElementAt(i).Dimension[2/*1*/].x;//X偏移值：20201113新增：
                 tempJobItem.deltaY = CliStreams.ElementAt(i).Dimension[2/*1*/].y;//Y偏移值：20201113新增：
 #endif

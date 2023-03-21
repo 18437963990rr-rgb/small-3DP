@@ -793,7 +793,7 @@ namespace BinderJetting
                 {
                     if (File.Exists(filePath1))//读取确定无疑的对象参数
                     {
-                        using (FileStream fs = new FileStream(filePath1, FileMode.Open))
+                        using (FileStream fs = new FileStream(filePath1, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))//20230320修改新增：
                         {
                             //(1)反序列化读取
                             BinaryFormatter bf = new BinaryFormatter();
@@ -813,7 +813,7 @@ namespace BinderJetting
                 {
                     if (File.Exists(filePath2))//读取确定无疑的对象参数
                     {
-                        using (FileStream fs = new FileStream(filePath2, FileMode.Open))
+                        using (FileStream fs = new FileStream(filePath2, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))//20230320修改：
                         {
                             //(1)反序列化读取
                             BinaryFormatter bf = new BinaryFormatter();
@@ -1890,7 +1890,7 @@ namespace BinderJetting
             string msg = $"进入JOB参数设置：修改前初始参数：灰度数据格式{{{g_RYSYSParam.m_nPixelGrayBits}bits}}" +
                 $"打印灰阶{{{g_RYSYSParam.m_dPixelGrayValue}阶}}m_XPrintDpi{{{g_RYSYSParam.m_XPrintDpi}Dpi}}" +
             $"墨车运动速度{{{g_RYSYSParam.CarMoveSpeed}MM/s}}X向起打位置{{{g_RYSYSParam.m_dPrtXEncPos}MM}}" +
-            $"Y向起打位置{{{g_RYSYSParam.m_dYJetOff}MM}}";
+            $"X向起打位置偏移{{{g_RYSYSParam.m_dXJetOff}MM}}Y向起打位置偏移{{{g_RYSYSParam.m_dYJetOff}MM}}";
             Log4Net.Info(msg);
 
             DialogResult result = f.ShowDialog();
@@ -1930,7 +1930,7 @@ namespace BinderJetting
                 msg = $"退出JOB参数设置：修改后参数：灰度数据格式{{{g_RYSYSParam.m_nPixelGrayBits}bits}}" +
                     $"打印灰阶{{{g_RYSYSParam.m_dPixelGrayValue}阶}}m_XPrintDpi{{{g_RYSYSParam.m_XPrintDpi}Dpi}}" +
                     $"墨车运动速度{{{g_RYSYSParam.CarMoveSpeed}MM/s}}X向起打位置{{{g_RYSYSParam.m_dPrtXEncPos}MM}}" +
-                    $"Y向起打位置{{{g_RYSYSParam.m_dYJetOff}MM}}";
+                    $"X向起打位置偏移{{{g_RYSYSParam.m_dXJetOff}MM}}Y向起打位置偏移{{{g_RYSYSParam.m_dYJetOff}MM}}";
                 Log4Net.Info(msg);
             }
             else if (result == DialogResult.Cancel)//退出时，什么都不做
@@ -2295,8 +2295,18 @@ namespace BinderJetting
 
                                 //EquipmentMotionLogic3(0, 2);//自动进给预送粉
                                 //EquipmentMotionLogic3(0, 3);//自动进给正式铺粉
-
-                                //////EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, ref sendMessageToCamera, renderIndex, 10);//自动铺粉逻辑//20230319调试修改此处
+                                if (g_RYSYSParam.m_bApplyPowderSupplyMotion == 0)//0为采用
+                                {
+                                    EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, ref sendMessageToCamera, renderIndex, 10);//自动铺粉逻辑//20230319调试修改此处
+                                   
+                                    msg = $"执行完成铺粉固化操作：EquipmentMotionLogic3：m_bApplyPowderSupplyMotion:{g_RYSYSParam.m_bApplyPowderSupplyMotion}";
+                                    Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                                }
+                                else//1为不采用
+                                {
+                                    msg = $"不执行跳过铺粉固化操作：m_bApplyPowderSupplyMotion:{g_RYSYSParam.m_bApplyPowderSupplyMotion}";
+                                    Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                                }
 
                                 ////#region 监控指令：铺粉拍摄位点5
                                 ////                                if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
@@ -5252,7 +5262,7 @@ namespace BinderJetting
                         {
                             try//20221125新增：确保格式正确
                             {
-                                FileStream fs = new FileStream(path, FileMode.Open);//20201125新增：待序列化文件流
+                                FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);//20201125新增：待序列化文件流
                                 BinaryFormatter bf = new BinaryFormatter();//20201125新增：序列化对象
                                 List<CLI> tempCliStreams = bf.Deserialize(fs) as List<CLI>;
                                 //CliStreams = tempCliStreams;//(2)Read the CLIfile to the memory just only once    
@@ -5266,9 +5276,9 @@ namespace BinderJetting
                                 msg = "CAD数据加载：添加.bjgroup格式CAD数据成功-" + path;
                                 Log4Net.Info(msg);
                             }
-                            catch (Exception)
+                            catch (Exception e)
                             {
-                                MessageBox.Show("Error:.bjgroup文件格式错误，请重新输入！");
+                                MessageBox.Show("Error:.bjgroup文件格式错误，请重新输入！" + e.ToString());
                             }
                         }
                         else//为CLI或者其他文件
@@ -5283,15 +5293,32 @@ namespace BinderJetting
                                 tempSTL.Dimension[2].x = 0;//1112新增：x为为偏移值δx，初始化为0
                                 tempSTL.Dimension[2].y = 0;//1112新增：x为为偏移值δy，初始化为0
 
+                                CliStreams.Add(/*STL.ReadCLI(path)*/tempSTL);//(2)Read the CLIfile to the memory just only once                            
+#if false
+                                //if (true/*CadOperationCode == "1"*/)//20230320新增：
+                                //{
+                                //    double originalY/*tempJobItem.position.Y */= tempSTL.Dimension[0/*1*/].y;//暂时先不设置，直接reset为0；之后支持在magics中进行完成的排版文件的导入————！！！！！//20200514xiugai
+                                //    tempSTL.Dimension[0/*1*/].y = -originalY + 330 / 2;//20230320修改：修复坐标系不协调的问题                      
+                                //}
                                 //tempSTL.Dimension[0].y = -tempSTL.Dimension[0].y + 175;//20221125新增：修复导入数据偏差
                                 //tempSTL.Dimension[1].y = -tempSTL.Dimension[1].y + 175;//20221125新增：修复导入数据偏差
-
-                                CliStreams.Add(/*STL.ReadCLI(path)*/tempSTL);//(2)Read the CLIfile to the memory just only once                            
+#else
+                                double originalX = tempSTL.Dimension[0/*1*/].x - 175;//暂时先不设置，直接reset为0；之后支持在magics中进行完成的排版文件的导入————！！！！！//20200514xiugai
+                                double originalY = tempSTL.Dimension[0/*1*/].y;//20230320修改：修复坐标系不协调的问题                      
+                                OperationType.xTranslate = originalX;
+                                OperationType.yTranslate = originalY/*+ Math.Abs(tempSTL.Dimension[1].y- tempSTL.Dimension[0].y)*/;
+                                OperationType.CadOperationCode = "3";
+                                g_SharpControl.selectPaths.Add(tempSTL.recordPathItem);//20230320新增：
+                                bool SingleDataFlag = true;
+                                TranslateCliStreams(ref CliStreams, g_SharpControl.selectPaths, OperationType, SingleDataFlag);//MOVE//20230320修正输入文件错误BUG
+                                OperationType.CadOperationCode = "1";
+                                g_SharpControl.selectPaths.Clear();//20230320新增：
+#endif
                                 UpdateListView(path, 1, tempSTL.LayerNumber);//20201111新增：完成JobList的更新
 
                                 msg = "CAD数据加载：添加.CLI格式CAD数据成功-" + path;
                                 Log4Net.Info(msg);
-                            }
+                            } 
                         }
                     }
                     tempPath.Clear();//20221125新增：清理完路径
@@ -5328,10 +5355,12 @@ namespace BinderJetting
 
                         msg = "CAD数据删除：删除.CLI格式CAD数据成功-" + path;
                         Log4Net.Info(msg);
+                        //g_SharpControl.selectPaths.Clear();
                     }
                     break;
                 case "3"://MOVE
-                    TranslateCliStreams(ref CliStreams, g_SharpControl.selectPaths, OperationType);
+
+                    TranslateCliStreams(ref CliStreams, g_SharpControl.selectPaths, OperationType,true);
 
                     for (int i = 0; i < g_SharpControl.selectPaths.Count; i++)
                     {
@@ -5343,6 +5372,8 @@ namespace BinderJetting
                         $"Z方向平移目标值{{{OperationType.zTranslate}MM}}X方向平移增量{{{OperationType.xDeltaTranslate}MM}}" +
                         $"Y方向平移增量{{{OperationType.yDeltaTranslate}MM}}Z方向平移增量{{{OperationType.zDeltaTranslate}MM}}" ;
                     Log4Net.Info(msg);
+
+                    //g_SharpControl.selectPaths.Clear();
 
                     break;
                 case "4"://SCALE
@@ -5384,7 +5415,7 @@ namespace BinderJetting
                 //    UpdateLayerNum(i, ReadLayerNum);//使用委托的方式去实现
                 //}
                 //预排版:Composation the TIFF Picture,and save the TIFF picture information to the Data Structure//20200527批注
-                Composation(ref CliStreams);//with the help of data structure optimization, we can only transfer the ref CliStreams to achieve the ComposationCLI function 
+                Composation(ref CliStreams/*, OperationType.CadOperationCode*/);//with the help of data structure optimization, we can only transfer the ref CliStreams to achieve the ComposationCLI function 
                 //(a) 绘制CLI: 从composationCLI.jobItems——>g_SharpControl.tempJobItems 
                 g_SharpControl.tempJobItems = composationCLI.jobItems;//translate the jobItems in the Composation Space to the local jobItems                                                         
                                                                       //(b) 整合1层的CLIs://排序确定所有零件的最大的值
@@ -5510,39 +5541,84 @@ namespace BinderJetting
                 this.panel3.Invoke(UpdateComposationPic, jobItems);
             }
         }
-        public void TranslateCliStreams(ref List<CLI> CliStreams, List<string> tempSelectPaths, LoadDataTransferObject transferObject)
+        public void TranslateCliStreams(ref List<CLI> CliStreams, List<string> tempSelectPaths, LoadDataTransferObject transferObject,bool SingleDataFlag)
         {
             double maxX = 0; double maxY = 0; double minX = 0; double minY = 0;
             var tempCLIs = CliStreams.Find(t => t.recordPathItem.Equals(tempSelectPaths[0]));
+            CLI MaxBorderCLI = new CLI();//20230320新建：
+            double BorderCLIMinPos = 0;//20230320新建：
+
             if (null != tempCLIs)
             {
-                maxX = tempCLIs.Dimension[1].x;
-                maxY = tempCLIs.Dimension[1].y;
-                minX = tempCLIs.Dimension[0].x;
-                minY = tempCLIs.Dimension[0].y;
-                for (int m = 0; m < tempSelectPaths.Count(); m++)//20201113新增：更新最大区域
+                if (SingleDataFlag == false)
                 {
-                    tempCLIs = CliStreams.Find(t => t.recordPathItem.Equals(tempSelectPaths[m]));
-                    if (maxX < tempCLIs.Dimension[1].x)//更新最大尺寸
+                    maxX = tempCLIs.Dimension[1].x;
+                    maxY = tempCLIs.Dimension[1].y;
+                    BorderCLIMinPos = tempCLIs.Dimension[0].y;//20230320新建：更新边界数据
+                    minX = tempCLIs.Dimension[0].x;
+                    minY = tempCLIs.Dimension[0].y;
+                    //CLI MaxBorderCLI = new CLI();//20230320新建：
+                    for (int m = 0; m < tempSelectPaths.Count(); m++)//20201113新增：更新最大区域
                     {
-                        maxX = tempCLIs.Dimension[1].x;
+                        tempCLIs = CliStreams.Find(t => t.recordPathItem.Equals(tempSelectPaths[m]));
+                        if (maxX < tempCLIs.Dimension[1].x)//更新最大尺寸
+                        {
+                            maxX = tempCLIs.Dimension[1].x;
+                        }
+                        else { }
+                        if (maxY < tempCLIs.Dimension[1].y)//更新最大尺寸
+                        {
+                            maxY = tempCLIs.Dimension[1].y;
+                            //MaxBorderCLI = tempCLIs;//20230320新建：更新边界数据
+                            BorderCLIMinPos = tempCLIs.Dimension[0].y;//20230320新建：更新边界数据
+                        }
+                        else { }
+                        if (minX > tempCLIs.Dimension[0].x)//更新最大尺寸
+                        {
+                            minX = tempCLIs.Dimension[0].x;
+                        }
+                        else { }
+                        if (minY > tempCLIs.Dimension[0].y)//更新最大尺寸
+                        {
+                            minY = tempCLIs.Dimension[0].y;
+                        }
+                        else { }
                     }
-                    else { }
-                    if (maxY < tempCLIs.Dimension[1].y)//更新最大尺寸
+                }
+                else 
+                {
+                    maxX = tempCLIs.Dimension[1].x;
+                    maxY = tempCLIs.Dimension[1].y;
+                    BorderCLIMinPos = tempCLIs.Dimension[0].y;//20230320新建：更新边界数据
+                    minX = tempCLIs.Dimension[0].x;
+                    minY = tempCLIs.Dimension[0].y;
+                    //CLI MaxBorderCLI = new CLI();//20230320新建：
+                    for (int m = 0; m < tempSelectPaths.Count(); m++)//20201113新增：更新最大区域
                     {
-                        maxY = tempCLIs.Dimension[1].y;
+                        tempCLIs = CliStreams.Find(t => t.recordPathItem.Equals(tempSelectPaths[m]));
+                        if (maxX < tempCLIs.Dimension[1].x)//更新最大尺寸
+                        {
+                            maxX = tempCLIs.Dimension[1].x;
+                        }
+                        else { }
+                        if (maxY < tempCLIs.Dimension[1].y)//更新最大尺寸
+                        {
+                            maxY = tempCLIs.Dimension[1].y;
+                            //MaxBorderCLI = tempCLIs;//20230320新建：更新边界数据
+                            BorderCLIMinPos = tempCLIs.Dimension[0].y;//20230320新建：更新边界数据
+                        }
+                        else { }
+                        if (minX > tempCLIs.Dimension[0].x)//更新最大尺寸
+                        {
+                            minX = tempCLIs.Dimension[0].x;
+                        }
+                        else { }
+                        if (minY > tempCLIs.Dimension[0].y)//更新最大尺寸
+                        {
+                            minY = tempCLIs.Dimension[0].y;
+                        }
+                        else { }
                     }
-                    else { }
-                    if (minX > tempCLIs.Dimension[0].x)//更新最大尺寸
-                    {
-                        minX = tempCLIs.Dimension[0].x;
-                    }
-                    else { }
-                    if (minY > tempCLIs.Dimension[0].y)//更新最大尺寸
-                    {
-                        minY = tempCLIs.Dimension[0].y;
-                    }
-                    else { }
                 }
             }
 
@@ -5555,7 +5631,9 @@ namespace BinderJetting
                     if (transferObject.translateMode == true)//绝对移动
                     {
                         double xtemptranslate = (transferObject.xTranslate - minX) + 165/*210*/;//20220530修改：
-                        double ytemptranslate = (-transferObject.yTranslate + 330/*350*/ - maxY) - 165/*175*/;//20220530修改：
+                        //20230320修改：
+                        double ytemptranslate = (-transferObject.yTranslate + 330/*350*/ - maxY 
+                            - Math.Abs(maxY - BorderCLIMinPos)) - 165/*175*/;//20220530修改：
                         CliStreams[tempindex].Dimension[2].x = CliStreams[tempindex].Dimension[2].x + xtemptranslate;//tempCLIs.Dimension[2].x为为偏移值δx
                         CliStreams[tempindex].Dimension[2].y = CliStreams[tempindex].Dimension[2].y + ytemptranslate;//tempCLIs.Dimension[2].x为为偏移值δy
                         CliStreams[tempindex].Dimension[1].x = CliStreams[tempindex].Dimension[1].x + xtemptranslate;//实际位置值
@@ -5688,13 +5766,13 @@ namespace BinderJetting
         //input parameters: TIFF path, TIFF id, TIFF NUM, TIFF position
         //calculate: TIFF position for each TIFF path(also the each TIFF picture)
         //output parameters: TIFFinformatino contains{TIFF path, TIFF id, TIFF NUM, TIFF position}
-        private void Composation(ref List<CLI> CliStreams)
+        private void Composation(ref List<CLI> CliStreams/*, string CadOperationCode*/)
         {
             //TIFFPath//TIFFPath包含了TIFF的基本所有信息
             //CliStreams//CliStreams包含了CLI的基本所有的信息——本信息对于排版非常重要
 
             //ComposationCLI composationCLI = new ComposationCLI();
-            composationCLI.Composation(ref CliStreams, 2, 2);//内部安全和外部安全距离默认采取2mm
+            composationCLI.Composation(ref CliStreams, 2, 2/*, CadOperationCode*/);//内部安全和外部安全距离默认采取2mm
 
             //_3DP_GUI.CLInum = 4;//4为测试值
         }
@@ -6090,10 +6168,13 @@ namespace BinderJetting
                     平移操作 g = new 平移操作();//20201112新增:阵列拷贝完成编辑阵列
                     double maxX = 0; double maxY = 0; double minX = 0; double minY = 0;
                     var tempCLIs = CliStreams.Find(t => t.recordPathItem.Equals(g_SharpControl.selectPaths[0]));
+                    double BorderCLIMinPos = 0;//20230320新建：
+
                     if (null != tempCLIs)
                     {
                         maxX = tempCLIs.Dimension[1].x;
                         maxY = tempCLIs.Dimension[1].y;
+                        BorderCLIMinPos = tempCLIs.Dimension[0].y;//20230320新建：更新边界数据
                         minX = tempCLIs.Dimension[0].x;
                         minY = tempCLIs.Dimension[0].y;
                         for (int m = 0; m < g_SharpControl.selectPaths.Count(); m++)//20201113新增：更新最大区域
@@ -6107,6 +6188,7 @@ namespace BinderJetting
                             if (maxY < tempCLIs.Dimension[1].y)//更新最大尺寸
                             {
                                 maxY = tempCLIs.Dimension[1].y;
+                                BorderCLIMinPos = tempCLIs.Dimension[0].y;//20230320新建：更新边界数据
                             }
                             else { }
                             if (minX > tempCLIs.Dimension[0].x)//更新最大尺寸
@@ -6122,7 +6204,7 @@ namespace BinderJetting
                         }
                     }
                     g.k_VirtualArrayParam.m_dXTranslate = -(maxX - minX) / 2;
-                    g.k_VirtualArrayParam.m_dYTranslate = -(maxY - minY) / 2;
+                    g.k_VirtualArrayParam.m_dYTranslate = -(maxY - minY) / 2 - Math.Abs(maxY - BorderCLIMinPos);
                     g.k_VirtualArrayParam.m_bTranslateMode = true;
                     DialogResult result2 = g.ShowDialog();
                     if (result2 == DialogResult.OK)

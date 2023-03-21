@@ -1870,7 +1870,7 @@ namespace BinderJetting
 
             //（肆） 保存附带的所有必要的BMP数据
             //（肆） 处理图层信息
-            royal.royal.g_prtimg_layer.nXEncOff = 0;//图像的XDPI，本质必须与光栅的DPI保持协调
+            royal.royal.g_prtimg_layer.nXEncOff = (int)(gc_RysysParam.m_dXJetOff*200);//5um的精度//图像的XDPI，本质必须与光栅的DPI保持协调//20230321修订：X方向打印启打位置修订
             //royal.royal.g_prtimg_layer.nYJetOff =;//20210311修正：Y向的位置起始偏差。
             //royal.royal.g_prtimg_layer.nYJetOff = k_dYJetOff/*(int)(g_RYSYSParam.m_dYJetOff * 600)*/;//20210311修正：Y向的位置起始偏差。
             royal.royal.g_prtimg_layer.nXDPI = XDpi/*635*//*XDpi*//*635*//*1270*2*//*635*/;//图像的XDPI，本质必须与光栅的DPI保持协调//20200802批注：修改原有的X向分辨率，本来应该是635DPI，提升到635*2DPI//20210324修改：打印校准图应该为635DPI
