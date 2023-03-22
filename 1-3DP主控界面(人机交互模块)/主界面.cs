@@ -5244,213 +5244,237 @@ namespace BinderJetting
         private Thread LoadCLIThread;//（1）导入CLI线程
         private void RunLoadCLIThread(object TransferObject)//载入数据线程内容//20201110修改为带参数类型：
         {
-            //(1)Create the file System
-            //(2)Build the TIFF File in the right file Path
-            string msg = null;
-            string tempSelectPATHS = null;
+            try 
+            {          
+                //(1)Create the file System
+                //(2)Build the TIFF File in the right file Path
+                string msg = null;
+                string tempSelectPATHS = null;
 
-            LoadDataTransferObject OperationType = TransferObject as LoadDataTransferObject;//类型转换——输入数据//20201113修改//string OperationType = TransferObject as string;//类型转换——输入数据
-            switch (OperationType.CadOperationCode)
-            {
-                case "1"://ADD
+                LoadDataTransferObject OperationType = TransferObject as LoadDataTransferObject;//类型转换——输入数据//20201113修改//string OperationType = TransferObject as string;//类型转换——输入数据
+                switch (OperationType.CadOperationCode)
+                {
+                    case "1"://ADD
+                        g_SharpControl.selectPaths.Clear();//20230321新增：消除潜在BUG
 
-                    //string ImportPathList = null;
-                    foreach (string path in tempPath)//Path is the path of CLI file.
-                    {
-                        string extension = System.IO.Path.GetExtension(path);//20221125新增：获取文件的扩展名
-                        if (extension == ".bjgroup")//为自定义的.bjgroup文件
+                        //string ImportPathList = null;
+                        foreach (string path in tempPath)//Path is the path of CLI file.
                         {
-                            try//20221125新增：确保格式正确
+                            string extension = System.IO.Path.GetExtension(path);//20221125新增：获取文件的扩展名
+                            if (extension == ".bjgroup")//为自定义的.bjgroup文件
                             {
-                                FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);//20201125新增：待序列化文件流
-                                BinaryFormatter bf = new BinaryFormatter();//20201125新增：序列化对象
-                                List<CLI> tempCliStreams = bf.Deserialize(fs) as List<CLI>;
-                                //CliStreams = tempCliStreams;//(2)Read the CLIfile to the memory just only once    
-                                //读取.bjgroup文件，且更新JobList的相关文件
-                                for (int i = 0; i <= tempCliStreams.Count - 1; i++)//there exists some deadly error. i shouldn't use the recordPaths,but i should use the kidPath in the former part
+                                try//20221125新增：确保格式正确
                                 {
-                                    CliStreams.Add(tempCliStreams[i]);//(2)Read the CLIfile to the memory just only once    
-                                    UpdateListView(tempCliStreams[i].recordPathItem, 1, tempCliStreams[i].LayerNumber);//20201111新增：完成JobList的更新
+                                    FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);//20201125新增：待序列化文件流
+                                    BinaryFormatter bf = new BinaryFormatter();//20201125新增：序列化对象
+                                    List<CLI> tempCliStreams = bf.Deserialize(fs) as List<CLI>;
+                                    //CliStreams = tempCliStreams;//(2)Read the CLIfile to the memory just only once    
+                                    //读取.bjgroup文件，且更新JobList的相关文件
+                                    for (int i = 0; i <= tempCliStreams.Count - 1; i++)//there exists some deadly error. i shouldn't use the recordPaths,but i should use the kidPath in the former part
+                                    {
+                                        CliStreams.Add(tempCliStreams[i]);//(2)Read the CLIfile to the memory just only once    
+                                        UpdateListView(tempCliStreams[i].recordPathItem, 1, tempCliStreams[i].LayerNumber);//20201111新增：完成JobList的更新
+                                    }
+
+                                    msg = "CAD数据加载：添加.bjgroup格式CAD数据成功-" + path;
+                                    Log4Net.Info(msg);
                                 }
-
-                                msg = "CAD数据加载：添加.bjgroup格式CAD数据成功-" + path;
-                                Log4Net.Info(msg);
+                                catch (Exception e)
+                                {
+                                    MessageBox.Show("Error:.bjgroup文件格式错误，请重新输入！" + e.ToString());
+                                }
                             }
-                            catch (Exception e)
+                            else//为CLI或者其他文件
                             {
-                                MessageBox.Show("Error:.bjgroup文件格式错误，请重新输入！" + e.ToString());
+                                if (null == CliStreams.Find(t => t.recordPathItem.Equals(path)))//重复性检查//如果不存在指定的路径
+                                {
+                                    CLI tempSTL = STL.ReadCLI(path);//1112修改：
+                                    //tempSTL.Dimension[1].x = tempSTL.Dimension[1].x - tempSTL.Dimension[0].x;//1112新增：
+                                    //tempSTL.Dimension[1].y = tempSTL.Dimension[1].y - tempSTL.Dimension[0].y;//1112新增：
+                                    ThreeDimension tempDimension = new ThreeDimension();
+                                    tempSTL.Dimension.Add(tempDimension);
+                                    tempSTL.Dimension[2].x = 0;//1112新增：x为为偏移值δx，初始化为0
+                                    tempSTL.Dimension[2].y = 0;//1112新增：x为为偏移值δy，初始化为0
+
+                                    //20230321新增：增添对Z方向打印位置的设置
+                                    if (tempSTL.Dimension[0].z == 0)
+                                    {
+                                    }
+                                    else
+                                    {
+                                        int insertLayerNum = (int)(tempSTL.Dimension[0].z / tempSTL.LayerThickness);
+                                        tempSTL.LayerNumber = tempSTL.LayerNumber + insertLayerNum;
+                                        for (int i = 0; i < insertLayerNum; i++) 
+                                        {
+                                            tempSTL.LayerLine.Insert(0,new Layer());
+                                        }
+                                    }
+
+
+                                    CliStreams.Add(/*STL.ReadCLI(path)*/tempSTL);//(2)Read the CLIfile to the memory just only once                            
+    #if false
+                                    //if (true/*CadOperationCode == "1"*/)//20230320新增：
+                                    //{
+                                    //    double originalY/*tempJobItem.position.Y */= tempSTL.Dimension[0/*1*/].y;//暂时先不设置，直接reset为0；之后支持在magics中进行完成的排版文件的导入————！！！！！//20200514xiugai
+                                    //    tempSTL.Dimension[0/*1*/].y = -originalY + 330 / 2;//20230320修改：修复坐标系不协调的问题                      
+                                    //}
+                                    //tempSTL.Dimension[0].y = -tempSTL.Dimension[0].y + 175;//20221125新增：修复导入数据偏差
+                                    //tempSTL.Dimension[1].y = -tempSTL.Dimension[1].y + 175;//20221125新增：修复导入数据偏差
+    #else
+                                    double originalX = tempSTL.Dimension[0/*1*/].x - 165;//暂时先不设置，直接reset为0；之后支持在magics中进行完成的排版文件的导入————！！！！！//20200514xiugai
+                                    double originalY = tempSTL.Dimension[0/*1*/].y + 165;//20230320修改：修复坐标系不协调的问题                      
+                                    OperationType.xTranslate = originalX;
+                                    OperationType.yTranslate = -(originalY - Math.Abs(tempSTL.Dimension[1].y - tempSTL.Dimension[0].y)) - Math.Abs(tempSTL.Dimension[1].y - tempSTL.Dimension[0].y)/*+ Math.Abs(tempSTL.Dimension[1].y- tempSTL.Dimension[0].y)*/;
+                                    OperationType.CadOperationCode = "3";
+                                    g_SharpControl.selectPaths.Add(tempSTL.recordPathItem);//20230320新增：
+                                    bool SingleDataFlag = true;
+                                    TranslateCliStreams(ref CliStreams, g_SharpControl.selectPaths, OperationType, SingleDataFlag);//MOVE//20230320修正输入文件错误BUG
+                                    OperationType.CadOperationCode = "1";
+                                    g_SharpControl.selectPaths.Clear();//20230320新增：
+    #endif
+                                    UpdateListView(path, 1, tempSTL.LayerNumber);//20201111新增：完成JobList的更新
+
+                                    msg = "CAD数据加载：添加.CLI格式CAD数据成功-" + path;
+                                    Log4Net.Info(msg);
+                                } 
                             }
                         }
-                        else//为CLI或者其他文件
+                        tempPath.Clear();//20221125新增：清理完路径
+
+                        ////（1）读取文件：.bjgroup类型文件
+                        //foreach (string path in tempPath)//20201125新增：Path is the path of CLI file.
+                        //{
+                        //    string extension = System.IO.Path.GetExtension(path);//20201125新增：获取文件的扩展名
+                        //    if (extension == ".bjgroup")//为自定义的.bjgroup文件
+                        //    {
+                        //        FileStream fs = new FileStream(path, FileMode.Open);//20201125新增：待序列化文件流
+                        //        BinaryFormatter bf = new BinaryFormatter();//20201125新增：序列化对象
+                        //        List<CLI> tempCliStreams = bf.Deserialize(fs) as List<CLI>;
+                        //        CliStreams = tempCliStreams;//(2)Read the CLIfile to the memory just only once    
+                        //        //更新JobList的相关文件
+                        //    }
+                        //    else//为CLI或者其他文件
+                        //    { }
+                        //}
+                        //tempPath.Clear();//20201111新增：清理完路径
+                        ////（2）保存文件：.bjgroup类型文件
+                        //FileStream fs = new FileStream(@"D:\Program\CSharp\NGramTest\NGramTest\serializePeople.dat", FileMode.Create);//20201125新增：保存到.bjgroup文件
+                        //BinaryFormatter bf = new BinaryFormatter();
+                        ////List<CLI> ps = new List<CLI>();
+                        //bf.Serialize(fs, CliStreams);
+                        //fs.Close();
+
+                        break;
+                    case "2"://DELETE
+                        foreach (string path in g_SharpControl.selectPaths)
                         {
-                            if (null == CliStreams.Find(t => t.recordPathItem.Equals(path)))//重复性检查//如果不存在指定的路径
-                            {
-                                CLI tempSTL = STL.ReadCLI(path);//1112修改：
-                                //tempSTL.Dimension[1].x = tempSTL.Dimension[1].x - tempSTL.Dimension[0].x;//1112新增：
-                                //tempSTL.Dimension[1].y = tempSTL.Dimension[1].y - tempSTL.Dimension[0].y;//1112新增：
-                                ThreeDimension tempDimension = new ThreeDimension();
-                                tempSTL.Dimension.Add(tempDimension);
-                                tempSTL.Dimension[2].x = 0;//1112新增：x为为偏移值δx，初始化为0
-                                tempSTL.Dimension[2].y = 0;//1112新增：x为为偏移值δy，初始化为0
+                            CliStreams.RemoveAll(t => t.recordPathItem.Equals(path));//CliStreams.Find(t => t.recordPathItem.Equals(path));
+                            UpdateListView(path, 2, 0);//20201111新增：完成JobList的更新//参数0无意义，形式而已
 
-                                CliStreams.Add(/*STL.ReadCLI(path)*/tempSTL);//(2)Read the CLIfile to the memory just only once                            
-#if false
-                                //if (true/*CadOperationCode == "1"*/)//20230320新增：
-                                //{
-                                //    double originalY/*tempJobItem.position.Y */= tempSTL.Dimension[0/*1*/].y;//暂时先不设置，直接reset为0；之后支持在magics中进行完成的排版文件的导入————！！！！！//20200514xiugai
-                                //    tempSTL.Dimension[0/*1*/].y = -originalY + 330 / 2;//20230320修改：修复坐标系不协调的问题                      
-                                //}
-                                //tempSTL.Dimension[0].y = -tempSTL.Dimension[0].y + 175;//20221125新增：修复导入数据偏差
-                                //tempSTL.Dimension[1].y = -tempSTL.Dimension[1].y + 175;//20221125新增：修复导入数据偏差
-#else
-                                double originalX = tempSTL.Dimension[0/*1*/].x - 175;//暂时先不设置，直接reset为0；之后支持在magics中进行完成的排版文件的导入————！！！！！//20200514xiugai
-                                double originalY = tempSTL.Dimension[0/*1*/].y;//20230320修改：修复坐标系不协调的问题                      
-                                OperationType.xTranslate = originalX;
-                                OperationType.yTranslate = originalY/*+ Math.Abs(tempSTL.Dimension[1].y- tempSTL.Dimension[0].y)*/;
-                                OperationType.CadOperationCode = "3";
-                                g_SharpControl.selectPaths.Add(tempSTL.recordPathItem);//20230320新增：
-                                bool SingleDataFlag = true;
-                                TranslateCliStreams(ref CliStreams, g_SharpControl.selectPaths, OperationType, SingleDataFlag);//MOVE//20230320修正输入文件错误BUG
-                                OperationType.CadOperationCode = "1";
-                                g_SharpControl.selectPaths.Clear();//20230320新增：
-#endif
-                                UpdateListView(path, 1, tempSTL.LayerNumber);//20201111新增：完成JobList的更新
-
-                                msg = "CAD数据加载：添加.CLI格式CAD数据成功-" + path;
-                                Log4Net.Info(msg);
-                            } 
+                            msg = "CAD数据删除：删除.CLI格式CAD数据成功-" + path;
+                            Log4Net.Info(msg);
+                            //g_SharpControl.selectPaths.Clear();
                         }
-                    }
-                    tempPath.Clear();//20221125新增：清理完路径
+                        break;
+                    case "3"://MOVE
 
-                    ////（1）读取文件：.bjgroup类型文件
-                    //foreach (string path in tempPath)//20201125新增：Path is the path of CLI file.
-                    //{
-                    //    string extension = System.IO.Path.GetExtension(path);//20201125新增：获取文件的扩展名
-                    //    if (extension == ".bjgroup")//为自定义的.bjgroup文件
-                    //    {
-                    //        FileStream fs = new FileStream(path, FileMode.Open);//20201125新增：待序列化文件流
-                    //        BinaryFormatter bf = new BinaryFormatter();//20201125新增：序列化对象
-                    //        List<CLI> tempCliStreams = bf.Deserialize(fs) as List<CLI>;
-                    //        CliStreams = tempCliStreams;//(2)Read the CLIfile to the memory just only once    
-                    //        //更新JobList的相关文件
-                    //    }
-                    //    else//为CLI或者其他文件
-                    //    { }
-                    //}
-                    //tempPath.Clear();//20201111新增：清理完路径
-                    ////（2）保存文件：.bjgroup类型文件
-                    //FileStream fs = new FileStream(@"D:\Program\CSharp\NGramTest\NGramTest\serializePeople.dat", FileMode.Create);//20201125新增：保存到.bjgroup文件
-                    //BinaryFormatter bf = new BinaryFormatter();
-                    ////List<CLI> ps = new List<CLI>();
-                    //bf.Serialize(fs, CliStreams);
-                    //fs.Close();
+                        TranslateCliStreams(ref CliStreams, g_SharpControl.selectPaths, OperationType,true);
 
-                    break;
-                case "2"://DELETE
-                    foreach (string path in g_SharpControl.selectPaths)
-                    {
-                        CliStreams.RemoveAll(t => t.recordPathItem.Equals(path));//CliStreams.Find(t => t.recordPathItem.Equals(path));
-                        UpdateListView(path, 2, 0);//20201111新增：完成JobList的更新//参数0无意义，形式而已
-
-                        msg = "CAD数据删除：删除.CLI格式CAD数据成功-" + path;
+                        for (int i = 0; i < g_SharpControl.selectPaths.Count; i++)
+                        {
+                            tempSelectPATHS = tempSelectPATHS + g_SharpControl.selectPaths[i];
+                        }      
+                        msg = $"CAD位置平移：SelectCADFile{{{ tempSelectPATHS}}}\r\n" +
+                            $"平移方式{{true为目标位置平移，false为相对平移{{{OperationType.translateMode}}}}}" +
+                            $"X方向平移目标值{{{OperationType.xTranslate}MM}}Y方向平移目标值{{{OperationType.yTranslate}MM}}" +
+                            $"Z方向平移目标值{{{OperationType.zTranslate}MM}}X方向平移增量{{{OperationType.xDeltaTranslate}MM}}" +
+                            $"Y方向平移增量{{{OperationType.yDeltaTranslate}MM}}Z方向平移增量{{{OperationType.zDeltaTranslate}MM}}" ;
                         Log4Net.Info(msg);
+
                         //g_SharpControl.selectPaths.Clear();
-                    }
-                    break;
-                case "3"://MOVE
 
-                    TranslateCliStreams(ref CliStreams, g_SharpControl.selectPaths, OperationType,true);
+                        break;
+                    case "4"://SCALE
+                        break;
+                    case "5"://MIRROR
+                        break;
+                    case "6"://Vitural ADD:20201112新增
 
-                    for (int i = 0; i < g_SharpControl.selectPaths.Count; i++)
+                        ArrayCliStreams(ref CliStreams, g_SharpControl.selectPaths, (float)OperationType.xSpace/*60*/,
+                            -(float)OperationType.ySpace/*60*/, OperationType.xnum/*5*/, OperationType.ynum/*2*/);//20201112新增，精华：Vitural ADD//20221125修改：修复Y向相反问题
+
+                        for (int i = 0; i < g_SharpControl.selectPaths.Count; i++)
+                        {
+                            tempSelectPATHS = tempSelectPATHS + g_SharpControl.selectPaths[i];
+                        }
+                        msg = $"CAD数据阵列：SelectCADFile{{{ tempSelectPATHS}}}\r\n" +
+                            $"X方向间距{{{OperationType.xSpace}MM}}Y方向间距{{{-(float)OperationType.ySpace}MM}}" +
+                            $"X方向数目{{{ OperationType.xnum}}}Y方向数目{{{ OperationType.ynum}}}";
+                        Log4Net.Info(msg);
+
+                        break;
+                }
+
+                if (CliStreams.Count >= 1)//存在导入的CAD零件数
+                {
+                    //update the recordPath in CLI under CliStreams
+                    for (int i = 0; i <= CliStreams.Count - 1; i++)//there exists some deadly error. i shouldn't use the recordPaths,but i should use the kidPath in the former part
                     {
-                        tempSelectPATHS = tempSelectPATHS + g_SharpControl.selectPaths[i];
-                    }      
-                    msg = $"CAD位置平移：SelectCADFile{{{ tempSelectPATHS}}}\r\n" +
-                        $"平移方式{{true为目标位置平移，false为相对平移{{{OperationType.translateMode}}}}}" +
-                        $"X方向平移目标值{{{OperationType.xTranslate}MM}}Y方向平移目标值{{{OperationType.yTranslate}MM}}" +
-                        $"Z方向平移目标值{{{OperationType.zTranslate}MM}}X方向平移增量{{{OperationType.xDeltaTranslate}MM}}" +
-                        $"Y方向平移增量{{{OperationType.yDeltaTranslate}MM}}Z方向平移增量{{{OperationType.zDeltaTranslate}MM}}" ;
-                    Log4Net.Info(msg);
-
-                    //g_SharpControl.selectPaths.Clear();
-
-                    break;
-                case "4"://SCALE
-                    break;
-                case "5"://MIRROR
-                    break;
-                case "6"://Vitural ADD:20201112新增
-
-                    ArrayCliStreams(ref CliStreams, g_SharpControl.selectPaths, (float)OperationType.xSpace/*60*/,
-                        -(float)OperationType.ySpace/*60*/, OperationType.xnum/*5*/, OperationType.ynum/*2*/);//20201112新增，精华：Vitural ADD//20221125修改：修复Y向相反问题
-
-                    for (int i = 0; i < g_SharpControl.selectPaths.Count; i++)
-                    {
-                        tempSelectPATHS = tempSelectPATHS + g_SharpControl.selectPaths[i];
+                        //CliStreams.ElementAt(i).recordPathItem = recordOutputPaths[i];//将recordPaths中的数据刷新到CliStreams中
+                        CliStreams.ElementAt(i).ID = i;//更新CliStreams中的序列号
                     }
-                    msg = $"CAD数据阵列：SelectCADFile{{{ tempSelectPATHS}}}\r\n" +
-                        $"X方向间距{{{OperationType.xSpace}MM}}Y方向间距{{{-(float)OperationType.ySpace}MM}}" +
-                        $"X方向数目{{{ OperationType.xnum}}}Y方向数目{{{ OperationType.ynum}}}";
-                    Log4Net.Info(msg);
+                    // Show information work in LISTVIEW2.
+                    //(0)update the four kinds information:ID+FileName+LayerNumber+CompeleteRate
+                    //(0)update the four kinds infor mation:LayerNumber
+                    //for (int i = 0; i < CliStreams.Count; i++)
+                    //{
+                    //    string ReadLayerNum = Convert.ToString(CliStreams.ElementAt(i).LayerNumber);
+                    //    //listView2.SelectedItems[i].SubItems[2].Text = ReadLayerNum;//本行代码会报错
+                    //    UpdateLayerNum(i, ReadLayerNum);//使用委托的方式去实现
+                    //}
+                    //预排版:Composation the TIFF Picture,and save the TIFF picture information to the Data Structure//20200527批注
+                    Composation(ref CliStreams/*, OperationType.CadOperationCode*/);//with the help of data structure optimization, we can only transfer the ref CliStreams to achieve the ComposationCLI function 
+                    //(a) 绘制CLI: 从composationCLI.jobItems——>g_SharpControl.tempJobItems 
+                    g_SharpControl.tempJobItems = composationCLI.jobItems;//translate the jobItems in the Composation Space to the local jobItems                                                         
+                                                                          //(b) 整合1层的CLIs://排序确定所有零件的最大的值
+                    int MaxLayer = CliStreams[0].LayerNumber;
+                    for (int i = 1; i <= CliStreams.Count() - 1; i++)//排序确定零件的最大层数
+                    {
+                        if (MaxLayer < CliStreams[i].LayerNumber)//更新最大层数
+                        { MaxLayer = CliStreams[i].LayerNumber; }
+                        else//不更新
+                        { }
+                    }
+                    g_RemoteCLIs.Clear();//20201110新增：消除重复添加无效BUG
+                    for (int layerIndex = 0; layerIndex <= MaxLayer - 1; layerIndex++)
+                    {
+                        GetLayerCLIs(layerIndex);//GetLayerCLIs(0);//获取第1层的全部零件数据:g_SharpControl.tempJobItems——>RemoteCLIs c_RemoteCLIs
+                        g_RemoteCLIs.Add(c_RemoteCLIs);
+                        g_SharpControl.UILayerCount = layerIndex + 1;//层总数
+                    }
+                    UpdateGUILayer(MaxLayer - 1);//20200528：更新HScroll回调控制
+                    g_SharpControl.ToRemoteCLIsList = g_RemoteCLIs;//20200528使用属性：g_RemoteCLIs——>g_SharpControl.gc_RemoteCLIs：UI使用
+                    g_SharpControl.ToRemoteCLIsList2 = g_RemoteCLIs;//20200610使用属性：g_RemoteCLIs——>g_SharpControl.gc_RemoteCLIs2：Data使用
+                    ImportCLIFlag = true;//CLI导入标志
+                }
+                else
+                {
+                    g_SharpControl.tempJobItems.Clear();
+                    g_SharpControl.UILayerCount = 0;
+                    g_RemoteCLIs.Clear();//20201110新增：消除重复添加无效BUG
+                    g_SharpControl.ToRemoteCLIsList = g_RemoteCLIs;
+                    g_SharpControl.ToRemoteCLIsList2 = g_RemoteCLIs;
 
-                    break;
+                    ImportCLIFlag = false;//CLI导入标志
+                }
+                this.Invalidate();
+                this.renderControl1.Invalidate();
+
             }
-
-            if (CliStreams.Count >= 1)//存在导入的CAD零件数
+            catch (Exception e)
             {
-                //update the recordPath in CLI under CliStreams
-                for (int i = 0; i <= CliStreams.Count - 1; i++)//there exists some deadly error. i shouldn't use the recordPaths,but i should use the kidPath in the former part
-                {
-                    //CliStreams.ElementAt(i).recordPathItem = recordOutputPaths[i];//将recordPaths中的数据刷新到CliStreams中
-                    CliStreams.ElementAt(i).ID = i;//更新CliStreams中的序列号
-                }
-                // Show information work in LISTVIEW2.
-                //(0)update the four kinds information:ID+FileName+LayerNumber+CompeleteRate
-                //(0)update the four kinds infor mation:LayerNumber
-                //for (int i = 0; i < CliStreams.Count; i++)
-                //{
-                //    string ReadLayerNum = Convert.ToString(CliStreams.ElementAt(i).LayerNumber);
-                //    //listView2.SelectedItems[i].SubItems[2].Text = ReadLayerNum;//本行代码会报错
-                //    UpdateLayerNum(i, ReadLayerNum);//使用委托的方式去实现
-                //}
-                //预排版:Composation the TIFF Picture,and save the TIFF picture information to the Data Structure//20200527批注
-                Composation(ref CliStreams/*, OperationType.CadOperationCode*/);//with the help of data structure optimization, we can only transfer the ref CliStreams to achieve the ComposationCLI function 
-                //(a) 绘制CLI: 从composationCLI.jobItems——>g_SharpControl.tempJobItems 
-                g_SharpControl.tempJobItems = composationCLI.jobItems;//translate the jobItems in the Composation Space to the local jobItems                                                         
-                                                                      //(b) 整合1层的CLIs://排序确定所有零件的最大的值
-                int MaxLayer = CliStreams[0].LayerNumber;
-                for (int i = 1; i <= CliStreams.Count() - 1; i++)//排序确定零件的最大层数
-                {
-                    if (MaxLayer < CliStreams[i].LayerNumber)//更新最大层数
-                    { MaxLayer = CliStreams[i].LayerNumber; }
-                    else//不更新
-                    { }
-                }
-                g_RemoteCLIs.Clear();//20201110新增：消除重复添加无效BUG
-                for (int layerIndex = 0; layerIndex <= MaxLayer - 1; layerIndex++)
-                {
-                    GetLayerCLIs(layerIndex);//GetLayerCLIs(0);//获取第1层的全部零件数据:g_SharpControl.tempJobItems——>RemoteCLIs c_RemoteCLIs
-                    g_RemoteCLIs.Add(c_RemoteCLIs);
-                    g_SharpControl.UILayerCount = layerIndex + 1;//层总数
-                }
-                UpdateGUILayer(MaxLayer - 1);//20200528：更新HScroll回调控制
-                g_SharpControl.ToRemoteCLIsList = g_RemoteCLIs;//20200528使用属性：g_RemoteCLIs——>g_SharpControl.gc_RemoteCLIs：UI使用
-                g_SharpControl.ToRemoteCLIsList2 = g_RemoteCLIs;//20200610使用属性：g_RemoteCLIs——>g_SharpControl.gc_RemoteCLIs2：Data使用
-                ImportCLIFlag = true;//CLI导入标志
+                MessageBox.Show("数据加载异常：" + e.ToString());
             }
-            else
-            {
-                g_SharpControl.tempJobItems.Clear();
-                g_SharpControl.UILayerCount = 0;
-                g_RemoteCLIs.Clear();//20201110新增：消除重复添加无效BUG
-                g_SharpControl.ToRemoteCLIsList = g_RemoteCLIs;
-                g_SharpControl.ToRemoteCLIsList2 = g_RemoteCLIs;
-
-                ImportCLIFlag = false;//CLI导入标志
-            }
-            this.Invalidate();
-            this.renderControl1.Invalidate();
         }
 
 #if true//20200528测试;

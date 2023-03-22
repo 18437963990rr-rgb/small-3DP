@@ -3199,7 +3199,8 @@
             this.label60.Name = "label60";
             this.label60.Size = new System.Drawing.Size(83, 21);
             this.label60.TabIndex = 164;
-            this.label60.Text = "目标温度";
+            this.label60.Text = "目标
+                ";
             this.label60.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label75

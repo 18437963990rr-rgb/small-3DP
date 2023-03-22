@@ -176,7 +176,7 @@ namespace ReadFile
                                     else if (f % 3 == 1)
                                     {
                                         i = j;
-                                        p.y = -Convert.ToDouble(unt);//20220915修改：X方向打印数据反向：添加负号
+                                        p.y = /*-*/-Convert.ToDouble(unt);//20220915修改：X方向打印数据反向：添加负号//20230321新建：此处很关键
                                         unt = "";
                                         f++;
                                         // break;
