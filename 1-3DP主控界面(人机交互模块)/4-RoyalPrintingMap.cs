@@ -115,12 +115,16 @@ namespace royal
             if (nRetVal > 0)
             {
                 string sztxt;
+                string msg = "打开喷墨控制器设备失败！";
+                Log4Net.Info(msg);
                 sztxt = string.Format("打开设备失败：{0:X00000000}", nRetVal);
                 MessageBox.Show(sztxt);
             }
             else
             {
                 flag1 = true;
+                string msg = "打开喷墨控制器设备成功！";
+                Log4Net.Info(msg);
             }
             //royal.g_sys_param = new LPRYSYS_PARAM();//20210327修改：
 
@@ -181,6 +185,55 @@ namespace royal
             else
             {
             }
+
+#if true
+        try { 
+            //（5）初始化喷头电压及温度
+            for (uint d = 0; d < 8; d++)
+            {
+                ////////(1)喷头电压
+                //////float[] fstdVoltage = new float[4] {15f,15f,15f,15f};//内存中的对应值
+
+                ////////(2)设置电压：20200404修改
+                //////int size = Marshal.SizeOf(fstdVoltage[0]) * fstdVoltage.Length;
+                //////IntPtr PfstdVoltage = Marshal.AllocHGlobal(size);
+                //////Marshal.Copy(fstdVoltage, 0, PfstdVoltage, fstdVoltage.Length);//复制到非托管区内存
+
+                //////string msg2;
+                //////bool returnCode = royal.MCU_SetPhVoltage(PfstdVoltage, 0, d);
+                //////if (returnCode == false)
+                //////{
+                //////    msg2 = $"更新{{{d + 1}}}号喷头电压失败：MCU_SetPhVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
+                //////    Log4Net.Info(msg2);
+                //////}
+                //////else
+                //////{
+                //////    msg2 = $"更新{{{d + 1}}}号喷头电压成功：MCU_SetPhVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
+                //////    Log4Net.Info(msg2);
+                //////}
+
+                //（3）设置温度：20200404修改
+                float fProTemp = 25f /*70.0f*/;//ftemp = fDTemp[p][d];  
+                bool returnCode2 = royal.MCU_SetPhStdTemp(ref fProTemp, 0, d);
+                if (returnCode2 == false)
+                {
+                    string msg2 = $"更新{{{d+1}}}号喷头温度失败：MCU_SetPhVoltage{{{fProTemp}℃}}";
+                    Log4Net.Info(msg2);
+                }
+                else 
+                {
+                    string msg2 = $"更新{{{d + 1}}}号喷头温度失败：MCU_SetPhVoltage{{{fProTemp}℃}}";
+                    Log4Net.Info(msg2);
+                }
+            }
+        }
+        catch (Exception error)
+        {
+            string msg = $"更新喷头温度异常：{error.ToString()}";
+            Log4Net.Info(msg);
+            MessageBox.Show("警告：" + error.Message + "！");//eg:listview输入有误
+        }
+#endif
 
 #if true//20200618新增批注：本部分对整体的运动影响巨大，不应该出现这种情况。如果该喷墨控制卡重新开启，则会限于不动的状态//初始化运动并使能运动；//但是有本部分，自动打印状态下开启手动，又会莫名停机。
             bool RetVal4 = royal.DEM_InitAxis(0, 0x100);//分别初始化各轴的运动参数：20200305//加速度：256pluse/ms^2

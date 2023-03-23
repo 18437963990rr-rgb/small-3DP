@@ -430,8 +430,8 @@ namespace BinderJetting
                     //dataTable2.Columns.Add("7", typeof(String));
                     //dataTable2.Columns.Add("8", typeof(String));
                     dataTable2.Rows.Add("12.00", "12.00", "12.00", "12.00", "12.00", "12.00"/*, "0.00", "0.00"*/);//本项目实际只用到4组：20200331批注：控制器的操作电压24V，取折中输出电压为12.00V
-                    dataTable2.Rows.Add("45.00", "45.00", "45.00", "45.00", "45.00", "45.00"/*, "0.00", "0.00"*/);//本项目实际只用到4组：20200331批注
-                    dataTable2.Rows.Add("-3.80", "-3.80", "-3.80", "-3.80", "-3.80", "-3.80"/*, "0.00", "0.00"*/);//本项目实际只用到4组：20200331批注
+                    dataTable2.Rows.Add("25.00", "25.00", "25.00", "25.00", "25.00", "25.00"/*, "0.00", "0.00"*/);//本项目实际只用到4组：20200331批注
+                    dataTable2.Rows.Add("-2.40", "-2.40", "-2.40", "-2.40", "-2.40", "-240"/*, "0.00", "0.00"*/);//本项目实际只用到4组：20200331批注
 
                     //(2）dataGridView2绑定数据dataTable：
                     bingdingSource2.DataSource = dataTable2;
@@ -2425,6 +2425,7 @@ namespace BinderJetting
         }
         private void ReloadWaveForm_Click(object sender, EventArgs e)
         {
+#if false//20230323临时注释
             //该函数用来加载参数结构RYSYS_PARAM中的drvWaveForm[MAX_DRV_CNT]的返回值
             //0 夹杂及成功
             //1 车头卡1 负载驱动卡存在波形加载失败
@@ -2433,6 +2434,7 @@ namespace BinderJetting
             if (nRetVal > 0) { MessageBox.Show("波形加载失败！"); }
             royal.LPPRINTER_INFO pSysInfo = new royal.LPPRINTER_INFO();
             bool nRetVal2 = royal.royal.DEV_GetDeviceInfo2(ref pSysInfo);
+#endif
         }
         private void DEV_CloseDevice_Click(object sender, EventArgs e)
         {
@@ -3206,7 +3208,7 @@ namespace BinderJetting
             if (StartCloseFlag == true)
             {
                 nSpeed = MM_TO_DOT(50, 5080, 0);//20220506修改：第1轴//20200328新增：
-                int index = SpeedBox.FindString("100"/*"50"*/);
+                int index = SpeedBox.FindString("50"/*"50"*/);
                 SpeedBox.SelectedIndex = index;
 
                 StartUpadateDYMoveStatus();/*开启DY运动监控刷新*/
@@ -4026,37 +4028,41 @@ namespace BinderJetting
             float[] fVolt = new float[4];
             short nState = 0;
             uint p = 0;
+            string msg;
 
             while (FlagPrinting == false)//20200612批注：随便找的1个标志位作为测试
             {
                 float[,] fVoltageTempData = new float[8, 5];//20200612修改：
 
-                for (uint d = 0; d < 8; d++)
+                for (uint d = 0; d < 1/*8*/; d++)
                 {
-                    if (true)
+#if true
+                    if (FlagPrinting/* && (*bAbort) || m_bStopMonitor || m_bCloseAutoChk*/)
+                        return;
+
+                    //运行状态
+                    bool returnCode0 = royal.royal.MCU_GetSate(ref nState, p, d);
+                    if (returnCode0 == true)   //20180702 新增
+                    { }
+                    if (FlagPrinting /*&& bAbort) || m_bStopMonitor || m_bCloseAutoChk*/)
+                        return;
+                    Thread.Sleep(10);
+
+                    //喷头电压
+                    float[] fVoltageTemp = new float[5];//20200612修改：
+                    //fVoltageTemp[0] = 18.0f; fVoltageTemp[1] = 18.0f; fVoltageTemp[2] = 18.0f; fVoltageTemp[3] = 18.0f; fVoltageTemp[4] = 25.0f;//喷头温度
+                    fVoltageTemp[0] = 0.0f; fVoltageTemp[1] = 0.0f; fVoltageTemp[2] = 0.0f; fVoltageTemp[3] = 0.0f; fVoltageTemp[4] = 0.0f;//喷头温度
+
+                    int size1 = Marshal.SizeOf(fVoltageTemp[0]) * 4/*fVoltageTemp.Length*/;
+                    IntPtr PfVoltage = Marshal.AllocHGlobal(size1);
+
+                    Marshal.Copy(fVoltageTemp, 0, PfVoltage, 4);//测试用：非托管区内存初始化//实际测试的时候，去掉//20200405批注
+
+                    //20200424新增//读取波形参数的电压：
+                    if (d == 0)//执行操作
                     {
-                        if (FlagPrinting/* && (*bAbort) || m_bStopMonitor || m_bCloseAutoChk*/)
-                            return;
-
-                        //运行状态
-                        bool returnCode0 = royal.royal.MCU_GetSate(ref nState, p, d);
-                        if (returnCode0 == true)   //20180702 新增
-                        { }
-                        if (FlagPrinting /*&& bAbort) || m_bStopMonitor || m_bCloseAutoChk*/)
-                            return;
-                        Thread.Sleep(10);
-
-                        //喷头电压
-
-                        float[] fVoltageTemp = new float[5];//20200612修改：
-                        fVoltageTemp[0] = 18.0f; fVoltageTemp[1] = 18.0f; fVoltageTemp[2] = 18.0f; fVoltageTemp[3] = 18.0f;
-                        fVoltageTemp[4] = 25.0f;//喷头温度
-                        int size1 = Marshal.SizeOf(fVoltageTemp[0]) * 4/*fVoltageTemp.Length*/;
-                        IntPtr PfVoltage = Marshal.AllocHGlobal(size1);
-
-                        Marshal.Copy(fVoltageTemp, 0, PfVoltage, 4);//测试用：非托管区内存初始化//实际测试的时候，去掉//20200405批注
-
-                        //20200424新增//读取波形参数的电压：
+                        ////msg = $"准备读取{{{d + 1}}}号喷头打印前状态：读取电压！！";
+                        ////Log4Net.Info(msg);
                         bool returnCode = royal.royal.MCU_GetCurPhVoltage(PfVoltage, p, d);
                         if (returnCode == true)
                         {
@@ -4066,19 +4072,25 @@ namespace BinderJetting
                             //（2）释放内存空间
                             Marshal.FreeHGlobal(PfVoltage);//释放内存
                         }
-                        if (FlagPrinting /*&& (*bAbort) || m_bStopMonitor || m_bCloseAutoChk*/)
-                            return;
-                        Thread.Sleep(10);
+                    }
+                    else { }//不执行读取操作
 
-                        //喷头温度
-                        int size2 = Marshal.SizeOf(fVoltageTemp[0]) * 1 /* *fCurTemp.Length*/;//4个变量，只用到第1个
-                        IntPtr PfCurTemp = Marshal.AllocHGlobal(size2);
+                    if (FlagPrinting /*&& (*bAbort) || m_bStopMonitor || m_bCloseAutoChk*/)
+                        return;
+                    Thread.Sleep(10);
 
-                        Marshal.Copy(fVoltageTemp, 0, PfCurTemp, 1/*fVoltageTemp.Length*/);//测试用:非托管区内存初始化//实际测试的时候，去掉//20200405批注
+                    //喷头温度
+                    int size2 = Marshal.SizeOf(fVoltageTemp[0]) * 1 /* *fCurTemp.Length*/;//4个变量，只用到第1个
+                    IntPtr PfCurTemp = Marshal.AllocHGlobal(size2);
 
-                        //20200424新增//读取喷头的温度：
+                    Marshal.Copy(fVoltageTemp, 0, PfCurTemp, 1/*fVoltageTemp.Length*/);//测试用:非托管区内存初始化//实际测试的时候，去掉//20200405批注
+
+                    //20200424新增//读取喷头的温度：
+                    if (d == 0)//执行操作
+                    {
+                        ////msg = $"准备读取{{{d + 1}}}号喷头打印前状态：读取温度！！";
+                        ////Log4Net.Info(msg);
                         bool returnCode2 = royal.royal.MCU_GetCurPhTemp(PfCurTemp, p, d);
-
                         if (returnCode2 == true)//0x0802->0x0822
                         {
                             //（1）解析读取到的电压值
@@ -4087,13 +4099,19 @@ namespace BinderJetting
                             //（2）释放内存空间
                             Marshal.FreeHGlobal(PfCurTemp);//释放内存
                         }
-
-                        for (int j = 0; j < 5; j++)
-                        {
-                            fVoltageTempData[d, j] = fVoltageTemp[j];
-                        }
                     }
+                    else { }//不执行读取操作
+#endif
+                    for (int j = 0; j < 5; j++)
+                    {
+                        fVoltageTempData[d, j] = fVoltageTemp[j];
+                    }
+
+                    ////msg = $"{{{d + 1}}}号喷头打印前状态：喷头温度为{{{fVoltageTemp[0]}℃}}，喷头电压为{{{fVoltageTemp[1]}V,{fVoltageTemp[2]}V,{fVoltageTemp[3]}V,{ fVoltageTemp[4]}V}}；";
+                    ////Log4Net.Info(msg);
                 }
+
+
                 UpdateVTMonitor(fVoltageTempData);//刷新到datagridview1//读出1个喷头的数据刷新1次
                 //Thread.Sleep(100);
             }
@@ -4105,17 +4123,29 @@ namespace BinderJetting
         {
             if (this.dataGridView1.InvokeRequired == false)
             {
-                for (int d = 0; d < 8; d++)//依次刷新8个喷头的温度电压
+                for (int d = 0; d < 8/*8*/; d++)//依次刷新8个喷头的温度电压//20230322新增修改：
                 {
-                    //（1）修改1个喷头的电压参数：
-                    dataGridView1.Rows[(int)d].Cells[0].Value = fVoltageTempData[d, 0].ToString("F2");//浮点数格式，2位小数点
-                    dataGridView1.Rows[(int)d].Cells[1].Value = fVoltageTempData[d, 1].ToString("F2");//浮点数格式，2位小数点
-                    dataGridView1.Rows[(int)d].Cells[2].Value = fVoltageTempData[d, 2].ToString("F2");//浮点数格式，2位小数点
-                    dataGridView1.Rows[(int)d].Cells[3].Value = fVoltageTempData[d, 3].ToString("F2");//浮点数格式，2位小数点                   
-                    //（2）修改1个喷头的温度控件：
-                    dataGridView1.Rows[(int)d].Cells[4].Value = fVoltageTempData[d, 4].ToString("F2");//浮点数格式，2位小数点   
+                    if (d == 0)
+                    { 
+                        //（1）修改1个喷头的电压参数：
+                        dataGridView1.Rows[(int)d].Cells[0].Value = fVoltageTempData[d, 0].ToString("F2");//浮点数格式，2位小数点
+                        dataGridView1.Rows[(int)d].Cells[1].Value = fVoltageTempData[d, 1].ToString("F2");//浮点数格式，2位小数点
+                        dataGridView1.Rows[(int)d].Cells[2].Value = fVoltageTempData[d, 2].ToString("F2");//浮点数格式，2位小数点
+                        dataGridView1.Rows[(int)d].Cells[3].Value = fVoltageTempData[d, 3].ToString("F2");//浮点数格式，2位小数点                   
+                        //（2）修改1个喷头的温度控件：
+                        dataGridView1.Rows[(int)d].Cells[4].Value = fVoltageTempData[d, 4].ToString("F2");//浮点数格式，2位小数点
+                    }
+                    else
+                    {
+                        //（1）修改1个喷头的电压参数：
+                        dataGridView1.Rows[(int)d].Cells[0].Value = "--";//浮点数格式，2位小数点
+                        dataGridView1.Rows[(int)d].Cells[1].Value = "--";//浮点数格式，2位小数点
+                        dataGridView1.Rows[(int)d].Cells[2].Value = "--";//浮点数格式，2位小数点
+                        dataGridView1.Rows[(int)d].Cells[3].Value = "--";//浮点数格式，2位小数点                   
+                        //（2）修改1个喷头的温度控件：
+                        dataGridView1.Rows[(int)d].Cells[4].Value = "--";//浮点数格式，2位小数点
+                    }
                 }
-
                 dataGridView1.Refresh();
                 //TransferModifyFlag = "StartFlag";//传送取消标志位
             }
@@ -4205,7 +4235,7 @@ namespace BinderJetting
             if (FlagSet)//设置状态时：
             {
                 //（1）关闭电压温度气压监控：
-                m_bSetEnable = false;
+                //m_bSetEnable = false;//20230322临时注释
 #if false//20200604批注：修改为过程的实时监测
                 ////OpenVTMonitorThread(false);//(2)20200401新增:开启温度电压气压监控线程
 #else
@@ -4229,7 +4259,7 @@ namespace BinderJetting
                 dataGridView1.ClearSelection();//20200401：清楚所有的编辑状态：清除之前的选中状态
 
                 //（2）开启电压温度气压监控：
-                m_bSetEnable = true;
+                //m_bSetEnable = true;//20230322临时注释
                 ////OpenVTMonitorThread(true);//(2)20200401新增:开启温度电压气压监控线程
                 ///
 #if false//20200604批注：修改为过程的实时监测
@@ -4385,7 +4415,11 @@ namespace BinderJetting
                 //(3-1)负压、温度、电压设置生效
                 nIoOption |= 0x80000000;//对应的标志位完成记录，最后生效的时候，依次生效所有的负压阈值//20200329新增：
                 //pApp->SetCtrlMask((nCtrlMask|0x2));//bit[0] 0写 1读 ，bit[1] 保存到MCU
-
+#if true//20230322新增：ADIB设置的设置值
+                nIoOption = 0;
+                nIoOption |= 0x4;
+                nIoOption |= 0x20;
+#endif
                 //(3-2）此过程耗时2-3s，时间比较长，因此，本部分，暂时取消
                 bool nRetVal = royal.royal.DEV_AdibControl(ref royal.royal.g_sys_param.adibParam, nIoOption, true, ref m_bSetEnabled);//设置气压板的所有参数值：负压、正压、二级墨盒温度
 
@@ -4417,82 +4451,164 @@ namespace BinderJetting
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void JetSetApplyBtn_Click(object sender, EventArgs e)//写指令到喷头驱动板
+        private void JetSetApplyBtn_Click(object sender, EventArgs e)//写指令到喷头驱动板//基准电压
         {
             try
             {
                 //（0）设置的总计8路32个电压值，8路8个温度值
                 //float [,,] fVolt= new float[1,8,4];//1个车头板，8个驱动板，每个驱动板4路电压//20200404：本人的方式，不采用数组的形式存储这些电压值
                 //float [,,] fDTemp= new float[1,8,1];//1个车头板，8个驱动板，每个驱动板4路电压//20200404：本人的方式，不采用数组的形式存储这些电压值
-                int nPrtValidMask = 0;//2020404新增：车头卡连接掩码
-                int nDrvValidMask = 0;//2020404新增：驱动卡连接掩码
 
                 //（1）将DataTable的数据存储到多维数组中：fVolt和fDTemp
                 for (int i = 0; i < 8; i++) //电压暂时没用 0 -> 1
                 {
                     for (int j = 0; j < 5; j++)//（1）解析第i行数据
                     {
+#if true
                         if (j < 4)//20200401新增：非常关键的1步，完成了从dataTable到数组数据的转换
                         { fVolt[i, j] = Convert.ToSingle(dataTable.Rows[i][j].ToString()); }
+                        //else//20200401新增：非常关键的1步，完成了从dataTable到数组数据的转换
+                        //{ fDTemp[i] = Convert.ToSingle(dataTable.Rows[i][j].ToString()); }
+#else
+#endif
+                    }
+                }
+
+                //（2）设置并生效所有的电压和温度值
+                for (uint d = 0; d < 8; d++)//20230322修改：只设置第1路喷头生效
+                {
+                    //(1)复制数据：20200404修改
+                    float[] fstdVoltage = new float[4];//内存中的对应值
+                    for (int i = 0; i < 4; i++)
+                    {
+                        fstdVoltage[i] = fVolt[d, i];
+                    }
+
+                    //(2)微调实际基准电压到准确的目标值：20200404修改
+                    int size = Marshal.SizeOf(fstdVoltage[0]) * fstdVoltage.Length;
+                    IntPtr PfstdVoltage = Marshal.AllocHGlobal(size);
+                    Marshal.Copy(fstdVoltage, 0, PfstdVoltage, fstdVoltage.Length);//复制到非托管区内存
+#if false//20230323新增：此处重新更新基准，只为能够精确实现在目标大范围的基准电压的准确调节
+                    //(2-1)使用新的基准值
+                    bool returnCode = royal.royal.DEV_SetWaveStdVoltage(PfstdVoltage, 0, 0);//20230323批注：基准电压设置值<1时，基准电压的设定值以波形文件中为准
+                    if (returnCode == false)
+                    {
+                        string msg2 = $"{{{d + 1}}}号喷头基准电压更新失败：DEV_SetWaveStdVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
+                        Log4Net.Info(msg2);
+                    }
+                    else
+                    {
+                        string msg2 = $"{{{d + 1}}}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
+                        Log4Net.Info(msg2);
+                    }
+#endif
+                    //(2-2)微调实际基准电压到精确的目标值：20200404修改
+                    bool returnCode = royal.royal.MCU_SetPhVoltage(PfstdVoltage, 0, d);//微调参数值，精确设定
+                    if (returnCode == false)
+                    {
+                        string msg2 = $"{{{d + 1}}}号喷头电压调压失败：MCU_SetPhVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
+                        Log4Net.Info(msg2);
+                    }
+                    else
+                    {
+                        string msg2 = $"{{{d + 1}}}号喷头电压调压成功：MCU_SetPhVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
+                        Log4Net.Info(msg2);
+                    }
+
+#if false
+                    //（3）设置温度：20200404修改
+                    float fProTemp = fDTemp[d] /*70.0f*/;//ftemp = fDTemp[p][d];  
+                    bool returnCode2 = royal.royal.MCU_SetPhStdTemp(ref fProTemp, 0, d);
+                    if (returnCode2 == false)
+                    {
+                        msg2 = $"{{{d+1}}}号喷头温度更新失败：MCU_SetPhVoltage{{{fProTemp}℃}}";
+                        Log4Net.Info(msg2);
+                    }
+                    else 
+                    {
+                        msg2 = $"{{{d + 1}}}号喷头温度更新失败：MCU_SetPhVoltage{{{fProTemp}℃}}";
+                        Log4Net.Info(msg2);
+                    }
+#endif
+                }
+            }
+            catch (Exception error)
+            {
+                string msg = $"喷头电压更新异常：{error.ToString()}";
+                Log4Net.Info(msg);
+                MessageBox.Show("警告：" + error.Message + "！");//eg:listview输入有误
+            }
+        }
+        private void JetSetApplyBtn2_Click(object sender, EventArgs e)//20230322修改：修改温度，修改温度和修改电压应该分开
+        {
+            try
+            {
+                //（1）将DataTable的数据存储到多维数组中：fVolt和fDTemp
+                for (int i = 0; i < 8; i++) //电压暂时没用 0 -> 1
+                {
+                    for (int j = 0; j < 5; j++)//（1）解析第i行数据
+                    {
+                        if (j < 4)//20200401新增：非常关键的1步，完成了从dataTable到数组数据的转换
+                        {
+                            //fVolt[i, j] = Convert.ToSingle(dataTable.Rows[i][j].ToString());
+                        }
                         else//20200401新增：非常关键的1步，完成了从dataTable到数组数据的转换
                         { fDTemp[i] = Convert.ToSingle(dataTable.Rows[i][j].ToString()); }
                     }
                 }
 
                 //（2）设置并生效所有的电压和温度值
-                if (true/*(nPrtValidMask & (1 << 0))!=0*/)//判断车头卡连接掩码：//20200404新增：
+                for (uint d = 0; d < 8; d++)//20230322修改：只设置第1路喷头生效
                 {
-                    for (uint d = 0; d < 8; d++)
+#if false
+                    //(1)复制数据：20200404修改
+                    float[] fstdVoltage = new float[4];//内存中的对应值
+                    for (int i = 0; i < 4; i++)
                     {
-                        if (true/*(nDrvValidMask & (1 << (int)d)) != 0*/)//判断驱动卡连接掩码：//20200404新增：
-                        {
-                            //(1)复制数据：20200404修改
-                            float[] fstdVoltage = new float[4];//内存中的对应值
-                            for (int i = 0; i < 4; i++)
-                            {
-                                fstdVoltage[i] = fVolt[d, i];//for (int i = 0; i < 3; i++) fstdVoltage[i] = 85.0f;
-                            }
+                        fstdVoltage[i] = fVolt[d, i];
+                    }
 
-                            //(2)设置电压：20200404修改
-                            int size = Marshal.SizeOf(fstdVoltage[0]) * fstdVoltage.Length;
-                            IntPtr PfstdVoltage = Marshal.AllocHGlobal(size);
-                            Marshal.Copy(fstdVoltage, 0, PfstdVoltage, fstdVoltage.Length);//复制到非托管区内存
+                    //(2)设置电压：20200404修改
+                    int size = Marshal.SizeOf(fstdVoltage[0]) * fstdVoltage.Length;
+                    IntPtr PfstdVoltage = Marshal.AllocHGlobal(size);
+                    Marshal.Copy(fstdVoltage, 0, PfstdVoltage, fstdVoltage.Length);//复制到非托管区内存
 
-                            bool returnCode = royal.royal.MCU_SetPhVoltage(PfstdVoltage, 0, d);
-                            if (returnCode == false/*!royal.royal.MCU_SetPhVoltage(PfstdVoltage, 0, d)*/)//if (!royal.royal.MCU_SetPhVoltage(fVolt[p][d], p, d))
-                            {
-                                /*//TRACE("电压SYS_McWrite-ERROR\r\n");//20200404：设置对应的日志记录*/
-                            }
-                            //Thread.Sleep(300);//睡眠300ms进行下次设置
-
-                            //（3）设置温度：20200404修改
-                            float fProTemp = fDTemp[d] /*70.0f*/;//ftemp = fDTemp[p][d];  
-                            bool returnCode2 = royal.royal.MCU_SetPhStdTemp(ref fProTemp, 0, d);
-                            if (returnCode2 == false)    //0x1800+(4*60) - > 0x1800+4*4//royal.royal.MCU_SetPhStdTemp(&ftemp, p, d)
-                            {
-                                /*//TRACE("温度SYS_McWrite-ERROR\r\n");//20200404：设置对应的日志记录*/
-                            }
-                            //Thread.Sleep(300);//睡眠300ms进行下次设置
-                        }
+                    string msg2;
+                    bool returnCode = royal.royal.MCU_SetPhVoltage(PfstdVoltage, 0, d);
+                    if (returnCode == false)
+                    {
+                        msg2 = $"{{{d + 1}}}号喷头电压更新失败：MCU_SetPhVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
+                        Log4Net.Info(msg2);
+                    }
+                    else
+                    {
+                        msg2 = $"{{{d + 1}}}号喷头电压更新成功：MCU_SetPhVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
+                        Log4Net.Info(msg2);
+                    }
+#endif
+                    //（3）设置温度：20200404修改
+                    float fProTemp = fDTemp[d] /*70.0f*/;//ftemp = fDTemp[p][d];  
+                    bool returnCode2 = royal.royal.MCU_SetPhStdTemp(ref fProTemp, 0, d);
+                    if (returnCode2 == false)
+                    {
+                        string msg2 = $"{{{d + 1}}}号喷头温度更新失败：MCU_SetPhVoltage{{{fProTemp}℃}}";
+                        Log4Net.Info(msg2);
+                    }
+                    else
+                    {
+                        string msg2 = $"{{{d + 1}}}号喷头温度更新失败：MCU_SetPhVoltage{{{fProTemp}℃}}";
+                        Log4Net.Info(msg2);
                     }
                 }
-
-                string msg = $"更新喷头电压及温度参数成功：" +
-                 $"MCU_SetPhVoltage:1号喷头电压：{{{ fVolt[0, 0]}V,{ fVolt[0, 1]}V,{ fVolt[0, 2]}V,{ fVolt[0, 3]}V}}；" +
-                 $"MCU_SetPhVoltage:1号喷头温度：{{{fDTemp[0]}℃}}";
-                Log4Net.Info(msg);
             }
             catch (Exception error)
             {
-                string msg = $"更新喷头控制卡参数失败：{error.ToString()}";
+                string msg = $"喷头温度更新异常：{error.ToString()}";
                 Log4Net.Info(msg);
-
-                //string reminderText = "输入有误：{" + error.Message+"}";
-                MessageBox.Show("警告：" + error.Message + "！");//listview输入有误
-
+                MessageBox.Show("警告：" + error.Message + "！");//eg:listview输入有误
             }
-
         }
+
 
         //20200402新增：数据绑定
         public EnvironmentParam k_EnvironmentParam;
@@ -4546,23 +4662,28 @@ namespace BinderJetting
             label38.Text = szInfo;
 
             //（2）更新气压、电压、温度的状态
-            if (true/*m_hWnd*/ && (!bLastSet))      //编辑时不查询//标志位：参数设置标志位
+            if (true/*m_hWnd*/ && (!bLastSet))//编辑时不查询//标志位：参数设置标志位//
             {
+                //ADIB状态   nOption定义： bit[0] 版本e bit[1] 温度 bit[2] 负压 bit[3] 输入 bit[4] 电压 bit[8] 回读I2C负压 bit[16] 保持到I2C //20200329:bit[0]实际上是PPCB板卡的版本号+++bit[4]实际上是FPGA的版本号
+
+#if true//20230322修改：临时注释
+                uint nIoOption = 0;
+                //if (m_bComState)//标志位：与PPCB卡建立通讯
+                //    nIoOption = 0x6;//0d0110——————不再重新读取PPCB及FPGA的版本号：额外话，PPCB及FPGA各只有2个版本：20200329批注
+                //else//标志位：未与PPCB卡建立通讯
+                //    nIoOption = 0xF;//0d1111——————继续读取PPCB及FPGA的版本号：20200329批注
+                royal.LPADIB_PARAM lpAdibparam = adibCurState;//完成对应的引用设置：20200329批注//20230322注释掉
+
                 bLastSet = m_bSetEnable;//标志位：参数设置标志位
+#else
+                uint nIoOption = 0;
+                /*uint*/
+                nIoOption |= 0x4/*0xF*/;//nIoOption = 0d1111;
 
-                //20200401批注：结构体赋值的问题，有点头大！！！！！！！！！！！！！！！！！
-
-                royal.LPADIB_PARAM lpAdibparam = adibCurState;//完成对应的引用设置：20200329批注
-                //    SafeArrayRankMismatchException AF A
-
-
-                if (bLastSet)//问题在这里，终于找到了！！！！
-                {
-
-                    //lpAdibparam = royal.royal.g_sys_param.adibParam;//标志位：bLastSet标志位。切换：是使用当前的&adibCurState还是&g_sysParam.adibParam：20200329批注。
-                }
-                //m_SigLogicInput.SetInkState(~(lpAdibparam->nLgStatus&0xFF));
-
+                bLastSet = m_bSetEnable;//标志位：参数设置标志位
+                //20230322新增：
+                m_bComState = royal.royal.DEV_AdibControl(ref adibCurState, nIoOption, false, ref m_bSetEnable);//bSetParam位的作用为0：状态为读状态：20200329批注
+#endif
                 for (int i = 0; i < 6; i++)
                 {
                     //（1）第1种处理方式：
@@ -4581,9 +4702,9 @@ namespace BinderJetting
                     //dataTable2.Rows[2][i] = lpAdibparam.fcurAirPress[i].ToString("F2");
 
                     //（3）第3种处理方式：
-                    dataGridView2.Rows[0].Cells[i].Value = lpAdibparam.fcurvoltage[i].ToString("F2");//浮点数格式，2位小数点
-                    dataGridView2.Rows[1].Cells[i].Value = lpAdibparam.fcurInkTankTemp[i].ToString("F2");//浮点数格式，2位小数点
-                    dataGridView2.Rows[2].Cells[i].Value = lpAdibparam.fcurAirPress[i].ToString("F2");//浮点数格式，2位小数点
+                    dataGridView2.Rows[0].Cells[i].Value = lpAdibparam/*adibCurState*//*lpAdibparam*/.fcurvoltage[i].ToString("F2");//浮点数格式，2位小数点
+                    dataGridView2.Rows[1].Cells[i].Value = lpAdibparam/*adibCurState*//*lpAdibparam*/.fcurInkTankTemp[i].ToString("F2");//浮点数格式，2位小数点
+                    dataGridView2.Rows[2].Cells[i].Value = lpAdibparam/*adibCurState*//*lpAdibparam*/.fcurAirPress[i].ToString("F2");//浮点数格式，2位小数点
                 }
                 dataGridView2.Refresh();
             }
@@ -4594,6 +4715,7 @@ namespace BinderJetting
         //线程入口
         private void OpenVTMonitorThread(bool action)//打开温度电压监控线程：入口
         {
+#if true//关闭当前的监控线程//20230322新增：
             if (action == true)//没有在加工
             {
                 //开启打印线程:
@@ -4627,6 +4749,7 @@ namespace BinderJetting
                 string tempThreadName = "VTMonitorThread";//(1)关闭联调线程
                 DeleteThread2(tempThreadName);
             }
+#endif
         }
 
         //20200220：线程管理的案发现场，只要是相应的线程我就存储在这里，不管线程是死是活，祖祖辈辈就在这里，便于维护及管理
@@ -4650,19 +4773,24 @@ namespace BinderJetting
         {
             //（1）开启监控线程：每隔100ms间隔1次
             //ADIB状态   nOption定义： bit[0] 版本e bit[1] 温度 bit[2] 负压 bit[3] 输入 bit[4] 电压 bit[8] 回读I2C负压 bit[16] 保持到I2C //20200329:bit[0]实际上是PPCB板卡的版本号+++bit[4]实际上是FPGA的版本号
+#if false//20230322新增：临时修改
             uint nIoOption = 0xF;//nIoOption = 0d1111;
+#else
+            uint nIoOption = 0;
+            nIoOption |= 0x4;//nIoOption = 0d1111;//只读取负压值
+#endif
             while (!m_bStopMonitor)
             {
-
                 if (m_bSetEnable)//标志位：设置标志位，只有在设置无效的时候，才每隔100ms进行1次查询工作：20200329新增
                 {
                     //nIoOption=0x1FF000F;
                     m_bComState = royal.royal.DEV_AdibControl(ref adibCurState, nIoOption, false, ref m_bSetEnable);//bSetParam位的作用为0：状态为读状态：20200329批注
-
+#if false//20230322新增：临时注释
                     if (m_bComState)//标志位：与PPCB卡建立通讯
                         nIoOption = 0x6;//0d0110——————不再重新读取PPCB及FPGA的版本号：额外话，PPCB及FPGA各只有2个版本：20200329批注
                     else//标志位：未与PPCB卡建立通讯
                         nIoOption = 0xF;//0d1111——————继续读取PPCB及FPGA的版本号：20200329批注
+#endif
                 }
 #if false//20200604新增：同时监测温度电压的数据并完成更新
                 if (m_bVTSetEnable==true)
@@ -4670,7 +4798,7 @@ namespace BinderJetting
                     bool nReturn = GetCurVoltageTemp(false);
                 }
 #endif
-                Thread.Sleep(100);
+                //Thread.Sleep(10);//20230322注释掉：不需要等待
             }
 
             DeleteThread("VTMonitorThread");//20200220：本线程结束，需要及时清理相关线程//20200313新增：
@@ -4698,14 +4826,74 @@ namespace BinderJetting
                 && (openWaveFormFileDialog.FileName != string.Empty)
                 /*&& (openWaveFormFileDialog.FileNames.Length==1)*/)//有且只能选中1项
             {
+                //(0)更新波形文件路径
                 royal.royal.g_sys_param.szWavePath = openWaveFormFileDialog.FileNames[0];//获取所有选中项的文件名
                 royal.royal.DEV_UpdateParam(ref royal.royal.g_sys_param);//20200801新增：先更新波形，再加载完波形
                 string msg = $"更新波形路径：DEV_UpdateParam：{{{royal.royal.g_sys_param.szWavePath}}}";
                 Log4Net.Info(msg);
 
-                royal.royal.DEV_ReloadWaveForm();//20200801新增：先更新波形，再加载完波形
-                msg = $"重新加载完波形：DEV_ReloadWaveForm！";
+                //(1)重新更新基准电压值//20230323新增：
+                float[] fstdVoltage = new float[4];//内存中的对应值
+                for (int i = 0; i < 4; i++)
+                {
+                    fstdVoltage[i] = fVolt[0, i]/*0f*//*fVolt[0, i]*/;//避免潜在的BUG,设置为0时，基准电压的设定值以波形文件中为准
+                }
+                int size = Marshal.SizeOf(fstdVoltage[0]) * fstdVoltage.Length;
+                IntPtr PfstdVoltage = Marshal.AllocHGlobal(size);
+                Marshal.Copy(fstdVoltage, 0, PfstdVoltage, fstdVoltage.Length);//复制到非托管区内存
+                bool returnCode = royal.royal.DEV_SetWaveStdVoltage(PfstdVoltage, 0, 0);//20230323批注：基准电压设置值<1时，基准电压的设定值以波形文件中为准
+                if (returnCode == false)
+                {
+                    string msg2 = $"{{{0 + 1}}}号喷头基准电压更新失败：DEV_SetWaveStdVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
+                    Log4Net.Info(msg2);
+                }
+                else
+                {
+                    string msg2 = $"{{{0 + 1}}}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
+                    Log4Net.Info(msg2);
+                }
+                Marshal.FreeHGlobal(PfstdVoltage);
+
+                //(2)生效波形及其基准电压值，特别的，重新更新基准电压值
+                float[] fVcomInWaveFile = new float[1]; fVcomInWaveFile[0] = 0.0f;
+                int size2 = Marshal.SizeOf(fVcomInWaveFile[0]) * 1;
+                IntPtr PfVcomInWaveFile = Marshal.AllocHGlobal(size2);
+                Marshal.Copy(fVcomInWaveFile, 0, PfVcomInWaveFile, 1);//测试用:非托管区内存初始化//实际测试的时候，去掉//20200405批注
+
+                royal.royal.DEV_ReloadWaveForm(PfVcomInWaveFile);//20200801新增：先更新波形，再加载完波形                                                               
+                Marshal.Copy(PfVcomInWaveFile, fVcomInWaveFile, 0, 1);//（1）解析读取到的电压值
+                msg = $"重新加载完波形：DEV_ReloadWaveForm! 当前波形文件的基准电压参考值为：{{{fVcomInWaveFile[0]}V}}";
                 Log4Net.Info(msg);
+
+                //(3)MCU调压，跳到喷头内部的电压值：20230323新增：消除潜在的BUG
+                float[] fstdVoltage2 = new float[4];//内存中的对应值
+                for (int i = 0; i < 4; i++)
+                {
+                    if (fVolt[0, i] > 1.0f)//与手动修改的电压保持一致
+                    {
+                        fstdVoltage2[i] = fVolt[0, i]/*19.0f*//*fVcomInWaveFile[0]*//*fVolt[d, i]*/;//20230323新增：非常关键    
+                    }
+                    else//与喷头电压保持一致
+                    {
+                        fstdVoltage2[i] = fVcomInWaveFile[0]/*fVcomInWaveFile[0]*//*fVolt[d, i]*/;//20230323新增：非常关键//与波形文件中的基准电压值保持一致    
+                    }
+                }
+                Marshal.FreeHGlobal(PfVcomInWaveFile);
+                size = Marshal.SizeOf(fstdVoltage2[0]) * fstdVoltage2.Length;
+                IntPtr PfstdVoltage2 = Marshal.AllocHGlobal(size);
+                Marshal.Copy(fstdVoltage2, 0, PfstdVoltage2, fstdVoltage2.Length);//复制到非托管区内存
+                returnCode = royal.royal.MCU_SetPhVoltage(PfstdVoltage2, 0, 0);//微调参数值，精确设定
+                if (returnCode == false)
+                {
+                    msg = $"{{{0 + 1}}}号喷头电压调压失败：MCU_SetPhVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
+                    Log4Net.Info(msg);
+                }
+                else
+                {
+                    msg = $"{{{0 + 1}}}号喷头电压调压成功：MCU_SetPhVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
+                    Log4Net.Info(msg);
+                }
+                Marshal.FreeHGlobal(PfstdVoltage2);
             }
         }
 
@@ -4721,7 +4909,6 @@ namespace BinderJetting
                 | ((nTempInkMask >> 10) & 0b10000)
                 | ((nTempInkMask >> 10) & 0b100000)
                 | ((nTempInkMask >> 19) & 0b1000000);
-
 
             ////(1) 其次把数据显示在对应控件
             //this.GeneralLabel.Text = Convert.ToString(nInkMask,X);/*nInkMask.ToString("X");*/
@@ -5678,18 +5865,18 @@ namespace BinderJetting
                             else if ((1180 <= CurrentPos * 0.005) && (CurrentPos * 0.005 <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
                             else { DirFlag = 3; }
 #endif
-                #region 监控发送指令//20230113新建且批注：
+#region 监控发送指令//20230113新建且批注：
                 SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
                                                                                          //sendMessageToCamera.LoadJsonFile();
                                                                                          //sendMessageToCamera.SendMessageFromSharedMemory(tempStartMode,10,13);//20230113新建且批注：监控发送指令
                                                                                          //sendMessageToCamera.Dispose();//20230113新建且批注：监控发送指令
-                #endregion
+#endregion
 
                 if (true/*(DirFlag == 1) || (DirFlag == 2)*/)//墨车在非安全区域++粉车在正常工作区间内==粉末在正负限位区间内
                 {
                     if (true/*0 == k_RYSYSParamAutoPrintParamInTest.m_nRecoaterStrategy*/)//20220512新建批注：新设备只需要使用直接铺粉逻辑即可//(2)直接铺粉方式：20210125新增
                     {
-                        #region 监控指令：铺粉拍摄位点1
+#region 监控指令：铺粉拍摄位点1
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[7])
                         {
                             sendMessageToCamera.SendMessageFromSharedMemory(false, 0, 8);//20230113新建且批注：监控发送指令
@@ -5698,7 +5885,7 @@ namespace BinderJetting
                             Log4Net.Info(msg);
 
                         }
-                        #endregion
+#endregion
 
                         //20220920新建：判断是UV固化还是红外固化
                         if (k_RYSYSParamAutoPrintParamInTest.m_nCureLightStrategy == 0)//判断使用UV还是IR作为固化光源
@@ -5856,7 +6043,7 @@ namespace BinderJetting
 
                         //Thread.Sleep(1000);//等待800 ms
 
-                        #region 监控指令：铺粉拍摄位点3
+#region 监控指令：铺粉拍摄位点3
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9])
                         {
                             sendMessageToCamera.SendMessageFromSharedMemory(false, 0, 10);//20230113新建且批注：监控发送指令
@@ -5864,7 +6051,7 @@ namespace BinderJetting
                             msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
                             Log4Net.Info(msg);
                         }
-                        #endregion
+#endregion
 
 
                         //(2)洒粉车回到落粉站位置（回站）：20220512批注
@@ -5912,7 +6099,7 @@ namespace BinderJetting
                         msg = $"手动铺粉正常结束：NewAutoSupplyPowderThread";
                         Log4Net.Info(msg);
 
-                        #region 监控指令：铺粉拍摄位点5
+#region 监控指令：铺粉拍摄位点5
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
                         {
                             sendMessageToCamera.SendMessageFromSharedMemory(false, 0, 12);//20230113新建且批注：监控发送指令
@@ -5920,7 +6107,7 @@ namespace BinderJetting
                             msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
                             Log4Net.Info(msg);
                         }
-                        #endregion
+#endregion
                     }
                     else { }
 
@@ -5928,9 +6115,9 @@ namespace BinderJetting
                 else
                 { MessageBox.Show("墨车不在正常停靠区间"); }
 
-                #region 监控发送指令//20230113新建且批注：
+#region 监控发送指令//20230113新建且批注：
                 sendMessageToCamera.Dispose(); //20230113新建且批注：监控发送指令
-                #endregion
+#endregion
             }
         }
         public void NewAutoSupplyPowderThread2(ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex)//20220512新建：新的上送粉铺粉逻辑
@@ -6182,7 +6369,7 @@ namespace BinderJetting
                     msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
                     Log4Net.Info(msg);
                 }
- #endregion
+#endregion
 
             }
         }
@@ -7308,7 +7495,7 @@ namespace BinderJetting
             }
             else 
             {
-                msg = $"刮墨轴回零失败：SpreaderHomeBtn_Clickk：{{AXIS{{4}}, Vel{{1圈/s}},开槽位置{{{-SinkPosition}°}}}}";
+                msg = $"刮墨轴回零失败：SpreaderHomeBtn_Click：{{AXIS{{4}}, Vel{{1圈/s}},开槽位置{{{-SinkPosition}°}}}}";
                 Log4Net.Info(msg);
 
                 MessageBox.Show("回零失败"); 

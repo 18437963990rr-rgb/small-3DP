@@ -2066,8 +2066,20 @@ namespace BinderJetting
             bool nRetVal = royal.royal.DEV_EnableInkAutoSupply(true, 0xFF);//使能自动供墨uint ControlBit = 0xFF;//20201114修改：使能第4路墨水的自动供墨
             msg = $"开启自动供墨：DEV_EnableInkAutoSupply：ControlBit{{0xFF}}";
             Log4Net.Info(msg);
+
+            //////(3)读取气压值：
+            ////uint nIoOption = 0;
+            ////nIoOption |= 0x4;//nIoOption = 0d1111;//只读取负压值
+            ////LPADIB_PARAM adibCurState = new LPADIB_PARAM();
+            ////bool m_bSetEnable = true;
+            ////bool m_bComState = royal.royal.DEV_AdibControl(ref adibCurState, nIoOption, false, ref m_bSetEnable);//bSetParam位的作用为0：状态为读状态：20200329批注
+            //////adibCurState.fcurvoltage[0].ToString("F2");
+            //////(4）刷新记录：
+            ////msg = $"【RecordPressure】: {{1}}号喷头打印前状态：系统负压为{{{ adibCurState.fcurAirPress[0].ToString("F2")}kPa}}；";
+            ////Log4Net.Info(msg);
+
 #endif
-#region 监控发送指令//20230113新建且批注：
+            #region 监控发送指令//20230113新建且批注：
             SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
                                                                                      //sendMessageToCamera.LoadJsonFile();
                                                                                      //sendMessageToCamera.SendMessageFromSharedMemory(tempStartMode,10,13);//20230113新建且批注：监控发送指令
@@ -2205,9 +2217,10 @@ namespace BinderJetting
 
 #if true//20220524批注：（2）自动喷墨运动
 
-#region
+                                    #region
                                     //（1-1）注意：一定要取消跳白功能//（1-2）计算运动参数:运行速度、运行距离，依据SinglePass和MultiPass等运动模式*/
-#endregion
+                                    #endregion
+                                    //RecordPressureAndTemperatureAndValtageInPrint();//20230322新建：记录打印之前喷头温度及电压
 
                                     bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
                                     float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
@@ -2395,6 +2408,102 @@ namespace BinderJetting
             }
 #endregion
         }
+        private void RecordPressureAndTemperatureAndValtage()//20230322新增：
+        {
+            uint p = 0;//1号板卡
+            uint d = 0;//1好喷头
+            float[] fVoltageTemp = new float[5];//20200612修改：
+
+            //(1)读取喷头电压
+            fVoltageTemp[0] = 0.0f; fVoltageTemp[1] = 0.0f; fVoltageTemp[2] = 0.0f; fVoltageTemp[3] = 0.0f; fVoltageTemp[4] = 0.0f;//喷头温度
+            int size1 = Marshal.SizeOf(fVoltageTemp[0]) * 4;
+            IntPtr PfVoltage = Marshal.AllocHGlobal(size1);
+            Marshal.Copy(fVoltageTemp, 0, PfVoltage, 4);//测试用：非托管区内存初始化//实际测试的时候，去掉//20200405批注
+            //20200424新增//读取波形参数的电压：
+            string msg = $"【RecordPressureAndTemperatureAndValtage】: 准备读取{{{d + 1}}}号喷头打印前状态：读取电压！！";
+            Log4Net.Info(msg);
+            bool returnCode = royal.royal.MCU_GetCurPhVoltage(PfVoltage, p, d);
+            if (returnCode == true)
+            {
+                Marshal.Copy(PfVoltage, fVoltageTemp, 0, 4);//（1）解析读取到的电压值
+                Marshal.FreeHGlobal(PfVoltage);//释放内存
+            }
+            Thread.Sleep(10);
+
+            //(2)读取喷头温度
+            msg = $"【RecordPressureAndTemperatureAndValtage】: 准备读取{{{d + 1}}}号喷头打印前状态：读取温度！！";
+            Log4Net.Info(msg);
+            int size2 = Marshal.SizeOf(fVoltageTemp[0]) * 1;//4个变量，只用到第1个
+            IntPtr PfCurTemp = Marshal.AllocHGlobal(size2);
+            Marshal.Copy(fVoltageTemp, 0, PfCurTemp, 1);//测试用:非托管区内存初始化//实际测试的时候，去掉//20200405批注
+            //20200424新增//读取喷头的温度：
+            bool returnCode2 = royal.royal.MCU_GetCurPhTemp(PfCurTemp, p, d);
+            if (returnCode2 == true)//0x0802->0x0822
+            {     
+                Marshal.Copy(PfCurTemp, fVoltageTemp, 4, 1); //（1）解析读取到的电压值
+                Marshal.FreeHGlobal(PfCurTemp);//释放内存
+            }
+
+            //(3)读取气压值：
+            uint nIoOption = 0;
+            nIoOption |= 0x4;//nIoOption = 0d1111;//只读取负压值
+            LPADIB_PARAM adibCurState = new LPADIB_PARAM();
+            bool m_bSetEnable = true;
+            bool m_bComState = royal.royal.DEV_AdibControl(ref adibCurState, nIoOption, false, ref m_bSetEnable);//bSetParam位的作用为0：状态为读状态：20200329批注
+            //adibCurState.fcurvoltage[0].ToString("F2");
+            //(4）刷新记录：
+            msg = $"【RecordPressureAndTemperatureAndValtage】: {{{d + 1}}}号喷头打印前状态：系统负压为{{{ adibCurState.fcurAirPress[0].ToString("F2")}kPa}}，喷头温度为{{{fVoltageTemp[0]}℃}}，喷头电压为{{{fVoltageTemp[1]}V,{fVoltageTemp[2]}V,{fVoltageTemp[3]}V,{ fVoltageTemp[4]}V}}；";
+            Log4Net.Info(msg);
+        }
+
+        private void RecordPressureAndTemperatureAndValtageInPrint()//20230322新增：
+        {
+            uint p = 0;//1号板卡
+            uint d = 0;//1好喷头
+            float[] fVoltageTemp = new float[5];//20200612修改：
+
+            //(1)读取喷头电压
+            fVoltageTemp[0] = 0.0f; fVoltageTemp[1] = 0.0f; fVoltageTemp[2] = 0.0f; fVoltageTemp[3] = 0.0f; fVoltageTemp[4] = 0.0f;//喷头温度
+            int size1 = Marshal.SizeOf(fVoltageTemp[0]) * 4;
+            IntPtr PfVoltage = Marshal.AllocHGlobal(size1);
+            Marshal.Copy(fVoltageTemp, 0, PfVoltage, 4);//测试用：非托管区内存初始化//实际测试的时候，去掉//20200405批注
+            //20200424新增//读取波形参数的电压：
+            string msg = $"【RecordPressureAndTemperatureAndValtage】: 准备读取{{{d + 1}}}号喷头打印前状态：读取电压！！";
+            Log4Net.Info(msg);
+            bool returnCode = royal.royal.MCU_GetCurPhVoltage(PfVoltage, p, d);
+            if (returnCode == true)
+            {
+                Marshal.Copy(PfVoltage, fVoltageTemp, 0, 4);//（1）解析读取到的电压值
+                Marshal.FreeHGlobal(PfVoltage);//释放内存
+            }
+            Thread.Sleep(10);
+
+            //(2)读取喷头温度
+            msg = $"【RecordPressureAndTemperatureAndValtage】: 准备读取{{{d + 1}}}号喷头打印前状态：读取温度！！";
+            Log4Net.Info(msg);
+            int size2 = Marshal.SizeOf(fVoltageTemp[0]) * 1;//4个变量，只用到第1个
+            IntPtr PfCurTemp = Marshal.AllocHGlobal(size2);
+            Marshal.Copy(fVoltageTemp, 0, PfCurTemp, 1);//测试用:非托管区内存初始化//实际测试的时候，去掉//20200405批注
+            //20200424新增//读取喷头的温度：
+            bool returnCode2 = royal.royal.MCU_GetCurPhTemp(PfCurTemp, p, d);
+            if (returnCode2 == true)//0x0802->0x0822
+            {
+                Marshal.Copy(PfCurTemp, fVoltageTemp, 4, 1); //（1）解析读取到的电压值
+                Marshal.FreeHGlobal(PfCurTemp);//释放内存
+            }
+
+            ////(3)读取气压值：
+            //uint nIoOption = 0;
+            //nIoOption |= 0x4;//nIoOption = 0d1111;//只读取负压值
+            //LPADIB_PARAM adibCurState = new LPADIB_PARAM();
+            //bool m_bSetEnable = true;
+            //bool m_bComState = royal.royal.DEV_AdibControl(ref adibCurState, nIoOption, false, ref m_bSetEnable);//bSetParam位的作用为0：状态为读状态：20200329批注
+            ////adibCurState.fcurvoltage[0].ToString("F2");
+            //(4）刷新记录：
+            msg = $"【RecordPressureAndTemperatureAndValtage】: {{{d + 1}}}号喷头打印前状态：喷头温度为{{{fVoltageTemp[0]}℃}}，喷头电压为{{{fVoltageTemp[1]}V,{fVoltageTemp[2]}V,{fVoltageTemp[3]}V,{ fVoltageTemp[4]}V}}；";
+            Log4Net.Info(msg);
+        }
+
         //手动操作 ManualControl = null;//20230317修正:修正潜在的闪退问题
         手动操作 AutoPrintMotion1 = null;//20230317修正:修正潜在的闪退问题//PrintTask中
         手动操作 AutoPrintMotion2 = null;//20230317修正:修正潜在的闪退问题//温控Modbus中
@@ -4222,9 +4331,14 @@ namespace BinderJetting
                 {
                     if (PauseStopFlag == false) 
                     {
-                        m_bInitRoyalSuccess = g_cRoyalPrint.InitRoyalPrintCard();//20200618批注修改：
-                        string msg = "初始化喷墨控制器！";
+                        string msg = "初始化喷墨控制器启动！";
                         Log4Net.Info(msg);
+                        m_bInitRoyalSuccess = g_cRoyalPrint.InitRoyalPrintCard();//20200618批注修改：
+                        msg = "初始化喷墨控制器成功！";
+                        Log4Net.Info(msg);
+
+                        //RecordPressureAndTemperatureAndValtage();//20230322新建：记录喷射系统的温度、电压、气压参数；
+
 
                         /*手动操作*/
                         msg = $"进入：EquipmentMotionLogic3=》准备创建对象-手动操作！";
@@ -5312,7 +5426,7 @@ namespace BinderJetting
 
 
                                     CliStreams.Add(/*STL.ReadCLI(path)*/tempSTL);//(2)Read the CLIfile to the memory just only once                            
-    #if false
+#if false
                                     //if (true/*CadOperationCode == "1"*/)//20230320新增：
                                     //{
                                     //    double originalY/*tempJobItem.position.Y */= tempSTL.Dimension[0/*1*/].y;//暂时先不设置，直接reset为0；之后支持在magics中进行完成的排版文件的导入————！！！！！//20200514xiugai
@@ -5320,7 +5434,7 @@ namespace BinderJetting
                                     //}
                                     //tempSTL.Dimension[0].y = -tempSTL.Dimension[0].y + 175;//20221125新增：修复导入数据偏差
                                     //tempSTL.Dimension[1].y = -tempSTL.Dimension[1].y + 175;//20221125新增：修复导入数据偏差
-    #else
+#else
                                     double originalX = tempSTL.Dimension[0/*1*/].x - 165;//暂时先不设置，直接reset为0；之后支持在magics中进行完成的排版文件的导入————！！！！！//20200514xiugai
                                     double originalY = tempSTL.Dimension[0/*1*/].y + 165;//20230320修改：修复坐标系不协调的问题                      
                                     OperationType.xTranslate = originalX;
@@ -5331,7 +5445,7 @@ namespace BinderJetting
                                     TranslateCliStreams(ref CliStreams, g_SharpControl.selectPaths, OperationType, SingleDataFlag);//MOVE//20230320修正输入文件错误BUG
                                     OperationType.CadOperationCode = "1";
                                     g_SharpControl.selectPaths.Clear();//20230320新增：
-    #endif
+#endif
                                     UpdateListView(path, 1, tempSTL.LayerNumber);//20201111新增：完成JobList的更新
 
                                     msg = "CAD数据加载：添加.CLI格式CAD数据成功-" + path;

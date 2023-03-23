@@ -281,7 +281,7 @@ namespace royal
         [DllImport("RYPrtCtler.dll", CharSet = CharSet.Unicode)]
         public static extern IntPtr DEV_GetDeviceInfo();//LPPRINTER_INFO __stdcall DEV_GetDeviceInfo(); 
         [DllImport("RYPrtCtler.dll", CharSet = CharSet.Unicode)]
-        public static extern int DEV_ReloadWaveForm(); //重新加载波形————接口名字要改：传给string
+        public static extern int DEV_ReloadWaveForm(IntPtr aVcomInWaveFile); //重新加载波形————接口名字要改：传给string//20230323修改：返回波形文件的基准电压
         [DllImport("RYPrtCtler.dll", CharSet = CharSet.Unicode)]
         public static extern bool DEV_DeviceIsConnected();
         [DllImport("RYPrtCtler.dll", CharSet = CharSet.Unicode)]
@@ -353,8 +353,10 @@ namespace royal
         public static extern bool IDP_FlashPrtCtl(bool bOpen);
 
         //////温度电压控制
-        [DllImport("RYPrtCtler.dll")]
-        //public static extern bool MCU_SetPhVoltage(ref float[] fstdVcom, UInt32 nCMID, UInt32 nDrvID);
+        [DllImport("RYPrtCtler.dll")]//20230323新建批注：
+        public static extern bool DEV_SetWaveStdVoltage(IntPtr fstdVcom, UInt32 nCMID, UInt32 nDrvID);
+
+        [DllImport("RYPrtCtler.dll")]//public static extern bool MCU_SetPhVoltage(ref float[] fstdVcom, UInt32 nCMID, UInt32 nDrvID);
         public static extern bool MCU_SetPhVoltage( /*[MarshalAs(UnmanagedType.LPArray, SizeConst = 3)] ref float[] fstdVcom*/IntPtr fstdVcom, UInt32 nCMID, UInt32 nDrvID);
         [DllImport("RYPrtCtler.dll")]
         public static extern bool MCU_SetPhStdTemp(ref float fstdTmp/*IntPtr fstdTmp*/, UInt32 nCMID, UInt32 nDrvID);
