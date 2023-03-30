@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(手动操作));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.HomeEndsLabel0 = new System.Windows.Forms.CheckBox();
             this.PLLabel1 = new System.Windows.Forms.Label();
@@ -364,6 +364,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label18 = new System.Windows.Forms.Label();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
+            this.label88 = new System.Windows.Forms.Label();
             this.JetSetApplyBtn2 = new System.Windows.Forms.Button();
             this.JetCancleApplyBtn = new System.Windows.Forms.Button();
             this.DEV_EnableInkAutoSupply = new System.Windows.Forms.Button();
@@ -374,6 +375,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.ReadRegister = new System.Windows.Forms.Button();
             this.FlashBtn = new System.Windows.Forms.Button();
             this.label46 = new System.Windows.Forms.Label();
             this.button42 = new System.Windows.Forms.Button();
@@ -394,7 +396,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.ADIBSetApplyBtn = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
-            this.label88 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.ManulDebugTAB.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -653,11 +654,11 @@
             // 
             this.ManulDebugTAB.Controls.Add(this.tabPage1);
             this.ManulDebugTAB.Controls.Add(this.tabPage2);
-            this.ManulDebugTAB.Location = new System.Drawing.Point(13, 12);
+            this.ManulDebugTAB.Location = new System.Drawing.Point(13, 8);
             this.ManulDebugTAB.Margin = new System.Windows.Forms.Padding(4);
             this.ManulDebugTAB.Name = "ManulDebugTAB";
             this.ManulDebugTAB.SelectedIndex = 0;
-            this.ManulDebugTAB.Size = new System.Drawing.Size(1281, 898);
+            this.ManulDebugTAB.Size = new System.Drawing.Size(1281, 902);
             this.ManulDebugTAB.TabIndex = 26;
             this.ManulDebugTAB.SelectedIndexChanged += new System.EventHandler(this.ManulDebugTAB_SelectedIndexChanged);
             // 
@@ -726,7 +727,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage1.Size = new System.Drawing.Size(1273, 869);
+            this.tabPage1.Size = new System.Drawing.Size(1273, 873);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "送料系统手动控制";
             // 
@@ -3203,7 +3204,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(1273, 869);
+            this.tabPage2.Size = new System.Drawing.Size(1273, 846);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "喷射系统手动控制";
             // 
@@ -5127,6 +5128,17 @@
             this.groupBox23.TabStop = false;
             this.groupBox23.Text = "环境控制";
             // 
+            // label88
+            // 
+            this.label88.ForeColor = System.Drawing.Color.DimGray;
+            this.label88.Location = new System.Drawing.Point(657, 321);
+            this.label88.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label88.Name = "label88";
+            this.label88.Size = new System.Drawing.Size(573, 45);
+            this.label88.TabIndex = 168;
+            this.label88.Text = "注意：【1.默认取值波形电压】【2.小幅精确调压=》输入大于0V目标值，修改电压】【3.大幅精确调压=》输入大于0V目标值，修改电压，先加载异名波形，再加载目标波" +
+    "形】【4.恢复默认电压=》手动输入0V，加载电压，加载目标波形】";
+            // 
             // JetSetApplyBtn2
             // 
             this.JetSetApplyBtn2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -5255,15 +5267,15 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.NullValue = null;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.NullValue = null;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView1.RowTemplate.Height = 23;
@@ -5289,15 +5301,15 @@
             this.dataGridView2.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView2.MultiSelect = false;
             this.dataGridView2.Name = "dataGridView2";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.NullValue = null;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.NullValue = null;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView2.RowTemplate.Height = 23;
@@ -5310,6 +5322,7 @@
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.ReadRegister);
             this.groupBox8.Controls.Add(this.FlashBtn);
             this.groupBox8.Controls.Add(this.label46);
             this.groupBox8.Controls.Add(this.button42);
@@ -5332,6 +5345,22 @@
             this.groupBox8.TabIndex = 48;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "墨路控制";
+            // 
+            // ReadRegister
+            // 
+            this.ReadRegister.BackColor = System.Drawing.Color.MintCream;
+            this.ReadRegister.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ReadRegister.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ReadRegister.ForeColor = System.Drawing.Color.Black;
+            this.ReadRegister.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.ReadRegister.Location = new System.Drawing.Point(328, 25);
+            this.ReadRegister.Margin = new System.Windows.Forms.Padding(4);
+            this.ReadRegister.Name = "ReadRegister";
+            this.ReadRegister.Size = new System.Drawing.Size(167, 38);
+            this.ReadRegister.TabIndex = 168;
+            this.ReadRegister.Text = "ReadRegister";
+            this.ReadRegister.UseVisualStyleBackColor = true;
+            this.ReadRegister.Click += new System.EventHandler(this.ReadRegister_Click);
             // 
             // FlashBtn
             // 
@@ -5615,23 +5644,12 @@
             this.label20.Text = "kPa";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label88
-            // 
-            this.label88.ForeColor = System.Drawing.Color.Red;
-            this.label88.Location = new System.Drawing.Point(657, 321);
-            this.label88.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label88.Name = "label88";
-            this.label88.Size = new System.Drawing.Size(573, 45);
-            this.label88.TabIndex = 168;
-            this.label88.Text = "注意：【1.默认取值波形电压】【2.小幅精确调压=》输入大于0V目标值，修改电压】【3.大幅精确调压=》输入大于0V目标值，修改电压，先加载异名波形，再加载目标波" +
-    "形】【4.恢复默认电压=》手动输入0V，加载电压，加载目标波形】";
-            // 
             // 手动操作
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(1308, 889);
+            this.ClientSize = new System.Drawing.Size(1308, 923);
             this.Controls.Add(this.ManulDebugTAB);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -6063,5 +6081,6 @@
         private System.Windows.Forms.Label label58;
         private System.Windows.Forms.Button JetSetApplyBtn2;
         private System.Windows.Forms.Label label88;
+        private System.Windows.Forms.Button ReadRegister;
     }
 }

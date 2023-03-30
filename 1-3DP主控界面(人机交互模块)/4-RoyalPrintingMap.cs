@@ -47,7 +47,6 @@ namespace royal
             long nPrtFlag;        //bit0  双向打印 bit1: Y打印方向  1反方向打印 bit2: 往返差校准打印
             long[] nReserved = new long[8];
             //long[] nReserved;//不能在申明数组的同时，指定数组的大小
-
         }
 
         public tag_PrtJobItem _testJob;
@@ -135,7 +134,7 @@ namespace royal
             //(2-1)修改闪喷频率为500Hz,有效时间为0.5ms,周期时长为1ms
             royal.g_sys_param.fBrustCycleSec = 1f;//20220920修改：闪喷频率500-1s时间内，0.5s在工作
             royal.g_sys_param.fBrustValidSec = 0.5f;//20220920修改：闪喷频率500-1s时间内，0.5s在工作
-            royal.g_sys_param.fBrustFrequecy = 500/*2000*//*50*/;//20220920修改：闪喷频率500-1s时间内，0.5s在工作
+            royal.g_sys_param.fBrustFrequecy = 500*10/*2000*//*50*/;//20220920修改：闪喷频率500-1s时间内，0.5s在工作//20230327修改：底层的配置文件的闪喷的基准频率设置不准确，需要认为设置并扩展10倍
 
             bool returnST = royal.DEV_UpdateParam(ref royal.g_sys_param);
             if (returnST == false)
@@ -189,7 +188,7 @@ namespace royal
 #if true
         try { 
             //（5）初始化喷头电压及温度
-            for (uint d = 0; d < 8; d++)
+            for (uint d = 0; d < 1/*8*/; d++)
             {
                 ////////(1)喷头电压
                 //////float[] fstdVoltage = new float[4] {15f,15f,15f,15f};//内存中的对应值
@@ -217,12 +216,12 @@ namespace royal
                 bool returnCode2 = royal.MCU_SetPhStdTemp(ref fProTemp, 0, d);
                 if (returnCode2 == false)
                 {
-                    string msg2 = $"更新{{{d+1}}}号喷头温度失败：MCU_SetPhVoltage{{{fProTemp}℃}}";
+                    string msg2 = $"更新{{{d+1}}}号喷头温度失败：MCU_SetPhStdTemp{{{fProTemp}℃}}";
                     Log4Net.Info(msg2);
                 }
                 else 
                 {
-                    string msg2 = $"更新{{{d + 1}}}号喷头温度失败：MCU_SetPhVoltage{{{fProTemp}℃}}";
+                    string msg2 = $"更新{{{d + 1}}}号喷头温度成功：MCU_SetPhStdTemp{{{fProTemp}℃}}";
                     Log4Net.Info(msg2);
                 }
             }

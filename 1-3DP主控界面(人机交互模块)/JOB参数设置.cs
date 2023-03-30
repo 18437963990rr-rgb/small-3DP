@@ -700,6 +700,11 @@ namespace BinderJetting
             //}
             #endregion
         }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public class RYSYSParam : INotifyPropertyChanged, ICloneable//C#中，通知类的属性值已经更改，可以避免大量的通用事件的使用；其中关键是属性的理解及和lambda表达式的使用方法
@@ -717,10 +722,10 @@ namespace BinderJetting
         /// </summary>
         //总计有2种方式的闪喷：高速闪喷和待机闪喷；闪喷策略，分别保存到对应的结构体
         public double m_dInterSpeedSparkCycleTime = 1/*20*/;//间歇闪喷周期//20220920修改：周期为1s
-        public double m_dHSpeedSparkTime = 0.5/*1*/;//高速闪喷时间//20220920修改：有效时间0.5s
+        public double m_dHSpeedSparkTime = 1/*1*/;//高速闪喷时间//20220920修改：有效时间0.5s
         public int m_nHSpeedSparkFreq = 500;//高速闪喷频率//20220920修改：频率500Hz
 
-        public int m_nStandbySpeedSparkFreq = 50/*string.Empty*/;//待机闪喷频率——————n表示int；d表示double//待机就是间歇20200326：
+        public int m_nStandbySpeedSparkFreq = 500/*string.Empty*/;//待机闪喷频率——————n表示int；d表示double//待机就是间歇20200326：
         public double m_dInterSpeedSparkValidTime = 1;//间歇闪喷有效时间
 
 

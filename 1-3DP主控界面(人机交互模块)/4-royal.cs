@@ -24,7 +24,7 @@ namespace royal
         public int nLayerIndex;      //图层索引
         public int nImgStartJetIndex; //图像起始对应喷头嘴;//20210311修改：起始嘴修改
         public int nPrtDir;           //图像打印起始PASS方向//  0 编码负方向 1编码正方向//20220524批注：此处应该修改为负向
-        public int nXEncOff;          //图层针对任务X起点偏移 单位 X编码
+        public int nXEncOff;          //图层针对任务X起点偏移 单位 X编码//整体修改的位置
         public int nYJetOff;          //图层针对任务Y起点偏移 单位 喷嘴间距//20210311修改：起始嘴修改
         public int nColorCnts;        //颜色通道数量
         //public int nState;			 //图层处理状态 //0 数据处理阶段  1数据处理就绪  2 写数据到硬件  3 数据已写入硬件  4 已添加到打印队列  5打印已结束 6添加失败
@@ -204,7 +204,7 @@ namespace royal
     {
         public int nParamVer;          //参数版本：c++的long相当于C#的int
         public int nParamSize;            //参数字节数：c++的long相当于C#的int
-        public int nBiDirEncPrtOff;            /* 双向偏差*///实际上称呼：往返差比较准确一点
+        public int nBiDirEncPrtOff;            /* 双向偏差*///实际上称呼：往返差比较准确一点//双向编码，单向像素
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64 * 32 * 2)]//20210313批注：7*4*2
         public int[] nPhXRowPrtOff;		//单向偏差 0 负方向 1正反向  [喷头号][喷嘴列号][方向]//三维数组：32列嘴，是为了兼容其他的喷头，只使用前4列即可
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16 * 32)]

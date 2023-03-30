@@ -4475,7 +4475,7 @@ namespace BinderJetting
                 }
 
                 //（2）设置并生效所有的电压和温度值
-                for (uint d = 0; d < 8; d++)//20230322修改：只设置第1路喷头生效
+                for (uint d = 0; d < 1/*8*/; d++)//20230322修改：只设置第1路喷头生效
                 {
                     //(1)复制数据：20200404修改
                     float[] fstdVoltage = new float[4];//内存中的对应值
@@ -4558,7 +4558,7 @@ namespace BinderJetting
                 }
 
                 //（2）设置并生效所有的电压和温度值
-                for (uint d = 0; d < 8; d++)//20230322修改：只设置第1路喷头生效
+                for (uint d = 0; d < 1/*8*/; d++)//20230322修改：只设置第1路喷头生效
                 {
 #if false
                     //(1)复制数据：20200404修改
@@ -4591,12 +4591,12 @@ namespace BinderJetting
                     bool returnCode2 = royal.royal.MCU_SetPhStdTemp(ref fProTemp, 0, d);
                     if (returnCode2 == false)
                     {
-                        string msg2 = $"{{{d + 1}}}号喷头温度更新失败：MCU_SetPhVoltage{{{fProTemp}℃}}";
+                        string msg2 = $"{{{d + 1}}}号喷头温度更新失败：MCU_SetPhStdTemp{{{fProTemp}℃}}";
                         Log4Net.Info(msg2);
                     }
                     else
                     {
-                        string msg2 = $"{{{d + 1}}}号喷头温度更新失败：MCU_SetPhVoltage{{{fProTemp}℃}}";
+                        string msg2 = $"{{{d + 1}}}号喷头温度更新成功：MCU_SetPhStdTemp{{{fProTemp}℃}}";
                         Log4Net.Info(msg2);
                     }
                 }
@@ -5253,6 +5253,7 @@ namespace BinderJetting
             if (m_bFlashFlag == true)//打开和关闭闪喷：
             {
                 bool nRetVal = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷
+                
                 m_bFlashFlag = false;
 
                 string msg = $"开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal}}}";
@@ -5516,8 +5517,8 @@ namespace BinderJetting
                 Log4Net.Info(msg);
 
                 //20220920新增：压墨之后，需要开启闪喷功能
-                bool nRetVal = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
-                msg = $"开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal}}}";
+                bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
+                msg = $"开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal2}}}";
                 Log4Net.Info(msg);
 
                 m_bFlashFlag = false;//20220920批注：指示手动控制闪喷功能是否开启之时的正确闪喷动作应为关闭
@@ -5533,6 +5534,9 @@ namespace BinderJetting
             SinkPostion = 180+45;//逆225
             //motionMap.SetDo(13/*7*/, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵
             motionMap.TrapMoveSpreaderAxis(4, 0.5, -SinkPostion);
+
+            bool nRetVal = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷//20230327批注：关闭闪喷
+            msg = $"关闭闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal}}}";
 
             msg = $"结束自动清洗过程：AutoCleanThread";
             Log4Net.Info(msg);
@@ -7499,6 +7503,21 @@ namespace BinderJetting
                 Log4Net.Info(msg);
 
                 MessageBox.Show("回零失败"); 
+            }
+        }
+
+        private void ReadRegister_Click(object sender, EventArgs e)
+        {
+            bool returnCode2 = royal.royal.DEV_RecHardwareInfo();
+            if (returnCode2 == false)
+            {
+                string msg2 = $"记录硬件寄存器状态失败";
+                Log4Net.Info(msg2);
+            }
+            else
+            {
+                string msg2 = $"记录硬件寄存器状态成功";
+                Log4Net.Info(msg2);
             }
         }
         /********************************************温度电压气压监控线程：结束*********************************************/

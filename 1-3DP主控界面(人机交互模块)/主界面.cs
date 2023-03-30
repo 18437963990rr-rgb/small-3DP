@@ -963,7 +963,7 @@ namespace BinderJetting
             //(2)刷新正负压及三通电磁阀的接通状态
             UInt32 nTempValveStateMask = 0b0/*0b00000001*/;//第8位为正负压接通状态，1-7位为清洗/墨水阀的接通状态          
 
-            nTempValveStateMask = royal.royal./*DEV_GetInput*//*DEV_GetUsbOutput*/DBG_GetPrtInfo(0, 7);//20200718测试：需要经过全面的测试
+            ////nTempValveStateMask = royal.royal./*DEV_GetInput*//*DEV_GetUsbOutput*/DBG_GetPrtInfo(0, 7);//20200718测试：需要经过全面的测试
 
             nValveStateMask = ((nTempValveStateMask >> 8) & 0b00111111)
                 | ((nTempValveStateMask >> 8) & 0b01000000) << 1
@@ -1903,13 +1903,16 @@ namespace BinderJetting
                 //royal.g_sys_param为static类型：
                 royal.royal.g_sys_param.fBrustCycleSec = (float)g_RYSYSParam.m_dInterSpeedSparkCycleTime;//时间1s
                 royal.royal.g_sys_param.fBrustValidSec = (float)g_RYSYSParam.m_dHSpeedSparkTime;//有效时间0.5s
-                royal.royal.g_sys_param.fBrustFrequecy = g_RYSYSParam.m_nHSpeedSparkFreq;//频率500Hz
+                royal.royal.g_sys_param.fBrustFrequecy = g_RYSYSParam.m_nHSpeedSparkFreq*10;//频率500Hz//20230327修改：底层的配置文件的闪喷的基准频率设置不准确，需要认为设置并扩展10倍
                 royal.royal.g_sys_param.szLogPath = g_RYSYSParam.m_sLogPath;
                 //royal.royal.g_sys_param.szWavePath = g_RYSYSParam.m_sWavePath;
 
 #if fasle//临时注释：进行相应的修改需要匹配合适的运动参数
-                ////royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / 25.4 * 600);//20210311新增：Y向起打位置修订
+                ////royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / 25.4 * 600);//20210311新增：Y向起打喷嘴位置修订
                 //////royal.royal.g_prtimg_layer.nYJetOff=(int)(g_RYSYSParam.m_dYJetOff/25.4*600);//20210311新增：Y向起打位置修订
+#endif
+#if false//20230327新建：反差值是否生效
+                royal.royal.g_sys_param.nBiDirEncPrtOff = (int)(/*0*/g_RYSYSParam.m_dXJetOff * 200);//5um的精度//20230321修订：X方向打印往返差修订//20230327修正：此处存在潜在的问题//图层的整体偏移，可正可负
 #endif
 
                 //20200327新增:
@@ -1932,6 +1935,14 @@ namespace BinderJetting
                     $"墨车运动速度{{{g_RYSYSParam.CarMoveSpeed}MM/s}}X向起打位置{{{g_RYSYSParam.m_dPrtXEncPos}MM}}" +
                     $"X向起打位置偏移{{{g_RYSYSParam.m_dXJetOff}MM}}Y向起打位置偏移{{{g_RYSYSParam.m_dYJetOff}MM}}";
                 Log4Net.Info(msg);
+
+                bool returnST = royal.royal.DEV_UpdateParam(ref royal.royal.g_sys_param);
+                if (returnST == false)
+                {
+                    string sztxt;
+                    sztxt = "更新设备参数失败";
+                    MessageBox.Show(sztxt);
+                }
             }
             else if (result == DialogResult.Cancel)//退出时，什么都不做
             {
@@ -2388,6 +2399,8 @@ namespace BinderJetting
 
             /*bool*/
             ReturnFlag = royal.royal.IDP_StopPrintJob();
+
+
 
             msg = $"停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{{{ReturnFlag}}}";
             Log4Net.Info(msg);
@@ -6762,8 +6775,9 @@ namespace BinderJetting
 
             if (returnFlag == true/*false*/)//20200801批注：修改为true//20210312修改：false状态为本地调试模式
             {
+#if false
                 royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / 25.4 * 600);//20210311新增：Y向起打位置修订//20210330修改：
-
+#endif
                 DataTaskFlag = 2;//工作态标志//工作态不可强制暂停       
                 switch (TransferModifyFlag)//无论如何，应该等待1层执行完成，再做定夺。这比较合理
                 {
