@@ -3226,13 +3226,15 @@ namespace BinderJetting
         }
 
         bool EncoderResetFlag = false;//墨车回零校准：20200326
+        bool PowderCarEncoderResetFlag = false;//粉车回零校准：20230330
+        bool PrintCarEncoderResetFlag = false;//墨车回零校准：20230330
         private void EncoderResetBtn_Click(object sender, EventArgs e)//开启关闭对应的校准线程
         {
             if (EncoderResetFlag == false)//20220521批注：没有存在校准任务
             {
                 string msg = $"开启墨车和铺粉车回零校准：EncoderResetBtn_Click";
                 Log4Net.Info(msg);
-
+#if true
                 //开启墨车打印线程1:
                 string tempThreadName = "InkCarEncoderResetThread";
                 Thread tempThread = EncoderResetThreads.Where(x => x.Name == (tempThreadName)).FirstOrDefault();
@@ -3252,7 +3254,7 @@ namespace BinderJetting
 
                     EncoderResetThreads.Add(tempThread);//没有创建过的时候，才重新添加新的线程
                 }
-
+#endif
                 //开启粉车打印线程2:
                 tempThreadName = "PowderCarHomeResetThread";
                 tempThread = EncoderResetThreads.Where(x => x.Name == (tempThreadName)).FirstOrDefault();
@@ -3282,11 +3284,13 @@ namespace BinderJetting
             }
             else//20220521批注：存在校准任务
             {
+#if true
                 //(1-1)关闭联调线程；（1-2）关闭多轴运动：保障运动安全
                 string tempThreadName = "InkCarEncoderResetThread";//(1)关闭联调线程
                 DeleteThread(tempThreadName);
                 //(a)检测到正限位和负限位后紧急停止运动：
                 bool nRetVal = royal.royal.DEM_StopAxisRun(false, 0x1);//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108
+#endif
 
                 //(2-1)关闭粉车校准线程(2-2)关闭多轴运动：保证运动安全
                 tempThreadName = "PowderCarHomeResetThread";//(1)关闭联调线程
@@ -3301,6 +3305,108 @@ namespace BinderJetting
                 EncoderResetFlag = false;//玩的都是标志位：20200126
             }
         }
+        private void PowderCarHomeBtn_Click(object sender, EventArgs e)//20230330新增：
+        {
+            if (PowderCarEncoderResetFlag == false)//20220521批注：没有存在校准任务
+            {
+                string msg = $"开启铺粉车回零校准：PowderCarHomeBtn_Click";
+                Log4Net.Info(msg);
+
+                //开启粉车打印线程2:
+                string tempThreadName = "PowderCarHomeResetThread";
+                Thread tempThread = EncoderResetThreads.Where(x => x.Name == (tempThreadName)).FirstOrDefault();
+                if (tempThread != null)
+                {
+                    EncoderResetThreads.Remove(tempThread);//以防万一
+                }
+                else
+                {
+                    ThreadStart initThreadEntry = new ThreadStart(PowderCarHomeResetThread);//20200220:线程入口方法修改为联动线程
+                    tempThread = new Thread(initThreadEntry) { IsBackground = true };
+                    tempThread.Name = tempThreadName;
+                    tempThread.Start();
+
+
+                    msg = $"开启粉车回零校准线程：PowderCarHomeResetThread";
+                    Log4Net.Info(msg);
+
+                    EncoderResetThreads.Add(tempThread);//没有创建过的时候，才重新添加新的线程
+                }
+
+                //修改按钮状态为：正在校准
+                this.PowderCarHomeBtn.Text = "校准粉车中...";
+                this.PowderCarHomeBtn.TextAlign = ContentAlignment.MiddleCenter;
+                //this.PowderCarHomeBtn.BackColor = Color.Lime; //this.PowderCarHomeBtn.BackgroundImage = System.Drawing.Image.FromFile("ICON资源/StopJob.png");
+                PowderCarEncoderResetFlag = true;//玩的都是标志位：20200126
+            }
+            else//20220521批注：存在校准任务
+            {
+                //(2-1)关闭粉车校准线程(2-2)关闭多轴运动：保证运动安全
+                string tempThreadName = "PowderCarHomeResetThread";//(1)关闭联调线程
+                DeleteThread(tempThreadName);
+                //(a)检测到正限位和负限位后紧急停止运动：
+                short AXIS = 2; motionMap.StopMotion(AXIS);//停止铺粉车轴运动
+
+                //修改按钮状态为：启动打印
+                this.PowderCarHomeBtn.Text = "校准粉车";
+                this.PowderCarHomeBtn.TextAlign = ContentAlignment.MiddleCenter;
+                //this.PowderCarHomeBtn.BackColor = Color.Yellow; //this.PowderCarHomeBtn.BackgroundImage = System.Drawing.Image.FromFile("ICON资源/RunJob.png");
+                PowderCarEncoderResetFlag = false;//玩的都是标志位：20200126
+            }
+        }
+
+        private void PrintCarHomeBtn_Click(object sender, EventArgs e)//20230330新增：
+        {
+            if (PrintCarEncoderResetFlag == false)//20220521批注：没有存在校准任务
+            {
+                string msg = $"开启墨车回零校准：PrintCarHomeBtn_Click";
+                Log4Net.Info(msg);
+#if true
+                //开启墨车打印线程1:
+                string tempThreadName = "InkCarEncoderResetThread";
+                Thread tempThread = EncoderResetThreads.Where(x => x.Name == (tempThreadName)).FirstOrDefault();
+                if (tempThread != null)
+                {
+                    EncoderResetThreads.Remove(tempThread);//以防万一
+                }
+                else
+                {
+                    ThreadStart initThreadEntry = new ThreadStart(InkCarEncoderResetThread);//20200220:线程入口方法修改为联动线程
+                    tempThread = new Thread(initThreadEntry) { IsBackground = true };
+                    tempThread.Name = tempThreadName;
+                    tempThread.Start();
+
+                    msg = $"开启墨车回零校准线程：InkCarEncoderResetThread";
+                    Log4Net.Info(msg);
+
+                    EncoderResetThreads.Add(tempThread);//没有创建过的时候，才重新添加新的线程
+                }
+#endif
+
+                //修改按钮状态为：正在校准
+                this.PrintCarHomeBtn.Text = "校准墨车中...";
+                this.PrintCarHomeBtn.TextAlign = ContentAlignment.MiddleCenter;
+                //this.PrintCarHomeBtn.BackColor = Color.Lime; //this.PrintCarHomeBtn.BackgroundImage = System.Drawing.Image.FromFile("ICON资源/StopJob.png");
+                PrintCarEncoderResetFlag = true;//玩的都是标志位：20200126
+            }
+            else//20220521批注：存在校准任务
+            {
+#if true
+                //(1-1)关闭联调线程；（1-2）关闭多轴运动：保障运动安全
+                string tempThreadName = "InkCarEncoderResetThread";//(1)关闭联调线程
+                DeleteThread(tempThreadName);
+                //(a)检测到正限位和负限位后紧急停止运动：
+                bool nRetVal = royal.royal.DEM_StopAxisRun(false, 0x1);//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108
+#endif
+
+                //修改按钮状态为：启动打印
+                this.PrintCarHomeBtn.Text = "校准墨车";
+                this.PrintCarHomeBtn.TextAlign = ContentAlignment.MiddleCenter;
+                //this.PrintCarHomeBtn.BackColor = Color.Yellow; //this.PrintCarHomeBtn.BackgroundImage = System.Drawing.Image.FromFile("ICON资源/RunJob.png");
+                PrintCarEncoderResetFlag = false;//玩的都是标志位：20200126
+            }
+        }
+
         //20200220：线程管理的案发现场，只要是相应的线程我就存储在这里，不管线程是死是活，祖祖辈辈就在这里，便于维护及管理
         private List<Thread> EncoderResetThreads = new List<Thread>();//20200220:存放所有必要的打印机的工作线程
         public void DeleteThread(string ThreadName)
@@ -3346,6 +3452,7 @@ namespace BinderJetting
                             Log4Net.Info(msg);
 
                             /*PowderHomeBtn.Text = "铺粉"; */
+                            PowderCarHomeBtn.Text = "已校准铺粉";//20230330新增：
                             PowderHomeBtn.BackColor = Color.Lime;//已校标志
                             MessageBox.Show("粉车-Home成功！");
                         }
@@ -3355,6 +3462,7 @@ namespace BinderJetting
                             Log4Net.Info(msg);
 
                             /*PowderHomeBtn.Text = "铺粉"; */
+                            PowderCarHomeBtn.Text = "校准铺粉失败";//20230330新增：
                             PowderHomeBtn.BackColor = Color.Tomato;//未校标志
                             MessageBox.Show("粉车-Home失败！");    
                         }
@@ -3458,12 +3566,17 @@ namespace BinderJetting
                             Log4Net.Info(msg);
 
                             //CorrectFlag = true;//20200919新建：校准完成标志位 
+                            PrintCarHomeBtn.Text = "已校准墨车";//20230330新增：
                             InkCarHomeBtn.BackColor = Color.Lime; //已校标志//this.EncoderResetBtn.Text = "运动系统已校";//恢复控件操作 //this.EncoderResetBtn.BackColor = Color.Tomato;                   
                             MessageBox.Show("墨车-Home成功！");
                             //20200604新增：回复回零速度为界面选中速度
                             nSpeed = MM_TO_DOT(m_szMovSpeed/*50f*/, 5080, 0);//20220506修改：第1轴 //YINC_PERDOT扩展到48——20200108
                         }
-                        else { InkCarHomeBtn.BackColor = Color.Tomato; }
+                        else 
+                        {
+                            PrintCarHomeBtn.Text = "校准墨车失败";//20230330新增：
+                            InkCarHomeBtn.BackColor = Color.Tomato;
+                        }
 
                         if (InkCarHomeFlag == true && PowderCarHomeFlag == true)//20220521新建：粉车、墨车全部校准汇报
                         {
@@ -6761,7 +6874,7 @@ namespace BinderJetting
                 string msg = $"手动开启自动固化过程：AutoCureBtn_Click";
                 Log4Net.Info(msg);
 
-                if (InkCarHomeFlag == true && PowderCarHomeFlag == true)//确保：墨车回零标志位；确保在指定区间，否则报错
+                if (/*InkCarHomeFlag == true && */PowderCarHomeFlag == true)//确保：墨车回零标志位；确保在指定区间，否则报错//20230330修改：临时注释InkCarHomeFlag == true
                 {
 #if false//20220520注释：读取铺粉车位置
                     double[] g_dEncpos = new double[8]; g_dEncpos = motionMap.GetEncPos(); double PosValue = g_dEncpos[3] / 1000;//铺粉位置
@@ -6775,7 +6888,7 @@ namespace BinderJetting
                     msg = $"中止自动固化过程，墨车系统未回零：AutoCureBtn_Click";
                     Log4Net.Info(msg);
 
-                    MessageBox.Show("墨车系统未回零");
+                    MessageBox.Show("粉车系统未回零");
                 }
             }
             else//20220520新建：是否已有自动固化逻辑在运行
@@ -6842,7 +6955,7 @@ namespace BinderJetting
                 string msg = $"手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click";
                 Log4Net.Info(msg);
 
-                if (true/*InkCarHomeFlag == true*/)//确保：墨车系统回零成功；确保在指定区间，否则报错
+                if (PowderCarHomeFlag==true/*true*//*InkCarHomeFlag == true*/)//确保：墨车系统回零成功；确保在指定区间，否则报错//20230330修改：
                 {
                     //int DirFlag = 0;
                     //UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
@@ -6866,7 +6979,7 @@ namespace BinderJetting
                     }
                 }
                 else
-                { MessageBox.Show("墨车系统未回零"); }
+                { MessageBox.Show("粉车系统未回零"); }
             }
             else
             {

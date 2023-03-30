@@ -251,8 +251,10 @@
             this.CurEncoderText = new System.Windows.Forms.TextBox();
             this.DoPassPrint2 = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.PrintCarHomeBtn = new System.Windows.Forms.Button();
             this.label84 = new System.Windows.Forms.Label();
             this.textBox23 = new System.Windows.Forms.TextBox();
+            this.PowderCarHomeBtn = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.label82 = new System.Windows.Forms.Label();
             this.textBox22 = new System.Windows.Forms.TextBox();
@@ -3204,7 +3206,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(1273, 846);
+            this.tabPage2.Size = new System.Drawing.Size(1273, 873);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "喷射系统手动控制";
             // 
@@ -3615,8 +3617,10 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.PrintCarHomeBtn);
             this.groupBox6.Controls.Add(this.label84);
             this.groupBox6.Controls.Add(this.textBox23);
+            this.groupBox6.Controls.Add(this.PowderCarHomeBtn);
             this.groupBox6.Controls.Add(this.button8);
             this.groupBox6.Controls.Add(this.label82);
             this.groupBox6.Controls.Add(this.textBox22);
@@ -3644,21 +3648,34 @@
             this.groupBox6.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox6.Size = new System.Drawing.Size(732, 406);
+            this.groupBox6.Size = new System.Drawing.Size(732, 433);
             this.groupBox6.TabIndex = 135;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "墨车运动控制";
             this.groupBox6.Enter += new System.EventHandler(this.groupBox6_Enter);
+            // 
+            // PrintCarHomeBtn
+            // 
+            this.PrintCarHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.PrintCarHomeBtn.Location = new System.Drawing.Point(176, 228);
+            this.PrintCarHomeBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.PrintCarHomeBtn.Name = "PrintCarHomeBtn";
+            this.PrintCarHomeBtn.Size = new System.Drawing.Size(135, 38);
+            this.PrintCarHomeBtn.TabIndex = 178;
+            this.PrintCarHomeBtn.Tag = "1";
+            this.PrintCarHomeBtn.Text = "校准墨车";
+            this.PrintCarHomeBtn.UseVisualStyleBackColor = true;
+            this.PrintCarHomeBtn.Click += new System.EventHandler(this.PrintCarHomeBtn_Click);
             // 
             // label84
             // 
             this.label84.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label84.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label84.ForeColor = System.Drawing.Color.Black;
-            this.label84.Location = new System.Drawing.Point(253, 362);
+            this.label84.Location = new System.Drawing.Point(249, 392);
             this.label84.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label84.Name = "label84";
-            this.label84.Size = new System.Drawing.Size(95, 25);
+            this.label84.Size = new System.Drawing.Size(86, 25);
             this.label84.TabIndex = 176;
             this.label84.Text = "度数（°）";
             this.label84.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3666,17 +3683,30 @@
             // textBox23
             // 
             this.textBox23.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox23.Location = new System.Drawing.Point(176, 362);
+            this.textBox23.Location = new System.Drawing.Point(176, 392);
             this.textBox23.Margin = new System.Windows.Forms.Padding(4);
             this.textBox23.Name = "textBox23";
             this.textBox23.Size = new System.Drawing.Size(68, 26);
             this.textBox23.TabIndex = 175;
             this.textBox23.Text = "40";
             // 
+            // PowderCarHomeBtn
+            // 
+            this.PowderCarHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.PowderCarHomeBtn.Location = new System.Drawing.Point(27, 228);
+            this.PowderCarHomeBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.PowderCarHomeBtn.Name = "PowderCarHomeBtn";
+            this.PowderCarHomeBtn.Size = new System.Drawing.Size(135, 38);
+            this.PowderCarHomeBtn.TabIndex = 177;
+            this.PowderCarHomeBtn.Tag = "1";
+            this.PowderCarHomeBtn.Text = "校准粉车";
+            this.PowderCarHomeBtn.UseVisualStyleBackColor = true;
+            this.PowderCarHomeBtn.Click += new System.EventHandler(this.PowderCarHomeBtn_Click);
+            // 
             // button8
             // 
             this.button8.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button8.Location = new System.Drawing.Point(27, 358);
+            this.button8.Location = new System.Drawing.Point(27, 388);
             this.button8.Margin = new System.Windows.Forms.Padding(4);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(135, 38);
@@ -3691,10 +3721,10 @@
             this.label82.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label82.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label82.ForeColor = System.Drawing.Color.Black;
-            this.label82.Location = new System.Drawing.Point(252, 319);
+            this.label82.Location = new System.Drawing.Point(249, 349);
             this.label82.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label82.Name = "label82";
-            this.label82.Size = new System.Drawing.Size(95, 25);
+            this.label82.Size = new System.Drawing.Size(86, 25);
             this.label82.TabIndex = 173;
             this.label82.Text = "度数（°）";
             this.label82.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3702,7 +3732,7 @@
             // textBox22
             // 
             this.textBox22.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox22.Location = new System.Drawing.Point(176, 319);
+            this.textBox22.Location = new System.Drawing.Point(176, 349);
             this.textBox22.Margin = new System.Windows.Forms.Padding(4);
             this.textBox22.Name = "textBox22";
             this.textBox22.Size = new System.Drawing.Size(68, 26);
@@ -3712,7 +3742,7 @@
             // SpreaderHomeBtn
             // 
             this.SpreaderHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.SpreaderHomeBtn.Location = new System.Drawing.Point(27, 314);
+            this.SpreaderHomeBtn.Location = new System.Drawing.Point(27, 344);
             this.SpreaderHomeBtn.Margin = new System.Windows.Forms.Padding(4);
             this.SpreaderHomeBtn.Name = "SpreaderHomeBtn";
             this.SpreaderHomeBtn.Size = new System.Drawing.Size(135, 38);
@@ -3727,10 +3757,10 @@
             this.InkCarHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.InkCarHomeBtn.Enabled = false;
             this.InkCarHomeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.InkCarHomeBtn.Location = new System.Drawing.Point(252, 238);
+            this.InkCarHomeBtn.Location = new System.Drawing.Point(252, 272);
             this.InkCarHomeBtn.Margin = new System.Windows.Forms.Padding(4);
             this.InkCarHomeBtn.Name = "InkCarHomeBtn";
-            this.InkCarHomeBtn.Size = new System.Drawing.Size(76, 35);
+            this.InkCarHomeBtn.Size = new System.Drawing.Size(59, 35);
             this.InkCarHomeBtn.TabIndex = 170;
             this.InkCarHomeBtn.Tag = "1";
             this.InkCarHomeBtn.Text = "墨车";
@@ -3751,7 +3781,7 @@
             this.label74.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label74.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label74.ForeColor = System.Drawing.Color.Black;
-            this.label74.Location = new System.Drawing.Point(112, 282);
+            this.label74.Location = new System.Drawing.Point(109, 315);
             this.label74.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label74.Name = "label74";
             this.label74.Size = new System.Drawing.Size(43, 25);
@@ -3762,7 +3792,7 @@
             // textBox2
             // 
             this.textBox2.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox2.Location = new System.Drawing.Point(31, 281);
+            this.textBox2.Location = new System.Drawing.Point(28, 314);
             this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(68, 26);
@@ -3822,10 +3852,10 @@
             this.PowderHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.PowderHomeBtn.Enabled = false;
             this.PowderHomeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PowderHomeBtn.Location = new System.Drawing.Point(169, 238);
+            this.PowderHomeBtn.Location = new System.Drawing.Point(176, 272);
             this.PowderHomeBtn.Margin = new System.Windows.Forms.Padding(4);
             this.PowderHomeBtn.Name = "PowderHomeBtn";
-            this.PowderHomeBtn.Size = new System.Drawing.Size(76, 35);
+            this.PowderHomeBtn.Size = new System.Drawing.Size(61, 35);
             this.PowderHomeBtn.TabIndex = 61;
             this.PowderHomeBtn.Tag = "1";
             this.PowderHomeBtn.Text = "粉车";
@@ -3834,7 +3864,8 @@
             // EncoderResetBtn
             // 
             this.EncoderResetBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.EncoderResetBtn.Location = new System.Drawing.Point(27, 236);
+            this.EncoderResetBtn.Enabled = false;
+            this.EncoderResetBtn.Location = new System.Drawing.Point(27, 270);
             this.EncoderResetBtn.Margin = new System.Windows.Forms.Padding(4);
             this.EncoderResetBtn.Name = "EncoderResetBtn";
             this.EncoderResetBtn.Size = new System.Drawing.Size(135, 38);
@@ -3847,7 +3878,7 @@
             // OpenMoveBtn
             // 
             this.OpenMoveBtn.BackColor = System.Drawing.Color.Yellow;
-            this.OpenMoveBtn.Location = new System.Drawing.Point(219, 409);
+            this.OpenMoveBtn.Location = new System.Drawing.Point(219, 444);
             this.OpenMoveBtn.Margin = new System.Windows.Forms.Padding(4);
             this.OpenMoveBtn.Name = "OpenMoveBtn";
             this.OpenMoveBtn.Size = new System.Drawing.Size(143, 38);
@@ -3983,7 +4014,7 @@
             // 
             this.YStateLabel.BackColor = System.Drawing.SystemColors.Window;
             this.YStateLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.YStateLabel.Location = new System.Drawing.Point(600, 410);
+            this.YStateLabel.Location = new System.Drawing.Point(600, 445);
             this.YStateLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.YStateLabel.Name = "YStateLabel";
             this.YStateLabel.Size = new System.Drawing.Size(119, 26);
@@ -6082,5 +6113,7 @@
         private System.Windows.Forms.Button JetSetApplyBtn2;
         private System.Windows.Forms.Label label88;
         private System.Windows.Forms.Button ReadRegister;
+        private System.Windows.Forms.Button PrintCarHomeBtn;
+        private System.Windows.Forms.Button PowderCarHomeBtn;
     }
 }
