@@ -1653,7 +1653,11 @@ namespace BinderJetting
             }
             else if (Convert.ToInt32((sender as Button).Tag) == 2)//20201117新增：启动打印按钮的初始Tag不为1:，标志动作为：关闭打印
             {
-                string msg = "删除打印任务：准备删除数据处理及打印线程";
+                bool nRetVal3 = royal.royal.IDP_FlashPrtCtl(false);//20230331新建：手动关闭打印任务时，首先关闭闪喷状态
+                string msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal3}}}";
+                Log4Net.Info(msg);
+
+                /*string*/ msg = "删除打印任务：准备删除数据处理及打印线程";
                 Log4Net.Info(msg);
 
                 TaskAddDeleteTHREAD("DeleteMust");
@@ -2360,9 +2364,19 @@ namespace BinderJetting
 
                         bool returnCode = LoadAutoParamsFromJson(ref AutoPrintMotion1);//20201030新增：读取自动打印参数
                         g_nCleanFrequency = AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nCleanFrequency;//20201030新增：读取自动打印参数
-                        if ((g_nCurrentLayer % (g_nCleanFrequency * g_nRePrintTimes) == 0) && (g_nCurrentLayer != 0))
+                        if (AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nStartRePrintClean == 1)//每次打印都重喷
                         {
-                            EquipmentMotionLogic3(0, 1, 0, m_MovSpeed2, ref sendMessageToCamera, 0, 0);//20220915新增：加入自动清洗逻辑
+                            if ((g_nCurrentLayer % (g_nCleanFrequency * 1) == 0) && (g_nCurrentLayer != 0))
+                            {
+                                EquipmentMotionLogic3(0, 1, 0, m_MovSpeed2, ref sendMessageToCamera, 0, 0);//20220915新增：加入自动清洗逻辑
+                            }
+                        }
+                        else//不需要每次都清洗，重喷一次清洗一次
+                        {
+                            if ((g_nCurrentLayer % (g_nCleanFrequency * g_nRePrintTimes) == 0) && (g_nCurrentLayer != 0))
+                            {
+                                EquipmentMotionLogic3(0, 1, 0, m_MovSpeed2, ref sendMessageToCamera, 0, 0);//20220915新增：加入自动清洗逻辑
+                            }
                         }
                         ///20220915新增：结束读取清洗频率参数
 #endif
@@ -2395,13 +2409,15 @@ namespace BinderJetting
             }
 #region 监控发送指令//20230113新建且批注：
             sendMessageToCamera.Dispose(); //20230113新建且批注：监控发送指令
-#endregion
+            #endregion
+
+            //20230331新增：打印完成后，关闭闪喷
+            bool nRetVal3 = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷
+            msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal3}}}";
+            Log4Net.Info(msg);
 
             /*bool*/
             ReturnFlag = royal.royal.IDP_StopPrintJob();
-
-
-
             msg = $"停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{{{ReturnFlag}}}";
             Log4Net.Info(msg);
 

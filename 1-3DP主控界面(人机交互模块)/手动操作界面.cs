@@ -160,11 +160,42 @@ namespace BinderJetting
                 this.RollerFlag.SelectedIndex = 1;//反转
             }
 
-            if (CorrectFlag/*SystemCorrectFlag*/== true) { EncoderResetBtn.Text = "已校准"; }
-            else { EncoderResetBtn.Text = "未校准"; }
+            if (CorrectFlag/*SystemCorrectFlag*/== true) 
+            {
+                EncoderResetBtn.Text = "已校准";
+            }
+            else
+            { 
+                EncoderResetBtn.Text = "未校准";
+            }
             if (PowderCarHomeFlag/*SystemCorrectFlag*/== true)
-            { PowderHomeBtn.BackColor = Color.Lime; InkCarHomeBtn.BackColor = Color.Lime;/*PowderHomeBtn.Text = "粉车已校准";*/ }
-            else { PowderHomeBtn.BackColor = Color.Tomato; InkCarHomeBtn.BackColor = Color.Tomato; /*PowderHomeBtn.Text = "铺粉未校准";*/ }
+            { 
+                PowderHomeBtn.BackColor = Color.Lime; 
+                //InkCarHomeBtn.BackColor = Color.Lime;
+                /*PowderHomeBtn.Text = "粉车已校准";*/
+                PowderCarHomeBtn.Text = "已校准铺车";//20230331新增：
+            }
+            else 
+            {
+                PowderHomeBtn.BackColor = Color.Tomato;
+                //InkCarHomeBtn.BackColor = Color.Tomato;
+                /*PowderHomeBtn.Text = "铺粉未校准";*/
+                PowderCarHomeBtn.Text = "校准铺车";//20230331新增：
+            }
+            if (InkCarHomeFlag/*SystemCorrectFlag*/== true)//20230331新增：
+            {
+                //PowderHomeBtn.BackColor = Color.Lime;
+                InkCarHomeBtn.BackColor = Color.Lime;
+                /*PowderHomeBtn.Text = "粉车已校准";*/
+                PrintCarHomeBtn.Text = "已校准墨车";//20230331新增：
+            }
+            else
+            {
+                //PowderHomeBtn.BackColor = Color.Tomato;
+                InkCarHomeBtn.BackColor = Color.Tomato;
+                /*PowderHomeBtn.Text = "铺粉未校准";*/
+                PrintCarHomeBtn.Text = "校准墨车";//20230331新增：
+            }
 
             if (m_bInkSuppy == false)
             {
@@ -3736,7 +3767,7 @@ namespace BinderJetting
                 this.textBoxSpeed.Text = m_szMovSpeed.ToString();//仍保持原来的参数值
                 MessageBox.Show("输入速度错误，请输入正确的速度：0mm/s-300mm/s");
             }
-
+#if false
             float CleanSpeed = Convert.ToSingle(textBox20.Text);//20210618修正：无极速度
             if ((0 < CleanSpeed) && (CleanSpeed <= 150))//验证输入速度是否位于安全区间？
             {
@@ -3757,6 +3788,7 @@ namespace BinderJetting
             string msg = $"确认墨车打印、清洗速度以及清洗次数【手动测试环境】：ConfirmSpeedBtn_Click：打印速度{{{m_szMovSpeed}MM/s}}清洗速度{{{CleanSpeed}MM/s}}" +
                 $"清洗次数{{{m_nCleanTime}次}}";
             Log4Net.Info(msg);
+#endif
 
         }
 
@@ -5579,13 +5611,14 @@ namespace BinderJetting
             string msg = $"进入自动清洗过程：AutoCleanThread";
             Log4Net.Info(msg);
 
-#if true//20220518新建：新设备使用的自动清洗逻辑
-            //（1）撒粉轴找回零位：20220527新建：
+#if true//20220518新建：新设备使用的自动清洗逻辑//20230401之后逻辑
+                        //（1）撒粉轴找回零位：20220527新建：
             double SinkPosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;//刮墨轴的HOME位置
-            
-            //motionMap.SetDo(7, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵//20220915注释：无效掉
 
-            bool ReturnCode = motionMap.SetBackSpreaderAxis(4, 1/*0.5*/, 2, -SinkPosition);//旋转速度：0.5 圈/s//下//20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
+            //motionMap.SetDo(7, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵//20220915注释：无效掉
+            
+            //20230331修改为0.5圈/s,避免飞溅
+            bool ReturnCode = motionMap.SetBackSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*//*1*//*0.5*/, 2, -SinkPosition);//旋转速度：0.5 圈/s//下//20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
             if (ReturnCode == true)
             {
                 msg = $"刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)";
@@ -5605,8 +5638,92 @@ namespace BinderJetting
 
             //（3）联动清洗逻辑
             double PrintWidth = 350;/*宽度值设为350MM*/ double PrintHeadWidth = 54;/*宽度值设为5MM*/ double ReturnVelocity1 = m_szMovSpeed/*20*/;//喷墨移动速度
-            double CleanNozzleSpeed = m_szCleanSpeed;
-            int CleanTimes = m_nCleanTime/*3*/;//默认清洗次数为3次
+            double CleanNozzleSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCleanCarSpeed/*m_szCleanSpeed*/;//20230331修改
+            int CleanTimes = k_RYSYSParamAutoPrintParamInTest.m_nCleanTimes/*m_nCleanTime*//*3*/;//默认清洗次数为3次//20230331修改
+            for (int i = 0; i < CleanTimes/*3*/; i++)//i为清洗总次数；PASS宽度为喷头宽度//默认清洗次数为3次
+            {
+                if (i == 0)
+                {
+                    BackToStation(96 + 25/*25*/, (float)ReturnVelocity1, true, true);//停靠在里侧，向外侧步进喷头幅 面^^^^^^^^^^^^^^^^^//96MM
+                    BackToStation(780/*710*//*425*/, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅<---------------//780MM
+
+                    //SinkPostion = 135;//逆135
+                    //motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+                }
+                //SinkPostion = 45;//逆45
+                SinkPostion = -180;//逆45//合并，直接逆转180度即可//20230401修改:直接顺时针转180度即可
+                motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+                
+                //20220915修改：修改打印方式
+                motionMap.SetDo(13/*7*/, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵
+                msg = $"开启压墨： motionMap.SetDo(13, true)";
+                Log4Net.Info(msg);
+                Thread.Sleep((int)(k_RYSYSParamAutoPrintParamInTest.m_dPressInkTime * 1000)/*3000*/);//20220915新建：暂停2.0 s
+                motionMap.SetDo(13/*7*/, false);//20220525新建：压墨//压墨输出端口为第13口//关闭压墨泵
+                msg = $"关闭压墨： motionMap.SetDo(13, true)";
+                Log4Net.Info(msg);
+
+                //20220920新增：压墨之后，需要开启闪喷功能
+                if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1) 
+                {
+                    bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
+                    msg = $"开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal2}}}";
+                    Log4Net.Info(msg);
+
+                    m_bFlashFlag = false;//20220920批注：指示手动控制闪喷功能是否开启之时的正确闪喷动作应为关闭
+                } 
+
+
+                //////BackToStation(780/*25*/, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true);//停靠在右侧，向左侧运动打印幅面--------------->//710MM
+                ////SinkPostion = -45;//顺45
+                ////motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+
+                BackToStation(700/*425*/, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true);//停靠在右侧，向左侧运动打印幅面<---------------//780MM
+            }
+
+            //SinkPostion = 180+45;//逆225：20230331之前方法
+            SinkPostion = -180/*-135*//*180 + 45*/;//顺时针135：20230331修改之后：避免飞溅//20230401修改:直接顺时针转180度即可
+            //SinkPostion = -180/*-135*//*180 + 45*/;//顺时针135：20230331修改之后：避免飞溅：进一步修改
+
+            //motionMap.SetDo(13/*7*/, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵
+            motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*/, -SinkPostion);
+            if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1)
+            {
+                bool nRetVal = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷//20230327批注：关闭闪喷
+                msg = $"关闭闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal}}}";
+            }
+
+            msg = $"结束自动清洗过程：AutoCleanThread";
+            Log4Net.Info(msg);
+#elif false//20220518新建：新设备使用的自动清洗逻辑//20230401之前逻辑
+            //（1）撒粉轴找回零位：20220527新建：
+            double SinkPosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;//刮墨轴的HOME位置
+
+            //motionMap.SetDo(7, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵//20220915注释：无效掉
+            
+            //20230331修改为0.5圈/s,避免飞溅
+            bool ReturnCode = motionMap.SetBackSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*//*1*//*0.5*/, 2, -SinkPosition);//旋转速度：0.5 圈/s//下//20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
+            if (ReturnCode == true)
+            {
+                msg = $"刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)";
+                Log4Net.Info(msg);
+                /*MessageBox.Show("回零成功");*/
+            }//校准成功
+            else 
+            {
+                msg = $"刮墨轴回零失败：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)";
+                Log4Net.Info(msg);
+
+                MessageBox.Show("回零失败"); 
+            }
+
+        //(2) 刮片竖直位置：-------------------------------------------------------------------------->          
+        int subdivided = 12800; int SinkPostion = 0;
+
+            //（3）联动清洗逻辑
+            double PrintWidth = 350;/*宽度值设为350MM*/ double PrintHeadWidth = 54;/*宽度值设为5MM*/ double ReturnVelocity1 = m_szMovSpeed/*20*/;//喷墨移动速度
+            double CleanNozzleSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCleanCarSpeed/*m_szCleanSpeed*/;//20230331修改
+            int CleanTimes = k_RYSYSParamAutoPrintParamInTest.m_nCleanTimes/*m_nCleanTime*//*3*/;//默认清洗次数为3次//20230331修改
             for (int i = 0; i < CleanTimes/*3*/; i++)//i为清洗总次数；PASS宽度为喷头宽度//默认清洗次数为3次
             {
                 if (i == 0)
@@ -5614,47 +5731,56 @@ namespace BinderJetting
                     BackToStation(96 + 25/*25*/, (float)ReturnVelocity1, true, true);//停靠在里侧，向外侧步进喷头幅 面^^^^^^^^^^^^^^^^^//96MM
                     BackToStation(710/*425*/, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅<---------------//780MM
 
-                    SinkPostion = 135;//逆135
-                    motionMap.TrapMoveSpreaderAxis(4, 2/*0.5*/, -SinkPostion);
+                    //SinkPostion = 135;//逆135
+                    //motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
                 }
-
-                SinkPostion = 45;//逆45
-                motionMap.TrapMoveSpreaderAxis(4, 2/*0.5*/, -SinkPostion);
+                //SinkPostion = 45;//逆45
+                SinkPostion = 180;//逆45//合并，直接逆转180度即可
+                motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+                
                 //20220915修改：修改打印方式
                 motionMap.SetDo(13/*7*/, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵
                 msg = $"开启压墨： motionMap.SetDo(13, true)";
                 Log4Net.Info(msg);
-                Thread.Sleep(3000);//20220915新建：暂停2.0 s
+                Thread.Sleep((int)(k_RYSYSParamAutoPrintParamInTest.m_dPressInkTime * 1000)/*3000*/);//20220915新建：暂停2.0 s
                 motionMap.SetDo(13/*7*/, false);//20220525新建：压墨//压墨输出端口为第13口//关闭压墨泵
                 msg = $"关闭压墨： motionMap.SetDo(13, true)";
                 Log4Net.Info(msg);
 
                 //20220920新增：压墨之后，需要开启闪喷功能
-                bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
-                msg = $"开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal2}}}";
-                Log4Net.Info(msg);
+                if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1) 
+                {
+                    bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
+                    msg = $"开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal2}}}";
+                    Log4Net.Info(msg);
+                } 
 
                 m_bFlashFlag = false;//20220920批注：指示手动控制闪喷功能是否开启之时的正确闪喷动作应为关闭
 
                 BackToStation(780/*25*/, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true);//停靠在右侧，向左侧运动打印幅面--------------->//710MM
 
                 SinkPostion = -45;//顺45
-                motionMap.TrapMoveSpreaderAxis(4, 2/*0.5*/, -SinkPostion);
+                motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
 
                 BackToStation(710/*425*/, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true);//停靠在右侧，向左侧运动打印幅面<---------------//780MM
             }
 
-            SinkPostion = 180+45;//逆225
-            //motionMap.SetDo(13/*7*/, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵
-            motionMap.TrapMoveSpreaderAxis(4, 0.5, -SinkPostion);
+            //SinkPostion = 180+45;//逆225：20230331之前方法
+            SinkPostion = -135/*180 + 45*/;//顺时针135：20230331修改之后：避免飞溅
+            //SinkPostion = -180/*-135*//*180 + 45*/;//顺时针135：20230331修改之后：避免飞溅：进一步修改
 
-            bool nRetVal = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷//20230327批注：关闭闪喷
-            msg = $"关闭闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal}}}";
+            //motionMap.SetDo(13/*7*/, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵
+            motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*/, -SinkPostion);
+            if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1)
+            {
+                bool nRetVal = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷//20230327批注：关闭闪喷
+                msg = $"关闭闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal}}}";
+            }
 
             msg = $"结束自动清洗过程：AutoCleanThread";
             Log4Net.Info(msg);
 
-#elif true//20220518批注：该功能注释掉，就设备好用的固化清洗逻辑
+#elif false//20220518批注：该功能注释掉，就设备好用的固化清洗逻辑
             //(1)执行清洗及固化动作，判断是否需要执行清洗动作；
             int DirFlag = 0;
             UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
@@ -7131,7 +7257,13 @@ namespace BinderJetting
             textBox22.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PowderSpreaderHomeposition", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20220526新建：粉末Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置
             textBox23.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "InkSpreaderHomeposition", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20220526新建：墨车Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置
 
-
+            //清洗参数：20230331新增：
+            textBox20.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "CleanCarSpeed", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗时墨车运动速度（清洗时用）
+            textBox27.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "CleanAxisSpeed", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗时墨车运动速度（清洗时用）
+            textBox26.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PressInkTime", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：压墨时长（清洗时用）
+            comboBox4.DataBindings.Add("SelectedIndex", k_RYSYSParamAutoPrintParamInTest, "StartSpark", true, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗时是否闪喷（清洗时用）
+            comboBox5.DataBindings.Add("SelectedIndex", k_RYSYSParamAutoPrintParamInTest, "StartRePrintClean", true, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗时是否闪喷（清洗时用）
+            textBox21.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "CleanTimes", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗次数（清洗时用）
 
             //IR固化功率：20220523新增：
             textBox19.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "IRPowerPercentage", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20220512新建：墨车HOME值设置，此值需考虑实际的光电HOME传感器的物理位置
@@ -7633,6 +7765,11 @@ namespace BinderJetting
                 Log4Net.Info(msg2);
             }
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
         /********************************************温度电压气压监控线程：结束*********************************************/
     }
     /****************************************墨量状态控件类****************************************/
@@ -8004,6 +8141,100 @@ namespace BinderJetting
             set { if (value != this.m_dInkSpreaderHomeposition) { this.m_dInkSpreaderHomeposition = value; NotifyPropertyChanged(); } }
         }
 
+        //清洗参数：20230331新增：
+        public double CleanCarSpeed//20230331新增：清洗时墨车运动速度（清洗时用）
+        {
+            get { return this.m_dCleanCarSpeed; }
+            set 
+            { 
+                if (value != this.m_dCleanCarSpeed) 
+                {
+                    if (value >= 150)//最大速度不得超过150 mm/s
+                    {
+                        this.m_dCleanCarSpeed = 150; NotifyPropertyChanged();
+                    }
+                    else if (value >= 0)
+                    {
+                        this.m_dCleanCarSpeed = value; NotifyPropertyChanged();
+                    }
+                    else { }
+                }
+            }
+        }
+        public double CleanAxisSpeed//20230331新增：清洗时墨车轴转动速度（清洗时用）
+        {
+            get { return this.m_dCleanAxisSpeed; }
+            set 
+            {
+                if (value != this.m_dCleanAxisSpeed) 
+                {
+                    if (value >= 2)//最大速度不得超过2 圈/s
+                    {
+                        this.m_dCleanAxisSpeed = 2; NotifyPropertyChanged();
+                    }
+                    else if(value >= 0)
+                    {
+                        this.m_dCleanAxisSpeed = value; NotifyPropertyChanged();
+                    }
+                    else { }
+                }
+            }
+        }
+        public double PressInkTime//20230331新增：压墨时长（清洗时用）
+        {
+            get { return this.m_dPressInkTime; }
+            set 
+            { 
+                if (value != this.m_dPressInkTime) 
+                {
+                    if (value >= 5) //最长压墨时间不超过5S
+                    {
+                        this.m_dPressInkTime = 5; NotifyPropertyChanged();
+                    }
+                    else if (value >= 0)
+                    {
+                        this.m_dPressInkTime = value; NotifyPropertyChanged();
+                    }
+                    else { }
+                } 
+            }
+        }
+        public int StartSpark//20230331新增：清洗时是否闪喷（清洗时用）
+        {
+            get { return this.m_nStartSpark; }
+            set { if (value != this.m_nStartSpark) { this.m_nStartSpark = value; NotifyPropertyChanged(); } }
+        }
+        public int StartRePrintClean//20230401新增：重喷时是否开启清洗（清洗时用）
+        {
+            get { return this.m_nStartRePrintClean; }
+            set { if (value != this.m_nStartRePrintClean) { this.m_nStartRePrintClean = value; NotifyPropertyChanged(); } }
+        }
+        public int CleanTimes//20230331新增：清洗次数（清洗时用）
+        {
+            get { return this.m_nCleanTimes; }
+            set
+            {
+                if (value != this.m_nCleanTimes) 
+                {
+                    if (value >= 3) //清洗次数不超过3次
+                    {
+                        this.m_nCleanTimes = 3; NotifyPropertyChanged();
+                    }
+                    else if (value > 0)
+                    {
+                        this.m_nCleanTimes = value; NotifyPropertyChanged();
+                    }
+                    else 
+                    {}
+                } 
+            }
+        }
+        public double m_dCleanCarSpeed = 40;//20230331新增：清洗时墨车运动速度（清洗时用）//不超40 MM/s
+        public double m_dCleanAxisSpeed = 0.5;//20230331新增：清洗时墨车轴转动速度（清洗时用）//不超过2 圈/s
+        public double m_dPressInkTime = 3;//20230331新增：压墨时长（清洗时用）//不超过5S
+        public int m_nStartSpark = 0;//20230331新增：清洗时是否闪喷（清洗时用）//0为否，1未是
+        public int m_nStartRePrintClean = 0;//20230331新增：重喷时是否开启清洗（清洗时用）//0为否，1未是
+        public int m_nCleanTimes = 1;//20230331新增：清洗次数（清洗时用）//不超过3次
         public double IRPowerPercentage//20220523新建：默认IR功率为20%
         {
             get { return this.m_dIRPowerPercentage; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
