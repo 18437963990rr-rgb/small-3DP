@@ -334,6 +334,12 @@ namespace BinderJetting
         }
         private void Form1_Load(object sender, EventArgs e)//初始化主程序时，（1）完成界面初始化（2）开启初始线程。
         {
+#if false//20230406新增：临时测试无任务栏全屏显示
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
+            this.Bounds = Screen.PrimaryScreen.Bounds;
+#endif 
+
             //this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);//解决闪烁
             //this.SetStyle(ControlStyles.Opaque, true);//解决背景重绘问题(设置不绘制窗口背景，因为重绘窗口背景会导致性能底下)
             //this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);//解决闪烁 
@@ -1905,8 +1911,8 @@ namespace BinderJetting
 
                 //20200326新增:关键：将RYSYSParam的JOB参数信息，进行及时的转发，转+给royal.sysParam
                 //royal.g_sys_param为static类型：
-                royal.royal.g_sys_param.fBrustCycleSec = (float)g_RYSYSParam.m_dInterSpeedSparkCycleTime;//时间1s
-                royal.royal.g_sys_param.fBrustValidSec = (float)g_RYSYSParam.m_dHSpeedSparkTime;//有效时间0.5s
+                royal.royal.g_sys_param.fBrustCycleSec = (float)g_RYSYSParam.m_dInterSpeedSparkCycleTime/10;//时间1s
+                royal.royal.g_sys_param.fBrustValidSec = (float)g_RYSYSParam.m_dHSpeedSparkTime/10;//有效时间0.5s
                 royal.royal.g_sys_param.fBrustFrequecy = g_RYSYSParam.m_nHSpeedSparkFreq*10;//频率500Hz//20230327修改：底层的配置文件的闪喷的基准频率设置不准确，需要认为设置并扩展10倍
                 royal.royal.g_sys_param.szLogPath = g_RYSYSParam.m_sLogPath;
                 //royal.royal.g_sys_param.szWavePath = g_RYSYSParam.m_sWavePath;
@@ -2094,7 +2100,7 @@ namespace BinderJetting
             ////Log4Net.Info(msg);
 
 #endif
-            #region 监控发送指令//20230113新建且批注：
+#region 监控发送指令//20230113新建且批注：
             SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
                                                                                      //sendMessageToCamera.LoadJsonFile();
                                                                                      //sendMessageToCamera.SendMessageFromSharedMemory(tempStartMode,10,13);//20230113新建且批注：监控发送指令
@@ -2130,8 +2136,49 @@ namespace BinderJetting
 
                         /***********************************20200508:实际打印过程：*********************************/
                         /***********************************20200508:实际打印过程：*********************************/
-                        int PassItems = 0;//20220524新增：
+                        //20230402修改：（1）自动清洗运动（2）自动喷墨运动（3）自动进给送粉（4）自动固化运动
 
+                        ///20220915新增：加入自动清洗逻辑，判断是否需要
+                        ///20220915新增：读取清洗频率参数，判断是否需要
+#if false
+                        float m_MovSpeed2 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
+                        if (AutoPrintMotion1 == null)
+                        {
+                            /*手动操作*/
+                            AutoPrintMotion1 = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
+                            msg = $"创建：AutoPrintMotion1=》初次创建完成-手动操作！";
+                            Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                        }
+                        else
+                        {
+                            msg = $"创建：AutoPrintMotion1=》不需重新创建-手动操作！";
+                            Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                        }
+
+                        bool returnCode = LoadAutoParamsFromJson(ref AutoPrintMotion1);//20201030新增：读取自动打印参数
+                        g_nCleanFrequency = AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nCleanFrequency;//20201030新增：读取自动打印参数
+                        if (AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nStartRePrintClean == 1)//每次打印都重喷
+                        {
+                            if ((g_nCurrentLayer % (g_nCleanFrequency * 1) == 0) && (g_nCurrentLayer != 0))
+                            {
+                                EquipmentMotionLogic3(0, 1, 0, m_MovSpeed2, ref sendMessageToCamera, 0, 0);//20220915新增：加入自动清洗逻辑
+                            }
+                        }
+                        else//不需要每次都清洗，重喷一次清洗一次
+                        {
+                            if ((g_nCurrentLayer % (g_nCleanFrequency * g_nRePrintTimes) == 0) && (g_nCurrentLayer != 0))
+                            {
+                                EquipmentMotionLogic3(0, 1, 0, m_MovSpeed2, ref sendMessageToCamera, 0, 0);//20220915新增：加入自动清洗逻辑
+                            }
+                        }
+                        ///20220915新增：结束读取清洗频率参数
+#else
+                        //float m_MovSpeed2 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
+                        //EquipmentMotionLogic3(0, 1, 0, m_MovSpeed2, ref sendMessageToCamera, 0, 0);//20220915新增：加入自动清洗逻辑
+#endif
+                        ///20230402批注：加入喷墨打印逻辑
+                        ///20230402批注：加入喷墨打印逻辑
+                        int PassItems = 0;//20220524新增：
 #region 监控指令：喷墨拍摄位点1
                         sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems])
@@ -2232,14 +2279,20 @@ namespace BinderJetting
 
 #if true//20220524批注：（2）自动喷墨运动
 
-                                    #region
+#region
                                     //（1-1）注意：一定要取消跳白功能//（1-2）计算运动参数:运行速度、运行距离，依据SinglePass和MultiPass等运动模式*/
-                                    #endregion
+#endregion
                                     //RecordPressureAndTemperatureAndValtageInPrint();//20230322新建：记录打印之前喷头温度及电压
-
+                                    if (nPassID == 0) 
+                                    {
+                                        float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
+                                        float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
+                                        EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0);//20220915新增：加入自动清洗逻辑
+                                    }
                                     bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
                                     float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
-                                    EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, ref sendMessageToCamera, 0, 0);//自动喷墨运动逻辑
+                                    float m_BackCleanMovSpeed = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
+                                    EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0);//自动喷墨运动逻辑
 
                                     ////#region 监控指令：喷墨拍摄位点2-3-4-5-6-7
                                     ////                                    //sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
@@ -2303,8 +2356,9 @@ namespace BinderJetting
                             }
                         }
 
-#if true//20210324//20220524批注//20220915修改：（1）自动喷墨运动（2）自动进给送粉（3）自动固化运动（4）自动清洗运动
+#if true//20210324//20220524批注//20220915修改：（1）自动喷墨运动（2）自动进给送粉（3）自动固化运动（4）自动清洗运动//20230402修改：（1）自动清洗运动（2）自动喷墨运动（3）自动进给送粉（4）自动固化运动
                         float m_MovSpeed2 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
+                        float m_BackCleanMovSpeed2 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
                         g_nCurrentLayer = k;//20201023新增：    
                         if (((k % g_nRePrintTimes)) == 0 && (k != 0))
                         {
@@ -2325,7 +2379,7 @@ namespace BinderJetting
                                 //EquipmentMotionLogic3(0, 3);//自动进给正式铺粉
                                 if (g_RYSYSParam.m_bApplyPowderSupplyMotion == 0)//0为采用
                                 {
-                                    EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, ref sendMessageToCamera, renderIndex, 10);//自动铺粉逻辑//20230319调试修改此处
+                                    EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, m_BackCleanMovSpeed2, ref sendMessageToCamera, renderIndex, 10);//自动铺粉逻辑//20230319调试修改此处
                                    
                                     msg = $"执行完成铺粉固化操作：EquipmentMotionLogic3：m_bApplyPowderSupplyMotion:{g_RYSYSParam.m_bApplyPowderSupplyMotion}";
                                     Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
@@ -2348,37 +2402,37 @@ namespace BinderJetting
                             //EquipmentMotionLogic3(0, 3, 0, m_MovSpeed2);//自动固化逻辑//20220914修改(暂时注释掉）：调换铺粉逻辑与固化逻辑顺序，否则会造成推动
                         }
 
-                        ///20220915新增：加入自动清洗逻辑，判断是否需要
-                        ///20220915新增：读取清洗频率参数，判断是否需要
-                        if (AutoPrintMotion1 == null)
-                        {
-                            /*手动操作*/ AutoPrintMotion1 = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
-                            msg = $"创建：AutoPrintMotion1=》初次创建完成-手动操作！";
-                            Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
-                        }
-                        else
-                        {
-                            msg = $"创建：AutoPrintMotion1=》不需重新创建-手动操作！";
-                            Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
-                        }
+                        /////////20220915新增：加入自动清洗逻辑，判断是否需要
+                        /////////20220915新增：读取清洗频率参数，判断是否需要
+                        //////if (AutoPrintMotion1 == null)
+                        //////{
+                        //////    /*手动操作*/ AutoPrintMotion1 = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
+                        //////    msg = $"创建：AutoPrintMotion1=》初次创建完成-手动操作！";
+                        //////    Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                        //////}
+                        //////else
+                        //////{
+                        //////    msg = $"创建：AutoPrintMotion1=》不需重新创建-手动操作！";
+                        //////    Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                        //////}
 
-                        bool returnCode = LoadAutoParamsFromJson(ref AutoPrintMotion1);//20201030新增：读取自动打印参数
-                        g_nCleanFrequency = AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nCleanFrequency;//20201030新增：读取自动打印参数
-                        if (AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nStartRePrintClean == 1)//每次打印都重喷
-                        {
-                            if ((g_nCurrentLayer % (g_nCleanFrequency * 1) == 0) && (g_nCurrentLayer != 0))
-                            {
-                                EquipmentMotionLogic3(0, 1, 0, m_MovSpeed2, ref sendMessageToCamera, 0, 0);//20220915新增：加入自动清洗逻辑
-                            }
-                        }
-                        else//不需要每次都清洗，重喷一次清洗一次
-                        {
-                            if ((g_nCurrentLayer % (g_nCleanFrequency * g_nRePrintTimes) == 0) && (g_nCurrentLayer != 0))
-                            {
-                                EquipmentMotionLogic3(0, 1, 0, m_MovSpeed2, ref sendMessageToCamera, 0, 0);//20220915新增：加入自动清洗逻辑
-                            }
-                        }
-                        ///20220915新增：结束读取清洗频率参数
+                        //////bool returnCode = LoadAutoParamsFromJson(ref AutoPrintMotion1);//20201030新增：读取自动打印参数
+                        //////g_nCleanFrequency = AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nCleanFrequency;//20201030新增：读取自动打印参数
+                        //////if (AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nStartRePrintClean == 1)//每次打印都重喷
+                        //////{
+                        //////    if ((g_nCurrentLayer % (g_nCleanFrequency * 1) == 0) && (g_nCurrentLayer != 0))
+                        //////    {
+                        //////        EquipmentMotionLogic3(0, 1, 0, m_MovSpeed2, ref sendMessageToCamera, 0, 0);//20220915新增：加入自动清洗逻辑
+                        //////    }
+                        //////}
+                        //////else//不需要每次都清洗，重喷一次清洗一次
+                        //////{
+                        //////    if ((g_nCurrentLayer % (g_nCleanFrequency * g_nRePrintTimes) == 0) && (g_nCurrentLayer != 0))
+                        //////    {
+                        //////        EquipmentMotionLogic3(0, 1, 0, m_MovSpeed2, ref sendMessageToCamera, 0, 0);//20220915新增：加入自动清洗逻辑
+                        //////    }
+                        //////}
+                        /////////20220915新增：结束读取清洗频率参数
 #endif
                         returnPrintValue = k;//20200508新建：更新旋转进度条
                         g_nCurrentLayer = (k - 1) / g_nRePrintTimes/*k*/;//20201121修改：打印进度值
@@ -2409,7 +2463,7 @@ namespace BinderJetting
             }
 #region 监控发送指令//20230113新建且批注：
             sendMessageToCamera.Dispose(); //20230113新建且批注：监控发送指令
-            #endregion
+#endregion
 
             //20230331新增：打印完成后，关闭闪喷
             bool nRetVal3 = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷
@@ -2437,6 +2491,319 @@ namespace BinderJetting
             }
 #endregion
         }
+
+        //手动操作 ManualControl = null;//20230317修正:修正潜在的闪退问题
+        手动操作 AutoPrintMotion1 = null;//20230317修正:修正潜在的闪退问题//PrintTask中
+        手动操作 AutoPrintMotion2 = null;//20230317修正:修正潜在的闪退问题//温控Modbus中
+        手动操作 AutoPrintMotion3 = null;//20230317修正:修正潜在的闪退问题//EquipmentMotionLogic3中
+        手动操作 AutoPrintMotion4 = null;//20230317修正:修正潜在的闪退问题//DataTask中
+
+        string[] g_calirationFigurePaths = new string[7] { @"\垂直校准图.bmp", @"\往返差校准图-0.bmp", @"\往返差校准图-1.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-1.bmp", @"\STATUS.bmp",@"\往返差校准图-3.bmp"};//20210324新增：//20210325修复BUG:6张图一定要路径准确
+        private void PrintTaskTHREAD2()//3DP校准打印主流程：20210321新建批注
+        {
+            g_TaskThreadSTATE[4] = 2;//20201119新增：DataTaskThread恢复为运行状态（关机后）
+            ReadLayerInfo();//更新指定的加工任务区间
+            g_PrintSchedule = g_nLayerStart;//20201118新增：
+
+            //string[] g_calirationFigurePaths = new string[6] { @"\垂直校准图.bmp", @"\往返差校准图-0.bmp", @"\往返差校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\STATUS.bmp" };//20210324新增：
+            while (g_PrintSchedule < 1/*(g_PrintSchedule == -1) || g_PrintSchedule == g_nLayerStart*/)//20201118新增：处于初始态或者已经传输1层数据
+            {
+                Thread.Sleep(100);//数据传送进度需要领先起始打印层至少2层
+            }
+
+            PrintFlag = true;//20200716新增：关闭打印机维护的间歇闪喷使能
+            ConfigureJetEnvironmentControlMode();//20200602修改:初始化喷墨系统环境控制，具体包括：下发自动供墨指令、下发设置自动负压指令、下发二级墨盒的温度设置指令、设置墨水搅拌周期指令                                           
+            InitCarMotor();//20200327新增：//（1）初始化被控对象及加工任务区间
+            float m_szMovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增//确定准确的墨车运动速度值
+            uint m_unCarMoveSpeed = MM_TO_DOT(m_szMovSpeed, 5080);//20200328新增
+            g_nCarSinglePassLength = (int)((g_RYSYSParam.m_dCarMoveBufferLength + g_RYSYSParam.m_dPrintAeraLength + g_RYSYSParam.m_dCarMoveBufferLength2) * 5080);//SinglePass运动距离：20200327新增：
+            //royal.LPPrtRunInfo RTinfo = new LPPrtRunInfo();////（2-2）20200411新增（精华）：正式的打印处理框架：
+            LPPassDataItem pPrtPassDes = new LPPassDataItem();//20200411:此处存在比较严重的问题            
+            int size2 = Marshal.SizeOf(pPrtPassDes)/* * pPrtPassDes.Length*/;//20200427新增：
+            IntPtr ImgPtr = Marshal.AllocHGlobal(size2);//20200429批注：类似于C++的NEW的操作
+            Marshal.StructureToPtr(pPrtPassDes, ImgPtr, false);
+            int LayerEndNum = g_nLayerEnd;//20200601修改：打印的终止层数，放在此处，仅仅是方便测试而已
+            int CurrentStartPrintLayer = 1;//int CurrentStartPrintLayer = g_nLayerStart - g_nLayerStart;//20201121新增：//20201124修改：初始值永远为0//20210323修改:监控反馈启打层
+            /*************************************************************************************************/
+            /*************************************************************************************************/
+#if true//进行打印进度监控测试
+
+            bool nRetVal0 = royal.royal.DEM_InitAxis(0, 0x100/*0x100*/);//分别初始化各轴的运动参数：20200305//加速度：256pluse/ms^2
+            nRetVal0 = royal.royal.DEM_EnableAxisRun(true);//所有的轴共用1个使能，使能一次就OK!:20200305     
+            bool nRetVal = royal.royal.DEV_EnableInkAutoSupply(true, 0xFF);//使能自动供墨uint ControlBit = 0xFF;//20201114修改：使能第4路墨水的自动供墨
+#endif
+            while ((RoyalMap.m_bJobStarted == true))//开启打印处理线程：20200411新建
+            {
+                returnPrintValue = 1/*(CurrentStartPrintLayer + 1) * g_nRePrintTimes*/;//20200508：复位打印进度值   
+                UpdateCircularBarMethod(2);//20201121新增：开启打印进度更新
+
+                int CorrectionFigureNum = 0;//k不可以为0；原因在于，控制的第一层数据无效
+                int CorrectionFigureOffset = 0;//校准图偏移量，4种校准图打印模式，偏移量依次为：（1）0；（2）1；（3）3；（4）5
+                if (g_CorrectionFigureType == 1)//Type 1:垂直校准图打印模式；
+                {
+                    CorrectionFigureNum = 1;
+                    CorrectionFigureOffset = 0;//20210325新增：
+                }
+                if (g_CorrectionFigureType == 2)//Type 1:往返差校准图打印模式；
+                {
+                    CorrectionFigureNum = 2;
+                    CorrectionFigureOffset = 1;//20210325新增：
+                }
+                if (g_CorrectionFigureType == 5)//Type 1:往返差校准图一次性打印模式；
+                {
+                    CorrectionFigureNum = 1;
+                    CorrectionFigureOffset = 6;//20210325新增：
+                }
+                if (g_CorrectionFigureType == 3)//Type 1:垂直校准图打印模式；
+                {
+                    CorrectionFigureNum = 2;
+                    CorrectionFigureOffset = 3;//20210325新增：
+                }
+                if (g_CorrectionFigureType == 4)//Type 1:垂直校准图打印模式；
+                {
+                    CorrectionFigureNum = 1;
+                    CorrectionFigureOffset = 5;//20210325新增：
+                }
+
+                for (int k = 1/*0*//*CurrentStartPrintLayer + 1*/ ; k <= CorrectionFigureNum/*2*/; k++)//核心代码//20200411新建：k为打印层数的Index
+                {
+                    if (PrintConrolFlag == "StartPrint" || PrintConrolFlag == "KeepPrint")//每次打印之前，都需要执行指令判断
+                    {
+                        //int renderIndex = ((k - 1) / g_nRePrintTimes) + g_nLayerStart /*k*/;
+                        //Rendering2D(renderIndex); //20200601：实现成形层的逐层预览刷新//201030修改：
+                        CurrentStartPrintLayer = k;//启打层
+
+                        /***********************************20200508:实际打印过程：*********************************/
+                        /***********************************20200508:实际打印过程：*********************************/
+                        {
+                            //20210324新建：刷新当前准备打印的校准图到主界面
+                            //string[] calirationFigurePaths = new string[6] { @"\垂直校准图.bmp" , @"\往返差校准图-0.bmp", @"\往返差校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\STATUS.bmp" };
+                            string CalibrationFilePath2 = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
+                            string BMPFilePath = CalibrationFilePath2 + g_calirationFigurePaths[k - 1 + CorrectionFigureOffset];
+                            //g_SharpControl.LoadingFromBMPFile(BMPFilePath);//20210328临时注释：
+                            this.renderControl1.Invalidate();
+
+#if true
+                            string msg;
+                            int PassItems = 0;
+                            SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
+                            sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
+                            //if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems])
+                            //{
+                            //    sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 1);//20230113新建且批注：监控发送指令
+                            //}
+ 
+                            for (PassItems = 0; PassItems < 6/*7*/; PassItems++)//20220531修改：总共数量为6 PASS
+                            {
+                                /*****************（1）20220524批注：确保获取打印PASS信息*********************/
+                                int nPassID = PassItems/*0*//*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行//20220524新增：修改为多PASS打印
+                                /*bool*/
+                                bool ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                                /*string*/
+                                msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
+                                    $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
+                                    $"nHwMemAdrMatchMask{{{pPrtPassDes.nHwMemAdrMatchMask}}}nLayerIndex{{{pPrtPassDes.nLayerIndex}}}" +
+                                    $"nLayerPassCount{{{pPrtPassDes.nLayerPassCount}}}nLayerPassIndex{{{pPrtPassDes.nLayerPassIndex}}}" +
+                                    $"nMinJet0ImgLinePos{{{pPrtPassDes.nMinJet0ImgLinePos}}}" +
+
+                                    $"nPrtMemHwAddr{{{pPrtPassDes.nPrtMemHwAddr}}}nPrtDataOffset{{{pPrtPassDes.nPrtDataOffset}}}" +
+                                    $"nSrcDataSize{{{pPrtPassDes.nSrcDataSize}}}nPrtColBytes{{{pPrtPassDes.nPrtColBytes}}}" +
+
+                                    $"nPrtPrecession{{{pPrtPassDes.nPrtPrecession}}}nSrcEndCols{{{pPrtPassDes.nSrcEndCols}}}" +
+                                    $"nSrcStartCols{{{pPrtPassDes.nSrcStartCols}}}nStartEncPos{{{pPrtPassDes.nStartEncPos}}}" +
+                                    $"nValidPassJets{{{pPrtPassDes.nValidPassJets}}}nValidPrtCols{{{pPrtPassDes.nValidPrtCols}}}" +
+                                    $"nValidPrtCtlCnts{{{pPrtPassDes.nValidPrtCtlCnts}}}pDataBuf{{{pPrtPassDes.pDataBuf}}}" +
+                                    $"pNextItem{{{pPrtPassDes.pNextItem}}}";
+                                Log4Net.Info(msg);
+
+                                while (pPrtPassDes.nProcState != 3)//20200624批注：不成功就重新读
+                                {
+                                    Thread.Sleep(100);//等待1s时间，再次GetPassItem;
+                                    ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                                    msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
+                                        $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
+                                        $"nHwMemAdrMatchMask{{{pPrtPassDes.nHwMemAdrMatchMask}}}nLayerIndex{{{pPrtPassDes.nLayerIndex}}}" +
+                                        $"nLayerPassCount{{{pPrtPassDes.nLayerPassCount}}}nLayerPassIndex{{{pPrtPassDes.nLayerPassIndex}}}" +
+                                        $"nMinJet0ImgLinePos{{{pPrtPassDes.nMinJet0ImgLinePos}}}" +
+
+                                        $"nPrtMemHwAddr{{{pPrtPassDes.nPrtMemHwAddr}}}nPrtDataOffset{{{pPrtPassDes.nPrtDataOffset}}}" +
+                                        $"nSrcDataSize{{{pPrtPassDes.nSrcDataSize}}}nPrtColBytes{{{pPrtPassDes.nPrtColBytes}}}" +
+
+                                        $"nPrtPrecession{{{pPrtPassDes.nPrtPrecession}}}nSrcEndCols{{{pPrtPassDes.nSrcEndCols}}}" +
+                                        $"nSrcStartCols{{{pPrtPassDes.nSrcStartCols}}}nStartEncPos{{{pPrtPassDes.nStartEncPos}}}" +
+                                        $"nValidPassJets{{{pPrtPassDes.nValidPassJets}}}nValidPrtCols{{{pPrtPassDes.nValidPrtCols}}}" +
+                                        $"nValidPrtCtlCnts{{{pPrtPassDes.nValidPrtCtlCnts}}}pDataBuf{{{pPrtPassDes.pDataBuf}}}" +
+                                        $"pNextItem{{{pPrtPassDes.pNextItem}}}";
+                                    Log4Net.Info(msg);
+                                }
+                                /*****************（2）20220524批注：执行打印PASS运动逻辑*********************/
+                                if (ReturnFlag == true/*pPrtPassDes!=null*/)//20200411:读到的数据不为空//20200430开启运动：
+                                {
+                                    bool returnCode2 = royal.royal.IDP_DoPassPrint2((uint)k, nPassID /*-1*/);
+                                    if (returnCode2 == false)
+                                    {
+                                        msg = $"使能Pass打印失败：IDP_DoPassPrint2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}";
+                                        Log4Net.Info(msg);
+
+                                        MessageBox.Show("启动打印失败！LayerIndex=" + pPrtPassDes.nLayerIndex + ",nProcState=" + pPrtPassDes.nProcState + "；打印分频值=" + pPrtPassDes.nPrtPrecession + "有效列数" + pPrtPassDes.nValidPrtCols);//20220531修改：
+                                    }
+                                    else
+                                    {
+                                        msg = $"使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}";
+                                        Log4Net.Info(msg);
+
+                                        royal.LPPRINTER_INFO pSysInfo = new royal.LPPRINTER_INFO();//20230213新增：
+                                        bool nRetVal2 = royal.royal.DEV_GetDeviceInfo2(ref pSysInfo);//20230213新增：
+                                        msg = $"PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
+                                            $"LPPRINTER_INFO:nXSysEncDPI{{{pSysInfo.nXSysEncDPI}}}nStatus{{{pSysInfo.nStatus}}}nPrintStatus{{{pSysInfo.nPrintStatus}}}bSuperDevice{{{pSysInfo.bSuperDevice}}}\r\n" +
+
+                                            $"LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{{{pSysInfo.prt_rtinfo.bJobPrtRuning}}}bLayerPrtIsOver{{{pSysInfo.prt_rtinfo.bLayerPrtIsOver}}}" +
+                                            $"nContReqMemErr{{{pSysInfo.prt_rtinfo.nContReqMemErr}}}nContWDErr{{{pSysInfo.prt_rtinfo.nContWDErr}}}" +
+                                            $"nCurPrtDir{{{pSysInfo.prt_rtinfo.nCurPrtDir}}}nDTLayerIndex{{{pSysInfo.prt_rtinfo.nDTLayerIndex}}}" +
+                                            $"nDTLayerPassIndex{{{pSysInfo.prt_rtinfo.nDTLayerPassIndex}}}nDTPtrCtlIndex{{{pSysInfo.prt_rtinfo.nDTPtrCtlIndex}}}" +
+                                            $"nLayerPassCount{{{pSysInfo.prt_rtinfo.nLayerPassCount}}}nPrintLayerIndex{{{pSysInfo.prt_rtinfo.nPrintLayerIndex}}}" +
+                                            $"nPrintPassIndex{{{pSysInfo.prt_rtinfo.nPrintPassIndex}}}nProcLayerIndex{{{pSysInfo.prt_rtinfo.nProcLayerIndex}}}" +
+                                            $"nPrtDataMemAddr{{{pSysInfo.prt_rtinfo.nPrtDataMemAddr}}}nPrtState{{{pSysInfo.prt_rtinfo.nPrtState}}}" +
+                                            $"nReverse{{{pSysInfo.prt_rtinfo.nReverse}}}nRevPrtCols{{{pSysInfo.prt_rtinfo.nRevPrtCols}}}\r\n" +
+
+                                            $"LPPRINTER_INFO-LPDRVINFO:nFMVersion{{{pSysInfo.sysDrvInfo[0].nFMVersion}}}nFpgaVersion{{{pSysInfo.sysDrvInfo[0].nFpgaVersion}}}" +
+                                            $"nPCBVersion{{{pSysInfo.sysDrvInfo[0].nPCBVersion}}}" +
+                                            $"nState{{{pSysInfo.sysDrvInfo[0].nState}}}nNextState{{{pSysInfo.sysDrvInfo[0].nNextState}}}" +
+                                            $"nPtvwarnState{{{pSysInfo.sysDrvInfo[0].nPtvwarnState}}}nCrc32{{{pSysInfo.sysDrvInfo[0].nCrc32}}}" +
+                                            $"nRevInfo{{{pSysInfo.sysDrvInfo[0].nRevInfo}}}nSignature{{{pSysInfo.sysDrvInfo[0].nSignature}}}";
+                                        Log4Net.Info(msg);
+
+                                        //20220524批注：（2）自动喷墨运动
+                                        //20220524批注：（2）自动喷墨运动
+                                        //RecordPressureAndTemperatureAndValtageInPrint();//20230322新建：记录打印之前喷头温度及电压
+                                        if (nPassID == 0)
+                                        {
+                                            float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
+                                            float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
+                                            EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0);//20220915新增：加入自动清洗逻辑
+                                        }
+                                        bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
+                                        float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
+                                        float m_BackCleanMovSpeed = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
+                                        EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0);//自动喷墨运动逻辑
+
+                                        CurrentStartPrintLayer = k;
+                                    }
+                                }
+                                else
+                                {//读取PASS数据失败;继续等待
+                                    Thread.Sleep(100);//20200411：间隔500ms to confirm that whether the pass data is get下一层的打印
+                                    //PassItems--;
+                                    break;
+                                }
+                            }
+#else
+                            int nPassID = 0/*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行
+                            bool ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                            while (pPrtPassDes.nProcState != 3)//20200624批注：不成功就重新读
+                            {
+                                Thread.Sleep(100);//等待1s时间，再次GetPassItem;
+                                ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                            }
+                            if (ReturnFlag == true/*pPrtPassDes!=null*/)//20200411:读到的数据不为空//20200430开启运动：
+                            {
+                                bool returnCode2 = royal.royal.IDP_DoPassPrint2((uint)k, -1);
+                                if (returnCode2 == false) { MessageBox.Show("启动打印失败！LayerIndex=" + pPrtPassDes.nLayerIndex + ",nProcState=" + pPrtPassDes.nProcState); }
+                                else
+                                {
+                                    double rate = (double)g_nLayerCurrent / (double)g_nLayerEnd * 100;//20200617批注
+                                    string PintRate = rate.ToString("f1");//20200411新增：本处的显示，应该转移到状态栏的第3个lable                               
+                                    this.PrinterStatusLabel.Text = "|| 打印中：当前打印第"
+                                                                     + (((k - 1) / g_nRePrintTimes) + g_nLayerStart + 1).ToString() + "-"
+                                                                     + (((k - 1) % g_nRePrintTimes) + 1).ToString()
+                                                                         + "层，剩余" + /*(LayerEndNum - k)*/((LayerEndNum + 1) - (((k - 1) / g_nRePrintTimes) + g_nLayerStart + 1)).ToString() + "层。";//20200430新增：打印机状态栏//201030修改：
+
+                                    returnPrintValue = k;//20200508新建：更新进度，更新进度到手动操作
+
+                                    bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：替换
+                                    float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增
+
+                                    bool Directory = false; uint nRevPls = 0;
+                                    if (/*(PowderCarHomeFlag == false)&&*/ (InkCarHomeFlag == true))//确保：墨车系统回零成功；确保在指定区间，否则报错//临时关闭铺粉校准
+                                    {
+                                        double[] g_dEncpos = new double[8];
+                                        g_dEncpos = motionMap.GetEncPos();
+                                        double PosValue = g_dEncpos[3] / 1000;//铺粉位置
+                                        if (PosValue < 50 || PosValue > 800)////正式打印逻辑
+                                        {
+                                            if (DirFlag == true)//在清洗端近端//执行打印流程//如果此刻停靠在右侧，则移动到左侧//执行固化逻辑
+                                            { BackToStation(1185/*1185*/, (float)m_MovSpeed); }
+                                            else //在清洗端远端//如果此刻停靠在右侧，则移动到左侧//执行固化逻辑200918新增：单纯的刮墨逻辑 
+                                            { BackToStation(45/*45*/, (float)m_MovSpeed); }
+                                            //do//20200628新增：确保主运动到打印结束区域：不停运动监控，until打印结束，才执行下次打印
+                                            //{
+                                            //    bool returnCode3 = royal.royal.IDP_GetPrintState(ref RTinfo); //获取打印运行状态，用来判断当前打印的状态//20200429新增：
+                                            //    Thread.Sleep(20);//20200411：间隔1ms再监测是否运动结束
+                                            //} while (!RTinfo.bLayerPrtIsOver);
+                                            while (royal.royal.DEM_AxisIsRuning(0, ref Directory, ref nRevPls))//int SleepTime = (int)((double)(AimPos - CurrentPos) / nSpeed);//Thread.Sleep(5000);//Sleep时间必须要有依据//确保运行到位，运行精度为2UM
+                                            { Thread.Sleep(20); }
+                                            bool nRetVal2 = royal.royal.DEM_StopAxisRun(false, 0x1);//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108
+                                        }
+                                        else { /*MessageBox.Show("铺粉车未停靠在安全区");*/ }
+
+                                        MessageBox.Show("关闭窗口继续下次打印！");
+                                    }
+                                    else {/* MessageBox.Show("墨车系统/铺粉系统未回零");*/ }
+                                    CurrentStartPrintLayer = k;
+                        }
+                            }
+                            else
+                            {//读取PASS数据失败
+                                Thread.Sleep(100);//20200411：间隔500ms to confirm that whether the pass data is get下一层的打印
+                                break;
+                            }
+#endif
+                        }
+                        returnPrintValue = k;//20200508新建：更新旋转进度条
+                        g_nCurrentLayer = (k - 1) / g_nRePrintTimes/*k*/;//20201121修改：打印进度值
+                    }
+                    else if (PrintConrolFlag == "PausePrint")
+                    {
+                        Thread.Sleep(200);//200ms周期在持续等待：继续指令或者停止指令。
+                        k--;
+                        g_nCurrentLayer = (k - 1) / g_nRePrintTimes/*k*/;//20201121修改：
+                    }
+                    else if (PrintConrolFlag == "StopPrint") { break; }
+                    else { }
+                    System.Diagnostics.Debug.WriteLine("Debug:" + "LaserADD" + "打印完成第" + k + "层");//20200801批注：添加DebugView日志记录
+                    System.Diagnostics.Trace.WriteLine("Trace:" + "LaserADD" + "打印完成第" + k + "层");//20200801批注：添加DebugView日志记录
+                }
+                RoyalMap.m_bJobStarted = false;
+                PrinterRunInfo(":当前打印任务完成：区间为" + (g_nLayerStart + 1) + " 层到 " + (g_nLayerEnd + 1) + " 层");
+            }
+
+            //20230331新增：打印完成后，关闭闪喷
+            bool nRetVal3 = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷
+            string msg2 = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal3}}}";
+            Log4Net.Info(msg2);
+
+            bool ReturnFlag4 = royal.royal.IDP_StopPrintJob();
+            msg2 = $"停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{{{ReturnFlag4}}}";
+            Log4Net.Info(msg2);
+
+
+            Marshal.FreeHGlobal(ImgPtr);//20200429批注：释放内存,一定要及时释放内存//批注：代码位置，需要重点考虑
+            PrintFlag = false;//20200716新增：关闭打印机维护的间歇闪喷使能
+            g_TaskThreadSTATE[4] = 3;//20201119新增：DataTaskThread恢复为终止状态（打印完）
+#region
+            //（3）自然执行完毕，自然结束打印区间任务
+            DeleteThread("PrintTaskTHREAD2");//20200220：本线程结束，需要及时清理相关线程
+            if (LayerEnd.InvokeRequired == true)//20200313新增批注：此位置严格来说执行不到
+            {
+                LayerEnd.BeginInvoke(new Action(() =>
+                {
+                    this.LayerEnd.Enabled = true;//恢复控件操作
+                    this.LayerStart.Enabled = true;//恢复控件操作
+                }));
+            }
+#endregion
+        }
+
         private void RecordPressureAndTemperatureAndValtage()//20230322新增：
         {
             uint p = 0;//1号板卡
@@ -2468,7 +2835,7 @@ namespace BinderJetting
             //20200424新增//读取喷头的温度：
             bool returnCode2 = royal.royal.MCU_GetCurPhTemp(PfCurTemp, p, d);
             if (returnCode2 == true)//0x0802->0x0822
-            {     
+            {
                 Marshal.Copy(PfCurTemp, fVoltageTemp, 4, 1); //（1）解析读取到的电压值
                 Marshal.FreeHGlobal(PfCurTemp);//释放内存
             }
@@ -2532,189 +2899,6 @@ namespace BinderJetting
             msg = $"【RecordPressureAndTemperatureAndValtage】: {{{d + 1}}}号喷头打印前状态：喷头温度为{{{fVoltageTemp[0]}℃}}，喷头电压为{{{fVoltageTemp[1]}V,{fVoltageTemp[2]}V,{fVoltageTemp[3]}V,{ fVoltageTemp[4]}V}}；";
             Log4Net.Info(msg);
         }
-
-        //手动操作 ManualControl = null;//20230317修正:修正潜在的闪退问题
-        手动操作 AutoPrintMotion1 = null;//20230317修正:修正潜在的闪退问题//PrintTask中
-        手动操作 AutoPrintMotion2 = null;//20230317修正:修正潜在的闪退问题//温控Modbus中
-        手动操作 AutoPrintMotion3 = null;//20230317修正:修正潜在的闪退问题//EquipmentMotionLogic3中
-        手动操作 AutoPrintMotion4 = null;//20230317修正:修正潜在的闪退问题//DataTask中
-
-        string[] g_calirationFigurePaths = new string[6] { @"\垂直校准图.bmp", @"\往返差校准图-0.bmp", @"\往返差校准图-1.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-1.bmp", @"\STATUS.bmp" };//20210324新增：//20210325修复BUG:6张图一定要路径准确
-        private void PrintTaskTHREAD2()//3DP校准打印主流程：20210321新建批注
-        {
-            g_TaskThreadSTATE[4] = 2;//20201119新增：DataTaskThread恢复为运行状态（关机后）
-            ReadLayerInfo();//更新指定的加工任务区间
-            g_PrintSchedule = g_nLayerStart;//20201118新增：
-
-            //string[] g_calirationFigurePaths = new string[6] { @"\垂直校准图.bmp", @"\往返差校准图-0.bmp", @"\往返差校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\STATUS.bmp" };//20210324新增：
-            while (g_PrintSchedule < 1/*(g_PrintSchedule == -1) || g_PrintSchedule == g_nLayerStart*/)//20201118新增：处于初始态或者已经传输1层数据
-            {
-                Thread.Sleep(100);//数据传送进度需要领先起始打印层至少2层
-            }
-
-            PrintFlag = true;//20200716新增：关闭打印机维护的间歇闪喷使能
-            ConfigureJetEnvironmentControlMode();//20200602修改:初始化喷墨系统环境控制，具体包括：下发自动供墨指令、下发设置自动负压指令、下发二级墨盒的温度设置指令、设置墨水搅拌周期指令                                           
-            InitCarMotor();//20200327新增：//（1）初始化被控对象及加工任务区间
-            float m_szMovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增//确定准确的墨车运动速度值
-            uint m_unCarMoveSpeed = MM_TO_DOT(m_szMovSpeed, 5080);//20200328新增
-            g_nCarSinglePassLength = (int)((g_RYSYSParam.m_dCarMoveBufferLength + g_RYSYSParam.m_dPrintAeraLength + g_RYSYSParam.m_dCarMoveBufferLength2) * 5080);//SinglePass运动距离：20200327新增：
-            //royal.LPPrtRunInfo RTinfo = new LPPrtRunInfo();////（2-2）20200411新增（精华）：正式的打印处理框架：
-            LPPassDataItem pPrtPassDes = new LPPassDataItem();//20200411:此处存在比较严重的问题            
-            int size2 = Marshal.SizeOf(pPrtPassDes)/* * pPrtPassDes.Length*/;//20200427新增：
-            IntPtr ImgPtr = Marshal.AllocHGlobal(size2);//20200429批注：类似于C++的NEW的操作
-            Marshal.StructureToPtr(pPrtPassDes, ImgPtr, false);
-            int LayerEndNum = g_nLayerEnd;//20200601修改：打印的终止层数，放在此处，仅仅是方便测试而已
-            int CurrentStartPrintLayer = 1;//int CurrentStartPrintLayer = g_nLayerStart - g_nLayerStart;//20201121新增：//20201124修改：初始值永远为0//20210323修改:监控反馈启打层
-            /*************************************************************************************************/
-            /*************************************************************************************************/
-#if true//进行打印进度监控测试
-
-            bool nRetVal0 = royal.royal.DEM_InitAxis(0, 0x100/*0x100*/);//分别初始化各轴的运动参数：20200305//加速度：256pluse/ms^2
-            nRetVal0 = royal.royal.DEM_EnableAxisRun(true);//所有的轴共用1个使能，使能一次就OK!:20200305     
-            bool nRetVal = royal.royal.DEV_EnableInkAutoSupply(true, 0xFF);//使能自动供墨uint ControlBit = 0xFF;//20201114修改：使能第4路墨水的自动供墨
-#endif
-            while ((RoyalMap.m_bJobStarted == true))//开启打印处理线程：20200411新建
-            {
-                returnPrintValue = 1/*(CurrentStartPrintLayer + 1) * g_nRePrintTimes*/;//20200508：复位打印进度值   
-                UpdateCircularBarMethod(2);//20201121新增：开启打印进度更新
-
-                int CorrectionFigureNum = 0;//k不可以为0；原因在于，控制的第一层数据无效
-                int CorrectionFigureOffset = 0;//校准图偏移量，4种校准图打印模式，偏移量依次为：（1）0；（2）1；（3）3；（4）5
-                if (g_CorrectionFigureType == 1)//Type 1:垂直校准图打印模式；
-                {
-                    CorrectionFigureNum = 1;
-                    CorrectionFigureOffset = 0;//20210325新增：
-                }
-                if (g_CorrectionFigureType == 2)//Type 1:垂直校准图打印模式；
-                {
-                    CorrectionFigureNum = 2;
-                    CorrectionFigureOffset = 1;//20210325新增：
-                }
-                if (g_CorrectionFigureType == 3)//Type 1:垂直校准图打印模式；
-                {
-                    CorrectionFigureNum = 2;
-                    CorrectionFigureOffset = 3;//20210325新增：
-                }
-                if (g_CorrectionFigureType == 4)//Type 1:垂直校准图打印模式；
-                {
-                    CorrectionFigureNum = 1;
-                    CorrectionFigureOffset = 5;//20210325新增：
-                }
-
-                for (int k = 1/*0*//*CurrentStartPrintLayer + 1*/ ; k <= CorrectionFigureNum/*2*/; k++)//核心代码//20200411新建：k为打印层数的Index
-                {
-                    if (PrintConrolFlag == "StartPrint" || PrintConrolFlag == "KeepPrint")//每次打印之前，都需要执行指令判断
-                    {
-                        //int renderIndex = ((k - 1) / g_nRePrintTimes) + g_nLayerStart /*k*/;
-                        //Rendering2D(renderIndex); //20200601：实现成形层的逐层预览刷新//201030修改：
-                        CurrentStartPrintLayer = k;//启打层
-
-                        /***********************************20200508:实际打印过程：*********************************/
-                        /***********************************20200508:实际打印过程：*********************************/
-                        {
-                            //20210324新建：刷新当前准备打印的校准图到主界面
-                            //string[] calirationFigurePaths = new string[6] { @"\垂直校准图.bmp" , @"\往返差校准图-0.bmp", @"\往返差校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\STATUS.bmp" };
-                            string CalibrationFilePath2 = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
-                            string BMPFilePath = CalibrationFilePath2 + g_calirationFigurePaths[k - 1 + CorrectionFigureOffset];
-                            //g_SharpControl.LoadingFromBMPFile(BMPFilePath);//20210328临时注释：
-                            this.renderControl1.Invalidate();
-
-
-                            int nPassID = 0/*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行
-                            bool ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
-                            while (pPrtPassDes.nProcState != 3)//20200624批注：不成功就重新读
-                            {
-                                Thread.Sleep(100);//等待1s时间，再次GetPassItem;
-                                ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
-                            }
-                            if (ReturnFlag == true/*pPrtPassDes!=null*/)//20200411:读到的数据不为空//20200430开启运动：
-                            {
-                                bool returnCode2 = royal.royal.IDP_DoPassPrint2((uint)k, -1);
-                                if (returnCode2 == false) { MessageBox.Show("启动打印失败！LayerIndex=" + pPrtPassDes.nLayerIndex + ",nProcState=" + pPrtPassDes.nProcState); }
-                                else
-                                {
-                                    double rate = (double)g_nLayerCurrent / (double)g_nLayerEnd * 100;//20200617批注
-                                    string PintRate = rate.ToString("f1");//20200411新增：本处的显示，应该转移到状态栏的第3个lable                               
-                                    this.PrinterStatusLabel.Text = "|| 打印中：当前打印第"
-                                                                     + (((k - 1) / g_nRePrintTimes) + g_nLayerStart + 1).ToString() + "-"
-                                                                     + (((k - 1) % g_nRePrintTimes) + 1).ToString()
-                                                                         + "层，剩余" + /*(LayerEndNum - k)*/((LayerEndNum + 1) - (((k - 1) / g_nRePrintTimes) + g_nLayerStart + 1)).ToString() + "层。";//20200430新增：打印机状态栏//201030修改：
-
-                                    returnPrintValue = k;//20200508新建：更新进度，更新进度到手动操作
-
-                                    bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：替换
-                                    float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增
-#if true
-                                    bool Directory = false; uint nRevPls = 0;
-                                    if (/*(PowderCarHomeFlag == false)&&*/ (InkCarHomeFlag == true))//确保：墨车系统回零成功；确保在指定区间，否则报错//临时关闭铺粉校准
-                                    {
-                                        double[] g_dEncpos = new double[8];
-                                        g_dEncpos = motionMap.GetEncPos();
-                                        double PosValue = g_dEncpos[3] / 1000;//铺粉位置
-                                        if (PosValue < 50 || PosValue > 800)////正式打印逻辑
-                                        {
-                                            if (DirFlag == true)//在清洗端近端//执行打印流程//如果此刻停靠在右侧，则移动到左侧//执行固化逻辑
-                                            { BackToStation(1185/*1185*/, (float)m_MovSpeed); }
-                                            else //在清洗端远端//如果此刻停靠在右侧，则移动到左侧//执行固化逻辑200918新增：单纯的刮墨逻辑 
-                                            { BackToStation(45/*45*/, (float)m_MovSpeed); }
-                                            //do//20200628新增：确保主运动到打印结束区域：不停运动监控，until打印结束，才执行下次打印
-                                            //{
-                                            //    bool returnCode3 = royal.royal.IDP_GetPrintState(ref RTinfo); //获取打印运行状态，用来判断当前打印的状态//20200429新增：
-                                            //    Thread.Sleep(20);//20200411：间隔1ms再监测是否运动结束
-                                            //} while (!RTinfo.bLayerPrtIsOver);
-                                            while (royal.royal.DEM_AxisIsRuning(0, ref Directory, ref nRevPls))//int SleepTime = (int)((double)(AimPos - CurrentPos) / nSpeed);//Thread.Sleep(5000);//Sleep时间必须要有依据//确保运行到位，运行精度为2UM
-                                            { Thread.Sleep(20); }
-                                            bool nRetVal2 = royal.royal.DEM_StopAxisRun(false, 0x1);//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108
-                                        }
-                                        else { /*MessageBox.Show("铺粉车未停靠在安全区");*/ }
-
-                                        MessageBox.Show("关闭窗口继续下次打印！");
-                                    }
-                                    else {/* MessageBox.Show("墨车系统/铺粉系统未回零");*/ }
-                                    CurrentStartPrintLayer = k;
-                                }
-                            }
-                            else
-                            {//读取PASS数据失败
-                                Thread.Sleep(100);//20200411：间隔500ms to confirm that whether the pass data is get下一层的打印
-                                break;
-                            }
-                        }
-#endif
-                        returnPrintValue = k;//20200508新建：更新旋转进度条
-                        g_nCurrentLayer = (k - 1) / g_nRePrintTimes/*k*/;//20201121修改：打印进度值
-                    }
-                    else if (PrintConrolFlag == "PausePrint")
-                    {
-                        Thread.Sleep(200);//200ms周期在持续等待：继续指令或者停止指令。
-                        k--;
-                        g_nCurrentLayer = (k - 1) / g_nRePrintTimes/*k*/;//20201121修改：
-                    }
-                    else if (PrintConrolFlag == "StopPrint") { break; }
-                    else { }
-                    System.Diagnostics.Debug.WriteLine("Debug:" + "LaserADD" + "打印完成第" + k + "层");//20200801批注：添加DebugView日志记录
-                    System.Diagnostics.Trace.WriteLine("Trace:" + "LaserADD" + "打印完成第" + k + "层");//20200801批注：添加DebugView日志记录
-                }
-                RoyalMap.m_bJobStarted = false;
-                PrinterRunInfo(":当前打印任务完成：区间为" + (g_nLayerStart + 1) + " 层到 " + (g_nLayerEnd + 1) + " 层");
-            }
-            Marshal.FreeHGlobal(ImgPtr);//20200429批注：释放内存,一定要及时释放内存//批注：代码位置，需要重点考虑
-            PrintFlag = false;//20200716新增：关闭打印机维护的间歇闪喷使能
-            g_TaskThreadSTATE[4] = 3;//20201119新增：DataTaskThread恢复为终止状态（打印完）
-#region
-            //（3）自然执行完毕，自然结束打印区间任务
-            DeleteThread("PrintTaskTHREAD2");//20200220：本线程结束，需要及时清理相关线程
-            if (LayerEnd.InvokeRequired == true)//20200313新增批注：此位置严格来说执行不到
-            {
-                LayerEnd.BeginInvoke(new Action(() =>
-                {
-                    this.LayerEnd.Enabled = true;//恢复控件操作
-                    this.LayerStart.Enabled = true;//恢复控件操作
-                }));
-            }
-#endregion
-        }
-
 
         private void BackToStation(double AimPos, float m_MovSpeed)//运动至初始区域：AimPos位置单位为MM：精华
         {
@@ -2919,7 +3103,7 @@ namespace BinderJetting
             return returnCode;
         }
 
-        private void EquipmentMotionLogic3(int index, int Command, int PassIndex, float m_MovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex)//20220524新增：PassIndex指示当前打印PASS序号
+        private void EquipmentMotionLogic3(int index, int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex)//20220524新增：PassIndex指示当前打印PASS序号
         {
             try 
             {
@@ -2972,7 +3156,7 @@ namespace BinderJetting
                 if (Command == 1)//自动清洗逻辑
                 {
                     //（3）执行对应的逻辑：
-                    AutoPrintMotion3.AutoCleanThread();//20201029:自动固化清洗//20220518修改：修改为自动清洗逻辑
+                    AutoPrintMotion3.AutoCleanThread2(m_BackCleanMovSpeed);//20201029:自动固化清洗//20220518修改：修改为自动清洗逻辑
                 }
                 else if (Command == 2)//自动送粉逻辑
                 {
@@ -2989,7 +3173,7 @@ namespace BinderJetting
                 }
                 else if (Command == 4)//20220524新增：自动喷墨逻辑
                 {
-                    AutoPrintMotion3.AutoPrintThread2(1, PassIndex, m_MovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex);//
+                    AutoPrintMotion3.AutoPrintThread2(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex);//
                 }
                 else
                 {
@@ -3400,6 +3584,8 @@ namespace BinderJetting
             ManualControl.RollerDirectionFlag = g_bRollerDirectionFlag;//
             ManualControl.CorrectFlag = g_bSystemCorrectFlag;//20201014新增：系统校准标志位
             ManualControl.k_nCurrentLayer = g_nCurrentLayer;//20201021新增：同步打印进度
+
+            ManualControl.k_fBackCleanMovSpeed = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度;
 
             DialogResult result = ManualControl.ShowDialog();
             if (result == DialogResult.OK)//OK时，执行对应操作
@@ -6833,6 +7019,20 @@ namespace BinderJetting
 
                                 UpdateDataAndTransfer(1, 0, 1);//20200610:在标题栏刷新当前数据处理层 //20200601：实现成形层的逐层预览刷新
                             }
+                            else if (g_CorrectionFigureType == 5)//Type 2:一次性的打印往返差图打印模式；
+                            {
+                                if (true)//201030批注：根据之前的测试结果，首层需要额外补偿1次
+                                {
+                                    g_SharpControl.RenderToWic2(true, 0/*1*/, 0, 1, g_calirationFigurePaths[6]);//第一层无效：发送第1次
+                                    g_PrintSchedule = 0;//20201118新增：从数据处理形成中更新全局打印进度
+                                }
+                                g_SharpControl.RenderToWic2(true, 1/*1*/, 0, 1, g_calirationFigurePaths[6]);//需要校对渲染区间是否正确//发送第2次
+                                g_PrintSchedule = 1;//20201118新增：从数据处理形成中更新全局打印进度
+                                //g_SharpControl.RenderToWic2(true, 2/*1*/, 0, 1, g_calirationFigurePaths[2]);//需要校对渲染区间是否正确//发送第3次
+                                //g_PrintSchedule = 2;//20201118新增：从数据处理形成中更新全局打印进度
+
+                                UpdateDataAndTransfer(1, 0, 1);//20200610:在标题栏刷新当前数据处理层 //20200601：实现成形层的逐层预览刷新
+                            }
                             else if (g_CorrectionFigureType == 3)//Type 3:喷头套色打印模式；
                             {
                                 if (true)//201030批注：根据之前的测试结果，首层需要额外补偿1次
@@ -8090,7 +8290,10 @@ namespace BinderJetting
             royalCorrectSystem.g_LPCAL_PARAM.nDataLine = k_PrintNozzleHeadConfigure.m_nDataLine/*320*//*128*/;//320喷嘴，20210313批注：本行数据不可写死，否则会造成校准图生成错误。
             royalCorrectSystem.g_LPCAL_PARAM.nSplits = k_PrintNozzleHeadConfigure.m_nSplits/*4*/;//4列嘴，20210313批注：本行数据不可写死，否则会造成校准图生成错误。
             royalCorrectSystem.g_LPCAL_PARAM.nOverLapJets = k_PrintNozzleHeadConfigure.m_nOverLapJets/*2*/;//2行重叠嘴，20210313批注：本行数据不可写死，否则会造成校准图生成错误。
+
             royalCorrectSystem.g_LPCAL_PARAM.szFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart\";//世彪批注：生成的校准图位置（20200722）
+
+            royalCorrectSystem.g_LPCAL_PARAM.nCorrctionFigureWidthBytes = k_PrintNozzleHeadConfigure.m_nCorrctionFigureWidthBytes /*1001*/;//20230408新建并修改：/*1312*///第1代设备默认是1312//1001字节
             royalCorrectSystem.PD_UpdatParam(ref royalCorrectSystem.g_LPCAL_PARAM);
             //(2)生成5张校准图：
             string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";//输入的CLI文件的存放目录。                                                                                    
@@ -8123,21 +8326,23 @@ namespace BinderJetting
             this.label31.Text = "10%";
             this.progressBar1.Refresh();
             royalCorrectSystem.PD_GenBiDirOffset(UniversalOffset, UniversalOffsetY);//X 往返差
+            royalCorrectSystem.PD_GenBiDirOffsetInAFigure(UniversalOffset, UniversalOffsetY);//适应于一次性打印的X往返差图
+
             this.progressBar1.Value = 40;
             this.label31.Refresh();
             this.label31.Text = "40%";
             this.progressBar1.Refresh();
-            royalCorrectSystem.PD_GenVertivalCheck(UniversalOffset);//垂直校准
+            //royalCorrectSystem.PD_GenVertivalCheck(UniversalOffset);//垂直校准
             this.progressBar1.Value = 60;
             this.label31.Refresh();
             this.label31.Text = "60%";
             this.progressBar1.Refresh();
-            royalCorrectSystem.PD_GenColorOffset(0, UniversalOffset);//X套色 综合
+            //royalCorrectSystem.PD_GenColorOffset(0, UniversalOffset);//X套色 综合
             this.progressBar1.Value = 80;
             this.label31.Refresh();
             this.label31.Text = "80%";
             this.progressBar1.Refresh();
-            royalCorrectSystem.PD_GenColorOffset(1, UniversalOffset);//X套色 综合 
+            //royalCorrectSystem.PD_GenColorOffset(1, UniversalOffset);//X套色 综合 
             this.progressBar1.Value = 100;
             this.label31.Refresh();
             this.label31.Text = "100%";
@@ -8164,243 +8369,311 @@ namespace BinderJetting
 
         public FeedbackInCorrection g_RYSYSParamFeedbackInCorrection = new FeedbackInCorrection();//20210304修改：
         private int[] ShowNozzleCorrectionFigure = new int[4] { 0, 0, 0, 0 };//20210325新增：0位起始值，1为显示第1张图，2位显示第2张图。
+        bool CorrectionDuringCreateFlag = false;
         private void SetPrintNozzleHeadConfigBtn_Click(object sender, EventArgs e)//20210304新增:
         {
-            int myTag = Convert.ToInt32((sender as Control).Tag);//获取列表控件的Tag中存储的ID        
-            //(sender as Control).BackColor = Color.LimeGreen;//根据ID反转颜色状态
-
-            //计算并执行动作：
-            switch (myTag)
+            if (CorrectionDuringCreateFlag == false)
             {
-                case 1://根据给定的参数，生成新校准图
-                    SaveJsonFile();//20210325新建：保存喷头校准参数设置文件
-                    ConfigureCorrectionFigure();//20210306修改：
-                    break;
+                CorrectionDuringCreateFlag = true;
+                try
+                {
 
+                    int myTag = Convert.ToInt32((sender as Control).Tag);//获取列表控件的Tag中存储的ID        
+                                                                         //(sender as Control).BackColor = Color.LimeGreen;//根据ID反转颜色状态
 
-                case 2://预览垂直校准图
-                    if (ShowNozzleCorrectionFigure[0] == 0)
+                    //计算并执行动作：
+                    switch (myTag)
                     {
-                        g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；
+                        case 1://根据给定的参数，生成新校准图
+                            SaveJsonFile();//20210325新建：保存喷头校准参数设置文件
+                            ConfigureCorrectionFigure();//20210306修改：
+                            break;
 
-                        string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
-                        string BMPFilePath = CalibrationFilePath + @"\垂直校准图.bmp"/*@"\APCLROT-0.bmp"*/;
-                        g_SharpControl.LoadingFromBMPFile(BMPFilePath);
-                        pictureBoxFlag2.BackColor = Color.Lime;
-                        this.pictureBoxFlag2.Refresh();
 
-                        ShowNozzleCorrectionFigure[0] = 1;
-                    }
-                    else if (ShowNozzleCorrectionFigure[0] == 1)
-                    {
-                        g_SharpControl.DisposeBMPFile();//20210327新增：
-                        g_SharpControl.g_CorrectionFigureFlag = 0;//临时显示是1；
-
-                        pictureBoxFlag2.BackColor = Color.LightCoral;
-                        this.pictureBoxFlag2.Refresh();
-
-                        ShowNozzleCorrectionFigure[0] = 0;
-                    }
-                    this.renderControl1.Invalidate();
-
-                    break;
-                case 3://预览往返差校准图0和1，单击预览第一帧，再单击预览第2帧
-                    if (ShowNozzleCorrectionFigure[1] == 0)
-                    {
-                        g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；
-
-                        string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
-                        string BMPFilePath = CalibrationFilePath + @"\往返差校准图-0.bmp"/*@"\APCLROT-1.bmp"*/;
-                        g_SharpControl.LoadingFromBMPFile(BMPFilePath);
-                        pictureBoxFlag3.BackColor = Color.Lime;
-                        this.pictureBoxFlag3.Refresh();
-                        pictureBoxFlag7.BackColor = Color.LightCoral;
-                        this.pictureBoxFlag7.Refresh();
-
-                        ShowNozzleCorrectionFigure[1] = 1;
-                    }
-                    else if (ShowNozzleCorrectionFigure[1] == 1)
-                    {
-                        g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；
-
-                        string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
-                        string BMPFilePath = CalibrationFilePath + @"\往返差校准图-1.bmp"/*@"\APCLROT-1.bmp"*/;
-                        g_SharpControl.LoadingFromBMPFile(BMPFilePath);
-                        pictureBoxFlag3.BackColor = Color.LightCoral;
-                        this.pictureBoxFlag3.Refresh();
-                        pictureBoxFlag7.BackColor = Color.Lime;
-                        this.pictureBoxFlag7.Refresh();
-
-                        ShowNozzleCorrectionFigure[1] = 2;
-                    }
-                    else if (ShowNozzleCorrectionFigure[1] == 2)
-                    {
-                        g_SharpControl.DisposeBMPFile();//20210327新增：
-                        g_SharpControl.g_CorrectionFigureFlag = 0;//临时显示是1；
-
-                        pictureBoxFlag3.BackColor = Color.LightCoral;
-                        this.pictureBoxFlag3.Refresh();
-                        pictureBoxFlag7.BackColor = Color.LightCoral;
-                        this.pictureBoxFlag7.Refresh();
-
-                        ShowNozzleCorrectionFigure[1] = 0;
-                    }
-                    this.renderControl1.Invalidate();
-
-                    break;
-                case 4://预览喷头套色校准图0和1，单击预览第一帧，再单击预览第2帧
-                    if (ShowNozzleCorrectionFigure[2] == 0)
-                    {
-                        g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；
-
-                        string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
-                        string BMPFilePath = CalibrationFilePath + @"\喷头套色校准图-0.bmp"/* @"\APRETDIV.bmp"*/;
-                        g_SharpControl.LoadingFromBMPFile(BMPFilePath);
-                        pictureBoxFlag4.BackColor = Color.Lime;
-                        this.pictureBoxFlag4.Refresh();
-                        pictureBoxFlag8.BackColor = Color.LightCoral;
-                        this.pictureBoxFlag8.Refresh();
-
-                        ShowNozzleCorrectionFigure[2] = 1;
-                    }
-                    else if (ShowNozzleCorrectionFigure[2] == 1)
-                    {
-                        g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；
-
-                        string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
-                        string BMPFilePath = CalibrationFilePath + @"\喷头套色校准图-1.bmp"/* @"\APRETDIV.bmp"*/;
-                        g_SharpControl.LoadingFromBMPFile(BMPFilePath);
-                        pictureBoxFlag4.BackColor = Color.LightCoral;
-                        this.pictureBoxFlag4.Refresh();
-                        pictureBoxFlag8.BackColor = Color.Lime;
-                        this.pictureBoxFlag8.Refresh();
-
-                        ShowNozzleCorrectionFigure[2] = 2;
-                    }
-                    else if (ShowNozzleCorrectionFigure[2] == 2)
-                    {
-                        g_SharpControl.DisposeBMPFile();//20210327新增：
-                        g_SharpControl.g_CorrectionFigureFlag = 0;//临时显示是1；
-
-                        pictureBoxFlag4.BackColor = Color.LightCoral;
-                        this.pictureBoxFlag4.Refresh();
-                        pictureBoxFlag8.BackColor = Color.LightCoral;
-                        this.pictureBoxFlag8.Refresh();
-
-                        ShowNozzleCorrectionFigure[2] = 0;
-                    }
-                    this.renderControl1.Invalidate();
-
-                    break;
-                case 5://预览喷头状态图
-                    if (ShowNozzleCorrectionFigure[3] == 0)
-                    {
-                        g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；
-
-                        string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
-                        string BMPFilePath = CalibrationFilePath + @"\STATUS.bmp"/*@"\Vertical.bmp"*/;
-                        g_SharpControl.LoadingFromBMPFile(BMPFilePath);
-                        pictureBoxFlag5.BackColor = Color.Lime;
-                        this.pictureBoxFlag5.Refresh();
-
-                        ShowNozzleCorrectionFigure[3] = 1;
-                    }
-                    else if (ShowNozzleCorrectionFigure[3] == 1)
-                    {
-                        g_SharpControl.DisposeBMPFile();//20210327新增：
-                        g_SharpControl.g_CorrectionFigureFlag = 0;//临时显示是1；
-
-                        pictureBoxFlag5.BackColor = Color.LightCoral;
-                        this.pictureBoxFlag5.Refresh();
-
-                        ShowNozzleCorrectionFigure[3] = 0;
-                    }
-                    this.renderControl1.Invalidate();
-
-                    break;
-
-                case 6://1-校准参数保存并生效       
-                    //pictureBoxFlag6.BackColor = Color.LightCoral; ///20210321暂时注释掉：
-                    //this.pictureBoxFlag6.Refresh();
-                    //SaveJsonFile();
-                    //pictureBoxFlag6.BackColor = Color.Lime;
-                    //this.pictureBoxFlag6.Refresh();
-                    //int[] temperror1 = new int[64 * 32 * 2]; temperror1[0]= k_PrintNozzleHeadConfigure.SingleError;
-                    //int[] temperror2 = new int[16 * 32]; temperror2[1]= k_PrintNozzleHeadConfigure.YError ;
-                    //RoyalMap.UpdataRoyalPrintCardWithFeedbackData(k_PrintNozzleHeadConfigure.DoubleError, temperror1, temperror2);
-
-                    校准参数输入 f = new 校准参数输入();//20200202修改   
-                    f.k_RYSYSParamFeedbackInCorrection = g_RYSYSParamFeedbackInCorrection;
-                    DialogResult result = f.ShowDialog();
-                    if (result == DialogResult.OK)//OK时，执行对应操作
-                    {
-                        g_RYSYSParamFeedbackInCorrection = f.k_RYSYSParamFeedbackInCorrection;
-
-                        int[] temperror1 = new int[64 * 32 * 2];
-                        int[] temperror2 = new int[16 * 32];
-                        //(1)非常关键：双向偏差值
-                        int BiDirEncPrtOff/*royal.g_sys_param.nBiDirEncPrtOff*/ = g_RYSYSParamFeedbackInCorrection.m_nXBackForthFeedBack - 6;
-
-                        //(2)更新X向的套色偏差值
-                        int[] g_nXBetweenHead = new int[2 * 6]/*{5,5,5,5,5,5,5,5,5,5,5,5}*/;//X向套色偏差校准反馈值：2*6=12//20210322新增：依次为1-2-正向-喷头偏移距离、1-2-逆向-喷头偏移距离
-                        g_nXBetweenHead = g_RYSYSParamFeedbackInCorrection.m_nXBetweenHead;
-                        for (int i = 0; i < 12; i++)
-                        {
-                            g_nXBetweenHead[i] = g_nXBetweenHead[i] - 5;
-                        }
-                        for (int i = 6; i > 0; i--)
-                        {
-                            for (int j = 1; j < i; j++)
+                        case 2://预览垂直校准图
+                            if (ShowNozzleCorrectionFigure[0] == 0)
                             {
-                                g_nXBetweenHead[i - 1] = g_nXBetweenHead[i - 1] + g_nXBetweenHead[j - 1];//计算正确的累计的喷头相对于1号喷头的偏移值：正向
-                                g_nXBetweenHead[i - 1 + 6] = g_nXBetweenHead[i - 1 + 6] + g_nXBetweenHead[j - 1 + 6];//计算正确的累计的喷头相对于1号喷头的偏移值：逆向
-                            }
-                        }
-                        for (int i = 0; i < 7; i++)
-                        {
-                            for (int j = 0; j < 4; j++)
-                            {
-                                if (i == 0)
-                                {
-                                    temperror1[i * 32 * 2 + j * 2]/*royal.g_sys_param.nPhXRowPrtOff*/ =
-                                        g_RYSYSParamFeedbackInCorrection.m_nXNestFeedback[i * 8 + j] - 2;//非常关键：X向套色偏差值
-                                    temperror1[i * 32 * 2 + j * 2 + 1]/*royal.g_sys_param.nPhXRowPrtOff*/ =
-                                        g_RYSYSParamFeedbackInCorrection.m_nXNestFeedback[i * 8 + j + 4] - 2;//非常关键：X向套色偏差值
-                                }
-                                else
-                                {
-                                    temperror1[i * 32 * 2 + j * 2]/*royal.g_sys_param.nPhXRowPrtOff*/ =
-                                        g_RYSYSParamFeedbackInCorrection.m_nXNestFeedback[i * 8 + j] - 2//从索引换算出正确的反馈值
-                                        + g_nXBetweenHead/*g_RYSYSParamFeedbackInCorrection.m_nXBetweenHead*/[i - 1];//非常关键：X向套色偏差值//从索引换算出正确的反馈值
-                                    temperror1[i * 32 * 2 + j * 2 + 1]/*royal.g_sys_param.nPhXRowPrtOff*/ =
-                                        g_RYSYSParamFeedbackInCorrection.m_nXNestFeedback[i * 8 + j + 4] - 2//从索引换算出正确的反馈值
-                                        + g_nXBetweenHead/*g_RYSYSParamFeedbackInCorrection.m_nXBetweenHead*/[(i - 1) + 6];//非常关键：X向套色偏差值//从索引换算出正确的反馈值
-                                }
-                            }
-                        }
-                        //(3)更新X向的套色偏差值
-                        for (int i = 0; i < 7; i++)
-                        {
-                            temperror2[i/**32*/]/*royal.g_sys_param.nPhYJetOff*/ = g_RYSYSParamFeedbackInCorrection.m_nYNestFeedback[i] - 2;//非常关键：Y向套色偏差值//20210328修改：正确数据：先颜色再组数
-                        }
-                        //(4)更新以上3大类的套色偏差值         
-                        bool returnValue = RoyalMap.UpdataRoyalPrintCardWithFeedbackData(BiDirEncPrtOff /*k_PrintNozzleHeadConfigure.DoubleError*/, temperror1, temperror2);
-                        if (returnValue == true)
-                        {
-                            //pictureBoxFlag6.BackColor = Color.LightCoral;
-                            //this.pictureBoxFlag6.Refresh();
-                            //SaveJsonFile();
-                            pictureBoxFlag6.BackColor = Color.Lime;
-                            this.pictureBoxFlag6.Refresh();
-                        }
-                    }
-                    else if (result == DialogResult.Cancel)//退出时，什么都不做
-                    {
-                    }
+                                g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；
 
-                    break;
+                                string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
+                                string BMPFilePath = CalibrationFilePath + @"\垂直校准图.bmp"/*@"\APCLROT-0.bmp"*/;
+                                g_SharpControl.LoadingFromBMPFile(BMPFilePath);
+                                pictureBoxFlag2.BackColor = Color.Lime;
+                                this.pictureBoxFlag2.Refresh();
+
+                                ShowNozzleCorrectionFigure[0] = 1;
+                            }
+                            else if (ShowNozzleCorrectionFigure[0] == 1)
+                            {
+                                g_SharpControl.DisposeBMPFile();//20210327新增：
+                                g_SharpControl.g_CorrectionFigureFlag = 0;//临时显示是1；
+
+                                pictureBoxFlag2.BackColor = Color.LightCoral;
+                                this.pictureBoxFlag2.Refresh();
+
+                                ShowNozzleCorrectionFigure[0] = 0;
+                            }
+                            this.renderControl1.Invalidate();
+
+                            break;
+                        case 3://预览往返差校准图0和1，单击预览第一帧，再单击预览第2帧
+                            if (k_PrintNozzleHeadConfigure.bPrintGoBackFigureAtOnce == false)//分两次打印
+                            {
+                                if (ShowNozzleCorrectionFigure[1] == 0)
+                                {
+                                    g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；
+
+                                    string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
+                                    string BMPFilePath = CalibrationFilePath + @"\往返差校准图-0.bmp"/*@"\APCLROT-1.bmp"*/;
+                                    g_SharpControl.LoadingFromBMPFile(BMPFilePath);
+                                    pictureBoxFlag3.BackColor = Color.Lime;
+                                    this.pictureBoxFlag3.Refresh();
+                                    pictureBoxFlag7.BackColor = Color.LightCoral;
+                                    this.pictureBoxFlag7.Refresh();
+
+                                    ShowNozzleCorrectionFigure[1] = 1;
+                                }
+                                else if (ShowNozzleCorrectionFigure[1] == 1)
+                                {
+                                    g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；
+
+                                    string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
+                                    string BMPFilePath = CalibrationFilePath + @"\往返差校准图-1.bmp"/*@"\APCLROT-1.bmp"*/;
+                                    g_SharpControl.LoadingFromBMPFile(BMPFilePath);
+                                    pictureBoxFlag3.BackColor = Color.LightCoral;
+                                    this.pictureBoxFlag3.Refresh();
+                                    pictureBoxFlag7.BackColor = Color.Lime;
+                                    this.pictureBoxFlag7.Refresh();
+
+                                    ShowNozzleCorrectionFigure[1] = 2;
+                                }
+                                else if (ShowNozzleCorrectionFigure[1] == 2)
+                                {
+                                    g_SharpControl.DisposeBMPFile();//20210327新增：
+                                    g_SharpControl.g_CorrectionFigureFlag = 0;//临时显示是1；
+
+                                    pictureBoxFlag3.BackColor = Color.LightCoral;
+                                    this.pictureBoxFlag3.Refresh();
+                                    pictureBoxFlag7.BackColor = Color.LightCoral;
+                                    this.pictureBoxFlag7.Refresh();
+
+                                    ShowNozzleCorrectionFigure[1] = 0;
+                                }
+                                this.renderControl1.Invalidate();
+                            }
+                            else 
+                            {
+                                if (ShowNozzleCorrectionFigure[1] == 0)
+                                {
+                                    g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；
+
+                                    string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
+                                    string BMPFilePath = CalibrationFilePath + @"\往返差校准图-3.bmp"/*@"\APCLROT-1.bmp"*/;
+                                    g_SharpControl.LoadingFromBMPFile(BMPFilePath);
+                                    pictureBoxFlag3.BackColor = Color.Lime;
+                                    this.pictureBoxFlag3.Refresh();
+                                    pictureBoxFlag7.BackColor = Color.LightCoral;
+                                    this.pictureBoxFlag7.Refresh();
+
+                                    ShowNozzleCorrectionFigure[1] = 1;
+                                }
+                                else if (ShowNozzleCorrectionFigure[1] == 1)
+                                {
+                                    g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；
+
+                                    string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
+                                    string BMPFilePath = CalibrationFilePath + @"\往返差校准图-3.bmp"/*@"\APCLROT-1.bmp"*/;
+                                    g_SharpControl.LoadingFromBMPFile(BMPFilePath);
+                                    pictureBoxFlag3.BackColor = Color.LightCoral;
+                                    this.pictureBoxFlag3.Refresh();
+                                    pictureBoxFlag7.BackColor = Color.Lime;
+                                    this.pictureBoxFlag7.Refresh();
+
+                                    ShowNozzleCorrectionFigure[1] = 2;
+                                }
+                                else if (ShowNozzleCorrectionFigure[1] == 2)
+                                {
+                                    g_SharpControl.DisposeBMPFile();//20210327新增：
+                                    g_SharpControl.g_CorrectionFigureFlag = 0;//临时显示是1；
+
+                                    pictureBoxFlag3.BackColor = Color.LightCoral;
+                                    this.pictureBoxFlag3.Refresh();
+                                    pictureBoxFlag7.BackColor = Color.LightCoral;
+                                    this.pictureBoxFlag7.Refresh();
+
+                                    ShowNozzleCorrectionFigure[1] = 0;
+                                }
+                                this.renderControl1.Invalidate();
+                            }
+
+
+                            break;
+                        case 4://预览喷头套色校准图0和1，单击预览第一帧，再单击预览第2帧
+                            if (ShowNozzleCorrectionFigure[2] == 0)
+                            {
+                                g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；
+
+                                string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
+                                string BMPFilePath = CalibrationFilePath + @"\喷头套色校准图-0.bmp"/* @"\APRETDIV.bmp"*/;
+                                g_SharpControl.LoadingFromBMPFile(BMPFilePath);
+                                pictureBoxFlag4.BackColor = Color.Lime;
+                                this.pictureBoxFlag4.Refresh();
+                                pictureBoxFlag8.BackColor = Color.LightCoral;
+                                this.pictureBoxFlag8.Refresh();
+
+                                ShowNozzleCorrectionFigure[2] = 1;
+                            }
+                            else if (ShowNozzleCorrectionFigure[2] == 1)
+                            {
+                                g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；
+
+                                string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
+                                string BMPFilePath = CalibrationFilePath + @"\喷头套色校准图-1.bmp"/* @"\APRETDIV.bmp"*/;
+                                g_SharpControl.LoadingFromBMPFile(BMPFilePath);
+                                pictureBoxFlag4.BackColor = Color.LightCoral;
+                                this.pictureBoxFlag4.Refresh();
+                                pictureBoxFlag8.BackColor = Color.Lime;
+                                this.pictureBoxFlag8.Refresh();
+
+                                ShowNozzleCorrectionFigure[2] = 2;
+                            }
+                            else if (ShowNozzleCorrectionFigure[2] == 2)
+                            {
+                                g_SharpControl.DisposeBMPFile();//20210327新增：
+                                g_SharpControl.g_CorrectionFigureFlag = 0;//临时显示是1；
+
+                                pictureBoxFlag4.BackColor = Color.LightCoral;
+                                this.pictureBoxFlag4.Refresh();
+                                pictureBoxFlag8.BackColor = Color.LightCoral;
+                                this.pictureBoxFlag8.Refresh();
+
+                                ShowNozzleCorrectionFigure[2] = 0;
+                            }
+                            this.renderControl1.Invalidate();
+
+                            break;
+                        case 5://预览喷头状态图
+                            if (ShowNozzleCorrectionFigure[3] == 0)
+                            {
+                                g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；
+
+                                string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
+                                string BMPFilePath = CalibrationFilePath + @"\STATUS.bmp"/*@"\Vertical.bmp"*/;
+                                g_SharpControl.LoadingFromBMPFile(BMPFilePath);
+                                pictureBoxFlag5.BackColor = Color.Lime;
+                                this.pictureBoxFlag5.Refresh();
+
+                                ShowNozzleCorrectionFigure[3] = 1;
+                            }
+                            else if (ShowNozzleCorrectionFigure[3] == 1)
+                            {
+                                g_SharpControl.DisposeBMPFile();//20210327新增：
+                                g_SharpControl.g_CorrectionFigureFlag = 0;//临时显示是1；
+
+                                pictureBoxFlag5.BackColor = Color.LightCoral;
+                                this.pictureBoxFlag5.Refresh();
+
+                                ShowNozzleCorrectionFigure[3] = 0;
+                            }
+                            this.renderControl1.Invalidate();
+
+                            break;
+
+                        case 6://1-校准参数保存并生效       
+                               //pictureBoxFlag6.BackColor = Color.LightCoral; ///20210321暂时注释掉：
+                               //this.pictureBoxFlag6.Refresh();
+                               //SaveJsonFile();
+                               //pictureBoxFlag6.BackColor = Color.Lime;
+                               //this.pictureBoxFlag6.Refresh();
+                               //int[] temperror1 = new int[64 * 32 * 2]; temperror1[0]= k_PrintNozzleHeadConfigure.SingleError;
+                               //int[] temperror2 = new int[16 * 32]; temperror2[1]= k_PrintNozzleHeadConfigure.YError ;
+                               //RoyalMap.UpdataRoyalPrintCardWithFeedbackData(k_PrintNozzleHeadConfigure.DoubleError, temperror1, temperror2);
+
+                            校准参数输入 f = new 校准参数输入();//20200202修改   
+                            f.k_RYSYSParamFeedbackInCorrection = g_RYSYSParamFeedbackInCorrection;
+                            DialogResult result = f.ShowDialog();
+                            if (result == DialogResult.OK)//OK时，执行对应操作
+                            {
+                                g_RYSYSParamFeedbackInCorrection = f.k_RYSYSParamFeedbackInCorrection;
+
+                                int[] temperror1 = new int[64 * 32 * 2];
+                                int[] temperror2 = new int[16 * 32];
+                                //(1)非常关键：双向偏差值
+                                int BiDirEncPrtOff/*royal.g_sys_param.nBiDirEncPrtOff*/ = g_RYSYSParamFeedbackInCorrection.m_nXBackForthFeedBack - 6;
+#if false
+                                //(2)更新X向的套色偏差值
+                                int[] g_nXBetweenHead = new int[2 * 6]/*{5,5,5,5,5,5,5,5,5,5,5,5}*/;//X向套色偏差校准反馈值：2*6=12//20210322新增：依次为1-2-正向-喷头偏移距离、1-2-逆向-喷头偏移距离
+                                g_nXBetweenHead = g_RYSYSParamFeedbackInCorrection.m_nXBetweenHead;
+                                for (int i = 0; i < 12; i++)
+                                {
+                                    g_nXBetweenHead[i] = g_nXBetweenHead[i] - 5;
+                                }
+                                for (int i = 6; i > 0; i--)
+                                {
+                                    for (int j = 1; j < i; j++)
+                                    {
+                                        g_nXBetweenHead[i - 1] = g_nXBetweenHead[i - 1] + g_nXBetweenHead[j - 1];//计算正确的累计的喷头相对于1号喷头的偏移值：正向
+                                        g_nXBetweenHead[i - 1 + 6] = g_nXBetweenHead[i - 1 + 6] + g_nXBetweenHead[j - 1 + 6];//计算正确的累计的喷头相对于1号喷头的偏移值：逆向
+                                    }
+                                }
+                                for (int i = 0; i < 7; i++)
+                                {
+                                    for (int j = 0; j < 4; j++)
+                                    {
+                                        if (i == 0)
+                                        {
+                                            temperror1[i * 32 * 2 + j * 2]/*royal.g_sys_param.nPhXRowPrtOff*/ =
+                                                g_RYSYSParamFeedbackInCorrection.m_nXNestFeedback[i * 8 + j] - 2;//非常关键：X向套色偏差值
+                                            temperror1[i * 32 * 2 + j * 2 + 1]/*royal.g_sys_param.nPhXRowPrtOff*/ =
+                                                g_RYSYSParamFeedbackInCorrection.m_nXNestFeedback[i * 8 + j + 4] - 2;//非常关键：X向套色偏差值
+                                        }
+                                        else
+                                        {
+                                            temperror1[i * 32 * 2 + j * 2]/*royal.g_sys_param.nPhXRowPrtOff*/ =
+                                                g_RYSYSParamFeedbackInCorrection.m_nXNestFeedback[i * 8 + j] - 2//从索引换算出正确的反馈值
+                                                + g_nXBetweenHead/*g_RYSYSParamFeedbackInCorrection.m_nXBetweenHead*/[i - 1];//非常关键：X向套色偏差值//从索引换算出正确的反馈值
+                                            temperror1[i * 32 * 2 + j * 2 + 1]/*royal.g_sys_param.nPhXRowPrtOff*/ =
+                                                g_RYSYSParamFeedbackInCorrection.m_nXNestFeedback[i * 8 + j + 4] - 2//从索引换算出正确的反馈值
+                                                + g_nXBetweenHead/*g_RYSYSParamFeedbackInCorrection.m_nXBetweenHead*/[(i - 1) + 6];//非常关键：X向套色偏差值//从索引换算出正确的反馈值
+                                        }
+                                    }
+                                }
+#endif
+#if false
+                                //(3)更新X向的套色偏差值
+                                for (int i = 0; i < 7; i++)
+                                {
+                                    temperror2[i/**32*/]/*royal.g_sys_param.nPhYJetOff*/ = g_RYSYSParamFeedbackInCorrection.m_nYNestFeedback[i] - 2;//非常关键：Y向套色偏差值//20210328修改：正确数据：先颜色再组数
+                                }
+#endif
+                                //(4)更新以上3大类的套色偏差值
+                                float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
+                                bool returnValue = RoyalMap.UpdataRoyalPrintCardWithFeedbackData(BiDirEncPrtOff /*k_PrintNozzleHeadConfigure.DoubleError*/, temperror1, temperror2, m_MovSpeed);
+                                if (returnValue == true)
+                                {
+                                    //pictureBoxFlag6.BackColor = Color.LightCoral;
+                                    //this.pictureBoxFlag6.Refresh();
+                                    //SaveJsonFile();
+                                    pictureBoxFlag6.BackColor = Color.Lime;
+                                    this.pictureBoxFlag6.Refresh();
+                                }
+
+                            }
+                            else if (result == DialogResult.Cancel)//退出时，什么都不做
+                            {
+                            }
+
+                            break;
+
+                    }
+                }
+                catch (Exception error)
+                {
+                    MessageBox.Show(error.ToString());
+                }
+                CorrectionDuringCreateFlag = false;
             }
-
+            else { }
         }
 
 
@@ -8457,7 +8730,14 @@ namespace BinderJetting
         {
             if (Convert.ToInt32((sender as Button).Tag) == 1)//20201117新增：启动打印按钮的初始Tag为1，标志动作为：开启打印
             {
-                g_CorrectionFigureType = 2;//20210324新增：
+                if (k_PrintNozzleHeadConfigure.bPrintGoBackFigureAtOnce == false)//分两次打印
+                {
+                    g_CorrectionFigureType = 2;//20210324新增：
+                }
+                else
+                {
+                    g_CorrectionFigureType = 5;//20230408新增：一次性完成校准图的打印过程
+                }
 
                 (sender as Button).Text = "停止";//20210323新建：暂时先这么简单处理，没有做到完全的即时刷新，不太匹配
                 g_nCorrectionTaskThreadFlag = 1;
@@ -8642,7 +8922,8 @@ namespace BinderJetting
             textBox3.DataBindings.Add("Text", k_PrintNozzleHeadConfigure, "UniversalOffset", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);
             textBox5.DataBindings.Add("Text", k_PrintNozzleHeadConfigure, "UniversalOffsetY", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);
 
-            // 配置和生成校准图所需参数：20210304新增：
+            // 配置和生成校准图所需参数：20210304新增：     
+            textBox7.DataBindings.Add("Text", k_PrintNozzleHeadConfigure, "CorrctionFigureWidthBytes", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230408新增:
             textBox6.DataBindings.Add("Text", k_PrintNozzleHeadConfigure, "Groups", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);
             textBox4.DataBindings.Add("Text", k_PrintNozzleHeadConfigure, "Splits", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//201029新增:
             textBox2.DataBindings.Add("Text", k_PrintNozzleHeadConfigure, "DataLine", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);
@@ -8650,6 +8931,8 @@ namespace BinderJetting
             UpdownFlag.DataBindings.Add("SelectedIndex", k_PrintNozzleHeadConfigure, "VReverse", true, DataSourceUpdateMode.OnPropertyChanged);//车头运动速度：20200326新增
             LeftrightFlag.DataBindings.Add("SelectedIndex", k_PrintNozzleHeadConfigure, "HReverse", true, DataSourceUpdateMode.OnPropertyChanged);//车头运动速度：20200326新增
             PositivenegtiveFlag.DataBindings.Add("SelectedIndex", k_PrintNozzleHeadConfigure, "CarRightSide", true, DataSourceUpdateMode.OnPropertyChanged);//车头运动速度：20200326新增
+            comboBox1.DataBindings.Add("SelectedIndex", k_PrintNozzleHeadConfigure, "PrintGoBackFigureAtOnce", true, DataSourceUpdateMode.OnPropertyChanged);//20230408新增：一次性打印往返差图
+
 
             textBoxFigurepaht.DataBindings.Add("Text", k_PrintNozzleHeadConfigure, "FilePath", true, DataSourceUpdateMode.OnPropertyChanged);//车头运动速度：20200326新增
             //////生成校准图所在文件路径：public string m_szFilePath = "";  //生成校准图所在文件路径
@@ -8697,6 +8980,7 @@ namespace BinderJetting
     [StructLayoutAttribute(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 1)]
     public struct LPCAL_PARAM//20200723批注：校准图参数结构体
     {
+        public int nCorrctionFigureWidthBytes;//打印幅面：X方向
         public int nGroups;        //喷头组数
         public int nSplits;        //喷头组内喷嘴列数
         public int nDataLine;      //喷头单列的喷孔数
@@ -8722,6 +9006,9 @@ namespace BinderJetting
         [DllImport("calibration.dll")]//20210327批注：本部分,C#属性 [DllImport("XXXX.dll")],是DLL框架的初始化及调用入口
         public static extern bool PD_GenBiDirOffset(int nUniversalOffset, int nUniversalOffsetY);         //X 往返差
         [DllImport("calibration.dll")]//20210327批注：本部分,C#属性 [DllImport("XXXX.dll")],是DLL框架的初始化及调用入口
+        public static extern bool PD_GenBiDirOffsetInAFigure(int nUniversalOffset, int nUniversalOffsetY); 		//X 往返差//20230408新建：一次性打印的往返查图
+
+        [DllImport("calibration.dll")]//20210327批注：本部分,C#属性 [DllImport("XXXX.dll")],是DLL框架的初始化及调用入口
         public static extern bool PD_GenPhStatus(int nUniversalOffset);                //喷嘴状态
         [DllImport("calibration.dll")]//20210327批注：本部分,C#属性 [DllImport("XXXX.dll")],是DLL框架的初始化及调用入口
         public static extern bool PD_GenVertivalCheck(int nUniversalOffset);        //垂直校准
@@ -8746,6 +9033,7 @@ namespace BinderJetting
         /// <summary>
         /// 喷头校准图配置及校准模块所需参数
         /// </summary>
+        public int m_nCorrctionFigureWidthBytes = 1004;//校准图宽度字节
         public int m_nGroups = 7;          //喷头组数
         public int m_nSplits = 4;          //喷头组内喷嘴列数
         public int m_nDataLine = 320;      //喷头单列的喷孔数
@@ -8753,6 +9041,7 @@ namespace BinderJetting
         public bool m_bVReverse = false;     //上下翻转:默认false
         public bool m_bHReverse = false;     //左右翻转:默认false
         public bool m_bCarRightSide = false; //标尺正负反向:默认false
+        public bool bPrintGoBackFigureAtOnce = false;//20230408新增：一次性打印往返差图
         public string m_szFilePath = ""/*""*/;  //生成校准图所在文件路径
 
         public double m_dUniversalOffset = 200;//设置偏移值//mm要转换为像素//X向
@@ -8789,6 +9078,12 @@ namespace BinderJetting
             get { return this.m_dUniversalOffsetY; }
             set { if (value != this.m_dUniversalOffsetY) { this.m_dUniversalOffsetY = value; NotifyPropertyChanged(); } }
         }
+        
+        public int CorrctionFigureWidthBytes//喷头组数
+        {
+            get { return this.m_nCorrctionFigureWidthBytes; }
+            set { if (value != this.m_nCorrctionFigureWidthBytes) { this.m_nCorrctionFigureWidthBytes = value; NotifyPropertyChanged(); } }
+        }
 
         public int Groups//喷头组数
         {
@@ -8824,6 +9119,11 @@ namespace BinderJetting
         {
             get { return this.m_bCarRightSide; }
             set { if (value != this.m_bCarRightSide) { this.m_bCarRightSide = value; NotifyPropertyChanged(); } }
+        } 
+        public bool PrintGoBackFigureAtOnce//标尺正负反向
+        {
+            get { return this.bPrintGoBackFigureAtOnce; }
+            set { if (value != this.bPrintGoBackFigureAtOnce) { this.bPrintGoBackFigureAtOnce = value; NotifyPropertyChanged(); } }
         }
         public string FilePath//生成校准图所在文件路径
         {
