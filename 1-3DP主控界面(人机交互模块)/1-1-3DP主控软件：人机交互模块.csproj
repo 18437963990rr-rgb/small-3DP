@@ -241,12 +241,6 @@
     <Compile Include="SendMessageToCamera.Designer.cs">
       <DependentUpon>SendMessageToCamera.cs</DependentUpon>
     </Compile>
-    <Compile Include="墨车校准确认.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="墨车校准确认.Designer.cs">
-      <DependentUpon>墨车校准确认.cs</DependentUpon>
-    </Compile>
     <Compile Include="动画控件.xaml.cs">
       <DependentUpon>动画控件.xaml</DependentUpon>
     </Compile>
@@ -381,9 +375,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="作业参数.resx">
       <DependentUpon>作业参数.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="墨车校准确认.resx">
-      <DependentUpon>墨车校准确认.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="关闭确认.resx">
       <DependentUpon>关闭确认.cs</DependentUpon>

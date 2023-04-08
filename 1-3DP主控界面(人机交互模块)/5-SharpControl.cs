@@ -1484,36 +1484,6 @@ namespace BinderJetting
             }
         }
 
-        //20210319新增：处理校准图并传送，已经验证通过
-        public void RenderToWic2(bool action, int index, int subindex, int RePrintTimes, string importCorrectionFigurePath)//subindex:重喷索引，取值为0-1-2-3-....-n//201030新增：
-        {
-            if (action == true)
-            {
-                ///(1-1)设置1帧打印数据的基本参数：20210319新增
-                ///(2-1)绘制1帧需要打印的数据：20210319新增
-                ///(3-1)输出绘制的1帧数据，发送到控制器的上位机端内存缓冲区，配合控制器完成信息的实时打印机分配：20210319新建             
-                // （1）读取BMP文件到Bitmap数据中
-                string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart" + importCorrectionFigurePath/*System.Windows.Forms.Application.StartupPath + @"\CalibrationChart"*/;//输入的CLI文件的存放目录。
-                FileStream fs = new System.IO.FileStream(CalibrationFilePath/*CalibrationFilePath + @"\喷头套色校准图-0.bmp"*/, FileMode.Open, FileAccess.Read/*Read*/);//PicBoxCorrect1.Image = System.Drawing.Image.FromStream(fs);//20210328修改：修改权限，否则报错
-                System.Drawing.Bitmap clone = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromStream(fs);
-                clone.SetResolution(600f, 600f);//Windows7的系统BUG
-
-                ////// （2）processedBit// Lock the bitmap's bits.  map.LockBits();//锁定到内存
-                ////System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, 10496/*clone.Width*/, 8960/*clone.Height*/);
-                ////System.Drawing.Imaging.BitmapData bmpData = clone.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, clone.PixelFormat);
-                ////// （3）Get the address of the first line.
-                ////IntPtr ptr = bmpData.Scan0;
-
-#if false//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
-                clone.save("output1bpp.bmp", imageformat.bmp);//保存到bmpfile
-#else
-                WriteImgLayerData(clone, index/*1-2-3*/, subindex/*0-1-2*/, RePrintTimes/*1*/, false);//201030修改：//20201117批注：数据封送处理//20210324:不需要执行反色
-#endif
-                clone.Dispose();
-            }
-            else { }
-        }
-
         public Bitmap1 bitmap = null;
         public WICStream fileStream = null;
         public BitmapDecoder bitmapDecoder = null;
@@ -1706,6 +1676,35 @@ namespace BinderJetting
                     1f/*1.0f*/, SharpDX.Direct2D1.BitmapInterpolationMode.Linear);
             }
             else { }
+        }
+        //20210319新增：处理校准图并传送，已经验证通过
+        public void RenderToWic2(bool action, int index, int subindex, int RePrintTimes,string importCorrectionFigurePath)//subindex:重喷索引，取值为0-1-2-3-....-n//201030新增：
+        {
+            if (action == true)
+            {
+                ///(1-1)设置1帧打印数据的基本参数：20210319新增
+                ///(2-1)绘制1帧需要打印的数据：20210319新增
+                ///(3-1)输出绘制的1帧数据，发送到控制器的上位机端内存缓冲区，配合控制器完成信息的实时打印机分配：20210319新建             
+                // （1）读取BMP文件到Bitmap数据中
+                string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart" + importCorrectionFigurePath/*System.Windows.Forms.Application.StartupPath + @"\CalibrationChart"*/;//输入的CLI文件的存放目录。
+                FileStream fs = new System.IO.FileStream(CalibrationFilePath/*CalibrationFilePath + @"\喷头套色校准图-0.bmp"*/, FileMode.Open, FileAccess.Read/*Read*/);//PicBoxCorrect1.Image = System.Drawing.Image.FromStream(fs);//20210328修改：修改权限，否则报错
+                System.Drawing.Bitmap clone = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromStream(fs);
+                clone.SetResolution(600f, 600f);//Windows7的系统BUG
+
+                ////// （2）processedBit// Lock the bitmap's bits.  map.LockBits();//锁定到内存
+                ////System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, 10496/*clone.Width*/, 8960/*clone.Height*/);
+                ////System.Drawing.Imaging.BitmapData bmpData = clone.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, clone.PixelFormat);
+                ////// （3）Get the address of the first line.
+                ////IntPtr ptr = bmpData.Scan0;
+
+#if false//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
+                clone.save("output1bpp.bmp", imageformat.bmp);//保存到bmpfile
+#else
+                WriteImgLayerData(clone, index/*1-2-3*/, subindex/*0-1-2*/, RePrintTimes/*1*/,false);//201030修改：//20201117批注：数据封送处理//20210324:不需要执行反色
+#endif
+                clone.Dispose();
+            }
+            else{}
         }
 
         public int k_dYJetOff = 0;//20210311修正：Y向的位置起始偏差。

@@ -158,10 +158,6 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.doublePanel1 = new CustomPanel.DoublePanel();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label38 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.label37 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.label36 = new System.Windows.Forms.Label();
@@ -723,6 +719,7 @@
             // 
             // toolStripStatusLabel3
             // 
+            this.toolStripStatusLabel3.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
             resources.ApplyResources(this.toolStripStatusLabel3, "toolStripStatusLabel3");
             // 
@@ -859,6 +856,7 @@
             resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
             this.toolStripStatusLabel1.BackColor = System.Drawing.Color.Snow;
             this.toolStripStatusLabel1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.toolStripStatusLabel1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             // 
             // PrinterStatusLabel
@@ -866,6 +864,7 @@
             resources.ApplyResources(this.PrinterStatusLabel, "PrinterStatusLabel");
             this.PrinterStatusLabel.BackColor = System.Drawing.Color.Snow;
             this.PrinterStatusLabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.PrinterStatusLabel.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.PrinterStatusLabel.Name = "PrinterStatusLabel";
             // 
             // button4
@@ -1298,10 +1297,6 @@
             // 
             resources.ApplyResources(this.doublePanel1, "doublePanel1");
             this.doublePanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.doublePanel1.Controls.Add(this.comboBox1);
-            this.doublePanel1.Controls.Add(this.label38);
-            this.doublePanel1.Controls.Add(this.textBox7);
-            this.doublePanel1.Controls.Add(this.label37);
             this.doublePanel1.Controls.Add(this.textBox3);
             this.doublePanel1.Controls.Add(this.textBox5);
             this.doublePanel1.Controls.Add(this.label36);
@@ -1348,31 +1343,6 @@
             this.doublePanel1.Controls.Add(this.label24);
             this.doublePanel1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.doublePanel1.Name = "doublePanel1";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            resources.GetString("comboBox1.Items"),
-            resources.GetString("comboBox1.Items1")});
-            resources.ApplyResources(this.comboBox1, "comboBox1");
-            this.comboBox1.Name = "comboBox1";
-            // 
-            // label38
-            // 
-            resources.ApplyResources(this.label38, "label38");
-            this.label38.Name = "label38";
-            // 
-            // textBox7
-            // 
-            resources.ApplyResources(this.textBox7, "textBox7");
-            this.textBox7.Name = "textBox7";
-            // 
-            // label37
-            // 
-            resources.ApplyResources(this.label37, "label37");
-            this.label37.Name = "label37";
             // 
             // textBox3
             // 
@@ -1900,10 +1870,6 @@
         private System.Windows.Forms.Button SendMessageBtn;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.Label label37;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label38;
     }
 }
 

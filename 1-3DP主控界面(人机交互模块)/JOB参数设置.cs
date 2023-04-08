@@ -426,9 +426,6 @@ namespace BinderJetting
             int index = SpeedBox.FindString((k_RYSYSParam.m_dCarMoveSpeed).ToString());
             SpeedBox.SelectedIndex = index;
 
-            /*int*/ index = comboBox6.FindString((k_RYSYSParam.m_dCarBackCleanStationMoveSpeed).ToString());
-            comboBox6.SelectedIndex = index;
-
             index = XDpiBox.FindString((k_RYSYSParam.m_XPrintDpi).ToString());
             XDpiBox.SelectedIndex = index;
 
@@ -538,8 +535,6 @@ namespace BinderJetting
             textBox6.DataBindings.Add("Text", k_RYSYSParam, "InkSupplyCycleValidTime", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);
             textBox5.DataBindings.Add("Text", k_RYSYSParam, "InkSupplyCycleTime", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);
             SpeedBox.DataBindings.Add("SelectedItem", k_RYSYSParam, "CarMoveSpeed", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//车头运动速度：20200326新增
-            comboBox6.DataBindings.Add("SelectedItem", k_RYSYSParam, "CarBackCleanStationMoveSpeed", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//车头回清洗站运动速度：20200326新增
-
 
             textBox9.DataBindings.Add("Text", k_RYSYSParam, "PrintAeraLength", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//打印区长度：默认420mm：20200326新增
             textBox10.DataBindings.Add("Text", k_RYSYSParam, "CarMoveBufferLength2", true/*true*//*false*/, DataSourceUpdateMode.OnPropertyChanged);//车头运动缓冲长度2：默认10mm：20200326新增
@@ -726,8 +721,8 @@ namespace BinderJetting
         /// 喷头保护设置参数：(清洗和闪喷两种作用)
         /// </summary>
         //总计有2种方式的闪喷：高速闪喷和待机闪喷；闪喷策略，分别保存到对应的结构体
-        public double m_dInterSpeedSparkCycleTime = 1.5/*20*/;//间歇闪喷周期//20220920修改：周期为1s
-        public double m_dHSpeedSparkTime = 0.5/*1*/;//高速闪喷时间//20220920修改：有效时间0.5s
+        public double m_dInterSpeedSparkCycleTime = 1/*20*/;//间歇闪喷周期//20220920修改：周期为1s
+        public double m_dHSpeedSparkTime = 1/*1*/;//高速闪喷时间//20220920修改：有效时间0.5s
         public int m_nHSpeedSparkFreq = 500;//高速闪喷频率//20220920修改：频率500Hz
 
         public int m_nStandbySpeedSparkFreq = 500/*string.Empty*/;//待机闪喷频率——————n表示int；d表示double//待机就是间歇20200326：
@@ -775,8 +770,6 @@ namespace BinderJetting
         public double m_dInkSupplyCycleValidTime = 60;//供墨循环有效时间
         public double m_dInkSupplyCycleTime = 3600;//供墨循环周期
         public double m_dCarMoveSpeed = 40/*80*//*10*/;//车头运动速度：20200326新增//20200422修改为50mm/s,10mm/s速度太慢//20210201新建批注：40mm/s的打印速度是优选的，对于喷墨质量的稳定非常关键
-        public double m_dCarBackCleanStationMoveSpeed = 150;//车头回清洗站运动速度：20200326新增
-
         public double m_dPrintAeraLength = 420;//打印区长度：默认420mm：20200326新增
         public double m_dCarMoveBufferLength2 = 10;//车头运动缓冲长度2：默认10mm：20200326新增
 
@@ -929,11 +922,6 @@ namespace BinderJetting
         {
             get { return this.m_dCarMoveSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set { if (value != this.m_dCarMoveSpeed) { this.m_dCarMoveSpeed = value; NotifyPropertyChanged(); } }
-        }
-        public double CarBackCleanStationMoveSpeed//车头回清洗站运动速度：20200326新增
-        {
-            get { return this.m_dCarBackCleanStationMoveSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dCarBackCleanStationMoveSpeed) { this.m_dCarBackCleanStationMoveSpeed = value; NotifyPropertyChanged(); } }
         }
         public double PrintAeraLength//打印区长度：默认420mm：20200326新增
         {
