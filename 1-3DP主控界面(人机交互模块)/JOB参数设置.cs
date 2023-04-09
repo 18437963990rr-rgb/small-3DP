@@ -20,7 +20,7 @@ namespace BinderJetting
     {
         public LaserADD_BinderJetter.PowderLayerParam m_mPowderLayerParam;//m的含义是映射mapping:020104
 
-        public APrintStategy a_layerStategy= new APrintStategy();//单策略;1项打印策略
+        public APrintStategy a_layerStategy = new APrintStategy();//单策略;1项打印策略
         private LayerStategyContent m_mlayerStategyContent;//单层策略：层参数设计:20200806新增
 
         //public List<APrintStategy> layerStategyContentss = new List<APrintStategy>();//打印策略内容
@@ -89,7 +89,7 @@ namespace BinderJetting
 
                 ListViewItem list_item = new ListViewItem();
                 APrintStategy model = PrintStrategys.m_PrintStrategys[i];//实例一个实体对象=list中的实体对象
-                list_item.Text =  (i + 1)+ "号";
+                list_item.Text = (i + 1) + "号";
 
                 string tempStringItem = model.Name;
                 list_item.SubItems.Add(tempStringItem/*(model.b_AutoPrintNextlayer).ToString()*/);//xx为相应属性
@@ -99,7 +99,8 @@ namespace BinderJetting
 
             this.Refresh();
 
-            try{
+            try
+            {
                 //20200807新建：显示默认的打印策略
                 string SelectedName = PrintStrategys.m_PrintStrategys[PrintStrategys.SelectedAPrintStategyItem].Name;
                 SelectedItemComboBox.SelectedIndex = SelectedItemComboBox.FindStringExact(SelectedName);
@@ -119,8 +120,8 @@ namespace BinderJetting
             {
                 ListViewItem list_item = new ListViewItem();
                 LayerStategyContent model = layerStategyContents[i];//实例一个实体对象=list中的实体对象
-                list_item.Text = "参数"+(i+1);
-                list_item.SubItems.Add((model.b_LayerIndex).ToString()+"层");
+                list_item.Text = "参数" + (i + 1);
+                list_item.SubItems.Add((model.b_LayerIndex).ToString() + "层");
                 list_item.SubItems.Add((model.b_LayerEnd).ToString() + "层");
 
                 string tempStringItem = null;
@@ -137,9 +138,9 @@ namespace BinderJetting
                 else { tempStringItem = "不开固化"; }
                 list_item.SubItems.Add(tempStringItem/*(model.b_NeedUV).ToString()*/);
 
-                list_item.SubItems.Add((model.m_dPowderThick).ToString()+"um");
-                list_item.SubItems.Add((model.m_dUVPower).ToString()+"%");
-                list_item.SubItems.Add((model.m_nWaveType).ToString()+"号");
+                list_item.SubItems.Add((model.m_dPowderThick).ToString() + "um");
+                list_item.SubItems.Add((model.m_dUVPower).ToString() + "%");
+                list_item.SubItems.Add((model.m_nWaveType).ToString() + "号");
                 listView1.Items.Add(list_item);//将设置好的listiem添加到items中
             }
             this.Refresh();
@@ -221,7 +222,7 @@ namespace BinderJetting
                 }
 
                 int k = SortListContain[SortListContain.Length - 1];
-                label66.Text= "层参数设计:"+ "参数" + (k + 1);
+                label66.Text = "层参数设计:" + "参数" + (k + 1);
             }
         }
 
@@ -238,7 +239,7 @@ namespace BinderJetting
             if (this.listView1.SelectedItems.Count != 0)    //如果选中的行等于0,就不执行。默认设置了不能多选
             {
                 //(1)在选中行的下一行进行插入
-                int number = this.listView1.SelectedItems[0].Index+1;//
+                int number = this.listView1.SelectedItems[0].Index + 1;//
 
                 a_layerStategy.layerStategyContents.Insert(number, ObjectCopier.Clone(m_mlayerStategyContent));
 
@@ -256,7 +257,7 @@ namespace BinderJetting
             {
                 //(1)更新数据：从扫描策略的层参数——》层参数设计
                 int number = this.listView1.SelectedItems[0].Index;
-               
+
                 a_layerStategy.layerStategyContents[number] = ObjectCopier.Clone(m_mlayerStategyContent);
                 //(2)刷新ListView
                 ListViewBinding(a_layerStategy.layerStategyContents);
@@ -268,7 +269,7 @@ namespace BinderJetting
             //修改策略列表绑定的策略数据
             //APrintStategy tempLayerParam = (APrintStategy)a_layerStategy.Clone();
             a_layerStategy.Name = "新建策略" + PrintStrategys.m_PrintStrategys.Count();
-            APrintStategy tempLayerParam =ObjectCopier.Clone(a_layerStategy);
+            APrintStategy tempLayerParam = ObjectCopier.Clone(a_layerStategy);
             //传送到临时策略
             PrintStrategys.m_PrintStrategys.Add(ObjectCopier.Clone(tempLayerParam));
             //刷新显示
@@ -290,7 +291,7 @@ namespace BinderJetting
                 int[] SortListContain = new int[listView1.SelectedItems.Count];//记录待删除项的索引号
                 for (int j = 0; j < this.listView1.SelectedItems.Count; j++)
                 {
-                    SortListContain[j]= listView1.SelectedItems[j].Index;
+                    SortListContain[j] = listView1.SelectedItems[j].Index;
                 }
 
                 //(2)进行排序工作：从大到小排序生成所需删除次序
@@ -309,7 +310,7 @@ namespace BinderJetting
                 //(3)依次完成删除：删除原始的数据
                 for (int i = 0; i < SortListContain.Length; i++) //将排序后的数值按序输出
                 {
-                    a_layerStategy.layerStategyContents.RemoveAt(SortListContain[i]);             
+                    a_layerStategy.layerStategyContents.RemoveAt(SortListContain[i]);
                 }
                 //(4)刷新绑定的ListView的显示
                 ListViewBinding(a_layerStategy.layerStategyContents);
@@ -361,7 +362,7 @@ namespace BinderJetting
                 //(2)刷新ListView
                 ListViewBinding(a_layerStategy.layerStategyContents);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show("Note:待更新项已删除");
             }
@@ -426,6 +427,10 @@ namespace BinderJetting
             int index = SpeedBox.FindString((k_RYSYSParam.m_dCarMoveSpeed).ToString());
             SpeedBox.SelectedIndex = index;
 
+            /*int*/
+            index = comboBox6.FindString((k_RYSYSParam.m_dCarBackCleanStationMoveSpeed).ToString());
+            comboBox6.SelectedIndex = index;
+
             index = XDpiBox.FindString((k_RYSYSParam.m_XPrintDpi).ToString());
             XDpiBox.SelectedIndex = index;
 
@@ -465,7 +470,7 @@ namespace BinderJetting
             {
                 GrayValueBox.SelectedIndex = index;
             }
- #endregion
+            #endregion
 
             //消除加载时黑框显示的临时定时器：20200527批注：本部分代码非常关键
             Timer = new System.Windows.Forms.Timer() { Interval = 100 };
@@ -477,7 +482,8 @@ namespace BinderJetting
         //对于减少缓冲，效果很明显
         protected override CreateParams CreateParams
         {
-            get{
+            get
+            {
                 CreateParams cp = base.CreateParams;
                 cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
                 return cp;
@@ -486,10 +492,12 @@ namespace BinderJetting
         private System.Windows.Forms.Timer Timer = null;
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (this.Opacity >= 1){
+            if (this.Opacity >= 1)
+            {
                 Timer.Stop();
             }
-            else{
+            else
+            {
                 base.Opacity += 0.5;//延迟4帧完成显示
             }
         }
@@ -510,7 +518,7 @@ namespace BinderJetting
             textBox12.DataBindings.Add("Text", k_RYSYSParam, "HSpeedSparkTime", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);
             textBox13.DataBindings.Add("Text", k_RYSYSParam, "HSpeedSparkFreq", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);
 
-            
+
             textBox16.DataBindings.Add("Text", k_RYSYSParam, "InterSpeedSparkValidTime", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);
 
             textBox15.DataBindings.Add("Text", k_RYSYSParam, "PrintCleaningCycleTime", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);
@@ -535,6 +543,8 @@ namespace BinderJetting
             textBox6.DataBindings.Add("Text", k_RYSYSParam, "InkSupplyCycleValidTime", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);
             textBox5.DataBindings.Add("Text", k_RYSYSParam, "InkSupplyCycleTime", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);
             SpeedBox.DataBindings.Add("SelectedItem", k_RYSYSParam, "CarMoveSpeed", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//车头运动速度：20200326新增
+            comboBox6.DataBindings.Add("SelectedItem", k_RYSYSParam, "CarBackCleanStationMoveSpeed", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//车头回清洗站运动速度：20200326新增
+
 
             textBox9.DataBindings.Add("Text", k_RYSYSParam, "PrintAeraLength", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//打印区长度：默认420mm：20200326新增
             textBox10.DataBindings.Add("Text", k_RYSYSParam, "CarMoveBufferLength2", true/*true*//*false*/, DataSourceUpdateMode.OnPropertyChanged);//车头运动缓冲长度2：默认10mm：20200326新增
@@ -572,10 +582,10 @@ namespace BinderJetting
 
             textBox28.DataBindings.Add("Text", k_RYSYSParam, "PrtCtl", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//JOB控制字：
             textBox8.DataBindings.Add("Text", k_RYSYSParam, "PrtXEncPos", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//任务的X向起打位置:20200411新增
-            
+
             textBox27.DataBindings.Add("Text", k_RYSYSParam, "XJetOff", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//任务的X向起打位置修正:20230321修订
             textBox37.DataBindings.Add("Text", k_RYSYSParam, "YJetOff", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//任务的X向起打位置:20200411新增
-            
+
             // 送粉系统校准
             ResetCorrectCheckBox.DataBindings.Add("Checked", k_RYSYSParam, "FlagResetCorrect", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//保湿车头高度
             textBox3.DataBindings.Add("Text", k_RYSYSParam, "LogPath", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//日志路径：20200326新增
@@ -601,7 +611,7 @@ namespace BinderJetting
             textBox38.DataBindings.Add("Text", k_RYSYSParam, "UnactDepth", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//灰度数据格式:20200411新增
             ////20210605新增：是否应用子区域处理算法
             comboBox1.DataBindings.Add("SelectedIndex", k_RYSYSParam, "ApplaySubAreaAlthogrim", true, DataSourceUpdateMode.OnPropertyChanged);//车头运动速度：20200326新增
-            
+
             ////20230320新增：是否处于调试状态
             comboBox2.DataBindings.Add("SelectedIndex", k_RYSYSParam, "ApplyPowderSupplyMotion", true, DataSourceUpdateMode.OnPropertyChanged);//车头运动速度：20200326新增
         }
@@ -633,7 +643,7 @@ namespace BinderJetting
             {
                 royal.royal.g_sys_param.szWavePath = openWaveFormFileDialog.FileNames[0];//获取所有选中项的文件名
             }
-        
+
             WaveformSelectBtn.Text = "选择波\r\n形参数";
             //WaveformSelectBtn.BackColor = Color.Yellow;
         }
@@ -643,7 +653,7 @@ namespace BinderJetting
         private void ADIBSetApplyBtn_Click(object sender, EventArgs e)
         {
             ADIBSetApplyBtn.Text = "参数设\r\n置中 ";
-            手动操作 f = new 手动操作(2,nValveStateMask);//20200202修改//20200718修改：新增第2项参数
+            手动操作 f = new 手动操作(2, nValveStateMask);//20200202修改//20200718修改：新增第2项参数
             f.Width = 1000; f.Height = 650;
             //f.ControlBox = false;
             f.FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -721,8 +731,8 @@ namespace BinderJetting
         /// 喷头保护设置参数：(清洗和闪喷两种作用)
         /// </summary>
         //总计有2种方式的闪喷：高速闪喷和待机闪喷；闪喷策略，分别保存到对应的结构体
-        public double m_dInterSpeedSparkCycleTime = 1/*20*/;//间歇闪喷周期//20220920修改：周期为1s
-        public double m_dHSpeedSparkTime = 1/*1*/;//高速闪喷时间//20220920修改：有效时间0.5s
+        public double m_dInterSpeedSparkCycleTime = 1.5/*20*/;//间歇闪喷周期//20220920修改：周期为1s
+        public double m_dHSpeedSparkTime = 0.5/*1*/;//高速闪喷时间//20220920修改：有效时间0.5s
         public int m_nHSpeedSparkFreq = 500;//高速闪喷频率//20220920修改：频率500Hz
 
         public int m_nStandbySpeedSparkFreq = 500/*string.Empty*/;//待机闪喷频率——————n表示int；d表示double//待机就是间歇20200326：
@@ -770,13 +780,15 @@ namespace BinderJetting
         public double m_dInkSupplyCycleValidTime = 60;//供墨循环有效时间
         public double m_dInkSupplyCycleTime = 3600;//供墨循环周期
         public double m_dCarMoveSpeed = 40/*80*//*10*/;//车头运动速度：20200326新增//20200422修改为50mm/s,10mm/s速度太慢//20210201新建批注：40mm/s的打印速度是优选的，对于喷墨质量的稳定非常关键
+        public double m_dCarBackCleanStationMoveSpeed = 150;//车头回清洗站运动速度：20200326新增
+
         public double m_dPrintAeraLength = 420;//打印区长度：默认420mm：20200326新增
         public double m_dCarMoveBufferLength2 = 10;//车头运动缓冲长度2：默认10mm：20200326新增
 
         public double m_dBlenderValidSec = 10;//墨水搅拌有效时间：20200329新增
         public double m_dBlenderCycleSec = 300;//墨水搅拌周期：20200329新增
 
-        public int m_XPrintDpi = 635*2;//X向喷射密度：20201017新增
+        public int m_XPrintDpi = 635 * 2;//X向喷射密度：20201017新增
 
         /// <summary>
         /// 功能选项
@@ -786,7 +798,7 @@ namespace BinderJetting
         public bool m_bFlagInkLevelAlarm = false;//允许液位报警
         public bool m_bFlagSparkWhenPreMoi = true;//保湿时闪喷
         public bool m_bFlagComeXOriginEnding = true;//打印结束X回原点
-        
+
         public int m_nPixelGrayBits = 1/*4000*/;//灰度数据格式：20200411新增
         public int m_dPixelGrayValue = 2;//像素打印灰度值：20220202新增：
         public int m_nPrtCtl = 8;//JOB控制字：bit0:跳白支持，bit1：循环喷嘴偏移，bit2 Y向偏差无重嘴， bit3 X镜像， bit4 Y镜像:20200411新增
@@ -794,7 +806,7 @@ namespace BinderJetting
         //20220524修改：起始打印值为幅面的左端起始点，修改为30MM
         public double m_dXJetOff = 0;//20230321新建：修改X向启打位置修订
         public double m_dYJetOff = 0/*20*/;//Y向起打位置修订:20210311新增//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改//20230319新建：此值修改为默认值0，消除此前的相关BUGS       
-        
+
 
         /// <summary>
         /// 送粉系统校准
@@ -922,6 +934,11 @@ namespace BinderJetting
         {
             get { return this.m_dCarMoveSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set { if (value != this.m_dCarMoveSpeed) { this.m_dCarMoveSpeed = value; NotifyPropertyChanged(); } }
+        }
+        public double CarBackCleanStationMoveSpeed//车头回清洗站运动速度：20200326新增
+        {
+            get { return this.m_dCarBackCleanStationMoveSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+            set { if (value != this.m_dCarBackCleanStationMoveSpeed) { this.m_dCarBackCleanStationMoveSpeed = value; NotifyPropertyChanged(); } }
         }
         public double PrintAeraLength//打印区长度：默认420mm：20200326新增
         {
@@ -1060,7 +1077,7 @@ namespace BinderJetting
         {
             get { return this.m_dPixelGrayValue; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set { if (value != this.m_dPixelGrayValue) { this.m_dPixelGrayValue = value; NotifyPropertyChanged(); } }
-        }    
+        }
 
         public int PrtCtl//JOB控制字：bit0:跳白支持，bit1：循环喷嘴偏移，bit2 Y向偏差无重嘴， bit3 X镜像， bit4 Y镜像:20200411新增
         {
@@ -1124,7 +1141,7 @@ namespace BinderJetting
             get { return this.m_dDeviation; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set { if (value != this.m_dDeviation) { this.m_dDeviation = value; NotifyPropertyChanged(); } }
         }
-        
+
         public double UnactDepth// 202105303新增：大零件子区域处理算法设置的无效深度：距上表面深度，目前设置为层数，方便使用
         {
             get { return this.m_dUnactDepth; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
@@ -1145,7 +1162,7 @@ namespace BinderJetting
     /// <summary>
     /// 层参数设计：20200806批注
     /// </summary>
-    public class LayerStategyContent:INotifyPropertyChanged, ICloneable//20200806新增
+    public class LayerStategyContent : INotifyPropertyChanged, ICloneable//20200806新增
     {
         /// <summary>
         /// 返回本类的浅表复本
@@ -1165,12 +1182,12 @@ namespace BinderJetting
 
         public int b_LayerIndex = 0;
         public int b_LayerEnd = 0;
-        public int b_NeedUV =0;
-        public int b_NeedPowder =0;
-        public int b_AutoPrintNextlayer =0;
-        public double m_dUVPower =50;
-        public double m_dPowderThick=100;
-        public int  m_nWaveType=1;
+        public int b_NeedUV = 0;
+        public int b_NeedPowder = 0;
+        public int b_AutoPrintNextlayer = 0;
+        public double m_dUVPower = 50;
+        public double m_dPowderThick = 100;
+        public int m_nWaveType = 1;
 
         //层间继承控制：是否开启层间继承
         public int LayerIndexStart//

@@ -71,18 +71,21 @@ namespace royal
         /// <param name="PhXRowPrtOff"></param>
         /// <param name="PhYJetOff"></param>
         /// <returns></returns>
-        public bool UpdataRoyalPrintCardWithFeedbackData(int BiDirEncPrtOff,int[] PhXRowPrtOff,int[] PhYJetOff)//20210306新增：校准Royal控制器的喷头组，提升打印精度
+        public bool UpdataRoyalPrintCardWithFeedbackData(int BiDirEncPrtOff, int[] PhXRowPrtOff, int[] PhYJetOff, float printvel)//20210306新增：校准Royal控制器的喷头组，提升打印精度
         {
             royal.g_sys_param.nBiDirEncPrtOff = BiDirEncPrtOff;//非常关键：双向z偏差值
+
+            string msg = $"输入校准值1次，打印往返差校准值为：BiDirEncPrtOff{{{BiDirEncPrtOff}}},打印速度{{{printvel}mm/s}}";
+            Log4Net.Info(msg);
+
+#if false
             royal.g_sys_param.nPhXRowPrtOff = PhXRowPrtOff;//非常关键：X向套色偏差值
             royal.g_sys_param.nPhYJetOff = PhYJetOff;//非常关键：Y向套色偏差值
-
-
             int[] PhXRowPrtOff22 = new int[64 * 32 * 2];
             int[] PhYJetOff22 = new int[16 * 32];
             PhXRowPrtOff22 = royal.g_sys_param.nPhXRowPrtOff;
             PhYJetOff22 = royal.g_sys_param.nPhYJetOff;
-
+#endif
 
             bool returnST = royal.DEV_UpdateParam(ref royal.g_sys_param);
             if (returnST == false)
@@ -106,11 +109,11 @@ namespace royal
             ///（1）打开设备：
             IntPtr ParenthWnd = new IntPtr(0);//获取主窗口句柄          
             ParenthWnd = royal.FindWindow(null, "LASERADD-BinderJetter"/* "Royal3DP测试DEMO主界面"*/);//获取主窗口句柄:通过第三方dll获取
-            int nRetVal = royal.DEV_OpenDevice(ParenthWnd, 
-                System.Windows.Forms.Application.StartupPath+ @"\"
+            int nRetVal = royal.DEV_OpenDevice(ParenthWnd,
+                System.Windows.Forms.Application.StartupPath + @"\"
                 /*+ @"C:\Users\SummerGhost\Documents\Visual Studio 2017\Projects\LaserAdd_3DP_Software\1-3DP主控界面(人机交互模块)\bin\Debug\"*//*"F:\\RoyalOutput\\x64\\"*/);
 
-            bool flag1=false, flag2=false, flag3=false;
+            bool flag1 = false, flag2 = false, flag3 = false;
             if (nRetVal > 0)
             {
                 string sztxt;
@@ -132,9 +135,9 @@ namespace royal
             royal.g_sys_param.nIoOption = 0xC0000000;//20200803新增：系统参数控制位使能：使能31位、32位——使能生成图层信息log；使能生成PASS写数据log
 
             //(2-1)修改闪喷频率为500Hz,有效时间为0.5ms,周期时长为1ms
-            royal.g_sys_param.fBrustCycleSec = 1f;//20220920修改：闪喷频率500-1s时间内，0.5s在工作
-            royal.g_sys_param.fBrustValidSec = 0.5f;//20220920修改：闪喷频率500-1s时间内，0.5s在工作
-            royal.g_sys_param.fBrustFrequecy = 500*10/*2000*//*50*/;//20220920修改：闪喷频率500-1s时间内，0.5s在工作//20230327修改：底层的配置文件的闪喷的基准频率设置不准确，需要认为设置并扩展10倍
+            royal.g_sys_param.fBrustCycleSec = 1.5f / 10;//20220920修改：闪喷频率500-1s时间内，0.5s在工作//20230327修改：底层的配置文件的闪喷的基准频率设置不准确，需要认为设置并缩小10倍
+            royal.g_sys_param.fBrustValidSec = 0.5f / 10;//20220920修改：闪喷频率500-1s时间内，0.5s在工作//20230327修改：底层的配置文件的闪喷的基准频率设置不准确，需要认为设置并缩小10倍
+            royal.g_sys_param.fBrustFrequecy = 500 * 10/*2000*//*50*/;//20220920修改：闪喷频率500-1s时间内，0.5s在工作//20230327修改：底层的配置文件的闪喷的基准频率设置不准确，需要认为设置并扩展10倍
 
             bool returnST = royal.DEV_UpdateParam(ref royal.g_sys_param);
             if (returnST == false)
@@ -162,7 +165,7 @@ namespace royal
             }
 
             ///（4）读取USB的连接状态
-            LPPRINTER_INFO g_printerInfoLocal = new LPPRINTER_INFO();            
+            LPPRINTER_INFO g_printerInfoLocal = new LPPRINTER_INFO();
 #if false
             bool returnCode = royal.DEV_GetDeviceInfo2(ref g_printerInfoLocal);//20200304修改：//bool__stdcall DEV_GetDeviceInfo(LPPRINTER_INFO pDevInfo);
 #else
@@ -177,7 +180,7 @@ namespace royal
             {
                 MessageBox.Show("本机为USB3.0系统");
             }
-            else if(g_printerInfoLocal.bSuperDevice == 0)
+            else if (g_printerInfoLocal.bSuperDevice == 0)
             {
                 MessageBox.Show("本机为USB2.0系统");
             }
@@ -252,7 +255,7 @@ namespace royal
         bool m_bEanbleAutoCtl = true;//开启/关闭UV灯的标志位    
         public void OpenUV(bool Flag, UVLightParam uVLightParam)
         {
-            if (Flag==true)//开启两侧UV灯
+            if (Flag == true)//开启两侧UV灯
             {
                 //按照虚拟编码器位置，打开及关闭UV灯
                 ///(a)初始化UV灯开启范围及限位值：

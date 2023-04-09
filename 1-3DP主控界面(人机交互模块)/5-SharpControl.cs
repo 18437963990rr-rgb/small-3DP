@@ -189,10 +189,10 @@ namespace BinderJetting
             // Note that the StartPoint and EndPoint values are set as absolute coordinates of the surface you are drawing to,
             // NOT the geometry we will apply the brush.
             linearGradientBrush = new LinearGradientBrush(deviceContext, new LinearGradientBrushProperties()
-                {
-                    StartPoint = new Vector2(50, 0),
-                    EndPoint = new Vector2(450, 0),
-                },
+            {
+                StartPoint = new Vector2(50, 0),
+                EndPoint = new Vector2(450, 0),
+            },
                 new GradientStopCollection(deviceContext, new GradientStop[]
                 {
                     new GradientStop()
@@ -209,9 +209,9 @@ namespace BinderJetting
 
             gradientStop2 = new GradientStop() { Color = InputColorCards[0]/*SharpDX.Color.White*/, Position = 0, };
             //gradientStop2.Color = InputColorCards[1]; gradientStop2.Position = 1;
-            linearGradientBrushProperties = new LinearGradientBrushProperties() {StartPoint = new Vector2(0, 0), EndPoint = new Vector2(0, 600)};
+            linearGradientBrushProperties = new LinearGradientBrushProperties() { StartPoint = new Vector2(0, 0), EndPoint = new Vector2(0, 600) };
             //linearGradientBrushProperties.StartPoint = new Vector2(0, 0); linearGradientBrushProperties.EndPoint = new Vector2(0, ControlRectangle.Height);
-            gradient2Stops=new GradientStop[2];//20210309新增
+            gradient2Stops = new GradientStop[2];//20210309新增
             gradient2Stops[0] = gradientStop1; gradient2Stops[1] = gradientStop2;
             //(3)等待堆区释放，重新分配堆区，刷新显示
             gradientStops = new GradientStopCollection(deviceContext, gradient2Stops/*new GradientStop[] {gradientStop1,gradientStop2}*/);
@@ -264,7 +264,7 @@ namespace BinderJetting
         private LinearGradientBrush linearGradientBrush;//20210309新增：避免内存泄漏
         private RadialGradientBrush radialGradientBrush;
         private StrokeStyleProperties styleProperties, styleProperties1, styleProperties2;
-        private StrokeStyle strokeStyle3,strokeStyle2, strokeStyle1, strokeStyle4;
+        private StrokeStyle strokeStyle3, strokeStyle2, strokeStyle1, strokeStyle4;
 
         private GradientStop gradientStop1;//20210309新增：
         private GradientStop gradientStop2;//20210309新增：
@@ -273,7 +273,7 @@ namespace BinderJetting
         private GradientStopCollection gradientStops;//20210309新增：
         Vector2 vector2 = new Vector2(0, 0);//20210309新增
         Vector2 vector3 = new Vector2(0, 0);//20210309新增
-        RawVector2 rawVector2 = new RawVector2(0,0);//20210309新增
+        RawVector2 rawVector2 = new RawVector2(0, 0);//20210309新增
 
 
         //private SharpDX.Direct2D1.GeometrySink GeometrySink;//复杂形状接口：指定一系列由直线、曲线、弧线组成的图形
@@ -289,7 +289,7 @@ namespace BinderJetting
         public SolidColorBrush solidBrushTopLeftLable { get; private set; }
         public SharpDX.DirectWrite.Factory factory;
         private PointF CursorPointF = new PointF(0, 0);//20200524新增：
-       
+
         SharpDX.RectangleF rect1;
         SolidColorBrush solidBrush3;
         long tag1, tag2;
@@ -299,7 +299,7 @@ namespace BinderJetting
         /// <param name="ControlRectangle"></param>
         public void DrawDevice(bool CLIImportFlag, int CLIlayerIndex, SharpDX.RectangleF ControlRectangle)//20200521:
         {
-            if (ModifyColorSysFlag==true )//统一更新画刷系统色彩
+            if (ModifyColorSysFlag == true)//统一更新画刷系统色彩
             {
                 //InputColorCards[0] = SharpDX.Color.White;//2D背景色1：
                 //InputColorCards[1] = SharpDX.Color.LightGray;//2D背景色2：
@@ -313,7 +313,7 @@ namespace BinderJetting
                 BaseBrush.Color = InputColorCards[2];
                 RulerBackBrush.Color = InputColorCards[3];
                 RulerLineBrush.Color = InputColorCards[4];
-                BaseLineBrush.Color= InputColorCards[5];
+                BaseLineBrush.Color = InputColorCards[5];
                 LocationHoleBrush.Color = InputColorCards[6];
                 PartSolidBrush.Color = InputColorCards[7];//实体零件背景色
                 PartSolidBrush.Opacity = 1f;
@@ -356,7 +356,7 @@ namespace BinderJetting
 
 
             //(3)等待堆区释放，重新分配堆区，刷新显示
-            while ((linearGradientBrush.IsDisposed == false)|| (gradientStops.IsDisposed == false))
+            while ((linearGradientBrush.IsDisposed == false) || (gradientStops.IsDisposed == false))
             {
                 Thread.Sleep(1);//等待20ms
             }
@@ -455,7 +455,7 @@ namespace BinderJetting
 
             //(2)Draw base lines: 绘制基板线
             if (g_CorrectionFigureFlag == 0)//20210321：确保处于非校准图显示模式
-            { 
+            {
                 for (float i = 2.5f/*2*/; i < 17;/*i++*/ i = i + 2.5f/* 2*/)//绘制X轴坐标线//20200621优化：刻度值为50
                 {
                     deviceContext.DrawLine(new Vector2(-10 * i * mm2Dip, 165/*175*/ * mm2Dip), new Vector2(-10 * i * mm2Dip, -165/*175*/ * mm2Dip), BaseLineBrush, 1f / (0.5f * m_zoomScale), strokeStyle2/*strokeStyle2*/);
@@ -477,7 +477,7 @@ namespace BinderJetting
             deviceContext.DrawLine(new Vector2(0 * mm2Dip, -1750 * mm2Dip), new Vector2(0 * mm2Dip, 1750 * mm2Dip), CoordinatLineBrush, 1f / (0.5f * m_zoomScale), strokeStyle2);
 
             //(3-2)绘制基板的喷头对应区域
-            if (g_CorrectionFigureFlag==0)//20210321：确保处于非校准图显示模式
+            if (g_CorrectionFigureFlag == 0)//20210321：确保处于非校准图显示模式
             {
                 RawColor4 rawColor4 = SharpDX.Color.Blue/*Green*//* new RawColor4(50, 50, 100, 255)*/;
                 //OutlineBrush = new SolidColorBrush(deviceContext, SharpDX.Color.Black/*Red*/);
@@ -682,8 +682,8 @@ namespace BinderJetting
             deviceContext.DrawTextLayout(rawVector2/*new RawVector2(xsize - 248, ysize - 58)*/, textLayout, OutlineBrush);//deviceContext.DrawGlyphRun
             string CurrentLayer = null;                                                                                                             //(b)层数提示信息
             if (CLIImportFlag == true)
-            { 
-                CurrentLayer = "当前显示： " + (CLIlayerIndex+1) + "层/"+ LayerCount+ "层";
+            {
+                CurrentLayer = "当前显示： " + (CLIlayerIndex + 1) + "层/" + LayerCount + "层";
             }
             else
             {
@@ -715,7 +715,7 @@ namespace BinderJetting
 
                 CornerCoverBrush.Opacity = 0.5f;//设置透明程度
                 deviceContext.FillRectangle(rectangleF5, CornerCoverBrush);
-                deviceContext.DrawRectangle(rectangleF5, OutlineBrush,1.2f, strokeStyle3);
+                deviceContext.DrawRectangle(rectangleF5, OutlineBrush, 1.2f, strokeStyle3);
                 //OutlineBrush = new SolidColorBrush(deviceContext, SharpDX.Color.Black);
                 OutlineBrush.Color = SharpDX.Color.Black;
 
@@ -740,7 +740,7 @@ namespace BinderJetting
             deviceContext.Transform = new RawMatrix3x2(1, 0, 0, 1, 0, 0); //保证后续context操作不混乱
         }
 
-        private void RenderingFromCLIMoudle(bool CLIImportFlag,int CLIlayerIndex)//20210306新增：封装出来
+        private void RenderingFromCLIMoudle(bool CLIImportFlag, int CLIlayerIndex)//20210306新增：封装出来
         {
             if (CLIImportFlag == true)
             {
@@ -803,7 +803,8 @@ namespace BinderJetting
                                     {
                                         geometrySink.Dispose();
                                     }
-                                    /*var */geometrySink = geometry.Open();
+                                    /*var */
+                                    geometrySink = geometry.Open();
 
 
                                     //geometrySink.BeginFigure(new RawVector2(0 * mm2Dip, 0 * mm2Dip), FigureBegin.Filled/*Hollow*/);//不应该放置在此处
@@ -867,7 +868,8 @@ namespace BinderJetting
                                     {
                                         geometrySink.Dispose();
                                     }
-                                    /*var */ geometrySink = geometry.Open();
+                                    /*var */
+                                    geometrySink = geometry.Open();
                                     //geometrySink.BeginFigure(new RawVector2(0 * mm2Dip, 0 * mm2Dip), FigureBegin.Filled/*Hollow*/);
                                     if (ArrayLength >= 3)
                                     {
@@ -945,7 +947,8 @@ namespace BinderJetting
                                     {
                                         geometrySink.Dispose();
                                     }
-                                    /*var */geometrySink = geometry3.Open();
+                                    /*var */
+                                    geometrySink = geometry3.Open();
                                     geometrySink.BeginFigure(DrawPointF[0], FigureBegin.Filled);
                                     geometrySink.AddLines(DrawPointF);
                                     geometrySink.EndFigure(FigureEnd.Closed);//FigureEnd.Closed和FigureEnd.Open
@@ -1097,7 +1100,7 @@ namespace BinderJetting
         /// <param name="xsize"></param>
         /// <param name="ysize"></param>
         ///  //20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
-        public void DrawLayerBMP(bool CLIImportFlag, int InputCLIlayerIndex, float xsize, float ysize, SolidColorBrush solidColorBrush,int ActualStartNum)
+        public void DrawLayerBMP(bool CLIImportFlag, int InputCLIlayerIndex, float xsize, float ysize, SolidColorBrush solidColorBrush, int ActualStartNum)
         {
 #if true //20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
             int CLIlayerIndex = InputCLIlayerIndex/*CLIlayerIndex*/ + (ActualStartNum/*-1*/);
@@ -1176,7 +1179,7 @@ namespace BinderJetting
 
                                 geometrySink.EndFigure(FigureEnd.Closed);//FigureEnd.Closed和FigureEnd.Open
                                 geometrySink.Close();
-                                d2dRenderTarget.FillGeometry(geometry2, solidColorBrush2 );//核心轻量级：较接近与MetaFile的功能
+                                d2dRenderTarget.FillGeometry(geometry2, solidColorBrush2);//核心轻量级：较接近与MetaFile的功能
                                 //d2dRenderTarget.DrawGeometry(geometry2, solidColorBrush, 1.5f);//核心轻量级：较接近与MetaFile的功能//消除极限尺寸误差
                             }
                             else//反向//外轮廓
@@ -1219,7 +1222,7 @@ namespace BinderJetting
                         int ApplaySubAreaAlthogrim = gc_RysysParam.m_bApplaySubAreaAlthogrim;//20210605新增：是否应用子区域处理算法————特别的，0是采用，1是不采用//默认采用
                         int UnactDepth = (int)gc_RysysParam.m_dUnactDepth;//20210530新增：大零件分割处理算法有效区间
 
-                        if ((ApplaySubAreaAlthogrim == 0) &&(CLIlayerIndex < UnactDepth))
+                        if ((ApplaySubAreaAlthogrim == 0) && (CLIlayerIndex < UnactDepth))
                         //if (/*true*/(CLIlayerIndex<= (g_nLayerEnd-UnactDepth))|| ((g_nLayerEnd <= UnactDepth) && CLIlayerIndex <= g_nLayerEnd))//20210122新增：大零件分割处理算法：生成分割之后的打印数据//20210530修改：
                         {
                             x = gc_RemoteCLIs2[CLIlayerIndex].aLayerData[i].x;//1个零件的单层CLI:位置X
@@ -1227,8 +1230,8 @@ namespace BinderJetting
                             float height = gc_RemoteCLIs2[CLIlayerIndex].aLayerData[i].height;
                             float width = gc_RemoteCLIs2[CLIlayerIndex].aLayerData[i].width;
 
-                            float subWidth  = (float)gc_RysysParam.m_dSubAreaWidth;
-                            float weakWidth = (float)gc_RysysParam.m_dWeakAreaWidth/1000;
+                            float subWidth = (float)gc_RysysParam.m_dSubAreaWidth;
+                            float weakWidth = (float)gc_RysysParam.m_dWeakAreaWidth / 1000;
                             float deviation = (float)gc_RysysParam.m_dDeviation;
 
                             List<List<PointF>> pointFs = new List<List<PointF>>();//存储1层的所有弱连接区域，每个弱连接区域以List<PointF>形式存储；
@@ -1274,7 +1277,7 @@ namespace BinderJetting
             {
                 wicFactory.Dispose();
             }
-            if (wicBitmap!=null)
+            if (wicBitmap != null)
             {
                 wicBitmap.Dispose();
             }
@@ -1332,20 +1335,22 @@ namespace BinderJetting
                 converter.Dispose();
             }
         }
-        public  int XDpi = 635 * 2;//20201017新增批注：X向打印分辨率
+        public int XDpi = 635 * 2;//20201017新增批注：X向打印分辨率
         /// <summary>
         /// 20200609：生成1帧的加工数据//20220524新增:新设备 幅面330MM*330MM
         /// </summary>
         /// <param name="action"></param>
-        public void RenderToWic(bool action,int index,int subindex,int RePrintTimes,int ActualStartNum)//subindex:重喷索引，取值为0-1-2-3-....-n//201030新增：//20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
+        public void RenderToWic(bool action, int index, int subindex, int RePrintTimes, int ActualStartNum)//subindex:重喷索引，取值为0-1-2-3-....-n//201030新增：//20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
         {
             if (action == true)
             {
                 //wicFactory = new ImagingFactory();
                 //d2dFactory = new SharpDX.Direct2D1.Factory();
 
-                /*const*/ int width = (int)(320/*330*//*420*/ * (/*600*//*635*//*1270*2*//*635*/XDpi / 25.4f)) + 1/*512*/;//设置图片的宽度//20200802批注：修改原有的X向分辨率，本来应该是635DPI，提升到635*2DPI。
-                /*const*/ int height = (int)(320/*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度
+                /*const*/
+                int width = (int)(320/*330*//*420*/ * (/*600*//*635*//*1270*2*//*635*/XDpi / 25.4f)) + 1/*512*/;//设置图片的宽度//20200802批注：修改原有的X向分辨率，本来应该是635DPI，提升到635*2DPI。
+                /*const*/
+                int height = (int)(320/*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度
 
                 var rectangleGeometry = new RoundedRectangleGeometry(d2dFactory, new RoundedRectangle() { RadiusX = 32, RadiusY = 32, Rect = new SharpDX.RectangleF(128, 128, width - 128 * 2, height - 128 * 2) });
                 //if (wicBitmap != null)
@@ -1382,7 +1387,7 @@ namespace BinderJetting
                 //20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
                 string msg = $"完成处理第{index}层数据：准备调用DrawLayerBMP，index为{index}，起始层为{ActualStartNum}";
                 Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
-                DrawLayerBMP(true,index,width, height,solidColorBrush,ActualStartNum);//20201117批注：生成正式打印数据
+                DrawLayerBMP(true, index, width, height, solidColorBrush, ActualStartNum);//20201117批注：生成正式打印数据
                 msg = $"完成处理第{index}层数据：准备调用DrawLayerBMP，index为{index}，起始层为{ActualStartNum}";
                 Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 #endif
@@ -1474,7 +1479,7 @@ namespace BinderJetting
 #if false//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
                 clone.Save("output1bpp.bmp", ImageFormat.Bmp);//保存到BMPFile
 #else
-                WriteImgLayerData(clone/*path*/, /*1*/index,subindex, RePrintTimes/*, 0, true*/,true);//201030修改：//20201117批注：数据封送处理//20210324:需要执行反色
+                WriteImgLayerData(clone/*path*/, /*1*/index, subindex, RePrintTimes/*, 0, true*/, true);//201030修改：//20201117批注：数据封送处理//20210324:需要执行反色
 #endif
                 //System.Diagnostics.Process.Start(Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, filename)));//打开文件夹的指定文件
                 clone.Dispose();
@@ -1482,6 +1487,36 @@ namespace BinderJetting
             else
             {
             }
+        }
+
+        //20210319新增：处理校准图并传送，已经验证通过
+        public void RenderToWic2(bool action, int index, int subindex, int RePrintTimes, string importCorrectionFigurePath)//subindex:重喷索引，取值为0-1-2-3-....-n//201030新增：
+        {
+            if (action == true)
+            {
+                ///(1-1)设置1帧打印数据的基本参数：20210319新增
+                ///(2-1)绘制1帧需要打印的数据：20210319新增
+                ///(3-1)输出绘制的1帧数据，发送到控制器的上位机端内存缓冲区，配合控制器完成信息的实时打印机分配：20210319新建             
+                // （1）读取BMP文件到Bitmap数据中
+                string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart" + importCorrectionFigurePath/*System.Windows.Forms.Application.StartupPath + @"\CalibrationChart"*/;//输入的CLI文件的存放目录。
+                FileStream fs = new System.IO.FileStream(CalibrationFilePath/*CalibrationFilePath + @"\喷头套色校准图-0.bmp"*/, FileMode.Open, FileAccess.Read/*Read*/);//PicBoxCorrect1.Image = System.Drawing.Image.FromStream(fs);//20210328修改：修改权限，否则报错
+                System.Drawing.Bitmap clone = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromStream(fs);
+                clone.SetResolution(600f, 600f);//Windows7的系统BUG
+
+                ////// （2）processedBit// Lock the bitmap's bits.  map.LockBits();//锁定到内存
+                ////System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, 10496/*clone.Width*/, 8960/*clone.Height*/);
+                ////System.Drawing.Imaging.BitmapData bmpData = clone.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, clone.PixelFormat);
+                ////// （3）Get the address of the first line.
+                ////IntPtr ptr = bmpData.Scan0;
+
+#if false//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
+                clone.save("output1bpp.bmp", imageformat.bmp);//保存到bmpfile
+#else
+                WriteImgLayerData(clone, index/*1-2-3*/, subindex/*0-1-2*/, RePrintTimes/*1*/, false);//201030修改：//20201117批注：数据封送处理//20210324:不需要执行反色
+#endif
+                clone.Dispose();
+            }
+            else { }
         }
 
         public Bitmap1 bitmap = null;
@@ -1492,8 +1527,8 @@ namespace BinderJetting
         public FormatConverter converter = null;
         public Bitmap1[] bitmapCollection = new Bitmap1[6];//20210323新建：将bitmap的数据移植到bitmapCollection中，依次是
                                                            //垂直校准图，喷头套色校准图0-1，往返差校准图0-1，STATUS图
-        public void LoadingFromBMPFile2(string bmpFilePath,int index)//index为校准图对应的索引
-        {           
+        public void LoadingFromBMPFile2(string bmpFilePath, int index)//index为校准图对应的索引
+        {
             //(1)读取校准图bmp文件
             if (imagingFactory != null)
             {
@@ -1530,7 +1565,7 @@ namespace BinderJetting
             {
                 converter.Dispose();
                 while (converter.IsDisposed == false) { Thread.Sleep(1); }//(2)等待堆区释放，重新分配堆区，刷新显示//20210310新增修改：       
-                                                                          /*FormatConverter*/
+                /*FormatConverter*/
                 converter = new FormatConverter(imagingFactory);
             }
             else { converter = new FormatConverter(imagingFactory); }
@@ -1550,7 +1585,7 @@ namespace BinderJetting
 
         public void LoadingFromBMPFile3(int index)
         {
-            bitmap=bitmapCollection[index];
+            bitmap = bitmapCollection[index];
         }
         public void DisposeBMPFile()//20210327新增：
         {
@@ -1578,7 +1613,7 @@ namespace BinderJetting
             if (fileStream != null)
             {
                 fileStream.Dispose();
-                while (fileStream.IsDisposed == false){ Thread.Sleep(1); } //(2)等待堆区释放，重新分配堆区，刷新显示//20210310新增修改：                                                                           
+                while (fileStream.IsDisposed == false) { Thread.Sleep(1); } //(2)等待堆区释放，重新分配堆区，刷新显示//20210310新增修改：                                                                           
                 fileStream = new WICStream(wicFactory, bmpFilePath,/* NativeFileAccess.Read*/NativeFileAccess.ReadWrite);
             }
             else
@@ -1607,14 +1642,14 @@ namespace BinderJetting
             if (converter != null)
             {
                 converter.Dispose();
-                while (converter.IsDisposed == false){ Thread.Sleep(1); }//(2)等待堆区释放，重新分配堆区，刷新显示//20210310新增修改：       
+                while (converter.IsDisposed == false) { Thread.Sleep(1); }//(2)等待堆区释放，重新分配堆区，刷新显示//20210310新增修改：       
                 converter = new FormatConverter(imagingFactory);
             }
             else
             {
                 converter = new FormatConverter(imagingFactory);
             }
-            
+
             converter.Initialize(frame, SharpDX.WIC.PixelFormat.Format32bppPBGRA/*FormatBlackWhite*//*Format32bppPBGRA*//*Format32bppRGBA*//*Format32bppPRGBA*/);//设置格式转换器为单色BMP
             //(4)生成待显示的图像
             if (bitmap != null)
@@ -1677,42 +1712,13 @@ namespace BinderJetting
             }
             else { }
         }
-        //20210319新增：处理校准图并传送，已经验证通过
-        public void RenderToWic2(bool action, int index, int subindex, int RePrintTimes,string importCorrectionFigurePath)//subindex:重喷索引，取值为0-1-2-3-....-n//201030新增：
-        {
-            if (action == true)
-            {
-                ///(1-1)设置1帧打印数据的基本参数：20210319新增
-                ///(2-1)绘制1帧需要打印的数据：20210319新增
-                ///(3-1)输出绘制的1帧数据，发送到控制器的上位机端内存缓冲区，配合控制器完成信息的实时打印机分配：20210319新建             
-                // （1）读取BMP文件到Bitmap数据中
-                string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart" + importCorrectionFigurePath/*System.Windows.Forms.Application.StartupPath + @"\CalibrationChart"*/;//输入的CLI文件的存放目录。
-                FileStream fs = new System.IO.FileStream(CalibrationFilePath/*CalibrationFilePath + @"\喷头套色校准图-0.bmp"*/, FileMode.Open, FileAccess.Read/*Read*/);//PicBoxCorrect1.Image = System.Drawing.Image.FromStream(fs);//20210328修改：修改权限，否则报错
-                System.Drawing.Bitmap clone = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromStream(fs);
-                clone.SetResolution(600f, 600f);//Windows7的系统BUG
-
-                ////// （2）processedBit// Lock the bitmap's bits.  map.LockBits();//锁定到内存
-                ////System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, 10496/*clone.Width*/, 8960/*clone.Height*/);
-                ////System.Drawing.Imaging.BitmapData bmpData = clone.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, clone.PixelFormat);
-                ////// （3）Get the address of the first line.
-                ////IntPtr ptr = bmpData.Scan0;
-
-#if false//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
-                clone.save("output1bpp.bmp", imageformat.bmp);//保存到bmpfile
-#else
-                WriteImgLayerData(clone, index/*1-2-3*/, subindex/*0-1-2*/, RePrintTimes/*1*/,false);//201030修改：//20201117批注：数据封送处理//20210324:不需要执行反色
-#endif
-                clone.Dispose();
-            }
-            else{}
-        }
 
         public int k_dYJetOff = 0;//20210311修正：Y向的位置起始偏差。
         /// <summary>
         /// 20200609：传输数据测试;传输BMP格式，载入1层的BMP数据//20200409批注：内存中的bmp文件的存储方式是从上到下，从左到右；BMP文件的存储方式是从下到上，从左到右；           
         /// </summary>
-        private int WriteImgLayerData(System.Drawing.Bitmap clone, int index, int subindex, int RePrintTimes,bool ReverseColor/*,int PrtDirFlag, bool SpreadPowerFlagDir*/)//201030修改：//必须放在1个独立的线程中//文件的本质就是保存在HD的字节流
-        {        
+        private int WriteImgLayerData(System.Drawing.Bitmap clone, int index, int subindex, int RePrintTimes, bool ReverseColor/*,int PrtDirFlag, bool SpreadPowerFlagDir*/)//201030修改：//必须放在1个独立的线程中//文件的本质就是保存在HD的字节流
+        {
             //(贰)校验传输的数据是否准确：20200409新增
             //(贰)校验传输的数据是否准确：20200409新增
             if (clone.PixelFormat != System.Drawing.Imaging.PixelFormat.Format1bppIndexed)//20230202新建:中间数据为1bpp数据，后续进一步处理为所需的2bpp或者3bpp数据
@@ -1743,7 +1749,7 @@ namespace BinderJetting
             }
             else { }
 #endif
-#region//20230202新建：根据1bpp,2bpp,3bpp++以及GrayScale来重新编码为最新需要下发的数据
+            #region//20230202新建：根据1bpp,2bpp,3bpp++以及GrayScale来重新编码为最新需要下发的数据
             int bpp = gc_RysysParam.PixelGrayBits/*2*/;//打印数据格式
             int GrayScale = gc_RysysParam.PixelGrayValue/*2*/;//打印灰阶
 
@@ -1762,7 +1768,7 @@ namespace BinderJetting
                 //for (int i = 0; i < Rgb1bppBits.Length; i++)
                 //{ 
                 //}
-             }
+            }
             else if (bpp == 2) //2bpp模式下的3个灰度等级（灰阶）
             {
                 for (int i = 0; i < clone.Height; i++) //遍历所有1bpp的所有行
@@ -1789,7 +1795,7 @@ namespace BinderJetting
                             }
                         }
                     }
-                }                      
+                }
             }
             else if (bpp == 3) //3bpp模式下的7个灰度等级（灰阶）
             {
@@ -1832,7 +1838,7 @@ namespace BinderJetting
                 }
             }
             else { }
-#endregion
+            #endregion
 
             // （6）Copy the RGB values back to the bitmap
             /***********************20200423调试新增：************************/
@@ -1879,7 +1885,7 @@ namespace BinderJetting
             {
                 royal.royal.g_prtimg_layer.nBytesPerLine = BytePerLineForRgb1bppValues; //bmpData.Stride * bpp;///*bmpData每行的数据字节数*/
             }
-            else if (bpp == 2) 
+            else if (bpp == 2)
             {
                 royal.royal.g_prtimg_layer.nBytesPerLine = BytePerLineForRgb2bppValues;
             }
@@ -1891,7 +1897,7 @@ namespace BinderJetting
             royal.royal.g_prtimg_layer.nWidth = clone.Width;//bmpDat9a的像素宽度
             royal.royal.g_prtimg_layer.nHeight = clone.Height;//bmpData的像素高度
             //int i = 1;//第1层的数据：20200409新增：具体实现的时候，会移植到为爱面
-            royal.royal.g_prtimg_layer.nLayerIndex = index* RePrintTimes + subindex;//发送图层的序号//201030修改：增加重喷控制参数//开始层索引为1
+            royal.royal.g_prtimg_layer.nLayerIndex = index * RePrintTimes + subindex;//发送图层的序号//201030修改：增加重喷控制参数//开始层索引为1
             royal.royal.g_prtimg_layer.nColorCnts = 1;//颜色个数，打印图形颜色为单色
             //不同的层需要进行不同的设置：20200429新增批注：单层需要正向打印，双层需要方向打印
             royal.royal.g_prtimg_layer.nPrtFlag = 1;//双向打印 bit[0] 控制单双向打印
@@ -1933,11 +1939,11 @@ namespace BinderJetting
                 {
                     nRet = royal.royal.IDP_WriteImgLayerData(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, BytePerLineForRgb1bppValues * clone.Height/*bytes * bpp*/);
                 }
-                else if (bpp == 2) 
+                else if (bpp == 2)
                 {
                     nRet = royal.royal.IDP_WriteImgLayerData(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, BytePerLineForRgb2bppValues * clone.Height/* bytes * bpp*/);
                 }
-                else if (bpp == 3) 
+                else if (bpp == 3)
                 {
                     nRet = royal.royal.IDP_WriteImgLayerData(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, BytePerLineForRgb3bppValues * clone.Height /*bytes * bpp*/);
                 }
@@ -1952,49 +1958,52 @@ namespace BinderJetting
                     switch (nRet)
                     {
                         case -110000://没有按照顺序，增加索引号
-                            /*string*/ msg = "作业写入成功：IDP_WriteImgLayerData：{-110000: 作业启动失败：指定图层打印的PASS总数}" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}" +
-                                $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}" +
-                                $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
-                                $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
+                            /*string*/
+                            msg = "作业写入成功：IDP_WriteImgLayerData：{-110000: 作业启动失败：指定图层打印的PASS总数}" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}" +
+                     $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}" +
+                     $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
+                     $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
 
-                                $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
-                                $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
-                                $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
-                                $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
-                                $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
-                                $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
+                     $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
+                     $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
+                     $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
+                     $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
+                     $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
+                     $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
                             Log4Net.Info(msg);
 
                             MessageBox.Show("作业启动失败：指定图层打印的PASS总数");
                             break;
                         case -110001:
-                            /*string*/ msg = "作业写入成功：IDP_WriteImgLayerData：{-110001: 作业启动失败：PC内存不足}" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}" +
-                                $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}" +
-                                $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
-                                $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
+                            /*string*/
+                            msg = "作业写入成功：IDP_WriteImgLayerData：{-110001: 作业启动失败：PC内存不足}" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}" +
+                     $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}" +
+                     $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
+                     $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
 
-                                $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
-                                $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
-                                $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
-                                $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
-                                $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
-                                $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
+                     $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
+                     $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
+                     $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
+                     $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
+                     $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
+                     $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
                             Log4Net.Info(msg);
 
                             MessageBox.Show("作业启动失败：PC内存不足");
                             break;
                         case -110002:
-                            /*string*/ msg = "作业写入成功：IDP_WriteImgLayerData：{-110002: 作业启动失败：PASS计算小于0}" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}" +
-                                $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}" +
-                                $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
-                                $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
+                            /*string*/
+                            msg = "作业写入成功：IDP_WriteImgLayerData：{-110002: 作业启动失败：PASS计算小于0}" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}" +
+                     $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}" +
+                     $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
+                     $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
 
-                                $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
-                                $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
-                                $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
-                                $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
-                                $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
-                                $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
+                     $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
+                     $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
+                     $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
+                     $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
+                     $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
+                     $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
                             Log4Net.Info(msg);
                             MessageBox.Show("作业启动失败：PASS计算小于0");
                             break;
@@ -2002,17 +2011,18 @@ namespace BinderJetting
                     break;
                 }
             } while (nRet <= 0);
-            /*string*/ msg = "作业写入成功：IDP_WriteImgLayerData：" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}"+
-                $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}"+
-                $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
-                $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
-                
-                $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
-                $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
-                $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
-                $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
-                $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
-                $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
+            /*string*/
+            msg = "作业写入成功：IDP_WriteImgLayerData：" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}" +
+     $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}" +
+     $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
+     $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
+
+     $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
+     $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
+     $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
+     $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
+     $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
+     $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
             Log4Net.Info(msg);
 
 #endif
@@ -2110,7 +2120,7 @@ namespace BinderJetting
             //{  linearGradientBrush2.Dispose(); }
             //注意，结构体是没有dispose()方法的，意味着：结构体不在非托管区的堆区分配内存
             gradientStops.Dispose();//20210309新增：
-    }
+        }
 
 
         //20200524新建：
@@ -2148,7 +2158,7 @@ namespace BinderJetting
         ///  (2)重绘事件绘制：
         /// </summary>
         /// <param name="renderControl1"></param>
-        public void RepaintControl(bool CLIImportFlag,int CLIlayerIndex, System.Drawing.RectangleF renderControl1)
+        public void RepaintControl(bool CLIImportFlag, int CLIlayerIndex, System.Drawing.RectangleF renderControl1)
         {
             SharpDX.RectangleF ControlRectangle = new SharpDX.RectangleF(
                 renderControl1.Top,
@@ -2158,7 +2168,7 @@ namespace BinderJetting
             RePaintFlag = true;
             DrawDevice(CLIImportFlag, CLIlayerIndex, ControlRectangle);
         }
-        
+
         public void RepaintDefaultControl(bool CLIImportFlag, int CLIlayerIndex, System.Drawing.RectangleF renderControl1)//双击重绘
         {
             SharpDX.RectangleF ControlRectangle = new SharpDX.RectangleF(
@@ -2192,7 +2202,7 @@ namespace BinderJetting
         /// (2-2)控件绘制：
         /// </summary>
         /// <param name="renderControl1"></param>
-        public void PaintControl(bool CLIImportFlag,int CLIlayerIndex, System.Drawing.RectangleF renderControl1)
+        public void PaintControl(bool CLIImportFlag, int CLIlayerIndex, System.Drawing.RectangleF renderControl1)
         {
             SharpDX.RectangleF ControlRectangle = new SharpDX.RectangleF(
                 renderControl1.Top,
@@ -2245,7 +2255,7 @@ namespace BinderJetting
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void MouseWheelControl(MouseEventArgs e,PointF point)
+        public void MouseWheelControl(MouseEventArgs e, PointF point)
         {
             CursorPointF = point;
             m_zoomScaleBetween = 0.5f * e.Delta / 120f/*zDelta/120f*/;//20200524批注：缩放间距

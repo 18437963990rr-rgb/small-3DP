@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(手动操作));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.HomeEndsLabel0 = new System.Windows.Forms.CheckBox();
             this.PLLabel1 = new System.Windows.Forms.Label();
@@ -250,16 +250,13 @@
             this.CurEncoderText = new System.Windows.Forms.TextBox();
             this.DoPassPrint2 = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.label91 = new System.Windows.Forms.Label();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.label95 = new System.Windows.Forms.Label();
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.label89 = new System.Windows.Forms.Label();
             this.PrintCarHomeBtn = new System.Windows.Forms.Button();
-            this.label84 = new System.Windows.Forms.Label();
             this.textBox23 = new System.Windows.Forms.TextBox();
             this.PowderCarHomeBtn = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
-            this.label82 = new System.Windows.Forms.Label();
             this.textBox22 = new System.Windows.Forms.TextBox();
             this.SpreaderHomeBtn = new System.Windows.Forms.Button();
             this.InkCarHomeBtn = new System.Windows.Forms.Button();
@@ -303,11 +300,19 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label90 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.comboBox6 = new System.Windows.Forms.ComboBox();
+            this.label96 = new System.Windows.Forms.Label();
+            this.label91 = new System.Windows.Forms.Label();
+            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.comboBox5 = new System.Windows.Forms.ComboBox();
+            this.label94 = new System.Windows.Forms.Label();
             this.label93 = new System.Windows.Forms.Label();
             this.textBox27 = new System.Windows.Forms.TextBox();
             this.label92 = new System.Windows.Forms.Label();
             this.label80 = new System.Windows.Forms.Label();
             this.textBox21 = new System.Windows.Forms.TextBox();
+            this.label84 = new System.Windows.Forms.Label();
+            this.label82 = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.CalibrateUVRangeBtn = new System.Windows.Forms.Button();
             this.DefaultUVRangeBtn = new System.Windows.Forms.Button();
@@ -407,8 +412,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.ADIBSetApplyBtn = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
-            this.label94 = new System.Windows.Forms.Label();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.ManulDebugTAB.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -463,11 +466,9 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox1.Location = new System.Drawing.Point(19, 6);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Location = new System.Drawing.Point(14, 5);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(389, 238);
+            this.groupBox1.Size = new System.Drawing.Size(292, 190);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "成型缸运动（伺服-1）";
@@ -478,10 +479,9 @@
             this.HomeEndsLabel0.Enabled = false;
             this.HomeEndsLabel0.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.HomeEndsLabel0.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.HomeEndsLabel0.Location = new System.Drawing.Point(268, 201);
-            this.HomeEndsLabel0.Margin = new System.Windows.Forms.Padding(4);
+            this.HomeEndsLabel0.Location = new System.Drawing.Point(201, 161);
             this.HomeEndsLabel0.Name = "HomeEndsLabel0";
-            this.HomeEndsLabel0.Size = new System.Drawing.Size(106, 24);
+            this.HomeEndsLabel0.Size = new System.Drawing.Size(86, 21);
             this.HomeEndsLabel0.TabIndex = 122;
             this.HomeEndsLabel0.Text = "切换Home";
             this.HomeEndsLabel0.UseVisualStyleBackColor = true;
@@ -492,10 +492,9 @@
             this.PLLabel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PLLabel1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.PLLabel1.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.PLLabel1.Location = new System.Drawing.Point(269, 38);
-            this.PLLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.PLLabel1.Location = new System.Drawing.Point(202, 30);
             this.PLLabel1.Name = "PLLabel1";
-            this.PLLabel1.Size = new System.Drawing.Size(93, 30);
+            this.PLLabel1.Size = new System.Drawing.Size(70, 24);
             this.PLLabel1.TabIndex = 48;
             this.PLLabel1.Tag = "1";
             this.PLLabel1.Text = "PL";
@@ -510,10 +509,10 @@
             this.homeButton1.Image = ((System.Drawing.Image)(resources.GetObject("homeButton1.Image")));
             this.homeButton1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.homeButton1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.homeButton1.Location = new System.Drawing.Point(129, 28);
+            this.homeButton1.Location = new System.Drawing.Point(97, 22);
             this.homeButton1.Margin = new System.Windows.Forms.Padding(0);
             this.homeButton1.Name = "homeButton1";
-            this.homeButton1.Size = new System.Drawing.Size(113, 62);
+            this.homeButton1.Size = new System.Drawing.Size(85, 50);
             this.homeButton1.TabIndex = 21;
             this.homeButton1.Tag = "1";
             this.homeButton1.Text = "起点";
@@ -530,10 +529,9 @@
             this.MoveUpBtn1.Image = ((System.Drawing.Image)(resources.GetObject("MoveUpBtn1.Image")));
             this.MoveUpBtn1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveUpBtn1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveUpBtn1.Location = new System.Drawing.Point(8, 28);
-            this.MoveUpBtn1.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveUpBtn1.Location = new System.Drawing.Point(6, 22);
             this.MoveUpBtn1.Name = "MoveUpBtn1";
-            this.MoveUpBtn1.Size = new System.Drawing.Size(113, 62);
+            this.MoveUpBtn1.Size = new System.Drawing.Size(85, 50);
             this.MoveUpBtn1.TabIndex = 2;
             this.MoveUpBtn1.Tag = "1";
             this.MoveUpBtn1.Text = "上升";
@@ -545,10 +543,9 @@
             this.ZeroLabel1.BackColor = System.Drawing.Color.Lime;
             this.ZeroLabel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ZeroLabel1.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.ZeroLabel1.Location = new System.Drawing.Point(269, 75);
-            this.ZeroLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.ZeroLabel1.Location = new System.Drawing.Point(202, 60);
             this.ZeroLabel1.Name = "ZeroLabel1";
-            this.ZeroLabel1.Size = new System.Drawing.Size(93, 30);
+            this.ZeroLabel1.Size = new System.Drawing.Size(70, 24);
             this.ZeroLabel1.TabIndex = 49;
             this.ZeroLabel1.Tag = "2";
             this.ZeroLabel1.Text = "ZERO";
@@ -559,10 +556,9 @@
             this.NLLabel1.BackColor = System.Drawing.Color.Lime;
             this.NLLabel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NLLabel1.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.NLLabel1.Location = new System.Drawing.Point(269, 112);
-            this.NLLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.NLLabel1.Location = new System.Drawing.Point(202, 90);
             this.NLLabel1.Name = "NLLabel1";
-            this.NLLabel1.Size = new System.Drawing.Size(93, 30);
+            this.NLLabel1.Size = new System.Drawing.Size(70, 24);
             this.NLLabel1.TabIndex = 50;
             this.NLLabel1.Tag = "3";
             this.NLLabel1.Text = "NL";
@@ -577,10 +573,9 @@
             this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
             this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button3.Location = new System.Drawing.Point(129, 96);
-            this.button3.Margin = new System.Windows.Forms.Padding(4);
+            this.button3.Location = new System.Drawing.Point(97, 77);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(113, 62);
+            this.button3.Size = new System.Drawing.Size(85, 50);
             this.button3.TabIndex = 21;
             this.button3.Tag = "1";
             this.button3.Text = "停止";
@@ -592,10 +587,9 @@
             // 
             this.label6.Font = new System.Drawing.Font("宋体", 9F);
             this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label6.Location = new System.Drawing.Point(12, 172);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(9, 138);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(93, 31);
+            this.label6.Size = new System.Drawing.Size(70, 25);
             this.label6.TabIndex = 15;
             this.label6.Text = "速度(mm/s)";
             // 
@@ -608,10 +602,9 @@
             this.MoveDownBtn1.Image = ((System.Drawing.Image)(resources.GetObject("MoveDownBtn1.Image")));
             this.MoveDownBtn1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveDownBtn1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveDownBtn1.Location = new System.Drawing.Point(9, 96);
-            this.MoveDownBtn1.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveDownBtn1.Location = new System.Drawing.Point(7, 77);
             this.MoveDownBtn1.Name = "MoveDownBtn1";
-            this.MoveDownBtn1.Size = new System.Drawing.Size(113, 62);
+            this.MoveDownBtn1.Size = new System.Drawing.Size(85, 50);
             this.MoveDownBtn1.TabIndex = 20;
             this.MoveDownBtn1.Tag = "2";
             this.MoveDownBtn1.Text = "下降";
@@ -621,20 +614,18 @@
             // velLabel0
             // 
             this.velLabel0.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.velLabel0.Location = new System.Drawing.Point(108, 165);
-            this.velLabel0.Margin = new System.Windows.Forms.Padding(4);
+            this.velLabel0.Location = new System.Drawing.Point(81, 132);
             this.velLabel0.Name = "velLabel0";
-            this.velLabel0.Size = new System.Drawing.Size(55, 27);
+            this.velLabel0.Size = new System.Drawing.Size(42, 23);
             this.velLabel0.TabIndex = 16;
             this.velLabel0.Text = "5";
             // 
             // stepLabel0
             // 
             this.stepLabel0.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.stepLabel0.Location = new System.Drawing.Point(108, 201);
-            this.stepLabel0.Margin = new System.Windows.Forms.Padding(4);
+            this.stepLabel0.Location = new System.Drawing.Point(81, 161);
             this.stepLabel0.Name = "stepLabel0";
-            this.stepLabel0.Size = new System.Drawing.Size(55, 27);
+            this.stepLabel0.Size = new System.Drawing.Size(42, 23);
             this.stepLabel0.TabIndex = 19;
             this.stepLabel0.Text = "1";
             // 
@@ -643,10 +634,9 @@
             this.MoveModeLabel0.AutoSize = true;
             this.MoveModeLabel0.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.MoveModeLabel0.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveModeLabel0.Location = new System.Drawing.Point(268, 171);
-            this.MoveModeLabel0.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveModeLabel0.Location = new System.Drawing.Point(201, 137);
             this.MoveModeLabel0.Name = "MoveModeLabel0";
-            this.MoveModeLabel0.Size = new System.Drawing.Size(91, 24);
+            this.MoveModeLabel0.Size = new System.Drawing.Size(75, 21);
             this.MoveModeLabel0.TabIndex = 14;
             this.MoveModeLabel0.Tag = "1";
             this.MoveModeLabel0.Text = "切换点动";
@@ -657,10 +647,9 @@
             // 
             this.label1.Font = new System.Drawing.Font("宋体", 9F);
             this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label1.Location = new System.Drawing.Point(12, 206);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(9, 165);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(96, 26);
+            this.label1.Size = new System.Drawing.Size(72, 21);
             this.label1.TabIndex = 17;
             this.label1.Text = "移动量(mm)";
             // 
@@ -668,11 +657,10 @@
             // 
             this.ManulDebugTAB.Controls.Add(this.tabPage1);
             this.ManulDebugTAB.Controls.Add(this.tabPage2);
-            this.ManulDebugTAB.Location = new System.Drawing.Point(13, 8);
-            this.ManulDebugTAB.Margin = new System.Windows.Forms.Padding(4);
+            this.ManulDebugTAB.Location = new System.Drawing.Point(10, 6);
             this.ManulDebugTAB.Name = "ManulDebugTAB";
             this.ManulDebugTAB.SelectedIndex = 0;
-            this.ManulDebugTAB.Size = new System.Drawing.Size(1281, 902);
+            this.ManulDebugTAB.Size = new System.Drawing.Size(961, 722);
             this.ManulDebugTAB.TabIndex = 26;
             this.ManulDebugTAB.SelectedIndexChanged += new System.EventHandler(this.ManulDebugTAB_SelectedIndexChanged);
             // 
@@ -737,11 +725,10 @@
             this.tabPage1.Controls.Add(this.button41);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage1.Size = new System.Drawing.Size(1273, 873);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Size = new System.Drawing.Size(953, 696);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "送料系统手动控制";
             // 
@@ -749,20 +736,18 @@
             // 
             this.label58.Font = new System.Drawing.Font("宋体", 9F);
             this.label58.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label58.Location = new System.Drawing.Point(903, 679);
-            this.label58.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label58.Location = new System.Drawing.Point(677, 543);
             this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(137, 20);
+            this.label58.Size = new System.Drawing.Size(103, 16);
             this.label58.TabIndex = 202;
             this.label58.Text = "回程速度（mm/s）";
             // 
             // textBox25
             // 
             this.textBox25.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox25.Location = new System.Drawing.Point(1044, 790);
-            this.textBox25.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox25.Location = new System.Drawing.Point(783, 632);
             this.textBox25.Name = "textBox25";
-            this.textBox25.Size = new System.Drawing.Size(47, 26);
+            this.textBox25.Size = new System.Drawing.Size(36, 22);
             this.textBox25.TabIndex = 201;
             this.textBox25.Text = "2";
             // 
@@ -770,20 +755,18 @@
             // 
             this.label87.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
             this.label87.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label87.Location = new System.Drawing.Point(903, 796);
-            this.label87.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label87.Location = new System.Drawing.Point(677, 637);
             this.label87.Name = "label87";
-            this.label87.Size = new System.Drawing.Size(140, 20);
+            this.label87.Size = new System.Drawing.Size(105, 16);
             this.label87.TabIndex = 200;
             this.label87.Text = "落粉圈数（rev）";
             // 
             // textBox24
             // 
             this.textBox24.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox24.Location = new System.Drawing.Point(1044, 760);
-            this.textBox24.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox24.Location = new System.Drawing.Point(783, 608);
             this.textBox24.Name = "textBox24";
-            this.textBox24.Size = new System.Drawing.Size(47, 26);
+            this.textBox24.Size = new System.Drawing.Size(36, 22);
             this.textBox24.TabIndex = 199;
             this.textBox24.Text = "2";
             // 
@@ -791,10 +774,9 @@
             // 
             this.label86.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
             this.label86.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label86.Location = new System.Drawing.Point(903, 769);
-            this.label86.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label86.Location = new System.Drawing.Point(677, 615);
             this.label86.Name = "label86";
-            this.label86.Size = new System.Drawing.Size(140, 20);
+            this.label86.Size = new System.Drawing.Size(105, 16);
             this.label86.TabIndex = 198;
             this.label86.Text = "落粉校准（mm）";
             // 
@@ -805,20 +787,18 @@
             this.comboBox2.Items.AddRange(new object[] {
             "A-反向辊子",
             "B-同向辊子"});
-            this.comboBox2.Location = new System.Drawing.Point(995, 559);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox2.Location = new System.Drawing.Point(746, 447);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(93, 23);
+            this.comboBox2.Size = new System.Drawing.Size(71, 20);
             this.comboBox2.TabIndex = 197;
             // 
             // label85
             // 
             this.label85.AutoSize = true;
             this.label85.Font = new System.Drawing.Font("宋体", 9.5F, System.Drawing.FontStyle.Bold);
-            this.label85.Location = new System.Drawing.Point(900, 564);
-            this.label85.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label85.Location = new System.Drawing.Point(675, 451);
             this.label85.Name = "label85";
-            this.label85.Size = new System.Drawing.Size(93, 16);
+            this.label85.Size = new System.Drawing.Size(77, 13);
             this.label85.TabIndex = 196;
             this.label85.Text = "辊子转向：";
             // 
@@ -829,20 +809,18 @@
             this.comboBox1.Items.AddRange(new object[] {
             "A-UV固化",
             "B-IR固化"});
-            this.comboBox1.Location = new System.Drawing.Point(995, 530);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox1.Location = new System.Drawing.Point(746, 424);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(93, 23);
+            this.comboBox1.Size = new System.Drawing.Size(71, 20);
             this.comboBox1.TabIndex = 194;
             // 
             // label81
             // 
             this.label81.AutoSize = true;
             this.label81.Font = new System.Drawing.Font("宋体", 9.5F, System.Drawing.FontStyle.Bold);
-            this.label81.Location = new System.Drawing.Point(900, 535);
-            this.label81.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label81.Location = new System.Drawing.Point(675, 428);
             this.label81.Name = "label81";
-            this.label81.Size = new System.Drawing.Size(93, 16);
+            this.label81.Size = new System.Drawing.Size(77, 13);
             this.label81.TabIndex = 195;
             this.label81.Text = "固化策略：";
             // 
@@ -853,10 +831,9 @@
             this.AutoCureBtn.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold);
             this.AutoCureBtn.ForeColor = System.Drawing.Color.Blue;
             this.AutoCureBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.AutoCureBtn.Location = new System.Drawing.Point(820, 645);
-            this.AutoCureBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.AutoCureBtn.Location = new System.Drawing.Point(615, 516);
             this.AutoCureBtn.Name = "AutoCureBtn";
-            this.AutoCureBtn.Size = new System.Drawing.Size(80, 59);
+            this.AutoCureBtn.Size = new System.Drawing.Size(60, 47);
             this.AutoCureBtn.TabIndex = 193;
             this.AutoCureBtn.Text = "自动固化运动";
             this.AutoCureBtn.UseVisualStyleBackColor = true;
@@ -867,10 +844,9 @@
             this.label73.BackColor = System.Drawing.Color.Salmon;
             this.label73.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold);
             this.label73.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label73.Location = new System.Drawing.Point(817, 820);
-            this.label73.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label73.Location = new System.Drawing.Point(613, 656);
             this.label73.Name = "label73";
-            this.label73.Size = new System.Drawing.Size(187, 25);
+            this.label73.Size = new System.Drawing.Size(140, 20);
             this.label73.TabIndex = 192;
             this.label73.Text = "固化强度（mJ/cm2）";
             this.label73.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -888,10 +864,9 @@
             "800",
             "1600",
             "3200"});
-            this.UVCureEnergycomboBox.Location = new System.Drawing.Point(1011, 820);
-            this.UVCureEnergycomboBox.Margin = new System.Windows.Forms.Padding(4);
+            this.UVCureEnergycomboBox.Location = new System.Drawing.Point(758, 656);
             this.UVCureEnergycomboBox.Name = "UVCureEnergycomboBox";
-            this.UVCureEnergycomboBox.Size = new System.Drawing.Size(80, 23);
+            this.UVCureEnergycomboBox.Size = new System.Drawing.Size(61, 20);
             this.UVCureEnergycomboBox.TabIndex = 191;
             this.UVCureEnergycomboBox.Text = "0";
             // 
@@ -902,30 +877,27 @@
             this.comboBox3.Items.AddRange(new object[] {
             "A-直接铺粉",
             "B-间接铺粉"});
-            this.comboBox3.Location = new System.Drawing.Point(995, 501);
-            this.comboBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox3.Location = new System.Drawing.Point(746, 401);
             this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(93, 23);
+            this.comboBox3.Size = new System.Drawing.Size(71, 20);
             this.comboBox3.TabIndex = 185;
             // 
             // label83
             // 
             this.label83.AutoSize = true;
             this.label83.Font = new System.Drawing.Font("宋体", 9.5F, System.Drawing.FontStyle.Bold);
-            this.label83.Location = new System.Drawing.Point(900, 505);
-            this.label83.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label83.Location = new System.Drawing.Point(675, 404);
             this.label83.Name = "label83";
-            this.label83.Size = new System.Drawing.Size(93, 16);
+            this.label83.Size = new System.Drawing.Size(77, 13);
             this.label83.TabIndex = 186;
             this.label83.Text = "铺粉策略：";
             // 
             // textBox15
             // 
             this.textBox15.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox15.Location = new System.Drawing.Point(1225, 665);
-            this.textBox15.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox15.Location = new System.Drawing.Point(919, 532);
             this.textBox15.Name = "textBox15";
-            this.textBox15.Size = new System.Drawing.Size(36, 26);
+            this.textBox15.Size = new System.Drawing.Size(28, 22);
             this.textBox15.TabIndex = 183;
             this.textBox15.Text = "5";
             // 
@@ -933,10 +905,9 @@
             // 
             this.label68.Font = new System.Drawing.Font("宋体", 9F);
             this.label68.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label68.Location = new System.Drawing.Point(1113, 669);
-            this.label68.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label68.Location = new System.Drawing.Point(835, 535);
             this.label68.Name = "label68";
-            this.label68.Size = new System.Drawing.Size(101, 21);
+            this.label68.Size = new System.Drawing.Size(76, 17);
             this.label68.TabIndex = 184;
             this.label68.Text = "闪喷时长(s)";
             // 
@@ -947,10 +918,9 @@
             this.AutoCleanBtn.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold);
             this.AutoCleanBtn.ForeColor = System.Drawing.Color.Red;
             this.AutoCleanBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.AutoCleanBtn.Location = new System.Drawing.Point(820, 578);
-            this.AutoCleanBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.AutoCleanBtn.Location = new System.Drawing.Point(615, 462);
             this.AutoCleanBtn.Name = "AutoCleanBtn";
-            this.AutoCleanBtn.Size = new System.Drawing.Size(80, 59);
+            this.AutoCleanBtn.Size = new System.Drawing.Size(60, 47);
             this.AutoCleanBtn.TabIndex = 155;
             this.AutoCleanBtn.Text = "自动清洗运动";
             this.AutoCleanBtn.UseVisualStyleBackColor = true;
@@ -959,50 +929,45 @@
             // textBox12
             // 
             this.textBox12.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox12.Location = new System.Drawing.Point(1044, 702);
-            this.textBox12.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox12.Location = new System.Drawing.Point(783, 562);
             this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(47, 26);
+            this.textBox12.Size = new System.Drawing.Size(36, 22);
             this.textBox12.TabIndex = 179;
             this.textBox12.Text = "1";
             // 
             // textBox11
             // 
             this.textBox11.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox11.Location = new System.Drawing.Point(1225, 638);
-            this.textBox11.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox11.Location = new System.Drawing.Point(919, 510);
             this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(35, 26);
+            this.textBox11.Size = new System.Drawing.Size(27, 22);
             this.textBox11.TabIndex = 177;
             this.textBox11.Text = "25";
             // 
             // textBox10
             // 
             this.textBox10.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox10.Location = new System.Drawing.Point(1225, 615);
-            this.textBox10.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox10.Location = new System.Drawing.Point(919, 492);
             this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(35, 26);
+            this.textBox10.Size = new System.Drawing.Size(27, 22);
             this.textBox10.TabIndex = 176;
             this.textBox10.Text = "1";
             // 
             // textBox7
             // 
             this.textBox7.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox7.Location = new System.Drawing.Point(1044, 645);
-            this.textBox7.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox7.Location = new System.Drawing.Point(783, 516);
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(47, 26);
+            this.textBox7.Size = new System.Drawing.Size(36, 22);
             this.textBox7.TabIndex = 167;
             this.textBox7.Text = "40";
             // 
             // textBox3
             // 
             this.textBox3.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox3.Location = new System.Drawing.Point(1044, 731);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox3.Location = new System.Drawing.Point(783, 585);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(47, 26);
+            this.textBox3.Size = new System.Drawing.Size(36, 22);
             this.textBox3.TabIndex = 157;
             this.textBox3.Text = "1";
             // 
@@ -1010,10 +975,9 @@
             // 
             this.textBox4.Enabled = false;
             this.textBox4.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox4.Location = new System.Drawing.Point(740, 811);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox4.Location = new System.Drawing.Point(555, 649);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(47, 26);
+            this.textBox4.Size = new System.Drawing.Size(36, 22);
             this.textBox4.TabIndex = 161;
             this.textBox4.Text = "40";
             this.textBox4.Visible = false;
@@ -1021,20 +985,18 @@
             // textBox6
             // 
             this.textBox6.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox6.Location = new System.Drawing.Point(1044, 674);
-            this.textBox6.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox6.Location = new System.Drawing.Point(783, 539);
             this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(47, 26);
+            this.textBox6.Size = new System.Drawing.Size(36, 22);
             this.textBox6.TabIndex = 165;
             this.textBox6.Text = "150";
             // 
             // textBox8
             // 
             this.textBox8.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox8.Location = new System.Drawing.Point(740, 840);
-            this.textBox8.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox8.Location = new System.Drawing.Point(555, 672);
             this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(47, 26);
+            this.textBox8.Size = new System.Drawing.Size(36, 22);
             this.textBox8.TabIndex = 169;
             this.textBox8.Text = "100";
             this.textBox8.Visible = false;
@@ -1043,10 +1005,9 @@
             // 
             this.textBox13.Enabled = false;
             this.textBox13.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox13.Location = new System.Drawing.Point(1044, 616);
-            this.textBox13.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox13.Location = new System.Drawing.Point(783, 493);
             this.textBox13.Name = "textBox13";
-            this.textBox13.Size = new System.Drawing.Size(47, 26);
+            this.textBox13.Size = new System.Drawing.Size(36, 22);
             this.textBox13.TabIndex = 182;
             this.textBox13.Text = "0";
             // 
@@ -1054,10 +1015,9 @@
             // 
             this.label66.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
             this.label66.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label66.Location = new System.Drawing.Point(901, 625);
-            this.label66.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label66.Location = new System.Drawing.Point(676, 500);
             this.label66.Name = "label66";
-            this.label66.Size = new System.Drawing.Size(140, 20);
+            this.label66.Size = new System.Drawing.Size(105, 16);
             this.label66.TabIndex = 181;
             this.label66.Text = "层厚进给2（um）";
             // 
@@ -1065,10 +1025,9 @@
             // 
             this.label65.Font = new System.Drawing.Font("宋体", 9F);
             this.label65.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label65.Location = new System.Drawing.Point(903, 709);
-            this.label65.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label65.Location = new System.Drawing.Point(677, 567);
             this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(161, 22);
+            this.label65.Size = new System.Drawing.Size(121, 18);
             this.label65.TabIndex = 180;
             this.label65.Text = "前进辊速（rev/s）";
             // 
@@ -1078,10 +1037,9 @@
             this.label64.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label64.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label64.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.label64.Location = new System.Drawing.Point(1119, 514);
-            this.label64.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label64.Location = new System.Drawing.Point(839, 411);
             this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(133, 30);
+            this.label64.Size = new System.Drawing.Size(100, 24);
             this.label64.TabIndex = 178;
             this.label64.Tag = "1";
             this.label64.Text = "当前打印: K层";
@@ -1091,10 +1049,9 @@
             // 
             this.label63.Font = new System.Drawing.Font("宋体", 9F);
             this.label63.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label63.Location = new System.Drawing.Point(1113, 645);
-            this.label63.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label63.Location = new System.Drawing.Point(835, 516);
             this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(121, 20);
+            this.label63.Size = new System.Drawing.Size(91, 16);
             this.label63.TabIndex = 175;
             this.label63.Text = "清洗频率（层）";
             // 
@@ -1102,20 +1059,18 @@
             // 
             this.label62.Font = new System.Drawing.Font("宋体", 9F);
             this.label62.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label62.Location = new System.Drawing.Point(1113, 620);
-            this.label62.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label62.Location = new System.Drawing.Point(835, 496);
             this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(121, 20);
+            this.label62.Size = new System.Drawing.Size(91, 16);
             this.label62.TabIndex = 174;
             this.label62.Text = "重喷次数（次）";
             // 
             // textBox9
             // 
             this.textBox9.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox9.Location = new System.Drawing.Point(740, 858);
-            this.textBox9.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox9.Location = new System.Drawing.Point(555, 686);
             this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(47, 26);
+            this.textBox9.Size = new System.Drawing.Size(36, 22);
             this.textBox9.TabIndex = 170;
             this.textBox9.Text = "5";
             this.textBox9.Visible = false;
@@ -1126,10 +1081,9 @@
             this.InkCarPosLable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.InkCarPosLable.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.InkCarPosLable.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.InkCarPosLable.Location = new System.Drawing.Point(1119, 580);
-            this.InkCarPosLable.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.InkCarPosLable.Location = new System.Drawing.Point(839, 464);
             this.InkCarPosLable.Name = "InkCarPosLable";
-            this.InkCarPosLable.Size = new System.Drawing.Size(133, 30);
+            this.InkCarPosLable.Size = new System.Drawing.Size(100, 24);
             this.InkCarPosLable.TabIndex = 173;
             this.InkCarPosLable.Tag = "1";
             this.InkCarPosLable.Text = "墨车: 0MM";
@@ -1141,10 +1095,9 @@
             this.PowerPosLable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PowerPosLable.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.PowerPosLable.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.PowerPosLable.Location = new System.Drawing.Point(1119, 546);
-            this.PowerPosLable.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.PowerPosLable.Location = new System.Drawing.Point(839, 437);
             this.PowerPosLable.Name = "PowerPosLable";
-            this.PowerPosLable.Size = new System.Drawing.Size(133, 30);
+            this.PowerPosLable.Size = new System.Drawing.Size(100, 24);
             this.PowerPosLable.TabIndex = 172;
             this.PowerPosLable.Tag = "1";
             this.PowerPosLable.Text = "粉车: 0MM";
@@ -1154,20 +1107,18 @@
             // 
             this.label61.Font = new System.Drawing.Font("宋体", 9F);
             this.label61.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label61.Location = new System.Drawing.Point(903, 651);
-            this.label61.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label61.Location = new System.Drawing.Point(677, 521);
             this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(140, 20);
+            this.label61.Size = new System.Drawing.Size(105, 16);
             this.label61.TabIndex = 171;
             this.label61.Text = "预铺速度（mm/s）";
             // 
             // textBox5
             // 
             this.textBox5.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox5.Location = new System.Drawing.Point(1044, 591);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox5.Location = new System.Drawing.Point(783, 473);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(47, 26);
+            this.textBox5.Size = new System.Drawing.Size(36, 22);
             this.textBox5.TabIndex = 163;
             this.textBox5.Text = "0";
             // 
@@ -1175,10 +1126,9 @@
             // 
             this.label59.Font = new System.Drawing.Font("宋体", 9F);
             this.label59.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label59.Location = new System.Drawing.Point(600, 865);
-            this.label59.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label59.Location = new System.Drawing.Point(450, 692);
             this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(140, 20);
+            this.label59.Size = new System.Drawing.Size(105, 16);
             this.label59.TabIndex = 166;
             this.label59.Text = "铺粉停靠（mm）";
             this.label59.Visible = false;
@@ -1187,10 +1137,9 @@
             // 
             this.label56.Font = new System.Drawing.Font("宋体", 9F);
             this.label56.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label56.Location = new System.Drawing.Point(600, 840);
-            this.label56.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label56.Location = new System.Drawing.Point(450, 672);
             this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(140, 20);
+            this.label56.Size = new System.Drawing.Size(105, 16);
             this.label56.TabIndex = 160;
             this.label56.Text = "铺粉起铺（mm）";
             this.label56.Visible = false;
@@ -1199,10 +1148,9 @@
             // 
             this.label49.Font = new System.Drawing.Font("宋体", 9F);
             this.label49.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label49.Location = new System.Drawing.Point(903, 738);
-            this.label49.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label49.Location = new System.Drawing.Point(677, 590);
             this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(161, 21);
+            this.label49.Size = new System.Drawing.Size(121, 17);
             this.label49.TabIndex = 158;
             this.label49.Text = "后退辊速（rev/s）";
             // 
@@ -1210,10 +1158,9 @@
             // 
             this.label55.Font = new System.Drawing.Font("宋体", 9F);
             this.label55.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label55.Location = new System.Drawing.Point(600, 816);
-            this.label55.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label55.Location = new System.Drawing.Point(450, 653);
             this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(140, 20);
+            this.label55.Size = new System.Drawing.Size(105, 16);
             this.label55.TabIndex = 156;
             this.label55.Text = "后退速度（mm/s）";
             this.label55.Visible = false;
@@ -1222,10 +1169,9 @@
             // 
             this.label57.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
             this.label57.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label57.Location = new System.Drawing.Point(901, 596);
-            this.label57.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label57.Location = new System.Drawing.Point(676, 477);
             this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(140, 20);
+            this.label57.Size = new System.Drawing.Size(105, 16);
             this.label57.TabIndex = 162;
             this.label57.Text = "层厚进给（um）";
             // 
@@ -1248,11 +1194,9 @@
             this.groupBox25.Controls.Add(this.label54);
             this.groupBox25.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox25.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox25.Location = new System.Drawing.Point(13, 250);
-            this.groupBox25.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox25.Location = new System.Drawing.Point(10, 200);
             this.groupBox25.Name = "groupBox25";
-            this.groupBox25.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox25.Size = new System.Drawing.Size(395, 250);
+            this.groupBox25.Size = new System.Drawing.Size(296, 200);
             this.groupBox25.TabIndex = 140;
             this.groupBox25.TabStop = false;
             this.groupBox25.Text = "落粉轴运动（步进-8）";
@@ -1263,10 +1207,9 @@
             this.HomeEndsLabel7.Enabled = false;
             this.HomeEndsLabel7.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.HomeEndsLabel7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.HomeEndsLabel7.Location = new System.Drawing.Point(265, 201);
-            this.HomeEndsLabel7.Margin = new System.Windows.Forms.Padding(4);
+            this.HomeEndsLabel7.Location = new System.Drawing.Point(199, 161);
             this.HomeEndsLabel7.Name = "HomeEndsLabel7";
-            this.HomeEndsLabel7.Size = new System.Drawing.Size(106, 24);
+            this.HomeEndsLabel7.Size = new System.Drawing.Size(86, 21);
             this.HomeEndsLabel7.TabIndex = 125;
             this.HomeEndsLabel7.Text = "切换Home";
             this.HomeEndsLabel7.UseVisualStyleBackColor = true;
@@ -1277,10 +1220,9 @@
             this.PLLabel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PLLabel8.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.PLLabel8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.PLLabel8.Location = new System.Drawing.Point(272, 41);
-            this.PLLabel8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.PLLabel8.Location = new System.Drawing.Point(204, 33);
             this.PLLabel8.Name = "PLLabel8";
-            this.PLLabel8.Size = new System.Drawing.Size(93, 30);
+            this.PLLabel8.Size = new System.Drawing.Size(70, 24);
             this.PLLabel8.TabIndex = 48;
             this.PLLabel8.Tag = "1";
             this.PLLabel8.Text = "PL";
@@ -1296,10 +1238,10 @@
             this.homeButton8.Image = ((System.Drawing.Image)(resources.GetObject("homeButton8.Image")));
             this.homeButton8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.homeButton8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.homeButton8.Location = new System.Drawing.Point(129, 28);
+            this.homeButton8.Location = new System.Drawing.Point(97, 22);
             this.homeButton8.Margin = new System.Windows.Forms.Padding(0);
             this.homeButton8.Name = "homeButton8";
-            this.homeButton8.Size = new System.Drawing.Size(113, 62);
+            this.homeButton8.Size = new System.Drawing.Size(85, 50);
             this.homeButton8.TabIndex = 21;
             this.homeButton8.Tag = "8";
             this.homeButton8.Text = "起点";
@@ -1316,10 +1258,9 @@
             this.MoveUpBtn8.Image = ((System.Drawing.Image)(resources.GetObject("MoveUpBtn8.Image")));
             this.MoveUpBtn8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveUpBtn8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveUpBtn8.Location = new System.Drawing.Point(8, 28);
-            this.MoveUpBtn8.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveUpBtn8.Location = new System.Drawing.Point(6, 22);
             this.MoveUpBtn8.Name = "MoveUpBtn8";
-            this.MoveUpBtn8.Size = new System.Drawing.Size(113, 62);
+            this.MoveUpBtn8.Size = new System.Drawing.Size(85, 50);
             this.MoveUpBtn8.TabIndex = 2;
             this.MoveUpBtn8.Tag = "15";
             this.MoveUpBtn8.Text = "正转";
@@ -1331,10 +1272,9 @@
             this.ZeroLabel8.BackColor = System.Drawing.Color.Lime;
             this.ZeroLabel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ZeroLabel8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.ZeroLabel8.Location = new System.Drawing.Point(272, 79);
-            this.ZeroLabel8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.ZeroLabel8.Location = new System.Drawing.Point(204, 63);
             this.ZeroLabel8.Name = "ZeroLabel8";
-            this.ZeroLabel8.Size = new System.Drawing.Size(93, 30);
+            this.ZeroLabel8.Size = new System.Drawing.Size(70, 24);
             this.ZeroLabel8.TabIndex = 49;
             this.ZeroLabel8.Tag = "2";
             this.ZeroLabel8.Text = "ZERO";
@@ -1345,10 +1285,9 @@
             this.NLLabel8.BackColor = System.Drawing.Color.Lime;
             this.NLLabel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NLLabel8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.NLLabel8.Location = new System.Drawing.Point(272, 116);
-            this.NLLabel8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.NLLabel8.Location = new System.Drawing.Point(204, 93);
             this.NLLabel8.Name = "NLLabel8";
-            this.NLLabel8.Size = new System.Drawing.Size(93, 30);
+            this.NLLabel8.Size = new System.Drawing.Size(70, 24);
             this.NLLabel8.TabIndex = 50;
             this.NLLabel8.Tag = "3";
             this.NLLabel8.Text = "NL";
@@ -1363,10 +1302,9 @@
             this.button5.Image = ((System.Drawing.Image)(resources.GetObject("button5.Image")));
             this.button5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button5.Location = new System.Drawing.Point(129, 96);
-            this.button5.Margin = new System.Windows.Forms.Padding(4);
+            this.button5.Location = new System.Drawing.Point(97, 77);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(113, 62);
+            this.button5.Size = new System.Drawing.Size(85, 50);
             this.button5.TabIndex = 21;
             this.button5.Tag = "8";
             this.button5.Text = "停止";
@@ -1378,10 +1316,9 @@
             // 
             this.label53.Font = new System.Drawing.Font("宋体", 9F);
             this.label53.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label53.Location = new System.Drawing.Point(12, 172);
-            this.label53.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label53.Location = new System.Drawing.Point(9, 138);
             this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(107, 31);
+            this.label53.Size = new System.Drawing.Size(80, 25);
             this.label53.TabIndex = 15;
             this.label53.Text = "速度(rev/s)";
             // 
@@ -1394,10 +1331,9 @@
             this.MoveDownBtn8.Image = ((System.Drawing.Image)(resources.GetObject("MoveDownBtn8.Image")));
             this.MoveDownBtn8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveDownBtn8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveDownBtn8.Location = new System.Drawing.Point(9, 96);
-            this.MoveDownBtn8.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveDownBtn8.Location = new System.Drawing.Point(7, 77);
             this.MoveDownBtn8.Name = "MoveDownBtn8";
-            this.MoveDownBtn8.Size = new System.Drawing.Size(113, 62);
+            this.MoveDownBtn8.Size = new System.Drawing.Size(85, 50);
             this.MoveDownBtn8.TabIndex = 20;
             this.MoveDownBtn8.Tag = "16";
             this.MoveDownBtn8.Text = "反转";
@@ -1407,20 +1343,18 @@
             // velLabel7
             // 
             this.velLabel7.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.velLabel7.Location = new System.Drawing.Point(127, 169);
-            this.velLabel7.Margin = new System.Windows.Forms.Padding(4);
+            this.velLabel7.Location = new System.Drawing.Point(95, 135);
             this.velLabel7.Name = "velLabel7";
-            this.velLabel7.Size = new System.Drawing.Size(55, 27);
+            this.velLabel7.Size = new System.Drawing.Size(42, 23);
             this.velLabel7.TabIndex = 16;
             this.velLabel7.Text = "2";
             // 
             // stepLabel7
             // 
             this.stepLabel7.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.stepLabel7.Location = new System.Drawing.Point(127, 199);
-            this.stepLabel7.Margin = new System.Windows.Forms.Padding(4);
+            this.stepLabel7.Location = new System.Drawing.Point(95, 159);
             this.stepLabel7.Name = "stepLabel7";
-            this.stepLabel7.Size = new System.Drawing.Size(55, 27);
+            this.stepLabel7.Size = new System.Drawing.Size(42, 23);
             this.stepLabel7.TabIndex = 19;
             this.stepLabel7.Text = "2";
             // 
@@ -1429,10 +1363,9 @@
             this.MoveModeLabel7.AutoSize = true;
             this.MoveModeLabel7.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.MoveModeLabel7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveModeLabel7.Location = new System.Drawing.Point(265, 172);
-            this.MoveModeLabel7.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveModeLabel7.Location = new System.Drawing.Point(199, 138);
             this.MoveModeLabel7.Name = "MoveModeLabel7";
-            this.MoveModeLabel7.Size = new System.Drawing.Size(91, 24);
+            this.MoveModeLabel7.Size = new System.Drawing.Size(75, 21);
             this.MoveModeLabel7.TabIndex = 14;
             this.MoveModeLabel7.Tag = "8";
             this.MoveModeLabel7.Text = "切换点动";
@@ -1443,10 +1376,9 @@
             // 
             this.label54.Font = new System.Drawing.Font("宋体", 9F);
             this.label54.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label54.Location = new System.Drawing.Point(12, 204);
-            this.label54.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label54.Location = new System.Drawing.Point(9, 163);
             this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(109, 26);
+            this.label54.Size = new System.Drawing.Size(82, 21);
             this.label54.TabIndex = 17;
             this.label54.Text = "转动量(rev)";
             // 
@@ -1469,11 +1401,9 @@
             this.groupBox24.Controls.Add(this.label52);
             this.groupBox24.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox24.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox24.Location = new System.Drawing.Point(861, 4);
-            this.groupBox24.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox24.Location = new System.Drawing.Point(646, 3);
             this.groupBox24.Name = "groupBox24";
-            this.groupBox24.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox24.Size = new System.Drawing.Size(395, 239);
+            this.groupBox24.Size = new System.Drawing.Size(296, 191);
             this.groupBox24.TabIndex = 139;
             this.groupBox24.TabStop = false;
             this.groupBox24.Text = "喷头调高（步进-7）";
@@ -1484,10 +1414,9 @@
             this.HomeEndsLabel6.Enabled = false;
             this.HomeEndsLabel6.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.HomeEndsLabel6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.HomeEndsLabel6.Location = new System.Drawing.Point(265, 200);
-            this.HomeEndsLabel6.Margin = new System.Windows.Forms.Padding(4);
+            this.HomeEndsLabel6.Location = new System.Drawing.Point(199, 160);
             this.HomeEndsLabel6.Name = "HomeEndsLabel6";
-            this.HomeEndsLabel6.Size = new System.Drawing.Size(106, 24);
+            this.HomeEndsLabel6.Size = new System.Drawing.Size(86, 21);
             this.HomeEndsLabel6.TabIndex = 125;
             this.HomeEndsLabel6.Text = "切换Home";
             this.HomeEndsLabel6.UseVisualStyleBackColor = true;
@@ -1498,10 +1427,9 @@
             this.PLLabel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PLLabel7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.PLLabel7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.PLLabel7.Location = new System.Drawing.Point(271, 41);
-            this.PLLabel7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.PLLabel7.Location = new System.Drawing.Point(203, 33);
             this.PLLabel7.Name = "PLLabel7";
-            this.PLLabel7.Size = new System.Drawing.Size(93, 30);
+            this.PLLabel7.Size = new System.Drawing.Size(70, 24);
             this.PLLabel7.TabIndex = 48;
             this.PLLabel7.Tag = "1";
             this.PLLabel7.Text = "PL";
@@ -1517,10 +1445,10 @@
             this.homeButton7.Image = ((System.Drawing.Image)(resources.GetObject("homeButton7.Image")));
             this.homeButton7.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.homeButton7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.homeButton7.Location = new System.Drawing.Point(129, 29);
+            this.homeButton7.Location = new System.Drawing.Point(97, 23);
             this.homeButton7.Margin = new System.Windows.Forms.Padding(0);
             this.homeButton7.Name = "homeButton7";
-            this.homeButton7.Size = new System.Drawing.Size(113, 62);
+            this.homeButton7.Size = new System.Drawing.Size(85, 50);
             this.homeButton7.TabIndex = 21;
             this.homeButton7.Tag = "7";
             this.homeButton7.Text = "起点";
@@ -1537,10 +1465,9 @@
             this.MoveUpBtn7.Image = ((System.Drawing.Image)(resources.GetObject("MoveUpBtn7.Image")));
             this.MoveUpBtn7.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveUpBtn7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveUpBtn7.Location = new System.Drawing.Point(8, 29);
-            this.MoveUpBtn7.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveUpBtn7.Location = new System.Drawing.Point(6, 23);
             this.MoveUpBtn7.Name = "MoveUpBtn7";
-            this.MoveUpBtn7.Size = new System.Drawing.Size(113, 62);
+            this.MoveUpBtn7.Size = new System.Drawing.Size(85, 50);
             this.MoveUpBtn7.TabIndex = 2;
             this.MoveUpBtn7.Tag = "14";
             this.MoveUpBtn7.Text = "上升";
@@ -1552,10 +1479,9 @@
             this.ZeroLabel7.BackColor = System.Drawing.Color.Lime;
             this.ZeroLabel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ZeroLabel7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.ZeroLabel7.Location = new System.Drawing.Point(271, 79);
-            this.ZeroLabel7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.ZeroLabel7.Location = new System.Drawing.Point(203, 63);
             this.ZeroLabel7.Name = "ZeroLabel7";
-            this.ZeroLabel7.Size = new System.Drawing.Size(93, 30);
+            this.ZeroLabel7.Size = new System.Drawing.Size(70, 24);
             this.ZeroLabel7.TabIndex = 49;
             this.ZeroLabel7.Tag = "2";
             this.ZeroLabel7.Text = "ZERO";
@@ -1566,10 +1492,9 @@
             this.NLLabel7.BackColor = System.Drawing.Color.Lime;
             this.NLLabel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NLLabel7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.NLLabel7.Location = new System.Drawing.Point(271, 116);
-            this.NLLabel7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.NLLabel7.Location = new System.Drawing.Point(203, 93);
             this.NLLabel7.Name = "NLLabel7";
-            this.NLLabel7.Size = new System.Drawing.Size(93, 30);
+            this.NLLabel7.Size = new System.Drawing.Size(70, 24);
             this.NLLabel7.TabIndex = 50;
             this.NLLabel7.Tag = "3";
             this.NLLabel7.Text = "NL";
@@ -1584,10 +1509,9 @@
             this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
             this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button4.Location = new System.Drawing.Point(129, 98);
-            this.button4.Margin = new System.Windows.Forms.Padding(4);
+            this.button4.Location = new System.Drawing.Point(97, 78);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(113, 62);
+            this.button4.Size = new System.Drawing.Size(85, 50);
             this.button4.TabIndex = 21;
             this.button4.Tag = "7";
             this.button4.Text = "停止";
@@ -1599,10 +1523,9 @@
             // 
             this.label50.Font = new System.Drawing.Font("宋体", 9F);
             this.label50.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label50.Location = new System.Drawing.Point(12, 174);
-            this.label50.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label50.Location = new System.Drawing.Point(9, 139);
             this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(93, 31);
+            this.label50.Size = new System.Drawing.Size(70, 25);
             this.label50.TabIndex = 15;
             this.label50.Text = "速度(mm/s)";
             // 
@@ -1615,10 +1538,9 @@
             this.MoveDownBtn7.Image = ((System.Drawing.Image)(resources.GetObject("MoveDownBtn7.Image")));
             this.MoveDownBtn7.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveDownBtn7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveDownBtn7.Location = new System.Drawing.Point(9, 98);
-            this.MoveDownBtn7.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveDownBtn7.Location = new System.Drawing.Point(7, 78);
             this.MoveDownBtn7.Name = "MoveDownBtn7";
-            this.MoveDownBtn7.Size = new System.Drawing.Size(113, 62);
+            this.MoveDownBtn7.Size = new System.Drawing.Size(85, 50);
             this.MoveDownBtn7.TabIndex = 20;
             this.MoveDownBtn7.Tag = "13";
             this.MoveDownBtn7.Text = "下降";
@@ -1628,20 +1550,18 @@
             // velLabel6
             // 
             this.velLabel6.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.velLabel6.Location = new System.Drawing.Point(108, 170);
-            this.velLabel6.Margin = new System.Windows.Forms.Padding(4);
+            this.velLabel6.Location = new System.Drawing.Point(81, 136);
             this.velLabel6.Name = "velLabel6";
-            this.velLabel6.Size = new System.Drawing.Size(55, 27);
+            this.velLabel6.Size = new System.Drawing.Size(42, 23);
             this.velLabel6.TabIndex = 16;
             this.velLabel6.Text = "1";
             // 
             // stepLabel6
             // 
             this.stepLabel6.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.stepLabel6.Location = new System.Drawing.Point(108, 200);
-            this.stepLabel6.Margin = new System.Windows.Forms.Padding(4);
+            this.stepLabel6.Location = new System.Drawing.Point(81, 160);
             this.stepLabel6.Name = "stepLabel6";
-            this.stepLabel6.Size = new System.Drawing.Size(55, 27);
+            this.stepLabel6.Size = new System.Drawing.Size(42, 23);
             this.stepLabel6.TabIndex = 19;
             this.stepLabel6.Text = "2";
             // 
@@ -1650,10 +1570,9 @@
             this.MoveModeLabel6.AutoSize = true;
             this.MoveModeLabel6.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.MoveModeLabel6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveModeLabel6.Location = new System.Drawing.Point(265, 171);
-            this.MoveModeLabel6.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveModeLabel6.Location = new System.Drawing.Point(199, 137);
             this.MoveModeLabel6.Name = "MoveModeLabel6";
-            this.MoveModeLabel6.Size = new System.Drawing.Size(91, 24);
+            this.MoveModeLabel6.Size = new System.Drawing.Size(75, 21);
             this.MoveModeLabel6.TabIndex = 14;
             this.MoveModeLabel6.Tag = "7";
             this.MoveModeLabel6.Text = "切换点动";
@@ -1664,10 +1583,9 @@
             // 
             this.label52.Font = new System.Drawing.Font("宋体", 9F);
             this.label52.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label52.Location = new System.Drawing.Point(12, 205);
-            this.label52.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label52.Location = new System.Drawing.Point(9, 164);
             this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(96, 26);
+            this.label52.Size = new System.Drawing.Size(72, 21);
             this.label52.TabIndex = 17;
             this.label52.Text = "移动量(mm)";
             // 
@@ -1678,10 +1596,9 @@
             this.AutoPrintBtn.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold);
             this.AutoPrintBtn.ForeColor = System.Drawing.Color.Black;
             this.AutoPrintBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.AutoPrintBtn.Location = new System.Drawing.Point(820, 715);
-            this.AutoPrintBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.AutoPrintBtn.Location = new System.Drawing.Point(615, 572);
             this.AutoPrintBtn.Name = "AutoPrintBtn";
-            this.AutoPrintBtn.Size = new System.Drawing.Size(80, 59);
+            this.AutoPrintBtn.Size = new System.Drawing.Size(60, 47);
             this.AutoPrintBtn.TabIndex = 154;
             this.AutoPrintBtn.Text = "自动喷墨运动";
             this.AutoPrintBtn.UseVisualStyleBackColor = true;
@@ -1696,10 +1613,9 @@
             this.button27.Image = ((System.Drawing.Image)(resources.GetObject("button27.Image")));
             this.button27.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button27.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button27.Location = new System.Drawing.Point(1125, 758);
-            this.button27.Margin = new System.Windows.Forms.Padding(4);
+            this.button27.Location = new System.Drawing.Point(844, 606);
             this.button27.Name = "button27";
-            this.button27.Size = new System.Drawing.Size(120, 60);
+            this.button27.Size = new System.Drawing.Size(90, 48);
             this.button27.TabIndex = 26;
             this.button27.Text = "退出";
             this.button27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1713,10 +1629,9 @@
             this.AutoSupplyPowderBtn.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold);
             this.AutoSupplyPowderBtn.ForeColor = System.Drawing.Color.Black;
             this.AutoSupplyPowderBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.AutoSupplyPowderBtn.Location = new System.Drawing.Point(820, 509);
-            this.AutoSupplyPowderBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.AutoSupplyPowderBtn.Location = new System.Drawing.Point(615, 407);
             this.AutoSupplyPowderBtn.Name = "AutoSupplyPowderBtn";
-            this.AutoSupplyPowderBtn.Size = new System.Drawing.Size(80, 59);
+            this.AutoSupplyPowderBtn.Size = new System.Drawing.Size(60, 47);
             this.AutoSupplyPowderBtn.TabIndex = 153;
             this.AutoSupplyPowderBtn.Text = "自动进给铺粉";
             this.AutoSupplyPowderBtn.UseVisualStyleBackColor = true;
@@ -1725,10 +1640,10 @@
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(1301, 561);
-            this.label31.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label31.Location = new System.Drawing.Point(976, 449);
+            this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(257, 75);
+            this.label31.Size = new System.Drawing.Size(203, 60);
             this.label31.TabIndex = 138;
             this.label31.Text = "校准过程：（1）开启校准使能\r\n\r\n（2）各轴HOME校准零位，行程框红色\r\n\r\n（3）切换HOME校准行程，行程框绿色";
             // 
@@ -1737,10 +1652,9 @@
             this.CorrectCheck.AutoSize = true;
             this.CorrectCheck.Font = new System.Drawing.Font("宋体", 11F);
             this.CorrectCheck.ForeColor = System.Drawing.Color.Red;
-            this.CorrectCheck.Location = new System.Drawing.Point(1303, 528);
-            this.CorrectCheck.Margin = new System.Windows.Forms.Padding(4);
+            this.CorrectCheck.Location = new System.Drawing.Point(977, 422);
             this.CorrectCheck.Name = "CorrectCheck";
-            this.CorrectCheck.Size = new System.Drawing.Size(202, 23);
+            this.CorrectCheck.Size = new System.Drawing.Size(161, 19);
             this.CorrectCheck.TabIndex = 136;
             this.CorrectCheck.Text = "零位及行程校准使能";
             this.CorrectCheck.UseVisualStyleBackColor = true;
@@ -1749,10 +1663,10 @@
             // label51
             // 
             this.label51.BackColor = System.Drawing.SystemColors.Control;
-            this.label51.Location = new System.Drawing.Point(24, 864);
-            this.label51.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label51.Location = new System.Drawing.Point(18, 691);
+            this.label51.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(476, 28);
+            this.label51.Size = new System.Drawing.Size(357, 22);
             this.label51.TabIndex = 94;
             this.label51.Text = "运动校准数据：";
             this.label51.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1779,11 +1693,9 @@
             this.groupBox19.Controls.Add(this.JourneyBox3);
             this.groupBox19.Controls.Add(this.JourneyBox2);
             this.groupBox19.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.groupBox19.Location = new System.Drawing.Point(24, 865);
-            this.groupBox19.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox19.Location = new System.Drawing.Point(18, 692);
             this.groupBox19.Name = "groupBox19";
-            this.groupBox19.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox19.Size = new System.Drawing.Size(476, 134);
+            this.groupBox19.Size = new System.Drawing.Size(357, 107);
             this.groupBox19.TabIndex = 121;
             this.groupBox19.TabStop = false;
             // 
@@ -1791,10 +1703,10 @@
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label21.Location = new System.Drawing.Point(236, 28);
-            this.label21.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label21.Location = new System.Drawing.Point(177, 22);
+            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(125, 18);
+            this.label21.Size = new System.Drawing.Size(98, 14);
             this.label21.TabIndex = 95;
             this.label21.Text = "铺粉小车行程:";
             // 
@@ -1802,20 +1714,20 @@
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("宋体", 10F);
-            this.label22.Location = new System.Drawing.Point(432, 96);
-            this.label22.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label22.Location = new System.Drawing.Point(324, 77);
+            this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(26, 17);
+            this.label22.Size = new System.Drawing.Size(21, 14);
             this.label22.TabIndex = 103;
             this.label22.Text = "mm";
             // 
             // label23
             // 
             this.label23.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label23.Location = new System.Drawing.Point(236, 62);
-            this.label23.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label23.Location = new System.Drawing.Point(177, 50);
+            this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(131, 22);
+            this.label23.Size = new System.Drawing.Size(98, 18);
             this.label23.TabIndex = 96;
             this.label23.Text = "卡紧电机行程:";
             // 
@@ -1823,10 +1735,10 @@
             // 
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("宋体", 10F);
-            this.label26.Location = new System.Drawing.Point(432, 62);
-            this.label26.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label26.Location = new System.Drawing.Point(324, 50);
+            this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(26, 17);
+            this.label26.Size = new System.Drawing.Size(21, 14);
             this.label26.TabIndex = 102;
             this.label26.Text = "mm";
             // 
@@ -1834,10 +1746,10 @@
             // 
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label27.Location = new System.Drawing.Point(236, 98);
-            this.label27.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label27.Location = new System.Drawing.Point(177, 78);
+            this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(125, 18);
+            this.label27.Size = new System.Drawing.Size(98, 14);
             this.label27.TabIndex = 97;
             this.label27.Text = "刮墨装置行程:";
             // 
@@ -1845,40 +1757,40 @@
             // 
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("宋体", 10F);
-            this.label28.Location = new System.Drawing.Point(432, 28);
-            this.label28.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label28.Location = new System.Drawing.Point(324, 22);
+            this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(26, 17);
+            this.label28.Size = new System.Drawing.Size(21, 14);
             this.label28.TabIndex = 101;
             this.label28.Text = "mm";
             // 
             // JourneyBox4
             // 
             this.JourneyBox4.Enabled = false;
-            this.JourneyBox4.Location = new System.Drawing.Point(368, 24);
-            this.JourneyBox4.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.JourneyBox4.Location = new System.Drawing.Point(276, 19);
+            this.JourneyBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.JourneyBox4.Name = "JourneyBox4";
-            this.JourneyBox4.Size = new System.Drawing.Size(63, 25);
+            this.JourneyBox4.Size = new System.Drawing.Size(48, 21);
             this.JourneyBox4.TabIndex = 98;
             this.JourneyBox4.Text = "0";
             // 
             // JourneyBox6
             // 
             this.JourneyBox6.Enabled = false;
-            this.JourneyBox6.Location = new System.Drawing.Point(368, 94);
-            this.JourneyBox6.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.JourneyBox6.Location = new System.Drawing.Point(276, 75);
+            this.JourneyBox6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.JourneyBox6.Name = "JourneyBox6";
-            this.JourneyBox6.Size = new System.Drawing.Size(63, 25);
+            this.JourneyBox6.Size = new System.Drawing.Size(48, 21);
             this.JourneyBox6.TabIndex = 100;
             this.JourneyBox6.Text = "0";
             // 
             // JourneyBox5
             // 
             this.JourneyBox5.Enabled = false;
-            this.JourneyBox5.Location = new System.Drawing.Point(368, 59);
-            this.JourneyBox5.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.JourneyBox5.Location = new System.Drawing.Point(276, 47);
+            this.JourneyBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.JourneyBox5.Name = "JourneyBox5";
-            this.JourneyBox5.Size = new System.Drawing.Size(63, 25);
+            this.JourneyBox5.Size = new System.Drawing.Size(48, 21);
             this.JourneyBox5.TabIndex = 99;
             this.JourneyBox5.Text = "0";
             // 
@@ -1886,10 +1798,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label2.Location = new System.Drawing.Point(13, 26);
-            this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label2.Location = new System.Drawing.Point(10, 21);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(125, 18);
+            this.label2.Size = new System.Drawing.Size(98, 14);
             this.label2.TabIndex = 80;
             this.label2.Text = "主成形缸行程:";
             // 
@@ -1897,20 +1809,20 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 10F);
-            this.label3.Location = new System.Drawing.Point(204, 95);
-            this.label3.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label3.Location = new System.Drawing.Point(153, 76);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(26, 17);
+            this.label3.Size = new System.Drawing.Size(21, 14);
             this.label3.TabIndex = 89;
             this.label3.Text = "mm";
             // 
             // label4
             // 
             this.label4.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label4.Location = new System.Drawing.Point(13, 61);
-            this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label4.Location = new System.Drawing.Point(10, 49);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(131, 22);
+            this.label4.Size = new System.Drawing.Size(98, 18);
             this.label4.TabIndex = 81;
             this.label4.Text = "后粉料缸行程:";
             // 
@@ -1918,10 +1830,10 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("宋体", 10F);
-            this.label8.Location = new System.Drawing.Point(204, 61);
-            this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label8.Location = new System.Drawing.Point(153, 49);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(26, 17);
+            this.label8.Size = new System.Drawing.Size(21, 14);
             this.label8.TabIndex = 88;
             this.label8.Text = "mm";
             // 
@@ -1929,10 +1841,10 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label9.Location = new System.Drawing.Point(13, 96);
-            this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label9.Location = new System.Drawing.Point(10, 77);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(125, 18);
+            this.label9.Size = new System.Drawing.Size(98, 14);
             this.label9.TabIndex = 82;
             this.label9.Text = "前粉料缸行程:";
             // 
@@ -1940,10 +1852,10 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("宋体", 10F);
-            this.label10.Location = new System.Drawing.Point(204, 26);
-            this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label10.Location = new System.Drawing.Point(153, 21);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(26, 17);
+            this.label10.Size = new System.Drawing.Size(21, 14);
             this.label10.TabIndex = 87;
             this.label10.Text = "mm";
             // 
@@ -1951,30 +1863,30 @@
             // 
             this.JourneyBox1.BackColor = System.Drawing.SystemColors.Window;
             this.JourneyBox1.Enabled = false;
-            this.JourneyBox1.Location = new System.Drawing.Point(143, 22);
-            this.JourneyBox1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.JourneyBox1.Location = new System.Drawing.Point(107, 18);
+            this.JourneyBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.JourneyBox1.Name = "JourneyBox1";
-            this.JourneyBox1.Size = new System.Drawing.Size(60, 25);
+            this.JourneyBox1.Size = new System.Drawing.Size(46, 21);
             this.JourneyBox1.TabIndex = 83;
             this.JourneyBox1.Text = "0";
             // 
             // JourneyBox3
             // 
             this.JourneyBox3.Enabled = false;
-            this.JourneyBox3.Location = new System.Drawing.Point(143, 92);
-            this.JourneyBox3.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.JourneyBox3.Location = new System.Drawing.Point(107, 74);
+            this.JourneyBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.JourneyBox3.Name = "JourneyBox3";
-            this.JourneyBox3.Size = new System.Drawing.Size(60, 25);
+            this.JourneyBox3.Size = new System.Drawing.Size(46, 21);
             this.JourneyBox3.TabIndex = 86;
             this.JourneyBox3.Text = "0";
             // 
             // JourneyBox2
             // 
             this.JourneyBox2.Enabled = false;
-            this.JourneyBox2.Location = new System.Drawing.Point(143, 58);
-            this.JourneyBox2.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.JourneyBox2.Location = new System.Drawing.Point(107, 46);
+            this.JourneyBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.JourneyBox2.Name = "JourneyBox2";
-            this.JourneyBox2.Size = new System.Drawing.Size(60, 25);
+            this.JourneyBox2.Size = new System.Drawing.Size(46, 21);
             this.JourneyBox2.TabIndex = 85;
             this.JourneyBox2.Text = "0";
             // 
@@ -1999,11 +1911,9 @@
             this.groupBox20.Controls.Add(this.MoveModeLabel5);
             this.groupBox20.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold);
             this.groupBox20.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox20.Location = new System.Drawing.Point(861, 250);
-            this.groupBox20.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox20.Location = new System.Drawing.Point(646, 200);
             this.groupBox20.Name = "groupBox20";
-            this.groupBox20.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox20.Size = new System.Drawing.Size(400, 246);
+            this.groupBox20.Size = new System.Drawing.Size(300, 197);
             this.groupBox20.TabIndex = 104;
             this.groupBox20.TabStop = false;
             this.groupBox20.Text = "辊粉轴运动（步进-6）";
@@ -2011,30 +1921,27 @@
             // textBox14
             // 
             this.textBox14.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.textBox14.Location = new System.Drawing.Point(127, 215);
-            this.textBox14.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox14.Location = new System.Drawing.Point(95, 172);
             this.textBox14.Name = "textBox14";
-            this.textBox14.Size = new System.Drawing.Size(55, 27);
+            this.textBox14.Size = new System.Drawing.Size(42, 23);
             this.textBox14.TabIndex = 127;
             this.textBox14.Text = "1";
             // 
             // velLabel5
             // 
             this.velLabel5.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.velLabel5.Location = new System.Drawing.Point(127, 159);
-            this.velLabel5.Margin = new System.Windows.Forms.Padding(4);
+            this.velLabel5.Location = new System.Drawing.Point(95, 127);
             this.velLabel5.Name = "velLabel5";
-            this.velLabel5.Size = new System.Drawing.Size(55, 27);
+            this.velLabel5.Size = new System.Drawing.Size(42, 23);
             this.velLabel5.TabIndex = 16;
             this.velLabel5.Text = "2";
             // 
             // stepLabel5
             // 
             this.stepLabel5.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.stepLabel5.Location = new System.Drawing.Point(127, 188);
-            this.stepLabel5.Margin = new System.Windows.Forms.Padding(4);
+            this.stepLabel5.Location = new System.Drawing.Point(95, 150);
             this.stepLabel5.Name = "stepLabel5";
-            this.stepLabel5.Size = new System.Drawing.Size(55, 27);
+            this.stepLabel5.Size = new System.Drawing.Size(42, 23);
             this.stepLabel5.TabIndex = 19;
             this.stepLabel5.Text = "2";
             // 
@@ -2042,10 +1949,9 @@
             // 
             this.label67.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
             this.label67.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label67.Location = new System.Drawing.Point(12, 219);
-            this.label67.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label67.Location = new System.Drawing.Point(9, 175);
             this.label67.Name = "label67";
-            this.label67.Size = new System.Drawing.Size(96, 26);
+            this.label67.Size = new System.Drawing.Size(72, 21);
             this.label67.TabIndex = 126;
             this.label67.Text = "供粉系数";
             // 
@@ -2053,10 +1959,9 @@
             // 
             this.label35.Font = new System.Drawing.Font("宋体", 9F);
             this.label35.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label35.Location = new System.Drawing.Point(12, 192);
-            this.label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label35.Location = new System.Drawing.Point(9, 154);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(96, 26);
+            this.label35.Size = new System.Drawing.Size(72, 21);
             this.label35.TabIndex = 17;
             this.label35.Text = "转动量(rev)";
             // 
@@ -2066,10 +1971,9 @@
             this.HomeEndsLabel5.Enabled = false;
             this.HomeEndsLabel5.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.HomeEndsLabel5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.HomeEndsLabel5.Location = new System.Drawing.Point(269, 201);
-            this.HomeEndsLabel5.Margin = new System.Windows.Forms.Padding(4);
+            this.HomeEndsLabel5.Location = new System.Drawing.Point(202, 161);
             this.HomeEndsLabel5.Name = "HomeEndsLabel5";
-            this.HomeEndsLabel5.Size = new System.Drawing.Size(106, 24);
+            this.HomeEndsLabel5.Size = new System.Drawing.Size(86, 21);
             this.HomeEndsLabel5.TabIndex = 125;
             this.HomeEndsLabel5.Text = "切换Home";
             this.HomeEndsLabel5.UseVisualStyleBackColor = true;
@@ -2080,10 +1984,9 @@
             this.PLLabel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PLLabel6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.PLLabel6.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.PLLabel6.Location = new System.Drawing.Point(269, 38);
-            this.PLLabel6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.PLLabel6.Location = new System.Drawing.Point(202, 30);
             this.PLLabel6.Name = "PLLabel6";
-            this.PLLabel6.Size = new System.Drawing.Size(93, 30);
+            this.PLLabel6.Size = new System.Drawing.Size(70, 24);
             this.PLLabel6.TabIndex = 48;
             this.PLLabel6.Tag = "1";
             this.PLLabel6.Text = "PL";
@@ -2099,10 +2002,10 @@
             this.homeButton6.Image = ((System.Drawing.Image)(resources.GetObject("homeButton6.Image")));
             this.homeButton6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.homeButton6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.homeButton6.Location = new System.Drawing.Point(129, 28);
+            this.homeButton6.Location = new System.Drawing.Point(97, 22);
             this.homeButton6.Margin = new System.Windows.Forms.Padding(0);
             this.homeButton6.Name = "homeButton6";
-            this.homeButton6.Size = new System.Drawing.Size(113, 62);
+            this.homeButton6.Size = new System.Drawing.Size(85, 50);
             this.homeButton6.TabIndex = 21;
             this.homeButton6.Tag = "6";
             this.homeButton6.Text = "起点";
@@ -2119,10 +2022,9 @@
             this.MoveUpBtn6.Image = ((System.Drawing.Image)(resources.GetObject("MoveUpBtn6.Image")));
             this.MoveUpBtn6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveUpBtn6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveUpBtn6.Location = new System.Drawing.Point(8, 28);
-            this.MoveUpBtn6.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveUpBtn6.Location = new System.Drawing.Point(6, 22);
             this.MoveUpBtn6.Name = "MoveUpBtn6";
-            this.MoveUpBtn6.Size = new System.Drawing.Size(113, 62);
+            this.MoveUpBtn6.Size = new System.Drawing.Size(85, 50);
             this.MoveUpBtn6.TabIndex = 2;
             this.MoveUpBtn6.Tag = "11";
             this.MoveUpBtn6.Text = "正转";
@@ -2134,10 +2036,9 @@
             this.ZeroLabel6.BackColor = System.Drawing.Color.Lime;
             this.ZeroLabel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ZeroLabel6.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.ZeroLabel6.Location = new System.Drawing.Point(269, 75);
-            this.ZeroLabel6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.ZeroLabel6.Location = new System.Drawing.Point(202, 60);
             this.ZeroLabel6.Name = "ZeroLabel6";
-            this.ZeroLabel6.Size = new System.Drawing.Size(93, 30);
+            this.ZeroLabel6.Size = new System.Drawing.Size(70, 24);
             this.ZeroLabel6.TabIndex = 49;
             this.ZeroLabel6.Tag = "2";
             this.ZeroLabel6.Text = "ZERO";
@@ -2148,10 +2049,9 @@
             this.NLLabel6.BackColor = System.Drawing.Color.Lime;
             this.NLLabel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NLLabel6.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.NLLabel6.Location = new System.Drawing.Point(269, 112);
-            this.NLLabel6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.NLLabel6.Location = new System.Drawing.Point(202, 90);
             this.NLLabel6.Name = "NLLabel6";
-            this.NLLabel6.Size = new System.Drawing.Size(93, 30);
+            this.NLLabel6.Size = new System.Drawing.Size(70, 24);
             this.NLLabel6.TabIndex = 50;
             this.NLLabel6.Tag = "3";
             this.NLLabel6.Text = "NL";
@@ -2166,10 +2066,9 @@
             this.button56.Image = ((System.Drawing.Image)(resources.GetObject("button56.Image")));
             this.button56.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button56.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button56.Location = new System.Drawing.Point(129, 96);
-            this.button56.Margin = new System.Windows.Forms.Padding(4);
+            this.button56.Location = new System.Drawing.Point(97, 77);
             this.button56.Name = "button56";
-            this.button56.Size = new System.Drawing.Size(113, 62);
+            this.button56.Size = new System.Drawing.Size(85, 50);
             this.button56.TabIndex = 21;
             this.button56.Tag = "6";
             this.button56.Text = "停止";
@@ -2181,10 +2080,9 @@
             // 
             this.label34.Font = new System.Drawing.Font("宋体", 9F);
             this.label34.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label34.Location = new System.Drawing.Point(12, 168);
-            this.label34.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label34.Location = new System.Drawing.Point(9, 134);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(129, 31);
+            this.label34.Size = new System.Drawing.Size(97, 25);
             this.label34.TabIndex = 15;
             this.label34.Text = "转速(rev/s)";
             // 
@@ -2197,10 +2095,9 @@
             this.MoveDownBtn6.Image = ((System.Drawing.Image)(resources.GetObject("MoveDownBtn6.Image")));
             this.MoveDownBtn6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveDownBtn6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveDownBtn6.Location = new System.Drawing.Point(9, 96);
-            this.MoveDownBtn6.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveDownBtn6.Location = new System.Drawing.Point(7, 77);
             this.MoveDownBtn6.Name = "MoveDownBtn6";
-            this.MoveDownBtn6.Size = new System.Drawing.Size(113, 62);
+            this.MoveDownBtn6.Size = new System.Drawing.Size(85, 50);
             this.MoveDownBtn6.TabIndex = 20;
             this.MoveDownBtn6.Tag = "12";
             this.MoveDownBtn6.Text = "反转";
@@ -2212,10 +2109,9 @@
             this.MoveModeLabel5.AutoSize = true;
             this.MoveModeLabel5.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.MoveModeLabel5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveModeLabel5.Location = new System.Drawing.Point(269, 169);
-            this.MoveModeLabel5.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveModeLabel5.Location = new System.Drawing.Point(202, 135);
             this.MoveModeLabel5.Name = "MoveModeLabel5";
-            this.MoveModeLabel5.Size = new System.Drawing.Size(91, 24);
+            this.MoveModeLabel5.Size = new System.Drawing.Size(75, 21);
             this.MoveModeLabel5.TabIndex = 14;
             this.MoveModeLabel5.Tag = "6";
             this.MoveModeLabel5.Text = "切换点动";
@@ -2241,11 +2137,9 @@
             this.groupBox5.Controls.Add(this.label30);
             this.groupBox5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold);
             this.groupBox5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox5.Location = new System.Drawing.Point(431, 518);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox5.Location = new System.Drawing.Point(323, 414);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox5.Size = new System.Drawing.Size(380, 252);
+            this.groupBox5.Size = new System.Drawing.Size(285, 202);
             this.groupBox5.TabIndex = 103;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "空置运动（步进-5）";
@@ -2258,10 +2152,9 @@
             this.HomeEndsLabel4.Enabled = false;
             this.HomeEndsLabel4.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.HomeEndsLabel4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.HomeEndsLabel4.Location = new System.Drawing.Point(269, 204);
-            this.HomeEndsLabel4.Margin = new System.Windows.Forms.Padding(4);
+            this.HomeEndsLabel4.Location = new System.Drawing.Point(202, 163);
             this.HomeEndsLabel4.Name = "HomeEndsLabel4";
-            this.HomeEndsLabel4.Size = new System.Drawing.Size(106, 24);
+            this.HomeEndsLabel4.Size = new System.Drawing.Size(86, 21);
             this.HomeEndsLabel4.TabIndex = 122;
             this.HomeEndsLabel4.Text = "切换Home";
             this.HomeEndsLabel4.UseVisualStyleBackColor = true;
@@ -2272,10 +2165,9 @@
             this.PLLabel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PLLabel5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.PLLabel5.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.PLLabel5.Location = new System.Drawing.Point(269, 38);
-            this.PLLabel5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.PLLabel5.Location = new System.Drawing.Point(202, 30);
             this.PLLabel5.Name = "PLLabel5";
-            this.PLLabel5.Size = new System.Drawing.Size(93, 30);
+            this.PLLabel5.Size = new System.Drawing.Size(70, 24);
             this.PLLabel5.TabIndex = 48;
             this.PLLabel5.Tag = "1";
             this.PLLabel5.Text = "PL";
@@ -2291,10 +2183,10 @@
             this.homeButton5.Image = ((System.Drawing.Image)(resources.GetObject("homeButton5.Image")));
             this.homeButton5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.homeButton5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.homeButton5.Location = new System.Drawing.Point(129, 28);
+            this.homeButton5.Location = new System.Drawing.Point(97, 22);
             this.homeButton5.Margin = new System.Windows.Forms.Padding(0);
             this.homeButton5.Name = "homeButton5";
-            this.homeButton5.Size = new System.Drawing.Size(113, 62);
+            this.homeButton5.Size = new System.Drawing.Size(85, 50);
             this.homeButton5.TabIndex = 21;
             this.homeButton5.Tag = "5";
             this.homeButton5.Text = "起点";
@@ -2311,10 +2203,9 @@
             this.MoveUpBtn5.Image = ((System.Drawing.Image)(resources.GetObject("MoveUpBtn5.Image")));
             this.MoveUpBtn5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveUpBtn5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveUpBtn5.Location = new System.Drawing.Point(8, 28);
-            this.MoveUpBtn5.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveUpBtn5.Location = new System.Drawing.Point(6, 22);
             this.MoveUpBtn5.Name = "MoveUpBtn5";
-            this.MoveUpBtn5.Size = new System.Drawing.Size(113, 62);
+            this.MoveUpBtn5.Size = new System.Drawing.Size(85, 50);
             this.MoveUpBtn5.TabIndex = 2;
             this.MoveUpBtn5.Tag = "9";
             this.MoveUpBtn5.Text = "正转";
@@ -2326,10 +2217,9 @@
             this.ZeroLabel5.BackColor = System.Drawing.Color.Lime;
             this.ZeroLabel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ZeroLabel5.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.ZeroLabel5.Location = new System.Drawing.Point(269, 75);
-            this.ZeroLabel5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.ZeroLabel5.Location = new System.Drawing.Point(202, 60);
             this.ZeroLabel5.Name = "ZeroLabel5";
-            this.ZeroLabel5.Size = new System.Drawing.Size(93, 30);
+            this.ZeroLabel5.Size = new System.Drawing.Size(70, 24);
             this.ZeroLabel5.TabIndex = 49;
             this.ZeroLabel5.Tag = "2";
             this.ZeroLabel5.Text = "ZERO";
@@ -2340,10 +2230,9 @@
             this.NLLabel5.BackColor = System.Drawing.Color.Lime;
             this.NLLabel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NLLabel5.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.NLLabel5.Location = new System.Drawing.Point(269, 112);
-            this.NLLabel5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.NLLabel5.Location = new System.Drawing.Point(202, 90);
             this.NLLabel5.Name = "NLLabel5";
-            this.NLLabel5.Size = new System.Drawing.Size(93, 30);
+            this.NLLabel5.Size = new System.Drawing.Size(70, 24);
             this.NLLabel5.TabIndex = 50;
             this.NLLabel5.Tag = "3";
             this.NLLabel5.Text = "NL";
@@ -2358,10 +2247,9 @@
             this.button52.Image = ((System.Drawing.Image)(resources.GetObject("button52.Image")));
             this.button52.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button52.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button52.Location = new System.Drawing.Point(129, 96);
-            this.button52.Margin = new System.Windows.Forms.Padding(4);
+            this.button52.Location = new System.Drawing.Point(97, 77);
             this.button52.Name = "button52";
-            this.button52.Size = new System.Drawing.Size(113, 62);
+            this.button52.Size = new System.Drawing.Size(85, 50);
             this.button52.TabIndex = 21;
             this.button52.Tag = "5";
             this.button52.Text = "停止";
@@ -2373,10 +2261,9 @@
             // 
             this.label29.Font = new System.Drawing.Font("宋体", 9F);
             this.label29.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label29.Location = new System.Drawing.Point(12, 174);
-            this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label29.Location = new System.Drawing.Point(9, 139);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(111, 31);
+            this.label29.Size = new System.Drawing.Size(83, 25);
             this.label29.TabIndex = 15;
             this.label29.Text = "速度(rev/s)";
             // 
@@ -2389,10 +2276,9 @@
             this.MoveDownBtn5.Image = ((System.Drawing.Image)(resources.GetObject("MoveDownBtn5.Image")));
             this.MoveDownBtn5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveDownBtn5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveDownBtn5.Location = new System.Drawing.Point(9, 96);
-            this.MoveDownBtn5.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveDownBtn5.Location = new System.Drawing.Point(7, 77);
             this.MoveDownBtn5.Name = "MoveDownBtn5";
-            this.MoveDownBtn5.Size = new System.Drawing.Size(113, 62);
+            this.MoveDownBtn5.Size = new System.Drawing.Size(85, 50);
             this.MoveDownBtn5.TabIndex = 20;
             this.MoveDownBtn5.Tag = "10";
             this.MoveDownBtn5.Text = "反转";
@@ -2402,20 +2288,18 @@
             // velLabel4
             // 
             this.velLabel4.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.velLabel4.Location = new System.Drawing.Point(117, 166);
-            this.velLabel4.Margin = new System.Windows.Forms.Padding(4);
+            this.velLabel4.Location = new System.Drawing.Point(88, 133);
             this.velLabel4.Name = "velLabel4";
-            this.velLabel4.Size = new System.Drawing.Size(55, 27);
+            this.velLabel4.Size = new System.Drawing.Size(42, 23);
             this.velLabel4.TabIndex = 16;
             this.velLabel4.Text = "2";
             // 
             // stepLabel4
             // 
             this.stepLabel4.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.stepLabel4.Location = new System.Drawing.Point(117, 201);
-            this.stepLabel4.Margin = new System.Windows.Forms.Padding(4);
+            this.stepLabel4.Location = new System.Drawing.Point(88, 161);
             this.stepLabel4.Name = "stepLabel4";
-            this.stepLabel4.Size = new System.Drawing.Size(55, 27);
+            this.stepLabel4.Size = new System.Drawing.Size(42, 23);
             this.stepLabel4.TabIndex = 19;
             this.stepLabel4.Text = "2";
             // 
@@ -2424,10 +2308,9 @@
             this.MoveModeLabel4.AutoSize = true;
             this.MoveModeLabel4.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.MoveModeLabel4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveModeLabel4.Location = new System.Drawing.Point(269, 171);
-            this.MoveModeLabel4.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveModeLabel4.Location = new System.Drawing.Point(202, 137);
             this.MoveModeLabel4.Name = "MoveModeLabel4";
-            this.MoveModeLabel4.Size = new System.Drawing.Size(91, 24);
+            this.MoveModeLabel4.Size = new System.Drawing.Size(75, 21);
             this.MoveModeLabel4.TabIndex = 14;
             this.MoveModeLabel4.Tag = "5";
             this.MoveModeLabel4.Text = "切换点动";
@@ -2438,10 +2321,9 @@
             // 
             this.label30.Font = new System.Drawing.Font("宋体", 9F);
             this.label30.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label30.Location = new System.Drawing.Point(12, 206);
-            this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label30.Location = new System.Drawing.Point(9, 165);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(96, 26);
+            this.label30.Size = new System.Drawing.Size(72, 21);
             this.label30.TabIndex = 17;
             this.label30.Text = "转动量(rev)";
             // 
@@ -2468,11 +2350,9 @@
             this.groupBox4.Controls.Add(this.label25);
             this.groupBox4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox4.Location = new System.Drawing.Point(13, 518);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox4.Location = new System.Drawing.Point(10, 414);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox4.Size = new System.Drawing.Size(395, 252);
+            this.groupBox4.Size = new System.Drawing.Size(296, 202);
             this.groupBox4.TabIndex = 103;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "刮墨转动（步进-4）";
@@ -2484,10 +2364,9 @@
             this.RollerFlag.Items.AddRange(new object[] {
             "正转",
             "逆转"});
-            this.RollerFlag.Location = new System.Drawing.Point(289, 154);
-            this.RollerFlag.Margin = new System.Windows.Forms.Padding(4);
+            this.RollerFlag.Location = new System.Drawing.Point(217, 123);
             this.RollerFlag.Name = "RollerFlag";
-            this.RollerFlag.Size = new System.Drawing.Size(75, 27);
+            this.RollerFlag.Size = new System.Drawing.Size(57, 25);
             this.RollerFlag.TabIndex = 179;
             this.RollerFlag.SelectedIndexChanged += new System.EventHandler(this.RollerFlag_SelectedIndexChanged);
             // 
@@ -2495,10 +2374,9 @@
             // 
             this.label48.Font = new System.Drawing.Font("宋体", 9F);
             this.label48.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label48.Location = new System.Drawing.Point(241, 162);
-            this.label48.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label48.Location = new System.Drawing.Point(181, 130);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(65, 20);
+            this.label48.Size = new System.Drawing.Size(49, 16);
             this.label48.TabIndex = 180;
             this.label48.Text = "转向";
             // 
@@ -2506,10 +2384,9 @@
             // 
             this.RollerParamLabel.Enabled = false;
             this.RollerParamLabel.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.RollerParamLabel.Location = new System.Drawing.Point(155, 180);
-            this.RollerParamLabel.Margin = new System.Windows.Forms.Padding(4);
+            this.RollerParamLabel.Location = new System.Drawing.Point(116, 144);
             this.RollerParamLabel.Name = "RollerParamLabel";
-            this.RollerParamLabel.Size = new System.Drawing.Size(55, 27);
+            this.RollerParamLabel.Size = new System.Drawing.Size(42, 23);
             this.RollerParamLabel.TabIndex = 126;
             this.RollerParamLabel.Text = "1";
             // 
@@ -2517,10 +2394,9 @@
             // 
             this.label47.Font = new System.Drawing.Font("宋体", 9F);
             this.label47.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label47.Location = new System.Drawing.Point(13, 186);
-            this.label47.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label47.Location = new System.Drawing.Point(10, 149);
             this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(156, 24);
+            this.label47.Size = new System.Drawing.Size(117, 19);
             this.label47.TabIndex = 125;
             this.label47.Text = "滚动速度（rev/s）";
             // 
@@ -2530,10 +2406,9 @@
             this.HomeEndsLabel3.Enabled = false;
             this.HomeEndsLabel3.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.HomeEndsLabel3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.HomeEndsLabel3.Location = new System.Drawing.Point(244, 212);
-            this.HomeEndsLabel3.Margin = new System.Windows.Forms.Padding(4);
+            this.HomeEndsLabel3.Location = new System.Drawing.Point(183, 170);
             this.HomeEndsLabel3.Name = "HomeEndsLabel3";
-            this.HomeEndsLabel3.Size = new System.Drawing.Size(106, 24);
+            this.HomeEndsLabel3.Size = new System.Drawing.Size(86, 21);
             this.HomeEndsLabel3.TabIndex = 124;
             this.HomeEndsLabel3.Text = "切换Home";
             this.HomeEndsLabel3.UseVisualStyleBackColor = true;
@@ -2544,10 +2419,9 @@
             this.PLLabel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PLLabel4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.PLLabel4.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.PLLabel4.Location = new System.Drawing.Point(269, 30);
-            this.PLLabel4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.PLLabel4.Location = new System.Drawing.Point(202, 24);
             this.PLLabel4.Name = "PLLabel4";
-            this.PLLabel4.Size = new System.Drawing.Size(93, 30);
+            this.PLLabel4.Size = new System.Drawing.Size(70, 24);
             this.PLLabel4.TabIndex = 48;
             this.PLLabel4.Tag = "1";
             this.PLLabel4.Text = "PL";
@@ -2563,10 +2437,10 @@
             this.homeButton4.Image = ((System.Drawing.Image)(resources.GetObject("homeButton4.Image")));
             this.homeButton4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.homeButton4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.homeButton4.Location = new System.Drawing.Point(129, 20);
+            this.homeButton4.Location = new System.Drawing.Point(97, 16);
             this.homeButton4.Margin = new System.Windows.Forms.Padding(0);
             this.homeButton4.Name = "homeButton4";
-            this.homeButton4.Size = new System.Drawing.Size(113, 62);
+            this.homeButton4.Size = new System.Drawing.Size(85, 50);
             this.homeButton4.TabIndex = 21;
             this.homeButton4.Tag = "4";
             this.homeButton4.Text = "起点";
@@ -2583,10 +2457,9 @@
             this.MoveUpBtn4.Image = ((System.Drawing.Image)(resources.GetObject("MoveUpBtn4.Image")));
             this.MoveUpBtn4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveUpBtn4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveUpBtn4.Location = new System.Drawing.Point(8, 20);
-            this.MoveUpBtn4.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveUpBtn4.Location = new System.Drawing.Point(6, 16);
             this.MoveUpBtn4.Name = "MoveUpBtn4";
-            this.MoveUpBtn4.Size = new System.Drawing.Size(113, 62);
+            this.MoveUpBtn4.Size = new System.Drawing.Size(85, 50);
             this.MoveUpBtn4.TabIndex = 2;
             this.MoveUpBtn4.Tag = "8";
             this.MoveUpBtn4.Text = "正转";
@@ -2598,10 +2471,9 @@
             this.ZeroLabel4.BackColor = System.Drawing.Color.Lime;
             this.ZeroLabel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ZeroLabel4.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.ZeroLabel4.Location = new System.Drawing.Point(269, 68);
-            this.ZeroLabel4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.ZeroLabel4.Location = new System.Drawing.Point(202, 54);
             this.ZeroLabel4.Name = "ZeroLabel4";
-            this.ZeroLabel4.Size = new System.Drawing.Size(93, 30);
+            this.ZeroLabel4.Size = new System.Drawing.Size(70, 24);
             this.ZeroLabel4.TabIndex = 49;
             this.ZeroLabel4.Tag = "2";
             this.ZeroLabel4.Text = "ZERO";
@@ -2612,10 +2484,9 @@
             this.NLLabel4.BackColor = System.Drawing.Color.Lime;
             this.NLLabel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NLLabel4.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.NLLabel4.Location = new System.Drawing.Point(269, 105);
-            this.NLLabel4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.NLLabel4.Location = new System.Drawing.Point(202, 84);
             this.NLLabel4.Name = "NLLabel4";
-            this.NLLabel4.Size = new System.Drawing.Size(93, 30);
+            this.NLLabel4.Size = new System.Drawing.Size(70, 24);
             this.NLLabel4.TabIndex = 50;
             this.NLLabel4.Tag = "3";
             this.NLLabel4.Text = "NL";
@@ -2630,10 +2501,9 @@
             this.button14.Image = ((System.Drawing.Image)(resources.GetObject("button14.Image")));
             this.button14.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button14.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button14.Location = new System.Drawing.Point(129, 88);
-            this.button14.Margin = new System.Windows.Forms.Padding(4);
+            this.button14.Location = new System.Drawing.Point(97, 70);
             this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(113, 62);
+            this.button14.Size = new System.Drawing.Size(85, 50);
             this.button14.TabIndex = 21;
             this.button14.Tag = "4";
             this.button14.Text = "停止";
@@ -2645,10 +2515,9 @@
             // 
             this.label24.Font = new System.Drawing.Font("宋体", 9F);
             this.label24.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label24.Location = new System.Drawing.Point(13, 159);
-            this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label24.Location = new System.Drawing.Point(10, 127);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(141, 22);
+            this.label24.Size = new System.Drawing.Size(106, 18);
             this.label24.TabIndex = 15;
             this.label24.Text = "转动速度 (rev/s)";
             // 
@@ -2661,10 +2530,9 @@
             this.MoveDownBtn4.Image = ((System.Drawing.Image)(resources.GetObject("MoveDownBtn4.Image")));
             this.MoveDownBtn4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveDownBtn4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveDownBtn4.Location = new System.Drawing.Point(9, 88);
-            this.MoveDownBtn4.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveDownBtn4.Location = new System.Drawing.Point(7, 70);
             this.MoveDownBtn4.Name = "MoveDownBtn4";
-            this.MoveDownBtn4.Size = new System.Drawing.Size(113, 62);
+            this.MoveDownBtn4.Size = new System.Drawing.Size(85, 50);
             this.MoveDownBtn4.TabIndex = 20;
             this.MoveDownBtn4.Tag = "7";
             this.MoveDownBtn4.Text = "反转";
@@ -2674,20 +2542,18 @@
             // velLabel3
             // 
             this.velLabel3.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.velLabel3.Location = new System.Drawing.Point(155, 151);
-            this.velLabel3.Margin = new System.Windows.Forms.Padding(4);
+            this.velLabel3.Location = new System.Drawing.Point(116, 121);
             this.velLabel3.Name = "velLabel3";
-            this.velLabel3.Size = new System.Drawing.Size(55, 27);
+            this.velLabel3.Size = new System.Drawing.Size(42, 23);
             this.velLabel3.TabIndex = 16;
             this.velLabel3.Text = "1";
             // 
             // stepLabel3
             // 
             this.stepLabel3.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.stepLabel3.Location = new System.Drawing.Point(155, 209);
-            this.stepLabel3.Margin = new System.Windows.Forms.Padding(4);
+            this.stepLabel3.Location = new System.Drawing.Point(116, 167);
             this.stepLabel3.Name = "stepLabel3";
-            this.stepLabel3.Size = new System.Drawing.Size(55, 27);
+            this.stepLabel3.Size = new System.Drawing.Size(42, 23);
             this.stepLabel3.TabIndex = 19;
             this.stepLabel3.Text = "2";
             // 
@@ -2696,10 +2562,9 @@
             this.MoveModeLabel3.AutoSize = true;
             this.MoveModeLabel3.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.MoveModeLabel3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveModeLabel3.Location = new System.Drawing.Point(244, 188);
-            this.MoveModeLabel3.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveModeLabel3.Location = new System.Drawing.Point(183, 150);
             this.MoveModeLabel3.Name = "MoveModeLabel3";
-            this.MoveModeLabel3.Size = new System.Drawing.Size(91, 24);
+            this.MoveModeLabel3.Size = new System.Drawing.Size(75, 21);
             this.MoveModeLabel3.TabIndex = 14;
             this.MoveModeLabel3.Tag = "4";
             this.MoveModeLabel3.Text = "切换点动";
@@ -2710,10 +2575,9 @@
             // 
             this.label25.Font = new System.Drawing.Font("宋体", 9F);
             this.label25.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label25.Location = new System.Drawing.Point(13, 215);
-            this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label25.Location = new System.Drawing.Point(10, 172);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(92, 26);
+            this.label25.Size = new System.Drawing.Size(69, 21);
             this.label25.TabIndex = 17;
             this.label25.Text = "转动量(rev)";
             // 
@@ -2736,11 +2600,9 @@
             this.groupBox3.Controls.Add(this.label19);
             this.groupBox3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox3.Location = new System.Drawing.Point(431, 250);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox3.Location = new System.Drawing.Point(323, 200);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox3.Size = new System.Drawing.Size(395, 250);
+            this.groupBox3.Size = new System.Drawing.Size(296, 200);
             this.groupBox3.TabIndex = 102;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "接粉轴运动（步进-3）";
@@ -2751,10 +2613,9 @@
             this.HomeEndsLabel2.Enabled = false;
             this.HomeEndsLabel2.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.HomeEndsLabel2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.HomeEndsLabel2.Location = new System.Drawing.Point(268, 201);
-            this.HomeEndsLabel2.Margin = new System.Windows.Forms.Padding(4);
+            this.HomeEndsLabel2.Location = new System.Drawing.Point(201, 161);
             this.HomeEndsLabel2.Name = "HomeEndsLabel2";
-            this.HomeEndsLabel2.Size = new System.Drawing.Size(106, 24);
+            this.HomeEndsLabel2.Size = new System.Drawing.Size(86, 21);
             this.HomeEndsLabel2.TabIndex = 123;
             this.HomeEndsLabel2.Text = "切换Home";
             this.HomeEndsLabel2.UseVisualStyleBackColor = true;
@@ -2765,10 +2626,9 @@
             this.PLLabel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PLLabel3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.PLLabel3.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.PLLabel3.Location = new System.Drawing.Point(269, 38);
-            this.PLLabel3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.PLLabel3.Location = new System.Drawing.Point(202, 30);
             this.PLLabel3.Name = "PLLabel3";
-            this.PLLabel3.Size = new System.Drawing.Size(93, 30);
+            this.PLLabel3.Size = new System.Drawing.Size(70, 24);
             this.PLLabel3.TabIndex = 48;
             this.PLLabel3.Tag = "1";
             this.PLLabel3.Text = "PL";
@@ -2784,10 +2644,10 @@
             this.homeButton3.Image = ((System.Drawing.Image)(resources.GetObject("homeButton3.Image")));
             this.homeButton3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.homeButton3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.homeButton3.Location = new System.Drawing.Point(129, 28);
+            this.homeButton3.Location = new System.Drawing.Point(97, 22);
             this.homeButton3.Margin = new System.Windows.Forms.Padding(0);
             this.homeButton3.Name = "homeButton3";
-            this.homeButton3.Size = new System.Drawing.Size(113, 62);
+            this.homeButton3.Size = new System.Drawing.Size(85, 50);
             this.homeButton3.TabIndex = 21;
             this.homeButton3.Tag = "3";
             this.homeButton3.Text = "起点";
@@ -2804,10 +2664,9 @@
             this.MoveUpBtn3.Image = ((System.Drawing.Image)(resources.GetObject("MoveUpBtn3.Image")));
             this.MoveUpBtn3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveUpBtn3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveUpBtn3.Location = new System.Drawing.Point(8, 28);
-            this.MoveUpBtn3.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveUpBtn3.Location = new System.Drawing.Point(6, 22);
             this.MoveUpBtn3.Name = "MoveUpBtn3";
-            this.MoveUpBtn3.Size = new System.Drawing.Size(113, 62);
+            this.MoveUpBtn3.Size = new System.Drawing.Size(85, 50);
             this.MoveUpBtn3.TabIndex = 2;
             this.MoveUpBtn3.Tag = "5";
             this.MoveUpBtn3.Text = "正转";
@@ -2819,10 +2678,9 @@
             this.ZeroLabel3.BackColor = System.Drawing.Color.Lime;
             this.ZeroLabel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ZeroLabel3.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.ZeroLabel3.Location = new System.Drawing.Point(269, 75);
-            this.ZeroLabel3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.ZeroLabel3.Location = new System.Drawing.Point(202, 60);
             this.ZeroLabel3.Name = "ZeroLabel3";
-            this.ZeroLabel3.Size = new System.Drawing.Size(93, 30);
+            this.ZeroLabel3.Size = new System.Drawing.Size(70, 24);
             this.ZeroLabel3.TabIndex = 49;
             this.ZeroLabel3.Tag = "2";
             this.ZeroLabel3.Text = "ZERO";
@@ -2833,10 +2691,9 @@
             this.NLLabel3.BackColor = System.Drawing.Color.Lime;
             this.NLLabel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NLLabel3.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.NLLabel3.Location = new System.Drawing.Point(269, 112);
-            this.NLLabel3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.NLLabel3.Location = new System.Drawing.Point(202, 90);
             this.NLLabel3.Name = "NLLabel3";
-            this.NLLabel3.Size = new System.Drawing.Size(93, 30);
+            this.NLLabel3.Size = new System.Drawing.Size(70, 24);
             this.NLLabel3.TabIndex = 50;
             this.NLLabel3.Tag = "3";
             this.NLLabel3.Text = "NL";
@@ -2851,10 +2708,9 @@
             this.button10.Image = ((System.Drawing.Image)(resources.GetObject("button10.Image")));
             this.button10.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button10.Location = new System.Drawing.Point(129, 96);
-            this.button10.Margin = new System.Windows.Forms.Padding(4);
+            this.button10.Location = new System.Drawing.Point(97, 77);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(113, 62);
+            this.button10.Size = new System.Drawing.Size(85, 50);
             this.button10.TabIndex = 21;
             this.button10.Tag = "3";
             this.button10.Text = "停止";
@@ -2866,10 +2722,9 @@
             // 
             this.label15.Font = new System.Drawing.Font("宋体", 9F);
             this.label15.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label15.Location = new System.Drawing.Point(12, 174);
-            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Location = new System.Drawing.Point(9, 139);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(111, 31);
+            this.label15.Size = new System.Drawing.Size(83, 25);
             this.label15.TabIndex = 15;
             this.label15.Text = "转速(rev/s)";
             // 
@@ -2882,10 +2737,9 @@
             this.MoveDownBtn3.Image = ((System.Drawing.Image)(resources.GetObject("MoveDownBtn3.Image")));
             this.MoveDownBtn3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveDownBtn3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveDownBtn3.Location = new System.Drawing.Point(9, 96);
-            this.MoveDownBtn3.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveDownBtn3.Location = new System.Drawing.Point(7, 77);
             this.MoveDownBtn3.Name = "MoveDownBtn3";
-            this.MoveDownBtn3.Size = new System.Drawing.Size(113, 62);
+            this.MoveDownBtn3.Size = new System.Drawing.Size(85, 50);
             this.MoveDownBtn3.TabIndex = 20;
             this.MoveDownBtn3.Tag = "6";
             this.MoveDownBtn3.Text = "反转";
@@ -2895,20 +2749,18 @@
             // velLabel2
             // 
             this.velLabel2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.velLabel2.Location = new System.Drawing.Point(124, 166);
-            this.velLabel2.Margin = new System.Windows.Forms.Padding(4);
+            this.velLabel2.Location = new System.Drawing.Point(93, 133);
             this.velLabel2.Name = "velLabel2";
-            this.velLabel2.Size = new System.Drawing.Size(55, 27);
+            this.velLabel2.Size = new System.Drawing.Size(42, 23);
             this.velLabel2.TabIndex = 16;
             this.velLabel2.Text = "1";
             // 
             // stepLabel2
             // 
             this.stepLabel2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.stepLabel2.Location = new System.Drawing.Point(124, 201);
-            this.stepLabel2.Margin = new System.Windows.Forms.Padding(4);
+            this.stepLabel2.Location = new System.Drawing.Point(93, 161);
             this.stepLabel2.Name = "stepLabel2";
-            this.stepLabel2.Size = new System.Drawing.Size(55, 27);
+            this.stepLabel2.Size = new System.Drawing.Size(42, 23);
             this.stepLabel2.TabIndex = 19;
             this.stepLabel2.Text = "2";
             // 
@@ -2917,10 +2769,9 @@
             this.MoveModeLabel2.AutoSize = true;
             this.MoveModeLabel2.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.MoveModeLabel2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveModeLabel2.Location = new System.Drawing.Point(268, 169);
-            this.MoveModeLabel2.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveModeLabel2.Location = new System.Drawing.Point(201, 135);
             this.MoveModeLabel2.Name = "MoveModeLabel2";
-            this.MoveModeLabel2.Size = new System.Drawing.Size(91, 24);
+            this.MoveModeLabel2.Size = new System.Drawing.Size(75, 21);
             this.MoveModeLabel2.TabIndex = 14;
             this.MoveModeLabel2.Tag = "3";
             this.MoveModeLabel2.Text = "切换点动";
@@ -2931,10 +2782,9 @@
             // 
             this.label19.Font = new System.Drawing.Font("宋体", 9F);
             this.label19.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label19.Location = new System.Drawing.Point(12, 206);
-            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label19.Location = new System.Drawing.Point(9, 165);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(96, 26);
+            this.label19.Size = new System.Drawing.Size(72, 21);
             this.label19.TabIndex = 17;
             this.label19.Text = "转动量(rev)";
             // 
@@ -2957,11 +2807,9 @@
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox2.Location = new System.Drawing.Point(431, 6);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Location = new System.Drawing.Point(323, 5);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(395, 238);
+            this.groupBox2.Size = new System.Drawing.Size(296, 190);
             this.groupBox2.TabIndex = 51;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "铺粉运动（伺服-2）";
@@ -2972,10 +2820,9 @@
             this.HomeEndsLabel1.Enabled = false;
             this.HomeEndsLabel1.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.HomeEndsLabel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.HomeEndsLabel1.Location = new System.Drawing.Point(268, 205);
-            this.HomeEndsLabel1.Margin = new System.Windows.Forms.Padding(4);
+            this.HomeEndsLabel1.Location = new System.Drawing.Point(201, 164);
             this.HomeEndsLabel1.Name = "HomeEndsLabel1";
-            this.HomeEndsLabel1.Size = new System.Drawing.Size(106, 24);
+            this.HomeEndsLabel1.Size = new System.Drawing.Size(86, 21);
             this.HomeEndsLabel1.TabIndex = 121;
             this.HomeEndsLabel1.Text = "切换Home";
             this.HomeEndsLabel1.UseVisualStyleBackColor = true;
@@ -2986,10 +2833,9 @@
             this.PLLabel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PLLabel2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.PLLabel2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.PLLabel2.Location = new System.Drawing.Point(269, 38);
-            this.PLLabel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.PLLabel2.Location = new System.Drawing.Point(202, 30);
             this.PLLabel2.Name = "PLLabel2";
-            this.PLLabel2.Size = new System.Drawing.Size(93, 30);
+            this.PLLabel2.Size = new System.Drawing.Size(70, 24);
             this.PLLabel2.TabIndex = 48;
             this.PLLabel2.Tag = "1";
             this.PLLabel2.Text = "PL";
@@ -3004,10 +2850,10 @@
             this.homeButton2.Image = ((System.Drawing.Image)(resources.GetObject("homeButton2.Image")));
             this.homeButton2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.homeButton2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.homeButton2.Location = new System.Drawing.Point(129, 28);
+            this.homeButton2.Location = new System.Drawing.Point(97, 22);
             this.homeButton2.Margin = new System.Windows.Forms.Padding(0);
             this.homeButton2.Name = "homeButton2";
-            this.homeButton2.Size = new System.Drawing.Size(113, 62);
+            this.homeButton2.Size = new System.Drawing.Size(85, 50);
             this.homeButton2.TabIndex = 21;
             this.homeButton2.Tag = "2";
             this.homeButton2.Text = "起点";
@@ -3024,10 +2870,9 @@
             this.MoveUpBtn2.Image = ((System.Drawing.Image)(resources.GetObject("MoveUpBtn2.Image")));
             this.MoveUpBtn2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveUpBtn2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveUpBtn2.Location = new System.Drawing.Point(8, 28);
-            this.MoveUpBtn2.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveUpBtn2.Location = new System.Drawing.Point(6, 22);
             this.MoveUpBtn2.Name = "MoveUpBtn2";
-            this.MoveUpBtn2.Size = new System.Drawing.Size(113, 62);
+            this.MoveUpBtn2.Size = new System.Drawing.Size(85, 50);
             this.MoveUpBtn2.TabIndex = 2;
             this.MoveUpBtn2.Tag = "3";
             this.MoveUpBtn2.Text = "前进";
@@ -3039,10 +2884,9 @@
             this.ZeroLabel2.BackColor = System.Drawing.Color.Lime;
             this.ZeroLabel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ZeroLabel2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.ZeroLabel2.Location = new System.Drawing.Point(269, 75);
-            this.ZeroLabel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.ZeroLabel2.Location = new System.Drawing.Point(202, 60);
             this.ZeroLabel2.Name = "ZeroLabel2";
-            this.ZeroLabel2.Size = new System.Drawing.Size(93, 30);
+            this.ZeroLabel2.Size = new System.Drawing.Size(70, 24);
             this.ZeroLabel2.TabIndex = 49;
             this.ZeroLabel2.Tag = "2";
             this.ZeroLabel2.Text = "ZERO";
@@ -3053,10 +2897,9 @@
             this.NLLabel2.BackColor = System.Drawing.Color.Lime;
             this.NLLabel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NLLabel2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.NLLabel2.Location = new System.Drawing.Point(269, 112);
-            this.NLLabel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.NLLabel2.Location = new System.Drawing.Point(202, 90);
             this.NLLabel2.Name = "NLLabel2";
-            this.NLLabel2.Size = new System.Drawing.Size(93, 30);
+            this.NLLabel2.Size = new System.Drawing.Size(70, 24);
             this.NLLabel2.TabIndex = 50;
             this.NLLabel2.Tag = "3";
             this.NLLabel2.Text = "NL";
@@ -3071,10 +2914,9 @@
             this.button6.Image = ((System.Drawing.Image)(resources.GetObject("button6.Image")));
             this.button6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button6.Location = new System.Drawing.Point(129, 96);
-            this.button6.Margin = new System.Windows.Forms.Padding(4);
+            this.button6.Location = new System.Drawing.Point(97, 77);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(113, 62);
+            this.button6.Size = new System.Drawing.Size(85, 50);
             this.button6.TabIndex = 21;
             this.button6.Tag = "2";
             this.button6.Text = "停止";
@@ -3086,10 +2928,9 @@
             // 
             this.label5.Font = new System.Drawing.Font("宋体", 9F);
             this.label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label5.Location = new System.Drawing.Point(12, 174);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(9, 139);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(93, 31);
+            this.label5.Size = new System.Drawing.Size(70, 25);
             this.label5.TabIndex = 15;
             this.label5.Text = "速度(mm/s)";
             // 
@@ -3102,10 +2943,9 @@
             this.MoveDownBtn2.Image = ((System.Drawing.Image)(resources.GetObject("MoveDownBtn2.Image")));
             this.MoveDownBtn2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MoveDownBtn2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveDownBtn2.Location = new System.Drawing.Point(9, 96);
-            this.MoveDownBtn2.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveDownBtn2.Location = new System.Drawing.Point(7, 77);
             this.MoveDownBtn2.Name = "MoveDownBtn2";
-            this.MoveDownBtn2.Size = new System.Drawing.Size(113, 62);
+            this.MoveDownBtn2.Size = new System.Drawing.Size(85, 50);
             this.MoveDownBtn2.TabIndex = 20;
             this.MoveDownBtn2.Tag = "4";
             this.MoveDownBtn2.Text = "后退";
@@ -3115,20 +2955,18 @@
             // velLabel1
             // 
             this.velLabel1.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.velLabel1.Location = new System.Drawing.Point(108, 166);
-            this.velLabel1.Margin = new System.Windows.Forms.Padding(4);
+            this.velLabel1.Location = new System.Drawing.Point(81, 133);
             this.velLabel1.Name = "velLabel1";
-            this.velLabel1.Size = new System.Drawing.Size(55, 27);
+            this.velLabel1.Size = new System.Drawing.Size(42, 23);
             this.velLabel1.TabIndex = 16;
             this.velLabel1.Text = "50";
             // 
             // stepLabel1
             // 
             this.stepLabel1.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.stepLabel1.Location = new System.Drawing.Point(108, 201);
-            this.stepLabel1.Margin = new System.Windows.Forms.Padding(4);
+            this.stepLabel1.Location = new System.Drawing.Point(81, 161);
             this.stepLabel1.Name = "stepLabel1";
-            this.stepLabel1.Size = new System.Drawing.Size(55, 27);
+            this.stepLabel1.Size = new System.Drawing.Size(42, 23);
             this.stepLabel1.TabIndex = 19;
             this.stepLabel1.Text = "50";
             // 
@@ -3137,10 +2975,9 @@
             this.MoveModeLabel1.AutoSize = true;
             this.MoveModeLabel1.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.MoveModeLabel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveModeLabel1.Location = new System.Drawing.Point(268, 172);
-            this.MoveModeLabel1.Margin = new System.Windows.Forms.Padding(4);
+            this.MoveModeLabel1.Location = new System.Drawing.Point(201, 138);
             this.MoveModeLabel1.Name = "MoveModeLabel1";
-            this.MoveModeLabel1.Size = new System.Drawing.Size(91, 24);
+            this.MoveModeLabel1.Size = new System.Drawing.Size(75, 21);
             this.MoveModeLabel1.TabIndex = 14;
             this.MoveModeLabel1.Tag = "2";
             this.MoveModeLabel1.Text = "切换点动";
@@ -3151,10 +2988,9 @@
             // 
             this.label7.Font = new System.Drawing.Font("宋体", 9F);
             this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label7.Location = new System.Drawing.Point(12, 206);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Location = new System.Drawing.Point(9, 165);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(96, 26);
+            this.label7.Size = new System.Drawing.Size(72, 21);
             this.label7.TabIndex = 17;
             this.label7.Text = "移动量(mm)";
             // 
@@ -3167,10 +3003,9 @@
             this.button41.Image = ((System.Drawing.Image)(resources.GetObject("button41.Image")));
             this.button41.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button41.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button41.Location = new System.Drawing.Point(1125, 691);
-            this.button41.Margin = new System.Windows.Forms.Padding(4);
+            this.button41.Location = new System.Drawing.Point(844, 553);
             this.button41.Name = "button41";
-            this.button41.Size = new System.Drawing.Size(120, 61);
+            this.button41.Size = new System.Drawing.Size(90, 49);
             this.button41.TabIndex = 101;
             this.button41.Text = "应用";
             this.button41.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -3213,21 +3048,19 @@
             this.tabPage2.Controls.Add(this.pictureBox2);
             this.tabPage2.Controls.Add(this.label18);
             this.tabPage2.Controls.Add(this.groupBox23);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(1273, 873);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage2.Size = new System.Drawing.Size(953, 696);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "喷射系统手动控制";
             // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button1.Location = new System.Drawing.Point(759, 754);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
+            this.button1.Location = new System.Drawing.Point(569, 603);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(120, 38);
+            this.button1.Size = new System.Drawing.Size(90, 30);
             this.button1.TabIndex = 167;
             this.button1.Tag = "1";
             this.button1.Text = "UV输出检查";
@@ -3244,10 +3077,9 @@
             this.button20.Image = ((System.Drawing.Image)(resources.GetObject("button20.Image")));
             this.button20.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button20.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button20.Location = new System.Drawing.Point(1028, 743);
-            this.button20.Margin = new System.Windows.Forms.Padding(4);
+            this.button20.Location = new System.Drawing.Point(771, 594);
             this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(120, 61);
+            this.button20.Size = new System.Drawing.Size(90, 49);
             this.button20.TabIndex = 132;
             this.button20.Text = "应用";
             this.button20.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -3263,10 +3095,9 @@
             this.button22.Image = ((System.Drawing.Image)(resources.GetObject("button22.Image")));
             this.button22.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button22.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button22.Location = new System.Drawing.Point(888, 744);
-            this.button22.Margin = new System.Windows.Forms.Padding(4);
+            this.button22.Location = new System.Drawing.Point(666, 595);
             this.button22.Name = "button22";
-            this.button22.Size = new System.Drawing.Size(120, 60);
+            this.button22.Size = new System.Drawing.Size(90, 48);
             this.button22.TabIndex = 131;
             this.button22.Text = "退出";
             this.button22.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -3288,11 +3119,9 @@
             this.groupBox26.Controls.Add(this.label75);
             this.groupBox26.Controls.Add(this.label76);
             this.groupBox26.Controls.Add(this.button2);
-            this.groupBox26.Location = new System.Drawing.Point(771, 602);
-            this.groupBox26.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox26.Location = new System.Drawing.Point(578, 482);
             this.groupBox26.Name = "groupBox26";
-            this.groupBox26.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox26.Size = new System.Drawing.Size(473, 142);
+            this.groupBox26.Size = new System.Drawing.Size(355, 114);
             this.groupBox26.TabIndex = 169;
             this.groupBox26.TabStop = false;
             this.groupBox26.Text = "IR灯输出";
@@ -3302,10 +3131,9 @@
             // 
             this.label70.BackColor = System.Drawing.Color.Salmon;
             this.label70.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label70.Location = new System.Drawing.Point(24, 22);
-            this.label70.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label70.Location = new System.Drawing.Point(18, 18);
             this.label70.Name = "label70";
-            this.label70.Size = new System.Drawing.Size(111, 26);
+            this.label70.Size = new System.Drawing.Size(83, 21);
             this.label70.TabIndex = 160;
             this.label70.Text = "COM口：";
             this.label70.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3314,10 +3142,9 @@
             // 
             this.ModbusBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ModbusBtn.Enabled = false;
-            this.ModbusBtn.Location = new System.Drawing.Point(13, 95);
-            this.ModbusBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.ModbusBtn.Location = new System.Drawing.Point(10, 76);
             this.ModbusBtn.Name = "ModbusBtn";
-            this.ModbusBtn.Size = new System.Drawing.Size(133, 38);
+            this.ModbusBtn.Size = new System.Drawing.Size(100, 30);
             this.ModbusBtn.TabIndex = 155;
             this.ModbusBtn.Tag = "1";
             this.ModbusBtn.Text = "建立通讯";
@@ -3327,10 +3154,9 @@
             // button7
             // 
             this.button7.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button7.Location = new System.Drawing.Point(159, 95);
-            this.button7.Margin = new System.Windows.Forms.Padding(4);
+            this.button7.Location = new System.Drawing.Point(119, 76);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(128, 38);
+            this.button7.Size = new System.Drawing.Size(96, 30);
             this.button7.TabIndex = 156;
             this.button7.Tag = "1";
             this.button7.Text = "开启-更新功率";
@@ -3341,10 +3167,9 @@
             // 
             this.label69.BackColor = System.Drawing.Color.Salmon;
             this.label69.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label69.Location = new System.Drawing.Point(24, 58);
-            this.label69.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label69.Location = new System.Drawing.Point(18, 46);
             this.label69.Name = "label69";
-            this.label69.Size = new System.Drawing.Size(111, 26);
+            this.label69.Size = new System.Drawing.Size(83, 21);
             this.label69.TabIndex = 157;
             this.label69.Text = "从机地址：";
             this.label69.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3352,10 +3177,9 @@
             // textBox17
             // 
             this.textBox17.Enabled = false;
-            this.textBox17.Location = new System.Drawing.Point(143, 56);
-            this.textBox17.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox17.Location = new System.Drawing.Point(107, 45);
             this.textBox17.Name = "textBox17";
-            this.textBox17.Size = new System.Drawing.Size(49, 25);
+            this.textBox17.Size = new System.Drawing.Size(38, 21);
             this.textBox17.TabIndex = 158;
             this.textBox17.Text = "1";
             // 
@@ -3364,10 +3188,9 @@
             this.label77.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label77.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label77.ForeColor = System.Drawing.Color.Black;
-            this.label77.Location = new System.Drawing.Point(397, 55);
-            this.label77.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label77.Location = new System.Drawing.Point(298, 44);
             this.label77.Name = "label77";
-            this.label77.Size = new System.Drawing.Size(25, 25);
+            this.label77.Size = new System.Drawing.Size(19, 20);
             this.label77.TabIndex = 166;
             this.label77.Text = "℃";
             this.label77.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3375,28 +3198,25 @@
             // textBox18
             // 
             this.textBox18.Enabled = false;
-            this.textBox18.Location = new System.Drawing.Point(141, 25);
-            this.textBox18.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox18.Location = new System.Drawing.Point(106, 20);
             this.textBox18.Name = "textBox18";
-            this.textBox18.Size = new System.Drawing.Size(49, 25);
+            this.textBox18.Size = new System.Drawing.Size(38, 21);
             this.textBox18.TabIndex = 159;
             this.textBox18.Text = "1";
             // 
             // textBox16
             // 
-            this.textBox16.Location = new System.Drawing.Point(339, 59);
-            this.textBox16.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox16.Location = new System.Drawing.Point(254, 47);
             this.textBox16.Name = "textBox16";
-            this.textBox16.Size = new System.Drawing.Size(49, 25);
+            this.textBox16.Size = new System.Drawing.Size(38, 21);
             this.textBox16.TabIndex = 165;
             this.textBox16.Text = "125";
             // 
             // textBox19
             // 
-            this.textBox19.Location = new System.Drawing.Point(339, 24);
-            this.textBox19.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox19.Location = new System.Drawing.Point(254, 19);
             this.textBox19.Name = "textBox19";
-            this.textBox19.Size = new System.Drawing.Size(49, 25);
+            this.textBox19.Size = new System.Drawing.Size(38, 21);
             this.textBox19.TabIndex = 161;
             this.textBox19.Text = "20";
             // 
@@ -3404,10 +3224,9 @@
             // 
             this.label60.BackColor = System.Drawing.Color.Salmon;
             this.label60.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label60.Location = new System.Drawing.Point(216, 59);
-            this.label60.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label60.Location = new System.Drawing.Point(162, 47);
             this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(111, 26);
+            this.label60.Size = new System.Drawing.Size(83, 21);
             this.label60.TabIndex = 164;
             this.label60.Text = "目标";
             this.label60.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3416,10 +3235,9 @@
             // 
             this.label75.BackColor = System.Drawing.Color.Salmon;
             this.label75.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label75.Location = new System.Drawing.Point(217, 25);
-            this.label75.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label75.Location = new System.Drawing.Point(163, 20);
             this.label75.Name = "label75";
-            this.label75.Size = new System.Drawing.Size(111, 26);
+            this.label75.Size = new System.Drawing.Size(83, 21);
             this.label75.TabIndex = 162;
             this.label75.Text = "加热功率";
             this.label75.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3429,10 +3247,9 @@
             this.label76.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label76.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label76.ForeColor = System.Drawing.Color.Black;
-            this.label76.Location = new System.Drawing.Point(397, 19);
-            this.label76.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label76.Location = new System.Drawing.Point(298, 15);
             this.label76.Name = "label76";
-            this.label76.Size = new System.Drawing.Size(25, 25);
+            this.label76.Size = new System.Drawing.Size(19, 20);
             this.label76.TabIndex = 155;
             this.label76.Text = "%";
             this.label76.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3440,10 +3257,9 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button2.Location = new System.Drawing.Point(299, 95);
-            this.button2.Margin = new System.Windows.Forms.Padding(4);
+            this.button2.Location = new System.Drawing.Point(224, 76);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(129, 38);
+            this.button2.Size = new System.Drawing.Size(97, 30);
             this.button2.TabIndex = 163;
             this.button2.Tag = "1";
             this.button2.Text = "关闭IR灯";
@@ -3455,10 +3271,9 @@
             this.label79.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label79.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label79.ForeColor = System.Drawing.Color.Black;
-            this.label79.Location = new System.Drawing.Point(514, 695);
-            this.label79.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label79.Location = new System.Drawing.Point(386, 556);
             this.label79.Name = "label79";
-            this.label79.Size = new System.Drawing.Size(68, 25);
+            this.label79.Size = new System.Drawing.Size(51, 20);
             this.label79.TabIndex = 164;
             this.label79.Text = "MM/S";
             this.label79.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3466,10 +3281,9 @@
             // textBox20
             // 
             this.textBox20.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox20.Location = new System.Drawing.Point(442, 694);
-            this.textBox20.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox20.Location = new System.Drawing.Point(332, 555);
             this.textBox20.Name = "textBox20";
-            this.textBox20.Size = new System.Drawing.Size(69, 26);
+            this.textBox20.Size = new System.Drawing.Size(53, 22);
             this.textBox20.TabIndex = 164;
             this.textBox20.Text = "50";
             // 
@@ -3477,21 +3291,19 @@
             // 
             this.label78.BackColor = System.Drawing.SystemColors.Control;
             this.label78.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label78.Location = new System.Drawing.Point(347, 694);
-            this.label78.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label78.Location = new System.Drawing.Point(260, 555);
             this.label78.Name = "label78";
-            this.label78.Size = new System.Drawing.Size(91, 25);
+            this.label78.Size = new System.Drawing.Size(68, 20);
             this.label78.TabIndex = 164;
-            this.label78.Text = "墨车速度";
+            this.label78.Text = "刮墨速度";
             this.label78.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // SetInkPumpBtn
             // 
             this.SetInkPumpBtn.BackColor = System.Drawing.Color.Yellow;
-            this.SetInkPumpBtn.Location = new System.Drawing.Point(1299, 608);
-            this.SetInkPumpBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.SetInkPumpBtn.Location = new System.Drawing.Point(974, 486);
             this.SetInkPumpBtn.Name = "SetInkPumpBtn";
-            this.SetInkPumpBtn.Size = new System.Drawing.Size(120, 60);
+            this.SetInkPumpBtn.Size = new System.Drawing.Size(90, 48);
             this.SetInkPumpBtn.TabIndex = 122;
             this.SetInkPumpBtn.Text = "清洗泵输出SetInkPump\r\n";
             this.SetInkPumpBtn.UseVisualStyleBackColor = true;
@@ -3504,10 +3316,9 @@
             this.GeneralLabel.Font = new System.Drawing.Font("宋体", 9F);
             this.GeneralLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.GeneralLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.GeneralLabel.Location = new System.Drawing.Point(612, 860);
-            this.GeneralLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.GeneralLabel.Location = new System.Drawing.Point(459, 703);
             this.GeneralLabel.Name = "GeneralLabel";
-            this.GeneralLabel.Size = new System.Drawing.Size(138, 33);
+            this.GeneralLabel.Size = new System.Drawing.Size(104, 27);
             this.GeneralLabel.TabIndex = 150;
             this.GeneralLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.GeneralLabel.Visible = false;
@@ -3517,10 +3328,9 @@
             this.label39.BackColor = System.Drawing.Color.Aquamarine;
             this.label39.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label39.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label39.Location = new System.Drawing.Point(8, 386);
-            this.label39.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label39.Location = new System.Drawing.Point(6, 309);
             this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(1251, 4);
+            this.label39.Size = new System.Drawing.Size(938, 3);
             this.label39.TabIndex = 145;
             // 
             // GeneralIOTestBtn
@@ -3529,10 +3339,9 @@
             this.GeneralIOTestBtn.BackColor = System.Drawing.Color.Transparent;
             this.GeneralIOTestBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.GeneralIOTestBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.GeneralIOTestBtn.Location = new System.Drawing.Point(612, 871);
-            this.GeneralIOTestBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.GeneralIOTestBtn.Location = new System.Drawing.Point(459, 697);
             this.GeneralIOTestBtn.Name = "GeneralIOTestBtn";
-            this.GeneralIOTestBtn.Size = new System.Drawing.Size(139, 30);
+            this.GeneralIOTestBtn.Size = new System.Drawing.Size(104, 24);
             this.GeneralIOTestBtn.TabIndex = 149;
             this.GeneralIOTestBtn.Tag = "1";
             this.GeneralIOTestBtn.Text = "通用输入测试";
@@ -3543,10 +3352,10 @@
             // label37
             // 
             this.label37.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.label37.Location = new System.Drawing.Point(668, 15);
-            this.label37.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label37.Location = new System.Drawing.Point(501, 12);
+            this.label37.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(148, 24);
+            this.label37.Size = new System.Drawing.Size(111, 19);
             this.label37.TabIndex = 141;
             this.label37.Text = "高速喷射系统参数:";
             this.label37.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3554,10 +3363,9 @@
             // GetPrintState
             // 
             this.GetPrintState.BackColor = System.Drawing.Color.Yellow;
-            this.GetPrintState.Location = new System.Drawing.Point(981, 862);
-            this.GetPrintState.Margin = new System.Windows.Forms.Padding(4);
+            this.GetPrintState.Location = new System.Drawing.Point(736, 705);
             this.GetPrintState.Name = "GetPrintState";
-            this.GetPrintState.Size = new System.Drawing.Size(196, 42);
+            this.GetPrintState.Size = new System.Drawing.Size(147, 34);
             this.GetPrintState.TabIndex = 47;
             this.GetPrintState.Text = "获取打印状态IDP_GetPrintState";
             this.GetPrintState.UseVisualStyleBackColor = false;
@@ -3567,10 +3375,9 @@
             // WriteImgLayerData
             // 
             this.WriteImgLayerData.BackColor = System.Drawing.Color.OrangeRed;
-            this.WriteImgLayerData.Location = new System.Drawing.Point(759, 862);
-            this.WriteImgLayerData.Margin = new System.Windows.Forms.Padding(4);
+            this.WriteImgLayerData.Location = new System.Drawing.Point(569, 705);
             this.WriteImgLayerData.Name = "WriteImgLayerData";
-            this.WriteImgLayerData.Size = new System.Drawing.Size(200, 42);
+            this.WriteImgLayerData.Size = new System.Drawing.Size(150, 34);
             this.WriteImgLayerData.TabIndex = 46;
             this.WriteImgLayerData.Text = "载入图像数据IDP_WriteImgLayerData";
             this.WriteImgLayerData.UseVisualStyleBackColor = false;
@@ -3580,10 +3387,9 @@
             // GetPassItem
             // 
             this.GetPassItem.BackColor = System.Drawing.Color.OrangeRed;
-            this.GetPassItem.Location = new System.Drawing.Point(759, 878);
-            this.GetPassItem.Margin = new System.Windows.Forms.Padding(4);
+            this.GetPassItem.Location = new System.Drawing.Point(569, 702);
             this.GetPassItem.Name = "GetPassItem";
-            this.GetPassItem.Size = new System.Drawing.Size(200, 41);
+            this.GetPassItem.Size = new System.Drawing.Size(150, 33);
             this.GetPassItem.TabIndex = 48;
             this.GetPassItem.Text = "获取PASS信息IDP_GetPassItem";
             this.GetPassItem.UseVisualStyleBackColor = false;
@@ -3594,20 +3400,18 @@
             // 
             this.CurEncoderText.BackColor = System.Drawing.Color.GreenYellow;
             this.CurEncoderText.Enabled = false;
-            this.CurEncoderText.Location = new System.Drawing.Point(1301, 586);
-            this.CurEncoderText.Margin = new System.Windows.Forms.Padding(4);
+            this.CurEncoderText.Location = new System.Drawing.Point(976, 469);
             this.CurEncoderText.Name = "CurEncoderText";
-            this.CurEncoderText.Size = new System.Drawing.Size(111, 25);
+            this.CurEncoderText.Size = new System.Drawing.Size(84, 21);
             this.CurEncoderText.TabIndex = 44;
             this.CurEncoderText.Visible = false;
             // 
             // DoPassPrint2
             // 
             this.DoPassPrint2.BackColor = System.Drawing.Color.OrangeRed;
-            this.DoPassPrint2.Location = new System.Drawing.Point(759, 891);
-            this.DoPassPrint2.Margin = new System.Windows.Forms.Padding(4);
+            this.DoPassPrint2.Location = new System.Drawing.Point(569, 713);
             this.DoPassPrint2.Name = "DoPassPrint2";
-            this.DoPassPrint2.Size = new System.Drawing.Size(200, 44);
+            this.DoPassPrint2.Size = new System.Drawing.Size(150, 35);
             this.DoPassPrint2.TabIndex = 50;
             this.DoPassPrint2.Text = "执行PASS2打印2IDP_DoPassPrint2";
             this.DoPassPrint2.UseVisualStyleBackColor = false;
@@ -3616,6 +3420,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.label95);
             this.groupBox6.Controls.Add(this.textBox26);
             this.groupBox6.Controls.Add(this.label89);
             this.groupBox6.Controls.Add(this.PrintCarHomeBtn);
@@ -3646,48 +3451,30 @@
             this.groupBox6.Controls.Add(this.panel1);
             this.groupBox6.Controls.Add(this.label84);
             this.groupBox6.Controls.Add(this.label82);
-            this.groupBox6.Location = new System.Drawing.Point(19, 394);
-            this.groupBox6.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox6.Location = new System.Drawing.Point(14, 315);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox6.Size = new System.Drawing.Size(732, 433);
+            this.groupBox6.Size = new System.Drawing.Size(549, 383);
             this.groupBox6.TabIndex = 135;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "墨车运动控制";
             this.groupBox6.Enter += new System.EventHandler(this.groupBox6_Enter);
             // 
-            // label91
+            // label95
             // 
-            this.label91.BackColor = System.Drawing.SystemColors.Control;
-            this.label91.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label91.Location = new System.Drawing.Point(245, 8);
-            this.label91.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label91.Name = "label91";
-            this.label91.Size = new System.Drawing.Size(91, 25);
-            this.label91.TabIndex = 199;
-            this.label91.Text = "开启闪喷";
-            this.label91.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // comboBox4
-            // 
-            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Items.AddRange(new object[] {
-            "否",
-            "是"});
-            this.comboBox4.Location = new System.Drawing.Point(338, 8);
-            this.comboBox4.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(54, 23);
-            this.comboBox4.TabIndex = 198;
+            this.label95.ForeColor = System.Drawing.Color.DimGray;
+            this.label95.Location = new System.Drawing.Point(19, 346);
+            this.label95.Name = "label95";
+            this.label95.Size = new System.Drawing.Size(530, 31);
+            this.label95.TabIndex = 169;
+            this.label95.Text = "注意：【1.106度斜刮片】【2.指定测高位置，喷头高度离基面4.78mm】【3.刮墨速度50mm/s】【4.重刮两次】【5.重刮压墨关】【6.闪喷频率：250H" +
+    "z】";
             // 
             // textBox26
             // 
             this.textBox26.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox26.Location = new System.Drawing.Point(422, 360);
-            this.textBox26.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox26.Location = new System.Drawing.Point(316, 288);
             this.textBox26.Name = "textBox26";
-            this.textBox26.Size = new System.Drawing.Size(69, 26);
+            this.textBox26.Size = new System.Drawing.Size(53, 22);
             this.textBox26.TabIndex = 179;
             this.textBox26.Text = "3";
             // 
@@ -3695,10 +3482,9 @@
             // 
             this.label89.BackColor = System.Drawing.SystemColors.Control;
             this.label89.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label89.Location = new System.Drawing.Point(329, 360);
-            this.label89.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label89.Location = new System.Drawing.Point(247, 288);
             this.label89.Name = "label89";
-            this.label89.Size = new System.Drawing.Size(91, 25);
+            this.label89.Size = new System.Drawing.Size(68, 20);
             this.label89.TabIndex = 170;
             this.label89.Text = "压墨时长";
             this.label89.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3706,46 +3492,30 @@
             // PrintCarHomeBtn
             // 
             this.PrintCarHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.PrintCarHomeBtn.Location = new System.Drawing.Point(176, 228);
-            this.PrintCarHomeBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.PrintCarHomeBtn.Location = new System.Drawing.Point(132, 182);
             this.PrintCarHomeBtn.Name = "PrintCarHomeBtn";
-            this.PrintCarHomeBtn.Size = new System.Drawing.Size(135, 38);
+            this.PrintCarHomeBtn.Size = new System.Drawing.Size(101, 30);
             this.PrintCarHomeBtn.TabIndex = 178;
             this.PrintCarHomeBtn.Tag = "1";
             this.PrintCarHomeBtn.Text = "校准墨车";
             this.PrintCarHomeBtn.UseVisualStyleBackColor = true;
             this.PrintCarHomeBtn.Click += new System.EventHandler(this.PrintCarHomeBtn_Click);
             // 
-            // label84
-            // 
-            this.label84.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label84.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label84.ForeColor = System.Drawing.Color.Black;
-            this.label84.Location = new System.Drawing.Point(249, 392);
-            this.label84.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label84.Name = "label84";
-            this.label84.Size = new System.Drawing.Size(86, 25);
-            this.label84.TabIndex = 176;
-            this.label84.Text = "度数（°）";
-            this.label84.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // textBox23
             // 
             this.textBox23.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox23.Location = new System.Drawing.Point(176, 392);
-            this.textBox23.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox23.Location = new System.Drawing.Point(132, 314);
             this.textBox23.Name = "textBox23";
-            this.textBox23.Size = new System.Drawing.Size(68, 26);
+            this.textBox23.Size = new System.Drawing.Size(52, 22);
             this.textBox23.TabIndex = 175;
-            this.textBox23.Text = "40";
+            this.textBox23.Text = "106";
             // 
             // PowderCarHomeBtn
             // 
             this.PowderCarHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.PowderCarHomeBtn.Location = new System.Drawing.Point(27, 228);
-            this.PowderCarHomeBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.PowderCarHomeBtn.Location = new System.Drawing.Point(20, 182);
             this.PowderCarHomeBtn.Name = "PowderCarHomeBtn";
-            this.PowderCarHomeBtn.Size = new System.Drawing.Size(135, 38);
+            this.PowderCarHomeBtn.Size = new System.Drawing.Size(101, 30);
             this.PowderCarHomeBtn.TabIndex = 177;
             this.PowderCarHomeBtn.Tag = "1";
             this.PowderCarHomeBtn.Text = "校准粉车";
@@ -3755,46 +3525,30 @@
             // button8
             // 
             this.button8.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button8.Location = new System.Drawing.Point(27, 388);
-            this.button8.Margin = new System.Windows.Forms.Padding(4);
+            this.button8.Location = new System.Drawing.Point(20, 310);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(135, 38);
+            this.button8.Size = new System.Drawing.Size(101, 30);
             this.button8.TabIndex = 174;
             this.button8.Tag = "1";
             this.button8.Text = "校准刮墨轴";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
-            // label82
-            // 
-            this.label82.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label82.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label82.ForeColor = System.Drawing.Color.Black;
-            this.label82.Location = new System.Drawing.Point(249, 349);
-            this.label82.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label82.Name = "label82";
-            this.label82.Size = new System.Drawing.Size(81, 25);
-            this.label82.TabIndex = 173;
-            this.label82.Text = "度数（°）";
-            this.label82.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // textBox22
             // 
             this.textBox22.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox22.Location = new System.Drawing.Point(176, 349);
-            this.textBox22.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox22.Location = new System.Drawing.Point(132, 279);
             this.textBox22.Name = "textBox22";
-            this.textBox22.Size = new System.Drawing.Size(68, 26);
+            this.textBox22.Size = new System.Drawing.Size(52, 22);
             this.textBox22.TabIndex = 172;
             this.textBox22.Text = "40";
             // 
             // SpreaderHomeBtn
             // 
             this.SpreaderHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.SpreaderHomeBtn.Location = new System.Drawing.Point(27, 344);
-            this.SpreaderHomeBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.SpreaderHomeBtn.Location = new System.Drawing.Point(20, 275);
             this.SpreaderHomeBtn.Name = "SpreaderHomeBtn";
-            this.SpreaderHomeBtn.Size = new System.Drawing.Size(135, 38);
+            this.SpreaderHomeBtn.Size = new System.Drawing.Size(101, 30);
             this.SpreaderHomeBtn.TabIndex = 171;
             this.SpreaderHomeBtn.Tag = "1";
             this.SpreaderHomeBtn.Text = "校准撒粉轴";
@@ -3806,10 +3560,9 @@
             this.InkCarHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.InkCarHomeBtn.Enabled = false;
             this.InkCarHomeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.InkCarHomeBtn.Location = new System.Drawing.Point(252, 272);
-            this.InkCarHomeBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.InkCarHomeBtn.Location = new System.Drawing.Point(189, 218);
             this.InkCarHomeBtn.Name = "InkCarHomeBtn";
-            this.InkCarHomeBtn.Size = new System.Drawing.Size(59, 35);
+            this.InkCarHomeBtn.Size = new System.Drawing.Size(44, 28);
             this.InkCarHomeBtn.TabIndex = 170;
             this.InkCarHomeBtn.Tag = "1";
             this.InkCarHomeBtn.Text = "墨车";
@@ -3820,10 +3573,9 @@
             this.label74.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label74.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label74.ForeColor = System.Drawing.Color.Black;
-            this.label74.Location = new System.Drawing.Point(109, 315);
-            this.label74.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label74.Location = new System.Drawing.Point(82, 252);
             this.label74.Name = "label74";
-            this.label74.Size = new System.Drawing.Size(43, 25);
+            this.label74.Size = new System.Drawing.Size(32, 20);
             this.label74.TabIndex = 163;
             this.label74.Text = "MM";
             this.label74.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3831,20 +3583,18 @@
             // textBox2
             // 
             this.textBox2.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox2.Location = new System.Drawing.Point(28, 314);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox2.Location = new System.Drawing.Point(21, 251);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(68, 26);
+            this.textBox2.Size = new System.Drawing.Size(52, 22);
             this.textBox2.TabIndex = 162;
             this.textBox2.Text = "112";
             // 
             // ConfirmSpeedBtn
             // 
             this.ConfirmSpeedBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ConfirmSpeedBtn.Location = new System.Drawing.Point(571, 238);
-            this.ConfirmSpeedBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.ConfirmSpeedBtn.Location = new System.Drawing.Point(428, 190);
             this.ConfirmSpeedBtn.Name = "ConfirmSpeedBtn";
-            this.ConfirmSpeedBtn.Size = new System.Drawing.Size(120, 31);
+            this.ConfirmSpeedBtn.Size = new System.Drawing.Size(90, 25);
             this.ConfirmSpeedBtn.TabIndex = 161;
             this.ConfirmSpeedBtn.Tag = "1";
             this.ConfirmSpeedBtn.Text = "确认速度";
@@ -3856,10 +3606,9 @@
             this.label72.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label72.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label72.ForeColor = System.Drawing.Color.Black;
-            this.label72.Location = new System.Drawing.Point(494, 268);
-            this.label72.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label72.Location = new System.Drawing.Point(370, 214);
             this.label72.Name = "label72";
-            this.label72.Size = new System.Drawing.Size(68, 25);
+            this.label72.Size = new System.Drawing.Size(51, 20);
             this.label72.TabIndex = 160;
             this.label72.Text = "MM/S";
             this.label72.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3868,10 +3617,9 @@
             // 
             this.label71.BackColor = System.Drawing.SystemColors.Control;
             this.label71.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label71.Location = new System.Drawing.Point(327, 267);
-            this.label71.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label71.Location = new System.Drawing.Point(245, 214);
             this.label71.Name = "label71";
-            this.label71.Size = new System.Drawing.Size(91, 25);
+            this.label71.Size = new System.Drawing.Size(68, 20);
             this.label71.TabIndex = 159;
             this.label71.Text = "打印速度";
             this.label71.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3879,10 +3627,9 @@
             // textBoxSpeed
             // 
             this.textBoxSpeed.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBoxSpeed.Location = new System.Drawing.Point(422, 267);
-            this.textBoxSpeed.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxSpeed.Location = new System.Drawing.Point(316, 214);
             this.textBoxSpeed.Name = "textBoxSpeed";
-            this.textBoxSpeed.Size = new System.Drawing.Size(69, 26);
+            this.textBoxSpeed.Size = new System.Drawing.Size(53, 22);
             this.textBoxSpeed.TabIndex = 158;
             this.textBoxSpeed.Text = "20";
             // 
@@ -3891,10 +3638,9 @@
             this.PowderHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.PowderHomeBtn.Enabled = false;
             this.PowderHomeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PowderHomeBtn.Location = new System.Drawing.Point(176, 272);
-            this.PowderHomeBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.PowderHomeBtn.Location = new System.Drawing.Point(132, 218);
             this.PowderHomeBtn.Name = "PowderHomeBtn";
-            this.PowderHomeBtn.Size = new System.Drawing.Size(61, 35);
+            this.PowderHomeBtn.Size = new System.Drawing.Size(46, 28);
             this.PowderHomeBtn.TabIndex = 61;
             this.PowderHomeBtn.Tag = "1";
             this.PowderHomeBtn.Text = "粉车";
@@ -3904,10 +3650,9 @@
             // 
             this.EncoderResetBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.EncoderResetBtn.Enabled = false;
-            this.EncoderResetBtn.Location = new System.Drawing.Point(27, 270);
-            this.EncoderResetBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.EncoderResetBtn.Location = new System.Drawing.Point(20, 216);
             this.EncoderResetBtn.Name = "EncoderResetBtn";
-            this.EncoderResetBtn.Size = new System.Drawing.Size(135, 38);
+            this.EncoderResetBtn.Size = new System.Drawing.Size(101, 30);
             this.EncoderResetBtn.TabIndex = 60;
             this.EncoderResetBtn.Tag = "1";
             this.EncoderResetBtn.Text = "校准运动系统";
@@ -3917,10 +3662,9 @@
             // OpenMoveBtn
             // 
             this.OpenMoveBtn.BackColor = System.Drawing.Color.Yellow;
-            this.OpenMoveBtn.Location = new System.Drawing.Point(219, 444);
-            this.OpenMoveBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.OpenMoveBtn.Location = new System.Drawing.Point(164, 376);
             this.OpenMoveBtn.Name = "OpenMoveBtn";
-            this.OpenMoveBtn.Size = new System.Drawing.Size(143, 38);
+            this.OpenMoveBtn.Size = new System.Drawing.Size(107, 30);
             this.OpenMoveBtn.TabIndex = 45;
             this.OpenMoveBtn.Tag = "1";
             this.OpenMoveBtn.Text = "墨车运动开启";
@@ -3932,10 +3676,9 @@
             // 
             this.XStateLabel.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.XStateLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.XStateLabel.Location = new System.Drawing.Point(575, 472);
-            this.XStateLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.XStateLabel.Location = new System.Drawing.Point(431, 378);
             this.XStateLabel.Name = "XStateLabel";
-            this.XStateLabel.Size = new System.Drawing.Size(206, 34);
+            this.XStateLabel.Size = new System.Drawing.Size(155, 28);
             this.XStateLabel.TabIndex = 52;
             this.XStateLabel.Text = "Y轴状态";
             this.XStateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3949,11 +3692,9 @@
             this.groupBox21.Controls.Add(this.Y2PosLabel);
             this.groupBox21.Controls.Add(this.Y2ZeroLabel);
             this.groupBox21.Controls.Add(this.Y2NLLabel);
-            this.groupBox21.Location = new System.Drawing.Point(255, 19);
-            this.groupBox21.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox21.Location = new System.Drawing.Point(191, 15);
             this.groupBox21.Name = "groupBox21";
-            this.groupBox21.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox21.Size = new System.Drawing.Size(228, 209);
+            this.groupBox21.Size = new System.Drawing.Size(171, 167);
             this.groupBox21.TabIndex = 54;
             this.groupBox21.TabStop = false;
             this.groupBox21.Text = "喷墨Y轴运动";
@@ -3961,10 +3702,9 @@
             // button26
             // 
             this.button26.Font = new System.Drawing.Font("宋体", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button26.Location = new System.Drawing.Point(116, 76);
-            this.button26.Margin = new System.Windows.Forms.Padding(4);
+            this.button26.Location = new System.Drawing.Point(87, 61);
             this.button26.Name = "button26";
-            this.button26.Size = new System.Drawing.Size(100, 55);
+            this.button26.Size = new System.Drawing.Size(75, 44);
             this.button26.TabIndex = 57;
             this.button26.Tag = "5";
             this.button26.Text = "向后";
@@ -3976,10 +3716,9 @@
             // 
             this.Y2RevPosLabel.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.Y2RevPosLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Y2RevPosLabel.Location = new System.Drawing.Point(8, 168);
-            this.Y2RevPosLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Y2RevPosLabel.Location = new System.Drawing.Point(6, 134);
             this.Y2RevPosLabel.Name = "Y2RevPosLabel";
-            this.Y2RevPosLabel.Size = new System.Drawing.Size(207, 30);
+            this.Y2RevPosLabel.Size = new System.Drawing.Size(156, 24);
             this.Y2RevPosLabel.TabIndex = 51;
             this.Y2RevPosLabel.Text = "剩余脉冲数";
             this.Y2RevPosLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3987,10 +3726,9 @@
             // button19
             // 
             this.button19.Font = new System.Drawing.Font("宋体", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button19.Location = new System.Drawing.Point(116, 20);
-            this.button19.Margin = new System.Windows.Forms.Padding(4);
+            this.button19.Location = new System.Drawing.Point(87, 16);
             this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(100, 55);
+            this.button19.Size = new System.Drawing.Size(75, 44);
             this.button19.TabIndex = 56;
             this.button19.Tag = "6";
             this.button19.Text = "向前";
@@ -4002,10 +3740,9 @@
             // 
             this.Y2PLLabel.BackColor = System.Drawing.Color.Lime;
             this.Y2PLLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Y2PLLabel.Location = new System.Drawing.Point(9, 99);
-            this.Y2PLLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Y2PLLabel.Location = new System.Drawing.Point(7, 79);
             this.Y2PLLabel.Name = "Y2PLLabel";
-            this.Y2PLLabel.Size = new System.Drawing.Size(93, 30);
+            this.Y2PLLabel.Size = new System.Drawing.Size(70, 24);
             this.Y2PLLabel.TabIndex = 45;
             this.Y2PLLabel.Tag = "7";
             this.Y2PLLabel.Text = "PL";
@@ -4015,10 +3752,9 @@
             // 
             this.Y2PosLabel.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.Y2PosLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Y2PosLabel.Location = new System.Drawing.Point(8, 134);
-            this.Y2PosLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Y2PosLabel.Location = new System.Drawing.Point(6, 107);
             this.Y2PosLabel.Name = "Y2PosLabel";
-            this.Y2PosLabel.Size = new System.Drawing.Size(207, 30);
+            this.Y2PosLabel.Size = new System.Drawing.Size(156, 24);
             this.Y2PosLabel.TabIndex = 50;
             this.Y2PosLabel.Text = "编码计数值";
             this.Y2PosLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4027,10 +3763,9 @@
             // 
             this.Y2ZeroLabel.BackColor = System.Drawing.Color.Lime;
             this.Y2ZeroLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Y2ZeroLabel.Location = new System.Drawing.Point(9, 61);
-            this.Y2ZeroLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Y2ZeroLabel.Location = new System.Drawing.Point(7, 49);
             this.Y2ZeroLabel.Name = "Y2ZeroLabel";
-            this.Y2ZeroLabel.Size = new System.Drawing.Size(93, 30);
+            this.Y2ZeroLabel.Size = new System.Drawing.Size(70, 24);
             this.Y2ZeroLabel.TabIndex = 46;
             this.Y2ZeroLabel.Tag = "8";
             this.Y2ZeroLabel.Text = "ZERO";
@@ -4040,10 +3775,9 @@
             // 
             this.Y2NLLabel.BackColor = System.Drawing.Color.Lime;
             this.Y2NLLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Y2NLLabel.Location = new System.Drawing.Point(9, 22);
-            this.Y2NLLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Y2NLLabel.Location = new System.Drawing.Point(7, 18);
             this.Y2NLLabel.Name = "Y2NLLabel";
-            this.Y2NLLabel.Size = new System.Drawing.Size(93, 30);
+            this.Y2NLLabel.Size = new System.Drawing.Size(70, 24);
             this.Y2NLLabel.TabIndex = 47;
             this.Y2NLLabel.Tag = "9";
             this.Y2NLLabel.Text = "NL";
@@ -4053,10 +3787,9 @@
             // 
             this.YStateLabel.BackColor = System.Drawing.SystemColors.Window;
             this.YStateLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.YStateLabel.Location = new System.Drawing.Point(600, 445);
-            this.YStateLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.YStateLabel.Location = new System.Drawing.Point(450, 375);
             this.YStateLabel.Name = "YStateLabel";
-            this.YStateLabel.Size = new System.Drawing.Size(119, 26);
+            this.YStateLabel.Size = new System.Drawing.Size(90, 21);
             this.YStateLabel.TabIndex = 55;
             this.YStateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.YStateLabel.Visible = false;
@@ -4070,11 +3803,9 @@
             this.groupBox7.Controls.Add(this.Y1PosLabel);
             this.groupBox7.Controls.Add(this.Y1ZeroLabel);
             this.groupBox7.Controls.Add(this.Y1NLLabel);
-            this.groupBox7.Location = new System.Drawing.Point(17, 19);
-            this.groupBox7.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox7.Location = new System.Drawing.Point(13, 15);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox7.Size = new System.Drawing.Size(228, 209);
+            this.groupBox7.Size = new System.Drawing.Size(171, 167);
             this.groupBox7.TabIndex = 53;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "喷墨X轴运动";
@@ -4082,10 +3813,9 @@
             // button23
             // 
             this.button23.Font = new System.Drawing.Font("宋体", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button23.Location = new System.Drawing.Point(116, 76);
-            this.button23.Margin = new System.Windows.Forms.Padding(4);
+            this.button23.Location = new System.Drawing.Point(87, 61);
             this.button23.Name = "button23";
-            this.button23.Size = new System.Drawing.Size(100, 55);
+            this.button23.Size = new System.Drawing.Size(75, 44);
             this.button23.TabIndex = 55;
             this.button23.Tag = "4";
             this.button23.Text = "向左";
@@ -4097,10 +3827,9 @@
             // 
             this.Y1RevPosLabel.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.Y1RevPosLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Y1RevPosLabel.Location = new System.Drawing.Point(8, 169);
-            this.Y1RevPosLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Y1RevPosLabel.Location = new System.Drawing.Point(6, 135);
             this.Y1RevPosLabel.Name = "Y1RevPosLabel";
-            this.Y1RevPosLabel.Size = new System.Drawing.Size(207, 30);
+            this.Y1RevPosLabel.Size = new System.Drawing.Size(156, 24);
             this.Y1RevPosLabel.TabIndex = 51;
             this.Y1RevPosLabel.Text = "剩余脉冲数";
             this.Y1RevPosLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4108,10 +3837,9 @@
             // button24
             // 
             this.button24.Font = new System.Drawing.Font("宋体", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button24.Location = new System.Drawing.Point(116, 20);
-            this.button24.Margin = new System.Windows.Forms.Padding(4);
+            this.button24.Location = new System.Drawing.Point(87, 16);
             this.button24.Name = "button24";
-            this.button24.Size = new System.Drawing.Size(100, 55);
+            this.button24.Size = new System.Drawing.Size(75, 44);
             this.button24.TabIndex = 54;
             this.button24.Tag = "3";
             this.button24.Text = "向右";
@@ -4123,10 +3851,9 @@
             // 
             this.Y1PLLabel.BackColor = System.Drawing.Color.Lime;
             this.Y1PLLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Y1PLLabel.Location = new System.Drawing.Point(9, 25);
-            this.Y1PLLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Y1PLLabel.Location = new System.Drawing.Point(7, 20);
             this.Y1PLLabel.Name = "Y1PLLabel";
-            this.Y1PLLabel.Size = new System.Drawing.Size(93, 30);
+            this.Y1PLLabel.Size = new System.Drawing.Size(70, 24);
             this.Y1PLLabel.TabIndex = 45;
             this.Y1PLLabel.Tag = "4";
             this.Y1PLLabel.Text = "PL";
@@ -4136,10 +3863,9 @@
             // 
             this.Y1PosLabel.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.Y1PosLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Y1PosLabel.Location = new System.Drawing.Point(8, 135);
-            this.Y1PosLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Y1PosLabel.Location = new System.Drawing.Point(6, 108);
             this.Y1PosLabel.Name = "Y1PosLabel";
-            this.Y1PosLabel.Size = new System.Drawing.Size(207, 30);
+            this.Y1PosLabel.Size = new System.Drawing.Size(156, 24);
             this.Y1PosLabel.TabIndex = 50;
             this.Y1PosLabel.Text = "编码计数值";
             this.Y1PosLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4148,10 +3874,9 @@
             // 
             this.Y1ZeroLabel.BackColor = System.Drawing.Color.Lime;
             this.Y1ZeroLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Y1ZeroLabel.Location = new System.Drawing.Point(9, 61);
-            this.Y1ZeroLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Y1ZeroLabel.Location = new System.Drawing.Point(7, 49);
             this.Y1ZeroLabel.Name = "Y1ZeroLabel";
-            this.Y1ZeroLabel.Size = new System.Drawing.Size(93, 30);
+            this.Y1ZeroLabel.Size = new System.Drawing.Size(70, 24);
             this.Y1ZeroLabel.TabIndex = 46;
             this.Y1ZeroLabel.Tag = "5";
             this.Y1ZeroLabel.Text = "ZERO";
@@ -4161,10 +3886,9 @@
             // 
             this.Y1NLLabel.BackColor = System.Drawing.Color.Lime;
             this.Y1NLLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Y1NLLabel.Location = new System.Drawing.Point(9, 99);
-            this.Y1NLLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Y1NLLabel.Location = new System.Drawing.Point(7, 79);
             this.Y1NLLabel.Name = "Y1NLLabel";
-            this.Y1NLLabel.Size = new System.Drawing.Size(93, 30);
+            this.Y1NLLabel.Size = new System.Drawing.Size(70, 24);
             this.Y1NLLabel.TabIndex = 47;
             this.Y1NLLabel.Tag = "6";
             this.Y1NLLabel.Text = "NL";
@@ -4179,11 +3903,9 @@
             this.groupBox22.Controls.Add(this.XPosLabel);
             this.groupBox22.Controls.Add(this.XZeroLabel);
             this.groupBox22.Controls.Add(this.XNLLabel);
-            this.groupBox22.Location = new System.Drawing.Point(492, 18);
-            this.groupBox22.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox22.Location = new System.Drawing.Point(369, 14);
             this.groupBox22.Name = "groupBox22";
-            this.groupBox22.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox22.Size = new System.Drawing.Size(228, 210);
+            this.groupBox22.Size = new System.Drawing.Size(171, 168);
             this.groupBox22.TabIndex = 52;
             this.groupBox22.TabStop = false;
             this.groupBox22.Text = "喷墨Y2轴运动";
@@ -4191,10 +3913,9 @@
             // button21
             // 
             this.button21.Font = new System.Drawing.Font("宋体", 13F);
-            this.button21.Location = new System.Drawing.Point(119, 80);
-            this.button21.Margin = new System.Windows.Forms.Padding(4);
+            this.button21.Location = new System.Drawing.Point(89, 64);
             this.button21.Name = "button21";
-            this.button21.Size = new System.Drawing.Size(100, 55);
+            this.button21.Size = new System.Drawing.Size(75, 44);
             this.button21.TabIndex = 53;
             this.button21.Tag = "2";
             this.button21.Text = "-";
@@ -4206,10 +3927,9 @@
             // 
             this.XMoveBtn.BackColor = System.Drawing.Color.Transparent;
             this.XMoveBtn.Font = new System.Drawing.Font("宋体", 13F);
-            this.XMoveBtn.Location = new System.Drawing.Point(119, 21);
-            this.XMoveBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.XMoveBtn.Location = new System.Drawing.Point(89, 17);
             this.XMoveBtn.Name = "XMoveBtn";
-            this.XMoveBtn.Size = new System.Drawing.Size(100, 55);
+            this.XMoveBtn.Size = new System.Drawing.Size(75, 44);
             this.XMoveBtn.TabIndex = 52;
             this.XMoveBtn.Tag = "1";
             this.XMoveBtn.Text = "+";
@@ -4221,10 +3941,9 @@
             // 
             this.XRevPosLabel.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.XRevPosLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.XRevPosLabel.Location = new System.Drawing.Point(11, 171);
-            this.XRevPosLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.XRevPosLabel.Location = new System.Drawing.Point(8, 137);
             this.XRevPosLabel.Name = "XRevPosLabel";
-            this.XRevPosLabel.Size = new System.Drawing.Size(207, 30);
+            this.XRevPosLabel.Size = new System.Drawing.Size(156, 24);
             this.XRevPosLabel.TabIndex = 51;
             this.XRevPosLabel.Text = "剩余脉冲数";
             this.XRevPosLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4234,10 +3953,9 @@
             this.XPLLabel.BackColor = System.Drawing.Color.OrangeRed;
             this.XPLLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.XPLLabel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.XPLLabel.Location = new System.Drawing.Point(12, 102);
-            this.XPLLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.XPLLabel.Location = new System.Drawing.Point(9, 82);
             this.XPLLabel.Name = "XPLLabel";
-            this.XPLLabel.Size = new System.Drawing.Size(93, 30);
+            this.XPLLabel.Size = new System.Drawing.Size(70, 24);
             this.XPLLabel.TabIndex = 45;
             this.XPLLabel.Tag = "1";
             this.XPLLabel.Text = "NL";
@@ -4247,10 +3965,9 @@
             // 
             this.XPosLabel.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.XPosLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.XPosLabel.Location = new System.Drawing.Point(11, 138);
-            this.XPosLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.XPosLabel.Location = new System.Drawing.Point(8, 110);
             this.XPosLabel.Name = "XPosLabel";
-            this.XPosLabel.Size = new System.Drawing.Size(207, 30);
+            this.XPosLabel.Size = new System.Drawing.Size(156, 24);
             this.XPosLabel.TabIndex = 50;
             this.XPosLabel.Text = "编码计数值";
             this.XPosLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4259,10 +3976,9 @@
             // 
             this.XZeroLabel.BackColor = System.Drawing.Color.OrangeRed;
             this.XZeroLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.XZeroLabel.Location = new System.Drawing.Point(12, 65);
-            this.XZeroLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.XZeroLabel.Location = new System.Drawing.Point(9, 52);
             this.XZeroLabel.Name = "XZeroLabel";
-            this.XZeroLabel.Size = new System.Drawing.Size(93, 30);
+            this.XZeroLabel.Size = new System.Drawing.Size(70, 24);
             this.XZeroLabel.TabIndex = 46;
             this.XZeroLabel.Tag = "2";
             this.XZeroLabel.Text = "ZERO";
@@ -4272,10 +3988,9 @@
             // 
             this.XNLLabel.BackColor = System.Drawing.Color.OrangeRed;
             this.XNLLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.XNLLabel.Location = new System.Drawing.Point(11, 28);
-            this.XNLLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.XNLLabel.Location = new System.Drawing.Point(8, 22);
             this.XNLLabel.Name = "XNLLabel";
-            this.XNLLabel.Size = new System.Drawing.Size(93, 30);
+            this.XNLLabel.Size = new System.Drawing.Size(70, 24);
             this.XNLLabel.TabIndex = 47;
             this.XNLLabel.Tag = "3";
             this.XNLLabel.Text = "PL";
@@ -4293,10 +4008,9 @@
             "200",
             "250",
             "300"});
-            this.SpeedBox.Location = new System.Drawing.Point(422, 238);
-            this.SpeedBox.Margin = new System.Windows.Forms.Padding(4);
+            this.SpeedBox.Location = new System.Drawing.Point(316, 190);
             this.SpeedBox.Name = "SpeedBox";
-            this.SpeedBox.Size = new System.Drawing.Size(69, 23);
+            this.SpeedBox.Size = new System.Drawing.Size(53, 20);
             this.SpeedBox.TabIndex = 59;
             this.SpeedBox.Text = "0";
             this.SpeedBox.SelectedIndexChanged += new System.EventHandler(this.SpeedBox_SelectedIndexChanged);
@@ -4305,10 +4019,9 @@
             // 
             this.label12.BackColor = System.Drawing.SystemColors.Control;
             this.label12.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label12.Location = new System.Drawing.Point(328, 236);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label12.Location = new System.Drawing.Point(246, 189);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(88, 25);
+            this.label12.Size = new System.Drawing.Size(66, 20);
             this.label12.TabIndex = 52;
             this.label12.Text = "打印速度";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4318,10 +4031,9 @@
             this.label11.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label11.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(494, 238);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label11.Location = new System.Drawing.Point(370, 190);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(68, 25);
+            this.label11.Size = new System.Drawing.Size(51, 20);
             this.label11.TabIndex = 58;
             this.label11.Text = "MM/S";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4331,16 +4043,18 @@
             this.label90.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label90.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label90.ForeColor = System.Drawing.Color.Black;
-            this.label90.Location = new System.Drawing.Point(478, 360);
-            this.label90.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label90.Location = new System.Drawing.Point(358, 288);
             this.label90.Name = "label90";
-            this.label90.Size = new System.Drawing.Size(68, 25);
+            this.label90.Size = new System.Drawing.Size(51, 20);
             this.label90.TabIndex = 170;
             this.label90.Text = "S";
             this.label90.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.comboBox6);
+            this.panel1.Controls.Add(this.label96);
             this.panel1.Controls.Add(this.label91);
             this.panel1.Controls.Add(this.comboBox4);
             this.panel1.Controls.Add(this.comboBox5);
@@ -4350,19 +4064,88 @@
             this.panel1.Controls.Add(this.label92);
             this.panel1.Controls.Add(this.label80);
             this.panel1.Controls.Add(this.textBox21);
-            this.panel1.Location = new System.Drawing.Point(313, 295);
+            this.panel1.Location = new System.Drawing.Point(235, 236);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(397, 131);
+            this.panel1.Size = new System.Drawing.Size(298, 105);
             this.panel1.TabIndex = 200;
+            // 
+            // comboBox6
+            // 
+            this.comboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox6.FormattingEnabled = true;
+            this.comboBox6.Items.AddRange(new object[] {
+            "否",
+            "是"});
+            this.comboBox6.Location = new System.Drawing.Point(254, 51);
+            this.comboBox6.Name = "comboBox6";
+            this.comboBox6.Size = new System.Drawing.Size(42, 20);
+            this.comboBox6.TabIndex = 203;
+            // 
+            // label96
+            // 
+            this.label96.BackColor = System.Drawing.SystemColors.Control;
+            this.label96.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label96.Location = new System.Drawing.Point(184, 52);
+            this.label96.Name = "label96";
+            this.label96.Size = new System.Drawing.Size(68, 20);
+            this.label96.TabIndex = 202;
+            this.label96.Text = "重刮压墨";
+            this.label96.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label91
+            // 
+            this.label91.BackColor = System.Drawing.SystemColors.Control;
+            this.label91.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label91.Location = new System.Drawing.Point(184, 6);
+            this.label91.Name = "label91";
+            this.label91.Size = new System.Drawing.Size(68, 20);
+            this.label91.TabIndex = 199;
+            this.label91.Text = "开启闪喷";
+            this.label91.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // comboBox4
+            // 
+            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox4.FormattingEnabled = true;
+            this.comboBox4.Items.AddRange(new object[] {
+            "否",
+            "是"});
+            this.comboBox4.Location = new System.Drawing.Point(254, 6);
+            this.comboBox4.Name = "comboBox4";
+            this.comboBox4.Size = new System.Drawing.Size(42, 20);
+            this.comboBox4.TabIndex = 198;
+            // 
+            // comboBox5
+            // 
+            this.comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox5.FormattingEnabled = true;
+            this.comboBox5.Items.AddRange(new object[] {
+            "否",
+            "是"});
+            this.comboBox5.Location = new System.Drawing.Point(254, 31);
+            this.comboBox5.Name = "comboBox5";
+            this.comboBox5.Size = new System.Drawing.Size(42, 20);
+            this.comboBox5.TabIndex = 201;
+            // 
+            // label94
+            // 
+            this.label94.BackColor = System.Drawing.SystemColors.Control;
+            this.label94.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label94.Location = new System.Drawing.Point(184, 30);
+            this.label94.Name = "label94";
+            this.label94.Size = new System.Drawing.Size(68, 20);
+            this.label94.TabIndex = 171;
+            this.label94.Text = "重喷清洗";
+            this.label94.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label93
             // 
             this.label93.BackColor = System.Drawing.SystemColors.Control;
             this.label93.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label93.Location = new System.Drawing.Point(16, 34);
-            this.label93.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label93.Location = new System.Drawing.Point(12, 27);
             this.label93.Name = "label93";
-            this.label93.Size = new System.Drawing.Size(91, 25);
+            this.label93.Size = new System.Drawing.Size(68, 20);
             this.label93.TabIndex = 170;
             this.label93.Text = "刮轴转速";
             this.label93.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4370,10 +4153,9 @@
             // textBox27
             // 
             this.textBox27.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox27.Location = new System.Drawing.Point(110, 35);
-            this.textBox27.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox27.Location = new System.Drawing.Point(82, 28);
             this.textBox27.Name = "textBox27";
-            this.textBox27.Size = new System.Drawing.Size(69, 26);
+            this.textBox27.Size = new System.Drawing.Size(53, 22);
             this.textBox27.TabIndex = 170;
             this.textBox27.Text = "50";
             // 
@@ -4382,10 +4164,9 @@
             this.label92.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label92.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label92.ForeColor = System.Drawing.Color.Black;
-            this.label92.Location = new System.Drawing.Point(174, 35);
-            this.label92.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label92.Location = new System.Drawing.Point(130, 28);
             this.label92.Name = "label92";
-            this.label92.Size = new System.Drawing.Size(68, 25);
+            this.label92.Size = new System.Drawing.Size(51, 20);
             this.label92.TabIndex = 170;
             this.label92.Text = "圈/S";
             this.label92.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4394,10 +4175,9 @@
             // 
             this.label80.BackColor = System.Drawing.SystemColors.Control;
             this.label80.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label80.Location = new System.Drawing.Point(16, 97);
-            this.label80.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label80.Location = new System.Drawing.Point(12, 78);
             this.label80.Name = "label80";
-            this.label80.Size = new System.Drawing.Size(91, 25);
+            this.label80.Size = new System.Drawing.Size(68, 20);
             this.label80.TabIndex = 168;
             this.label80.Text = "清洗次数";
             this.label80.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4405,12 +4185,35 @@
             // textBox21
             // 
             this.textBox21.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox21.Location = new System.Drawing.Point(109, 97);
-            this.textBox21.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox21.Location = new System.Drawing.Point(82, 78);
             this.textBox21.Name = "textBox21";
-            this.textBox21.Size = new System.Drawing.Size(69, 26);
+            this.textBox21.Size = new System.Drawing.Size(53, 22);
             this.textBox21.TabIndex = 169;
             this.textBox21.Text = "3";
+            // 
+            // label84
+            // 
+            this.label84.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label84.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label84.ForeColor = System.Drawing.Color.Black;
+            this.label84.Location = new System.Drawing.Point(182, 314);
+            this.label84.Name = "label84";
+            this.label84.Size = new System.Drawing.Size(64, 20);
+            this.label84.TabIndex = 176;
+            this.label84.Text = "度数（°）";
+            this.label84.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label82
+            // 
+            this.label82.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label82.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label82.ForeColor = System.Drawing.Color.Black;
+            this.label82.Location = new System.Drawing.Point(184, 279);
+            this.label82.Name = "label82";
+            this.label82.Size = new System.Drawing.Size(61, 20);
+            this.label82.TabIndex = 173;
+            this.label82.Text = "度数（°）";
+            this.label82.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox9
             // 
@@ -4436,11 +4239,9 @@
             this.groupBox9.Controls.Add(this.label33);
             this.groupBox9.Controls.Add(this.label36);
             this.groupBox9.Controls.Add(this.label44);
-            this.groupBox9.Location = new System.Drawing.Point(771, 394);
-            this.groupBox9.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox9.Location = new System.Drawing.Point(578, 315);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox9.Size = new System.Drawing.Size(473, 200);
+            this.groupBox9.Size = new System.Drawing.Size(355, 160);
             this.groupBox9.TabIndex = 134;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "UV灯输出";
@@ -4449,10 +4250,9 @@
             // 
             this.CalibrateUVRangeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.CalibrateUVRangeBtn.Enabled = false;
-            this.CalibrateUVRangeBtn.Location = new System.Drawing.Point(159, 151);
-            this.CalibrateUVRangeBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.CalibrateUVRangeBtn.Location = new System.Drawing.Point(119, 121);
             this.CalibrateUVRangeBtn.Name = "CalibrateUVRangeBtn";
-            this.CalibrateUVRangeBtn.Size = new System.Drawing.Size(128, 38);
+            this.CalibrateUVRangeBtn.Size = new System.Drawing.Size(96, 30);
             this.CalibrateUVRangeBtn.TabIndex = 154;
             this.CalibrateUVRangeBtn.Tag = "1";
             this.CalibrateUVRangeBtn.Text = "校准光区";
@@ -4462,10 +4262,9 @@
             // DefaultUVRangeBtn
             // 
             this.DefaultUVRangeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.DefaultUVRangeBtn.Location = new System.Drawing.Point(13, 151);
-            this.DefaultUVRangeBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.DefaultUVRangeBtn.Location = new System.Drawing.Point(10, 121);
             this.DefaultUVRangeBtn.Name = "DefaultUVRangeBtn";
-            this.DefaultUVRangeBtn.Size = new System.Drawing.Size(133, 38);
+            this.DefaultUVRangeBtn.Size = new System.Drawing.Size(100, 30);
             this.DefaultUVRangeBtn.TabIndex = 153;
             this.DefaultUVRangeBtn.Tag = "1";
             this.DefaultUVRangeBtn.Text = "默认光区";
@@ -4475,10 +4274,9 @@
             // OpenUVBtn
             // 
             this.OpenUVBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.OpenUVBtn.Location = new System.Drawing.Point(299, 151);
-            this.OpenUVBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.OpenUVBtn.Location = new System.Drawing.Point(224, 121);
             this.OpenUVBtn.Name = "OpenUVBtn";
-            this.OpenUVBtn.Size = new System.Drawing.Size(129, 38);
+            this.OpenUVBtn.Size = new System.Drawing.Size(97, 30);
             this.OpenUVBtn.TabIndex = 29;
             this.OpenUVBtn.Tag = "1";
             this.OpenUVBtn.Text = "使能UV光源";
@@ -4490,10 +4288,9 @@
             this.label45.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label45.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label45.ForeColor = System.Drawing.Color.Black;
-            this.label45.Location = new System.Drawing.Point(392, 24);
-            this.label45.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label45.Location = new System.Drawing.Point(294, 19);
             this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(44, 25);
+            this.label45.Size = new System.Drawing.Size(33, 20);
             this.label45.TabIndex = 152;
             this.label45.Text = "%-s";
             this.label45.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4503,10 +4300,9 @@
             this.label43.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label43.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label43.ForeColor = System.Drawing.Color.Black;
-            this.label43.Location = new System.Drawing.Point(399, 109);
-            this.label43.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label43.Location = new System.Drawing.Point(299, 87);
             this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(37, 25);
+            this.label43.Size = new System.Drawing.Size(28, 20);
             this.label43.TabIndex = 150;
             this.label43.Text = "MM";
             this.label43.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4516,10 +4312,9 @@
             this.label42.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label42.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label42.ForeColor = System.Drawing.Color.Black;
-            this.label42.Location = new System.Drawing.Point(183, 109);
-            this.label42.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label42.Location = new System.Drawing.Point(137, 87);
             this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(37, 25);
+            this.label42.Size = new System.Drawing.Size(28, 20);
             this.label42.TabIndex = 149;
             this.label42.Text = "MM";
             this.label42.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4529,10 +4324,9 @@
             this.label41.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label41.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label41.ForeColor = System.Drawing.Color.Black;
-            this.label41.Location = new System.Drawing.Point(399, 66);
-            this.label41.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label41.Location = new System.Drawing.Point(299, 53);
             this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(37, 25);
+            this.label41.Size = new System.Drawing.Size(28, 20);
             this.label41.TabIndex = 148;
             this.label41.Text = "MM";
             this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4542,10 +4336,9 @@
             this.label40.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label40.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label40.ForeColor = System.Drawing.Color.Black;
-            this.label40.Location = new System.Drawing.Point(183, 65);
-            this.label40.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label40.Location = new System.Drawing.Point(137, 52);
             this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(37, 25);
+            this.label40.Size = new System.Drawing.Size(28, 20);
             this.label40.TabIndex = 147;
             this.label40.Text = "MM";
             this.label40.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4556,10 +4349,9 @@
             this.Param1Check.Checked = true;
             this.Param1Check.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Param1Check.Font = new System.Drawing.Font("宋体", 10F);
-            this.Param1Check.Location = new System.Drawing.Point(313, 208);
-            this.Param1Check.Margin = new System.Windows.Forms.Padding(4);
+            this.Param1Check.Location = new System.Drawing.Point(235, 166);
             this.Param1Check.Name = "Param1Check";
-            this.Param1Check.Size = new System.Drawing.Size(141, 21);
+            this.Param1Check.Size = new System.Drawing.Size(117, 18);
             this.Param1Check.TabIndex = 147;
             this.Param1Check.Text = "是否使能参数1";
             this.Param1Check.UseVisualStyleBackColor = true;
@@ -4567,10 +4359,9 @@
             // 
             // CycleBox
             // 
-            this.CycleBox.Location = new System.Drawing.Point(121, 28);
-            this.CycleBox.Margin = new System.Windows.Forms.Padding(4);
+            this.CycleBox.Location = new System.Drawing.Point(91, 22);
             this.CycleBox.Name = "CycleBox";
-            this.CycleBox.Size = new System.Drawing.Size(61, 25);
+            this.CycleBox.Size = new System.Drawing.Size(47, 21);
             this.CycleBox.TabIndex = 42;
             this.CycleBox.Text = "125";
             // 
@@ -4578,20 +4369,18 @@
             // 
             this.label13.BackColor = System.Drawing.Color.Salmon;
             this.label13.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label13.Location = new System.Drawing.Point(23, 28);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label13.Location = new System.Drawing.Point(17, 22);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(91, 26);
+            this.label13.Size = new System.Drawing.Size(68, 21);
             this.label13.TabIndex = 41;
             this.label13.Text = "出光频率：";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ValidBox
             // 
-            this.ValidBox.Location = new System.Drawing.Point(321, 26);
-            this.ValidBox.Margin = new System.Windows.Forms.Padding(4);
+            this.ValidBox.Location = new System.Drawing.Point(241, 21);
             this.ValidBox.Name = "ValidBox";
-            this.ValidBox.Size = new System.Drawing.Size(69, 25);
+            this.ValidBox.Size = new System.Drawing.Size(53, 21);
             this.ValidBox.TabIndex = 40;
             this.ValidBox.Text = "100";
             // 
@@ -4599,10 +4388,9 @@
             // 
             this.label16.BackColor = System.Drawing.Color.Salmon;
             this.label16.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label16.Location = new System.Drawing.Point(224, 25);
-            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label16.Location = new System.Drawing.Point(168, 20);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(91, 26);
+            this.label16.Size = new System.Drawing.Size(68, 21);
             this.label16.TabIndex = 39;
             this.label16.Text = "有效时间：";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4610,20 +4398,18 @@
             // UV2LimitDown
             // 
             this.UV2LimitDown.Enabled = false;
-            this.UV2LimitDown.Location = new System.Drawing.Point(321, 109);
-            this.UV2LimitDown.Margin = new System.Windows.Forms.Padding(4);
+            this.UV2LimitDown.Location = new System.Drawing.Point(241, 87);
             this.UV2LimitDown.Name = "UV2LimitDown";
-            this.UV2LimitDown.Size = new System.Drawing.Size(69, 25);
+            this.UV2LimitDown.Size = new System.Drawing.Size(53, 21);
             this.UV2LimitDown.TabIndex = 38;
             this.UV2LimitDown.Text = "1000";
             // 
             // UV2LimitUp
             // 
             this.UV2LimitUp.Enabled = false;
-            this.UV2LimitUp.Location = new System.Drawing.Point(321, 68);
-            this.UV2LimitUp.Margin = new System.Windows.Forms.Padding(4);
+            this.UV2LimitUp.Location = new System.Drawing.Point(241, 54);
             this.UV2LimitUp.Name = "UV2LimitUp";
-            this.UV2LimitUp.Size = new System.Drawing.Size(69, 25);
+            this.UV2LimitUp.Size = new System.Drawing.Size(53, 21);
             this.UV2LimitUp.TabIndex = 37;
             this.UV2LimitUp.Text = "0";
             // 
@@ -4631,10 +4417,9 @@
             // 
             this.label17.BackColor = System.Drawing.SystemColors.Highlight;
             this.label17.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label17.Location = new System.Drawing.Point(224, 109);
-            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label17.Location = new System.Drawing.Point(168, 87);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(91, 26);
+            this.label17.Size = new System.Drawing.Size(68, 21);
             this.label17.TabIndex = 36;
             this.label17.Text = "右灯关闭：";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4643,10 +4428,9 @@
             // 
             this.label32.BackColor = System.Drawing.SystemColors.Highlight;
             this.label32.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label32.Location = new System.Drawing.Point(224, 68);
-            this.label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label32.Location = new System.Drawing.Point(168, 54);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(91, 26);
+            this.label32.Size = new System.Drawing.Size(68, 21);
             this.label32.TabIndex = 35;
             this.label32.Text = "右灯开启：";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4654,20 +4438,18 @@
             // UV1LimitDown
             // 
             this.UV1LimitDown.Enabled = false;
-            this.UV1LimitDown.Location = new System.Drawing.Point(121, 109);
-            this.UV1LimitDown.Margin = new System.Windows.Forms.Padding(4);
+            this.UV1LimitDown.Location = new System.Drawing.Point(91, 87);
             this.UV1LimitDown.Name = "UV1LimitDown";
-            this.UV1LimitDown.Size = new System.Drawing.Size(65, 25);
+            this.UV1LimitDown.Size = new System.Drawing.Size(48, 21);
             this.UV1LimitDown.TabIndex = 34;
             this.UV1LimitDown.Text = "1000";
             // 
             // UV1LimitUp
             // 
             this.UV1LimitUp.Enabled = false;
-            this.UV1LimitUp.Location = new System.Drawing.Point(121, 68);
-            this.UV1LimitUp.Margin = new System.Windows.Forms.Padding(4);
+            this.UV1LimitUp.Location = new System.Drawing.Point(91, 54);
             this.UV1LimitUp.Name = "UV1LimitUp";
-            this.UV1LimitUp.Size = new System.Drawing.Size(64, 25);
+            this.UV1LimitUp.Size = new System.Drawing.Size(47, 21);
             this.UV1LimitUp.TabIndex = 33;
             this.UV1LimitUp.Text = "0";
             // 
@@ -4675,10 +4457,9 @@
             // 
             this.label33.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.label33.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label33.Location = new System.Drawing.Point(23, 109);
-            this.label33.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label33.Location = new System.Drawing.Point(17, 87);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(91, 26);
+            this.label33.Size = new System.Drawing.Size(68, 21);
             this.label33.TabIndex = 32;
             this.label33.Text = "左灯关闭：";
             this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4687,10 +4468,9 @@
             // 
             this.label36.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.label36.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label36.Location = new System.Drawing.Point(23, 68);
-            this.label36.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label36.Location = new System.Drawing.Point(17, 54);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(91, 26);
+            this.label36.Size = new System.Drawing.Size(68, 21);
             this.label36.TabIndex = 31;
             this.label36.Text = "左灯开启：";
             this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4700,10 +4480,9 @@
             this.label44.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label44.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label44.ForeColor = System.Drawing.Color.Black;
-            this.label44.Location = new System.Drawing.Point(180, 26);
-            this.label44.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label44.Location = new System.Drawing.Point(135, 21);
             this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(37, 25);
+            this.label44.Size = new System.Drawing.Size(28, 20);
             this.label44.TabIndex = 151;
             this.label44.Text = "Hz";
             this.label44.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4714,10 +4493,9 @@
             this.checkBox6.Checked = true;
             this.checkBox6.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox6.Enabled = false;
-            this.checkBox6.Location = new System.Drawing.Point(1297, 651);
-            this.checkBox6.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBox6.Location = new System.Drawing.Point(973, 521);
             this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(97, 19);
+            this.checkBox6.Size = new System.Drawing.Size(78, 16);
             this.checkBox6.TabIndex = 57;
             this.checkBox6.Text = "双X轴同步";
             this.checkBox6.UseVisualStyleBackColor = true;
@@ -4731,11 +4509,9 @@
             this.groupBox18.Controls.Add(this.GetPrintEncoder);
             this.groupBox18.Controls.Add(this.GetOutputIO);
             this.groupBox18.Controls.Add(this.GetUsbOutput);
-            this.groupBox18.Location = new System.Drawing.Point(1768, 240);
-            this.groupBox18.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox18.Location = new System.Drawing.Point(1326, 192);
             this.groupBox18.Name = "groupBox18";
-            this.groupBox18.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox18.Size = new System.Drawing.Size(231, 282);
+            this.groupBox18.Size = new System.Drawing.Size(173, 226);
             this.groupBox18.TabIndex = 129;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "读取";
@@ -4744,10 +4520,9 @@
             // button29
             // 
             this.button29.BackColor = System.Drawing.Color.Gold;
-            this.button29.Location = new System.Drawing.Point(8, 18);
-            this.button29.Margin = new System.Windows.Forms.Padding(4);
+            this.button29.Location = new System.Drawing.Point(6, 14);
             this.button29.Name = "button29";
-            this.button29.Size = new System.Drawing.Size(212, 31);
+            this.button29.Size = new System.Drawing.Size(159, 25);
             this.button29.TabIndex = 127;
             this.button29.Text = "读取保留输入GetInputIO";
             this.button29.UseVisualStyleBackColor = false;
@@ -4756,10 +4531,9 @@
             // button28
             // 
             this.button28.BackColor = System.Drawing.Color.Gold;
-            this.button28.Location = new System.Drawing.Point(8, 196);
-            this.button28.Margin = new System.Windows.Forms.Padding(4);
+            this.button28.Location = new System.Drawing.Point(6, 157);
             this.button28.Name = "button28";
-            this.button28.Size = new System.Drawing.Size(212, 38);
+            this.button28.Size = new System.Drawing.Size(159, 30);
             this.button28.TabIndex = 123;
             this.button28.Text = "读取保留输入GetInputIO";
             this.button28.UseVisualStyleBackColor = false;
@@ -4769,10 +4543,9 @@
             // 
             this.GetUsbInput.BackColor = System.Drawing.Color.DarkOrange;
             this.GetUsbInput.Enabled = false;
-            this.GetUsbInput.Location = new System.Drawing.Point(8, 238);
-            this.GetUsbInput.Margin = new System.Windows.Forms.Padding(4);
+            this.GetUsbInput.Location = new System.Drawing.Point(6, 190);
             this.GetUsbInput.Name = "GetUsbInput";
-            this.GetUsbInput.Size = new System.Drawing.Size(212, 41);
+            this.GetUsbInput.Size = new System.Drawing.Size(159, 33);
             this.GetUsbInput.TabIndex = 118;
             this.GetUsbInput.Text = "读取车头板保留输入GetUsbInput";
             this.GetUsbInput.UseVisualStyleBackColor = false;
@@ -4782,10 +4555,9 @@
             // GetPrintEncoder
             // 
             this.GetPrintEncoder.BackColor = System.Drawing.Color.Gold;
-            this.GetPrintEncoder.Location = new System.Drawing.Point(8, 142);
-            this.GetPrintEncoder.Margin = new System.Windows.Forms.Padding(4);
+            this.GetPrintEncoder.Location = new System.Drawing.Point(6, 114);
             this.GetPrintEncoder.Name = "GetPrintEncoder";
-            this.GetPrintEncoder.Size = new System.Drawing.Size(212, 48);
+            this.GetPrintEncoder.Size = new System.Drawing.Size(159, 38);
             this.GetPrintEncoder.TabIndex = 125;
             this.GetPrintEncoder.Text = "读取打印编码值GetPrintEncoder";
             this.GetPrintEncoder.UseVisualStyleBackColor = false;
@@ -4794,10 +4566,9 @@
             // GetOutputIO
             // 
             this.GetOutputIO.BackColor = System.Drawing.Color.Yellow;
-            this.GetOutputIO.Location = new System.Drawing.Point(8, 58);
-            this.GetOutputIO.Margin = new System.Windows.Forms.Padding(4);
+            this.GetOutputIO.Location = new System.Drawing.Point(6, 46);
             this.GetOutputIO.Name = "GetOutputIO";
-            this.GetOutputIO.Size = new System.Drawing.Size(211, 29);
+            this.GetOutputIO.Size = new System.Drawing.Size(158, 23);
             this.GetOutputIO.TabIndex = 126;
             this.GetOutputIO.Text = "读取保留输出GetOutputIO";
             this.GetOutputIO.UseVisualStyleBackColor = false;
@@ -4806,10 +4577,9 @@
             // GetUsbOutput
             // 
             this.GetUsbOutput.BackColor = System.Drawing.Color.Gold;
-            this.GetUsbOutput.Location = new System.Drawing.Point(8, 91);
-            this.GetUsbOutput.Margin = new System.Windows.Forms.Padding(4);
+            this.GetUsbOutput.Location = new System.Drawing.Point(6, 73);
             this.GetUsbOutput.Name = "GetUsbOutput";
-            this.GetUsbOutput.Size = new System.Drawing.Size(212, 46);
+            this.GetUsbOutput.Size = new System.Drawing.Size(159, 37);
             this.GetUsbOutput.TabIndex = 119;
             this.GetUsbOutput.Text = "读取车头板保留输出GetUsbOutput";
             this.GetUsbOutput.UseVisualStyleBackColor = false;
@@ -4819,11 +4589,9 @@
             // 
             this.groupBox17.Controls.Add(this.SetUsbOutput);
             this.groupBox17.Controls.Add(this.ResetPrintEncoder);
-            this.groupBox17.Location = new System.Drawing.Point(1768, 24);
-            this.groupBox17.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox17.Location = new System.Drawing.Point(1326, 19);
             this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox17.Size = new System.Drawing.Size(231, 214);
+            this.groupBox17.Size = new System.Drawing.Size(173, 171);
             this.groupBox17.TabIndex = 128;
             this.groupBox17.TabStop = false;
             this.groupBox17.Text = "输出";
@@ -4832,10 +4600,9 @@
             // SetUsbOutput
             // 
             this.SetUsbOutput.BackColor = System.Drawing.Color.DarkOrange;
-            this.SetUsbOutput.Location = new System.Drawing.Point(8, 68);
-            this.SetUsbOutput.Margin = new System.Windows.Forms.Padding(4);
+            this.SetUsbOutput.Location = new System.Drawing.Point(6, 54);
             this.SetUsbOutput.Name = "SetUsbOutput";
-            this.SetUsbOutput.Size = new System.Drawing.Size(212, 46);
+            this.SetUsbOutput.Size = new System.Drawing.Size(159, 37);
             this.SetUsbOutput.TabIndex = 121;
             this.SetUsbOutput.Text = "设置车头板保留输出SetUsbOutput";
             this.SetUsbOutput.UseVisualStyleBackColor = false;
@@ -4844,10 +4611,9 @@
             // ResetPrintEncoder
             // 
             this.ResetPrintEncoder.BackColor = System.Drawing.Color.Gold;
-            this.ResetPrintEncoder.Location = new System.Drawing.Point(8, 114);
-            this.ResetPrintEncoder.Margin = new System.Windows.Forms.Padding(4);
+            this.ResetPrintEncoder.Location = new System.Drawing.Point(6, 91);
             this.ResetPrintEncoder.Name = "ResetPrintEncoder";
-            this.ResetPrintEncoder.Size = new System.Drawing.Size(212, 42);
+            this.ResetPrintEncoder.Size = new System.Drawing.Size(159, 34);
             this.ResetPrintEncoder.TabIndex = 124;
             this.ResetPrintEncoder.Text = "重置打印编码值ResetPrintEncoder";
             this.ResetPrintEncoder.UseVisualStyleBackColor = false;
@@ -4857,11 +4623,9 @@
             // 
             this.groupBox10.Controls.Add(this.DEV_AdibControl);
             this.groupBox10.Controls.Add(this.SetPwmParam);
-            this.groupBox10.Location = new System.Drawing.Point(1300, 370);
-            this.groupBox10.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox10.Location = new System.Drawing.Point(975, 296);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox10.Size = new System.Drawing.Size(231, 125);
+            this.groupBox10.Size = new System.Drawing.Size(173, 100);
             this.groupBox10.TabIndex = 116;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "10-负压及UV灯控制";
@@ -4870,10 +4634,9 @@
             // DEV_AdibControl
             // 
             this.DEV_AdibControl.BackColor = System.Drawing.Color.Yellow;
-            this.DEV_AdibControl.Location = new System.Drawing.Point(8, 21);
-            this.DEV_AdibControl.Margin = new System.Windows.Forms.Padding(4);
+            this.DEV_AdibControl.Location = new System.Drawing.Point(6, 17);
             this.DEV_AdibControl.Name = "DEV_AdibControl";
-            this.DEV_AdibControl.Size = new System.Drawing.Size(213, 51);
+            this.DEV_AdibControl.Size = new System.Drawing.Size(160, 41);
             this.DEV_AdibControl.TabIndex = 83;
             this.DEV_AdibControl.Text = "负压和温度设置和回读\r\nDEV_AdibControl";
             this.DEV_AdibControl.UseVisualStyleBackColor = false;
@@ -4882,10 +4645,9 @@
             // SetPwmParam
             // 
             this.SetPwmParam.BackColor = System.Drawing.Color.DarkOrange;
-            this.SetPwmParam.Location = new System.Drawing.Point(8, 75);
-            this.SetPwmParam.Margin = new System.Windows.Forms.Padding(4);
+            this.SetPwmParam.Location = new System.Drawing.Point(6, 60);
             this.SetPwmParam.Name = "SetPwmParam";
-            this.SetPwmParam.Size = new System.Drawing.Size(212, 46);
+            this.SetPwmParam.Size = new System.Drawing.Size(159, 37);
             this.SetPwmParam.TabIndex = 117;
             this.SetPwmParam.Text = "UV灯功率设置SetPwmParam\r\n";
             this.SetPwmParam.UseVisualStyleBackColor = false;
@@ -4895,11 +4657,9 @@
             // 
             this.groupBox16.Controls.Add(this.ReloadWaveForm);
             this.groupBox16.Controls.Add(this.DEV_CloseDevice);
-            this.groupBox16.Location = new System.Drawing.Point(1529, 14);
-            this.groupBox16.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox16.Location = new System.Drawing.Point(1147, 11);
             this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox16.Size = new System.Drawing.Size(231, 128);
+            this.groupBox16.Size = new System.Drawing.Size(173, 102);
             this.groupBox16.TabIndex = 115;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "5";
@@ -4908,10 +4668,9 @@
             // ReloadWaveForm
             // 
             this.ReloadWaveForm.BackColor = System.Drawing.Color.Yellow;
-            this.ReloadWaveForm.Location = new System.Drawing.Point(8, 20);
-            this.ReloadWaveForm.Margin = new System.Windows.Forms.Padding(4);
+            this.ReloadWaveForm.Location = new System.Drawing.Point(6, 16);
             this.ReloadWaveForm.Name = "ReloadWaveForm";
-            this.ReloadWaveForm.Size = new System.Drawing.Size(213, 51);
+            this.ReloadWaveForm.Size = new System.Drawing.Size(160, 41);
             this.ReloadWaveForm.TabIndex = 63;
             this.ReloadWaveForm.Text = "波形重新加载\r\nDEV_ReloadWaveForm";
             this.ReloadWaveForm.UseVisualStyleBackColor = false;
@@ -4920,10 +4679,9 @@
             // DEV_CloseDevice
             // 
             this.DEV_CloseDevice.BackColor = System.Drawing.Color.Gold;
-            this.DEV_CloseDevice.Location = new System.Drawing.Point(8, 74);
-            this.DEV_CloseDevice.Margin = new System.Windows.Forms.Padding(4);
+            this.DEV_CloseDevice.Location = new System.Drawing.Point(6, 59);
             this.DEV_CloseDevice.Name = "DEV_CloseDevice";
-            this.DEV_CloseDevice.Size = new System.Drawing.Size(213, 51);
+            this.DEV_CloseDevice.Size = new System.Drawing.Size(160, 41);
             this.DEV_CloseDevice.TabIndex = 64;
             this.DEV_CloseDevice.Text = "关闭设备连接\r\nDEV_CloseDevice";
             this.DEV_CloseDevice.UseVisualStyleBackColor = false;
@@ -4933,11 +4691,9 @@
             // 
             this.groupBox15.Controls.Add(this.DEV_SetVitualPrint);
             this.groupBox15.Controls.Add(this.DEV_SetVirtualPrtEncoder);
-            this.groupBox15.Location = new System.Drawing.Point(1299, 250);
-            this.groupBox15.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox15.Location = new System.Drawing.Point(974, 200);
             this.groupBox15.Name = "groupBox15";
-            this.groupBox15.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox15.Size = new System.Drawing.Size(231, 111);
+            this.groupBox15.Size = new System.Drawing.Size(173, 89);
             this.groupBox15.TabIndex = 114;
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "2-虚拟打印处理";
@@ -4947,10 +4703,9 @@
             // 
             this.DEV_SetVitualPrint.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.DEV_SetVitualPrint.BackColor = System.Drawing.Color.Aquamarine;
-            this.DEV_SetVitualPrint.Location = new System.Drawing.Point(9, 20);
-            this.DEV_SetVitualPrint.Margin = new System.Windows.Forms.Padding(4);
+            this.DEV_SetVitualPrint.Location = new System.Drawing.Point(7, 16);
             this.DEV_SetVitualPrint.Name = "DEV_SetVitualPrint";
-            this.DEV_SetVitualPrint.Size = new System.Drawing.Size(212, 39);
+            this.DEV_SetVitualPrint.Size = new System.Drawing.Size(159, 31);
             this.DEV_SetVitualPrint.TabIndex = 111;
             this.DEV_SetVitualPrint.Text = "DEV_SetVitualPrint";
             this.DEV_SetVitualPrint.UseVisualStyleBackColor = false;
@@ -4959,10 +4714,9 @@
             // DEV_SetVirtualPrtEncoder
             // 
             this.DEV_SetVirtualPrtEncoder.BackColor = System.Drawing.Color.Aquamarine;
-            this.DEV_SetVirtualPrtEncoder.Location = new System.Drawing.Point(9, 68);
-            this.DEV_SetVirtualPrtEncoder.Margin = new System.Windows.Forms.Padding(4);
+            this.DEV_SetVirtualPrtEncoder.Location = new System.Drawing.Point(7, 54);
             this.DEV_SetVirtualPrtEncoder.Name = "DEV_SetVirtualPrtEncoder";
-            this.DEV_SetVirtualPrtEncoder.Size = new System.Drawing.Size(212, 39);
+            this.DEV_SetVirtualPrtEncoder.Size = new System.Drawing.Size(159, 31);
             this.DEV_SetVirtualPrtEncoder.TabIndex = 112;
             this.DEV_SetVirtualPrtEncoder.Text = "DEV_SetVirtualPrtEncoder";
             this.DEV_SetVirtualPrtEncoder.UseVisualStyleBackColor = false;
@@ -4971,11 +4725,9 @@
             // 
             this.groupBox14.Controls.Add(this.SetValidDrvMask);
             this.groupBox14.Controls.Add(this.EnableDrvOutput);
-            this.groupBox14.Location = new System.Drawing.Point(1529, 142);
-            this.groupBox14.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox14.Location = new System.Drawing.Point(1147, 114);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox14.Size = new System.Drawing.Size(231, 116);
+            this.groupBox14.Size = new System.Drawing.Size(173, 93);
             this.groupBox14.TabIndex = 108;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "6";
@@ -4984,10 +4736,9 @@
             // SetValidDrvMask
             // 
             this.SetValidDrvMask.BackColor = System.Drawing.Color.Gold;
-            this.SetValidDrvMask.Location = new System.Drawing.Point(8, 19);
-            this.SetValidDrvMask.Margin = new System.Windows.Forms.Padding(4);
+            this.SetValidDrvMask.Location = new System.Drawing.Point(6, 15);
             this.SetValidDrvMask.Name = "SetValidDrvMask";
-            this.SetValidDrvMask.Size = new System.Drawing.Size(213, 40);
+            this.SetValidDrvMask.Size = new System.Drawing.Size(160, 32);
             this.SetValidDrvMask.TabIndex = 65;
             this.SetValidDrvMask.Text = "设置有效驱动卡 DEV_SetValidDrvMask";
             this.SetValidDrvMask.UseVisualStyleBackColor = false;
@@ -4996,10 +4747,9 @@
             // EnableDrvOutput
             // 
             this.EnableDrvOutput.BackColor = System.Drawing.Color.Yellow;
-            this.EnableDrvOutput.Location = new System.Drawing.Point(8, 68);
-            this.EnableDrvOutput.Margin = new System.Windows.Forms.Padding(4);
+            this.EnableDrvOutput.Location = new System.Drawing.Point(6, 54);
             this.EnableDrvOutput.Name = "EnableDrvOutput";
-            this.EnableDrvOutput.Size = new System.Drawing.Size(213, 40);
+            this.EnableDrvOutput.Size = new System.Drawing.Size(160, 32);
             this.EnableDrvOutput.TabIndex = 66;
             this.EnableDrvOutput.Text = "设置Fire信号输出DEV_EnableDrvOutput";
             this.EnableDrvOutput.UseVisualStyleBackColor = false;
@@ -5012,11 +4762,9 @@
             this.groupBox13.Controls.Add(this.GetCurPhVoltage);
             this.groupBox13.Controls.Add(this.GetCurPhTemp);
             this.groupBox13.Controls.Add(this.MCU_GetState);
-            this.groupBox13.Location = new System.Drawing.Point(1300, 502);
-            this.groupBox13.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox13.Location = new System.Drawing.Point(975, 402);
             this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox13.Size = new System.Drawing.Size(231, 275);
+            this.groupBox13.Size = new System.Drawing.Size(173, 220);
             this.groupBox13.TabIndex = 106;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "4-温度电压控制";
@@ -5025,10 +4773,9 @@
             // SetPhVoltage
             // 
             this.SetPhVoltage.BackColor = System.Drawing.Color.Yellow;
-            this.SetPhVoltage.Location = new System.Drawing.Point(8, 21);
-            this.SetPhVoltage.Margin = new System.Windows.Forms.Padding(4);
+            this.SetPhVoltage.Location = new System.Drawing.Point(6, 17);
             this.SetPhVoltage.Name = "SetPhVoltage";
-            this.SetPhVoltage.Size = new System.Drawing.Size(213, 41);
+            this.SetPhVoltage.Size = new System.Drawing.Size(160, 33);
             this.SetPhVoltage.TabIndex = 58;
             this.SetPhVoltage.Text = "喷头电压设定MCU_SetPhVoltage";
             this.SetPhVoltage.UseVisualStyleBackColor = false;
@@ -5036,10 +4783,9 @@
             // SetStdVoltage
             // 
             this.SetStdVoltage.BackColor = System.Drawing.Color.Yellow;
-            this.SetStdVoltage.Location = new System.Drawing.Point(8, 65);
-            this.SetStdVoltage.Margin = new System.Windows.Forms.Padding(4);
+            this.SetStdVoltage.Location = new System.Drawing.Point(6, 52);
             this.SetStdVoltage.Name = "SetStdVoltage";
-            this.SetStdVoltage.Size = new System.Drawing.Size(213, 48);
+            this.SetStdVoltage.Size = new System.Drawing.Size(160, 38);
             this.SetStdVoltage.TabIndex = 59;
             this.SetStdVoltage.Text = "喷头温度设定MCU_SetStdTemp";
             this.SetStdVoltage.UseVisualStyleBackColor = false;
@@ -5047,10 +4793,9 @@
             // GetCurPhVoltage
             // 
             this.GetCurPhVoltage.BackColor = System.Drawing.Color.Yellow;
-            this.GetCurPhVoltage.Location = new System.Drawing.Point(8, 118);
-            this.GetCurPhVoltage.Margin = new System.Windows.Forms.Padding(4);
+            this.GetCurPhVoltage.Location = new System.Drawing.Point(6, 94);
             this.GetCurPhVoltage.Name = "GetCurPhVoltage";
-            this.GetCurPhVoltage.Size = new System.Drawing.Size(213, 51);
+            this.GetCurPhVoltage.Size = new System.Drawing.Size(160, 41);
             this.GetCurPhVoltage.TabIndex = 60;
             this.GetCurPhVoltage.Text = "喷头电压获取MCU_GetCurPhVoltage";
             this.GetCurPhVoltage.UseVisualStyleBackColor = false;
@@ -5058,10 +4803,9 @@
             // GetCurPhTemp
             // 
             this.GetCurPhTemp.BackColor = System.Drawing.Color.Yellow;
-            this.GetCurPhTemp.Location = new System.Drawing.Point(8, 175);
-            this.GetCurPhTemp.Margin = new System.Windows.Forms.Padding(4);
+            this.GetCurPhTemp.Location = new System.Drawing.Point(6, 140);
             this.GetCurPhTemp.Name = "GetCurPhTemp";
-            this.GetCurPhTemp.Size = new System.Drawing.Size(213, 49);
+            this.GetCurPhTemp.Size = new System.Drawing.Size(160, 39);
             this.GetCurPhTemp.TabIndex = 61;
             this.GetCurPhTemp.Text = "喷头温度获取MCU_GetCurPhTemp";
             this.GetCurPhTemp.UseVisualStyleBackColor = false;
@@ -5069,10 +4813,9 @@
             // MCU_GetState
             // 
             this.MCU_GetState.BackColor = System.Drawing.Color.Yellow;
-            this.MCU_GetState.Location = new System.Drawing.Point(8, 226);
-            this.MCU_GetState.Margin = new System.Windows.Forms.Padding(4);
+            this.MCU_GetState.Location = new System.Drawing.Point(6, 181);
             this.MCU_GetState.Name = "MCU_GetState";
-            this.MCU_GetState.Size = new System.Drawing.Size(213, 44);
+            this.MCU_GetState.Size = new System.Drawing.Size(160, 35);
             this.MCU_GetState.TabIndex = 62;
             this.MCU_GetState.Text = "温度电压获取\r\nMCU_GetState";
             this.MCU_GetState.UseVisualStyleBackColor = false;
@@ -5081,10 +4824,9 @@
             // 
             this.OpenVitualEncodeBtn.BackColor = System.Drawing.Color.Yellow;
             this.OpenVitualEncodeBtn.Enabled = false;
-            this.OpenVitualEncodeBtn.Location = new System.Drawing.Point(1300, 616);
-            this.OpenVitualEncodeBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.OpenVitualEncodeBtn.Location = new System.Drawing.Point(975, 493);
             this.OpenVitualEncodeBtn.Name = "OpenVitualEncodeBtn";
-            this.OpenVitualEncodeBtn.Size = new System.Drawing.Size(113, 38);
+            this.OpenVitualEncodeBtn.Size = new System.Drawing.Size(85, 30);
             this.OpenVitualEncodeBtn.TabIndex = 30;
             this.OpenVitualEncodeBtn.Tag = "1";
             this.OpenVitualEncodeBtn.Text = "打开虚拟打印";
@@ -5099,11 +4841,9 @@
             this.groupBox12.Controls.Add(this.DoPassPrint);
             this.groupBox12.Controls.Add(this.PausePassPrint);
             this.groupBox12.Controls.Add(this.StopPrintJob);
-            this.groupBox12.Location = new System.Drawing.Point(1537, 295);
-            this.groupBox12.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox12.Location = new System.Drawing.Point(1153, 236);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox12.Size = new System.Drawing.Size(231, 320);
+            this.groupBox12.Size = new System.Drawing.Size(173, 256);
             this.groupBox12.TabIndex = 105;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "2-图像打印处理";
@@ -5112,10 +4852,9 @@
             // FlashPrtCtl
             // 
             this.FlashPrtCtl.BackColor = System.Drawing.Color.Yellow;
-            this.FlashPrtCtl.Location = new System.Drawing.Point(8, 251);
-            this.FlashPrtCtl.Margin = new System.Windows.Forms.Padding(4);
+            this.FlashPrtCtl.Location = new System.Drawing.Point(6, 201);
             this.FlashPrtCtl.Name = "FlashPrtCtl";
-            this.FlashPrtCtl.Size = new System.Drawing.Size(213, 41);
+            this.FlashPrtCtl.Size = new System.Drawing.Size(160, 33);
             this.FlashPrtCtl.TabIndex = 53;
             this.FlashPrtCtl.Text = "开启闪喷打印IDP_FlashPrtCtl";
             this.FlashPrtCtl.UseVisualStyleBackColor = false;
@@ -5124,10 +4863,9 @@
             // SartPrintJob
             // 
             this.SartPrintJob.BackColor = System.Drawing.Color.Yellow;
-            this.SartPrintJob.Location = new System.Drawing.Point(8, 21);
-            this.SartPrintJob.Margin = new System.Windows.Forms.Padding(4);
+            this.SartPrintJob.Location = new System.Drawing.Point(6, 17);
             this.SartPrintJob.Name = "SartPrintJob";
-            this.SartPrintJob.Size = new System.Drawing.Size(213, 51);
+            this.SartPrintJob.Size = new System.Drawing.Size(160, 41);
             this.SartPrintJob.TabIndex = 45;
             this.SartPrintJob.Text = "启动任务作业IDP_SartPrintJob";
             this.SartPrintJob.UseVisualStyleBackColor = false;
@@ -5136,10 +4874,9 @@
             // DoPassPrint
             // 
             this.DoPassPrint.BackColor = System.Drawing.Color.Yellow;
-            this.DoPassPrint.Location = new System.Drawing.Point(8, 90);
-            this.DoPassPrint.Margin = new System.Windows.Forms.Padding(4);
+            this.DoPassPrint.Location = new System.Drawing.Point(6, 72);
             this.DoPassPrint.Name = "DoPassPrint";
-            this.DoPassPrint.Size = new System.Drawing.Size(213, 51);
+            this.DoPassPrint.Size = new System.Drawing.Size(160, 41);
             this.DoPassPrint.TabIndex = 49;
             this.DoPassPrint.Text = "执行PASS1打印IDP_DoPassPrint";
             this.DoPassPrint.UseVisualStyleBackColor = false;
@@ -5148,10 +4885,9 @@
             // PausePassPrint
             // 
             this.PausePassPrint.BackColor = System.Drawing.Color.Yellow;
-            this.PausePassPrint.Location = new System.Drawing.Point(9, 152);
-            this.PausePassPrint.Margin = new System.Windows.Forms.Padding(4);
+            this.PausePassPrint.Location = new System.Drawing.Point(7, 122);
             this.PausePassPrint.Name = "PausePassPrint";
-            this.PausePassPrint.Size = new System.Drawing.Size(213, 46);
+            this.PausePassPrint.Size = new System.Drawing.Size(160, 37);
             this.PausePassPrint.TabIndex = 51;
             this.PausePassPrint.Text = "暂停PASS打印IDP_PausePassPrint";
             this.PausePassPrint.UseVisualStyleBackColor = false;
@@ -5160,10 +4896,9 @@
             // StopPrintJob
             // 
             this.StopPrintJob.BackColor = System.Drawing.Color.Yellow;
-            this.StopPrintJob.Location = new System.Drawing.Point(9, 204);
-            this.StopPrintJob.Margin = new System.Windows.Forms.Padding(4);
+            this.StopPrintJob.Location = new System.Drawing.Point(7, 163);
             this.StopPrintJob.Name = "StopPrintJob";
-            this.StopPrintJob.Size = new System.Drawing.Size(213, 40);
+            this.StopPrintJob.Size = new System.Drawing.Size(160, 32);
             this.StopPrintJob.TabIndex = 52;
             this.StopPrintJob.Text = "停止PASS打印IDP_StopPrintJob";
             this.StopPrintJob.UseVisualStyleBackColor = false;
@@ -5175,11 +4910,9 @@
             this.groupBox11.Controls.Add(this.OpenDEV);
             this.groupBox11.Controls.Add(this.DEV_InitDevice);
             this.groupBox11.Controls.Add(this.DEV_GetDeviceInfo);
-            this.groupBox11.Location = new System.Drawing.Point(1291, 15);
-            this.groupBox11.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox11.Location = new System.Drawing.Point(968, 12);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox11.Size = new System.Drawing.Size(231, 222);
+            this.groupBox11.Size = new System.Drawing.Size(173, 178);
             this.groupBox11.TabIndex = 104;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "1-设备通讯及基本接口控制";
@@ -5188,10 +4921,9 @@
             // DEV_UpdateParam
             // 
             this.DEV_UpdateParam.BackColor = System.Drawing.Color.Gold;
-            this.DEV_UpdateParam.Location = new System.Drawing.Point(8, 66);
-            this.DEV_UpdateParam.Margin = new System.Windows.Forms.Padding(4);
+            this.DEV_UpdateParam.Location = new System.Drawing.Point(6, 53);
             this.DEV_UpdateParam.Name = "DEV_UpdateParam";
-            this.DEV_UpdateParam.Size = new System.Drawing.Size(213, 42);
+            this.DEV_UpdateParam.Size = new System.Drawing.Size(160, 34);
             this.DEV_UpdateParam.TabIndex = 42;
             this.DEV_UpdateParam.Text = "更新设备参数DEV_UpdateParam";
             this.DEV_UpdateParam.UseVisualStyleBackColor = false;
@@ -5200,10 +4932,9 @@
             // OpenDEV
             // 
             this.OpenDEV.BackColor = System.Drawing.Color.Gold;
-            this.OpenDEV.Location = new System.Drawing.Point(8, 25);
-            this.OpenDEV.Margin = new System.Windows.Forms.Padding(4);
+            this.OpenDEV.Location = new System.Drawing.Point(6, 20);
             this.OpenDEV.Name = "OpenDEV";
-            this.OpenDEV.Size = new System.Drawing.Size(213, 40);
+            this.OpenDEV.Size = new System.Drawing.Size(160, 32);
             this.OpenDEV.TabIndex = 41;
             this.OpenDEV.Text = "打开设备dev-opendevice";
             this.OpenDEV.UseVisualStyleBackColor = false;
@@ -5212,10 +4943,9 @@
             // DEV_InitDevice
             // 
             this.DEV_InitDevice.BackColor = System.Drawing.Color.Gold;
-            this.DEV_InitDevice.Location = new System.Drawing.Point(8, 112);
-            this.DEV_InitDevice.Margin = new System.Windows.Forms.Padding(4);
+            this.DEV_InitDevice.Location = new System.Drawing.Point(6, 90);
             this.DEV_InitDevice.Name = "DEV_InitDevice";
-            this.DEV_InitDevice.Size = new System.Drawing.Size(213, 48);
+            this.DEV_InitDevice.Size = new System.Drawing.Size(160, 38);
             this.DEV_InitDevice.TabIndex = 43;
             this.DEV_InitDevice.Text = "初始化设备参数dev-initdevice";
             this.DEV_InitDevice.UseVisualStyleBackColor = false;
@@ -5224,10 +4954,9 @@
             // DEV_GetDeviceInfo
             // 
             this.DEV_GetDeviceInfo.BackColor = System.Drawing.Color.Gold;
-            this.DEV_GetDeviceInfo.Location = new System.Drawing.Point(8, 162);
-            this.DEV_GetDeviceInfo.Margin = new System.Windows.Forms.Padding(4);
+            this.DEV_GetDeviceInfo.Location = new System.Drawing.Point(6, 130);
             this.DEV_GetDeviceInfo.Name = "DEV_GetDeviceInfo";
-            this.DEV_GetDeviceInfo.Size = new System.Drawing.Size(213, 50);
+            this.DEV_GetDeviceInfo.Size = new System.Drawing.Size(160, 40);
             this.DEV_GetDeviceInfo.TabIndex = 44;
             this.DEV_GetDeviceInfo.Text = "查询设备状态dev-getdeviceinfo";
             this.DEV_GetDeviceInfo.UseVisualStyleBackColor = false;
@@ -5236,10 +4965,9 @@
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.pictureBox2.Location = new System.Drawing.Point(133, 26);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox2.Location = new System.Drawing.Point(100, 21);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(385, 32);
+            this.pictureBox2.Size = new System.Drawing.Size(289, 26);
             this.pictureBox2.TabIndex = 103;
             this.pictureBox2.TabStop = false;
             // 
@@ -5248,10 +4976,9 @@
             this.label18.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label18.Font = new System.Drawing.Font("宋体", 9F);
-            this.label18.Location = new System.Drawing.Point(23, 26);
-            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label18.Location = new System.Drawing.Point(17, 21);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(107, 32);
+            this.label18.Size = new System.Drawing.Size(81, 26);
             this.label18.TabIndex = 102;
             this.label18.Text = "粘接剂余量：";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -5275,11 +5002,9 @@
             this.groupBox23.Controls.Add(this.textBox1);
             this.groupBox23.Controls.Add(this.ADIBSetApplyBtn);
             this.groupBox23.Controls.Add(this.label20);
-            this.groupBox23.Location = new System.Drawing.Point(8, 5);
-            this.groupBox23.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox23.Location = new System.Drawing.Point(6, 4);
             this.groupBox23.Name = "groupBox23";
-            this.groupBox23.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox23.Size = new System.Drawing.Size(1236, 375);
+            this.groupBox23.Size = new System.Drawing.Size(927, 300);
             this.groupBox23.TabIndex = 146;
             this.groupBox23.TabStop = false;
             this.groupBox23.Text = "环境控制";
@@ -5287,13 +5012,12 @@
             // label88
             // 
             this.label88.ForeColor = System.Drawing.Color.DimGray;
-            this.label88.Location = new System.Drawing.Point(657, 321);
-            this.label88.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label88.Location = new System.Drawing.Point(493, 257);
             this.label88.Name = "label88";
-            this.label88.Size = new System.Drawing.Size(573, 45);
+            this.label88.Size = new System.Drawing.Size(430, 36);
             this.label88.TabIndex = 168;
             this.label88.Text = "注意：【1.默认取值波形电压】【2.小幅精确调压=》输入大于0V目标值，修改电压】【3.大幅精确调压=》输入大于0V目标值，修改电压，先加载异名波形，再加载目标波" +
-    "形】【4.恢复默认电压=》手动输入0V，加载电压，加载目标波形】";
+    "形】【4.恢复默认电压=》手动输入0V，加载电压，加载目标波形】【5.打印温度25℃】";
             // 
             // JetSetApplyBtn2
             // 
@@ -5302,10 +5026,9 @@
             this.JetSetApplyBtn2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("JetSetApplyBtn2.BackgroundImage")));
             this.JetSetApplyBtn2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.JetSetApplyBtn2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.JetSetApplyBtn2.Location = new System.Drawing.Point(1118, 191);
-            this.JetSetApplyBtn2.Margin = new System.Windows.Forms.Padding(4);
+            this.JetSetApplyBtn2.Location = new System.Drawing.Point(838, 153);
             this.JetSetApplyBtn2.Name = "JetSetApplyBtn2";
-            this.JetSetApplyBtn2.Size = new System.Drawing.Size(111, 58);
+            this.JetSetApplyBtn2.Size = new System.Drawing.Size(83, 46);
             this.JetSetApplyBtn2.TabIndex = 149;
             this.JetSetApplyBtn2.Tag = "1";
             this.JetSetApplyBtn2.Text = "修改\r\n温度";
@@ -5321,10 +5044,9 @@
             this.JetCancleApplyBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.JetCancleApplyBtn.Enabled = false;
             this.JetCancleApplyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.JetCancleApplyBtn.Location = new System.Drawing.Point(1118, 257);
-            this.JetCancleApplyBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.JetCancleApplyBtn.Location = new System.Drawing.Point(838, 206);
             this.JetCancleApplyBtn.Name = "JetCancleApplyBtn";
-            this.JetCancleApplyBtn.Size = new System.Drawing.Size(111, 58);
+            this.JetCancleApplyBtn.Size = new System.Drawing.Size(83, 46);
             this.JetCancleApplyBtn.TabIndex = 144;
             this.JetCancleApplyBtn.Tag = "1";
             this.JetCancleApplyBtn.Text = "恢复\r\n默认";
@@ -5336,10 +5058,9 @@
             this.DEV_EnableInkAutoSupply.BackColor = System.Drawing.Color.Goldenrod;
             this.DEV_EnableInkAutoSupply.Font = new System.Drawing.Font("宋体", 9F);
             this.DEV_EnableInkAutoSupply.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.DEV_EnableInkAutoSupply.Location = new System.Drawing.Point(16, 323);
-            this.DEV_EnableInkAutoSupply.Margin = new System.Windows.Forms.Padding(4);
+            this.DEV_EnableInkAutoSupply.Location = new System.Drawing.Point(12, 258);
             this.DEV_EnableInkAutoSupply.Name = "DEV_EnableInkAutoSupply";
-            this.DEV_EnableInkAutoSupply.Size = new System.Drawing.Size(107, 32);
+            this.DEV_EnableInkAutoSupply.Size = new System.Drawing.Size(80, 26);
             this.DEV_EnableInkAutoSupply.TabIndex = 120;
             this.DEV_EnableInkAutoSupply.Text = "自动供墨";
             this.DEV_EnableInkAutoSupply.UseVisualStyleBackColor = true;
@@ -5352,10 +5073,9 @@
             this.WaveformSelectBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("WaveformSelectBtn.BackgroundImage")));
             this.WaveformSelectBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.WaveformSelectBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.WaveformSelectBtn.Location = new System.Drawing.Point(1119, 30);
-            this.WaveformSelectBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.WaveformSelectBtn.Location = new System.Drawing.Point(839, 24);
             this.WaveformSelectBtn.Name = "WaveformSelectBtn";
-            this.WaveformSelectBtn.Size = new System.Drawing.Size(111, 58);
+            this.WaveformSelectBtn.Size = new System.Drawing.Size(83, 46);
             this.WaveformSelectBtn.TabIndex = 148;
             this.WaveformSelectBtn.Tag = "1";
             this.WaveformSelectBtn.Text = "选择\r\n波形";
@@ -5369,10 +5089,9 @@
             this.JetSetCheck.Checked = true;
             this.JetSetCheck.CheckState = System.Windows.Forms.CheckState.Checked;
             this.JetSetCheck.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.JetSetCheck.Location = new System.Drawing.Point(1123, 96);
-            this.JetSetCheck.Margin = new System.Windows.Forms.Padding(4);
+            this.JetSetCheck.Location = new System.Drawing.Point(842, 77);
             this.JetSetCheck.Name = "JetSetCheck";
-            this.JetSetCheck.Size = new System.Drawing.Size(102, 22);
+            this.JetSetCheck.Size = new System.Drawing.Size(82, 18);
             this.JetSetCheck.TabIndex = 147;
             this.JetSetCheck.Text = "允许设定";
             this.JetSetCheck.UseVisualStyleBackColor = true;
@@ -5385,10 +5104,9 @@
             this.JetSetApplyBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("JetSetApplyBtn.BackgroundImage")));
             this.JetSetApplyBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.JetSetApplyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.JetSetApplyBtn.Location = new System.Drawing.Point(1119, 128);
-            this.JetSetApplyBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.JetSetApplyBtn.Location = new System.Drawing.Point(839, 102);
             this.JetSetApplyBtn.Name = "JetSetApplyBtn";
-            this.JetSetApplyBtn.Size = new System.Drawing.Size(111, 58);
+            this.JetSetApplyBtn.Size = new System.Drawing.Size(83, 46);
             this.JetSetApplyBtn.TabIndex = 143;
             this.JetSetApplyBtn.Tag = "1";
             this.JetSetApplyBtn.Text = "修改\r\n电压";
@@ -5399,10 +5117,10 @@
             // label38
             // 
             this.label38.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.label38.Location = new System.Drawing.Point(16, 58);
-            this.label38.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label38.Location = new System.Drawing.Point(12, 46);
+            this.label38.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(556, 24);
+            this.label38.Size = new System.Drawing.Size(417, 19);
             this.label38.TabIndex = 142;
             this.label38.Text = "粘接剂供给系统状态:";
             this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -5419,25 +5137,24 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView1.EnableHeadersVisualStyles = false;
             this.dataGridView1.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.dataGridView1.Location = new System.Drawing.Point(661, 35);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridView1.Location = new System.Drawing.Point(496, 28);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.NullValue = null;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.NullValue = null;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(449, 282);
+            this.dataGridView1.Size = new System.Drawing.Size(337, 226);
             this.dataGridView1.TabIndex = 133;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
@@ -5454,25 +5171,24 @@
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView2.EnableHeadersVisualStyles = false;
             this.dataGridView2.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.dataGridView2.Location = new System.Drawing.Point(16, 81);
-            this.dataGridView2.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridView2.Location = new System.Drawing.Point(12, 65);
             this.dataGridView2.MultiSelect = false;
             this.dataGridView2.Name = "dataGridView2";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.NullValue = null;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.NullValue = null;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView2.RowTemplate.Height = 23;
             this.dataGridView2.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(556, 119);
+            this.dataGridView2.Size = new System.Drawing.Size(417, 95);
             this.dataGridView2.TabIndex = 136;
             this.dataGridView2.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView2_EditingControlShowing);
             this.dataGridView2.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView2_RowPostPaint);
@@ -5494,11 +5210,9 @@
             this.groupBox8.Controls.Add(this.ValveBtn2);
             this.groupBox8.Controls.Add(this.ValveBtn1);
             this.groupBox8.Controls.Add(this.ValveBtn0);
-            this.groupBox8.Location = new System.Drawing.Point(15, 208);
-            this.groupBox8.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox8.Location = new System.Drawing.Point(11, 166);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox8.Size = new System.Drawing.Size(557, 70);
+            this.groupBox8.Size = new System.Drawing.Size(418, 56);
             this.groupBox8.TabIndex = 48;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "墨路控制";
@@ -5510,10 +5224,9 @@
             this.ReadRegister.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ReadRegister.ForeColor = System.Drawing.Color.Black;
             this.ReadRegister.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ReadRegister.Location = new System.Drawing.Point(328, 25);
-            this.ReadRegister.Margin = new System.Windows.Forms.Padding(4);
+            this.ReadRegister.Location = new System.Drawing.Point(246, 20);
             this.ReadRegister.Name = "ReadRegister";
-            this.ReadRegister.Size = new System.Drawing.Size(167, 38);
+            this.ReadRegister.Size = new System.Drawing.Size(125, 30);
             this.ReadRegister.TabIndex = 168;
             this.ReadRegister.Text = "ReadRegister";
             this.ReadRegister.UseVisualStyleBackColor = true;
@@ -5526,10 +5239,9 @@
             this.FlashBtn.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FlashBtn.ForeColor = System.Drawing.Color.Black;
             this.FlashBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.FlashBtn.Location = new System.Drawing.Point(212, 25);
-            this.FlashBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.FlashBtn.Location = new System.Drawing.Point(159, 20);
             this.FlashBtn.Name = "FlashBtn";
-            this.FlashBtn.Size = new System.Drawing.Size(80, 38);
+            this.FlashBtn.Size = new System.Drawing.Size(60, 30);
             this.FlashBtn.TabIndex = 152;
             this.FlashBtn.Text = "闪喷";
             this.FlashBtn.UseVisualStyleBackColor = true;
@@ -5539,20 +5251,18 @@
             // 
             this.label46.AutoSize = true;
             this.label46.ForeColor = System.Drawing.Color.Red;
-            this.label46.Location = new System.Drawing.Point(77, 0);
-            this.label46.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label46.Location = new System.Drawing.Point(58, 0);
             this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(292, 15);
+            this.label46.Size = new System.Drawing.Size(233, 12);
             this.label46.TabIndex = 149;
             this.label46.Text = "【默认接通负压端】【默认接通清洗液端】";
             // 
             // button42
             // 
             this.button42.BackColor = System.Drawing.Color.Tomato;
-            this.button42.Location = new System.Drawing.Point(604, 25);
-            this.button42.Margin = new System.Windows.Forms.Padding(4);
+            this.button42.Location = new System.Drawing.Point(453, 20);
             this.button42.Name = "button42";
-            this.button42.Size = new System.Drawing.Size(57, 29);
+            this.button42.Size = new System.Drawing.Size(43, 23);
             this.button42.TabIndex = 24;
             this.button42.Tag = "10";
             this.button42.Text = "OUT10";
@@ -5566,10 +5276,9 @@
             this.CleanBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CleanBtn.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.CleanBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CleanBtn.Location = new System.Drawing.Point(111, 25);
-            this.CleanBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.CleanBtn.Location = new System.Drawing.Point(83, 20);
             this.CleanBtn.Name = "CleanBtn";
-            this.CleanBtn.Size = new System.Drawing.Size(80, 38);
+            this.CleanBtn.Size = new System.Drawing.Size(60, 30);
             this.CleanBtn.TabIndex = 151;
             this.CleanBtn.Text = "清洗";
             this.CleanBtn.UseVisualStyleBackColor = true;
@@ -5578,10 +5287,9 @@
             // ValveBtn7
             // 
             this.ValveBtn7.BackColor = System.Drawing.Color.Tomato;
-            this.ValveBtn7.Location = new System.Drawing.Point(488, 80);
-            this.ValveBtn7.Margin = new System.Windows.Forms.Padding(4);
+            this.ValveBtn7.Location = new System.Drawing.Point(366, 64);
             this.ValveBtn7.Name = "ValveBtn7";
-            this.ValveBtn7.Size = new System.Drawing.Size(56, 40);
+            this.ValveBtn7.Size = new System.Drawing.Size(42, 32);
             this.ValveBtn7.TabIndex = 24;
             this.ValveBtn7.Tag = "7";
             this.ValveBtn7.Text = "清墨阀7";
@@ -5592,10 +5300,9 @@
             // ValveBtn6
             // 
             this.ValveBtn6.BackColor = System.Drawing.Color.Tomato;
-            this.ValveBtn6.Location = new System.Drawing.Point(424, 80);
-            this.ValveBtn6.Margin = new System.Windows.Forms.Padding(4);
+            this.ValveBtn6.Location = new System.Drawing.Point(318, 64);
             this.ValveBtn6.Name = "ValveBtn6";
-            this.ValveBtn6.Size = new System.Drawing.Size(56, 40);
+            this.ValveBtn6.Size = new System.Drawing.Size(42, 32);
             this.ValveBtn6.TabIndex = 23;
             this.ValveBtn6.Tag = "8";
             this.ValveBtn6.Text = "清墨阀6";
@@ -5610,10 +5317,9 @@
             this.PushInkBtn.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.PushInkBtn.ForeColor = System.Drawing.Color.Black;
             this.PushInkBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.PushInkBtn.Location = new System.Drawing.Point(9, 25);
-            this.PushInkBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.PushInkBtn.Location = new System.Drawing.Point(7, 20);
             this.PushInkBtn.Name = "PushInkBtn";
-            this.PushInkBtn.Size = new System.Drawing.Size(80, 38);
+            this.PushInkBtn.Size = new System.Drawing.Size(60, 30);
             this.PushInkBtn.TabIndex = 167;
             this.PushInkBtn.Text = "压墨";
             this.PushInkBtn.UseVisualStyleBackColor = true;
@@ -5622,10 +5328,9 @@
             // button43
             // 
             this.button43.BackColor = System.Drawing.Color.Tomato;
-            this.button43.Location = new System.Drawing.Point(572, 25);
-            this.button43.Margin = new System.Windows.Forms.Padding(4);
+            this.button43.Location = new System.Drawing.Point(429, 20);
             this.button43.Name = "button43";
-            this.button43.Size = new System.Drawing.Size(57, 29);
+            this.button43.Size = new System.Drawing.Size(43, 23);
             this.button43.TabIndex = 25;
             this.button43.Tag = "9";
             this.button43.Text = "OUT9";
@@ -5636,10 +5341,9 @@
             // ValveBtn5
             // 
             this.ValveBtn5.BackColor = System.Drawing.Color.Tomato;
-            this.ValveBtn5.Location = new System.Drawing.Point(360, 80);
-            this.ValveBtn5.Margin = new System.Windows.Forms.Padding(4);
+            this.ValveBtn5.Location = new System.Drawing.Point(270, 64);
             this.ValveBtn5.Name = "ValveBtn5";
-            this.ValveBtn5.Size = new System.Drawing.Size(56, 40);
+            this.ValveBtn5.Size = new System.Drawing.Size(42, 32);
             this.ValveBtn5.TabIndex = 22;
             this.ValveBtn5.Tag = "6";
             this.ValveBtn5.Text = "清墨阀5";
@@ -5650,10 +5354,9 @@
             // ValveBtn4
             // 
             this.ValveBtn4.BackColor = System.Drawing.Color.Tomato;
-            this.ValveBtn4.Location = new System.Drawing.Point(299, 80);
-            this.ValveBtn4.Margin = new System.Windows.Forms.Padding(4);
+            this.ValveBtn4.Location = new System.Drawing.Point(224, 64);
             this.ValveBtn4.Name = "ValveBtn4";
-            this.ValveBtn4.Size = new System.Drawing.Size(53, 40);
+            this.ValveBtn4.Size = new System.Drawing.Size(40, 32);
             this.ValveBtn4.TabIndex = 21;
             this.ValveBtn4.Tag = "5";
             this.ValveBtn4.Text = "清墨阀4";
@@ -5664,10 +5367,9 @@
             // ValveBtn3
             // 
             this.ValveBtn3.BackColor = System.Drawing.Color.Tomato;
-            this.ValveBtn3.Location = new System.Drawing.Point(233, 80);
-            this.ValveBtn3.Margin = new System.Windows.Forms.Padding(4);
+            this.ValveBtn3.Location = new System.Drawing.Point(175, 64);
             this.ValveBtn3.Name = "ValveBtn3";
-            this.ValveBtn3.Size = new System.Drawing.Size(57, 40);
+            this.ValveBtn3.Size = new System.Drawing.Size(43, 32);
             this.ValveBtn3.TabIndex = 20;
             this.ValveBtn3.Tag = "4";
             this.ValveBtn3.Text = "清墨阀3";
@@ -5678,10 +5380,9 @@
             // ValveBtn2
             // 
             this.ValveBtn2.BackColor = System.Drawing.Color.Tomato;
-            this.ValveBtn2.Location = new System.Drawing.Point(167, 80);
-            this.ValveBtn2.Margin = new System.Windows.Forms.Padding(4);
+            this.ValveBtn2.Location = new System.Drawing.Point(125, 64);
             this.ValveBtn2.Name = "ValveBtn2";
-            this.ValveBtn2.Size = new System.Drawing.Size(59, 40);
+            this.ValveBtn2.Size = new System.Drawing.Size(44, 32);
             this.ValveBtn2.TabIndex = 19;
             this.ValveBtn2.Tag = "3";
             this.ValveBtn2.Text = "清墨阀2";
@@ -5692,10 +5393,9 @@
             // ValveBtn1
             // 
             this.ValveBtn1.BackColor = System.Drawing.Color.Tomato;
-            this.ValveBtn1.Location = new System.Drawing.Point(103, 80);
-            this.ValveBtn1.Margin = new System.Windows.Forms.Padding(4);
+            this.ValveBtn1.Location = new System.Drawing.Point(77, 64);
             this.ValveBtn1.Name = "ValveBtn1";
-            this.ValveBtn1.Size = new System.Drawing.Size(56, 40);
+            this.ValveBtn1.Size = new System.Drawing.Size(42, 32);
             this.ValveBtn1.TabIndex = 18;
             this.ValveBtn1.Tag = "2";
             this.ValveBtn1.Text = "清墨阀1";
@@ -5706,10 +5406,9 @@
             // ValveBtn0
             // 
             this.ValveBtn0.BackColor = System.Drawing.Color.Tomato;
-            this.ValveBtn0.Location = new System.Drawing.Point(8, 78);
-            this.ValveBtn0.Margin = new System.Windows.Forms.Padding(4);
+            this.ValveBtn0.Location = new System.Drawing.Point(6, 62);
             this.ValveBtn0.Name = "ValveBtn0";
-            this.ValveBtn0.Size = new System.Drawing.Size(71, 40);
+            this.ValveBtn0.Size = new System.Drawing.Size(53, 32);
             this.ValveBtn0.TabIndex = 17;
             this.ValveBtn0.Tag = "1";
             this.ValveBtn0.Text = "正负阀";
@@ -5721,10 +5420,9 @@
             // 
             this.label14.BackColor = System.Drawing.Color.DarkTurquoise;
             this.label14.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label14.Location = new System.Drawing.Point(19, 292);
-            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label14.Location = new System.Drawing.Point(14, 234);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(109, 26);
+            this.label14.Size = new System.Drawing.Size(82, 21);
             this.label14.TabIndex = 138;
             this.label14.Text = "负压阈值：";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -5733,10 +5431,9 @@
             // 
             this.ADIBSetCheck.AutoSize = true;
             this.ADIBSetCheck.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ADIBSetCheck.Location = new System.Drawing.Point(141, 328);
-            this.ADIBSetCheck.Margin = new System.Windows.Forms.Padding(4);
+            this.ADIBSetCheck.Location = new System.Drawing.Point(106, 262);
             this.ADIBSetCheck.Name = "ADIBSetCheck";
-            this.ADIBSetCheck.Size = new System.Drawing.Size(102, 22);
+            this.ADIBSetCheck.Size = new System.Drawing.Size(82, 18);
             this.ADIBSetCheck.TabIndex = 137;
             this.ADIBSetCheck.Text = "允许设定";
             this.ADIBSetCheck.UseVisualStyleBackColor = true;
@@ -5750,10 +5447,9 @@
             this.ADIBCancleApplyBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ADIBCancleApplyBtn.Enabled = false;
             this.ADIBCancleApplyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ADIBCancleApplyBtn.Location = new System.Drawing.Point(460, 298);
-            this.ADIBCancleApplyBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.ADIBCancleApplyBtn.Location = new System.Drawing.Point(345, 238);
             this.ADIBCancleApplyBtn.Name = "ADIBCancleApplyBtn";
-            this.ADIBCancleApplyBtn.Size = new System.Drawing.Size(111, 58);
+            this.ADIBCancleApplyBtn.Size = new System.Drawing.Size(83, 46);
             this.ADIBCancleApplyBtn.TabIndex = 140;
             this.ADIBCancleApplyBtn.Tag = "1";
             this.ADIBCancleApplyBtn.Text = "恢复\r\n默认";
@@ -5763,10 +5459,9 @@
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.textBox1.Location = new System.Drawing.Point(139, 292);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox1.Location = new System.Drawing.Point(104, 234);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(61, 27);
+            this.textBox1.Size = new System.Drawing.Size(47, 23);
             this.textBox1.TabIndex = 45;
             this.textBox1.Text = "0.16";
             // 
@@ -5777,10 +5472,9 @@
             this.ADIBSetApplyBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ADIBSetApplyBtn.BackgroundImage")));
             this.ADIBSetApplyBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ADIBSetApplyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ADIBSetApplyBtn.Location = new System.Drawing.Point(343, 298);
-            this.ADIBSetApplyBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.ADIBSetApplyBtn.Location = new System.Drawing.Point(257, 238);
             this.ADIBSetApplyBtn.Name = "ADIBSetApplyBtn";
-            this.ADIBSetApplyBtn.Size = new System.Drawing.Size(111, 58);
+            this.ADIBSetApplyBtn.Size = new System.Drawing.Size(83, 46);
             this.ADIBSetApplyBtn.TabIndex = 45;
             this.ADIBSetApplyBtn.Tag = "1";
             this.ADIBSetApplyBtn.Text = "应用\r\n参数";
@@ -5793,51 +5487,24 @@
             this.label20.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label20.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label20.ForeColor = System.Drawing.Color.Black;
-            this.label20.Location = new System.Drawing.Point(201, 293);
-            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label20.Location = new System.Drawing.Point(151, 234);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(48, 26);
+            this.label20.Size = new System.Drawing.Size(36, 21);
             this.label20.TabIndex = 139;
             this.label20.Text = "kPa";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label94
-            // 
-            this.label94.BackColor = System.Drawing.SystemColors.Control;
-            this.label94.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label94.Location = new System.Drawing.Point(245, 37);
-            this.label94.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label94.Name = "label94";
-            this.label94.Size = new System.Drawing.Size(91, 25);
-            this.label94.TabIndex = 171;
-            this.label94.Text = "重喷清洗";
-            this.label94.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // comboBox5
-            // 
-            this.comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Items.AddRange(new object[] {
-            "否",
-            "是"});
-            this.comboBox5.Location = new System.Drawing.Point(338, 39);
-            this.comboBox5.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(54, 23);
-            this.comboBox5.TabIndex = 201;
-            // 
             // 手动操作
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(1308, 923);
+            this.ClientSize = new System.Drawing.Size(981, 738);
             this.Controls.Add(this.ManulDebugTAB);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "手动操作";
@@ -6279,5 +5946,8 @@
         private System.Windows.Forms.Label label92;
         private System.Windows.Forms.Label label94;
         private System.Windows.Forms.ComboBox comboBox5;
+        private System.Windows.Forms.Label label95;
+        private System.Windows.Forms.ComboBox comboBox6;
+        private System.Windows.Forms.Label label96;
     }
 }
