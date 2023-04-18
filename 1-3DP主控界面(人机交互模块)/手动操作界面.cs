@@ -5194,7 +5194,7 @@ namespace BinderJetting
         {
             if (CorrectFlag)//墨车双驱系统是否进行过校准
             {
-                BackToStation(155.6, 50, false, true);//移动到155.6MM行程处//ExchangeToSNexttation(155.6);//运动至压墨回收站//Thread.Sleep(100);//BackToStation(22.715);//移动到22.715MM行程处
+                BackToStation(155.6, 50, false, true, 1);//移动到155.6MM行程处//ExchangeToSNexttation(155.6);//运动至压墨回收站//Thread.Sleep(100);//BackToStation(22.715);//移动到22.715MM行程处
                 ShoveCommand(true, 3);//20200922新增：压墨3秒钟
 
                 ExchangeToSNexttation(22.715);//运动至清洗站//Thread.Sleep(100);//回位
@@ -5282,7 +5282,7 @@ namespace BinderJetting
             string msg = $"{(Axis > 1 ? "X" : "Y")}方向到位等停：DEM_StopAxisRun：返回值{{{nRetVal2}}}bImmeStop{{{false}}}nAxisMask{{{(uint)Axis}}}";
             Log4Net.Info(msg);
         }
-        private void BackToStation(double AimPos, float m_MovSpeed, bool MoveDirectionFlag, bool WaitStopFLag)//运动至初始区域：AimPos位置单位为MM：精华
+        private void BackToStation(double AimPos, float m_MovSpeed, bool MoveDirectionFlag, bool WaitStopFLag, double CorrectionRatio)//运动至初始区域：AimPos位置单位为MM：精华
         {
             switch (MoveDirectionFlag)
             {
@@ -5303,15 +5303,20 @@ namespace BinderJetting
 
                     if (AimPos >= 10 && AimPos <= 780)//是否AimPos在工作流程内:在流程内，即可打印:确认在安全工作区内；行程为（0MM，790MM）
                     {
-                        double MoveStep = (AimPos - CurrentPos * 0.005) * 1000;//20220513修改：
+                        double MoveStep = (AimPos - CurrentPos * 0.005) * 1000/*1000*//*1004.737*//*1000*/;//20220513修改：//20230410修改：1004.737
                         bool nRetVal = royal.royal.DEM_Run(0, DirFlag, (UInt32)nSpeed, (int)System.Math.Abs(MoveStep), nCtlValue);//三菱驱动器的千脉冲MM数：按照之前代码，应该是500;运行100MM;单pulse-2um                                                              
 
                         msg = $"X方向运动开始：DEM_Run：返回值{{{nRetVal}}}nAxis{{{0}}}DirFlag{{{DirFlag}}}nSpeed{{{nSpeed}}}MoveStep{{{MoveStep}}}nCtlValue{{{nCtlValue}}}";
                         Log4Net.Info(msg);
 
+                        Thread.Sleep(50);//CPU的指令执行是快于FPGA的，很有可能DEM_Run之后，直接调用DEM_AxisIsRuning，显示还未运动，直接跳过了此部分的检查
+
                         if (WaitStopFLag == true)
                         {
-                            while (royal.royal.DEM_AxisIsRuning(0, ref Directory, ref nRevPls)) { Thread.Sleep(1);/*确保运行到位，运行精度为2UM*/ }
+                            while (royal.royal.DEM_AxisIsRuning(0, ref Directory, ref nRevPls))
+                            {
+                                Thread.Sleep(1);/*确保运行到位，运行精度为2UM*/
+                            }
                             bool nRetVal2 = royal.royal.DEM_StopAxisRun(false, 0x1);//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108
 
                             CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：20230213新增：
@@ -5324,7 +5329,7 @@ namespace BinderJetting
                     break;
 
                 case true://20220513新建：为Y方向的运动指令
-                    nCtlValue = 0; CurrentPos = 0; DirFlag = false;
+                    nCtlValue = 1/*0*/; CurrentPos = 0; DirFlag = false;//20230410修改：消除潜在的问题
                     Directory = false; nRevPls = 0; nSpeed = MM_TO_DOT(m_MovSpeed, 5080, 0);//20220506修改：第1轴//20200803修改：已包含运动修正系统//double nSpeed = 68016;
 
                     /*string*/
@@ -5338,21 +5343,35 @@ namespace BinderJetting
 
                     if (CurrentPos * 0.005 >= AimPos) { DirFlag = false; }/*墨车在目标位置前侧*/else { DirFlag = true; }//墨车在目标位置后侧
 
-                    if (AimPos >= 10 && AimPos <= 295)//是否AimPos在工作流程内:在流程内，即可打印:确认在安全工作区内
+                    if (AimPos >= 10 && AimPos <= 322/*295*/)//是否AimPos在工作流程内:在流程内，即可打印:确认在安全工作区内//20230410修改：扩展Y轴运动范围到322，以允许在暂停打印时运行到暂停位
                     {
-                        double MoveStep = (AimPos - CurrentPos * 0.005) * 1000;//20220513修改：
+                        double MoveStep = (AimPos - CurrentPos * 0.005) * /*1000*/  /*CorrectionRatio*/1001.891/*1000*//*1004.737*//*1000*/;//20220513修改：//20230410修改：1004.737
                         bool nRetVal = royal.royal.DEM_Run(1/*第2轴*/, DirFlag, (UInt32)nSpeed, (int)System.Math.Abs(MoveStep), nCtlValue);//三菱驱动器的千脉冲MM数：按照之前代码，应该是500;运行100MM;单pulse-2um                                                              
                         msg = $"Y方向运动开始：DEM_Run：返回值{{{nRetVal}}}nAxis{{{1}}}DirFlag{{{DirFlag}}}nSpeed{{{nSpeed}}}MoveStep{{{MoveStep}}}nCtlValue{{{nCtlValue}}}";
                         Log4Net.Info(msg);
 
+                        Thread.Sleep(50);//CPU的指令执行是快于FPGA的，很有可能DEM_Run之后，直接调用DEM_AxisIsRuning，显示还未运动，直接跳过了此部分的检查
+
                         if (WaitStopFLag == true)
                         {
-                            while (royal.royal.DEM_AxisIsRuning(1/*第2轴*/, ref Directory, ref nRevPls)) { Thread.Sleep(1); }//int SleepTime = (int)((double)(AimPos - CurrentPos) / nSpeed);//Thread.Sleep(5000);//Sleep时间必须要有依据//确保运行到位，运行精度为2UM
+                            ////while (royal.royal.DEM_AxisIsRuning(1/*第2轴*/, ref Directory, ref nRevPls))
+                            ////{ 
+                            ////    Thread.Sleep(1); 
+                            ////}//int SleepTime = (int)((double)(AimPos - CurrentPos) / nSpeed);//Thread.Sleep(5000);//Sleep时间必须要有依据//确保运行到位，运行精度为2UM
+
                             bool nRetVal2 = royal.royal.DEM_StopAxisRun(false, 0x2/*第2轴*/);//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108
 
                             CurrentPos = royal.royal.DEM_GetAxisEncodeVal(1/*获取第2轴编码器*/);//初始编码器位置：20230213新增：
                             msg = $"Y方向到位停止：DEM_StopAxisRun：返回值{{{nRetVal2}}}CurrentPos{{{CurrentPos * 0.005}}}bImmeStop{{{false}}}nAxisMask{{{0x2}}}";
                             Log4Net.Info(msg);
+
+                            ////if (CurrentPos * 0.005 >= AimPos) { DirFlag = false; }/*墨车在目标位置前侧*/else { DirFlag = true; }//墨车在目标位置后侧
+                            ////MoveStep = (AimPos - CurrentPos * 0.005) * 1001.667/*1004.737*//*1000*/;//20220513修改：//20230410修改：1004.737
+                            ////nRetVal = royal.royal.DEM_Run(1/*第2轴*/, DirFlag, (UInt32)(nSpeed/100), (int)System.Math.Abs(MoveStep), nCtlValue);//三菱驱动器的千脉冲MM数：按照之前代码，应该是500;运行100MM;单pulse-2um                                                              
+                            ////Thread.Sleep(1000);
+                            ////CurrentPos = royal.royal.DEM_GetAxisEncodeVal(1/*获取第2轴编码器*/);//初始编码器位置：20230213新增：
+                            ////msg = $"Y方向运动开始：DEM_Run：返回值{{{nRetVal2}}}nAxis{{{1}}}DirFlag{{{DirFlag}}}nSpeed{{{nSpeed/100}}}MoveStep{{{MoveStep}}}nCtlValue{{{nCtlValue}}}";
+                            ////Log4Net.Info(msg);
                         }
                     }
                     else { }//不在安全工作区内:不进行运动
@@ -5633,28 +5652,28 @@ namespace BinderJetting
 
 #if true//20220518新建：新设备使用的自动清洗逻辑//20230401之后逻辑
             //（1）撒粉轴找回零位：20220527新建：
-            double SinkPosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;//刮墨轴的HOME位置
-
-            //motionMap.SetDo(7, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵//20220915注释：无效掉
+            double SinkHomePosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;//刮墨轴的HOME位置
+            double AimScraperPosition = k_RYSYSParamAutoPrintParamInTest.m_dSraperAngleOffHome +15;//刮墨片限位片位置有15度的偏差，进行补偿
+            //(AimScraperPosition+ SinkHomePosition)
 
             //20230331修改为0.5圈/s,避免飞溅
-            bool ReturnCode = motionMap.SetBackSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*//*1*//*0.5*/, 2, -SinkPosition);//旋转速度：0.5 圈/s//下//20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
+            bool ReturnCode = motionMap.SetBackSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*//*1*//*0.5*/, 2, -SinkHomePosition);//旋转速度：0.5 圈/s//下//20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
             if (ReturnCode == true)
             {
-                msg = $"刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)";
+                msg = $"刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)";
                 Log4Net.Info(msg);
                 /*MessageBox.Show("回零成功");*/
             }//校准成功
             else
             {
-                msg = $"刮墨轴回零失败：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)";
+                msg = $"刮墨轴回零失败：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)";
                 Log4Net.Info(msg);
 
                 MessageBox.Show("回零失败");
             }
 
             //(2) 刮片竖直位置：-------------------------------------------------------------------------->          
-            int subdivided = 12800; int SinkPostion = 0;
+            int subdivided = 12800; double/*int*/ SinkPostion = 0;
 
             //（3）联动清洗逻辑
             double PrintWidth = 350;/*宽度值设为350MM*/ double PrintHeadWidth = 54;/*宽度值设为5MM*/
@@ -5667,40 +5686,54 @@ namespace BinderJetting
             {
                 if (i == 0)
                 {
-                    BackToStation(96 + 25/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true);//停靠在里侧，向外侧步进喷头幅 面^^^^^^^^^^^^^^^^^//96MM
-                    //BackToStation(780/*710*//*425*/, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅<---------------//780MM
-
-                    //SinkPostion = 135;//逆135
-                    //motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+                    BackToStation(116/*96 + 25*//*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//停靠在里侧，向外侧步进喷头幅 面^^^^^^^^^^^^^^^^^//96MM
                 }
                 else//第2次刮墨也需要回零
                 {
+                   
+                    SinkPostion = (AimScraperPosition + SinkHomePosition)/*180*/;//20230411修改：避免回零时碰撞喷头压墨收集盒                                                             
+                    motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*/, -SinkPostion);
+
                     //20230331修改为0.5圈/s,避免飞溅
-                    ReturnCode = motionMap.SetBackSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*//*1*//*0.5*/, 2, -SinkPosition);//旋转速度：0.5 圈/s//下//20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
+                    ReturnCode = motionMap.SetBackSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*//*1*//*0.5*/, 2, -SinkHomePosition);//旋转速度：0.5 圈/s//下//20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
                     if (ReturnCode == true)
                     {
-                        msg = $"刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)";
+                        msg = $"刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)";
                         Log4Net.Info(msg);
                         /*MessageBox.Show("回零成功");*/
                     }//校准成功
                     else
                     {
-                        msg = $"刮墨轴回零失败：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)";
+                        msg = $"刮墨轴回零失败：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)";
                         Log4Net.Info(msg);
 
                         MessageBox.Show("回零失败");
                     }
                 }
-                BackToStation(780/*710*//*425*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true);//停靠在右侧，向左侧运动打印幅<---------------//780MM
-
-                //SinkPostion = 45;//逆45
-                SinkPostion = -180;//逆45//合并，直接逆转180度即可//20230401修改:直接顺时针转180度即可
-                motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+                BackToStation(780/*710*//*425*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true, 1);//停靠在右侧，向左侧运动打印幅<---------------//780MM
 
                 bool nRetVal = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷//20230327批注：关闭闪喷
                 msg = $"关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{{{nRetVal}}}";
+                Log4Net.Info(msg);
                 if (i == 0)//第1次
                 {
+                    //(a)沾一下墨水
+                    SinkPostion = (75 - SinkHomePosition)/*180*/;//逆45//合并，直接逆转180度即可//20230401修改:直接顺时针转180度即可//20230417批注：75为刮片限位片与理想距离的误差
+                    motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+                    //(b)到刮墨位
+                    SinkPostion = -(AimScraperPosition + 75)/*180*/;//逆45//合并，直接逆转180度即可//20230401修改:直接顺时针转180度即可
+                    motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+
+                    //20230416修改：压墨之前，需要确保开启闪喷功能
+                    if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1)
+                    {
+                        bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
+                        msg = $"开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal2}}}";
+                        Log4Net.Info(msg);
+
+                        m_bFlashFlag = false;//20220920批注：指示手动控制闪喷功能是否开启之时的正确闪喷动作应为关闭
+                    }
+
                     //20220915修改：修改打印方式
                     motionMap.SetDo(13/*7*/, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵
                     msg = $"开启压墨： motionMap.SetDo(13, true)";
@@ -5709,11 +5742,44 @@ namespace BinderJetting
                     motionMap.SetDo(13/*7*/, false);//20220525新建：压墨//压墨输出端口为第13口//关闭压墨泵
                     msg = $"关闭压墨： motionMap.SetDo(13, true)";
                     Log4Net.Info(msg);
+
+                    msg = $"压墨等待开启：{{{k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime}S}}";
+                    Log4Net.Info(msg);
+                    Thread.Sleep((int)(k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime * 1000));//压墨等待一段时间
+                    msg = $"压墨等待完成：{{{k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime}S}}";
+                    Log4Net.Info(msg);
+
+                    //20230416修改：压墨之后，需要关闭闪喷功能
+                    if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1)
+                    {
+                        bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(false);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
+                        msg = $"开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{{{nRetVal2}}}";
+                        Log4Net.Info(msg);
+
+                        m_bFlashFlag = true;//20220920批注：指示手动控制闪喷功能是否开启之时的正确闪喷动作应为关闭
+                    }
                 }
                 else
                 {
+                    //(a)沾一下墨水
+                    SinkPostion = (75 - SinkHomePosition)/*180*/;//逆45//合并，直接逆转180度即可//20230401修改:直接顺时针转180度即可
+                    motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+                    //(b)到刮墨位
+                    SinkPostion = -(AimScraperPosition + 75)/*180*/;//逆45//合并，直接逆转180度即可//20230401修改:直接顺时针转180度即可
+                    motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+
                     if (k_RYSYSParamAutoPrintParamInTest.m_nPressAgainRePrintClean == 1)
                     {
+                        //20230416修改：压墨之前，需要确保开启闪喷功能
+                        if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1)
+                        {
+                            bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
+                            msg = $"开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal2}}}";
+                            Log4Net.Info(msg);
+
+                            m_bFlashFlag = false;//20220920批注：指示手动控制闪喷功能是否开启之时的正确闪喷动作应为关闭
+                        }
+
                         //20220915修改：修改打印方式
                         motionMap.SetDo(13/*7*/, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵
                         msg = $"开启压墨： motionMap.SetDo(13, true)";
@@ -5722,60 +5788,57 @@ namespace BinderJetting
                         motionMap.SetDo(13/*7*/, false);//20220525新建：压墨//压墨输出端口为第13口//关闭压墨泵
                         msg = $"关闭压墨： motionMap.SetDo(13, true)";
                         Log4Net.Info(msg);
+
+                        msg = $"压墨等待开启：{{{k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime}S}}";
+                        Log4Net.Info(msg);
+                        Thread.Sleep((int)(k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime * 1000));//压墨等待一段时间
+                        msg = $"压墨等待完成：{{{k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime}S}}";
+                        Log4Net.Info(msg);
+
+                        //20230416修改：压墨之后，需要关闭闪喷功能
+                        if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1)
+                        {
+                            bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(false);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
+                            msg = $"开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{{{nRetVal2}}}";
+                            Log4Net.Info(msg);
+
+                            m_bFlashFlag = true;//20220920批注：指示手动控制闪喷功能是否开启之时的正确闪喷动作应为关闭
+                        }
                     }
 
                 }
 
-
-                //////20220920新增：压墨之后，需要开启闪喷功能
-                ////if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1) 
-                ////{
-                ////    bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
-                ////    msg = $"开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal2}}}";
-                ////    Log4Net.Info(msg);
-
-                ////    m_bFlashFlag = false;//20220920批注：指示手动控制闪喷功能是否开启之时的正确闪喷动作应为关闭
-                ////} 
-
-
-                //////BackToStation(780/*25*/, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true);//停靠在右侧，向左侧运动打印幅面--------------->//710MM
-                ////SinkPostion = -45;//顺45
-                ////motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
-
-                BackToStation(680/*700*//*425*/, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true);//停靠在右侧，向左侧运动打印幅面<---------------//780MM
+                BackToStation(680/*700*//*425*/, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------//780MM
             }
 
-            //SinkPostion = 180+45;//逆225：20230331之前方法
-            SinkPostion = 180/*-180*//*-135*//*180 + 45*/;//顺时针135：20230331修改之后：避免飞溅//20230401修改:直接顺时针转180度即可//20230405修改：直接逆时针转180度即可
-            //SinkPostion = -180/*-135*//*180 + 45*/;//顺时针135：20230331修改之后：避免飞溅：进一步修改
-
-            //motionMap.SetDo(13/*7*/, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵
+            SinkPostion = (AimScraperPosition + SinkHomePosition)/*180*/;//顺时针135：20230331修改之后：避免飞溅//20230401修改:直接顺时针转180度即可//20230405修改：直接逆时针转180度即可
             motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*/, -SinkPostion);
-            ////if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1)
-            ////{
-            ////    bool nRetVal = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷//20230327批注：关闭闪喷
-            ////    msg = $"关闭闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal}}}";
-            ////}
+
+            if (k_RYSYSParamAutoPrintParamInTest.m_nBackToRevisionStationAfterClean == 1)//是否回观察站
+            {
+                BackToStation(758/*734.275*//*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
+                BackToStation(317/*321.455*//*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
+            }
 
             msg = $"结束自动清洗过程：AutoCleanThread";
             Log4Net.Info(msg);
 #elif false//20220518新建：新设备使用的自动清洗逻辑//20230401之前逻辑
             //（1）撒粉轴找回零位：20220527新建：
-            double SinkPosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;//刮墨轴的HOME位置
+            double SinkHomePosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;//刮墨轴的HOME位置
 
             //motionMap.SetDo(7, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵//20220915注释：无效掉
             
             //20230331修改为0.5圈/s,避免飞溅
-            bool ReturnCode = motionMap.SetBackSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*//*1*//*0.5*/, 2, -SinkPosition);//旋转速度：0.5 圈/s//下//20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
+            bool ReturnCode = motionMap.SetBackSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*//*1*//*0.5*/, 2, -SinkHomePosition);//旋转速度：0.5 圈/s//下//20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
             if (ReturnCode == true)
             {
-                msg = $"刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)";
+                msg = $"刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)";
                 Log4Net.Info(msg);
                 /*MessageBox.Show("回零成功");*/
             }//校准成功
             else 
             {
-                msg = $"刮墨轴回零失败：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)";
+                msg = $"刮墨轴回零失败：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)";
                 Log4Net.Info(msg);
 
                 MessageBox.Show("回零失败"); 
@@ -5986,28 +6049,29 @@ namespace BinderJetting
 
 #if true//20220518新建：新设备使用的自动清洗逻辑//20230401之后逻辑
             //（1）撒粉轴找回零位：20220527新建：
-            double SinkPosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;//刮墨轴的HOME位置
+            double SinkHomePosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;//刮墨轴的HOME位置
+            double AimScraperPosition = k_RYSYSParamAutoPrintParamInTest.m_dSraperAngleOffHome+15;//刮墨片限位片位置有15度的偏差，进行补偿
 
             //motionMap.SetDo(7, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵//20220915注释：无效掉
 
             //20230331修改为0.5圈/s,避免飞溅
-            bool ReturnCode = motionMap.SetBackSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*//*1*//*0.5*/, 2, -SinkPosition);//旋转速度：0.5 圈/s//下//20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
+            bool ReturnCode = motionMap.SetBackSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*//*1*//*0.5*/, 2, -SinkHomePosition);//旋转速度：0.5 圈/s//下//20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
             if (ReturnCode == true)
             {
-                msg = $"刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)";
+                msg = $"刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)";
                 Log4Net.Info(msg);
                 /*MessageBox.Show("回零成功");*/
             }//校准成功
             else
             {
-                msg = $"刮墨轴回零失败：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)";
+                msg = $"刮墨轴回零失败：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)";
                 Log4Net.Info(msg);
 
                 MessageBox.Show("回零失败");
             }
 
             //(2) 刮片竖直位置：-------------------------------------------------------------------------->          
-            int subdivided = 12800; int SinkPostion = 0;
+            int subdivided = 12800; double/*int*/ SinkPostion = 0;
 
             //（3）联动清洗逻辑
             double PrintWidth = 350;/*宽度值设为350MM*/ double PrintHeadWidth = 54;/*宽度值设为5MM*/
@@ -6020,7 +6084,7 @@ namespace BinderJetting
             {
                 if (i == 0)
                 {
-                    BackToStation(96 + 25/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true);//停靠在里侧，向外侧步进喷头幅 面^^^^^^^^^^^^^^^^^//96MM
+                    BackToStation(116/*96 + 25*//*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//停靠在里侧，向外侧步进喷头幅 面^^^^^^^^^^^^^^^^^//96MM
                     //BackToStation(780/*710*//*425*/, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅<---------------//780MM
 
                     //SinkPostion = 135;//逆135
@@ -6028,33 +6092,53 @@ namespace BinderJetting
                 }
                 else//第2次刮墨也需要回零
                 {
+                    SinkPostion = (AimScraperPosition + SinkHomePosition)/*180*//*-180*//*-135*//*180 + 45*/;//顺时针135：20230331修改之后：避免飞溅//20230401修改:直接顺时针转180度即可//20230405修改：直接逆时针转180度即可//20230411修改：避免回零时碰撞喷头压墨收集盒                                                             
+                    motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*/, -SinkPostion);
+
                     //20230331修改为0.5圈/s,避免飞溅
-                    ReturnCode = motionMap.SetBackSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*//*1*//*0.5*/, 2, -SinkPosition);//旋转速度：0.5 圈/s//下//20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
+                    ReturnCode = motionMap.SetBackSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*//*1*//*0.5*/, 2, -SinkHomePosition);//旋转速度：0.5 圈/s//下//20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
                     if (ReturnCode == true)
                     {
-                        msg = $"刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)";
+                        msg = $"刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)";
                         Log4Net.Info(msg);
                         /*MessageBox.Show("回零成功");*/
                     }//校准成功
                     else
                     {
-                        msg = $"刮墨轴回零失败：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)";
+                        msg = $"刮墨轴回零失败：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)";
                         Log4Net.Info(msg);
 
                         MessageBox.Show("回零失败");
                     }
                 }
-                BackToStation(780/*710*//*425*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true);//停靠在右侧，向左侧运动打印幅<---------------//780MM
+                BackToStation(780/*710*//*425*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true, 1);//停靠在右侧，向左侧运动打印幅<---------------//780MM
 
-                //SinkPostion = 45;//逆45
-                SinkPostion = -180;//逆45//合并，直接逆转180度即可//20230401修改:直接顺时针转180度即可
-                motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+                ////SinkPostion = 45;//逆45
+                //SinkPostion = -180;//逆45//合并，直接逆转180度即可//20230401修改:直接顺时针转180度即可
+                //motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
 
                 bool nRetVal = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷//20230327批注：关闭闪喷
                 msg = $"关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{{{nRetVal}}}";
 
                 if (i == 0)//第1次
                 {
+                    //(a)沾一下墨水
+                    SinkPostion = (75 - SinkHomePosition)/*180*/;//逆45//合并，直接逆转180度即可//20230401修改:直接顺时针转180度即可
+                    motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+                    //(b)到刮墨位
+                    SinkPostion = -(AimScraperPosition + 75)/*180*/;//逆45//合并，直接逆转180度即可//20230401修改:直接顺时针转180度即可
+                    motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+
+                    //20230416修改：压墨之前，需要确保开启闪喷功能
+                    if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1)
+                    {
+                        bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
+                        msg = $"开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal2}}}";
+                        Log4Net.Info(msg);
+
+                        m_bFlashFlag = false;//20220920批注：指示手动控制闪喷功能是否开启之时的正确闪喷动作应为关闭
+                    }
+
                     //20220915修改：修改打印方式
                     motionMap.SetDo(13/*7*/, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵
                     msg = $"开启压墨： motionMap.SetDo(13, true)";
@@ -6063,11 +6147,45 @@ namespace BinderJetting
                     motionMap.SetDo(13/*7*/, false);//20220525新建：压墨//压墨输出端口为第13口//关闭压墨泵
                     msg = $"关闭压墨： motionMap.SetDo(13, true)";
                     Log4Net.Info(msg);
+
+                    msg = $"压墨等待开启：{{{k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime}S}}";
+                    Log4Net.Info(msg);
+                    Thread.Sleep((int)(k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime * 1000));//压墨等待一段时间
+                    msg = $"压墨等待完成：{{{k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime}S}}";
+                    Log4Net.Info(msg);
+
+                    //20230416修改：压墨之后，需要关闭闪喷功能
+                    if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1)
+                    {
+                        bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(false);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
+                        msg = $"开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{{{nRetVal2}}}";
+                        Log4Net.Info(msg);
+
+                        m_bFlashFlag = true;//20220920批注：指示手动控制闪喷功能是否开启之时的正确闪喷动作应为关闭
+                    }
+
                 }
                 else
                 {
+                    //(a)沾一下墨水
+                    SinkPostion = (75 - SinkHomePosition)/*180*/;//逆45//合并，直接逆转180度即可//20230401修改:直接顺时针转180度即可
+                    motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+                    //(b)到刮墨位
+                    SinkPostion = -(AimScraperPosition + 75)/*180*/;//逆45//合并，直接逆转180度即可//20230401修改:直接顺时针转180度即可
+                    motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
+
                     if (k_RYSYSParamAutoPrintParamInTest.m_nPressAgainRePrintClean == 1)
                     {
+                        //20230416修改：压墨之前，需要确保开启闪喷功能
+                        if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1)
+                        {
+                            bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
+                            msg = $"开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal2}}}";
+                            Log4Net.Info(msg);
+
+                            m_bFlashFlag = false;//20220920批注：指示手动控制闪喷功能是否开启之时的正确闪喷动作应为关闭
+                        }
+
                         //20220915修改：修改打印方式
                         motionMap.SetDo(13/*7*/, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵
                         msg = $"开启压墨： motionMap.SetDo(13, true)";
@@ -6076,30 +6194,36 @@ namespace BinderJetting
                         motionMap.SetDo(13/*7*/, false);//20220525新建：压墨//压墨输出端口为第13口//关闭压墨泵
                         msg = $"关闭压墨： motionMap.SetDo(13, true)";
                         Log4Net.Info(msg);
+
+                        msg = $"压墨等待开启：{{{k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime}S}}";
+                        Log4Net.Info(msg);
+                        Thread.Sleep((int)(k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime * 1000));//压墨等待一段时间
+                        msg = $"压墨等待完成：{{{k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime}S}}";
+                        Log4Net.Info(msg);
+
+                        //20230416修改：压墨之后，需要关闭闪喷功能
+                        if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1)
+                        {
+                            bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(false);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
+                            msg = $"开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{{{nRetVal2}}}";
+                            Log4Net.Info(msg);
+
+                            m_bFlashFlag = true;//20220920批注：指示手动控制闪喷功能是否开启之时的正确闪喷动作应为关闭
+                        }
                     }
 
                 }
-
-                //////20220920新增：压墨之后，需要开启闪喷功能
-                ////if (k_RYSYSParamAutoPrintParamInTest.m_nStartSpark == 1) 
-                ////{
-                ////    bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷//20220920批注：闪喷关闭需要在手动部分关闭
-                ////    msg = $"开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal2}}}";
-                ////    Log4Net.Info(msg);
-
-                ////    m_bFlashFlag = false;//20220920批注：指示手动控制闪喷功能是否开启之时的正确闪喷动作应为关闭
-                ////} 
 
 
                 //////BackToStation(780/*25*/, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true);//停靠在右侧，向左侧运动打印幅面--------------->//710MM
                 ////SinkPostion = -45;//顺45
                 ////motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
 
-                BackToStation(680/*700*//*425*/, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true);//停靠在右侧，向左侧运动打印幅面<---------------//780MM
+                BackToStation(680/*700*//*425*/, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------//780MM
             }
 
             //SinkPostion = 180+45;//逆225：20230331之前方法
-            SinkPostion = 180/*-180*//*-135*//*180 + 45*/;//顺时针135：20230331修改之后：避免飞溅//20230401修改:直接顺时针转180度即可//20230405修改：直接逆时针转180度即可
+            SinkPostion = (AimScraperPosition + SinkHomePosition)/*180*//*-180*//*-135*//*180 + 45*/;//顺时针135：20230331修改之后：避免飞溅//20230401修改:直接顺时针转180度即可//20230405修改：直接逆时针转180度即可
             //SinkPostion = -180/*-135*//*180 + 45*/;//顺时针135：20230331修改之后：避免飞溅：进一步修改
 
             //motionMap.SetDo(13/*7*/, true);//20220525新建：压墨//压墨输出端口为第13口//打开压墨泵
@@ -6603,7 +6727,7 @@ namespace BinderJetting
                         msg = $"Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)";
                         Log4Net.Info(msg);
 
-                        //Thread.Sleep(300);
+                        Thread.Sleep(1000);//20230411新增：等待1s保证接上粉
 
                         //(2)洒粉车覆盖打印区域-过程中依次开铺粉辊及洒粉轴（移动-辊粉-撒粉）：20220512批注
                         //(A-B: 移动-辊粉)//20220919测量：辊子直径 25MM,原来的40MM(记忆中)//20230403修改：快速移动到成型区域
@@ -6624,6 +6748,7 @@ namespace BinderJetting
 
                         //C: 撒粉-指定区域内开启撒粉;具体策略1：先用迅速方式落粉 策略2：用插补模式落粉；暂时使用策略1
                         bool m_startFlag = false;
+                        bool m_startFlag3 = false;//20230411新建:落粉轴预先运动标志位
                         bool m_startLightFlag = false;//开灯标志，确保开灯1次
                         bool m_startLightFlag2 = false;//20220920新增：关灯标志，确保关灯1次
                         double PosValue = 0;
@@ -6673,8 +6798,21 @@ namespace BinderJetting
                                 m_startLightFlag2 = true;
                             }
 
-                            //开启撒粉动作
-                            if (PosValue >= 255 && m_startFlag == false)//开启扫粉轴：先匀速转半圈（策略1）
+                            //////(1)预先转30度的撒粉动作
+                            //////if (PosValue >= k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply/*220*/ && m_startFlag3 == false)//20230411新建开启扫粉轴：先匀速转半圈（策略1）：到达220的时候先转30度
+                            //////{
+                            //////    double PreAngleForPowderSupply = k_RYSYSParamAutoPrintParamInTest.m_dPreAngleForPowderSupply / 360;//20230411备注：单位为圈数
+                            //////    double DispenseRollerSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPreAngleRotateSpeedForPowderSupply;//20220512新建批注：有效区域宽度为460MM;起始打印位置：255MM;//此处存在问题//20230406修正：1.2未补偿系数//20230411:1r/s速度
+                            //////    TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed)/*"0.25"*/, Convert.ToString(PreAngleForPowderSupply)/*"0.097"*/ /*"0.5"*//*Convert.ToString(TrapSpace)*/, true, true);//20220512批注：此处不同于默认，为不等停/*(2)铺粉车移动到手动填粉位置;//30mm位置处*/
+
+                            //////    msg = $"在{{{k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply/*220*/}mm}}处，落粉轴运动{{{k_RYSYSParamAutoPrintParamInTest.m_dPreAngleForPowderSupply}度}}，落粉轴转速{{{DispenseRollerSpeed}rev/s}}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)";
+                            //////    Log4Net.Info(msg);
+
+                            //////    m_startFlag3 = true;
+                            //////}
+
+                            //(2)开启撒粉动作
+                            if (PosValue >= (255 - 90 - 40) && m_startFlag == false)//开启扫粉轴：先匀速转半圈（策略1）//20230411:200mm/s补偿9CM
                             {
                                 double DispenseRollerSpeed = 0.5 / ((620 - 255)/*255*/ / k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed) * 1.1;//20220512新建批注：有效区域宽度为460MM;起始打印位置：255MM;//20230406修正：1.2未补偿系数
                                 TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed)/*"0.25"*/, "0.5"/*Convert.ToString(TrapSpace)*/, true, true);//20220512批注：此处不同于默认，为不等停/*(2)铺粉车移动到手动填粉位置;//30mm位置处*/
@@ -6878,7 +7016,7 @@ namespace BinderJetting
                 msg = $"Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)";
                 Log4Net.Info(msg);
 
-                //Thread.Sleep(300);
+                Thread.Sleep(1000);//20230411新增：等待1s保证接上粉
 
                 //(2)洒粉车覆盖打印区域-过程中依次开铺粉辊及洒粉轴（移动-辊粉-撒粉）：20220512批注
                 //(A-B: 移动-辊粉)//20220919测量：辊子直径 25MM,原来的40MM(记忆中)//20230403修改：快速移动到成型区域
@@ -6899,6 +7037,7 @@ namespace BinderJetting
 
                 //C: 撒粉-指定区域内开启撒粉;具体策略1：先用迅速方式落粉 策略2：用插补模式落粉；暂时使用策略1
                 bool m_startFlag = false;
+                bool m_startFlag2 = false;//20230411新建:落粉轴预先运动标志位
                 bool m_startLightFlag = false;//开灯标志，确保开灯1次
                 bool m_startLightFlag2 = false;//20220920新增：关灯标志，确保关灯1次
                 double PosValue = 0;
@@ -6946,9 +7085,21 @@ namespace BinderJetting
                         }
                         m_startLightFlag2 = true;
                     }
+                    //////(1)预先转30度的撒粉动作
+                    ////if (PosValue >= k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply/*220*/ && m_startFlag2 == false)//20230411新建开启扫粉轴：先匀速转半圈（策略1）：到达220的时候先转30度
+                    ////{
+                    ////    double PreAngleForPowderSupply = k_RYSYSParamAutoPrintParamInTest.m_dPreAngleForPowderSupply/360;//20230411备注：单位为圈数
+                    ////    double DispenseRollerSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPreAngleRotateSpeedForPowderSupply;//20220512新建批注：有效区域宽度为460MM;起始打印位置：255MM;//此处存在问题//20230406修正：1.2未补偿系数//20230411:1r/s速度
+                    ////    TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed)/*"0.25"*/, Convert.ToString(PreAngleForPowderSupply)/*"0.097"*/ /*"0.5"*//*Convert.ToString(TrapSpace)*/, true, true);//20220512批注：此处不同于默认，为不等停/*(2)铺粉车移动到手动填粉位置;//30mm位置处*/
 
-                    //开启撒粉动作
-                    if (PosValue >= 255 && m_startFlag == false)//开启扫粉轴：先匀速转半圈（策略1）
+                    ////    msg = $"在{{{k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply/*220*/}mm}}处，落粉轴运动{{{k_RYSYSParamAutoPrintParamInTest.m_dPreAngleForPowderSupply}度}}，落粉轴转速{{{DispenseRollerSpeed}rev/s}}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)";
+                    ////    Log4Net.Info(msg);
+
+                    ////    m_startFlag2 = true;
+                    ////}
+
+                    //(2)开启正式的撒粉动作
+                    if (PosValue >= (255 - 90 - 40) && m_startFlag == false)//开启扫粉轴：先匀速转半圈（策略1）//20230411:200mm/s补偿9CM
                     {
                         double DispenseRollerSpeed = 0.5 / ((620 - 255)/*255*/ / k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed) * 1.1;//20220512新建批注：有效区域宽度为460MM;起始打印位置：255MM;//此处存在问题//20230406修正：1.2未补偿系数
                         TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed)/*"0.25"*/, "0.5"/*Convert.ToString(TrapSpace)*/, true, true);//20220512批注：此处不同于默认，为不等停/*(2)铺粉车移动到手动填粉位置;//30mm位置处*/
@@ -7045,7 +7196,6 @@ namespace BinderJetting
                     Log4Net.Info(msg);
                 }
                 #endregion
-
             }
         }
 
@@ -7168,9 +7318,9 @@ namespace BinderJetting
                         }
                         #endregion
 
-                        BackToStation(10, (float)ReturnVelocity1, true, false/*true*/);//停靠在里侧，向外侧步进喷头幅面
-                        BackToStation(25, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅面<---------------
-                        BackToStation(10 + PrintHeadWidth, (float)ReturnVelocity1, true, true);//停靠在里侧，向外侧步进喷头幅面
+                        BackToStation(10, (float)ReturnVelocity1, true, false/*true*/, 1);//停靠在里侧，向外侧步进喷头幅面
+                        BackToStation(25, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
+                        BackToStation(10 + PrintHeadWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
                         #region 监控指令：喷墨拍摄位点2
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
@@ -7184,8 +7334,8 @@ namespace BinderJetting
 
                         break;
                     case 1:
-                        BackToStation(425, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅面--------------->
-                        BackToStation(10 + 2 * PrintHeadWidth, (float)ReturnVelocity1, true, true);//停靠在里侧，向外侧步进喷头幅面
+                        BackToStation(425, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面--------------->
+                        BackToStation(10 + 2 * PrintHeadWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
                         #region 监控指令：喷墨拍摄位点3
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
@@ -7198,8 +7348,8 @@ namespace BinderJetting
                         #endregion
                         break;
                     case 2:
-                        BackToStation(25, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅面<---------------
-                        BackToStation(10 + 3 * PrintHeadWidth, (float)ReturnVelocity1, true, true);//停靠在里侧，向外侧步进喷头幅面
+                        BackToStation(25, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
+                        BackToStation(10 + 3 * PrintHeadWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
                         #region 监控指令：喷墨拍摄位点4
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
@@ -7212,8 +7362,8 @@ namespace BinderJetting
                         #endregion
                         break;
                     case 3:
-                        BackToStation(425, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅面--------------->
-                        BackToStation(10 + 4 * PrintHeadWidth, (float)ReturnVelocity1, true, true);//停靠在里侧，向外侧步进喷头幅面
+                        BackToStation(425, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面--------------->
+                        BackToStation(10 + 4 * PrintHeadWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
                         #region 监控指令：喷墨拍摄位点5
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[4])
@@ -7231,8 +7381,8 @@ namespace BinderJetting
                     //                                                           //BackToStation(25 + 5 *PrintHeadWidth, (float)ReturnVelocity1,true);//停靠在里侧，向外侧步进喷头幅面
 
                     case 4:
-                        BackToStation(25, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅面<---------------
-                        BackToStation(15 + 5 * PrintHeadWidth, (float)ReturnVelocity1, true, true);//停靠在里侧，向外侧步进喷头幅面
+                        BackToStation(25, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
+                        BackToStation(15 + 5 * PrintHeadWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
                         #region 监控指令：喷墨拍摄位点6
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
@@ -7246,14 +7396,14 @@ namespace BinderJetting
 
                         break;
                     case 5://第6Pass
-                        BackToStation(425, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅面--------------->
+                        BackToStation(425, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面--------------->
                         //BackToStation(25 + 5 *PrintHeadWidth, (float)ReturnVelocity1,true);//停靠在里侧，向外侧步进喷头幅面
 
                         break;
                 }
             }
-            BackToStation(710/*735*/, (float)ReturnVelocity1, false, false);//回到原点：X=50MM处<---------------//20220520新建：位置修改为780MM处，清洗工作位
-            BackToStation(96 + 25/*25*/, (float)ReturnVelocity1, true, false);//回到原点：Y=50MM处//20220520新建：位置修改为96MM处，清洗工作位//20220525修改：补偿25
+            BackToStation(710/*735*/, (float)ReturnVelocity1, false, false, 1);//回到原点：X=50MM处<---------------//20220520新建：位置修改为780MM处，清洗工作位
+            BackToStation(96 + 25/*25*/, (float)ReturnVelocity1, true, false, 1);//回到原点：Y=50MM处//20220520新建：位置修改为96MM处，清洗工作位//20220525修改：补偿25
             WaitStop(1);//20220520新建：等停墨车第1轴：X方向//外部等停
             WaitStop(2);//20220520新建：//等停墨车第2轴：Y方向//外部等停
 
@@ -7272,7 +7422,7 @@ namespace BinderJetting
             #endregion
         }
 
-        public void AutoPrintThread2(int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex)//20220513新建:自动喷墨运动动作
+        public void AutoPrintThread2(int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth)//20220513新建:自动喷墨运动动作
         {
             string msg = $"进入：AutoPrintThread2！";
             Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
@@ -7301,10 +7451,10 @@ namespace BinderJetting
                             msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal}}}";
                             Log4Net.Info(msg);
 
-                            BackToStation(15, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false/*true*/);//停靠在里侧，向外侧步进喷头幅面
-                            BackToStation(425, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true);//停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(25, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + PrintHeadWidth, (float)ReturnVelocity1, true, true);//停靠在里侧，向外侧步进喷头幅面
+                            BackToStation(15 + YJetOffWidth, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false/*true*/, 1);//停靠在里侧，向外侧步进喷头幅面
+                            BackToStation(425, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
+                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
+                            BackToStation(15 + PrintHeadWidth + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
                             #region 监控指令：喷墨拍摄位点2
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
@@ -7315,8 +7465,8 @@ namespace BinderJetting
 
                             break;
                         case 1:
-                            BackToStation(425, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅面--------------->
-                            BackToStation(15 + 2 * PrintHeadWidth, (float)ReturnVelocity1, true, true);//停靠在里侧，向外侧步进喷头幅面
+                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面--------------->
+                            BackToStation(15 + 2 * PrintHeadWidth + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
                             #region 监控指令：喷墨拍摄位点3
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
@@ -7327,8 +7477,8 @@ namespace BinderJetting
 
                             break;
                         case 2:
-                            BackToStation(25, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 3 * PrintHeadWidth, (float)ReturnVelocity1, true, true);//停靠在里侧，向外侧步进喷头幅面
+                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
+                            BackToStation(15 + 3 * PrintHeadWidth + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
 
                             #region 监控指令：喷墨拍摄位点4
@@ -7339,8 +7489,8 @@ namespace BinderJetting
                             #endregion
                             break;
                         case 3:
-                            BackToStation(425, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅面--------------->
-                            BackToStation(15 + 4 * PrintHeadWidth, (float)ReturnVelocity1, true, true);//停靠在里侧，向外侧步进喷头幅面
+                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面--------------->
+                            BackToStation(15 + 4 * PrintHeadWidth + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
                             #region 监控指令：喷墨拍摄位点5
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[4])
@@ -7351,8 +7501,8 @@ namespace BinderJetting
 
                             break;
                         case 4:
-                            BackToStation(25, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 5 * PrintHeadWidth, (float)ReturnVelocity1, true, true);//停靠在里侧，向外侧步进喷头幅面
+                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
+                            BackToStation(15 + 5 * PrintHeadWidth + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
                             #region 监控指令：喷墨拍摄位点6
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
@@ -7363,14 +7513,20 @@ namespace BinderJetting
 
                             break;
                         case 5://第6Pass
-                            BackToStation(425, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅面<---------------
+                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
                             //BackToStation(25 + 5 *PrintHeadWidth, (float)ReturnVelocity1,true);//停靠在里侧，向外侧步进喷头幅面
-
-                            BackToStation(780/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, false);//回到原点：X=50MM处<---------------//20220520新建：位置修改为780MM处，清洗工作位
-                            BackToStation(96 + 25/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false);//回到原点：Y=50MM处//20220520新建：位置修改为96MM处，清洗工作位//20220525修改：补偿25
-                            WaitStop(1);//20220520新建：等停墨车第1轴：X方向//外部等停
-                            WaitStop(2);//20220520新建：//等停墨车第2轴：Y方向//外部等停
-
+                            if (PauseFlag != 1)
+                            {
+                                BackToStation(780/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, false, 1);//回到原点：X=50MM处<---------------//20220520新建：位置修改为780MM处，清洗工作位
+                                BackToStation(96 + 25/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false, 1);//回到原点：Y=50MM处//20220520新建：位置修改为96MM处，清洗工作位//20220525修改：补偿25
+                                WaitStop(1);//20220520新建：等停墨车第1轴：X方向//外部等停
+                                WaitStop(2);//20220520新建：//等停墨车第2轴：Y方向//外部等停
+                            }
+                            else if (PauseFlag == 1)//20230410新增：
+                            {
+                                BackToStation(734.275/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
+                                BackToStation(321.455/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
+                            }
                             #region 监控指令：喷墨拍摄位点7
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
                             {
@@ -7382,6 +7538,149 @@ namespace BinderJetting
                             bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷
                             msg = $"开启闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal2}}}";
                             Log4Net.Info(msg);
+
+                            break;
+                        case 6://20230410修改：附加一次运动，确保墨车运动到清洗站工作位，以提供手动操作
+                            if (PauseFlag == 1)//20230410新增：
+                            {
+                                BackToStation(758/*734.275*//*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
+                                BackToStation(317/*321.455*//*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
+                            }
+
+                            break;
+                    }
+                }
+            }
+            else { }
+        }
+        //20230418新增：自动喷墨逻辑,采用双PASS方式进行打印
+        public void AutoPrintThread3(int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag,double YJetOffWidth)//20220513新建:自动喷墨运动动作
+        {
+            string msg = $"进入：AutoPrintThread3！";
+            Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+
+            if (Command == 0) { }
+            else if (Command == 1)//第2代设备的打印PASS总数为6
+            {
+                double PrintWidth = 350;/*宽度值设为350MM*/ double PrintHeadWidth = 54;/*宽度值设为5MM*/
+                double ReturnVelocity1 = m_szMovSpeed/*20*/;//喷墨移动速度
+                ReturnVelocity1 = m_MovSpeed;
+                double ReturnVelocity2 = m_BackCleanMovSpeed;//20230404新增：
+                {
+                    switch (PassIndex)
+                    {
+                        case 0://第1PASS
+                            #region 监控指令：喷墨拍摄位点1
+                            //toCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
+                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
+                            {
+                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 1);//20230113新建且批注：监控发送指令
+                            }
+                            #endregion
+                            //20220920新增：在第1PASS打印运动之前，需要关闭闪喷：否则会导致打印乱码
+                            bool nRetVal = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷
+                            /*string*/
+                            msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal}}}";
+                            Log4Net.Info(msg);
+#if false
+                            BackToStation(15, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false/*true*/, 1);//准备Y向进给到位：停靠在里侧，向外侧步进喷头幅面
+                            BackToStation(425, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true, 1);//准备移动打印到位：停靠在右侧，向左侧运动打印幅面<---------------
+#else
+                            BackToStation(15 + 5 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
+#endif
+                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
+                            BackToStation(15 + 4 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
+
+#region 监控指令：喷墨拍摄位点2
+                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
+                            {
+                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 2);//20230113新建且批注：监控发送指令
+                            }
+#endregion
+
+                            break;
+                        case 1://第2PASS
+                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面--------------->
+                            BackToStation(15 + 3 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
+
+#region 监控指令：喷墨拍摄位点3
+                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
+                            {
+                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 3);//20230113新建且批注：监控发送指令
+                            }
+#endregion
+
+                            break;
+                        case 2://第3PASS
+                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
+                            BackToStation(15 + 2 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
+
+
+#region 监控指令：喷墨拍摄位点4
+                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
+                            {
+                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 4);//20230113新建且批注：监控发送指令
+                            }
+#endregion
+                            break;
+                        case 3://第4PASS
+                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面--------------->
+                            BackToStation(15 + 1 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
+
+#region 监控指令：喷墨拍摄位点5
+                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[4])
+                            {
+                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 5);//20230113新建且批注：监控发送指令
+                            }
+#endregion
+
+                            break;
+                        case 4://第5Pass
+                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
+                            BackToStation(15 + 0 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
+
+#region 监控指令：喷墨拍摄位点6
+                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
+                            {
+                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 6);//20230113新建且批注：监控发送指令
+                            }
+#endregion
+
+                            break;
+                        case 5://第6Pass
+                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
+
+                            if (PauseFlag != 1)//回原点
+                            {
+                                BackToStation(780/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, false, 1);//回到原点：X=50MM处<---------------//20220520新建：位置修改为780MM处，清洗工作位
+                                BackToStation(96 + 25/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false, 1);//回到原点：Y=50MM处//20220520新建：位置修改为96MM处，清洗工作位//20220525修改：补偿25
+                                WaitStop(1);//20220520新建：等停墨车第1轴：X方向//外部等停
+                                WaitStop(2);//20220520新建：//等停墨车第2轴：Y方向//外部等停
+                            }
+                            else if (PauseFlag == 1)//20230410新增：
+                            {
+                                BackToStation(734.275/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
+                                BackToStation(321.455/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
+                            }
+#region 监控指令：喷墨拍摄位点7
+                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
+                            {
+                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 7);//20230113新建且批注：监控发送指令
+                            }
+#endregion
+
+                            //20220920新增：在第5PASS打印运动之后，需要开启闪喷：否则会因为胶水的流动性问题，导致打印不连续
+                            bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷
+                            msg = $"开启闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal2}}}";
+                            Log4Net.Info(msg);
+
+                            break;
+                        case 6://20230410修改：附加一次运动，确保墨车运动到清洗站工作位，以提供手动操作
+                            if (PauseFlag == 1)//20230410新增：
+                            {
+                                BackToStation(758/*734.275*//*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
+                                BackToStation(317/*321.455*//*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
+                            }
 
                             break;
                     }
@@ -7681,6 +7980,10 @@ namespace BinderJetting
             textBox24.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PowderStationCorrection", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//20220528新增：单位MM
             textBox25.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PowderSupplyRotateNum", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//20220528新增：单位圈
 
+            textBox28.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PreAngleForPowderSupply", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);
+            textBox29.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PreAngleRotateSpeedForPowderSupply", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);
+            textBox30.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PreAngleRotatePositionForPowderSupply", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);
+
 
             textBox6.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "CureBackSpeed", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);
 
@@ -7693,14 +7996,18 @@ namespace BinderJetting
 
             textBox22.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PowderSpreaderHomeposition", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20220526新建：粉末Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置
             textBox23.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "InkSpreaderHomeposition", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20220526新建：墨车Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置
+            textBox34.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "SraperAngleOffHome", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20220526新建：墨车Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置
 
             //清洗参数：20230331新增：
             textBox20.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "CleanCarSpeed", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗时墨车运动速度（清洗时用）
             textBox27.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "CleanAxisSpeed", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗时墨车运动速度（清洗时用）
             textBox26.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PressInkTime", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：压墨时长（清洗时用）
+            textBox31.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PressInkWaitTime", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230412新增：压墨等待时长（清洗时用）
             comboBox4.DataBindings.Add("SelectedIndex", k_RYSYSParamAutoPrintParamInTest, "StartSpark", true, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗时是否闪喷（清洗时用）
             comboBox5.DataBindings.Add("SelectedIndex", k_RYSYSParamAutoPrintParamInTest, "StartRePrintClean", true, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗时是否闪喷（清洗时用）
+            comboBox7.DataBindings.Add("SelectedIndex", k_RYSYSParamAutoPrintParamInTest, "AutoPrintCleanEnabled", true, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗时是否闪喷（清洗时用）
             comboBox6.DataBindings.Add("SelectedIndex", k_RYSYSParamAutoPrintParamInTest, "PressAgainRePrintClean", true, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗时是否重刮压墨（清洗时用）
+            comboBox8.DataBindings.Add("SelectedIndex", k_RYSYSParamAutoPrintParamInTest, "BackToRevisionStationAfterClean", true, DataSourceUpdateMode.OnPropertyChanged);//20230416新增：手动清洗时，是否回观察站
             textBox21.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "CleanTimes", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗次数（清洗时用）
 
             //IR固化功率：20220523新增：
@@ -8208,505 +8515,708 @@ namespace BinderJetting
         {
 
         }
-        /********************************************温度电压气压监控线程：结束*********************************************/
-    }
-    /****************************************墨量状态控件类****************************************/
-    public class InkStateCtrl
-    {
-        int m_nOffset;//参数1:
-        int m_nInkCnts;//参数2
-        int m_nInkState;//参数3
-        string m_szInfo;//参数4：显示信息，stringInfo
-        ///////存放所有墨盒INK的标签
-        List<string> CtrlLabel = new List<string>();//初始化值为空
-        //////类初始化
-        public InkStateCtrl()
-        {
-            m_nOffset = 0;//参数1
-            m_nInkCnts = 8;//参数2
-            m_nInkState = 0;//参数3
-            m_szInfo = "";//参数4：显示信息，stringInfo
-        }
-        ///////设置墨盒INK数量
-        public void SetInkCount(int nInkCnts, int nOffset)//nOffset:设置非常巧妙：
-                                                          //这样int可以表示那么多的状态，且不同的区域，表示不同类型的值的状态
-        {
-            m_nOffset = nOffset;
-            m_nInkCnts = nInkCnts;
-        }
-        //////设置INK墨盒状态
-        public void SetInkState(int nInkState)
-        {
-            m_nInkState = nInkState;
-        }
-        //////绘制控件
-        public void OnPaint(Graphics gra, Rectangle rectClient)
-        {
-            //Graphics g = this.CreateGraphics();
-            Pen drawPen = new Pen(Color.Green, (float)0.5);
-            SolidBrush b1 = new SolidBrush(Color.FromArgb(50, Color.Green));//画笔
 
-            int nCtlValue;
-            string CtrlText = null;
-            //Rectangle rectClient;//父亲窗体，即是绘制所有的墨盒状态的父窗体空间
-            Rectangle rectItem = new Rectangle(); ;//子窗体，父窗体中分割出的子窗体   
+        private void InkCarTapMoveForCorrection_Click(object sender, EventArgs e)
+        {
+            int myTag = Convert.ToInt32((sender as Control).Tag);
+            double XStepWidth = 20;
+            double YStepWidth = 20;/*距离设为50MM*/
+            double MoveSpeed = m_szMovSpeed/*20*/;//喷墨移动速度
+            UInt32 CurrentPos, AimPos, CurrentPos2;
+            string msg = null;
 
-            int widthUnit = rectClient.Width / m_nInkCnts;//子窗体分割控件的宽度
-            int heightUnit = rectClient.Height;//子窗体分割控件的高度
-
-            //依次绘制出各个控件的状态（默认为8个）
-            for (int i = m_nOffset; i < m_nInkCnts + m_nOffset; i++)
+            //(b2)根据ID反转颜色状态
+            //(c)计算并执行动作：
+            switch (myTag)
             {
-                //从掩码中提取对应的位状态
-                nCtlValue = (1 << (i - m_nOffset));
-
-                //设置第i位的背景画布的尺寸
-                //3目运算符运行的非常好，类似于1个if-else判断
-                rectItem.X = (i - m_nOffset) * widthUnit;
-                rectItem.Y = (i + 1 - m_nOffset < m_nInkCnts) ? ((i + 1 - m_nOffset) * widthUnit) : (rectClient.X + rectClient.Width);
-                rectItem.Width = widthUnit;
-                rectItem.Height = heightUnit;
-
-                //绘制第i位的背景画布
-                //dc.Draw3dRect(&rectItem, RGB(192, 192, 192), RGB(100, 100, 100));
-                gra.DrawRectangle(drawPen, rectItem);//画子窗体背景框
-                gra.FillRectangle(b1, rectItem);//画子窗体背景填充色
-
-                //设置第i位的前景图形
-                rectItem.X += 2; rectItem.Y = 2;
-                rectItem.Width -= 4; rectItem.Height -= 6;
-                //绘制第i位的前景图形
-                //此处的运算符巧妙：3目运算符的使用
-                if ((m_nInkState & nCtlValue) == 0)//掩码校验
-                {
-                    drawPen = new Pen(Color.Black, (float)0.5);
-                    //b1 = new SolidBrush(Color.FromArgb(100, Color.Green));//画笔
-                    b1 = new SolidBrush(Color.Red);//画笔
-                }
-                else
-                {
-                    drawPen = new Pen(Color.Black, (float)0.5);
-                    //b1 = new SolidBrush(Color.FromArgb(100, Color.Red));//画笔
-                    b1 = new SolidBrush(Color.LimeGreen);//画笔
-                }
-
-                gra.DrawRectangle(drawPen, rectItem);//画子窗体背景框
-                gra.FillRectangle(b1, rectItem);//画子窗体背景填充色                
-
-                //绘制第i位的前景文字
-                b1 = new SolidBrush(Color.Black);//画笔
-                CtrlText = (i + 1).ToString();
-                gra.DrawString(CtrlText, new Font(/*"宋体"*/"Times New Roman", 11/*,FontStyle.Bold*/), b1, new Point(rectItem.X + rectItem.Width / 2 - 6, rectItem.Y + rectItem.Height / 2 - 6));
-
-                //画笔和画刷复位
-                drawPen = new Pen(Color.LimeGreen, (float)0.5);
-                b1 = new SolidBrush(Color.LimeGreen);//画笔
-                //this.CreateGraphics().
-            }
-        }
-    }
-    /****************************************墨量状态控件类****************************************/
-    public class GohomeParam
-    {
-        public short AXIS;//对应的轴号
-        public double vel;//JogGoHome的速度
-        //public bool FlagGoHome;//正在GoHome标志位
-        public bool Ends;//终止端
-    }
-
-    public class EnvironmentParam : INotifyPropertyChanged//C#中，通知类的属性值已经更改，可以避免大量的通用事件的使用；其中关键是属性的理解及和lambda表达式的使用方法
-    {
-        //private string _theValue = string.Empty;////20200225：字段————测试的示例
-
-        /// <summary>
-        /// 负压阈值
-        /// </summary>
-        public float m_fAirHold = 0.1f/*20.0f*//*"0.2"*/;//负压阈值
-        public event PropertyChangedEventHandler PropertyChanged;//20200224新增：必须定义事件；是接口INotifyPropertyChanged的必须的事件       
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")//20200225：【CallerMemberName】特性精华：每次调用 TraceMessage 方法时，调用方信息将替换为可选参数的参数。
-        {
-            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));//20200225：propertyName：是1个附带参数
-        }
-
-        /// 负压阈值
-        public float AirHold//负压阈值
-        {
-            //（1）测试通过：20200401新增
-            get { return this.m_fAirHold; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_fAirHold) { this.m_fAirHold = value; NotifyPropertyChanged(); } }
-
-            //（2）调试专用：20200401新增，新减
-            //get {
-            //    return (this.m_fAirHold).ToString();
-            //}
-            //set {
-            //    if (Convert.ToSingle(value) != this.m_fAirHold/*value != (this.m_fAirHold).ToString()*/)//（1）输入框的字符串和变量的字符串不一致，就刷新从值下去；（2）存在异常情况：输入小数点，输入小数点后数字为0,输入的字符串不是小数点和数字
-            //    {
-            //        this.m_fAirHold = Convert.ToSingle(value);
-            //        NotifyPropertyChanged();
-            //    }
-            //    else
-            //    {
-            //    }
-            //}
-        }
-    }
-
-    public class AutoPrintParamInTest : INotifyPropertyChanged, ICloneable//C#中，通知类的属性值已经更改，可以避免大量的通用事件的使用；其中关键是属性的理解及和lambda表达式的使用方法
-    {
-        /// <summary>
-        /// 返回本类的浅表复本
-        /// </summary>
-        /// <returns></returns>
-        public object Clone()//精华
-        {
-            return this.MemberwiseClone();//返回本类的浅表复本//20200401新增：精华
-        }
-        public event PropertyChangedEventHandler PropertyChanged;//20200224新增：必须定义事件；是接口INotifyPropertyChanged的必须的事件       
-        //表达式树：lambda表达式，为一段可执行代码————SQL数据库查询的时候使用
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")//20200225：【CallerMemberName】特性精华：每次调用 TraceMessage 方法时，调用方信息将替换为可选参数的参数。
-        {
-            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));//20200225：propertyName：是1个附带参数
-        }
-
-        /// <summary>
-        /// 自动固化-自动进给铺粉-自动铺粉续打所需参数
-        /// </summary>
-        /// 
-        public int m_nRecoaterStrategy = 0;//自动铺粉策略：默认0为直接铺粉方式
-        public int m_nCureLightStrategy = 0;//固化策略类型：默认0为UV固化方式，1为IR固化方式
-        public int m_nRollerRotateDirection = 0;//辊子方向校准：20220527新增：便于修正辊子方向
-
-        public int m_nLayerThick = 150;//层厚进给（um）//20220525新建：默认铺粉层厚为150μm
-        public int m_nLayerThick2 = 300;//层厚进给2（um）
-
-        public double m_dPowderStationCorrection = 2.5;//20220528新增：单位MM
-        public double m_dPowderSupplyRotateNum = 1;//20220528新增：单位圈
-
-
-        public double m_dCureBackSpeed = 150;//固化回程速度（mm/s）//20210621修改：
-        public int m_nCleanFrequency = 25;//清洗频率（层）//20210201新建批注：优化工艺参数为25层清洗1次，较为合适
-        public double m_dCleanSparkTime = 5;//清洗闪喷时长（s）//20210201新建批注：5s的清洗闪喷后处理较为合适，较为合适
-        public int m_nRePrintTimes = 1;//重喷次数（次）////20210201新建批注：1次的重喷参数匹配合适的打印速度及数据精度，打印的效果，较为合适
-
-        public /*int*/double /*m_nCureFrequency*/m_dCureFrequency = 125;//工作频率（Hz）//2021.615修改为double
-        public double m_dDutyRatio = 100;//占空比（%）//20210621修改:由m_dCurePower修改为m_dDutyRatio
-        public int m_nCureEnergyDensity = 1600;//20210621新增:UV灯Cure能量密度：取值为0mJ-25mJ-50mJ-100mJ-200mJ-400mJ-800mJ-1600mJ-3200mJ
-
-
-        public double m_dLeftCureOn = 550;//左灯开启（mm）
-        public double m_dLeftCureOff = 1000;//左灯开启（mm）
-        public double m_dRightCureOn = 270;//左灯开启（mm）
-        public double m_dRightCureOff = 720;//左灯开启（mm）
-
-        public double m_dPowderSpeed = 40;//铺粉速度（mm/s）
-        public double m_dRollerSpeed = 1;//滚动速度（mm/s）
-        public double m_dPowderCarStartposition = 100;//铺粉起铺位置
-        public double m_dPowderCarStayposition = 5;//铺粉停靠位置
-        public double m_dPowderCarBackSpeed = 40;//铺粉车复位速度（mm/s）
-        public double m_dPowderCarBackRollerSpeed = 1;//铺粉车复位滚动速度（REV/s）
-        public double m_dPowderCarHomeposition = 112/*5*/;//20220512新建：光电HOME传感器物理位置//20220521修改：铺粉回零位修改为112MM
-        public double m_dPowderSpreaderHomeposition = 40/*5*/;//20220526新建：粉末Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）
-        public double m_dInkSpreaderHomeposition = 106/*40*//*5*/;//20220526新建：墨车Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）//20230407修改：修正后的复位值为106°
-
-        public double m_dIRPowerPercentage = 20;//20220523新建：默认IR功率为20%
-
-
-        public double m_dPowderSupplyCoefficient = 1;//供粉系数，供粉缸进给量相比成形缸的进给量的倍数：201030新增
-
-        //自动铺粉策略类型:20210124新增
-        public int RecoaterStrategy//
-        {
-            get { return this.m_nRecoaterStrategy; }
-            set { if (value != this.m_nRecoaterStrategy) { this.m_nRecoaterStrategy = value; NotifyPropertyChanged(); } }
-        }
-        //固化策略类型：20220523新增
-        public int CureLightStrategy
-        {
-            get { return this.m_nCureLightStrategy; }
-            set { if (value != this.m_nCureLightStrategy) { this.m_nCureLightStrategy = value; NotifyPropertyChanged(); } }
-        }
-        ////辊子方向校准：20220527新增：便于修正辊子方向
-        public int RollerRotateDirection
-        {
-            get { return this.m_nRollerRotateDirection; }
-            set { if (value != this.m_nRollerRotateDirection) { this.m_nRollerRotateDirection = value; NotifyPropertyChanged(); } }
-        }
-
-        ///自动固化-自动进给铺粉-自动铺粉续打所需参数
-        public int LayerThick//层厚进给（um）
-        {
-            get { return this.m_nLayerThick; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_nLayerThick) { this.m_nLayerThick = value; NotifyPropertyChanged(); } }
-        }
-        public int LayerThick2//层厚进给（um）
-        {
-            get { return this.m_nLayerThick2; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_nLayerThick2) { this.m_nLayerThick2 = value; NotifyPropertyChanged(); } }
-        }
-
-        /////20220528新增：单位MM
-        public double PowderStationCorrection
-        {
-            get { return this.m_dPowderStationCorrection; }
-            set { if (value != this.m_dPowderStationCorrection) { this.m_dPowderStationCorrection = value; NotifyPropertyChanged(); } }
-        }
-        ///20220528新增：单位圈
-        public double PowderSupplyRotateNum
-        {
-            get { return this.m_dPowderSupplyRotateNum; }
-            set { if (value != this.m_dPowderSupplyRotateNum) { this.m_dPowderSupplyRotateNum = value; NotifyPropertyChanged(); } }
-        }
-
-        public double CureBackSpeed//固化回程速度（mm/s）//20210621修改：
-        {
-            get { return this.m_dCureBackSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set
-            {
-                if (value != this.m_dCureBackSpeed && (0 <= value && value <= 250))
-                {
-                    this.m_dCureBackSpeed = value; NotifyPropertyChanged();
-                }
-                else if (value > 250)
-                {
-                    this.m_dCureBackSpeed = 250; NotifyPropertyChanged();
-                }
-                else if (value < 0)
-                {
-                    this.m_dCureBackSpeed = 0; NotifyPropertyChanged();
-                }
-            }
-        }
-        public int CleanFrequency//固化速度（mm/s）
-        {
-            get { return this.m_nCleanFrequency; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_nCleanFrequency) { this.m_nCleanFrequency = value; NotifyPropertyChanged(); } }
-        }
-        public double CleanSparkTime//清洗闪喷时长（s）
-        {
-            get { return this.m_dCleanSparkTime; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dCleanSparkTime) { this.m_dCleanSparkTime = value; NotifyPropertyChanged(); } }
-        }
-
-        public int RePrintTimes//固化速度（mm/s）
-        {
-            get { return this.m_nRePrintTimes; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_nRePrintTimes) { this.m_nRePrintTimes = value; NotifyPropertyChanged(); } }
-        }
-        public double DutyRatio//占空比（%）//20210621修改:由CurePower修改为DutyRatio
-        {
-            get/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            {
-                return this.m_dDutyRatio;
-            }
-            set
-            {
-                if (value != this.m_dDutyRatio && (0 <= value && value <= 100))
-                {
-                    this.m_dDutyRatio = value; NotifyPropertyChanged();
-                }
-                else if (value > 100)
-                {
-                    this.m_dDutyRatio = 100; NotifyPropertyChanged();
-                }
-                else if (value < 0)
-                {
-                    this.m_dDutyRatio = 0; NotifyPropertyChanged();
-                }
-            }
-        }
-        public int CureEnergyDensity//20210621新增:UV灯Cure能量密度：取值为0mJ-25mJ-50mJ-100mJ-200mJ-400mJ-800mJ-1600mJ-3200mJ
-        {
-            get { return this.m_nCureEnergyDensity; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_nCureEnergyDensity) { this.m_nCureEnergyDensity = value; NotifyPropertyChanged(); } }
-        }
-
-        public /*int*/double CureFrequency//工作频率（Hz）//2021.615修改为double
-        {
-            get { return this.m_dCureFrequency; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dCureFrequency) { this.m_dCureFrequency = value; NotifyPropertyChanged(); } }
-        }
-        public double LeftCureOn//工作频率（Hz）
-        {
-            get { return this.m_dLeftCureOn; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dLeftCureOn) { this.m_dLeftCureOn = value; NotifyPropertyChanged(); } }
-        }
-        public double LeftCureOff//工作频率（Hz）
-        {
-            get { return this.m_dLeftCureOff; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dLeftCureOff) { this.m_dLeftCureOff = value; NotifyPropertyChanged(); } }
-        }
-        public double RightCureOn//工作频率（Hz）
-        {
-            get { return this.m_dRightCureOn; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dRightCureOn) { this.m_dRightCureOn = value; NotifyPropertyChanged(); } }
-        }
-        public double RightCureOff//工作频率（Hz）
-        {
-            get { return this.m_dRightCureOff; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dRightCureOff) { this.m_dRightCureOff = value; NotifyPropertyChanged(); } }
-        }
-
-
-        public double PowderSpeed//铺粉速度（mm/s）
-        {
-            get { return this.m_dPowderSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dPowderSpeed) { this.m_dPowderSpeed = value; NotifyPropertyChanged(); } }
-        }
-        public double RollerSpeed//滚动速度（mm/s）
-        {
-            get { return this.m_dRollerSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dRollerSpeed) { this.m_dRollerSpeed = value; NotifyPropertyChanged(); } }
-        }
-        public double PowderCarStartposition//铺粉起铺位置
-        {
-            get { return this.m_dPowderCarStartposition; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dPowderCarStartposition) { this.m_dPowderCarStartposition = value; NotifyPropertyChanged(); } }
-        }
-        public double PowderCarHomeposition//20220512新建：光电HOME传感器物理位置
-        {
-            get { return this.m_dPowderCarHomeposition; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dPowderCarHomeposition) { this.m_dPowderCarHomeposition = value; NotifyPropertyChanged(); } }
-        }
-        public double PowderSpreaderHomeposition//20220526新建：粉末Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置
-        {
-            get { return this.m_dPowderSpreaderHomeposition; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dPowderSpreaderHomeposition) { this.m_dPowderSpreaderHomeposition = value; NotifyPropertyChanged(); } }
-        }
-        public double InkSpreaderHomeposition//20220526新建：墨车Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置
-        {
-            get { return this.m_dInkSpreaderHomeposition; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dInkSpreaderHomeposition) { this.m_dInkSpreaderHomeposition = value; NotifyPropertyChanged(); } }
-        }
-
-        //清洗参数：20230331新增：
-        public double CleanCarSpeed//20230331新增：清洗时墨车运动速度（清洗时用）
-        {
-            get { return this.m_dCleanCarSpeed; }
-            set
-            {
-                if (value != this.m_dCleanCarSpeed)
-                {
-                    if (value >= 150)//最大速度不得超过150 mm/s
+                case 1://墨车X方向
+                    //（1）墨车Y方向点动：按照千脉冲/MM算
+                    XStepWidth = Convert.ToInt32(textBox32.Text);/*距离设为20MM*/
+                    if (XStepWidth >= 55)
                     {
-                        this.m_dCleanCarSpeed = 150; NotifyPropertyChanged();
+                        XStepWidth = 55;
                     }
-                    else if (value >= 0)
+                    else if (XStepWidth <= -55)
                     {
-                        this.m_dCleanCarSpeed = value; NotifyPropertyChanged();
+                        XStepWidth = -55;
                     }
-                    else { }
-                }
+
+                    MoveSpeed = m_szMovSpeed/*20*/;//喷墨移动速度
+                    //（1）墨车X方向点动：按照千脉冲/MM算
+                    CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
+                    AimPos = (UInt32)(CurrentPos *0.005) + (UInt32)XStepWidth;
+
+                    msg = $"编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{{{CurrentPos * 0.005}}}AimPos{{{AimPos}}}";
+                    Log4Net.Info(msg);
+                    BackToStation(AimPos, (float)MoveSpeed, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
+                    Thread.Sleep(2000);//等待停稳
+
+                    //（2）计算校准系数：根据实际的光栅值进行校准系数计算
+                    CurrentPos2 = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
+                    msg = $"编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{{{CurrentPos2 * 0.005}}}";
+
+                    double XcorrectionRatio = (CurrentPos2 - CurrentPos) * 0.005 / XStepWidth;
+                    label106.Text = XcorrectionRatio.ToString("F3");//刷新显示：小数点后3位
+
+                    break;
+
+                case 2://墨车Y方向
+                    //（1）墨车Y方向点动：按照千脉冲/MM算
+                    YStepWidth = Convert.ToInt32(textBox33.Text);/*距离设为20MM*/
+                    if (YStepWidth >= 55)
+                    {
+                        YStepWidth = 55;
+                    }
+                    else if (YStepWidth <= -55)
+                    {
+                        YStepWidth = -55;
+                    }
+
+                    MoveSpeed = m_szMovSpeed/*20*/;//喷墨移动速度
+                    CurrentPos = royal.royal.DEM_GetAxisEncodeVal(1);//初始编码器位置：
+                    AimPos = (UInt32)(CurrentPos * 0.005)+ (UInt32)YStepWidth;
+                    msg = $"编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{{{CurrentPos * 0.005}}}AimPos{{{AimPos}}}";
+                    Log4Net.Info(msg);
+
+                    BackToStation(AimPos, (float)MoveSpeed, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
+                    Thread.Sleep(2000);//等待停稳
+
+                    //（2）计算校准系数：根据实际的光栅值进行校准系数计算
+                    CurrentPos2 = royal.royal.DEM_GetAxisEncodeVal(1);//初始编码器位置：
+                    msg = $"编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{{{CurrentPos2 * 0.005}}}";
+
+                    double YcorrectionRatio = (CurrentPos2 - CurrentPos) * 0.005 / YStepWidth;
+                    label107.Text = YcorrectionRatio.ToString("F3");//刷新显示：小数点后3位
+
+                    break;
             }
+            /********************************************温度电压气压监控线程：结束*********************************************/
         }
-        public double CleanAxisSpeed//20230331新增：清洗时墨车轴转动速度（清洗时用）
+        /****************************************墨量状态控件类****************************************/
+        public class InkStateCtrl
         {
-            get { return this.m_dCleanAxisSpeed; }
-            set
+            int m_nOffset;//参数1:
+            int m_nInkCnts;//参数2
+            int m_nInkState;//参数3
+            string m_szInfo;//参数4：显示信息，stringInfo
+                            ///////存放所有墨盒INK的标签
+            List<string> CtrlLabel = new List<string>();//初始化值为空
+                                                        //////类初始化
+            public InkStateCtrl()
             {
-                if (value != this.m_dCleanAxisSpeed)
-                {
-                    if (value >= 2)//最大速度不得超过2 圈/s
-                    {
-                        this.m_dCleanAxisSpeed = 2; NotifyPropertyChanged();
-                    }
-                    else if (value >= 0)
-                    {
-                        this.m_dCleanAxisSpeed = value; NotifyPropertyChanged();
-                    }
-                    else { }
-                }
+                m_nOffset = 0;//参数1
+                m_nInkCnts = 8;//参数2
+                m_nInkState = 0;//参数3
+                m_szInfo = "";//参数4：显示信息，stringInfo
             }
-        }
-        public double PressInkTime//20230331新增：压墨时长（清洗时用）
-        {
-            get { return this.m_dPressInkTime; }
-            set
+            ///////设置墨盒INK数量
+            public void SetInkCount(int nInkCnts, int nOffset)//nOffset:设置非常巧妙：
+                                                              //这样int可以表示那么多的状态，且不同的区域，表示不同类型的值的状态
             {
-                if (value != this.m_dPressInkTime)
-                {
-                    if (value >= 10) //最长压墨时间不超过5S
-                    {
-                        this.m_dPressInkTime = 10; NotifyPropertyChanged();
-                    }
-                    else if (value >= 0)
-                    {
-                        this.m_dPressInkTime = value; NotifyPropertyChanged();
-                    }
-                    else { }
-                }
+                m_nOffset = nOffset;
+                m_nInkCnts = nInkCnts;
             }
-        }
-        public int StartSpark//20230331新增：清洗时是否闪喷（清洗时用）
-        {
-            get { return this.m_nStartSpark; }
-            set { if (value != this.m_nStartSpark) { this.m_nStartSpark = value; NotifyPropertyChanged(); } }
-        }
-        public int StartRePrintClean//20230401新增：重喷时是否开启清洗（清洗时用）
-        {
-            get { return this.m_nStartRePrintClean; }
-            set { if (value != this.m_nStartRePrintClean) { this.m_nStartRePrintClean = value; NotifyPropertyChanged(); } }
-        }
-        public int PressAgainRePrintClean//20230401新增：重喷时是否开启重刮压墨（清洗时用）
-        {
-            get { return this.m_nPressAgainRePrintClean; }
-            set { if (value != this.m_nPressAgainRePrintClean) { this.m_nPressAgainRePrintClean = value; NotifyPropertyChanged(); } }
-        }
-        public int CleanTimes//20230331新增：清洗次数（清洗时用）
-        {
-            get { return this.m_nCleanTimes; }
-            set
+            //////设置INK墨盒状态
+            public void SetInkState(int nInkState)
             {
-                if (value != this.m_nCleanTimes)
+                m_nInkState = nInkState;
+            }
+            //////绘制控件
+            public void OnPaint(Graphics gra, Rectangle rectClient)
+            {
+                //Graphics g = this.CreateGraphics();
+                Pen drawPen = new Pen(Color.Green, (float)0.5);
+                SolidBrush b1 = new SolidBrush(Color.FromArgb(50, Color.Green));//画笔
+
+                int nCtlValue;
+                string CtrlText = null;
+                //Rectangle rectClient;//父亲窗体，即是绘制所有的墨盒状态的父窗体空间
+                Rectangle rectItem = new Rectangle(); ;//子窗体，父窗体中分割出的子窗体   
+
+                int widthUnit = rectClient.Width / m_nInkCnts;//子窗体分割控件的宽度
+                int heightUnit = rectClient.Height;//子窗体分割控件的高度
+
+                //依次绘制出各个控件的状态（默认为8个）
+                for (int i = m_nOffset; i < m_nInkCnts + m_nOffset; i++)
                 {
-                    if (value >= 3) //清洗次数不超过3次
+                    //从掩码中提取对应的位状态
+                    nCtlValue = (1 << (i - m_nOffset));
+
+                    //设置第i位的背景画布的尺寸
+                    //3目运算符运行的非常好，类似于1个if-else判断
+                    rectItem.X = (i - m_nOffset) * widthUnit;
+                    rectItem.Y = (i + 1 - m_nOffset < m_nInkCnts) ? ((i + 1 - m_nOffset) * widthUnit) : (rectClient.X + rectClient.Width);
+                    rectItem.Width = widthUnit;
+                    rectItem.Height = heightUnit;
+
+                    //绘制第i位的背景画布
+                    //dc.Draw3dRect(&rectItem, RGB(192, 192, 192), RGB(100, 100, 100));
+                    gra.DrawRectangle(drawPen, rectItem);//画子窗体背景框
+                    gra.FillRectangle(b1, rectItem);//画子窗体背景填充色
+
+                    //设置第i位的前景图形
+                    rectItem.X += 2; rectItem.Y = 2;
+                    rectItem.Width -= 4; rectItem.Height -= 6;
+                    //绘制第i位的前景图形
+                    //此处的运算符巧妙：3目运算符的使用
+                    if ((m_nInkState & nCtlValue) == 0)//掩码校验
                     {
-                        this.m_nCleanTimes = 3; NotifyPropertyChanged();
-                    }
-                    else if (value > 0)
-                    {
-                        this.m_nCleanTimes = value; NotifyPropertyChanged();
+                        drawPen = new Pen(Color.Black, (float)0.5);
+                        //b1 = new SolidBrush(Color.FromArgb(100, Color.Green));//画笔
+                        b1 = new SolidBrush(Color.Red);//画笔
                     }
                     else
-                    { }
+                    {
+                        drawPen = new Pen(Color.Black, (float)0.5);
+                        //b1 = new SolidBrush(Color.FromArgb(100, Color.Red));//画笔
+                        b1 = new SolidBrush(Color.LimeGreen);//画笔
+                    }
+
+                    gra.DrawRectangle(drawPen, rectItem);//画子窗体背景框
+                    gra.FillRectangle(b1, rectItem);//画子窗体背景填充色                
+
+                    //绘制第i位的前景文字
+                    b1 = new SolidBrush(Color.Black);//画笔
+                    CtrlText = (i + 1).ToString();
+                    gra.DrawString(CtrlText, new Font(/*"宋体"*/"Times New Roman", 11/*,FontStyle.Bold*/), b1, new Point(rectItem.X + rectItem.Width / 2 - 6, rectItem.Y + rectItem.Height / 2 - 6));
+
+                    //画笔和画刷复位
+                    drawPen = new Pen(Color.LimeGreen, (float)0.5);
+                    b1 = new SolidBrush(Color.LimeGreen);//画笔
+                                                         //this.CreateGraphics().
                 }
             }
         }
-        public double m_dCleanCarSpeed = 40;//20230331新增：清洗时墨车运动速度（清洗时用）//不超40 MM/s
-        public double m_dCleanAxisSpeed = 0.5;//20230331新增：清洗时墨车轴转动速度（清洗时用）//不超过2 圈/s
-        public double m_dPressInkTime = 3;//20230331新增：压墨时长（清洗时用）//不超过5S
-        public int m_nStartSpark = 0;//20230331新增：清洗时是否闪喷（清洗时用）//0为否，1未是
-        public int m_nStartRePrintClean = 0;//20230331新增：重喷时是否开启清洗（清洗时用）//0为否，1未是
-        public int m_nPressAgainRePrintClean = 0;//20230331新增：重喷时是否开启重刮压墨（清洗时用）//0为否，1未是
-        public int m_nCleanTimes = 1;//20230331新增：清洗次数（清洗时用）//不超过3次
-        public double IRPowerPercentage//20220523新建：默认IR功率为20%
+        /****************************************墨量状态控件类****************************************/
+        public class GohomeParam
         {
-            get { return this.m_dIRPowerPercentage; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dIRPowerPercentage) { this.m_dIRPowerPercentage = value; NotifyPropertyChanged(); } }
+            public short AXIS;//对应的轴号
+            public double vel;//JogGoHome的速度
+                              //public bool FlagGoHome;//正在GoHome标志位
+            public bool Ends;//终止端
         }
 
-        public double PowderCarStayposition//铺粉停靠位置
+        public class EnvironmentParam : INotifyPropertyChanged//C#中，通知类的属性值已经更改，可以避免大量的通用事件的使用；其中关键是属性的理解及和lambda表达式的使用方法
         {
-            get { return this.m_dPowderCarStayposition; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dPowderCarStayposition) { this.m_dPowderCarStayposition = value; NotifyPropertyChanged(); } }
+            //private string _theValue = string.Empty;////20200225：字段————测试的示例
+
+            /// <summary>
+            /// 负压阈值
+            /// </summary>
+            public float m_fAirHold = 0.1f/*20.0f*//*"0.2"*/;//负压阈值
+            public event PropertyChangedEventHandler PropertyChanged;//20200224新增：必须定义事件；是接口INotifyPropertyChanged的必须的事件       
+            private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")//20200225：【CallerMemberName】特性精华：每次调用 TraceMessage 方法时，调用方信息将替换为可选参数的参数。
+            {
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));//20200225：propertyName：是1个附带参数
+            }
+
+            /// 负压阈值
+            public float AirHold//负压阈值
+            {
+                //（1）测试通过：20200401新增
+                get { return this.m_fAirHold; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_fAirHold) { this.m_fAirHold = value; NotifyPropertyChanged(); } }
+
+                //（2）调试专用：20200401新增，新减
+                //get {
+                //    return (this.m_fAirHold).ToString();
+                //}
+                //set {
+                //    if (Convert.ToSingle(value) != this.m_fAirHold/*value != (this.m_fAirHold).ToString()*/)//（1）输入框的字符串和变量的字符串不一致，就刷新从值下去；（2）存在异常情况：输入小数点，输入小数点后数字为0,输入的字符串不是小数点和数字
+                //    {
+                //        this.m_fAirHold = Convert.ToSingle(value);
+                //        NotifyPropertyChanged();
+                //    }
+                //    else
+                //    {
+                //    }
+                //}
+            }
         }
 
-        public double PowderCarBackSpeed//铺粉停靠位置
+        public class AutoPrintParamInTest : INotifyPropertyChanged, ICloneable//C#中，通知类的属性值已经更改，可以避免大量的通用事件的使用；其中关键是属性的理解及和lambda表达式的使用方法
         {
-            get { return this.m_dPowderCarBackSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dPowderCarBackSpeed) { this.m_dPowderCarBackSpeed = value; NotifyPropertyChanged(); } }
-        }
+            /// <summary>
+            /// 返回本类的浅表复本
+            /// </summary>
+            /// <returns></returns>
+            public object Clone()//精华
+            {
+                return this.MemberwiseClone();//返回本类的浅表复本//20200401新增：精华
+            }
+            public event PropertyChangedEventHandler PropertyChanged;//20200224新增：必须定义事件；是接口INotifyPropertyChanged的必须的事件       
+                                                                     //表达式树：lambda表达式，为一段可执行代码————SQL数据库查询的时候使用
+            private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")//20200225：【CallerMemberName】特性精华：每次调用 TraceMessage 方法时，调用方信息将替换为可选参数的参数。
+            {
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));//20200225：propertyName：是1个附带参数
+            }
 
-        public double PowderCarBackRollerSpeed//滚动速度（mm/s）
-        {
-            get { return this.m_dPowderCarBackRollerSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dPowderCarBackRollerSpeed) { this.m_dPowderCarBackRollerSpeed = value; NotifyPropertyChanged(); } }
-        }
+            /// <summary>
+            /// 自动固化-自动进给铺粉-自动铺粉续打所需参数
+            /// </summary>
+            /// 
+            public int m_nRecoaterStrategy = 0;//自动铺粉策略：默认0为直接铺粉方式
+            public int m_nCureLightStrategy = 0;//固化策略类型：默认0为UV固化方式，1为IR固化方式
+            public int m_nRollerRotateDirection = 0;//辊子方向校准：20220527新增：便于修正辊子方向
 
-        public double PowderSupplyCoefficient//滚动速度（mm/s）
-        {
-            get { return this.m_dPowderSupplyCoefficient; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dPowderSupplyCoefficient) { this.m_dPowderSupplyCoefficient = value; NotifyPropertyChanged(); } }
+            public int m_nLayerThick = 150;//层厚进给（um）//20220525新建：默认铺粉层厚为150μm
+            public int m_nLayerThick2 = 300;//层厚进给2（um）
+
+            public double m_dPowderStationCorrection = 2.5;//20220528新增：单位MM
+            public double m_dPowderSupplyRotateNum = 1;//20220528新增：单位圈
+
+            public double m_dPreAngleForPowderSupply = 45;//20230411新增：45°
+            public double m_dPreAngleRotateSpeedForPowderSupply = 1;//20230411新增：1rev/s
+            public double m_dPreAngleRotatePositionForPowderSupply = 225;//默认位置225mm,不得超过250mm
+
+
+            public double m_dCureBackSpeed = 150;//固化回程速度（mm/s）//20210621修改：
+            public int m_nCleanFrequency = 25;//清洗频率（层）//20210201新建批注：优化工艺参数为25层清洗1次，较为合适
+            public double m_dCleanSparkTime = 5;//清洗闪喷时长（s）//20210201新建批注：5s的清洗闪喷后处理较为合适，较为合适
+            public int m_nRePrintTimes = 1;//重喷次数（次）////20210201新建批注：1次的重喷参数匹配合适的打印速度及数据精度，打印的效果，较为合适
+
+            public /*int*/double /*m_nCureFrequency*/m_dCureFrequency = 125;//工作频率（Hz）//2021.615修改为double
+            public double m_dDutyRatio = 100;//占空比（%）//20210621修改:由m_dCurePower修改为m_dDutyRatio
+            public int m_nCureEnergyDensity = 1600;//20210621新增:UV灯Cure能量密度：取值为0mJ-25mJ-50mJ-100mJ-200mJ-400mJ-800mJ-1600mJ-3200mJ
+
+
+            public double m_dLeftCureOn = 550;//左灯开启（mm）
+            public double m_dLeftCureOff = 1000;//左灯开启（mm）
+            public double m_dRightCureOn = 270;//左灯开启（mm）
+            public double m_dRightCureOff = 720;//左灯开启（mm）
+
+            public double m_dPowderSpeed = 40;//铺粉速度（mm/s）
+            public double m_dRollerSpeed = 1;//滚动速度（mm/s）
+            public double m_dPowderCarStartposition = 100;//铺粉起铺位置
+            public double m_dPowderCarStayposition = 5;//铺粉停靠位置
+            public double m_dPowderCarBackSpeed = 40;//铺粉车复位速度（mm/s）
+            public double m_dPowderCarBackRollerSpeed = 1;//铺粉车复位滚动速度（REV/s）
+            public double m_dPowderCarHomeposition = 112/*5*/;//20220512新建：光电HOME传感器物理位置//20220521修改：铺粉回零位修改为112MM
+            public double m_dPowderSpreaderHomeposition = 40/*5*/;//20220526新建：粉末Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）
+            public double m_dInkSpreaderHomeposition = 90/*40*//*5*/;//20220526新建：墨车Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）//20230407修改：修正后的复位值为106°
+            public double m_dSraperAngleOffHome = 75;//20230417新建：墨车Spreader距离HOME的角度位置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）//20230407修改
+
+            public double m_dIRPowerPercentage = 20;//20220523新建：默认IR功率为20%
+
+
+            public double m_dPowderSupplyCoefficient = 1;//供粉系数，供粉缸进给量相比成形缸的进给量的倍数：201030新增
+
+            //自动铺粉策略类型:20210124新增
+            public int RecoaterStrategy//
+            {
+                get { return this.m_nRecoaterStrategy; }
+                set { if (value != this.m_nRecoaterStrategy) { this.m_nRecoaterStrategy = value; NotifyPropertyChanged(); } }
+            }
+            //固化策略类型：20220523新增
+            public int CureLightStrategy
+            {
+                get { return this.m_nCureLightStrategy; }
+                set { if (value != this.m_nCureLightStrategy) { this.m_nCureLightStrategy = value; NotifyPropertyChanged(); } }
+            }
+            ////辊子方向校准：20220527新增：便于修正辊子方向
+            public int RollerRotateDirection
+            {
+                get { return this.m_nRollerRotateDirection; }
+                set { if (value != this.m_nRollerRotateDirection) { this.m_nRollerRotateDirection = value; NotifyPropertyChanged(); } }
+            }
+
+            ///自动固化-自动进给铺粉-自动铺粉续打所需参数
+            public int LayerThick//层厚进给（um）
+            {
+                get { return this.m_nLayerThick; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_nLayerThick) { this.m_nLayerThick = value; NotifyPropertyChanged(); } }
+            }
+            public int LayerThick2//层厚进给（um）
+            {
+                get { return this.m_nLayerThick2; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_nLayerThick2) { this.m_nLayerThick2 = value; NotifyPropertyChanged(); } }
+            }
+
+            /////20220528新增：单位MM
+            public double PowderStationCorrection
+            {
+                get { return this.m_dPowderStationCorrection; }
+                set { if (value != this.m_dPowderStationCorrection) { this.m_dPowderStationCorrection = value; NotifyPropertyChanged(); } }
+            }
+            ///20220528新增：单位圈
+            public double PowderSupplyRotateNum
+            {
+                get { return this.m_dPowderSupplyRotateNum; }
+                set { if (value != this.m_dPowderSupplyRotateNum) { this.m_dPowderSupplyRotateNum = value; NotifyPropertyChanged(); } }
+            }
+
+            public double PreAngleForPowderSupply
+            {
+                get { return this.m_dPreAngleForPowderSupply; }
+                set { if (value != this.m_dPreAngleForPowderSupply) { this.m_dPreAngleForPowderSupply = value; NotifyPropertyChanged(); } }
+            }
+            public double PreAngleRotateSpeedForPowderSupply
+            {
+                get { return this.m_dPreAngleRotateSpeedForPowderSupply; }
+                set
+                {
+                    if (value != this.m_dPreAngleRotateSpeedForPowderSupply)
+                    {
+                        if (value >= 5)
+                        {
+                            this.m_dPreAngleRotateSpeedForPowderSupply = 5; NotifyPropertyChanged();
+                        }
+                        else if (value <= 0)
+                        {
+                            this.m_dPreAngleRotateSpeedForPowderSupply = 1; NotifyPropertyChanged();
+                        }
+                        else
+                        {
+                            this.m_dPreAngleRotateSpeedForPowderSupply = value; NotifyPropertyChanged();
+                        }
+                    }
+                }
+            }
+
+            public double PreAngleRotatePositionForPowderSupply//默认位置225mm,不得小于50mm切超过250mm
+            {
+                get { return this.m_dPreAngleRotatePositionForPowderSupply; }
+                set
+                {
+                    if (value != this.m_dPreAngleRotatePositionForPowderSupply)
+                    {
+                        if (value >= 245)
+                        {
+                            this.m_dPreAngleRotatePositionForPowderSupply = 245; NotifyPropertyChanged();
+                        }
+                        else if (value <= 200)
+                        {
+                            this.m_dPreAngleRotatePositionForPowderSupply = 200; NotifyPropertyChanged();
+                        }
+                        else
+                        {
+                            this.m_dPreAngleRotatePositionForPowderSupply = value; NotifyPropertyChanged();
+                        }
+                    }
+                }
+            }
+
+
+
+            public double CureBackSpeed//固化回程速度（mm/s）//20210621修改：
+            {
+                get { return this.m_dCureBackSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set
+                {
+                    if (value != this.m_dCureBackSpeed && (0 <= value && value <= 250))
+                    {
+                        this.m_dCureBackSpeed = value; NotifyPropertyChanged();
+                    }
+                    else if (value > 250)
+                    {
+                        this.m_dCureBackSpeed = 250; NotifyPropertyChanged();
+                    }
+                    else if (value < 0)
+                    {
+                        this.m_dCureBackSpeed = 0; NotifyPropertyChanged();
+                    }
+                }
+            }
+            public int CleanFrequency//固化速度（mm/s）
+            {
+                get { return this.m_nCleanFrequency; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_nCleanFrequency) { this.m_nCleanFrequency = value; NotifyPropertyChanged(); } }
+            }
+            public double CleanSparkTime//清洗闪喷时长（s）
+            {
+                get { return this.m_dCleanSparkTime; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dCleanSparkTime) { this.m_dCleanSparkTime = value; NotifyPropertyChanged(); } }
+            }
+
+            public int RePrintTimes//重喷次数（mm/s）
+            {
+                get { return this.m_nRePrintTimes; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set 
+                {
+                    if ((value != this.m_nRePrintTimes)&& (1 <= value && value <= 4))
+                    {
+                        this.m_nRePrintTimes = value; NotifyPropertyChanged();
+                    }
+                    else if (value >= 4)
+                    {
+                        this.m_nRePrintTimes = 4; NotifyPropertyChanged();
+                    }
+                    else if (value <= 1)
+                    {
+                        this.m_nRePrintTimes = 1; NotifyPropertyChanged();
+                    }
+                }
+            }
+            public double DutyRatio//占空比（%）//20210621修改:由CurePower修改为DutyRatio
+            {
+                get/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                {
+                    return this.m_dDutyRatio;
+                }
+                set
+                {
+                    if (value != this.m_dDutyRatio && (0 <= value && value <= 100))
+                    {
+                        this.m_dDutyRatio = value; NotifyPropertyChanged();
+                    }
+                    else if (value > 100)
+                    {
+                        this.m_dDutyRatio = 100; NotifyPropertyChanged();
+                    }
+                    else if (value < 0)
+                    {
+                        this.m_dDutyRatio = 0; NotifyPropertyChanged();
+                    }
+                }
+            }
+            public int CureEnergyDensity//20210621新增:UV灯Cure能量密度：取值为0mJ-25mJ-50mJ-100mJ-200mJ-400mJ-800mJ-1600mJ-3200mJ
+            {
+                get { return this.m_nCureEnergyDensity; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_nCureEnergyDensity) { this.m_nCureEnergyDensity = value; NotifyPropertyChanged(); } }
+            }
+
+            public /*int*/double CureFrequency//工作频率（Hz）//2021.615修改为double
+            {
+                get { return this.m_dCureFrequency; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dCureFrequency) { this.m_dCureFrequency = value; NotifyPropertyChanged(); } }
+            }
+            public double LeftCureOn//工作频率（Hz）
+            {
+                get { return this.m_dLeftCureOn; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dLeftCureOn) { this.m_dLeftCureOn = value; NotifyPropertyChanged(); } }
+            }
+            public double LeftCureOff//工作频率（Hz）
+            {
+                get { return this.m_dLeftCureOff; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dLeftCureOff) { this.m_dLeftCureOff = value; NotifyPropertyChanged(); } }
+            }
+            public double RightCureOn//工作频率（Hz）
+            {
+                get { return this.m_dRightCureOn; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dRightCureOn) { this.m_dRightCureOn = value; NotifyPropertyChanged(); } }
+            }
+            public double RightCureOff//工作频率（Hz）
+            {
+                get { return this.m_dRightCureOff; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dRightCureOff) { this.m_dRightCureOff = value; NotifyPropertyChanged(); } }
+            }
+
+
+            public double PowderSpeed//铺粉速度（mm/s）
+            {
+                get { return this.m_dPowderSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dPowderSpeed) { this.m_dPowderSpeed = value; NotifyPropertyChanged(); } }
+            }
+            public double RollerSpeed//滚动速度（mm/s）
+            {
+                get { return this.m_dRollerSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dRollerSpeed) { this.m_dRollerSpeed = value; NotifyPropertyChanged(); } }
+            }
+            public double PowderCarStartposition//铺粉起铺位置
+            {
+                get { return this.m_dPowderCarStartposition; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dPowderCarStartposition) { this.m_dPowderCarStartposition = value; NotifyPropertyChanged(); } }
+            }
+            public double PowderCarHomeposition//20220512新建：光电HOME传感器物理位置
+            {
+                get { return this.m_dPowderCarHomeposition; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dPowderCarHomeposition) { this.m_dPowderCarHomeposition = value; NotifyPropertyChanged(); } }
+            }
+            public double PowderSpreaderHomeposition//20220526新建：粉末Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置
+            {
+                get { return this.m_dPowderSpreaderHomeposition; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dPowderSpreaderHomeposition) { this.m_dPowderSpreaderHomeposition = value; NotifyPropertyChanged(); } }
+            }
+            public double InkSpreaderHomeposition//20220526新建：墨车Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置
+            {
+                get { return this.m_dInkSpreaderHomeposition; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dInkSpreaderHomeposition) { this.m_dInkSpreaderHomeposition = value; NotifyPropertyChanged(); } }
+            }
+            public double SraperAngleOffHome//20230417新建：墨车Spreader距离HOME的角度位置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）
+
+            {
+                get { return this.m_dSraperAngleOffHome; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set 
+                {
+                    if (value != this.m_dSraperAngleOffHome && (0 <= value && value <= 90))
+                    {
+                        this.m_dSraperAngleOffHome = value; NotifyPropertyChanged();
+                    }
+                    else if (value > 90)
+                    {
+                        this.m_dSraperAngleOffHome = 90; NotifyPropertyChanged();
+                    }
+                    else if (value < 0)
+                    {
+                        this.m_dSraperAngleOffHome = 0; NotifyPropertyChanged();
+                    }
+                }
+            }
+
+            //清洗参数：20230331新增：
+            public double CleanCarSpeed//20230331新增：清洗时墨车运动速度（清洗时用）
+            {
+                get { return this.m_dCleanCarSpeed; }
+                set
+                {
+                    if (value != this.m_dCleanCarSpeed)
+                    {
+                        if (value >= 400)//最大速度不得超过400 mm/s
+                        {
+                            this.m_dCleanCarSpeed = 400; NotifyPropertyChanged();
+                        }
+                        else if (value >= 0)
+                        {
+                            this.m_dCleanCarSpeed = value; NotifyPropertyChanged();
+                        }
+                        else { }
+                    }
+                }
+            }
+            public double CleanAxisSpeed//20230331新增：清洗时墨车轴转动速度（清洗时用）
+            {
+                get { return this.m_dCleanAxisSpeed; }
+                set
+                {
+                    if (value != this.m_dCleanAxisSpeed)
+                    {
+                        if (value >= 2)//最大速度不得超过2 圈/s
+                        {
+                            this.m_dCleanAxisSpeed = 2; NotifyPropertyChanged();
+                        }
+                        else if (value >= 0)
+                        {
+                            this.m_dCleanAxisSpeed = value; NotifyPropertyChanged();
+                        }
+                        else { }
+                    }
+                }
+            }
+            public double PressInkTime//20230331新增：压墨时长（清洗时用）
+            {
+                get { return this.m_dPressInkTime; }
+                set
+                {
+                    if (value != this.m_dPressInkTime)
+                    {
+                        if (value >= 10) //最长压墨时间不超过5S
+                        {
+                            this.m_dPressInkTime = 10; NotifyPropertyChanged();
+                        }
+                        else if (value >= 0)
+                        {
+                            this.m_dPressInkTime = value; NotifyPropertyChanged();
+                        }
+                        else { }
+                    }
+                }
+            }
+            public double PressInkWaitTime//20230412新增：压墨等待时长（清洗时用）
+            {
+                get { return this.m_dPressInkWaitTime; }
+                set
+                {
+                    if (value != this.m_dPressInkWaitTime)
+                    {
+                        if (value >= 10) //最长压墨时间不超过5S
+                        {
+                            this.m_dPressInkWaitTime = 10; NotifyPropertyChanged();
+                        }
+                        else if (value >= 0)
+                        {
+                            this.m_dPressInkWaitTime = value; NotifyPropertyChanged();
+                        }
+                        else { }
+                    }
+                }
+            }
+
+            public int StartSpark//20230331新增：清洗时是否闪喷（清洗时用）
+            {
+                get { return this.m_nStartSpark; }
+                set { if (value != this.m_nStartSpark) { this.m_nStartSpark = value; NotifyPropertyChanged(); } }
+            }
+            public int StartRePrintClean//20230401新增：重喷时是否开启清洗（清洗时用）
+            {
+                get { return this.m_nStartRePrintClean; }
+                set { if (value != this.m_nStartRePrintClean) { this.m_nStartRePrintClean = value; NotifyPropertyChanged(); } }
+            }
+            public int AutoPrintCleanEnabled//20230401新增：打印过程自动清洗使能（清洗时用）
+            {
+                get { return this.m_nAutoPrintCleanEnabled; }
+                set { if (value != this.m_nAutoPrintCleanEnabled) { this.m_nAutoPrintCleanEnabled = value; NotifyPropertyChanged(); } }
+            }
+            public int PressAgainRePrintClean//20230401新增：重喷时是否开启重刮压墨（清洗时用）
+            {
+                get { return this.m_nPressAgainRePrintClean; }
+                set { if (value != this.m_nPressAgainRePrintClean) { this.m_nPressAgainRePrintClean = value; NotifyPropertyChanged(); } }
+            }
+            public int BackToRevisionStationAfterClean//20230331新增：清洗时是否重刮压墨（清洗时用）
+            {
+                get { return this.m_nBackToRevisionStationAfterClean; }
+                set { if (value != this.m_nBackToRevisionStationAfterClean) { this.m_nBackToRevisionStationAfterClean = value; NotifyPropertyChanged(); } }
+            }
+
+            public int CleanTimes//20230331新增：清洗次数（清洗时用）
+            {
+                get { return this.m_nCleanTimes; }
+                set
+                {
+                    if (value != this.m_nCleanTimes)
+                    {
+                        if (value >= 3) //清洗次数不超过3次
+                        {
+                            this.m_nCleanTimes = 3; NotifyPropertyChanged();
+                        }
+                        else if (value > 0)
+                        {
+                            this.m_nCleanTimes = value; NotifyPropertyChanged();
+                        }
+                        else
+                        { }
+                    }
+                }
+            }
+            public double m_dCleanCarSpeed = 100;//20230331新增：清洗时墨车运动速度（清洗时用）//不超过400 MM/s
+            public double m_dCleanAxisSpeed = 0.5;//20230331新增：清洗时墨车轴转动速度（清洗时用）//不超过2 圈/s
+            public double m_dPressInkTime = 3;//20230331新增：压墨时长（清洗时用）//不超过5S
+            public double m_dPressInkWaitTime = 3;//20230412新增：压墨等待时长（清洗时用）
+            public int m_nStartSpark = 0;//20230331新增：清洗时是否闪喷（清洗时用）//0为否，1未是
+            public int m_nStartRePrintClean = 0;//20230331新增：重喷时是否开启清洗（清洗时用）//0为否，1未是
+            public int m_nAutoPrintCleanEnabled = 1;//20230331新增：重喷时是否开启清洗（清洗时用）//0为否，1未是
+
+            public int m_nPressAgainRePrintClean = 0;//20230331新增：重喷时是否开启重刮压墨（清洗时用）//0为否，1未是
+            public int m_nBackToRevisionStationAfterClean = 0;//20230331新增：清洗时是否重刮压墨（清洗时用）//0为否，1未是
+            public int m_nCleanTimes = 1;//20230331新增：清洗次数（清洗时用）//不超过3次
+            public double IRPowerPercentage//20220523新建：默认IR功率为20%
+            {
+                get { return this.m_dIRPowerPercentage; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dIRPowerPercentage) { this.m_dIRPowerPercentage = value; NotifyPropertyChanged(); } }
+            }
+
+            public double PowderCarStayposition//铺粉停靠位置
+            {
+                get { return this.m_dPowderCarStayposition; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dPowderCarStayposition) { this.m_dPowderCarStayposition = value; NotifyPropertyChanged(); } }
+            }
+
+            public double PowderCarBackSpeed//铺粉停靠位置
+            {
+                get { return this.m_dPowderCarBackSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dPowderCarBackSpeed) { this.m_dPowderCarBackSpeed = value; NotifyPropertyChanged(); } }
+            }
+
+            public double PowderCarBackRollerSpeed//滚动速度（mm/s）
+            {
+                get { return this.m_dPowderCarBackRollerSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dPowderCarBackRollerSpeed) { this.m_dPowderCarBackRollerSpeed = value; NotifyPropertyChanged(); } }
+            }
+
+            public double PowderSupplyCoefficient//滚动速度（mm/s）
+            {
+                get { return this.m_dPowderSupplyCoefficient; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+                set { if (value != this.m_dPowderSupplyCoefficient) { this.m_dPowderSupplyCoefficient = value; NotifyPropertyChanged(); } }
+            }
         }
     }
 }

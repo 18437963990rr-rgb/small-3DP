@@ -1499,7 +1499,7 @@ namespace BinderJetting
                 ///(3-1)输出绘制的1帧数据，发送到控制器的上位机端内存缓冲区，配合控制器完成信息的实时打印机分配：20210319新建             
                 // （1）读取BMP文件到Bitmap数据中
                 string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart" + importCorrectionFigurePath/*System.Windows.Forms.Application.StartupPath + @"\CalibrationChart"*/;//输入的CLI文件的存放目录。
-                FileStream fs = new System.IO.FileStream(CalibrationFilePath/*CalibrationFilePath + @"\喷头套色校准图-0.bmp"*/, FileMode.Open, FileAccess.Read/*Read*/);//PicBoxCorrect1.Image = System.Drawing.Image.FromStream(fs);//20210328修改：修改权限，否则报错
+                FileStream fs = new System.IO.FileStream(CalibrationFilePath/*CalibrationFilePath + @"\喷头套色校准图-0.bmp"*/, FileMode.Open, FileAccess.Read/*Read*/, FileShare.ReadWrite);//PicBoxCorrect1.Image = System.Drawing.Image.FromStream(fs);//20210328修改：修改权限，否则报错
                 System.Drawing.Bitmap clone = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromStream(fs);
                 clone.SetResolution(600f, 600f);//Windows7的系统BUG
 
@@ -1525,7 +1525,7 @@ namespace BinderJetting
         public BitmapFrameDecode frame = null;
         public ImagingFactory imagingFactory = null;
         public FormatConverter converter = null;
-        public Bitmap1[] bitmapCollection = new Bitmap1[6];//20210323新建：将bitmap的数据移植到bitmapCollection中，依次是
+        public Bitmap1[] bitmapCollection = new Bitmap1[7];//20210323新建：将bitmap的数据移植到bitmapCollection中，依次是
                                                            //垂直校准图，喷头套色校准图0-1，往返差校准图0-1，STATUS图
         public void LoadingFromBMPFile2(string bmpFilePath, int index)//index为校准图对应的索引
         {
@@ -1578,7 +1578,10 @@ namespace BinderJetting
                 while (bitmapCollection[index].IsDisposed == false) { Thread.Sleep(1); }//(2)等待堆区释放，重新分配堆区，刷新显示//20210310新增修改：
                 bitmapCollection[index] = Bitmap1.FromWicBitmap(deviceContext, converter);
             }
-            else { bitmapCollection[index] = Bitmap1.FromWicBitmap(deviceContext, converter); }
+            else 
+            { 
+                bitmapCollection[index] = Bitmap1.FromWicBitmap(deviceContext, converter); 
+            }
             ////(5)显示图片到二维GUI系统上
             //deviceContext.DrawBitmap(bitmap/*playerBitmap*/, 1.0f, SharpDX.Direct2D1.BitmapInterpolationMode.Linear);
         }
@@ -1703,14 +1706,21 @@ namespace BinderJetting
         //float heightwidthfactor = 1;//20210322取消：
         private void RenderingFromBMPFile()
         {
-            if (bitmap != null)
+            try//校准图打印过程中，显示可能存在问题
             {
-                //(5)显示图片到二维GUI系统上
-                //heightwidthfactor = bitmap.Size.Width / bitmap.Size.Height;
-                deviceContext.DrawBitmap(bitmap/*playerBitmap*/, new SharpDX.RectangleF(-330/*-420*/ * BMPscale * 0.5f, -330/*-350 */* BMPscale * 0.5f, 330/*420*/ * BMPscale, 330/*350*/ * BMPscale),
-                    1f/*1.0f*/, SharpDX.Direct2D1.BitmapInterpolationMode.Linear);
+                if (bitmap != null)
+                {
+                    //(5)显示图片到二维GUI系统上
+                    //heightwidthfactor = bitmap.Size.Width / bitmap.Size.Height;
+                    deviceContext.DrawBitmap(bitmap/*playerBitmap*/, new SharpDX.RectangleF(-330/*-420*/ * BMPscale * 0.5f, -330/*-350 */* BMPscale * 0.5f, 330/*420*/ * BMPscale, 330/*350*/ * BMPscale),
+                        1f/*1.0f*/, SharpDX.Direct2D1.BitmapInterpolationMode.Linear);
+                }
+                else { }
             }
-            else { }
+            catch (Exception e)
+            {     
+            }
+
         }
 
         public int k_dYJetOff = 0;//20210311修正：Y向的位置起始偏差。

@@ -933,7 +933,21 @@ namespace BinderJetting
         public double CarMoveSpeed//车头运动速度：20200326新增
         {
             get { return this.m_dCarMoveSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dCarMoveSpeed) { this.m_dCarMoveSpeed = value; NotifyPropertyChanged(); } }
+            set 
+            {
+                if ((value != this.m_dCarMoveSpeed) && (0 <= value && value <= 500))
+                {
+                    this.m_dCarMoveSpeed = value; NotifyPropertyChanged();
+                }
+                else if (value > 500)
+                {
+                    this.m_dCarMoveSpeed = 500; NotifyPropertyChanged();
+                }
+                else if (value < 50)
+                {
+                    this.m_dCarMoveSpeed = 50; NotifyPropertyChanged();
+                }
+            }
         }
         public double CarBackCleanStationMoveSpeed//车头回清洗站运动速度：20200326新增
         {
@@ -1089,16 +1103,32 @@ namespace BinderJetting
             get { return this.m_dPrtXEncPos; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set { if (value != this.m_dPrtXEncPos) { this.m_dPrtXEncPos = value; NotifyPropertyChanged(); } }
         }
-        public double XJetOff//Y向起打位置修订:20210311新增
+        public double XJetOff//X向起打位置修订:20210311新增
         {
             get { return this.m_dXJetOff; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set { if (value != this.m_dXJetOff) { this.m_dXJetOff = value; NotifyPropertyChanged(); } }
         }
 
-        public double YJetOff//Y向起打位置修订:20210311新增
+        public double YJetOff//Y向起打位置修订:20210311新增//20230418修改：适用于多PASS打印过程处理
         {
             get { return this.m_dYJetOff; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dYJetOff) { this.m_dYJetOff = value; NotifyPropertyChanged(); } }
+            set 
+            {
+                if ((value != this.m_dYJetOff) && (0 <= value && value <= 15))
+                {
+                    this.m_dYJetOff = value; NotifyPropertyChanged();
+                }
+                else if (value > 15)
+                {
+                    this.m_dYJetOff = 15; NotifyPropertyChanged();
+                }
+                else if (value < 0)
+                {
+                    this.m_dYJetOff = 0; NotifyPropertyChanged();
+                }
+            }
+
+
         }
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace royal
     public struct LPPRTIMG_LAYER
     {
         public int nLayerIndex;      //图层索引
-        public int nImgStartJetIndex; //图像起始对应喷头嘴;//20210311修改：起始嘴修改
+        public int nImgStartJetIndex; //图像起始对应喷头嘴;//20210311修改：起始嘴修改//20230418批注：屏蔽嘴数量
         public int nPrtDir;           //图像打印起始PASS方向//  0 编码负方向 1编码正方向//20220524批注：此处应该修改为负向
         public int nXEncOff;          //图层针对任务X起点偏移 单位 X编码//整体修改的位置
         public int nYJetOff;          //图层针对任务Y起点偏移 单位 喷嘴间距//20210311修改：起始嘴修改
@@ -204,7 +204,7 @@ namespace royal
     {
         public int nParamVer;          //参数版本：c++的long相当于C#的int
         public int nParamSize;            //参数字节数：c++的long相当于C#的int
-        public int nBiDirEncPrtOff;            /* 双向偏差*///实际上称呼：往返差比较准确一点//双向编码，单向像素
+        public int nBiDirEncPrtOff;            /* 双向偏差*///实际上称呼：往返差比较准确一点//双向编码，单向像素//单位是：编码器值，读取的是像素偏差值，需要乘以分频值
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64 * 32 * 2)]//20210313批注：7*4*2
         public int[] nPhXRowPrtOff;		//单向偏差 0 负方向 1正反向  [喷头号][喷嘴列号][方向]//三维数组：32列嘴，是为了兼容其他的喷头，只使用前4列即可
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16 * 32)]

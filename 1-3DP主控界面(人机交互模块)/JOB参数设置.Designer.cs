@@ -146,6 +146,9 @@
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label106 = new System.Windows.Forms.Label();
+            this.comboBox6 = new System.Windows.Forms.ComboBox();
+            this.label105 = new System.Windows.Forms.Label();
             this.label104 = new System.Windows.Forms.Label();
             this.textBox27 = new System.Windows.Forms.TextBox();
             this.label102 = new System.Windows.Forms.Label();
@@ -222,9 +225,6 @@
             this.label71 = new System.Windows.Forms.Label();
             this.label75 = new System.Windows.Forms.Label();
             this.label77 = new System.Windows.Forms.Label();
-            this.label105 = new System.Windows.Forms.Label();
-            this.comboBox6 = new System.Windows.Forms.ComboBox();
-            this.label106 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -1313,7 +1313,10 @@
             "150",
             "200",
             "250",
-            "300"});
+            "300",
+            "350",
+            "400",
+            "450"});
             this.SpeedBox.Location = new System.Drawing.Point(191, 88);
             this.SpeedBox.Name = "SpeedBox";
             this.SpeedBox.Size = new System.Drawing.Size(72, 25);
@@ -1685,6 +1688,57 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "系统参数";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label106
+            // 
+            this.label106.AutoSize = true;
+            this.label106.Font = new System.Drawing.Font("宋体", 10F);
+            this.label106.Location = new System.Drawing.Point(898, 35);
+            this.label106.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label106.Name = "label106";
+            this.label106.Size = new System.Drawing.Size(44, 17);
+            this.label106.TabIndex = 200;
+            this.label106.Text = "mm/s";
+            // 
+            // comboBox6
+            // 
+            this.comboBox6.FormattingEnabled = true;
+            this.comboBox6.Items.AddRange(new object[] {
+            "5",
+            "10",
+            "20",
+            "30",
+            "40",
+            "50",
+            "60",
+            "70",
+            "80",
+            "100",
+            "150",
+            "200",
+            "250",
+            "300",
+            "350",
+            "400",
+            "450",
+            "500"});
+            this.comboBox6.Location = new System.Drawing.Point(821, 32);
+            this.comboBox6.Name = "comboBox6";
+            this.comboBox6.Size = new System.Drawing.Size(72, 25);
+            this.comboBox6.TabIndex = 199;
+            this.comboBox6.Text = "40";
+            // 
+            // label105
+            // 
+            this.label105.AutoSize = true;
+            this.label105.BackColor = System.Drawing.Color.GhostWhite;
+            this.label105.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label105.Location = new System.Drawing.Point(646, 37);
+            this.label105.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label105.Name = "label105";
+            this.label105.Size = new System.Drawing.Size(125, 18);
+            this.label105.TabIndex = 198;
+            this.label105.Text = "回清洗站速度:";
             // 
             // label104
             // 
@@ -2620,53 +2674,6 @@
             this.label77.Name = "label77";
             this.label77.Size = new System.Drawing.Size(0, 17);
             this.label77.TabIndex = 166;
-            // 
-            // label105
-            // 
-            this.label105.AutoSize = true;
-            this.label105.BackColor = System.Drawing.Color.GhostWhite;
-            this.label105.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label105.Location = new System.Drawing.Point(646, 37);
-            this.label105.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label105.Name = "label105";
-            this.label105.Size = new System.Drawing.Size(125, 18);
-            this.label105.TabIndex = 198;
-            this.label105.Text = "回清洗站速度:";
-            // 
-            // comboBox6
-            // 
-            this.comboBox6.FormattingEnabled = true;
-            this.comboBox6.Items.AddRange(new object[] {
-            "5",
-            "10",
-            "20",
-            "30",
-            "40",
-            "50",
-            "60",
-            "70",
-            "80",
-            "100",
-            "150",
-            "200",
-            "250",
-            "300"});
-            this.comboBox6.Location = new System.Drawing.Point(821, 32);
-            this.comboBox6.Name = "comboBox6";
-            this.comboBox6.Size = new System.Drawing.Size(72, 25);
-            this.comboBox6.TabIndex = 199;
-            this.comboBox6.Text = "40";
-            // 
-            // label106
-            // 
-            this.label106.AutoSize = true;
-            this.label106.Font = new System.Drawing.Font("宋体", 10F);
-            this.label106.Location = new System.Drawing.Point(898, 35);
-            this.label106.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label106.Name = "label106";
-            this.label106.Size = new System.Drawing.Size(44, 17);
-            this.label106.TabIndex = 200;
-            this.label106.Text = "mm/s";
             // 
             // JOB参数设置
             // 

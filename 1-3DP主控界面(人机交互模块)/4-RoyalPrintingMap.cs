@@ -73,11 +73,8 @@ namespace royal
         /// <returns></returns>
         public bool UpdataRoyalPrintCardWithFeedbackData(int BiDirEncPrtOff, int[] PhXRowPrtOff, int[] PhYJetOff, float printvel)//20210306新增：校准Royal控制器的喷头组，提升打印精度
         {
-            royal.g_sys_param.nBiDirEncPrtOff = BiDirEncPrtOff;//非常关键：双向z偏差值
-
-            string msg = $"输入校准值1次，打印往返差校准值为：BiDirEncPrtOff{{{BiDirEncPrtOff}}},打印速度{{{printvel}mm/s}}";
-            Log4Net.Info(msg);
-
+            int DividedFrequency = 8;//25400/635=40;40um/5um光栅=8;//校准时打印分辨率为635DPI
+            royal.g_sys_param.nBiDirEncPrtOff = BiDirEncPrtOff* DividedFrequency/*分频值*/;//非常关键：双向z偏差值//20230410新增批注：单位：编码；
 #if false
             royal.g_sys_param.nPhXRowPrtOff = PhXRowPrtOff;//非常关键：X向套色偏差值
             royal.g_sys_param.nPhYJetOff = PhYJetOff;//非常关键：Y向套色偏差值
@@ -86,15 +83,18 @@ namespace royal
             PhXRowPrtOff22 = royal.g_sys_param.nPhXRowPrtOff;
             PhYJetOff22 = royal.g_sys_param.nPhYJetOff;
 #endif
-
             bool returnST = royal.DEV_UpdateParam(ref royal.g_sys_param);
             if (returnST == false)
             {
+                string msg = $"输入校准值1次{{失败}}，打印往返差校准值为：BiDirEncPrtOff{{{BiDirEncPrtOff}}},分频值{{{DividedFrequency}}},打印速度{{{printvel}mm/s}}";
+                Log4Net.Info(msg);
                 //MessageBox.Show("设置喷头组校准参数失败");//20210322注释
                 return false;
             }
             else
             {
+                string msg = $"输入校准值1次{{成功}}，打印往返差校准值为：BiDirEncPrtOff{{{BiDirEncPrtOff}}},分频值{{{DividedFrequency}}},打印速度{{{printvel}mm/s}}";
+                Log4Net.Info(msg);
                 //MessageBox.Show("设置喷头组校准参数成功");//20210322注释
                 return true;
             }
@@ -103,7 +103,7 @@ namespace royal
         /// <summary>
         /// 代开Royal控制器建立通讯，同时实现控制器的参数初始化
         /// </summary>
-        public bool InitRoyalPrintCard()//20200305新增;新建Royal控制器初始化方法
+        public bool InitRoyalPrintCard(FeedbackInCorrection RYSYSParamFeedbackInCorrection)//20200305新增;新建Royal控制器初始化方法
         {
             ///（1）打开设备：
             ///（1）打开设备：
@@ -139,15 +139,27 @@ namespace royal
             royal.g_sys_param.fBrustValidSec = 0.5f / 10;//20220920修改：闪喷频率500-1s时间内，0.5s在工作//20230327修改：底层的配置文件的闪喷的基准频率设置不准确，需要认为设置并缩小10倍
             royal.g_sys_param.fBrustFrequecy = 500 * 10/*2000*//*50*/;//20220920修改：闪喷频率500-1s时间内，0.5s在工作//20230327修改：底层的配置文件的闪喷的基准频率设置不准确，需要认为设置并扩展10倍
 
+            //(2-2)更新打印偏差校准参数，包括往返差参数等
+            int DividedFrequency = 8;//25400/635=40;40um/5um光栅=8;//校准时打印分辨率为635DPI
+            int BiDirEncPrtOff = RYSYSParamFeedbackInCorrection.m_nXBackForthFeedBack - 6;
+            royal.g_sys_param.nBiDirEncPrtOff = BiDirEncPrtOff * DividedFrequency/*分频值*/;//非常关键：双向z偏差值//20230410新增批注：单位：编码；
+            double printvel = 300;
+
             bool returnST = royal.DEV_UpdateParam(ref royal.g_sys_param);
             if (returnST == false)
             {
+                string msg = $"输入校准值1次{{失败}}，打印往返差校准值为：BiDirEncPrtOff{{{BiDirEncPrtOff}}},分频值{{{DividedFrequency}}},打印速度{{{printvel}mm/s}}";
+                Log4Net.Info(msg);
+
                 string sztxt;
                 sztxt = "更新设备参数失败";
                 MessageBox.Show(sztxt);
             }
             else
             {
+                string msg = $"输入校准值1次{{成功}}，打印往返差校准值为：BiDirEncPrtOff{{{BiDirEncPrtOff}}},分频值{{{DividedFrequency}}},打印速度{{{printvel}mm/s}}";
+                Log4Net.Info(msg);
+
                 flag2 = true;
             }
             ///（3）初始化设备参数：

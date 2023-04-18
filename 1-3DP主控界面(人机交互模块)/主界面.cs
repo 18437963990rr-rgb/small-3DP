@@ -1901,7 +1901,7 @@ namespace BinderJetting
             string msg = $"进入JOB参数设置：修改前初始参数：灰度数据格式{{{g_RYSYSParam.m_nPixelGrayBits}bits}}" +
                 $"打印灰阶{{{g_RYSYSParam.m_dPixelGrayValue}阶}}m_XPrintDpi{{{g_RYSYSParam.m_XPrintDpi}Dpi}}" +
             $"墨车运动速度{{{g_RYSYSParam.CarMoveSpeed}MM/s}}X向起打位置{{{g_RYSYSParam.m_dPrtXEncPos}MM}}" +
-            $"X向起打位置偏移{{{g_RYSYSParam.m_dXJetOff}MM}}Y向起打位置偏移{{{g_RYSYSParam.m_dYJetOff}MM}}";
+            $"X向起打位置偏移{{{g_RYSYSParam.m_dXJetOff}MM}}Y向起打位置偏移{{{g_RYSYSParam.m_dYJetOff}MM}}";//20230418修正：Y方向启打位置便宜，对于多PASS打印非常关键
             Log4Net.Info(msg);
 
             DialogResult result = f.ShowDialog();
@@ -2044,6 +2044,7 @@ namespace BinderJetting
         GoogolMotionMap motionMap = new GoogolMotionMap();//创建GoogolMotionMap对象，供本窗口调用
         public int g_nCurrentLayer = 0;//20201021新增：当前打印的层数
         public int g_nCleanFrequency = 10;//20220915新增：清洗频率全局变量
+        int m_nPauseMovedFlag = 0;//20230410新增：暂停打印时回手动清洗站工作位
         private void PrintTaskTHREAD()//3DP打印主流程：
         {
             bool ReturnFlag = false;
@@ -2133,6 +2134,8 @@ namespace BinderJetting
                         int renderIndex = ((k - 1) / g_nRePrintTimes) + g_nLayerStart /*k*/;
                         Rendering2D(renderIndex); //20200601：实现成形层的逐层预览刷新//201030修改：
                         CurrentStartPrintLayer = k;//启打层
+
+                        g_SharpControl.g_CorrectionFigureFlag = 0;//临时显示是1；//20230409修复：恢复到非校准图显示状态
 #endif
 
                         /***********************************20200508:实际打印过程：*********************************/
@@ -2284,17 +2287,82 @@ namespace BinderJetting
                                     //（1-1）注意：一定要取消跳白功能//（1-2）计算运动参数:运行速度、运行距离，依据SinglePass和MultiPass等运动模式*/
                                     #endregion
                                     //RecordPressureAndTemperatureAndValtageInPrint();//20230322新建：记录打印之前喷头温度及电压
-                                    if (nPassID == 0)
+
+                                    ///20220915新增：结束读取清洗频率参数
+                                    ///
+                                    if (AutoPrintMotion1 == null)
                                     {
-                                        float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
-                                        float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
-                                        EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0);//20220915新增：加入自动清洗逻辑
+                                        /*手动操作*/
+                                        AutoPrintMotion1 = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
+                                        msg = $"创建：AutoPrintMotion1=》初次创建完成-手动操作！";
+                                        Log4Net.Info(msg);
                                     }
+                                    else
+                                    {
+                                        msg = $"创建：AutoPrintMotion1=》不需重新创建-手动操作！";
+                                        Log4Net.Info(msg);
+                                    }
+
+                                    bool returnCode = LoadAutoParamsFromJson(ref AutoPrintMotion1);//20201030新增：读取自动打印参数
+                                    g_nCleanFrequency = AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nCleanFrequency;//20201030新增：读取自动打印参数
+                                    //if (AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nStartRePrintClean == 1)//每次打印都重喷清洗
+                                    //{
+                                    //    if ((g_nCurrentLayer % (g_nCleanFrequency * 1) == 0) /*&& (g_nCurrentLayer != 0)*/)
+                                    //    {
+                                    //        if (nPassID == 0)
+                                    //        {
+                                    //            float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
+                                    //            float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
+                                    //            EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0);//20220915新增：加入自动清洗逻辑
+                                    //        }
+                                    //    }
+                                    //}
+                                    /*else {}*///不需要每次都清洗，重喷一次清洗一次
+                                    if (AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nAutoPrintCleanEnabled == 1) 
+                                    {
+                                        if ((k == 1) || (k % (g_nCleanFrequency * g_nRePrintTimes) == 1))//第1层一定要清洗//同时确保周期清洗
+                                        {
+                                            if (nPassID == 0)
+                                            {
+                                                float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
+                                                float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
+                                                EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0);//20220915新增：加入自动清洗逻辑
+                                            }
+                                        }
+                                    }
+
                                     bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
                                     float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
                                     float m_BackCleanMovSpeed = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
-                                    EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0);//自动喷墨运动逻辑
+                                    m_nPauseMovedFlag = 0;
+                                    if (PrintConrolFlag == "PausePrint") { m_nPauseMovedFlag = 1; }
 
+                                    if (g_nRePrintTimes == 1)//20230418批注：重喷次数取值范围为：1-4
+                                    {
+                                        EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2/*0*/);//自动喷墨运动逻辑
+                                    }
+                                    else 
+                                    {
+                                        if (k % g_nRePrintTimes == 1) //20230418修改:第1PASS打印
+                                        {
+                                            EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2);//自动喷墨运动逻辑 
+                                        }
+                                        else if (((k % g_nRePrintTimes == 0) && (g_nRePrintTimes==2))|| ((k % g_nRePrintTimes == 2) && (g_nRePrintTimes == 3))
+                                            || ((k % g_nRePrintTimes == 2) && (g_nRePrintTimes == 4)))//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                        {
+                                            EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2);//自动喷墨运动逻辑
+                                        }
+                                        else if (((k % g_nRePrintTimes == 0) && (g_nRePrintTimes == 3)) || ((k % g_nRePrintTimes == 3) && (g_nRePrintTimes == 4)))//20230418修改:第3PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                        {
+                                            EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2);//自动喷墨运动逻辑
+                                        }
+                                        else if (k % g_nRePrintTimes == 0 && (g_nRePrintTimes == 4))//20230418修改:第4PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                        {
+                                            EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2);//自动喷墨运动逻辑
+                                        }
+                                    }
+
+                                    //m_nPauseMovedFlag = 2;//已经执行过
                                     ////#region 监控指令：喷墨拍摄位点2-3-4-5-6-7
                                     ////                                    //sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
                                     ////                                    if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems + 1])
@@ -2380,7 +2448,7 @@ namespace BinderJetting
                                 //EquipmentMotionLogic3(0, 3);//自动进给正式铺粉
                                 if (g_RYSYSParam.m_bApplyPowderSupplyMotion == 0)//0为采用
                                 {
-                                    EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, m_BackCleanMovSpeed2, ref sendMessageToCamera, renderIndex, 10);//自动铺粉逻辑//20230319调试修改此处
+                                    EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, m_BackCleanMovSpeed2, ref sendMessageToCamera, renderIndex, 10, 0, 0);//自动铺粉逻辑//20230319调试修改此处
 
                                     msg = $"执行完成铺粉固化操作：EquipmentMotionLogic3：m_bApplyPowderSupplyMotion:{g_RYSYSParam.m_bApplyPowderSupplyMotion}";
                                     Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
@@ -2443,6 +2511,18 @@ namespace BinderJetting
                         msg = "接收到暂停打印指令：PrintTaskTHREAD";
                         Log4Net.Info(msg);
 
+                        if ((m_nPauseMovedFlag != 1) || (m_nPauseMovedFlag != 2))//墨车不在清洗位，补充一次运动到清洗位
+                        {
+                            float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
+                            float m_BackCleanMovSpeed = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
+                            m_nPauseMovedFlag = 0;
+                            if (PrintConrolFlag == "PausePrint") { m_nPauseMovedFlag = 1; }
+                            EquipmentMotionLogic3(0, 4, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0);//自动喷墨运动逻辑
+                            m_nPauseMovedFlag = 2;//已经运动过额标志位
+                        }
+                        else//发生过运动，墨车已在清洗位
+                        { }
+
                         Thread.Sleep(200);//200ms周期在持续等待：继续指令或者停止指令。
                         k--;
                         g_nCurrentLayer = (k - 1) / g_nRePrintTimes/*k*/;//20201121修改：
@@ -2502,6 +2582,9 @@ namespace BinderJetting
         string[] g_calirationFigurePaths = new string[7] { @"\垂直校准图.bmp", @"\往返差校准图-0.bmp", @"\往返差校准图-1.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-1.bmp", @"\STATUS.bmp", @"\往返差校准图-3.bmp" };//20210324新增：//20210325修复BUG:6张图一定要路径准确
         private void PrintTaskTHREAD2()//3DP校准打印主流程：20210321新建批注
         {
+            string msg = $"进入打印图校准线程：PrintTaskTHREAD2！";
+            Log4Net.Info(msg);
+
             g_TaskThreadSTATE[4] = 2;//20201119新增：DataTaskThread恢复为运行状态（关机后）
             ReadLayerInfo();//更新指定的加工任务区间
             g_PrintSchedule = g_nLayerStart;//20201118新增：
@@ -2530,9 +2613,22 @@ namespace BinderJetting
 #if true//进行打印进度监控测试
 
             bool nRetVal0 = royal.royal.DEM_InitAxis(0, 0x100/*0x100*/);//分别初始化各轴的运动参数：20200305//加速度：256pluse/ms^2
+            /*string*/ msg = $"初始化墨轴1：DEM_InitAxis：{{0, 0x100}}";
+            Log4Net.Info(msg);
+
             nRetVal0 = royal.royal.DEM_EnableAxisRun(true);//所有的轴共用1个使能，使能一次就OK!:20200305     
+            msg = $"使能所有墨轴：DEM_EnableAxisRun：{{true}}";
+            Log4Net.Info(msg);
+
             bool nRetVal = royal.royal.DEV_EnableInkAutoSupply(true, 0xFF);//使能自动供墨uint ControlBit = 0xFF;//20201114修改：使能第4路墨水的自动供墨
+
+            msg = $"开启自动供墨：DEV_EnableInkAutoSupply：ControlBit{{0xFF}}";
+            Log4Net.Info(msg);
 #endif
+
+            SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
+            //sendMessageToCamera.LoadJsonFile();
+
             while ((RoyalMap.m_bJobStarted == true))//开启打印处理线程：20200411新建
             {
                 returnPrintValue = 1/*(CurrentStartPrintLayer + 1) * g_nRePrintTimes*/;//20200508：复位打印进度值   
@@ -2581,13 +2677,19 @@ namespace BinderJetting
                             //string[] calirationFigurePaths = new string[6] { @"\垂直校准图.bmp" , @"\往返差校准图-0.bmp", @"\往返差校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\STATUS.bmp" };
                             string CalibrationFilePath2 = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
                             string BMPFilePath = CalibrationFilePath2 + g_calirationFigurePaths[k - 1 + CorrectionFigureOffset];
-                            //g_SharpControl.LoadingFromBMPFile(BMPFilePath);//20210328临时注释：
+                            g_SharpControl.LoadingFromBMPFile(BMPFilePath);//20210328临时注释：//20230409修复：恢复显示
+                            g_SharpControl.g_CorrectionFigureFlag = 1;//临时显示是1；//20230409修复：恢复显示
+
+                            ////string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart";
+                            ////string BMPFilePath = CalibrationFilePath + @"\往返差校准图-1.bmp"/*@"\APCLROT-1.bmp"*/;
+                            ////g_SharpControl.LoadingFromBMPFile(BMPFilePath);
+
                             this.renderControl1.Invalidate();
 
 #if true
-                            string msg;
+                            //string msg;
                             int PassItems = 0;
-                            SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
+                            /*SendMessageToCamera*/ sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
                             sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
                                                                //if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems])
                                                                //{
@@ -2677,16 +2779,51 @@ namespace BinderJetting
                                         //20220524批注：（2）自动喷墨运动
                                         //20220524批注：（2）自动喷墨运动
                                         //RecordPressureAndTemperatureAndValtageInPrint();//20230322新建：记录打印之前喷头温度及电压
-                                        if (nPassID == 0)
+
+                                        ///20220915新增：结束读取清洗频率参数
+                                        ///
+                                        if (AutoPrintMotion1 == null)
                                         {
-                                            float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
-                                            float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
-                                            EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0);//20220915新增：加入自动清洗逻辑
+                                            /*手动操作*/
+                                            AutoPrintMotion1 = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
+                                            msg = $"创建：AutoPrintMotion1=》初次创建完成-手动操作！";
+                                            Log4Net.Info(msg);
                                         }
+                                        else
+                                        {
+                                            msg = $"创建：AutoPrintMotion1=》不需重新创建-手动操作！";
+                                            Log4Net.Info(msg);
+                                        }
+
+                                        bool returnCode = LoadAutoParamsFromJson(ref AutoPrintMotion1);//20201030新增：读取自动打印参数
+                                        g_nCleanFrequency = AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nCleanFrequency;//20201030新增：读取自动打印参数
+
+                                        if (AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nAutoPrintCleanEnabled == 1)
+                                        {
+                                            if ((k == 1) || (k % (g_nCleanFrequency * g_nRePrintTimes) == 1))//第1层一定要清洗//同时确保周期清洗
+                                            {
+                                                if (nPassID == 0)
+                                                {
+                                                    float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
+                                                    float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
+                                                    EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0);//20220915新增：加入自动清洗逻辑
+                                                }
+                                            }
+                                        }
+
+                                        ////if (nPassID == 0)
+                                        ////{
+                                        ////    float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
+                                        ////    float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
+                                        ////    EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0);//20220915新增：加入自动清洗逻辑
+                                        ////}
                                         bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
                                         float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
                                         float m_BackCleanMovSpeed = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
-                                        EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0);//自动喷墨运动逻辑
+
+                                        m_nPauseMovedFlag = 0;//202304010新增：
+                                        if (PrintConrolFlag == "PausePrint") { m_nPauseMovedFlag = 1; }//202304010新增：
+                                        EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, 0, 0);//自动喷墨运动逻辑
 
                                         CurrentStartPrintLayer = k;
                                     }
@@ -2766,6 +2903,20 @@ namespace BinderJetting
                     else if (PrintConrolFlag == "PausePrint")
                     {
                         Thread.Sleep(200);//200ms周期在持续等待：继续指令或者停止指令。
+
+                        if ((m_nPauseMovedFlag != 1) || (m_nPauseMovedFlag != 2))//墨车不在清洗位，补充一次运动到清洗位
+                        {
+                            float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
+                            float m_BackCleanMovSpeed = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
+                            m_nPauseMovedFlag = 0;
+                            if (PrintConrolFlag == "PausePrint") { m_nPauseMovedFlag = 1; }
+
+                            EquipmentMotionLogic3(0, 4, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0);//自动喷墨运动逻辑
+                            m_nPauseMovedFlag = 2;//已经运动过额标志位
+                        }
+                        else//发生过运动，墨车已在清洗位
+                        { }
+
                         k--;
                         g_nCurrentLayer = (k - 1) / g_nRePrintTimes/*k*/;//20201121修改：
                     }
@@ -2787,6 +2938,7 @@ namespace BinderJetting
             msg2 = $"停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{{{ReturnFlag4}}}";
             Log4Net.Info(msg2);
 
+            g_SharpControl.g_CorrectionFigureFlag = 0;//临时显示是1；//20230409修复：恢复到非校准图显示状态
 
             Marshal.FreeHGlobal(ImgPtr);//20200429批注：释放内存,一定要及时释放内存//批注：代码位置，需要重点考虑
             PrintFlag = false;//20200716新增：关闭打印机维护的间歇闪喷使能
@@ -3025,7 +3177,7 @@ namespace BinderJetting
             /***************************20200423调试新增：*************************/
             //（肆） 保存附带的所有必要的BMP数据
             //（肆） 处理图层信息
-            royal.royal.g_prtimg_layer.nXEncOff = 0;//图像的XDPI，本质必须与光栅的DPI保持协调
+            royal.royal.g_prtimg_layer.nXEncOff = 0;//
 
             royal.royal.g_prtimg_layer.nXDPI = 635;//图像的XDPI，本质必须与光栅的DPI保持协调
             royal.royal.g_prtimg_layer.nYDPI = 600;//图像的XDPI，本值必须与喷头的DPI保持一致
@@ -3104,7 +3256,7 @@ namespace BinderJetting
             return returnCode;
         }
 
-        private void EquipmentMotionLogic3(int index, int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex)//20220524新增：PassIndex指示当前打印PASS序号
+        private void EquipmentMotionLogic3(int index, int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth)//20220524新增：PassIndex指示当前打印PASS序号
         {
             try
             {
@@ -3172,9 +3324,13 @@ namespace BinderJetting
                     AutoPrintMotion3.AutoCureThread();//20201029:自动上送粉
 
                 }
-                else if (Command == 4)//20220524新增：自动喷墨逻辑
+                else if (Command == 4)//20220524新增：自动喷墨逻辑,采用双PASS方式打印，第1PASS打印逻辑
                 {
-                    AutoPrintMotion3.AutoPrintThread2(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex);//
+                    AutoPrintMotion3.AutoPrintThread2(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth);//
+                }
+                else if (Command == 5)//20230418新增：自动喷墨逻辑,采用双PASS方式进行打印，第2PASS打印逻辑
+                {
+                    AutoPrintMotion3.AutoPrintThread3(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth);//
                 }
                 else
                 {
@@ -4549,7 +4705,9 @@ namespace BinderJetting
                     {
                         string msg = "初始化喷墨控制器启动！";
                         Log4Net.Info(msg);
-                        m_bInitRoyalSuccess = g_cRoyalPrint.InitRoyalPrintCard();//20200618批注修改：
+                        LoadCorrectionJsonFile();
+                        g_RYSYSParamFeedbackInCorrection = k_PrintNozzleHeadConfigure.m_RYSYSParamFeedbackInCorrection;
+                        m_bInitRoyalSuccess = g_cRoyalPrint.InitRoyalPrintCard(g_RYSYSParamFeedbackInCorrection);//20200618批注修改：
                         msg = "初始化喷墨控制器成功！";
                         Log4Net.Info(msg);
 
@@ -6928,6 +7086,7 @@ namespace BinderJetting
                                 }
                             }
                             break;
+#if false//20230410修正：数据处理线程不适用于暂停及恢复操作；暂停及恢复操作对数据处理无影响
                         case "PauseFlag":
                             {//状态转移：挂起本线程
                                 DataTaskFlag = 3;//暂停态标志
@@ -6949,6 +7108,7 @@ namespace BinderJetting
                                 Log4Net.Info(msg);
                             }
                             break;
+#endif
                         default:
                             break;
                     }
@@ -7063,6 +7223,7 @@ namespace BinderJetting
                             }
                         }
                         break;
+#if false//20230410修正：数据处理线程不适用于暂停及恢复操作；暂停及恢复操作对数据处理无影响
                     case "PauseFlag"://状态转移：挂起本线程
                         {
                             DataTaskFlag = 3;//暂停态标志
@@ -7075,6 +7236,7 @@ namespace BinderJetting
                             TransferModifyFlag = "StartFlag";//返回到状态："StartFlag"
                         }
                         break;
+#endif
                     default:
                         break;
                 }
@@ -8379,18 +8541,16 @@ namespace BinderJetting
                 CorrectionDuringCreateFlag = true;
                 try
                 {
-
                     int myTag = Convert.ToInt32((sender as Control).Tag);//获取列表控件的Tag中存储的ID        
-                                                                         //(sender as Control).BackColor = Color.LimeGreen;//根据ID反转颜色状态
+                    //(sender as Control).BackColor = Color.LimeGreen;//根据ID反转颜色状态
 
                     //计算并执行动作：
                     switch (myTag)
                     {
                         case 1://根据给定的参数，生成新校准图
-                            SaveJsonFile();//20210325新建：保存喷头校准参数设置文件
+                            SaveCorrectionJsonFile();//20210325新建：保存喷头校准参数设置文件
                             ConfigureCorrectionFigure();//20210306修改：
                             break;
-
 
                         case 2://预览垂直校准图
                             if (ShowNozzleCorrectionFigure[0] == 0)
@@ -8597,6 +8757,9 @@ namespace BinderJetting
                             if (result == DialogResult.OK)//OK时，执行对应操作
                             {
                                 g_RYSYSParamFeedbackInCorrection = f.k_RYSYSParamFeedbackInCorrection;
+                                k_PrintNozzleHeadConfigure.m_RYSYSParamFeedbackInCorrection = f.k_RYSYSParamFeedbackInCorrection;
+                                SaveCorrectionJsonFile();//20210325新建：保存喷头校准参数设置文件//20230412新增：
+
 
                                 int[] temperror1 = new int[64 * 32 * 2];
                                 int[] temperror2 = new int[16 * 32];
@@ -8679,7 +8842,7 @@ namespace BinderJetting
         }
 
 
-        public void SaveJsonFile()
+        public void SaveCorrectionJsonFile()
         {
             string JsonPath = System.Windows.Forms.Application.StartupPath + @"\NozzleConfigInCorrection.json";//json配置文件：启动目录
             string JsonPath2 = System.Windows.Forms.Application.StartupPath;
@@ -8691,7 +8854,46 @@ namespace BinderJetting
             }
             string json = JsonConvert.SerializeObject(k_PrintNozzleHeadConfigure, Formatting.Indented);
             File.WriteAllText(JsonPath, json);
+
+            string msg = $"更新打印校准配置文件：" + $"SaveJsonFile：配置文件路径{{{JsonPath}}}";
+            Log4Net.Info(msg);
         }
+
+        public bool LoadCorrectionJsonFile()//20201029新增：实例化类之后，不一定必要显示
+        {
+            string JsonPath = "";
+            try//20201020新增：读取JSON配置文件
+            {
+                //(4)20200807批注：加载打印策略参数
+                JsonPath = System.Windows.Forms.Application.StartupPath + @"\NozzleConfigInCorrection.json";//json配置文件：启动目录
+                k_PrintNozzleHeadConfigure = ObjectCopier.LoadJson<PrintNozzleHeadConfigure>(JsonPath);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                if (!File.Exists(JsonPath))// 返回bool类型，存在返回true，不存在返回false
+                {
+                    File.Create(JsonPath);//不存在则创建文件
+
+                    string msg = $"加载打印校准配置文件：文件不存在，已创建：LoadJsonFile";
+                    Log4Net.Info(msg);
+
+                    MessageBox.Show("打印校准配置文件不存在，已创建");
+                }
+                else
+                {
+                    string msg = $"加载打印校准配置文件：加载异常，已创建：LoadJsonFile";
+                    Log4Net.Info(msg);
+
+                    MessageBox.Show("打印校准配置文件加载异常");
+                }
+                k_PrintNozzleHeadConfigure = new PrintNozzleHeadConfigure();
+
+                return false;
+            }
+        }
+
 
         private void panel5_LocationChanged(object sender, EventArgs e)
         {
@@ -8708,8 +8910,11 @@ namespace BinderJetting
                 g_CorrectionFigureType = 1;//20210324新增：
 
                 (sender as Button).Text = "停止";//20210323新建：暂时先这么简单处理，没有做到完全的即时刷新，不太匹配
+
                 g_nCorrectionTaskThreadFlag = 1;
+#if false
                 g_SharpControl.g_CorrectionFigureFlag = g_nCorrectionTaskThreadFlag;//主界面的显示模式切换到校准图显示模式；
+#endif
                 PrintBtn.Enabled = false; PauseBtn.Enabled = false;//20210320新建：避免和自动打印过程直接的冲突
                 TaskAddDeleteTHREAD("CreateCorrection");
                 (sender as Button).Tag = 2;
@@ -8742,8 +8947,11 @@ namespace BinderJetting
                 }
 
                 (sender as Button).Text = "停止";//20210323新建：暂时先这么简单处理，没有做到完全的即时刷新，不太匹配
+
                 g_nCorrectionTaskThreadFlag = 1;
+#if false
                 g_SharpControl.g_CorrectionFigureFlag = g_nCorrectionTaskThreadFlag;//主界面的显示模式切换到校准图显示模式；
+#endif
                 PrintBtn.Enabled = false; PauseBtn.Enabled = false;//20210320新建：避免和自动打印过程直接的冲突
                 TaskAddDeleteTHREAD("CreateCorrection");
                 (sender as Button).Tag = 2;
@@ -8769,8 +8977,11 @@ namespace BinderJetting
                 g_CorrectionFigureType = 3;//20210324新增：
 
                 (sender as Button).Text = "停止";//20210323新建：暂时先这么简单处理，没有做到完全的即时刷新，不太匹配
+
                 g_nCorrectionTaskThreadFlag = 1;
+#if false
                 g_SharpControl.g_CorrectionFigureFlag = g_nCorrectionTaskThreadFlag;//主界面的显示模式切换到校准图显示模式；
+#endif
                 PrintBtn.Enabled = false; PauseBtn.Enabled = false;//20210320新建：避免和自动打印过程直接的冲突
                 TaskAddDeleteTHREAD("CreateCorrection");
                 (sender as Button).Tag = 2;
@@ -8796,8 +9007,11 @@ namespace BinderJetting
                 g_CorrectionFigureType = 4;//20210324新增：
 
                 (sender as Button).Text = "停止";//20210323新建：暂时先这么简单处理，没有做到完全的即时刷新，不太匹配
+
                 g_nCorrectionTaskThreadFlag = 1;
+#if false
                 g_SharpControl.g_CorrectionFigureFlag = g_nCorrectionTaskThreadFlag;//主界面的显示模式切换到校准图显示模式；
+#endif
                 PrintBtn.Enabled = false; PauseBtn.Enabled = false;//20210320新建：避免和自动打印过程直接的冲突
                 TaskAddDeleteTHREAD("CreateCorrection");
                 (sender as Button).Tag = 2;
@@ -9056,6 +9270,8 @@ namespace BinderJetting
         public int m_nDoubleError = 0;          //1-双向偏差值
         public int m_nSingleError = 0;          //2-单向偏差值
         public int m_nYError = 0;               //3-Y向嘴偏差值
+
+        public FeedbackInCorrection m_RYSYSParamFeedbackInCorrection = new FeedbackInCorrection() /*=new AutoPrintParamInTest()*/;//20230412新增：
 
 
         ///// <summary>
