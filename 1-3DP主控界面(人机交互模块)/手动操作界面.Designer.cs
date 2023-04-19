@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(手动操作));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.HomeEndsLabel0 = new System.Windows.Forms.CheckBox();
             this.PLLabel1 = new System.Windows.Forms.Label();
@@ -266,6 +266,9 @@
             this.SpreaderHomeBtn = new System.Windows.Forms.Button();
             this.InkCarHomeBtn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label80 = new System.Windows.Forms.Label();
+            this.textBox34 = new System.Windows.Forms.TextBox();
+            this.label110 = new System.Windows.Forms.Label();
             this.comboBox8 = new System.Windows.Forms.ComboBox();
             this.label109 = new System.Windows.Forms.Label();
             this.label108 = new System.Windows.Forms.Label();
@@ -290,7 +293,6 @@
             this.label93 = new System.Windows.Forms.Label();
             this.textBox27 = new System.Windows.Forms.TextBox();
             this.label92 = new System.Windows.Forms.Label();
-            this.label80 = new System.Windows.Forms.Label();
             this.textBox21 = new System.Windows.Forms.TextBox();
             this.label101 = new System.Windows.Forms.Label();
             this.label90 = new System.Windows.Forms.Label();
@@ -403,6 +405,8 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label18 = new System.Windows.Forms.Label();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
+            this.label111 = new System.Windows.Forms.Label();
+            this.CurrentLoadWave = new System.Windows.Forms.TextBox();
             this.label88 = new System.Windows.Forms.Label();
             this.JetSetApplyBtn2 = new System.Windows.Forms.Button();
             this.JetCancleApplyBtn = new System.Windows.Forms.Button();
@@ -435,8 +439,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.ADIBSetApplyBtn = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
-            this.label110 = new System.Windows.Forms.Label();
-            this.textBox34 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.ManulDebugTAB.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -654,7 +656,7 @@
             this.velLabel0.Name = "velLabel0";
             this.velLabel0.Size = new System.Drawing.Size(55, 27);
             this.velLabel0.TabIndex = 16;
-            this.velLabel0.Text = "5";
+            this.velLabel0.Text = "2";
             // 
             // stepLabel0
             // 
@@ -664,7 +666,7 @@
             this.stepLabel0.Name = "stepLabel0";
             this.stepLabel0.Size = new System.Drawing.Size(55, 27);
             this.stepLabel0.TabIndex = 19;
-            this.stepLabel0.Text = "1";
+            this.stepLabel0.Text = "1.5";
             // 
             // MoveModeLabel0
             // 
@@ -3906,6 +3908,40 @@
             this.panel1.Size = new System.Drawing.Size(397, 183);
             this.panel1.TabIndex = 200;
             // 
+            // label80
+            // 
+            this.label80.BackColor = System.Drawing.SystemColors.Control;
+            this.label80.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label80.Location = new System.Drawing.Point(241, 150);
+            this.label80.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label80.Name = "label80";
+            this.label80.Size = new System.Drawing.Size(91, 25);
+            this.label80.TabIndex = 168;
+            this.label80.Text = "清洗次数";
+            this.label80.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // textBox34
+            // 
+            this.textBox34.Font = new System.Drawing.Font("微软雅黑", 8.5F);
+            this.textBox34.Location = new System.Drawing.Point(100, 153);
+            this.textBox34.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox34.Name = "textBox34";
+            this.textBox34.Size = new System.Drawing.Size(69, 26);
+            this.textBox34.TabIndex = 214;
+            this.textBox34.Text = "45";
+            // 
+            // label110
+            // 
+            this.label110.BackColor = System.Drawing.SystemColors.Control;
+            this.label110.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label110.Location = new System.Drawing.Point(7, 153);
+            this.label110.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label110.Name = "label110";
+            this.label110.Size = new System.Drawing.Size(91, 25);
+            this.label110.TabIndex = 213;
+            this.label110.Text = "刮墨角度";
+            this.label110.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // comboBox8
             // 
             this.comboBox8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -4192,18 +4228,6 @@
             this.label92.TabIndex = 170;
             this.label92.Text = "圈/S";
             this.label92.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label80
-            // 
-            this.label80.BackColor = System.Drawing.SystemColors.Control;
-            this.label80.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label80.Location = new System.Drawing.Point(241, 150);
-            this.label80.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label80.Name = "label80";
-            this.label80.Size = new System.Drawing.Size(91, 25);
-            this.label80.TabIndex = 168;
-            this.label80.Text = "清洗次数";
-            this.label80.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // textBox21
             // 
@@ -5663,6 +5687,8 @@
             // 
             // groupBox23
             // 
+            this.groupBox23.Controls.Add(this.label111);
+            this.groupBox23.Controls.Add(this.CurrentLoadWave);
             this.groupBox23.Controls.Add(this.label88);
             this.groupBox23.Controls.Add(this.JetSetApplyBtn2);
             this.groupBox23.Controls.Add(this.JetCancleApplyBtn);
@@ -5689,10 +5715,32 @@
             this.groupBox23.TabStop = false;
             this.groupBox23.Text = "环境控制";
             // 
+            // label111
+            // 
+            this.label111.ForeColor = System.Drawing.Color.DimGray;
+            this.label111.Location = new System.Drawing.Point(657, 319);
+            this.label111.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label111.Name = "label111";
+            this.label111.Size = new System.Drawing.Size(113, 26);
+            this.label111.TabIndex = 201;
+            this.label111.Text = "最新加载波形：";
+            this.label111.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // CurrentLoadWave
+            // 
+            this.CurrentLoadWave.Font = new System.Drawing.Font("微软雅黑", 8.5F);
+            this.CurrentLoadWave.Location = new System.Drawing.Point(776, 319);
+            this.CurrentLoadWave.Margin = new System.Windows.Forms.Padding(4);
+            this.CurrentLoadWave.Name = "CurrentLoadWave";
+            this.CurrentLoadWave.ReadOnly = true;
+            this.CurrentLoadWave.Size = new System.Drawing.Size(452, 26);
+            this.CurrentLoadWave.TabIndex = 206;
+            this.CurrentLoadWave.Text = "null";
+            // 
             // label88
             // 
             this.label88.ForeColor = System.Drawing.Color.DimGray;
-            this.label88.Location = new System.Drawing.Point(657, 321);
+            this.label88.Location = new System.Drawing.Point(657, 347);
             this.label88.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label88.Name = "label88";
             this.label88.Size = new System.Drawing.Size(573, 45);
@@ -5707,7 +5755,7 @@
             this.JetSetApplyBtn2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("JetSetApplyBtn2.BackgroundImage")));
             this.JetSetApplyBtn2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.JetSetApplyBtn2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.JetSetApplyBtn2.Location = new System.Drawing.Point(1117, 191);
+            this.JetSetApplyBtn2.Location = new System.Drawing.Point(1119, 191);
             this.JetSetApplyBtn2.Margin = new System.Windows.Forms.Padding(4);
             this.JetSetApplyBtn2.Name = "JetSetApplyBtn2";
             this.JetSetApplyBtn2.Size = new System.Drawing.Size(111, 58);
@@ -5726,7 +5774,7 @@
             this.JetCancleApplyBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.JetCancleApplyBtn.Enabled = false;
             this.JetCancleApplyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.JetCancleApplyBtn.Location = new System.Drawing.Point(1117, 258);
+            this.JetCancleApplyBtn.Location = new System.Drawing.Point(1119, 258);
             this.JetCancleApplyBtn.Margin = new System.Windows.Forms.Padding(4);
             this.JetCancleApplyBtn.Name = "JetCancleApplyBtn";
             this.JetCancleApplyBtn.Size = new System.Drawing.Size(111, 58);
@@ -5828,15 +5876,15 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.NullValue = null;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.NullValue = null;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView1.RowTemplate.Height = 23;
@@ -5863,15 +5911,15 @@
             this.dataGridView2.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView2.MultiSelect = false;
             this.dataGridView2.Name = "dataGridView2";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.NullValue = null;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.NullValue = null;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView2.RowTemplate.Height = 23;
@@ -6205,28 +6253,6 @@
             this.label20.TabIndex = 139;
             this.label20.Text = "kPa";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label110
-            // 
-            this.label110.BackColor = System.Drawing.SystemColors.Control;
-            this.label110.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label110.Location = new System.Drawing.Point(7, 153);
-            this.label110.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label110.Name = "label110";
-            this.label110.Size = new System.Drawing.Size(91, 25);
-            this.label110.TabIndex = 213;
-            this.label110.Text = "刮墨角度";
-            this.label110.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // textBox34
-            // 
-            this.textBox34.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox34.Location = new System.Drawing.Point(100, 153);
-            this.textBox34.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox34.Name = "textBox34";
-            this.textBox34.Size = new System.Drawing.Size(69, 26);
-            this.textBox34.TabIndex = 214;
-            this.textBox34.Text = "45";
             // 
             // 手动操作
             // 
@@ -6711,5 +6737,7 @@
         private System.Windows.Forms.Label label108;
         private System.Windows.Forms.TextBox textBox34;
         private System.Windows.Forms.Label label110;
+        private System.Windows.Forms.Label label111;
+        private System.Windows.Forms.TextBox CurrentLoadWave;
     }
 }

@@ -2326,7 +2326,7 @@ namespace BinderJetting
                                             {
                                                 float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
                                                 float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
-                                                EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0);//20220915新增：加入自动清洗逻辑
+                                                EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0, 1);//20220915新增：加入自动清洗逻辑
                                             }
                                         }
                                     }
@@ -2339,26 +2339,52 @@ namespace BinderJetting
 
                                     if (g_nRePrintTimes == 1)//20230418批注：重喷次数取值范围为：1-4
                                     {
-                                        EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2/*0*/);//自动喷墨运动逻辑
+                                        EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2,0);//自动喷墨运动逻辑
                                     }
-                                    else 
+                                    else if (g_nRePrintTimes == 2)
                                     {
                                         if (k % g_nRePrintTimes == 1) //20230418修改:第1PASS打印
                                         {
-                                            EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2);//自动喷墨运动逻辑 
+                                            EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2,1);//自动喷墨运动逻辑 
                                         }
-                                        else if (((k % g_nRePrintTimes == 0) && (g_nRePrintTimes==2))|| ((k % g_nRePrintTimes == 2) && (g_nRePrintTimes == 3))
-                                            || ((k % g_nRePrintTimes == 2) && (g_nRePrintTimes == 4)))//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                        else if (k % g_nRePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                                         {
-                                            EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2);//自动喷墨运动逻辑
+                                            EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2,0);//自动喷墨运动逻辑
                                         }
-                                        else if (((k % g_nRePrintTimes == 0) && (g_nRePrintTimes == 3)) || ((k % g_nRePrintTimes == 3) && (g_nRePrintTimes == 4)))//20230418修改:第3PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+       
+                                    }
+                                    else if (g_nRePrintTimes == 3)
+                                    {
+                                        if (k % g_nRePrintTimes == 1) //20230418修改:第1PASS打印
                                         {
-                                            EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2);//自动喷墨运动逻辑
+                                            EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2,1);//自动喷墨运动逻辑 
                                         }
-                                        else if (k % g_nRePrintTimes == 0 && (g_nRePrintTimes == 4))//20230418修改:第4PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                        else if (k % g_nRePrintTimes == 2)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                                         {
-                                            EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2);//自动喷墨运动逻辑
+                                            EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2,1);//自动喷墨运动逻辑
+                                        }
+                                        else if (k % g_nRePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                        {
+                                            EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2,0);//自动喷墨运动逻辑
+                                        }
+                                    }
+                                    else if (g_nRePrintTimes == 4)
+                                    {
+                                        if (k % g_nRePrintTimes == 1) //20230418修改:第1PASS打印
+                                        {
+                                            EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2,1);//自动喷墨运动逻辑 
+                                        }
+                                        else if (k % g_nRePrintTimes == 2)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                        {
+                                            EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2,1);//自动喷墨运动逻辑
+                                        }
+                                        else if (k % g_nRePrintTimes == 3)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                        {
+                                            EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2,1);//自动喷墨运动逻辑
+                                        }
+                                        else if (k % g_nRePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                        {
+                                            EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2,0);//自动喷墨运动逻辑
                                         }
                                     }
 
@@ -2448,7 +2474,7 @@ namespace BinderJetting
                                 //EquipmentMotionLogic3(0, 3);//自动进给正式铺粉
                                 if (g_RYSYSParam.m_bApplyPowderSupplyMotion == 0)//0为采用
                                 {
-                                    EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, m_BackCleanMovSpeed2, ref sendMessageToCamera, renderIndex, 10, 0, 0);//自动铺粉逻辑//20230319调试修改此处
+                                    EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, m_BackCleanMovSpeed2, ref sendMessageToCamera, renderIndex, 10, 0, 0,0);//自动铺粉逻辑//20230319调试修改此处
 
                                     msg = $"执行完成铺粉固化操作：EquipmentMotionLogic3：m_bApplyPowderSupplyMotion:{g_RYSYSParam.m_bApplyPowderSupplyMotion}";
                                     Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
@@ -2517,7 +2543,7 @@ namespace BinderJetting
                             float m_BackCleanMovSpeed = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
                             m_nPauseMovedFlag = 0;
                             if (PrintConrolFlag == "PausePrint") { m_nPauseMovedFlag = 1; }
-                            EquipmentMotionLogic3(0, 4, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0);//自动喷墨运动逻辑
+                            EquipmentMotionLogic3(0, 4, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0,0);//自动喷墨运动逻辑
                             m_nPauseMovedFlag = 2;//已经运动过额标志位
                         }
                         else//发生过运动，墨车已在清洗位
@@ -2574,6 +2600,7 @@ namespace BinderJetting
         }
 
         //手动操作 ManualControl = null;//20230317修正:修正潜在的闪退问题
+        手动操作 AutoPrintMotion0 = null;//20230419修正:修正潜在重新关闭及开启任务的潜在BUG
         手动操作 AutoPrintMotion1 = null;//20230317修正:修正潜在的闪退问题//PrintTask中
         手动操作 AutoPrintMotion2 = null;//20230317修正:修正潜在的闪退问题//温控Modbus中
         手动操作 AutoPrintMotion3 = null;//20230317修正:修正潜在的闪退问题//EquipmentMotionLogic3中
@@ -2806,7 +2833,7 @@ namespace BinderJetting
                                                 {
                                                     float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
                                                     float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
-                                                    EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0);//20220915新增：加入自动清洗逻辑
+                                                    EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0,0);//20220915新增：加入自动清洗逻辑
                                                 }
                                             }
                                         }
@@ -2823,8 +2850,60 @@ namespace BinderJetting
 
                                         m_nPauseMovedFlag = 0;//202304010新增：
                                         if (PrintConrolFlag == "PausePrint") { m_nPauseMovedFlag = 1; }//202304010新增：
-                                        EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, 0, 0);//自动喷墨运动逻辑
+#if false
+                                        EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, 0, 0,0);//自动喷墨运动逻辑
+#else
+                                        if (g_nRePrintTimes == 1)//20230418批注：重喷次数取值范围为：1-4
+                                        {
+                                            EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0);//自动喷墨运动逻辑
+                                        }
+                                        else if (g_nRePrintTimes == 2)
+                                        {
+                                            if (k % g_nRePrintTimes == 1) //20230418修改:第1PASS打印
+                                            {
+                                                EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 1);//自动喷墨运动逻辑 
+                                            }
+                                            else if (k % g_nRePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                            {
+                                                EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0);//自动喷墨运动逻辑
+                                            }
 
+                                        }
+                                        else if (g_nRePrintTimes == 3)
+                                        {
+                                            if (k % g_nRePrintTimes == 1) //20230418修改:第1PASS打印
+                                            {
+                                                EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 1);//自动喷墨运动逻辑 
+                                            }
+                                            else if (k % g_nRePrintTimes == 2)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                            {
+                                                EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 1);//自动喷墨运动逻辑
+                                            }
+                                            else if (k % g_nRePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                            {
+                                                EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0);//自动喷墨运动逻辑
+                                            }
+                                        }
+                                        else if (g_nRePrintTimes == 4)
+                                        {
+                                            if (k % g_nRePrintTimes == 1) //20230418修改:第1PASS打印
+                                            {
+                                                EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 1);//自动喷墨运动逻辑 
+                                            }
+                                            else if (k % g_nRePrintTimes == 2)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                            {
+                                                EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 1);//自动喷墨运动逻辑
+                                            }
+                                            else if (k % g_nRePrintTimes == 3)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                            {
+                                                EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 1);//自动喷墨运动逻辑
+                                            }
+                                            else if (k % g_nRePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                                            {
+                                                EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0);//自动喷墨运动逻辑
+                                            }
+                                        }
+#endif
                                         CurrentStartPrintLayer = k;
                                     }
                                 }
@@ -2836,7 +2915,7 @@ namespace BinderJetting
                                 }
                             }
 #else
-                            int nPassID = 0/*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行
+                                        int nPassID = 0/*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行
                             bool ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
                             while (pPrtPassDes.nProcState != 3)//20200624批注：不成功就重新读
                             {
@@ -2911,7 +2990,7 @@ namespace BinderJetting
                             m_nPauseMovedFlag = 0;
                             if (PrintConrolFlag == "PausePrint") { m_nPauseMovedFlag = 1; }
 
-                            EquipmentMotionLogic3(0, 4, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0);//自动喷墨运动逻辑
+                            EquipmentMotionLogic3(0, 4, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0,1);//自动喷墨运动逻辑
                             m_nPauseMovedFlag = 2;//已经运动过额标志位
                         }
                         else//发生过运动，墨车已在清洗位
@@ -3256,7 +3335,7 @@ namespace BinderJetting
             return returnCode;
         }
 
-        private void EquipmentMotionLogic3(int index, int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth)//20220524新增：PassIndex指示当前打印PASS序号
+        private void EquipmentMotionLogic3(int index, int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth, int NotGoCleanStationFlag)//20220524新增：PassIndex指示当前打印PASS序号
         {
             try
             {
@@ -3326,11 +3405,11 @@ namespace BinderJetting
                 }
                 else if (Command == 4)//20220524新增：自动喷墨逻辑,采用双PASS方式打印，第1PASS打印逻辑
                 {
-                    AutoPrintMotion3.AutoPrintThread2(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth);//
+                    AutoPrintMotion3.AutoPrintThread2(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag);//
                 }
                 else if (Command == 5)//20230418新增：自动喷墨逻辑,采用双PASS方式进行打印，第2PASS打印逻辑
                 {
-                    AutoPrintMotion3.AutoPrintThread3(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth);//
+                    AutoPrintMotion3.AutoPrintThread3(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag);//
                 }
                 else
                 {
@@ -3753,7 +3832,6 @@ namespace BinderJetting
                 InkCarHomeFlag = ManualControl.InkCarHomeFlag;//20200627批注：
                 PowderCarHomeFlag = ManualControl.PowderCarHomeFlag;//20200627批注：
                 g_bRollerDirectionFlag = ManualControl.RollerDirectionFlag;//20200925新增：默认方向
-
                 g_bSystemCorrectFlag = ManualControl.CorrectFlag;//20201014新增：系统校准标志位
 
                 g_bAutoSupplyInkFlag = ManualControl.m_bInkSuppy;
@@ -4657,6 +4735,21 @@ namespace BinderJetting
                 msg = "开启系统：一键启动系统结束！";
                 Log4Net.Info(msg);
 
+                if (AutoPrintMotion0 == null)
+                {
+                    AutoPrintMotion0 = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
+                    msg = $"创建：AutoPrintMotion0=》初次创建完成-手动操作！";
+                    Log4Net.Info(msg);
+                }
+                else
+                {
+                    msg = $"创建：AutoPrintMotion0=》不需重新创建-手动操作！";
+                    Log4Net.Info(msg);
+                }
+                bool returnCode = LoadAutoParamsFromJson(ref AutoPrintMotion0);//20230419修改：读取自动打印参数
+                AutoPrintMotion0.k_RYSYSParamAutoPrintParamInTest.m_zCurrectLoadWaveName = "null";//20230419修改：复位当前波形名称为NULL
+                AutoPrintMotion0.SaveJsonFile();
+
                 UpdateAutoStartInfo();
 
             }
@@ -4666,6 +4759,27 @@ namespace BinderJetting
 
                 if (CloseFlag == false)//顺利完成关闭动作
                 {
+                    string msg2 = null;
+                    InkCarHomeFlag = false;//20230419新增：标志需要重新校准
+                    PowderCarHomeFlag = false;//20230419新增：标志需要重新校准
+                    g_bSystemCorrectFlag = false;//20230419新增：标志需要重新校准
+
+                    if (AutoPrintMotion0 == null)
+                    {
+                        AutoPrintMotion0 = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
+                        msg2 = $"创建：AutoPrintMotion0=》初次创建完成-手动操作！";
+                        Log4Net.Info(msg2);
+                    }
+                    else
+                    {
+                        msg2 = $"创建：AutoPrintMotion0=》不需重新创建-手动操作！";
+                        Log4Net.Info(msg2);
+                    }
+                    bool returnCode = LoadAutoParamsFromJson(ref AutoPrintMotion0);//20230419修改：读取自动打印参数
+                    AutoPrintMotion0.k_RYSYSParamAutoPrintParamInTest.m_zCurrectLoadWaveName = "null";//20230419修改：复位当前波形名称为NULL
+                    AutoPrintMotion0.SaveJsonFile();
+
+
                     m_bMasterElecSwitch = true;
                     AutoPrintFlag[0] = false;//线程存在标志位：标志着线程结束
                     UpdateAutoStartInfo();
@@ -4757,7 +4871,6 @@ namespace BinderJetting
         {
             string msg = "开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！";
             Log4Net.Info(msg);
-
 #if true
             if (AutoPrintFlag[0] == false)//不存在线程：一键启动关闭线程
             {

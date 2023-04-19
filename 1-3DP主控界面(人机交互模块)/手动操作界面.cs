@@ -4990,6 +4990,8 @@ namespace BinderJetting
                 royal.royal.DEV_UpdateParam(ref royal.royal.g_sys_param);//20200801新增：先更新波形，再加载完波形
                 string msg = $"更新波形路径：DEV_UpdateParam：{{{royal.royal.g_sys_param.szWavePath}}}";
                 Log4Net.Info(msg);
+                string CurrentWaveName = System.IO.Path.GetFileName(royal.royal.g_sys_param.szWavePath);
+                k_RYSYSParamAutoPrintParamInTest.CurrectLoadWaveName = CurrentWaveName;//20230419新增:更新当前的波形路径
 
                 //(1)重新更新基准电压值//20230323新增：
                 float[] fstdVoltage = new float[4];//内存中的对应值
@@ -7422,7 +7424,7 @@ namespace BinderJetting
             #endregion
         }
 
-        public void AutoPrintThread2(int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth)//20220513新建:自动喷墨运动动作
+        public void AutoPrintThread2(int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth, int NotGoCleanStationFlag)//20220513新建:自动喷墨运动动作
         {
             string msg = $"进入：AutoPrintThread2！";
             Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
@@ -7515,29 +7517,34 @@ namespace BinderJetting
                         case 5://第6Pass
                             BackToStation(425, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
                             //BackToStation(25 + 5 *PrintHeadWidth, (float)ReturnVelocity1,true);//停靠在里侧，向外侧步进喷头幅面
-                            if (PauseFlag != 1)
-                            {
-                                BackToStation(780/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, false, 1);//回到原点：X=50MM处<---------------//20220520新建：位置修改为780MM处，清洗工作位
-                                BackToStation(96 + 25/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false, 1);//回到原点：Y=50MM处//20220520新建：位置修改为96MM处，清洗工作位//20220525修改：补偿25
-                                WaitStop(1);//20220520新建：等停墨车第1轴：X方向//外部等停
-                                WaitStop(2);//20220520新建：//等停墨车第2轴：Y方向//外部等停
-                            }
-                            else if (PauseFlag == 1)//20230410新增：
-                            {
-                                BackToStation(734.275/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
-                                BackToStation(321.455/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
-                            }
-                            #region 监控指令：喷墨拍摄位点7
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 7);//20230113新建且批注：监控发送指令
-                            }
-                            #endregion
 
-                            //20220920新增：在第5PASS打印运动之后，需要开启闪喷：否则会因为胶水的流动性问题，导致打印不连续
-                            bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷
-                            msg = $"开启闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal2}}}";
-                            Log4Net.Info(msg);
+                            if (NotGoCleanStationFlag == 1) //回清洗站
+                            {
+                                if (PauseFlag != 1)
+                                {
+                                    BackToStation(780/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, false, 1);//回到原点：X=50MM处<---------------//20220520新建：位置修改为780MM处，清洗工作位
+                                    BackToStation(96 + 25/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false, 1);//回到原点：Y=50MM处//20220520新建：位置修改为96MM处，清洗工作位//20220525修改：补偿25
+                                    WaitStop(1);//20220520新建：等停墨车第1轴：X方向//外部等停
+                                    WaitStop(2);//20220520新建：//等停墨车第2轴：Y方向//外部等停
+                                }
+                                else if (PauseFlag == 1)//20230410新增：
+                                {
+                                    BackToStation(734.275/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
+                                    BackToStation(321.455/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
+                                }
+                                #region 监控指令：喷墨拍摄位点7
+                                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
+                                {
+                                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 7);//20230113新建且批注：监控发送指令
+                                }
+                                #endregion
+
+                                //20220920新增：在第5PASS打印运动之后，需要开启闪喷：否则会因为胶水的流动性问题，导致打印不连续
+                                bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷
+                                msg = $"开启闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal2}}}";
+                                Log4Net.Info(msg);
+                            }
+                            
 
                             break;
                         case 6://20230410修改：附加一次运动，确保墨车运动到清洗站工作位，以提供手动操作
@@ -7554,7 +7561,7 @@ namespace BinderJetting
             else { }
         }
         //20230418新增：自动喷墨逻辑,采用双PASS方式进行打印
-        public void AutoPrintThread3(int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag,double YJetOffWidth)//20220513新建:自动喷墨运动动作
+        public void AutoPrintThread3(int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag,double YJetOffWidth, int NotGoCleanStationFlag)//20220513新建:自动喷墨运动动作
         {
             string msg = $"进入：AutoPrintThread3！";
             Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
@@ -7650,29 +7657,32 @@ namespace BinderJetting
                         case 5://第6Pass
                             BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
 
-                            if (PauseFlag != 1)//回原点
+                            if (NotGoCleanStationFlag == 0) //回清洗站
                             {
-                                BackToStation(780/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, false, 1);//回到原点：X=50MM处<---------------//20220520新建：位置修改为780MM处，清洗工作位
-                                BackToStation(96 + 25/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false, 1);//回到原点：Y=50MM处//20220520新建：位置修改为96MM处，清洗工作位//20220525修改：补偿25
-                                WaitStop(1);//20220520新建：等停墨车第1轴：X方向//外部等停
-                                WaitStop(2);//20220520新建：//等停墨车第2轴：Y方向//外部等停
-                            }
-                            else if (PauseFlag == 1)//20230410新增：
-                            {
-                                BackToStation(734.275/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
-                                BackToStation(321.455/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
-                            }
-#region 监控指令：喷墨拍摄位点7
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 7);//20230113新建且批注：监控发送指令
-                            }
-#endregion
+                                if (PauseFlag != 1)//回原点
+                                {
+                                    BackToStation(780/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, false, 1);//回到原点：X=50MM处<---------------//20220520新建：位置修改为780MM处，清洗工作位
+                                    BackToStation(96 + 25/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false, 1);//回到原点：Y=50MM处//20220520新建：位置修改为96MM处，清洗工作位//20220525修改：补偿25
+                                    WaitStop(1);//20220520新建：等停墨车第1轴：X方向//外部等停
+                                    WaitStop(2);//20220520新建：//等停墨车第2轴：Y方向//外部等停
+                                }
+                                else if (PauseFlag == 1)//20230410新增：
+                                {
+                                    BackToStation(734.275/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
+                                    BackToStation(321.455/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
+                                }
+                                #region 监控指令：喷墨拍摄位点7
+                                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
+                                {
+                                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 7);//20230113新建且批注：监控发送指令
+                                }
+                                #endregion
 
-                            //20220920新增：在第5PASS打印运动之后，需要开启闪喷：否则会因为胶水的流动性问题，导致打印不连续
-                            bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷
-                            msg = $"开启闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal2}}}";
-                            Log4Net.Info(msg);
+                                //20220920新增：在第5PASS打印运动之后，需要开启闪喷：否则会因为胶水的流动性问题，导致打印不连续
+                                bool nRetVal2 = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷
+                                msg = $"开启闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal2}}}";
+                                Log4Net.Info(msg);
+                            }
 
                             break;
                         case 6://20230410修改：附加一次运动，确保墨车运动到清洗站工作位，以提供手动操作
@@ -8009,6 +8019,8 @@ namespace BinderJetting
             comboBox6.DataBindings.Add("SelectedIndex", k_RYSYSParamAutoPrintParamInTest, "PressAgainRePrintClean", true, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗时是否重刮压墨（清洗时用）
             comboBox8.DataBindings.Add("SelectedIndex", k_RYSYSParamAutoPrintParamInTest, "BackToRevisionStationAfterClean", true, DataSourceUpdateMode.OnPropertyChanged);//20230416新增：手动清洗时，是否回观察站
             textBox21.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "CleanTimes", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗次数（清洗时用）
+
+            CurrentLoadWave.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "CurrectLoadWaveName", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗时墨车运动速度（清洗时用）
 
             //IR固化功率：20220523新增：
             textBox19.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "IRPowerPercentage", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20220512新建：墨车HOME值设置，此值需考虑实际的光电HOME传感器的物理位置
@@ -8796,6 +8808,8 @@ namespace BinderJetting
             public double m_dInkSpreaderHomeposition = 90/*40*//*5*/;//20220526新建：墨车Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）//20230407修改：修正后的复位值为106°
             public double m_dSraperAngleOffHome = 75;//20230417新建：墨车Spreader距离HOME的角度位置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）//20230407修改
 
+            public string m_zCurrectLoadWaveName = "null";//20230419新增：当前加载的波形名称
+
             public double m_dIRPowerPercentage = 20;//20220523新建：默认IR功率为20%
 
 
@@ -8937,11 +8951,11 @@ namespace BinderJetting
                     {
                         this.m_nRePrintTimes = value; NotifyPropertyChanged();
                     }
-                    else if (value >= 4)
+                    else if (value > 4)
                     {
                         this.m_nRePrintTimes = 4; NotifyPropertyChanged();
                     }
-                    else if (value <= 1)
+                    else if (value < 1)
                     {
                         this.m_nRePrintTimes = 1; NotifyPropertyChanged();
                     }
@@ -9073,6 +9087,12 @@ namespace BinderJetting
                     }
                 }
             }
+            public string CurrectLoadWaveName 
+            {
+                get { return this.m_zCurrectLoadWaveName; }
+                set { if (value != this.m_zCurrectLoadWaveName) { this.m_zCurrectLoadWaveName = value; NotifyPropertyChanged(); } }
+            }
+
             public double CleanAxisSpeed//20230331新增：清洗时墨车轴转动速度（清洗时用）
             {
                 get { return this.m_dCleanAxisSpeed; }

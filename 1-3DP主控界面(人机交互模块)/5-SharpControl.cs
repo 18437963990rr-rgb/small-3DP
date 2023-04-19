@@ -1350,7 +1350,11 @@ namespace BinderJetting
                 /*const*/
                 int width = (int)(320/*330*//*420*/ * (/*600*//*635*//*1270*2*//*635*/XDpi / 25.4f)) + 1/*512*/;//设置图片的宽度//20200802批注：修改原有的X向分辨率，本来应该是635DPI，提升到635*2DPI。
                 /*const*/
+#if false
                 int height = (int)(320/*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度
+#else
+                int height = (int)(310/*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度//20230418修改：打印幅面高度修改为310mm，以允许多PASS打印
+#endif
 
                 var rectangleGeometry = new RoundedRectangleGeometry(d2dFactory, new RoundedRectangle() { RadiusX = 32, RadiusY = 32, Rect = new SharpDX.RectangleF(128, 128, width - 128 * 2, height - 128 * 2) });
                 //if (wicBitmap != null)
@@ -1759,7 +1763,7 @@ namespace BinderJetting
             }
             else { }
 #endif
-            #region//20230202新建：根据1bpp,2bpp,3bpp++以及GrayScale来重新编码为最新需要下发的数据
+#region//20230202新建：根据1bpp,2bpp,3bpp++以及GrayScale来重新编码为最新需要下发的数据
             int bpp = gc_RysysParam.PixelGrayBits/*2*/;//打印数据格式
             int GrayScale = gc_RysysParam.PixelGrayValue/*2*/;//打印灰阶
 
@@ -1848,7 +1852,7 @@ namespace BinderJetting
                 }
             }
             else { }
-            #endregion
+#endregion
 
             // （6）Copy the RGB values back to the bitmap
             /***********************20200423调试新增：************************/
@@ -1912,7 +1916,80 @@ namespace BinderJetting
             //不同的层需要进行不同的设置：20200429新增批注：单层需要正向打印，双层需要方向打印
             royal.royal.g_prtimg_layer.nPrtFlag = 1;//双向打印 bit[0] 控制单双向打印
             royal.royal.g_prtimg_layer.nPrtDir = 0/*((index * RePrintTimes + subindex) % 2)*/ /*1*//*1*//*PrtDirFlag*/;//起始打印方向为增序：光栅计数增大的方向开始计数//201030修改：增加重喷控制参数   
+
             //royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / 25.4 * 600);//20210311新增：Y向起打位置修订//20210330修改：
+            //20230418完善：多PASS打印数据下发
+            int k = index * RePrintTimes + subindex;
+            if (RePrintTimes == 1)//20230418批注：重喷次数取值范围为：1-4
+            {
+                //自动喷墨打印数据，匹配运动逻辑
+                royal.royal.g_prtimg_layer.nYJetOff = 0;//喷嘴偏移值
+                royal.royal.g_prtimg_layer.nPrtFlag = 1;
+            }
+            else if (RePrintTimes == 2)
+            {
+                if (k % RePrintTimes == 1) //20230418修改:第1PASS打印
+                {
+                    //自动喷墨打印数据，匹配运动逻辑 
+                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff/(25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nPrtFlag = 1;
+                }
+                else if (k % RePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                {
+                    //自动喷墨打印数据，匹配运动逻辑
+                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nPrtFlag = 3;
+                }
+            }
+            else if (RePrintTimes == 3)
+            {
+                if (k % RePrintTimes == 1) //20230418修改:第1PASS打印
+                {
+                    //自动喷墨打印数据，匹配运动逻辑
+                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nPrtFlag = 1;
+                }
+                else if (k % RePrintTimes == 2)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                {
+                    //自动喷墨打印数据，匹配运动逻辑
+                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nPrtFlag = 3;
+                }
+                else if (k % RePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                {
+                    //自动喷墨打印数据，匹配运动逻辑
+                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nPrtFlag = 1;
+                }
+            }
+            else if (RePrintTimes == 4)
+            {
+                if (k % RePrintTimes == 1) //20230418修改:第1PASS打印
+                {
+                    //自动喷墨打印数据，匹配运动逻辑
+                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nPrtFlag = 1;
+                }
+                else if (k % RePrintTimes == 2)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                {
+                    //自动喷墨打印数据，匹配运动逻辑
+                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nPrtFlag = 3;
+                }
+                else if (k % RePrintTimes == 3)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                {
+                    //自动喷墨打印数据，匹配运动逻辑
+                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nPrtFlag = 1;
+                }
+                else if (k % RePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
+                {
+                    //自动喷墨打印数据，匹配运动逻辑
+                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nPrtFlag = 3;
+                }
+            }
+
 
 #if true//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
             //生成单比特位图测试

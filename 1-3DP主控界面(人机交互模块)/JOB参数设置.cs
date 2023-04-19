@@ -935,7 +935,7 @@ namespace BinderJetting
             get { return this.m_dCarMoveSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set 
             {
-                if ((value != this.m_dCarMoveSpeed) && (0 <= value && value <= 500))
+                if ((value != this.m_dCarMoveSpeed) && (40 <= value && value <= 500))
                 {
                     this.m_dCarMoveSpeed = value; NotifyPropertyChanged();
                 }
@@ -943,9 +943,9 @@ namespace BinderJetting
                 {
                     this.m_dCarMoveSpeed = 500; NotifyPropertyChanged();
                 }
-                else if (value < 50)
+                else if (value < 40)
                 {
-                    this.m_dCarMoveSpeed = 50; NotifyPropertyChanged();
+                    this.m_dCarMoveSpeed = 40; NotifyPropertyChanged();
                 }
             }
         }
