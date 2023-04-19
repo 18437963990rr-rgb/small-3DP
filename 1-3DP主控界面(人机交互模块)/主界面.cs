@@ -665,7 +665,7 @@ namespace BinderJetting
         }
 
         int g_nLayerStart = 1;//20200220新增：g_nLayerStart需要小于等于g_nLayerNum
-        int g_nLayerEnd = 10;//20200220新增：
+        int g_nLayerEnd = 1/*10*/;//20200220新增：20230419修改：中止层数目，需要更具打印的最大层数来自动更新，当然支持手动的修改
         int g_nLayerCurrent = 0;//20200220新增：指示当前打印层
         private int SetLayerStart//20200601:
         {
@@ -1184,6 +1184,27 @@ namespace BinderJetting
                 {
                     if (true == ImportCLIFlag)//载入CAD文件
                     {
+#if true//20230419新增：确保打印前载入过波形文件
+                        if (AutoPrintMotion0 == null)
+                        {
+                            AutoPrintMotion0 = new 手动操作(0, nValveStateMask, false);//20201030新增：读取自动打印参数
+                            msg = $"创建：AutoPrintMotion0=》初次创建完成-手动操作！";
+                            Log4Net.Info(msg);
+                        }
+                        else
+                        {
+                            msg = $"创建：AutoPrintMotion0=》不需重新创建-手动操作！";
+                            Log4Net.Info(msg);
+                        }
+                        bool returnCode = LoadAutoParamsFromJson(ref AutoPrintMotion0);//20230419修改：读取自动打印参数
+                        if (AutoPrintMotion0.k_RYSYSParamAutoPrintParamInTest.CurrectLoadWaveName == "null")
+                        {
+                            msg = "启动打印线程失败，没有载入过波形文件：DataTaskTHREAD";
+                            Log4Net.Info(msg);
+                            MessageBox.Show("请先载入本次打印任务波形。。。");//没有载入过波形文件
+                            return false;
+                        }
+#endif
                         if ((DataTaskFlag == 1) || (DataTaskFlag == 4)) //DataTaskTHREAD处于初始态或者结束态
                         {
                             string tempThreadName = "DataTaskTHREAD";
@@ -2102,12 +2123,12 @@ namespace BinderJetting
             ////Log4Net.Info(msg);
 
 #endif
-            #region 监控发送指令//20230113新建且批注：
+#region 监控发送指令//20230113新建且批注：
             SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
                                                                                      //sendMessageToCamera.LoadJsonFile();
                                                                                      //sendMessageToCamera.SendMessageFromSharedMemory(tempStartMode,10,13);//20230113新建且批注：监控发送指令
                                                                                      //sendMessageToCamera.Dispose();//20230113新建且批注：监控发送指令
-            #endregion
+#endregion
             while ((RoyalMap.m_bJobStarted == true))//开启打印处理线程：20200411新建
             {
                 returnPrintValue = (CurrentStartPrintLayer + 1) * g_nRePrintTimes;//20200508：复位打印进度值   
@@ -2183,13 +2204,13 @@ namespace BinderJetting
                         ///20230402批注：加入喷墨打印逻辑
                         ///20230402批注：加入喷墨打印逻辑
                         int PassItems = 0;//20220524新增：
-                        #region 监控指令：喷墨拍摄位点1
+#region 监控指令：喷墨拍摄位点1
                         sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems])
                         {
                             sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 1);//20230113新建且批注：监控发送指令
                         }
-                        #endregion
+#endregion
 
                         for (PassItems = 0; PassItems < 6/*7*/; PassItems++)//20220531修改：总共数量为6 PASS
                         {
@@ -2283,9 +2304,9 @@ namespace BinderJetting
 
 #if true//20220524批注：（2）自动喷墨运动
 
-                                    #region
+#region
                                     //（1-1）注意：一定要取消跳白功能//（1-2）计算运动参数:运行速度、运行距离，依据SinglePass和MultiPass等运动模式*/
-                                    #endregion
+#endregion
                                     //RecordPressureAndTemperatureAndValtageInPrint();//20230322新建：记录打印之前喷头温度及电压
 
                                     ///20220915新增：结束读取清洗频率参数
@@ -2293,7 +2314,7 @@ namespace BinderJetting
                                     if (AutoPrintMotion1 == null)
                                     {
                                         /*手动操作*/
-                                        AutoPrintMotion1 = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
+                                        AutoPrintMotion1 = new 手动操作(0, nValveStateMask, false);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
                                         msg = $"创建：AutoPrintMotion1=》初次创建完成-手动操作！";
                                         Log4Net.Info(msg);
                                     }
@@ -2568,9 +2589,9 @@ namespace BinderJetting
                 RoyalMap.m_bJobStarted = false;
                 PrinterRunInfo(":当前打印任务完成：区间为" + (g_nLayerStart + 1) + " 层到 " + (g_nLayerEnd + 1) + " 层");
             }
-            #region 监控发送指令//20230113新建且批注：
+#region 监控发送指令//20230113新建且批注：
             sendMessageToCamera.Dispose(); //20230113新建且批注：监控发送指令
-            #endregion
+#endregion
 
             //20230331新增：打印完成后，关闭闪喷
             bool nRetVal3 = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷
@@ -2585,7 +2606,7 @@ namespace BinderJetting
             Marshal.FreeHGlobal(ImgPtr);//20200429批注：释放内存,一定要及时释放内存//批注：代码位置，需要重点考虑
             PrintFlag = false;//20200716新增：关闭打印机维护的间歇闪喷使能
             g_TaskThreadSTATE[4] = 3;//20201119新增：DataTaskThread恢复为终止状态（打印完）
-            #region
+#region
             //（3）自然执行完毕，自然结束打印区间任务
             DeleteThread("PrintTaskTHREAD");//20200220：本线程结束，需要及时清理相关线程
             if (LayerEnd.InvokeRequired == true)//20200313新增批注：此位置严格来说执行不到
@@ -2596,7 +2617,7 @@ namespace BinderJetting
                     this.LayerStart.Enabled = true;//恢复控件操作
                 }));
             }
-            #endregion
+#endregion
         }
 
         //手动操作 ManualControl = null;//20230317修正:修正潜在的闪退问题
@@ -2812,7 +2833,7 @@ namespace BinderJetting
                                         if (AutoPrintMotion1 == null)
                                         {
                                             /*手动操作*/
-                                            AutoPrintMotion1 = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
+                                            AutoPrintMotion1 = new 手动操作(0, nValveStateMask, false);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
                                             msg = $"创建：AutoPrintMotion1=》初次创建完成-手动操作！";
                                             Log4Net.Info(msg);
                                         }
@@ -2850,7 +2871,7 @@ namespace BinderJetting
 
                                         m_nPauseMovedFlag = 0;//202304010新增：
                                         if (PrintConrolFlag == "PausePrint") { m_nPauseMovedFlag = 1; }//202304010新增：
-#if false
+#if true
                                         EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, 0, 0,0);//自动喷墨运动逻辑
 #else
                                         if (g_nRePrintTimes == 1)//20230418批注：重喷次数取值范围为：1-4
@@ -3022,7 +3043,7 @@ namespace BinderJetting
             Marshal.FreeHGlobal(ImgPtr);//20200429批注：释放内存,一定要及时释放内存//批注：代码位置，需要重点考虑
             PrintFlag = false;//20200716新增：关闭打印机维护的间歇闪喷使能
             g_TaskThreadSTATE[4] = 3;//20201119新增：DataTaskThread恢复为终止状态（打印完）
-            #region
+#region
             //（3）自然执行完毕，自然结束打印区间任务
             DeleteThread("PrintTaskTHREAD2");//20200220：本线程结束，需要及时清理相关线程
             if (LayerEnd.InvokeRequired == true)//20200313新增批注：此位置严格来说执行不到
@@ -3033,7 +3054,7 @@ namespace BinderJetting
                     this.LayerStart.Enabled = true;//恢复控件操作
                 }));
             }
-            #endregion
+#endregion
         }
 
         private void RecordPressureAndTemperatureAndValtage()//20230322新增：
@@ -3345,7 +3366,7 @@ namespace BinderJetting
                 /*手动操作*/
                 if (AutoPrintMotion3 == null)
                 {
-                    AutoPrintMotion3 = new 手动操作(0, nValveStateMask);//20230317修正:修正潜在的闪退问题
+                    AutoPrintMotion3 = new 手动操作(0, nValveStateMask, false);//20230317修正:修正潜在的闪退问题
                     msg = $"进入：EquipmentMotionLogic3=》初次创建完成-手动操作！";
                     Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                 }
@@ -3796,8 +3817,17 @@ namespace BinderJetting
             msg = $"进入：ManulBtn_Click=》准备创建对象-手动操作！";
             Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 
-            /*手动操作*/
-            手动操作 ManualControl = new 手动操作(0, nValveStateMask);//20200718修改：
+            bool PrintJobOnFlag = false;//20230320新增：
+            if (((g_TaskThreadSTATE[3] == 1) && (g_TaskThreadSTATE[4] == 1)) || ((g_TaskThreadSTATE[3] == 3) && (g_TaskThreadSTATE[4] == 3)))//20230320新增：
+            {
+                PrintJobOnFlag = false;//(1)未开启打印任务;(2)此前的打印任务已经结束
+            }
+            else
+            {
+                PrintJobOnFlag = true;//已开启打印任务
+            }
+
+            手动操作 ManualControl = new 手动操作(0, nValveStateMask, PrintJobOnFlag);//20200718修改：
             msg = $"创建：ManualControl=》创建完成-手动操作！";
             Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 
@@ -4737,7 +4767,7 @@ namespace BinderJetting
 
                 if (AutoPrintMotion0 == null)
                 {
-                    AutoPrintMotion0 = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
+                    AutoPrintMotion0 = new 手动操作(0, nValveStateMask, false);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
                     msg = $"创建：AutoPrintMotion0=》初次创建完成-手动操作！";
                     Log4Net.Info(msg);
                 }
@@ -4766,7 +4796,7 @@ namespace BinderJetting
 
                     if (AutoPrintMotion0 == null)
                     {
-                        AutoPrintMotion0 = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
+                        AutoPrintMotion0 = new 手动操作(0, nValveStateMask, false);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
                         msg2 = $"创建：AutoPrintMotion0=》初次创建完成-手动操作！";
                         Log4Net.Info(msg2);
                     }
@@ -4832,7 +4862,7 @@ namespace BinderJetting
                         msg = $"进入：EquipmentMotionLogic3=》准备创建对象-手动操作！";
                         Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 
-                        AutoPrintMotion2 = new 手动操作(0, nValveStateMask);//20220523新建：与温度控制仪表建立通讯
+                        AutoPrintMotion2 = new 手动操作(0, nValveStateMask,false);//20220523新建：与温度控制仪表建立通讯
 
                         msg = $"进入：EquipmentMotionLogic3=》创建完成-手动操作！";
                         Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
@@ -6037,7 +6067,7 @@ namespace BinderJetting
                     Composation(ref CliStreams/*, OperationType.CadOperationCode*/);//with the help of data structure optimization, we can only transfer the ref CliStreams to achieve the ComposationCLI function 
                     //(a) 绘制CLI: 从composationCLI.jobItems——>g_SharpControl.tempJobItems 
                     g_SharpControl.tempJobItems = composationCLI.jobItems;//translate the jobItems in the Composation Space to the local jobItems                                                         
-                                                                          //(b) 整合1层的CLIs://排序确定所有零件的最大的值
+                    //(b) 整合1层的CLIs://排序确定所有零件的最大的值
                     int MaxLayer = CliStreams[0].LayerNumber;
                     for (int i = 1; i <= CliStreams.Count() - 1; i++)//排序确定零件的最大层数
                     {
@@ -6440,8 +6470,12 @@ namespace BinderJetting
                 HScrollBar.Maximum = LayerCount;
                 HScrollBar.ValueChanged += new System.EventHandler(this.hScrollBar2_ValueChanged);
 #if true
-                this.LayerEnd.Enabled = true;//20200602
+                g_nLayerStart = 1;//20230419修改：
+                g_nLayerEnd = LayerCount;//20230419修改：
+                this.LayerStart.Text = g_nLayerStart.ToString();
+                this.LayerEnd.Text = g_nLayerEnd.ToString();
                 this.LayerStart.Enabled = true;//20200602
+                this.LayerEnd.Enabled = true;//20200602      
 #endif
             }
             else
@@ -7145,7 +7179,7 @@ namespace BinderJetting
                 if (AutoPrintMotion4 == null)
                 {
                     /*手动操作*/
-                    AutoPrintMotion4 = new 手动操作(0, nValveStateMask);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
+                    AutoPrintMotion4 = new 手动操作(0, nValveStateMask,false);//20201030新增：读取自动打印参数//20230317修正:修正潜在的闪退问题
                     msg = $"创建：AutoPrintMotion4=》初次创建完成-手动操作！";
                     Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                 }
@@ -7178,20 +7212,20 @@ namespace BinderJetting
                                         ModifyJobAeraFLag = false;//20201124新增：
                                         tempRePrintTimes = g_nRePrintTimes + 1;
                                         int ActualStartNum = g_nLayerStart;
-                                        msg = $"准备处理第1层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
+                                        msg = $"准备处理第{j}层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
                                         Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                                         g_SharpControl.RenderToWic(true, j/*1*/, i, g_nRePrintTimes, ActualStartNum);//第一层无效
-                                        msg = $"完成处理第1层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
+                                        msg = $"完成处理第{j}层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
                                         Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                                     }
                                     else
                                     {
                                         tempRePrintTimes = g_nRePrintTimes;
                                         int ActualStartNum = g_nLayerStart;
-                                        msg = $"准备处理第1层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
+                                        msg = $"准备处理第{j}层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
                                         Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                                         g_SharpControl.RenderToWic(true, j/*1*/, i + 1, g_nRePrintTimes, ActualStartNum);//需要校对渲染区间是否正确//201030修改：
-                                        msg = $"完成处理第1层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
+                                        msg = $"完成处理第{j}层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
                                         Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 
                                     }//201030批注：其余层不做额外补偿
@@ -7762,7 +7796,7 @@ namespace BinderJetting
         {
             InkCarBackBtn.Text = "铺粉\r\n系统回零中";
             InkCarBackBtn.BackColor = Color.Lime;
-            手动操作 f = new 手动操作(1, nValveStateMask);//20200202修改
+            手动操作 f = new 手动操作(1, nValveStateMask, false);//20200202修改
             //f.k_RYSYSParam.m_bFlagResetCorrect = this.g_bResetCorrectEnabled;
             //f.k_RYSYSParam = g_RYSYSParam;//20200326新增
             f.Width = 1000; f.Height = 650;

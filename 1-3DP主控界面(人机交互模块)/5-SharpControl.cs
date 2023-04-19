@@ -431,6 +431,14 @@ namespace BinderJetting
             deviceContext.FillRectangle(rectangleF, BaseBrush);
             deviceContext.DrawRectangle(rectangleF, OutlineBrush, 1.25f / (0.5f * m_zoomScale));
 
+            //20230419新增：指定基板的Y方向区域，不超标
+            /*RawRectangleF*/ rectangleF = new RawRectangleF(-165f/*210f*/ * mm2Dip, -165f/*175f*/ * mm2Dip, 165f/*210f*/ * mm2Dip, -155f/*155*//*175f*/ * mm2Dip);//左上右下//Draw Base contoul and back: 绘制基板轮廓背景
+            deviceContext.FillRectangle(rectangleF, LocationHoleBrush/*BaseBrush*/);
+            //deviceContext.DrawRectangle(rectangleF, OutlineBrush, 1.25f / (0.5f * m_zoomScale));
+            rectangleF = new RawRectangleF(-165f/*210f*/ * mm2Dip, 155f/*175f*/ * mm2Dip, 165f/*210f*/ * mm2Dip, 165f/*155*//*175f*/ * mm2Dip);//左上右下//
+            //deviceContext.DrawRectangle(rectangleF, OutlineBrush, 1.25f / (0.5f * m_zoomScale));
+            deviceContext.FillRectangle(rectangleF, LocationHoleBrush/*BaseBrush*/);
+
 
             //(4)绘制实际的零件模型//20210321新建修改：校准图的绘制是BMP的直接绘制，最好绘制在最底层
             //Draw the Model CLIs: Draw the Conrols with the universial unit: MM
@@ -542,7 +550,7 @@ namespace BinderJetting
             }
 
             //(3)绘制基板4个定位孔：
-            DrawPositionHole(150/*195*/, 150/*160*/, 10, OutlineBrush, LocationHoleBrush);
+            DrawPositionHole(150/*195*/, 135/*150*//*160*/, 10, OutlineBrush, LocationHoleBrush);//Y向向中心偏移
             ////CoordinatLineBrush = new SolidColorBrush(deviceContext, SharpDX.Color./*Red*/CornflowerBlue);
 
 

@@ -1314,6 +1314,15 @@
             "200",
             "250",
             "300",
+            "305",
+            "310",
+            "315",
+            "320",
+            "325",
+            "330",
+            "335",
+            "340",
+            "345",
             "350",
             "400",
             "450"});
@@ -1926,7 +1935,7 @@
             this.textBox37.Name = "textBox37";
             this.textBox37.Size = new System.Drawing.Size(71, 27);
             this.textBox37.TabIndex = 168;
-            this.textBox37.Text = "0";
+            this.textBox37.Text = "15";
             // 
             // label94
             // 

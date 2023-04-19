@@ -653,7 +653,7 @@ namespace BinderJetting
         private void ADIBSetApplyBtn_Click(object sender, EventArgs e)
         {
             ADIBSetApplyBtn.Text = "参数设\r\n置中 ";
-            手动操作 f = new 手动操作(2, nValveStateMask);//20200202修改//20200718修改：新增第2项参数
+            手动操作 f = new 手动操作(2, nValveStateMask,false);//20200202修改//20200718修改：新增第2项参数
             f.Width = 1000; f.Height = 650;
             //f.ControlBox = false;
             f.FormBorderStyle = FormBorderStyle.FixedSingle;

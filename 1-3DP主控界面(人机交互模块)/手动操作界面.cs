@@ -24,10 +24,16 @@ namespace BinderJetting
     public partial class 手动操作 : Form
     {
         int m_PowerBackBtnFlag = 0;//默认状态为0；20200411批注：
-        public 手动操作(int PowerBackBtnFlag, UInt32 nValveStateMask)//20200718修改：
+        public 手动操作(int PowerBackBtnFlag, UInt32 nValveStateMask, bool PrintJobExistedFlag)//20200718修改：
         {
             m_PowerBackBtnFlag = PowerBackBtnFlag;//20200327新增:
             InitializeComponent();
+            if (PrintJobExistedFlag == false) //不存在打印任务
+            { }
+            else
+            {
+                textBox10.Enabled = false;//20230419修改：打印时不得修改打印次数
+            }
             InitShoveInk(nValveStateMask);//初始化挤墨控件集体控制————应该移到主界面中去：
 
 #if false //20230317新建：开启定时器进行刷新，此处存在潜在BUG，需要进行修正
@@ -3469,6 +3475,7 @@ namespace BinderJetting
 
         private void PowderCarHomeResetThread()//20220521新建：送粉车教校准
         {
+            existCorrectProcessFlag2 = true;//20230419新建：存在校准任务
             int nIOState = motionMap.MointoringAxis2(2/*4*/);//铺粉轴的限位状态//motionMap.ClrLimitAndAbrupt(AXIS);//增添这一行非常关键//20220521新建：清楚该轴的限位                 
             if ((0 != (nIOState & 0x20)) || (0 != (nIOState & 0x40)))//粉车位于负限位报警区
             {
@@ -3521,6 +3528,7 @@ namespace BinderJetting
                     }
                     ));
             }
+            existCorrectProcessFlag2 = false;//20230419新建：校准完了，不存在校准任务了
             DeleteThread("PowderCarHomeResetThread");//20200220：本线程结束，需要及时清理相关线程//20200313新增：
 
         }
@@ -3542,8 +3550,11 @@ namespace BinderJetting
 #endif
             DeleteThread("ModbusThread");//20200220：本线程结束，需要及时清理相关线程//20200313新增：
         }
+        bool existCorrectProcessFlag = false;//20230419:
+        bool existCorrectProcessFlag2 = false;//20230419:
         private void InkCarEncoderResetThread()//20220521新建：墨车校准
         {
+            existCorrectProcessFlag = true;//20230419:
             bool ntempRetVal = royal.royal.DEV_EnableUVPosCtlOut(false, false);//20210623批注：（0）关闭UV使能 //20220512新建：通过低速撞零点方式校准//适用于第2代的设备逻辑
 #if (true)
             //（1）墨车X轴校准
@@ -3638,6 +3649,7 @@ namespace BinderJetting
                     }
                     ));
             }
+            existCorrectProcessFlag = false;//20230419新建：校准完了，不存在校准任务了
             DeleteThread("InkCarEncoderResetThread");//20200220：本线程结束，需要及时清理相关线程//20200313新增：
         }
 
@@ -4993,6 +5005,7 @@ namespace BinderJetting
                 string CurrentWaveName = System.IO.Path.GetFileName(royal.royal.g_sys_param.szWavePath);
                 k_RYSYSParamAutoPrintParamInTest.CurrectLoadWaveName = CurrentWaveName;//20230419新增:更新当前的波形路径
 
+
                 //(1)重新更新基准电压值//20230323新增：
                 float[] fstdVoltage = new float[4];//内存中的对应值
                 for (int i = 0; i < 4; i++)
@@ -5082,9 +5095,14 @@ namespace BinderJetting
         {
             this.button20.Focus();//20200602新建：软件启动后的鼠标焦点设置
         }
-
         private void KidFormApplyBtn(object sender, FormClosingEventArgs e)//此种方式，相对于直接在应用及退出按键上的单个处理，不知道快捷多少
         {
+            if ((existCorrectProcessFlag == true) || (existCorrectProcessFlag2 == true))//20230419修改：是否有校准任务存在？如果没有则可以正常退出
+            {
+                e.Cancel = true; // 阻止对话框关闭
+                DialogResult = DialogResult.None; // 将 DialogResult 属性设置为 None
+            }
+
             StartVTMonitorThread("Abort");//20200612修改：解决监控缓慢的问题
             if (k_bJetSetCheck == false)//20200604:如果datagridview1处于监控时
             {
@@ -5345,7 +5363,7 @@ namespace BinderJetting
 
                     if (CurrentPos * 0.005 >= AimPos) { DirFlag = false; }/*墨车在目标位置前侧*/else { DirFlag = true; }//墨车在目标位置后侧
 
-                    if (AimPos >= 10 && AimPos <= 322/*295*/)//是否AimPos在工作流程内:在流程内，即可打印:确认在安全工作区内//20230410修改：扩展Y轴运动范围到322，以允许在暂停打印时运行到暂停位
+                    if (AimPos >= 5/*10*/ && AimPos <= 322/*295*/)//是否AimPos在工作流程内:在流程内，即可打印:确认在安全工作区内//20230410修改：扩展Y轴运动范围到322，以允许在暂停打印时运行到暂停位//20230419修改：Y方向运动范围扩展到5MM-322MM
                     {
                         double MoveStep = (AimPos - CurrentPos * 0.005) * /*1000*/  /*CorrectionRatio*/1001.891/*1000*//*1004.737*//*1000*/;//20220513修改：//20230410修改：1004.737
                         bool nRetVal = royal.royal.DEM_Run(1/*第2轴*/, DirFlag, (UInt32)nSpeed, (int)System.Math.Abs(MoveStep), nCtlValue);//三菱驱动器的千脉冲MM数：按照之前代码，应该是500;运行100MM;单pulse-2um                                                              
@@ -7518,7 +7536,9 @@ namespace BinderJetting
                             BackToStation(425, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
                             //BackToStation(25 + 5 *PrintHeadWidth, (float)ReturnVelocity1,true);//停靠在里侧，向外侧步进喷头幅面
 
-                            if (NotGoCleanStationFlag == 1) //回清洗站
+                            if (NotGoCleanStationFlag == 1) //不回清洗站
+                            { }
+                            else//回清洗站
                             {
                                 if (PauseFlag != 1)
                                 {
@@ -7657,7 +7677,9 @@ namespace BinderJetting
                         case 5://第6Pass
                             BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
 
-                            if (NotGoCleanStationFlag == 0) //回清洗站
+                            if (NotGoCleanStationFlag == 1) //不回清洗站
+                            { }
+                            else//回清洗站
                             {
                                 if (PauseFlag != 1)//回原点
                                 {
