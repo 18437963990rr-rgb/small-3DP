@@ -1,4 +1,11 @@
-﻿using System;
+﻿#define DataProcessDebugMode
+//#define SinglePassPrintMode
+#define TwoPassPrintMode
+//#define TwoPassPrintPerSixTimes
+#define TwoPassPrintPerThreeTimes
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -430,15 +437,28 @@ namespace BinderJetting
             RawRectangleF rectangleF = new RawRectangleF(-165f/*210f*/ * mm2Dip, -165f/*175f*/ * mm2Dip, 165f/*210f*/ * mm2Dip, 165f/*175f*/ * mm2Dip);//左上右下//Draw Base contoul and back: 绘制基板轮廓背景
             deviceContext.FillRectangle(rectangleF, BaseBrush);
             deviceContext.DrawRectangle(rectangleF, OutlineBrush, 1.25f / (0.5f * m_zoomScale));
-
+#if TwoPassPrintMode
+#if TwoPassPrintPerSixTimes
             //20230419新增：指定基板的Y方向区域，不超标
-            /*RawRectangleF*/ rectangleF = new RawRectangleF(-165f/*210f*/ * mm2Dip, -165f/*175f*/ * mm2Dip, 165f/*210f*/ * mm2Dip, -155f/*155*//*175f*/ * mm2Dip);//左上右下//Draw Base contoul and back: 绘制基板轮廓背景
+            /*RawRectangleF*/
+            rectangleF = new RawRectangleF(-165f/*210f*/ * mm2Dip, -165f/*175f*/ * mm2Dip, 165f/*210f*/ * mm2Dip, -155f/*155*//*175f*/ * mm2Dip);//左上右下//Draw Base contoul and back: 绘制基板轮廓背景
             deviceContext.FillRectangle(rectangleF, LocationHoleBrush/*BaseBrush*/);
             //deviceContext.DrawRectangle(rectangleF, OutlineBrush, 1.25f / (0.5f * m_zoomScale));
             rectangleF = new RawRectangleF(-165f/*210f*/ * mm2Dip, 155f/*175f*/ * mm2Dip, 165f/*210f*/ * mm2Dip, 165f/*155*//*175f*/ * mm2Dip);//左上右下//
             //deviceContext.DrawRectangle(rectangleF, OutlineBrush, 1.25f / (0.5f * m_zoomScale));
             deviceContext.FillRectangle(rectangleF, LocationHoleBrush/*BaseBrush*/);
-
+#endif
+#if TwoPassPrintPerThreeTimes
+                        //20230419新增：指定基板的Y方向区域，不超标
+            /*RawRectangleF*/
+            rectangleF = new RawRectangleF(-165f/*210f*/ * mm2Dip, -165f/*175f*/ * mm2Dip, 165f/*210f*/ * mm2Dip, -73.5f/*155*//*175f*/ * mm2Dip);//左上右下//Draw Base contoul and back: 绘制基板轮廓背景
+            deviceContext.FillRectangle(rectangleF, LocationHoleBrush/*BaseBrush*/);
+            //deviceContext.DrawRectangle(rectangleF, OutlineBrush, 1.25f / (0.5f * m_zoomScale));
+            rectangleF = new RawRectangleF(-165f/*210f*/ * mm2Dip, 73.5f/*175f*/ * mm2Dip, 165f/*210f*/ * mm2Dip, 165f/*155*//*175f*/ * mm2Dip);//左上右下//
+            //deviceContext.DrawRectangle(rectangleF, OutlineBrush, 1.25f / (0.5f * m_zoomScale));
+            deviceContext.FillRectangle(rectangleF, LocationHoleBrush/*BaseBrush*/);
+#endif
+#endif
 
             //(4)绘制实际的零件模型//20210321新建修改：校准图的绘制是BMP的直接绘制，最好绘制在最底层
             //Draw the Model CLIs: Draw the Conrols with the universial unit: MM
@@ -1358,10 +1378,17 @@ namespace BinderJetting
                 /*const*/
                 int width = (int)(320/*330*//*420*/ * (/*600*//*635*//*1270*2*//*635*/XDpi / 25.4f)) + 1/*512*/;//设置图片的宽度//20200802批注：修改原有的X向分辨率，本来应该是635DPI，提升到635*2DPI。
                 /*const*/
-#if false
-                int height = (int)(320/*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度
-#else
-                int height = (int)(310/*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度//20230418修改：打印幅面高度修改为310mm，以允许多PASS打印
+                int height = 0;
+#if SinglePassPrintMode
+                /*int*/ height = (int)(320/*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度
+#endif
+#if TwoPassPrintMode
+#if TwoPassPrintPerSixTimes
+                /*int*/ height = (int)(310/*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度//20230418修改：打印幅面高度修改为310mm，以允许多PASS打印
+#endif
+#if TwoPassPrintPerThreeTimes
+                /*int*/ height = (int)(147/*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度//20230418修改：打印幅面高度修改为310mm，以允许多PASS打印
+#endif
 #endif
 
                 var rectangleGeometry = new RoundedRectangleGeometry(d2dFactory, new RoundedRectangle() { RadiusX = 32, RadiusY = 32, Rect = new SharpDX.RectangleF(128, 128, width - 128 * 2, height - 128 * 2) });
@@ -1488,17 +1515,161 @@ namespace BinderJetting
                 //else { }
                 //#endregion
 
-#if false//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
+#if DataProcessDebugMode//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
                 clone.Save("output1bpp.bmp", ImageFormat.Bmp);//保存到BMPFile
-#else
+#endif
+#if SinglePassPrintMode
                 WriteImgLayerData(clone/*path*/, /*1*/index, subindex, RePrintTimes/*, 0, true*/, true);//201030修改：//20201117批注：数据封送处理//20210324:需要执行反色
 #endif
+                System.Drawing.Bitmap outputImage = null;
+#if TwoPassPrintMode
+#if TwoPassPrintPerSixTimes
+                CreatTwoPassFigure((int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)/*0*//*1280,*//*355*/, 6, clone, ref outputImage);
+#endif
+#if TwoPassPrintPerThreeTimes
+                CreatTwoPassFigure((int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
+#endif
+
+#if DataProcessDebugMode
+                outputImage.Save("output1bpp-拼接.bmp", ImageFormat.Bmp);//保存到BMPFile  
+#endif
+                WriteImgLayerData(outputImage/*path*/, /*1*/index, subindex, RePrintTimes/*, 0, true*/, true);//201030修改：//20201117批注：数据封送处理//20210324:需要执行反色//20230420新增：
+#endif
+
                 //System.Diagnostics.Process.Start(Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, filename)));//打开文件夹的指定文件
+                if(outputImage!=null)
+                {
+                    outputImage.Dispose();
+                }
                 clone.Dispose();
             }
             else
             {
             }
+        }
+        public void CreatTwoPassFigure(/*PassHeight = 1280 bit*/ int initialOffset/*第2幅图像的偏移数据*/, int numPasses/*可以计算出来:为6PASS*/, System.Drawing.Bitmap clone, ref System.Drawing.Bitmap outputImage)//20230420新增：
+        {
+            int passHeight = 1280;
+            // Load the input images
+            System.Drawing.Bitmap inputImage1 = clone;//new System.Drawing.Bitmap("image1.bmp");
+            //System.Drawing.Bitmap inputImage2 = clone;//new System.Drawing.Bitmap("image2.bmp");
+
+            // Get the dimensions of the input images
+            int inputWidth = inputImage1.Width;
+            int inputHeight = inputImage1.Height;
+
+            // Lock the input and output bitmaps
+            System.Drawing.Rectangle inputRect1 = new System.Drawing.Rectangle(0, 0, inputWidth, inputImage1.Height);//输入全幅尺寸
+            //System.Drawing.Rectangle inputRect2 = new System.Drawing.Rectangle(0, 0, inputWidth, inputImage1.Height);//new System.Drawing.Rectangle(0, inputImage1.Height + spacing, inputWidth, inputImage2.Height);
+            
+            BitmapData inputData1 = inputImage1.LockBits(inputRect1, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format1bppIndexed/*Format24bppRgb*/);
+            //BitmapData inputData2 = inputImage2.LockBits(inputRect2, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format1bppIndexed);//1bpp数据
+            // Get the memory addresses for the input and output bitmaps
+            IntPtr inputPtr1 = inputData1.Scan0;
+
+            // Calculate the number of bytes per row for each bitmap
+            int inputStride1 = inputData1.Stride;
+
+
+            // 分配新图像数据的内存
+            byte[] newData = new byte[inputStride1 * (inputHeight * 2 + initialOffset * 2)];
+            // Split the input bitmaps into passes and copy them to the output bitmap
+            unsafe
+            {
+                //(1)添加空白图像区域
+                int outputRowNum = 0;//记录输出的行数
+                int outputRowNum1 = 0;//记录上一次输出的行数
+                int outputRowNum2 = 0;//记录上一次输出的行数
+
+                IntPtr inputBlankRowPtr = Marshal.AllocHGlobal(inputStride1);//非托管区位置                                                             
+                byte[] zeroBytes = new byte[inputStride1]; //将内存空间初始化为0
+                for (int i = 0; i < inputStride1; i++)
+                {
+                    zeroBytes[i] = 0xFF;
+                }
+                Marshal.Copy(zeroBytes, 0, inputBlankRowPtr, inputStride1); // 将内存空间初始化为:0
+                for (int i = 0; i < initialOffset; i++) 
+                {
+                    // Copy the row of pixels from the input bitmap to the output bitmap //IntPtr outputRowPtr = new IntPtr(outputPtr.ToInt64() + (long)(y - startY + outputRowNum) * outputStride);//输出的1行图像数据的指针
+                    Marshal.Copy(inputBlankRowPtr, newData, (int)((outputRowNum1 + i) * inputStride1), inputStride1);//Marshal.Copy(ptrs[pass] + srcOffset, newData, dstOffset, width);
+                    outputRowNum = outputRowNum + 1;//更新目标行数
+                }
+                outputRowNum1 = outputRowNum;//记录上1PASS的行数
+                outputRowNum2 = outputRowNum1;
+                //(2)添加实际打印区域
+                //添加所有的图像
+                int initialOffset2 = initialOffset;
+                //initialOffset2 = 0;
+                for (int pass = 0; pass < numPasses; pass++)//总共6PASS
+                {
+                    // Calculate the y coordinates for the start and end of the current pass
+                    int startY = 0;
+                    int endY = 0;
+                    if (pass == 0)
+                    {
+                        startY = 0 /*+ pass * passHeight*/;//待复制的起始目标行位置//第1PASS的初始偏移值，在幅宽方面进行补偿
+                        endY = startY + passHeight - initialOffset2;//((startY + passHeight - initialOffset2) < inputHeight) ? (startY + passHeight - initialOffset2) : inputHeight; 
+                        ;//待复制的终止目标行位置
+                    }
+                    else 
+                    {
+                        startY = 0 + pass * passHeight - initialOffset2;//待复制的起始目标行位置//第1PASS的初始偏移值，在幅宽方面进行补偿
+                        endY = startY + passHeight;//待复制的终止目标行位置((startY + passHeight - initialOffset2) < inputHeight) ? (startY + passHeight - initialOffset2) : inputHeight; //startY + passHeight;//待复制的终止目标行位置
+                    }
+
+                    // Copy the pixels from the first input bitmap to the output bitmap
+                    for (int y = startY; y < endY && y < inputImage1.Height; y++)
+                    {
+                        // Calculate the memory addresses for the current row in each bitmap
+                        IntPtr inputRowPtr = new IntPtr(inputPtr1.ToInt64() + (long)y * inputStride1);//输入的1行图像数据的指针
+
+                        // Copy the row of pixels from the input bitmap to the output bitmap //IntPtr outputRowPtr = new IntPtr(outputPtr.ToInt64() + (long)(y - startY + outputRowNum) * outputStride);//输出的1行图像数据的指针
+                        Marshal.Copy(inputRowPtr, newData, (int)((outputRowNum1 + y - startY) * inputStride1)/*0*/, inputStride1);//Marshal.Copy(ptrs[pass] + srcOffset, newData, dstOffset, width);//输出的1行图像数据的指针
+                        outputRowNum = outputRowNum + 1;//更新目标行数
+                    }
+                    outputRowNum1 = outputRowNum;//记录上1PASS的行数
+                    startY = 0 + pass * passHeight;//待复制的起始目标行位置
+                    endY = startY + passHeight;//待复制的终止目标行位置//回归正常的打印幅宽
+
+                    // Copy the pixels from the second input bitmap to the output bitmap
+                    for (int y = startY; y < endY && (y < inputImage1.Height); y++)
+                    {
+                        // Calculate the memory addresses for the current row in each bitmap
+                        IntPtr inputRowPtr = new IntPtr(inputPtr1.ToInt64() + (long)y * inputStride1);
+
+                        // Copy the row of pixels from the input bitmap to the output bitmap //IntPtr outputRowPtr = new IntPtr(outputPtr.ToInt64() + (long)(y - startY + outputRowNum) * outputStride);//输出的1行图像数据的指针
+                        Marshal.Copy(inputRowPtr, newData, (int)((outputRowNum1 + y - startY) * inputStride1)/*0*/, inputStride1);//Marshal.Copy(ptrs[pass] + srcOffset, newData, dstOffset, width);
+
+                        outputRowNum = outputRowNum + 1;//更新目标行数
+                    }
+                    outputRowNum1 = outputRowNum;//记录上1PASS的行数
+                }
+
+                //(3)添加空白图像区域
+                for (int i = 0; i < initialOffset; i++)
+                {
+                    // Copy the row of pixels from the input bitmap to the output bitmap //IntPtr outputRowPtr = new IntPtr(outputPtr.ToInt64() + (long)(y - startY + outputRowNum) * outputStride);//输出的1行图像数据的指针
+                    Marshal.Copy(inputBlankRowPtr, newData, (int)((outputRowNum1 + i) * inputStride1), inputStride1);//Marshal.Copy(ptrs[pass] + srcOffset, newData, dstOffset, width);
+                }
+
+                // Create the output image
+                /*System.Drawing.Bitmap */
+                outputImage = new System.Drawing.Bitmap(inputWidth, inputHeight * 2 + initialOffset * 2, System.Drawing.Imaging.PixelFormat.Format1bppIndexed);/*new System.Drawing.Bitmap(inputWidth, inputHeight*2);*/
+                System.Drawing.Rectangle outputRect = new System.Drawing.Rectangle(0, 0, inputWidth, inputHeight * 2 + initialOffset * 2);//输出全幅尺寸：高度为输入全幅尺寸的2倍
+
+                BitmapData outputData = outputImage.LockBits(outputRect, ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format1bppIndexed);
+                IntPtr outputPtr = outputData.Scan0;
+                int outputStride = inputStride1/*outputData.Stride*/;
+                // 将新图像的数据复制到 Inptr3 中
+                Marshal.Copy(newData, 0, outputPtr, outputStride * (inputHeight * 2 + initialOffset * 2));//将newData复制到目标文件中
+                outputImage.SetResolution(600f, 600f);//Windows7的系统BUG
+                outputImage.UnlockBits(outputData);
+                //outputImage.Dispose();
+            }
+
+            // Unlock the input and output bitmaps
+            inputImage1.UnlockBits(inputData1);
+            //inputImage2.UnlockBits(inputData2);
         }
 
         //20210319新增：处理校准图并传送，已经验证通过
@@ -1521,11 +1692,31 @@ namespace BinderJetting
                 ////// （3）Get the address of the first line.
                 ////IntPtr ptr = bmpData.Scan0;
 
-#if false//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
-                clone.save("output1bpp.bmp", imageformat.bmp);//保存到bmpfile
-#else
-                WriteImgLayerData(clone, index/*1-2-3*/, subindex/*0-1-2*/, RePrintTimes/*1*/, false);//201030修改：//20201117批注：数据封送处理//20210324:不需要执行反色
+#if DataProcessDebugMode//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
+                  clone.Save("output1bpp.bmp", ImageFormat.Bmp);//保存到bmpfile
 #endif
+
+#if SinglePassPrintMode
+                WriteImgLayerData(clone/*path*/, /*1*/index, subindex, RePrintTimes/*, 0, true*/, true);//201030修改：//20201117批注：数据封送处理//20210324:需要执行反色
+#endif
+
+#if TwoPassPrintMode
+#if TwoPassPrintPerSixTimes
+                System.Drawing.Bitmap outputImage = null;
+                CreatTwoPassFigure(0/*1280,*//*355*/, 6, clone, ref outputImage);
+                WriteImgLayerData(clone, index/*1-2-3*/, subindex/*0-1-2*/, RePrintTimes/*1*/, false);//201030修改：//20201117批注：数据封送处理//20210324:不需要执行反色
+                outputImage.Dispose();
+#endif
+
+#if TwoPassPrintPerThreeTimes
+                System.Drawing.Bitmap outputImage2 = null;
+                CreatTwoPassFigure(0/*1280,*//*355*/, 3, clone, ref outputImage2);
+                WriteImgLayerData(clone, index/*1-2-3*/, subindex/*0-1-2*/, RePrintTimes/*1*/, false);//201030修改：//20201117批注：数据封送处理//20210324:不需要执行反色
+                outputImage2.Dispose();
+#endif
+
+#endif
+
                 clone.Dispose();
             }
             else { }
@@ -1928,6 +2119,16 @@ namespace BinderJetting
             //royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / 25.4 * 600);//20210311新增：Y向起打位置修订//20210330修改：
             //20230418完善：多PASS打印数据下发
             int k = index * RePrintTimes + subindex;
+
+#if TwoPassPrintMode
+            if (RePrintTimes == 1)//20230418批注：重喷次数取值范围为：1-4
+            {
+                //自动喷墨打印数据，匹配运动逻辑
+                royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//喷嘴偏移值//15mm对应：354嘴
+                royal.royal.g_prtimg_layer.nPrtFlag = 1;
+            }
+#endif
+#if SinglePassPrintMode
             if (RePrintTimes == 1)//20230418批注：重喷次数取值范围为：1-4
             {
                 //自动喷墨打印数据，匹配运动逻辑
@@ -1945,7 +2146,7 @@ namespace BinderJetting
                 else if (k % RePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                 {
                     //自动喷墨打印数据，匹配运动逻辑
-                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nYJetOff = 0/*(int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)*/;//15mm对应：354嘴
                     royal.royal.g_prtimg_layer.nPrtFlag = 3;
                 }
             }
@@ -1960,7 +2161,7 @@ namespace BinderJetting
                 else if (k % RePrintTimes == 2)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                 {
                     //自动喷墨打印数据，匹配运动逻辑
-                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nYJetOff = 0/*(int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)*/;//15mm对应：354嘴
                     royal.royal.g_prtimg_layer.nPrtFlag = 3;
                 }
                 else if (k % RePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
@@ -1981,7 +2182,7 @@ namespace BinderJetting
                 else if (k % RePrintTimes == 2)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                 {
                     //自动喷墨打印数据，匹配运动逻辑
-                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nYJetOff = 0/*(int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)*/;//15mm对应：354嘴
                     royal.royal.g_prtimg_layer.nPrtFlag = 3;
                 }
                 else if (k % RePrintTimes == 3)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
@@ -1993,13 +2194,13 @@ namespace BinderJetting
                 else if (k % RePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                 {
                     //自动喷墨打印数据，匹配运动逻辑
-                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nYJetOff = 0/*(int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)*/;//15mm对应：354嘴
                     royal.royal.g_prtimg_layer.nPrtFlag = 3;
                 }
             }
+#endif
 
-
-#if true//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
+#if false //DataProcessDebugMode//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
             //生成单比特位图测试
             if (bpp == 1)
             {

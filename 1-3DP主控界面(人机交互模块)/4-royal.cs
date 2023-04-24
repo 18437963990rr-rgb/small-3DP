@@ -211,8 +211,8 @@ namespace royal
         public int[] nPhYJetOff;        //Y向嘴偏差      
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
         public LPDRV_WAVEFORM[] drvWaveForm;  //驱动卡温度电压	//20181105 多脉冲增加 (19*4+32)*64 bytes
-        public UInt32 nMicroJetUint;              //PASS微动时变化单位 Jet
-        public UInt32 nMicroJetCount;             //PASS微动嘴 Jet
+        public UInt32 nMicroJetUint;              //PASS微动时变化单位 Jet//多层之间的MicroJet编译
+        public UInt32 nMicroJetCount;             //PASS微动嘴 Jet//
         public int nOverlapJetProcType;                //重叠嘴处理方式  0 交叉 1 后喷头舍弃与前喷头重叠部分
         public float fBrustCycleSec;               //闪喷的周期
         public float fBrustValidSec;               //闪喷的有效时间
@@ -305,7 +305,9 @@ namespace royal
         [DllImport("RYPrtCtler.dll")]
         public static extern bool DEV_SetInkPump(UInt32 nIoVal);        //设置压墨输出 bit[0]~bit[1]  P1~P2		J28  
         [DllImport("RYPrtCtler.dll")]
-        public static extern bool DEV_SetTimer(UInt32 nTimerID, float fCycleSec, float fValidSec);	//P11~P12 墨水循环//20200329本人新增，注意到缺失：
+        public static extern bool DEV_SetTimer(UInt32 nTimerID, float fCycleSec, float fValidSec);  //P11~P12 墨水循环//20200329本人新增，注意到缺失：//nTimerID=0=1,是11口和12口
+        [DllImport("RYPrtCtler.dll")]
+        public static extern bool DEV_EnableTimer(UInt32 nTimerID, bool bEnable);	//P11~P12 墨水循环//20230423新增：
 
         [DllImport("RYPrtCtler.dll")]
         public static extern bool DEV_SetUVLampPosRange(IntPtr nMinPos/*UInt32 nMinPos[2]*/, IntPtr nMaxPos/*UInt32 nMaxPos[2]*/);  //[0] UV1 [1] UV2	//nMinPos,nMaxPos 为软件系统编码位置值                                                                                                     //RYPRTCTLER_API bool				__stdcall DEV_SetPwmParam(float fCycleSec,float fValidSec);	//设置UV灯功率

@@ -518,6 +518,9 @@ namespace BinderJetting
             textBox12.DataBindings.Add("Text", k_RYSYSParam, "HSpeedSparkTime", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);
             textBox13.DataBindings.Add("Text", k_RYSYSParam, "HSpeedSparkFreq", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);
 
+            //textBox39.DataBindings.Add("Text", k_RYSYSParam, "PushingCleanInkCycleTime", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230423：清洗控制周期
+            //textBox40.DataBindings.Add("Text", k_RYSYSParam, "PushingCleanDutyCycleTime", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230423：清洗控制占空比
+
 
             textBox16.DataBindings.Add("Text", k_RYSYSParam, "InterSpeedSparkValidTime", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);
 
@@ -732,6 +735,10 @@ namespace BinderJetting
         /// </summary>
         //总计有2种方式的闪喷：高速闪喷和待机闪喷；闪喷策略，分别保存到对应的结构体
         public double m_dInterSpeedSparkCycleTime = 1.5/*20*/;//间歇闪喷周期//20220920修改：周期为1s
+
+        //public double m_dPushingCleanInkCycleTime = 1/*20*/;//20230423：清洗控制周期
+        //public double m_dPushingCleanDutyCycleTime = 0.1/*20*/;//20230423：清洗控制占空比
+
         public double m_dHSpeedSparkTime = 0.5/*1*/;//高速闪喷时间//20220920修改：有效时间0.5s
         public int m_nHSpeedSparkFreq = 500;//高速闪喷频率//20220920修改：频率500Hz
 
@@ -858,6 +865,37 @@ namespace BinderJetting
             get { return this.m_dInterSpeedSparkCycleTime; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set { if (value != this.m_dInterSpeedSparkCycleTime) { this.m_dInterSpeedSparkCycleTime = value; NotifyPropertyChanged(); } }
         }
+        //public double PushingCleanInkCycleTime//20230423：清洗控制周期
+        //{
+        //    get { return this.m_dPushingCleanInkCycleTime; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+        //    set
+        //    { 
+        //        if (value != this.m_dPushingCleanInkCycleTime) 
+        //        { 
+        //            this.m_dPushingCleanInkCycleTime = value; NotifyPropertyChanged(); 
+        //        } 
+        //    }
+        //}
+        //public double PushingCleanDutyCycleTime//20230423：清洗控制占空比
+        //{
+        //    get { return this.m_dPushingCleanDutyCycleTime; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
+        //    set 
+        //    {
+        //        if ((value != this.m_dPushingCleanDutyCycleTime) && (0 <= value && value <= 0.5))
+        //        {
+        //            this.m_dPushingCleanDutyCycleTime = value; NotifyPropertyChanged();
+        //        }
+        //        else if (value > 0.5)
+        //        {
+        //            this.m_dPushingCleanDutyCycleTime = 0.5; NotifyPropertyChanged();
+        //        }
+        //        else if (value < 0)
+        //        {
+        //            this.m_dPushingCleanDutyCycleTime = 0; NotifyPropertyChanged();
+        //        }
+        //    }
+        //}
+
         public double InterSpeedSparkValidTime//间歇闪喷有效时间
         {
             get { return this.m_dInterSpeedSparkValidTime; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/

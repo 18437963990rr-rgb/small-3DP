@@ -146,6 +146,12 @@
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label110 = new System.Windows.Forms.Label();
+            this.textBox40 = new System.Windows.Forms.TextBox();
+            this.label109 = new System.Windows.Forms.Label();
+            this.textBox39 = new System.Windows.Forms.TextBox();
+            this.label108 = new System.Windows.Forms.Label();
+            this.label107 = new System.Windows.Forms.Label();
             this.label106 = new System.Windows.Forms.Label();
             this.comboBox6 = new System.Windows.Forms.ComboBox();
             this.label105 = new System.Windows.Forms.Label();
@@ -494,7 +500,7 @@
             this.label62.BackColor = System.Drawing.Color.Aquamarine;
             this.label62.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label62.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label62.Location = new System.Drawing.Point(647, 199);
+            this.label62.Location = new System.Drawing.Point(647, 256);
             this.label62.Name = "label62";
             this.label62.Size = new System.Drawing.Size(300, 4);
             this.label62.TabIndex = 147;
@@ -527,7 +533,7 @@
             this.checkBox4.Checked = true;
             this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox4.Enabled = false;
-            this.checkBox4.Location = new System.Drawing.Point(871, 461);
+            this.checkBox4.Location = new System.Drawing.Point(871, 519);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(66, 22);
             this.checkBox4.TabIndex = 131;
@@ -537,7 +543,7 @@
             // checkBox5
             // 
             this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(798, 462);
+            this.checkBox5.Location = new System.Drawing.Point(798, 519);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(66, 22);
             this.checkBox5.TabIndex = 130;
@@ -550,7 +556,7 @@
             this.checkBox6.Checked = true;
             this.checkBox6.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox6.Enabled = false;
-            this.checkBox6.Location = new System.Drawing.Point(724, 462);
+            this.checkBox6.Location = new System.Drawing.Point(724, 519);
             this.checkBox6.Name = "checkBox6";
             this.checkBox6.Size = new System.Drawing.Size(66, 22);
             this.checkBox6.TabIndex = 129;
@@ -563,7 +569,7 @@
             this.checkBox3.Checked = true;
             this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox3.Enabled = false;
-            this.checkBox3.Location = new System.Drawing.Point(871, 437);
+            this.checkBox3.Location = new System.Drawing.Point(871, 495);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(66, 22);
             this.checkBox3.TabIndex = 128;
@@ -576,7 +582,7 @@
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox2.Enabled = false;
-            this.checkBox2.Location = new System.Drawing.Point(798, 438);
+            this.checkBox2.Location = new System.Drawing.Point(798, 495);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(66, 22);
             this.checkBox2.TabIndex = 127;
@@ -589,7 +595,7 @@
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.Enabled = false;
-            this.checkBox1.Location = new System.Drawing.Point(724, 438);
+            this.checkBox1.Location = new System.Drawing.Point(724, 495);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(66, 22);
             this.checkBox1.TabIndex = 126;
@@ -600,7 +606,7 @@
             // 
             this.label50.AutoSize = true;
             this.label50.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label50.Location = new System.Drawing.Point(645, 463);
+            this.label50.Location = new System.Drawing.Point(645, 520);
             this.label50.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label50.Name = "label50";
             this.label50.Size = new System.Drawing.Size(98, 18);
@@ -611,7 +617,7 @@
             // 
             this.label46.AutoSize = true;
             this.label46.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label46.Location = new System.Drawing.Point(645, 439);
+            this.label46.Location = new System.Drawing.Point(645, 496);
             this.label46.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label46.Name = "label46";
             this.label46.Size = new System.Drawing.Size(98, 18);
@@ -622,7 +628,7 @@
             // 
             this.label44.AutoSize = true;
             this.label44.Font = new System.Drawing.Font("宋体", 10F);
-            this.label44.Location = new System.Drawing.Point(898, 405);
+            this.label44.Location = new System.Drawing.Point(898, 454);
             this.label44.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label44.Name = "label44";
             this.label44.Size = new System.Drawing.Size(26, 17);
@@ -633,7 +639,7 @@
             // 
             this.label45.AutoSize = true;
             this.label45.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label45.Location = new System.Drawing.Point(645, 416);
+            this.label45.Location = new System.Drawing.Point(645, 473);
             this.label45.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(188, 18);
@@ -642,7 +648,7 @@
             // 
             // textBox22
             // 
-            this.textBox22.Location = new System.Drawing.Point(821, 405);
+            this.textBox22.Location = new System.Drawing.Point(821, 462);
             this.textBox22.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox22.Name = "textBox22";
             this.textBox22.Size = new System.Drawing.Size(71, 27);
@@ -653,7 +659,7 @@
             // 
             this.label47.AutoSize = true;
             this.label47.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label47.Location = new System.Drawing.Point(645, 390);
+            this.label47.Location = new System.Drawing.Point(645, 447);
             this.label47.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label47.Name = "label47";
             this.label47.Size = new System.Drawing.Size(179, 18);
@@ -662,7 +668,7 @@
             // 
             // textBox23
             // 
-            this.textBox23.Location = new System.Drawing.Point(821, 380);
+            this.textBox23.Location = new System.Drawing.Point(821, 437);
             this.textBox23.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox23.Name = "textBox23";
             this.textBox23.Size = new System.Drawing.Size(71, 27);
@@ -726,7 +732,7 @@
             // 
             this.label48.AutoSize = true;
             this.label48.Font = new System.Drawing.Font("宋体", 10F);
-            this.label48.Location = new System.Drawing.Point(898, 377);
+            this.label48.Location = new System.Drawing.Point(898, 426);
             this.label48.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(26, 17);
@@ -748,7 +754,7 @@
             // 
             this.label49.AutoSize = true;
             this.label49.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label49.Location = new System.Drawing.Point(645, 364);
+            this.label49.Location = new System.Drawing.Point(645, 421);
             this.label49.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label49.Name = "label49";
             this.label49.Size = new System.Drawing.Size(215, 18);
@@ -757,7 +763,7 @@
             // 
             // textBox24
             // 
-            this.textBox24.Location = new System.Drawing.Point(821, 355);
+            this.textBox24.Location = new System.Drawing.Point(821, 412);
             this.textBox24.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox24.Name = "textBox24";
             this.textBox24.Size = new System.Drawing.Size(71, 27);
@@ -768,7 +774,7 @@
             // 
             this.label38.AutoSize = true;
             this.label38.Font = new System.Drawing.Font("宋体", 10F);
-            this.label38.Location = new System.Drawing.Point(898, 349);
+            this.label38.Location = new System.Drawing.Point(898, 398);
             this.label38.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(25, 17);
@@ -779,7 +785,7 @@
             // 
             this.label39.AutoSize = true;
             this.label39.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label39.Location = new System.Drawing.Point(645, 338);
+            this.label39.Location = new System.Drawing.Point(645, 395);
             this.label39.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(170, 18);
@@ -788,7 +794,7 @@
             // 
             // textBox19
             // 
-            this.textBox19.Location = new System.Drawing.Point(821, 330);
+            this.textBox19.Location = new System.Drawing.Point(821, 387);
             this.textBox19.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox19.Name = "textBox19";
             this.textBox19.Size = new System.Drawing.Size(71, 27);
@@ -799,7 +805,7 @@
             // 
             this.label40.AutoSize = true;
             this.label40.Font = new System.Drawing.Font("宋体", 10F);
-            this.label40.Location = new System.Drawing.Point(898, 321);
+            this.label40.Location = new System.Drawing.Point(898, 370);
             this.label40.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(25, 17);
@@ -810,7 +816,7 @@
             // 
             this.label41.AutoSize = true;
             this.label41.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label41.Location = new System.Drawing.Point(645, 312);
+            this.label41.Location = new System.Drawing.Point(645, 369);
             this.label41.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label41.Name = "label41";
             this.label41.Size = new System.Drawing.Size(179, 18);
@@ -819,7 +825,7 @@
             // 
             // textBox20
             // 
-            this.textBox20.Location = new System.Drawing.Point(821, 305);
+            this.textBox20.Location = new System.Drawing.Point(821, 362);
             this.textBox20.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox20.Name = "textBox20";
             this.textBox20.Size = new System.Drawing.Size(71, 27);
@@ -830,7 +836,7 @@
             // 
             this.label42.AutoSize = true;
             this.label42.Font = new System.Drawing.Font("宋体", 10F);
-            this.label42.Location = new System.Drawing.Point(898, 293);
+            this.label42.Location = new System.Drawing.Point(898, 342);
             this.label42.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(26, 17);
@@ -841,7 +847,7 @@
             // 
             this.label43.AutoSize = true;
             this.label43.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label43.Location = new System.Drawing.Point(645, 286);
+            this.label43.Location = new System.Drawing.Point(645, 343);
             this.label43.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label43.Name = "label43";
             this.label43.Size = new System.Drawing.Size(143, 18);
@@ -851,7 +857,7 @@
             // textBox21
             // 
             this.textBox21.Enabled = false;
-            this.textBox21.Location = new System.Drawing.Point(821, 280);
+            this.textBox21.Location = new System.Drawing.Point(821, 337);
             this.textBox21.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox21.Name = "textBox21";
             this.textBox21.Size = new System.Drawing.Size(71, 27);
@@ -862,7 +868,7 @@
             // 
             this.label36.AutoSize = true;
             this.label36.Font = new System.Drawing.Font("宋体", 10F);
-            this.label36.Location = new System.Drawing.Point(898, 265);
+            this.label36.Location = new System.Drawing.Point(898, 314);
             this.label36.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(26, 17);
@@ -873,7 +879,7 @@
             // 
             this.label37.AutoSize = true;
             this.label37.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label37.Location = new System.Drawing.Point(645, 260);
+            this.label37.Location = new System.Drawing.Point(645, 317);
             this.label37.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(143, 18);
@@ -883,7 +889,7 @@
             // textBox18
             // 
             this.textBox18.Enabled = false;
-            this.textBox18.Location = new System.Drawing.Point(821, 255);
+            this.textBox18.Location = new System.Drawing.Point(821, 312);
             this.textBox18.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox18.Name = "textBox18";
             this.textBox18.Size = new System.Drawing.Size(71, 27);
@@ -894,7 +900,7 @@
             // 
             this.label34.AutoSize = true;
             this.label34.Font = new System.Drawing.Font("宋体", 10F);
-            this.label34.Location = new System.Drawing.Point(898, 237);
+            this.label34.Location = new System.Drawing.Point(898, 292);
             this.label34.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(25, 17);
@@ -905,7 +911,7 @@
             // 
             this.label35.AutoSize = true;
             this.label35.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label35.Location = new System.Drawing.Point(645, 234);
+            this.label35.Location = new System.Drawing.Point(645, 291);
             this.label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(161, 18);
@@ -914,7 +920,7 @@
             // 
             // textBox17
             // 
-            this.textBox17.Location = new System.Drawing.Point(821, 230);
+            this.textBox17.Location = new System.Drawing.Point(821, 287);
             this.textBox17.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox17.Name = "textBox17";
             this.textBox17.Size = new System.Drawing.Size(71, 27);
@@ -925,7 +931,7 @@
             // 
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("宋体", 10F);
-            this.label29.Location = new System.Drawing.Point(898, 209);
+            this.label29.Location = new System.Drawing.Point(898, 264);
             this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(25, 17);
@@ -937,7 +943,7 @@
             this.label30.AutoSize = true;
             this.label30.BackColor = System.Drawing.Color.GhostWhite;
             this.label30.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label30.Location = new System.Drawing.Point(646, 173);
+            this.label30.Location = new System.Drawing.Point(646, 174);
             this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(170, 18);
@@ -948,7 +954,7 @@
             // 
             this.label31.AutoSize = true;
             this.label31.Font = new System.Drawing.Font("宋体", 10F);
-            this.label31.Location = new System.Drawing.Point(898, 177);
+            this.label31.Location = new System.Drawing.Point(898, 175);
             this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(25, 17);
@@ -959,7 +965,7 @@
             // 
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label32.Location = new System.Drawing.Point(646, 208);
+            this.label32.Location = new System.Drawing.Point(646, 265);
             this.label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(161, 18);
@@ -968,7 +974,7 @@
             // 
             // textBox15
             // 
-            this.textBox15.Location = new System.Drawing.Point(821, 205);
+            this.textBox15.Location = new System.Drawing.Point(821, 262);
             this.textBox15.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new System.Drawing.Size(71, 27);
@@ -1469,7 +1475,7 @@
             this.WaveformSelectBtn.Enabled = false;
             this.WaveformSelectBtn.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.WaveformSelectBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.WaveformSelectBtn.Location = new System.Drawing.Point(785, 494);
+            this.WaveformSelectBtn.Location = new System.Drawing.Point(785, 639);
             this.WaveformSelectBtn.Name = "WaveformSelectBtn";
             this.WaveformSelectBtn.Size = new System.Drawing.Size(102, 46);
             this.WaveformSelectBtn.TabIndex = 149;
@@ -1487,7 +1493,7 @@
             this.ADIBSetApplyBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ADIBSetApplyBtn.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ADIBSetApplyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ADIBSetApplyBtn.Location = new System.Drawing.Point(668, 495);
+            this.ADIBSetApplyBtn.Location = new System.Drawing.Point(668, 640);
             this.ADIBSetApplyBtn.Name = "ADIBSetApplyBtn";
             this.ADIBSetApplyBtn.Size = new System.Drawing.Size(102, 46);
             this.ADIBSetApplyBtn.TabIndex = 150;
@@ -1541,6 +1547,12 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label110);
+            this.tabPage2.Controls.Add(this.textBox40);
+            this.tabPage2.Controls.Add(this.label109);
+            this.tabPage2.Controls.Add(this.textBox39);
+            this.tabPage2.Controls.Add(this.label108);
+            this.tabPage2.Controls.Add(this.label107);
             this.tabPage2.Controls.Add(this.label106);
             this.tabPage2.Controls.Add(this.comboBox6);
             this.tabPage2.Controls.Add(this.label105);
@@ -1697,6 +1709,72 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "系统参数";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label110
+            // 
+            this.label110.AutoSize = true;
+            this.label110.Font = new System.Drawing.Font("宋体", 10F);
+            this.label110.Location = new System.Drawing.Point(898, 230);
+            this.label110.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label110.Name = "label110";
+            this.label110.Size = new System.Drawing.Size(25, 17);
+            this.label110.TabIndex = 206;
+            this.label110.Text = "秒";
+            // 
+            // textBox40
+            // 
+            this.textBox40.Enabled = false;
+            this.textBox40.Location = new System.Drawing.Point(821, 225);
+            this.textBox40.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.textBox40.Name = "textBox40";
+            this.textBox40.Size = new System.Drawing.Size(71, 27);
+            this.textBox40.TabIndex = 205;
+            this.textBox40.Text = "0.1";
+            // 
+            // label109
+            // 
+            this.label109.AutoSize = true;
+            this.label109.Font = new System.Drawing.Font("宋体", 10F);
+            this.label109.Location = new System.Drawing.Point(898, 203);
+            this.label109.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label109.Name = "label109";
+            this.label109.Size = new System.Drawing.Size(25, 17);
+            this.label109.TabIndex = 204;
+            this.label109.Text = "秒";
+            // 
+            // textBox39
+            // 
+            this.textBox39.Enabled = false;
+            this.textBox39.Location = new System.Drawing.Point(821, 197);
+            this.textBox39.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.textBox39.Name = "textBox39";
+            this.textBox39.Size = new System.Drawing.Size(71, 27);
+            this.textBox39.TabIndex = 203;
+            this.textBox39.Text = "1";
+            // 
+            // label108
+            // 
+            this.label108.AutoSize = true;
+            this.label108.BackColor = System.Drawing.Color.GhostWhite;
+            this.label108.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label108.Location = new System.Drawing.Point(646, 230);
+            this.label108.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label108.Name = "label108";
+            this.label108.Size = new System.Drawing.Size(125, 18);
+            this.label108.TabIndex = 202;
+            this.label108.Text = "清洗泵占空比:";
+            // 
+            // label107
+            // 
+            this.label107.AutoSize = true;
+            this.label107.BackColor = System.Drawing.Color.GhostWhite;
+            this.label107.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label107.Location = new System.Drawing.Point(646, 202);
+            this.label107.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label107.Name = "label107";
+            this.label107.Size = new System.Drawing.Size(107, 18);
+            this.label107.TabIndex = 201;
+            this.label107.Text = "清洗泵周期:";
             // 
             // label106
             // 
@@ -2915,5 +2993,11 @@
         private System.Windows.Forms.Label label106;
         private System.Windows.Forms.ComboBox comboBox6;
         private System.Windows.Forms.Label label105;
+        private System.Windows.Forms.Label label110;
+        private System.Windows.Forms.TextBox textBox40;
+        private System.Windows.Forms.Label label109;
+        private System.Windows.Forms.TextBox textBox39;
+        private System.Windows.Forms.Label label108;
+        private System.Windows.Forms.Label label107;
     }
 }
