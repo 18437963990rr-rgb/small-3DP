@@ -1,4 +1,4 @@
-﻿#define DataProcessDebugMode
+﻿//#define DataProcessDebugMode
 //#define SinglePassPrintMode
 #define TwoPassPrintMode
 //#define TwoPassPrintPerSixTimes
