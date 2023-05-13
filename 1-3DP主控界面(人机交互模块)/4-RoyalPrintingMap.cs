@@ -184,9 +184,28 @@ namespace royal
             ////(b)返回指针的API测试：
             IntPtr info = royal.DEV_GetDeviceInfo();//——————调用API1(修改后的API1)
             g_printerInfoLocal = (LPPRINTER_INFO)Marshal.PtrToStructure(info, typeof(LPPRINTER_INFO));//调用API1获取的指针
-            //string nMainFpgaVer = string.Format("{0:X}", g_printerInfoLocal.nMainFpgaVer);//方法2：
-            //MessageBox.Show("主FPGA版本号是：" + nMainFpgaVer + "，"
-            //    + "USB3.0版本号是：" + Convert.ToString(g_printerInfoLocal.nUsbVersion));
+                                                                                                      //string nMainFpgaVer = string.Format("{0:X}", g_printerInfoLocal.nMainFpgaVer);//方法2：
+                                                                                                      //MessageBox.Show("主FPGA版本号是：" + nMainFpgaVer + "，"
+                                                                                                      //    + "USB3.0版本号是：" + Convert.ToString(g_printerInfoLocal.nUsbVersion));
+
+            string msg2 = $"PASS打印前关键状态：DEV_GetDeviceInfo：" +
+                 $"LPPRINTER_INFO:nXSysEncDPI{{{g_printerInfoLocal.nXSysEncDPI}}}nStatus{{{g_printerInfoLocal.nStatus}}}nPrintStatus{{{g_printerInfoLocal.nPrintStatus}}}bSuperDevice{{{g_printerInfoLocal.bSuperDevice}}}\r\n" +
+
+                 $"LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{{{g_printerInfoLocal.prt_rtinfo.bJobPrtRuning}}}bLayerPrtIsOver{{{g_printerInfoLocal.prt_rtinfo.bLayerPrtIsOver}}}" +
+                 $"nContReqMemErr{{{g_printerInfoLocal.prt_rtinfo.nContReqMemErr}}}nContWDErr{{{g_printerInfoLocal.prt_rtinfo.nContWDErr}}}" +
+                 $"nCurPrtDir{{{g_printerInfoLocal.prt_rtinfo.nCurPrtDir}}}nDTLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nDTLayerIndex}}}" +
+                 $"nDTLayerPassIndex{{{g_printerInfoLocal.prt_rtinfo.nDTLayerPassIndex}}}nDTPtrCtlIndex{{{g_printerInfoLocal.prt_rtinfo.nDTPtrCtlIndex}}}" +
+                 $"nLayerPassCount{{{g_printerInfoLocal.prt_rtinfo.nLayerPassCount}}}nPrintLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nPrintLayerIndex}}}" +
+                 $"nPrintPassIndex{{{g_printerInfoLocal.prt_rtinfo.nPrintPassIndex}}}nProcLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nProcLayerIndex}}}" +
+                 $"nPrtDataMemAddr{{{g_printerInfoLocal.prt_rtinfo.nPrtDataMemAddr}}}nPrtState{{{g_printerInfoLocal.prt_rtinfo.nPrtState}}}" +
+                 $"nReverse{{{g_printerInfoLocal.prt_rtinfo.nReverse}}}nRevPrtCols{{{g_printerInfoLocal.prt_rtinfo.nRevPrtCols}}}\r\n" +
+
+                 $"LPPRINTER_INFO-LPDRVINFO:nFMVersion{{{g_printerInfoLocal.sysDrvInfo[0].nFMVersion}}}nFpgaVersion{{{g_printerInfoLocal.sysDrvInfo[0].nFpgaVersion}}}" +
+                 $"nPCBVersion{{{g_printerInfoLocal.sysDrvInfo[0].nPCBVersion}}}" +
+                 $"nState{{{g_printerInfoLocal.sysDrvInfo[0].nState}}}nNextState{{{g_printerInfoLocal.sysDrvInfo[0].nNextState}}}" +
+                 $"nPtvwarnState{{{g_printerInfoLocal.sysDrvInfo[0].nPtvwarnState}}}nCrc32{{{g_printerInfoLocal.sysDrvInfo[0].nCrc32}}}" +
+                 $"nRevInfo{{{g_printerInfoLocal.sysDrvInfo[0].nRevInfo}}}nSignature{{{g_printerInfoLocal.sysDrvInfo[0].nSignature}}}";
+            Log4Net.Info(msg2);
 #endif
             if (g_printerInfoLocal.bSuperDevice == 1)
             {

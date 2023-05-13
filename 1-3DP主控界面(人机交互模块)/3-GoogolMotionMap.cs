@@ -617,9 +617,10 @@ namespace Motion
         {
             short sRtn;//指令返回代码//回零之前，必要的保证工作://(1)先重新暂停一下所有的运动//（2）清楚所有的报警状态
 
-#if false//20220506修改：临时注释本段代码：不同于第一代设备的铺粉方案，不需要辊子的移动以及转动同时匹配
-            if (AXIS == 4)//判断是否为铺粉轴：为铺粉轴；默认铺粉轴为4轴
-            {//（1）开启当前轴的JOG运动
+#if true//20220506修改：临时注释本段代码：不同于第一代设备的铺粉方案，不需要辊子的移动以及转动同时匹配
+            if (AXIS == 2)//判断是否为铺粉轴：为铺粉轴；默认铺粉轴为4轴//20230425修改：2轴
+            {
+                //（1）开启当前轴的JOG运动
                 AXIS = 6;//修改当前轴为辊子转动轴：铺粉辊电机是步进驱动，参数需要设置为步进参数
                 gts.mc.GT_Stop(cardNumber, 1 << (AXIS - 1), 1 << (AXIS - 1));//执行完，需要关闭、停止JOG运动
                 sRtn = mc.GT_ClrSts(cardNumber, AXIS, 8);
@@ -630,12 +631,12 @@ namespace Motion
                 jogPrm2.dec = 0.5/*0.1*/;
                 jogPrm2.smooth = 0;
            
-            double vel2 = (Convert.ToDouble(RollerParam) / Perimeter[0]) * 1 * (SubDivideCoe[0] / 1000)/** RollerParam*/;//20200917批注：速度vel包含了方向
-
+                double vel2 = -(Convert.ToDouble(1/*m_sVel*/) / Perimeter[0]) * 1 * (SubDivideCoe[0] / 1000);//20200917批注：速度vel包含了方向
                 sRtn = mc.GT_SetJogPrm(cardNumber, AXIS, ref jogPrm2);// 设置Jog运动参数//trap，为引用（等同于返回值），使用之前必须初始化，否则报错。总                      
                 sRtn = mc.GT_SetVel(cardNumber, AXIS, vel2);//20220506批注：此值乘以1000为1s发出的实际脉冲数// 设置AXIS轴的目标速度//vel单位为pulse/ms//20200111：速度调整为原来的10分之一，电机是10mm / 1000脉冲；固高是1mm / 1000脉冲            
                 sRtn = mc.GT_Update(cardNumber, 1 << (AXIS - 1));// 启动AXIS轴的运动
-                AXIS = 4;//复位当前轴为双驱铺粉轴；默认铺粉轴为4轴
+                AXIS = 2;//复位当前轴为双驱铺粉轴；默认铺粉轴为4轴
+
             }
             else//为普通轴。
             {

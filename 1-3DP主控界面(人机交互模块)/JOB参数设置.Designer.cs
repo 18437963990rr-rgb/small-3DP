@@ -146,6 +146,10 @@
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.comboBox8 = new System.Windows.Forms.ComboBox();
+            this.label112 = new System.Windows.Forms.Label();
+            this.comboBox7 = new System.Windows.Forms.ComboBox();
+            this.label111 = new System.Windows.Forms.Label();
             this.label110 = new System.Windows.Forms.Label();
             this.textBox40 = new System.Windows.Forms.TextBox();
             this.label109 = new System.Windows.Forms.Label();
@@ -245,7 +249,7 @@
             this.MoveParamPropertyGrid.CausesValidation = false;
             this.MoveParamPropertyGrid.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.MoveParamPropertyGrid.HelpVisible = false;
-            this.MoveParamPropertyGrid.Location = new System.Drawing.Point(359, 380);
+            this.MoveParamPropertyGrid.Location = new System.Drawing.Point(359, 431);
             this.MoveParamPropertyGrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MoveParamPropertyGrid.Name = "MoveParamPropertyGrid";
             this.MoveParamPropertyGrid.Size = new System.Drawing.Size(256, 83);
@@ -277,7 +281,7 @@
             // 
             this.label5.BackColor = System.Drawing.Color.Aquamarine;
             this.label5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(359, 363);
+            this.label5.Location = new System.Drawing.Point(359, 414);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(256, 19);
@@ -509,7 +513,7 @@
             // 
             this.checkBox8.AutoSize = true;
             this.checkBox8.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.checkBox8.Location = new System.Drawing.Point(491, 467);
+            this.checkBox8.Location = new System.Drawing.Point(491, 518);
             this.checkBox8.Name = "checkBox8";
             this.checkBox8.Size = new System.Drawing.Size(156, 22);
             this.checkBox8.TabIndex = 133;
@@ -520,7 +524,7 @@
             // 
             this.checkBox7.AutoSize = true;
             this.checkBox7.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.checkBox7.Location = new System.Drawing.Point(359, 467);
+            this.checkBox7.Location = new System.Drawing.Point(359, 518);
             this.checkBox7.Name = "checkBox7";
             this.checkBox7.Size = new System.Drawing.Size(156, 22);
             this.checkBox7.TabIndex = 132;
@@ -1113,7 +1117,7 @@
             // 
             this.label53.AutoSize = true;
             this.label53.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label53.Location = new System.Drawing.Point(357, 545);
+            this.label53.Location = new System.Drawing.Point(357, 596);
             this.label53.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(134, 18);
@@ -1124,7 +1128,7 @@
             // 
             this.ResetCorrectCheckBox.AutoSize = true;
             this.ResetCorrectCheckBox.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.ResetCorrectCheckBox.Location = new System.Drawing.Point(470, 544);
+            this.ResetCorrectCheckBox.Location = new System.Drawing.Point(470, 595);
             this.ResetCorrectCheckBox.Name = "ResetCorrectCheckBox";
             this.ResetCorrectCheckBox.Size = new System.Drawing.Size(120, 22);
             this.ResetCorrectCheckBox.TabIndex = 135;
@@ -1508,7 +1512,7 @@
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.SystemColors.Control;
             this.label9.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label9.Location = new System.Drawing.Point(357, 519);
+            this.label9.Location = new System.Drawing.Point(357, 570);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(89, 18);
@@ -1517,7 +1521,7 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(436, 516);
+            this.textBox3.Location = new System.Drawing.Point(436, 567);
             this.textBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(179, 27);
@@ -1528,7 +1532,7 @@
             this.checkBox9.AutoSize = true;
             this.checkBox9.Enabled = false;
             this.checkBox9.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.checkBox9.Location = new System.Drawing.Point(359, 492);
+            this.checkBox9.Location = new System.Drawing.Point(359, 543);
             this.checkBox9.Name = "checkBox9";
             this.checkBox9.Size = new System.Drawing.Size(120, 22);
             this.checkBox9.TabIndex = 134;
@@ -1547,6 +1551,10 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.comboBox8);
+            this.tabPage2.Controls.Add(this.label112);
+            this.tabPage2.Controls.Add(this.comboBox7);
+            this.tabPage2.Controls.Add(this.label111);
             this.tabPage2.Controls.Add(this.label110);
             this.tabPage2.Controls.Add(this.textBox40);
             this.tabPage2.Controls.Add(this.label109);
@@ -1710,6 +1718,56 @@
             this.tabPage2.Text = "系统参数";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // comboBox8
+            // 
+            this.comboBox8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox8.Enabled = false;
+            this.comboBox8.FormattingEnabled = true;
+            this.comboBox8.Items.AddRange(new object[] {
+            "Yes",
+            "No"});
+            this.comboBox8.Location = new System.Drawing.Point(516, 386);
+            this.comboBox8.Name = "comboBox8";
+            this.comboBox8.Size = new System.Drawing.Size(55, 25);
+            this.comboBox8.TabIndex = 210;
+            // 
+            // label112
+            // 
+            this.label112.AutoSize = true;
+            this.label112.BackColor = System.Drawing.Color.GhostWhite;
+            this.label112.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label112.Location = new System.Drawing.Point(359, 389);
+            this.label112.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label112.Name = "label112";
+            this.label112.Size = new System.Drawing.Size(152, 18);
+            this.label112.TabIndex = 209;
+            this.label112.Text = "大幅面模式(Y/N):";
+            // 
+            // comboBox7
+            // 
+            this.comboBox7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox7.Enabled = false;
+            this.comboBox7.FormattingEnabled = true;
+            this.comboBox7.Items.AddRange(new object[] {
+            "Yes",
+            "No"});
+            this.comboBox7.Location = new System.Drawing.Point(516, 360);
+            this.comboBox7.Name = "comboBox7";
+            this.comboBox7.Size = new System.Drawing.Size(55, 25);
+            this.comboBox7.TabIndex = 208;
+            // 
+            // label111
+            // 
+            this.label111.AutoSize = true;
+            this.label111.BackColor = System.Drawing.Color.GhostWhite;
+            this.label111.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label111.Location = new System.Drawing.Point(359, 365);
+            this.label111.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label111.Name = "label111";
+            this.label111.Size = new System.Drawing.Size(170, 18);
+            this.label111.TabIndex = 207;
+            this.label111.Text = "周期重叠算法(Y/N):";
+            // 
             // label110
             // 
             this.label110.AutoSize = true;
@@ -1840,6 +1898,7 @@
             // 
             // textBox27
             // 
+            this.textBox27.Enabled = false;
             this.textBox27.Location = new System.Drawing.Point(192, 276);
             this.textBox27.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox27.Name = "textBox27";
@@ -1956,12 +2015,12 @@
             this.label98.AutoSize = true;
             this.label98.BackColor = System.Drawing.Color.GhostWhite;
             this.label98.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label98.Location = new System.Drawing.Point(358, 334);
+            this.label98.Location = new System.Drawing.Point(358, 339);
             this.label98.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label98.Name = "label98";
             this.label98.Size = new System.Drawing.Size(170, 18);
             this.label98.TabIndex = 173;
-            this.label98.Text = "是否应用算法(Y/N):";
+            this.label98.Text = "区域分割算法(Y/N):";
             // 
             // label97
             // 
@@ -2149,15 +2208,32 @@
             // 
             this.XDpiBox.FormattingEnabled = true;
             this.XDpiBox.Items.AddRange(new object[] {
-            "635",
-            "1270",
-            "2540",
-            "5080"});
+            "10%-63.5",
+            "15%-95.25",
+            "20%-127",
+            "25%-158.75",
+            "30%-190.5",
+            "35%-222.25",
+            "40%-254",
+            "45%-285.75",
+            "50%-317.5",
+            "55%-349.25",
+            "60%-381",
+            "65%-412.75",
+            "70%-444.5",
+            "75%-476.25",
+            "80%-508",
+            "85%-539.75",
+            "90%-571.5",
+            "95%-603.25",
+            "100%-635",
+            "200%-1270",
+            "400%-2540"});
             this.XDpiBox.Location = new System.Drawing.Point(191, 114);
             this.XDpiBox.Name = "XDpiBox";
             this.XDpiBox.Size = new System.Drawing.Size(72, 25);
             this.XDpiBox.TabIndex = 154;
-            this.XDpiBox.Text = "1270";
+            this.XDpiBox.Text = "100%-635";
             // 
             // label86
             // 
@@ -2178,9 +2254,9 @@
             this.label85.Location = new System.Drawing.Point(21, 117);
             this.label85.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label85.Name = "label85";
-            this.label85.Size = new System.Drawing.Size(125, 18);
+            this.label85.Size = new System.Drawing.Size(161, 18);
             this.label85.TabIndex = 151;
-            this.label85.Text = "X向喷射密度：";
+            this.label85.Text = "喷射密度（X向）：";
             // 
             // tabPage1
             // 
@@ -2999,5 +3075,9 @@
         private System.Windows.Forms.TextBox textBox39;
         private System.Windows.Forms.Label label108;
         private System.Windows.Forms.Label label107;
+        private System.Windows.Forms.ComboBox comboBox7;
+        private System.Windows.Forms.Label label111;
+        private System.Windows.Forms.ComboBox comboBox8;
+        private System.Windows.Forms.Label label112;
     }
 }

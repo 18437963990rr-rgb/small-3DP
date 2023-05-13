@@ -29,7 +29,7 @@ namespace royal
         public int nColorCnts;        //颜色通道数量
         //public int nState;			 //图层处理状态 //0 数据处理阶段  1数据处理就绪  2 写数据到硬件  3 数据已写入硬件  4 已添加到打印队列  5打印已结束 6添加失败
         //public int nImgType;		 //源文件图片类型 0：BMP 1:PRT 2:CLI
-        public int nXDPI;          //图像XIDPI
+        public float/*int*/ nXDPI;          //图像XIDPI//20230511修改：修改为浮点数
         public int nYDPI;          //图像YIDPI 计算时暂时不用，默认为喷头组DPI
         public int nBytesPerLine;  //每行数据字节数
         public int nHeight;        //图像高度  单位：像素
@@ -53,7 +53,7 @@ namespace royal
         public UInt32 nValidPrtCtlCnts;   //涉及到的打印控制器数量
         public UInt32 nValidPrtCols;      //有效打印列数，单点的图像可以理解为X像素点数
         public UInt32 nStartEncPos;      //起始位置 ，编码值 enc
-        public UInt32 nPrtPrecession;        //打印分频值
+        public float/*UInt32*/ nPrtPrecession;        //打印分频值//20230511修改：修改为浮点数
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)] public UInt32[] nPrtMemHwAddr; //板卡物理内存地址 nByte
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)] public UInt32[] nPrtDataOffset;            //数据起始偏移
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)] public UInt32[] nSrcDataSize;          //数据大小

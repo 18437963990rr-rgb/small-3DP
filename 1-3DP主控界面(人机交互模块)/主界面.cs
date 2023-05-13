@@ -1953,9 +1953,9 @@ namespace BinderJetting
 
                 //20200326新增:关键：将RYSYSParam的JOB参数信息，进行及时的转发，转+给royal.sysParam
                 //royal.g_sys_param为static类型：
-                royal.royal.g_sys_param.fBrustCycleSec = (float)g_RYSYSParam.m_dInterSpeedSparkCycleTime / 10;//时间1s
-                royal.royal.g_sys_param.fBrustValidSec = (float)g_RYSYSParam.m_dHSpeedSparkTime / 10;//有效时间0.5s
-                royal.royal.g_sys_param.fBrustFrequecy = g_RYSYSParam.m_nHSpeedSparkFreq * 10;//频率500Hz//20230327修改：底层的配置文件的闪喷的基准频率设置不准确，需要认为设置并扩展10倍
+                royal.royal.g_sys_param.fBrustCycleSec = (float)g_RYSYSParam.m_dInterSpeedSparkCycleTime /*/ 10*/;//时间1s//20230512修改：适应修复的正常的基准
+                royal.royal.g_sys_param.fBrustValidSec = (float)g_RYSYSParam.m_dHSpeedSparkTime /*/ 10*/;//有效时间0.5s//20230512修改：适应修复的正常的基准
+                royal.royal.g_sys_param.fBrustFrequecy = g_RYSYSParam.m_nHSpeedSparkFreq /** 10*/;//频率500Hz//20230327修改：底层的配置文件的闪喷的基准频率设置不准确，需要认为设置并扩展10倍//20230512修改：适应修复的正常的基准
                 royal.royal.g_sys_param.szLogPath = g_RYSYSParam.m_sLogPath;
                 //royal.royal.g_sys_param.szWavePath = g_RYSYSParam.m_sWavePath;
 
@@ -1983,7 +1983,10 @@ namespace BinderJetting
                 f.SaveJsonFile();
 
                 msg = $"退出JOB参数设置：修改后参数：灰度数据格式{{{g_RYSYSParam.m_nPixelGrayBits}bits}}" +
-                    $"打印灰阶{{{g_RYSYSParam.m_dPixelGrayValue}阶}}m_XPrintDpi{{{g_RYSYSParam.m_XPrintDpi}Dpi}}" +
+                    $"打印灰阶{{{g_RYSYSParam.m_dPixelGrayValue}阶}}m_XPrintDpi{{{g_RYSYSParam.m_XPrintDpi[0]},{g_RYSYSParam.m_XPrintDpi[1]},{g_RYSYSParam.m_XPrintDpi[2]},{g_RYSYSParam.m_XPrintDpi[3]},{g_RYSYSParam.m_XPrintDpi[4]},{g_RYSYSParam.m_XPrintDpi[5]},{g_RYSYSParam.m_XPrintDpi[6]},{g_RYSYSParam.m_XPrintDpi[7]},{g_RYSYSParam.m_XPrintDpi[8]},{g_RYSYSParam.m_XPrintDpi[9]}," +
+                    $"{g_RYSYSParam.m_XPrintDpi[10]},{g_RYSYSParam.m_XPrintDpi[11]},{g_RYSYSParam.m_XPrintDpi[12]},{g_RYSYSParam.m_XPrintDpi[13]},{g_RYSYSParam.m_XPrintDpi[14]},{g_RYSYSParam.m_XPrintDpi[15]},{g_RYSYSParam.m_XPrintDpi[16]},{g_RYSYSParam.m_XPrintDpi[17]},{g_RYSYSParam.m_XPrintDpi[18]},{g_RYSYSParam.m_XPrintDpi[19]}," +
+                    $"{g_RYSYSParam.m_XPrintDpi[20]}Dpi}}" +
+                    $"当前打印任务选定DPI{{{g_RYSYSParam.m_XPrintDpi[g_RYSYSParam.m_nXPrintDpiIndex]}}}" +
                     $"墨车运动速度{{{g_RYSYSParam.CarMoveSpeed}MM/s}}X向起打位置{{{g_RYSYSParam.m_dPrtXEncPos}MM}}" +
                     $"X向起打位置偏移{{{g_RYSYSParam.m_dXJetOff}MM}}Y向起打位置偏移{{{g_RYSYSParam.m_dYJetOff}MM}}";
                 Log4Net.Info(msg);
@@ -2306,26 +2309,47 @@ namespace BinderJetting
                                     msg = $"使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}";
                                     Log4Net.Info(msg);
 
-                                    royal.LPPRINTER_INFO pSysInfo = new royal.LPPRINTER_INFO();//20230213新增：
-                                    bool nRetVal2 = royal.royal.DEV_GetDeviceInfo2(ref pSysInfo);//20230213新增：
-                                    msg = $"PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
-                                        $"LPPRINTER_INFO:nXSysEncDPI{{{pSysInfo.nXSysEncDPI}}}nStatus{{{pSysInfo.nStatus}}}nPrintStatus{{{pSysInfo.nPrintStatus}}}bSuperDevice{{{pSysInfo.bSuperDevice}}}\r\n" +
+                                    ////royal.LPPRINTER_INFO pSysInfo = new royal.LPPRINTER_INFO();//20230213新增：
+                                    ////bool nRetVal2 = royal.royal.DEV_GetDeviceInfo2(ref pSysInfo);//20230213新增：
+                                    ////msg = $"PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
+                                    ////    $"LPPRINTER_INFO:nXSysEncDPI{{{pSysInfo.nXSysEncDPI}}}nStatus{{{pSysInfo.nStatus}}}nPrintStatus{{{pSysInfo.nPrintStatus}}}bSuperDevice{{{pSysInfo.bSuperDevice}}}\r\n" +
 
-                                        $"LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{{{pSysInfo.prt_rtinfo.bJobPrtRuning}}}bLayerPrtIsOver{{{pSysInfo.prt_rtinfo.bLayerPrtIsOver}}}" +
-                                        $"nContReqMemErr{{{pSysInfo.prt_rtinfo.nContReqMemErr}}}nContWDErr{{{pSysInfo.prt_rtinfo.nContWDErr}}}" +
-                                        $"nCurPrtDir{{{pSysInfo.prt_rtinfo.nCurPrtDir}}}nDTLayerIndex{{{pSysInfo.prt_rtinfo.nDTLayerIndex}}}" +
-                                        $"nDTLayerPassIndex{{{pSysInfo.prt_rtinfo.nDTLayerPassIndex}}}nDTPtrCtlIndex{{{pSysInfo.prt_rtinfo.nDTPtrCtlIndex}}}" +
-                                        $"nLayerPassCount{{{pSysInfo.prt_rtinfo.nLayerPassCount}}}nPrintLayerIndex{{{pSysInfo.prt_rtinfo.nPrintLayerIndex}}}" +
-                                        $"nPrintPassIndex{{{pSysInfo.prt_rtinfo.nPrintPassIndex}}}nProcLayerIndex{{{pSysInfo.prt_rtinfo.nProcLayerIndex}}}" +
-                                        $"nPrtDataMemAddr{{{pSysInfo.prt_rtinfo.nPrtDataMemAddr}}}nPrtState{{{pSysInfo.prt_rtinfo.nPrtState}}}" +
-                                        $"nReverse{{{pSysInfo.prt_rtinfo.nReverse}}}nRevPrtCols{{{pSysInfo.prt_rtinfo.nRevPrtCols}}}\r\n" +
+                                    ////    $"LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{{{pSysInfo.prt_rtinfo.bJobPrtRuning}}}bLayerPrtIsOver{{{pSysInfo.prt_rtinfo.bLayerPrtIsOver}}}" +
+                                    ////    $"nContReqMemErr{{{pSysInfo.prt_rtinfo.nContReqMemErr}}}nContWDErr{{{pSysInfo.prt_rtinfo.nContWDErr}}}" +
+                                    ////    $"nCurPrtDir{{{pSysInfo.prt_rtinfo.nCurPrtDir}}}nDTLayerIndex{{{pSysInfo.prt_rtinfo.nDTLayerIndex}}}" +
+                                    ////    $"nDTLayerPassIndex{{{pSysInfo.prt_rtinfo.nDTLayerPassIndex}}}nDTPtrCtlIndex{{{pSysInfo.prt_rtinfo.nDTPtrCtlIndex}}}" +
+                                    ////    $"nLayerPassCount{{{pSysInfo.prt_rtinfo.nLayerPassCount}}}nPrintLayerIndex{{{pSysInfo.prt_rtinfo.nPrintLayerIndex}}}" +
+                                    ////    $"nPrintPassIndex{{{pSysInfo.prt_rtinfo.nPrintPassIndex}}}nProcLayerIndex{{{pSysInfo.prt_rtinfo.nProcLayerIndex}}}" +
+                                    ////    $"nPrtDataMemAddr{{{pSysInfo.prt_rtinfo.nPrtDataMemAddr}}}nPrtState{{{pSysInfo.prt_rtinfo.nPrtState}}}" +
+                                    ////    $"nReverse{{{pSysInfo.prt_rtinfo.nReverse}}}nRevPrtCols{{{pSysInfo.prt_rtinfo.nRevPrtCols}}}\r\n" +
 
-                                        $"LPPRINTER_INFO-LPDRVINFO:nFMVersion{{{pSysInfo.sysDrvInfo[0].nFMVersion}}}nFpgaVersion{{{pSysInfo.sysDrvInfo[0].nFpgaVersion}}}" +
-                                        $"nPCBVersion{{{pSysInfo.sysDrvInfo[0].nPCBVersion}}}" +
-                                        $"nState{{{pSysInfo.sysDrvInfo[0].nState}}}nNextState{{{pSysInfo.sysDrvInfo[0].nNextState}}}" +
-                                        $"nPtvwarnState{{{pSysInfo.sysDrvInfo[0].nPtvwarnState}}}nCrc32{{{pSysInfo.sysDrvInfo[0].nCrc32}}}" +
-                                        $"nRevInfo{{{pSysInfo.sysDrvInfo[0].nRevInfo}}}nSignature{{{pSysInfo.sysDrvInfo[0].nSignature}}}";
-                                    Log4Net.Info(msg);
+                                    ////    $"LPPRINTER_INFO-LPDRVINFO:nFMVersion{{{pSysInfo.sysDrvInfo[0].nFMVersion}}}nFpgaVersion{{{pSysInfo.sysDrvInfo[0].nFpgaVersion}}}" +
+                                    ////    $"nPCBVersion{{{pSysInfo.sysDrvInfo[0].nPCBVersion}}}" +
+                                    ////    $"nState{{{pSysInfo.sysDrvInfo[0].nState}}}nNextState{{{pSysInfo.sysDrvInfo[0].nNextState}}}" +
+                                    ////    $"nPtvwarnState{{{pSysInfo.sysDrvInfo[0].nPtvwarnState}}}nCrc32{{{pSysInfo.sysDrvInfo[0].nCrc32}}}" +
+                                    ////    $"nRevInfo{{{pSysInfo.sysDrvInfo[0].nRevInfo}}}nSignature{{{pSysInfo.sysDrvInfo[0].nSignature}}}";
+                                    ////Log4Net.Info(msg);
+
+                                    royal.LPPRINTER_INFO g_printerInfoLocal = new royal.LPPRINTER_INFO();//20230213新增：
+                                    IntPtr info = royal.royal.DEV_GetDeviceInfo();//——————调用API1(修改后的API1)
+                                    g_printerInfoLocal = (LPPRINTER_INFO)Marshal.PtrToStructure(info, typeof(LPPRINTER_INFO));//调用API1获取的指针
+                                    string msg3 = $"PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
+                                         $"LPPRINTER_INFO:nXSysEncDPI{{{g_printerInfoLocal.nXSysEncDPI}}}nStatus{{{g_printerInfoLocal.nStatus}}}nPrintStatus{{{g_printerInfoLocal.nPrintStatus}}}bSuperDevice{{{g_printerInfoLocal.bSuperDevice}}}\r\n" +
+                                         $"LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{{{g_printerInfoLocal.prt_rtinfo.bJobPrtRuning}}}bLayerPrtIsOver{{{g_printerInfoLocal.prt_rtinfo.bLayerPrtIsOver}}}" +
+                                         $"nContReqMemErr{{{g_printerInfoLocal.prt_rtinfo.nContReqMemErr}}}nContWDErr{{{g_printerInfoLocal.prt_rtinfo.nContWDErr}}}" +
+                                         $"nCurPrtDir{{{g_printerInfoLocal.prt_rtinfo.nCurPrtDir}}}nDTLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nDTLayerIndex}}}" +
+                                         $"nDTLayerPassIndex{{{g_printerInfoLocal.prt_rtinfo.nDTLayerPassIndex}}}nDTPtrCtlIndex{{{g_printerInfoLocal.prt_rtinfo.nDTPtrCtlIndex}}}" +
+                                         $"nLayerPassCount{{{g_printerInfoLocal.prt_rtinfo.nLayerPassCount}}}nPrintLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nPrintLayerIndex}}}" +
+                                         $"nPrintPassIndex{{{g_printerInfoLocal.prt_rtinfo.nPrintPassIndex}}}nProcLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nProcLayerIndex}}}" +
+                                         $"nPrtDataMemAddr{{{g_printerInfoLocal.prt_rtinfo.nPrtDataMemAddr}}}nPrtState{{{g_printerInfoLocal.prt_rtinfo.nPrtState}}}" +
+                                         $"nReverse{{{g_printerInfoLocal.prt_rtinfo.nReverse}}}nRevPrtCols{{{g_printerInfoLocal.prt_rtinfo.nRevPrtCols}}}\r\n" +
+
+                                         $"LPPRINTER_INFO-LPDRVINFO:nFMVersion{{{g_printerInfoLocal.sysDrvInfo[0].nFMVersion}}}nFpgaVersion{{{g_printerInfoLocal.sysDrvInfo[0].nFpgaVersion}}}" +
+                                         $"nPCBVersion{{{g_printerInfoLocal.sysDrvInfo[0].nPCBVersion}}}" +
+                                         $"nState{{{g_printerInfoLocal.sysDrvInfo[0].nState}}}nNextState{{{g_printerInfoLocal.sysDrvInfo[0].nNextState}}}" +
+                                         $"nPtvwarnState{{{g_printerInfoLocal.sysDrvInfo[0].nPtvwarnState}}}nCrc32{{{g_printerInfoLocal.sysDrvInfo[0].nCrc32}}}" +
+                                         $"nRevInfo{{{g_printerInfoLocal.sysDrvInfo[0].nRevInfo}}}nSignature{{{g_printerInfoLocal.sysDrvInfo[0].nSignature}}}";
+                                    Log4Net.Info(msg3);
 
 #if false//20220524批注：刷新进度控件
                                     double rate = (double)g_nLayerCurrent / (double)g_nLayerEnd * 100;//20200617批注
@@ -2337,11 +2361,11 @@ namespace BinderJetting
                                     returnPrintValue = k;//20200508新建：更新进度，更新进度到手动操作//UpdateCircularBarMethod(2);//20200508新建：开启打印进度更新
 #endif
 
-//20220524批注：（2）自动喷墨运动
+                                    //20220524批注：（2）自动喷墨运动
 
-#region
+                                    #region
                                     //（1-1）注意：一定要取消跳白功能//（1-2）计算运动参数:运行速度、运行距离，依据SinglePass和MultiPass等运动模式*/
-#endregion
+                                    #endregion
                                     //RecordPressureAndTemperatureAndValtageInPrint();//20230322新建：记录打印之前喷头温度及电压
 
                                     ///20220915新增：结束读取清洗频率参数
@@ -2382,7 +2406,7 @@ namespace BinderJetting
                                             {
                                                 float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
                                                 float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
-                                                EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0, 0);//20220915新增：加入自动清洗逻辑
+                                                EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0, 0, 0);//20220915新增：加入自动清洗逻辑
                                             }
                                         }
                                         else
@@ -2393,7 +2417,7 @@ namespace BinderJetting
                                                 {
                                                     float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
                                                     float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
-                                                    EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0, 0);//20220915新增：加入自动清洗逻辑
+                                                    EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0, 0, 0);//20220915新增：加入自动清洗逻辑
                                                 }
                                             }
                                         }
@@ -2466,7 +2490,20 @@ namespace BinderJetting
 #if TwoPassPrintPerThreeTimes
                                     if (g_nRePrintTimes == 1)//20230418批注：重喷次数取值范围为：1-4
                                     {
-                                        EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0);//自动喷墨运动逻辑
+                                        ///*int*/k = index * RePrintTimes + subindex;
+                                        if (k % 3 == 1 || k == 0)//15mm偏移量
+                                        {
+                                            EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0, 0);//自动喷墨运动逻辑
+                                        }
+                                        else if (k % 3 == 2)//10mm偏移量
+                                        {
+                                            EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, (g_RYSYSParam.m_dYJetOff - 5) / 2, 0, 0/*2.5*/);//自动喷墨运动逻辑
+                                        }
+                                        else if (k % 3 == 0 && k != 0)//5mm偏移量
+                                        {
+                                            EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, (g_RYSYSParam.m_dYJetOff - 10) / 2, 0, 0/*5.0*/);//自动喷墨运动逻辑
+                                        }
+                                        //EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0);//自动喷墨运动逻辑
                                     }
 #endif
 #endif
@@ -2504,7 +2541,7 @@ namespace BinderJetting
                                 //EquipmentMotionLogic3(0, 3);//自动进给正式铺粉
                                 if (g_RYSYSParam.m_bApplyPowderSupplyMotion == 0)//0为采用
                                 {
-                                    EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, m_BackCleanMovSpeed2, ref sendMessageToCamera, renderIndex, 10, 0, 0,0);//自动铺粉逻辑//20230319调试修改此处
+                                    EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, m_BackCleanMovSpeed2, ref sendMessageToCamera, renderIndex, 10, 0, 0, 0, 0);//自动铺粉逻辑//20230319调试修改此处
 
                                     msg = $"执行完成铺粉固化操作：EquipmentMotionLogic3：m_bApplyPowderSupplyMotion:{g_RYSYSParam.m_bApplyPowderSupplyMotion}";
                                     Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
@@ -2581,7 +2618,7 @@ namespace BinderJetting
                             EquipmentMotionLogic3(0, 6, 12/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0);//自动喷墨运动逻辑
 #endif
 #if TwoPassPrintPerThreeTimes
-                            EquipmentMotionLogic3(0, 6, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0);//自动喷墨运动逻辑
+                            EquipmentMotionLogic3(0, 6, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0, 0);//自动喷墨运动逻辑
 #endif
 #endif
                             m_nPauseMovedFlag = 2;//已经运动过额标志位
@@ -2832,26 +2869,46 @@ namespace BinderJetting
                                         msg = $"使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}";
                                         Log4Net.Info(msg);
 
-                                        royal.LPPRINTER_INFO pSysInfo = new royal.LPPRINTER_INFO();//20230213新增：
-                                        bool nRetVal2 = royal.royal.DEV_GetDeviceInfo2(ref pSysInfo);//20230213新增：
-                                        msg = $"PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
-                                            $"LPPRINTER_INFO:nXSysEncDPI{{{pSysInfo.nXSysEncDPI}}}nStatus{{{pSysInfo.nStatus}}}nPrintStatus{{{pSysInfo.nPrintStatus}}}bSuperDevice{{{pSysInfo.bSuperDevice}}}\r\n" +
+                                        ////royal.LPPRINTER_INFO pSysInfo = new royal.LPPRINTER_INFO();//20230213新增：
+                                        ////bool nRetVal2 = royal.royal.DEV_GetDeviceInfo2(ref pSysInfo);//20230213新增：
+                                        ////msg = $"PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
+                                        ////    $"LPPRINTER_INFO:nXSysEncDPI{{{pSysInfo.nXSysEncDPI}}}nStatus{{{pSysInfo.nStatus}}}nPrintStatus{{{pSysInfo.nPrintStatus}}}bSuperDevice{{{pSysInfo.bSuperDevice}}}\r\n" +
+                                        ////    $"LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{{{pSysInfo.prt_rtinfo.bJobPrtRuning}}}bLayerPrtIsOver{{{pSysInfo.prt_rtinfo.bLayerPrtIsOver}}}" +
+                                        ////    $"nContReqMemErr{{{pSysInfo.prt_rtinfo.nContReqMemErr}}}nContWDErr{{{pSysInfo.prt_rtinfo.nContWDErr}}}" +
+                                        ////    $"nCurPrtDir{{{pSysInfo.prt_rtinfo.nCurPrtDir}}}nDTLayerIndex{{{pSysInfo.prt_rtinfo.nDTLayerIndex}}}" +
+                                        ////    $"nDTLayerPassIndex{{{pSysInfo.prt_rtinfo.nDTLayerPassIndex}}}nDTPtrCtlIndex{{{pSysInfo.prt_rtinfo.nDTPtrCtlIndex}}}" +
+                                        ////    $"nLayerPassCount{{{pSysInfo.prt_rtinfo.nLayerPassCount}}}nPrintLayerIndex{{{pSysInfo.prt_rtinfo.nPrintLayerIndex}}}" +
+                                        ////    $"nPrintPassIndex{{{pSysInfo.prt_rtinfo.nPrintPassIndex}}}nProcLayerIndex{{{pSysInfo.prt_rtinfo.nProcLayerIndex}}}" +
+                                        ////    $"nPrtDataMemAddr{{{pSysInfo.prt_rtinfo.nPrtDataMemAddr}}}nPrtState{{{pSysInfo.prt_rtinfo.nPrtState}}}" +
+                                        ////    $"nReverse{{{pSysInfo.prt_rtinfo.nReverse}}}nRevPrtCols{{{pSysInfo.prt_rtinfo.nRevPrtCols}}}\r\n" +
 
-                                            $"LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{{{pSysInfo.prt_rtinfo.bJobPrtRuning}}}bLayerPrtIsOver{{{pSysInfo.prt_rtinfo.bLayerPrtIsOver}}}" +
-                                            $"nContReqMemErr{{{pSysInfo.prt_rtinfo.nContReqMemErr}}}nContWDErr{{{pSysInfo.prt_rtinfo.nContWDErr}}}" +
-                                            $"nCurPrtDir{{{pSysInfo.prt_rtinfo.nCurPrtDir}}}nDTLayerIndex{{{pSysInfo.prt_rtinfo.nDTLayerIndex}}}" +
-                                            $"nDTLayerPassIndex{{{pSysInfo.prt_rtinfo.nDTLayerPassIndex}}}nDTPtrCtlIndex{{{pSysInfo.prt_rtinfo.nDTPtrCtlIndex}}}" +
-                                            $"nLayerPassCount{{{pSysInfo.prt_rtinfo.nLayerPassCount}}}nPrintLayerIndex{{{pSysInfo.prt_rtinfo.nPrintLayerIndex}}}" +
-                                            $"nPrintPassIndex{{{pSysInfo.prt_rtinfo.nPrintPassIndex}}}nProcLayerIndex{{{pSysInfo.prt_rtinfo.nProcLayerIndex}}}" +
-                                            $"nPrtDataMemAddr{{{pSysInfo.prt_rtinfo.nPrtDataMemAddr}}}nPrtState{{{pSysInfo.prt_rtinfo.nPrtState}}}" +
-                                            $"nReverse{{{pSysInfo.prt_rtinfo.nReverse}}}nRevPrtCols{{{pSysInfo.prt_rtinfo.nRevPrtCols}}}\r\n" +
+                                        ////    $"LPPRINTER_INFO-LPDRVINFO:nFMVersion{{{pSysInfo.sysDrvInfo[0].nFMVersion}}}nFpgaVersion{{{pSysInfo.sysDrvInfo[0].nFpgaVersion}}}" +
+                                        ////    $"nPCBVersion{{{pSysInfo.sysDrvInfo[0].nPCBVersion}}}" +
+                                        ////    $"nState{{{pSysInfo.sysDrvInfo[0].nState}}}nNextState{{{pSysInfo.sysDrvInfo[0].nNextState}}}" +
+                                        ////    $"nPtvwarnState{{{pSysInfo.sysDrvInfo[0].nPtvwarnState}}}nCrc32{{{pSysInfo.sysDrvInfo[0].nCrc32}}}" +
+                                        ////    $"nRevInfo{{{pSysInfo.sysDrvInfo[0].nRevInfo}}}nSignature{{{pSysInfo.sysDrvInfo[0].nSignature}}}";
+                                        ////Log4Net.Info(msg);
 
-                                            $"LPPRINTER_INFO-LPDRVINFO:nFMVersion{{{pSysInfo.sysDrvInfo[0].nFMVersion}}}nFpgaVersion{{{pSysInfo.sysDrvInfo[0].nFpgaVersion}}}" +
-                                            $"nPCBVersion{{{pSysInfo.sysDrvInfo[0].nPCBVersion}}}" +
-                                            $"nState{{{pSysInfo.sysDrvInfo[0].nState}}}nNextState{{{pSysInfo.sysDrvInfo[0].nNextState}}}" +
-                                            $"nPtvwarnState{{{pSysInfo.sysDrvInfo[0].nPtvwarnState}}}nCrc32{{{pSysInfo.sysDrvInfo[0].nCrc32}}}" +
-                                            $"nRevInfo{{{pSysInfo.sysDrvInfo[0].nRevInfo}}}nSignature{{{pSysInfo.sysDrvInfo[0].nSignature}}}";
-                                        Log4Net.Info(msg);
+                                        royal.LPPRINTER_INFO g_printerInfoLocal = new royal.LPPRINTER_INFO();//20230213新增：
+                                        IntPtr info = royal.royal.DEV_GetDeviceInfo();//——————调用API1(修改后的API1)
+                                        g_printerInfoLocal = (LPPRINTER_INFO)Marshal.PtrToStructure(info, typeof(LPPRINTER_INFO));//调用API1获取的指针
+                                        string msg3 = $"PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
+                                             $"LPPRINTER_INFO:nXSysEncDPI{{{g_printerInfoLocal.nXSysEncDPI}}}nStatus{{{g_printerInfoLocal.nStatus}}}nPrintStatus{{{g_printerInfoLocal.nPrintStatus}}}bSuperDevice{{{g_printerInfoLocal.bSuperDevice}}}\r\n" +
+                                             $"LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{{{g_printerInfoLocal.prt_rtinfo.bJobPrtRuning}}}bLayerPrtIsOver{{{g_printerInfoLocal.prt_rtinfo.bLayerPrtIsOver}}}" +
+                                             $"nContReqMemErr{{{g_printerInfoLocal.prt_rtinfo.nContReqMemErr}}}nContWDErr{{{g_printerInfoLocal.prt_rtinfo.nContWDErr}}}" +
+                                             $"nCurPrtDir{{{g_printerInfoLocal.prt_rtinfo.nCurPrtDir}}}nDTLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nDTLayerIndex}}}" +
+                                             $"nDTLayerPassIndex{{{g_printerInfoLocal.prt_rtinfo.nDTLayerPassIndex}}}nDTPtrCtlIndex{{{g_printerInfoLocal.prt_rtinfo.nDTPtrCtlIndex}}}" +
+                                             $"nLayerPassCount{{{g_printerInfoLocal.prt_rtinfo.nLayerPassCount}}}nPrintLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nPrintLayerIndex}}}" +
+                                             $"nPrintPassIndex{{{g_printerInfoLocal.prt_rtinfo.nPrintPassIndex}}}nProcLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nProcLayerIndex}}}" +
+                                             $"nPrtDataMemAddr{{{g_printerInfoLocal.prt_rtinfo.nPrtDataMemAddr}}}nPrtState{{{g_printerInfoLocal.prt_rtinfo.nPrtState}}}" +
+                                             $"nReverse{{{g_printerInfoLocal.prt_rtinfo.nReverse}}}nRevPrtCols{{{g_printerInfoLocal.prt_rtinfo.nRevPrtCols}}}\r\n" +
+
+                                             $"LPPRINTER_INFO-LPDRVINFO:nFMVersion{{{g_printerInfoLocal.sysDrvInfo[0].nFMVersion}}}nFpgaVersion{{{g_printerInfoLocal.sysDrvInfo[0].nFpgaVersion}}}" +
+                                             $"nPCBVersion{{{g_printerInfoLocal.sysDrvInfo[0].nPCBVersion}}}" +
+                                             $"nState{{{g_printerInfoLocal.sysDrvInfo[0].nState}}}nNextState{{{g_printerInfoLocal.sysDrvInfo[0].nNextState}}}" +
+                                             $"nPtvwarnState{{{g_printerInfoLocal.sysDrvInfo[0].nPtvwarnState}}}nCrc32{{{g_printerInfoLocal.sysDrvInfo[0].nCrc32}}}" +
+                                             $"nRevInfo{{{g_printerInfoLocal.sysDrvInfo[0].nRevInfo}}}nSignature{{{g_printerInfoLocal.sysDrvInfo[0].nSignature}}}";
+                                        Log4Net.Info(msg3);
 
                                         //20220524批注：（2）自动喷墨运动
                                         //20220524批注：（2）自动喷墨运动
@@ -2883,7 +2940,7 @@ namespace BinderJetting
                                                 {
                                                     float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
                                                     float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
-                                                    EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0, 0);//20220915新增：加入自动清洗逻辑
+                                                    EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0, 0, 0);//20220915新增：加入自动清洗逻辑
                                                 }
                                             }
                                             else
@@ -2894,7 +2951,7 @@ namespace BinderJetting
                                                     {
                                                         float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
                                                         float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
-                                                        EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0, 0);//20220915新增：加入自动清洗逻辑
+                                                        EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0, 0, 0);//20220915新增：加入自动清洗逻辑
                                                     }
                                                 }
                                             }
@@ -2969,7 +3026,7 @@ namespace BinderJetting
                                         EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0);//自动喷墨运动逻辑
 #endif
 #if TwoPassPrintPerThreeTimes
-                                        EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0);//自动喷墨运动逻辑
+                                        EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0, 0);//自动喷墨运动逻辑
 #endif
 #endif
                                         CurrentStartPrintLayer = k;
@@ -3065,7 +3122,7 @@ namespace BinderJetting
                             EquipmentMotionLogic3(0, 6, 12/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 1);//自动喷墨运动逻辑
 #endif
 #if TwoPassPrintPerThreeTimes
-                            EquipmentMotionLogic3(0, 6, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 1);//自动喷墨运动逻辑
+                            EquipmentMotionLogic3(0, 6, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 1, 0);//自动喷墨运动逻辑
 #endif
 #endif
                             m_nPauseMovedFlag = 2;//已经运动过额标志位
@@ -3412,7 +3469,7 @@ namespace BinderJetting
             return returnCode;
         }
 
-        private void EquipmentMotionLogic3(int index, int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth, int NotGoCleanStationFlag)//20220524新增：PassIndex指示当前打印PASS序号
+        private void EquipmentMotionLogic3(int index, int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth, int NotGoCleanStationFlag, double YJetBaseOffWidth)//20220524新增：PassIndex指示当前打印PASS序号
         {
             try
             {
@@ -3495,7 +3552,7 @@ namespace BinderJetting
                     AutoPrintMotion3.AutoPrintThread4(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag);//
 #endif
 #if TwoPassPrintPerThreeTimes
-                    AutoPrintMotion3.AutoPrintThread5(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag);//
+                    AutoPrintMotion3.AutoPrintThread5(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag, YJetBaseOffWidth);//20230502新增：YJetBaseOffWidth
 #endif
 #endif
                 }
@@ -7274,11 +7331,11 @@ namespace BinderJetting
                             {//以下是数据处理的核心
                                 DataTaskFlag = 2;//工作态标志//工作态不可强制暂停
 
-                                g_SharpControl.XDpi = g_RYSYSParam.XPrintDpi;
+                                g_SharpControl.XDpi = g_RYSYSParam.m_XPrintDpi[g_RYSYSParam.XPrintDpiIndex]/*(float)(Convert.ToDouble(g_RYSYSParam.XPrintDpi))*/;
                                 int i = 0;
                                 for (/*int*/i = 0; i < tempRePrintTimes; i++)//20201030新增：按照重喷次数发送数据量
                                 {
-                                    while (((j * tempRePrintTimes + i+1) - 3 >= g_nCurrentPrintLayerID) && (TransferModifyFlag == "StartFlag"))//发送大于打印进度前20层的数据即可
+                                    while (((j * tempRePrintTimes + i+1) - 10/*3*/ >= g_nCurrentPrintLayerID) && (TransferModifyFlag == "StartFlag"))//发送大于打印进度前20层的数据即可//20230509新建：发送10层的数据
                                     {
                                         DataTaskFlag = 3;
                                         Thread.Sleep(500);
@@ -7375,7 +7432,7 @@ namespace BinderJetting
 
                             System.Diagnostics.Debug.WriteLine("Debug:" + "LaserADD" + "数据处理传送");//20200801批注：添加DebugView日志记录
                             System.Diagnostics.Trace.WriteLine("Trace:" + "LaserADD" + "数据处理传送");//20200801批注：添加DebugView日志记录
-                            g_SharpControl.XDpi = g_RYSYSParam.XPrintDpi;
+                            g_SharpControl.XDpi = g_RYSYSParam.m_XPrintDpi[g_RYSYSParam.XPrintDpiIndex]/*(float)(Convert.ToDouble(g_RYSYSParam.XPrintDpi))*//*g_RYSYSParam.XPrintDpi*/;//20230510修改
 
                             //string[] g_calirationFigurePaths = new string[6] { @"\垂直校准图.bmp", @"\往返差校准图-0.bmp", @"\往返差校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\喷头套色校准图-0.bmp", @"\STATUS.bmp" };//20210324新增：
                             if (g_CorrectionFigureType == 1)//Type 1:垂直校准图打印模式；

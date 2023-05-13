@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(手动操作));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.HomeEndsLabel0 = new System.Windows.Forms.CheckBox();
             this.PLLabel1 = new System.Windows.Forms.Label();
@@ -418,6 +418,12 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.textBox36 = new System.Windows.Forms.TextBox();
+            this.textBox35 = new System.Windows.Forms.TextBox();
+            this.label114 = new System.Windows.Forms.Label();
+            this.label115 = new System.Windows.Forms.Label();
+            this.label112 = new System.Windows.Forms.Label();
+            this.label113 = new System.Windows.Forms.Label();
             this.ReadRegister = new System.Windows.Forms.Button();
             this.FlashBtn = new System.Windows.Forms.Button();
             this.label46 = new System.Windows.Forms.Label();
@@ -439,12 +445,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.ADIBSetApplyBtn = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
-            this.label112 = new System.Windows.Forms.Label();
-            this.label113 = new System.Windows.Forms.Label();
-            this.label114 = new System.Windows.Forms.Label();
-            this.label115 = new System.Windows.Forms.Label();
-            this.textBox35 = new System.Windows.Forms.TextBox();
-            this.textBox36 = new System.Windows.Forms.TextBox();
+            this.label116 = new System.Windows.Forms.Label();
+            this.comboBox9 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.ManulDebugTAB.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -810,7 +812,7 @@
             "800",
             "1600",
             "3200"});
-            this.UVCureEnergycomboBox.Location = new System.Drawing.Point(836, 809);
+            this.UVCureEnergycomboBox.Location = new System.Drawing.Point(835, 808);
             this.UVCureEnergycomboBox.Margin = new System.Windows.Forms.Padding(4);
             this.UVCureEnergycomboBox.Name = "UVCureEnergycomboBox";
             this.UVCureEnergycomboBox.Size = new System.Drawing.Size(59, 23);
@@ -833,7 +835,7 @@
             this.label73.BackColor = System.Drawing.Color.Salmon;
             this.label73.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold);
             this.label73.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label73.Location = new System.Drawing.Point(659, 806);
+            this.label73.Location = new System.Drawing.Point(659, 807);
             this.label73.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label73.Name = "label73";
             this.label73.Size = new System.Drawing.Size(169, 25);
@@ -844,12 +846,12 @@
             // textBox30
             // 
             this.textBox30.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox30.Location = new System.Drawing.Point(835, 778);
+            this.textBox30.Location = new System.Drawing.Point(835, 777);
             this.textBox30.Margin = new System.Windows.Forms.Padding(4);
             this.textBox30.Name = "textBox30";
             this.textBox30.Size = new System.Drawing.Size(60, 26);
             this.textBox30.TabIndex = 208;
-            this.textBox30.Text = "1";
+            this.textBox30.Text = "40";
             // 
             // label98
             // 
@@ -860,7 +862,7 @@
             this.label98.Name = "label98";
             this.label98.Size = new System.Drawing.Size(183, 26);
             this.label98.TabIndex = 209;
-            this.label98.Text = "落粉预转位置(mm)";
+            this.label98.Text = "落粉位置提前(mm)";
             // 
             // textBox29
             // 
@@ -3268,6 +3270,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tabPage2.Controls.Add(this.label80);
             this.tabPage2.Controls.Add(this.button1);
             this.tabPage2.Controls.Add(this.button20);
             this.tabPage2.Controls.Add(this.button22);
@@ -3294,6 +3297,7 @@
             this.tabPage2.Controls.Add(this.groupBox18);
             this.tabPage2.Controls.Add(this.groupBox17);
             this.tabPage2.Controls.Add(this.groupBox10);
+            this.tabPage2.Controls.Add(this.textBox21);
             this.tabPage2.Controls.Add(this.groupBox16);
             this.tabPage2.Controls.Add(this.groupBox15);
             this.tabPage2.Controls.Add(this.groupBox14);
@@ -3879,9 +3883,10 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.label80);
+            this.panel1.Controls.Add(this.comboBox9);
             this.panel1.Controls.Add(this.textBox34);
             this.panel1.Controls.Add(this.label110);
+            this.panel1.Controls.Add(this.label116);
             this.panel1.Controls.Add(this.comboBox8);
             this.panel1.Controls.Add(this.label109);
             this.panel1.Controls.Add(this.label108);
@@ -3906,7 +3911,6 @@
             this.panel1.Controls.Add(this.label93);
             this.panel1.Controls.Add(this.textBox27);
             this.panel1.Controls.Add(this.label92);
-            this.panel1.Controls.Add(this.textBox21);
             this.panel1.Controls.Add(this.label101);
             this.panel1.Controls.Add(this.label90);
             this.panel1.Location = new System.Drawing.Point(314, 267);
@@ -3919,7 +3923,7 @@
             // 
             this.label80.BackColor = System.Drawing.SystemColors.Control;
             this.label80.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label80.Location = new System.Drawing.Point(241, 150);
+            this.label80.Location = new System.Drawing.Point(768, 814);
             this.label80.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label80.Name = "label80";
             this.label80.Size = new System.Drawing.Size(91, 25);
@@ -3956,7 +3960,7 @@
             this.comboBox8.Items.AddRange(new object[] {
             "否",
             "是"});
-            this.comboBox8.Location = new System.Drawing.Point(335, 120);
+            this.comboBox8.Location = new System.Drawing.Point(335, 147);
             this.comboBox8.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox8.Name = "comboBox8";
             this.comboBox8.Size = new System.Drawing.Size(55, 23);
@@ -3966,7 +3970,7 @@
             // 
             this.label109.BackColor = System.Drawing.SystemColors.Control;
             this.label109.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label109.Location = new System.Drawing.Point(241, 120);
+            this.label109.Location = new System.Drawing.Point(241, 147);
             this.label109.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label109.Name = "label109";
             this.label109.Size = new System.Drawing.Size(91, 25);
@@ -4008,7 +4012,7 @@
             this.textBox26.Name = "textBox26";
             this.textBox26.Size = new System.Drawing.Size(69, 26);
             this.textBox26.TabIndex = 179;
-            this.textBox26.Text = "3";
+            this.textBox26.Text = "1.5";
             // 
             // label103
             // 
@@ -4096,7 +4100,7 @@
             // 
             this.label91.BackColor = System.Drawing.SystemColors.Control;
             this.label91.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label91.Location = new System.Drawing.Point(241, 62);
+            this.label91.Location = new System.Drawing.Point(241, 89);
             this.label91.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label91.Name = "label91";
             this.label91.Size = new System.Drawing.Size(91, 25);
@@ -4124,7 +4128,7 @@
             this.textBox31.Name = "textBox31";
             this.textBox31.Size = new System.Drawing.Size(69, 26);
             this.textBox31.TabIndex = 205;
-            this.textBox31.Text = "3";
+            this.textBox31.Text = "1";
             // 
             // label100
             // 
@@ -4145,7 +4149,7 @@
             this.comboBox6.Items.AddRange(new object[] {
             "否",
             "是"});
-            this.comboBox6.Location = new System.Drawing.Point(335, 90);
+            this.comboBox6.Location = new System.Drawing.Point(335, 117);
             this.comboBox6.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox6.Name = "comboBox6";
             this.comboBox6.Size = new System.Drawing.Size(55, 23);
@@ -4155,7 +4159,7 @@
             // 
             this.label96.BackColor = System.Drawing.SystemColors.Control;
             this.label96.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label96.Location = new System.Drawing.Point(241, 90);
+            this.label96.Location = new System.Drawing.Point(241, 117);
             this.label96.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label96.Name = "label96";
             this.label96.Size = new System.Drawing.Size(91, 25);
@@ -4170,7 +4174,7 @@
             this.comboBox4.Items.AddRange(new object[] {
             "否",
             "是"});
-            this.comboBox4.Location = new System.Drawing.Point(335, 62);
+            this.comboBox4.Location = new System.Drawing.Point(335, 89);
             this.comboBox4.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox4.Name = "comboBox4";
             this.comboBox4.Size = new System.Drawing.Size(55, 23);
@@ -4183,7 +4187,7 @@
             this.comboBox5.Items.AddRange(new object[] {
             "否",
             "是"});
-            this.comboBox5.Location = new System.Drawing.Point(335, 33);
+            this.comboBox5.Location = new System.Drawing.Point(335, 60);
             this.comboBox5.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox5.Name = "comboBox5";
             this.comboBox5.Size = new System.Drawing.Size(55, 23);
@@ -4193,7 +4197,7 @@
             // 
             this.label94.BackColor = System.Drawing.SystemColors.Control;
             this.label94.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label94.Location = new System.Drawing.Point(241, 34);
+            this.label94.Location = new System.Drawing.Point(241, 61);
             this.label94.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label94.Name = "label94";
             this.label94.Size = new System.Drawing.Size(91, 25);
@@ -4239,7 +4243,7 @@
             // textBox21
             // 
             this.textBox21.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox21.Location = new System.Drawing.Point(334, 149);
+            this.textBox21.Location = new System.Drawing.Point(861, 813);
             this.textBox21.Margin = new System.Windows.Forms.Padding(4);
             this.textBox21.Name = "textBox21";
             this.textBox21.Size = new System.Drawing.Size(56, 26);
@@ -5883,15 +5887,15 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle15.NullValue = null;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.NullValue = null;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView1.RowTemplate.Height = 23;
@@ -5918,15 +5922,15 @@
             this.dataGridView2.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView2.MultiSelect = false;
             this.dataGridView2.Name = "dataGridView2";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle16.NullValue = null;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.NullValue = null;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView2.RowTemplate.Height = 23;
@@ -5968,6 +5972,72 @@
             this.groupBox8.TabIndex = 48;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "墨路控制";
+            // 
+            // textBox36
+            // 
+            this.textBox36.Font = new System.Drawing.Font("微软雅黑", 8.5F);
+            this.textBox36.Location = new System.Drawing.Point(461, 40);
+            this.textBox36.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox36.Name = "textBox36";
+            this.textBox36.Size = new System.Drawing.Size(69, 26);
+            this.textBox36.TabIndex = 216;
+            this.textBox36.Text = "0.5";
+            // 
+            // textBox35
+            // 
+            this.textBox35.Font = new System.Drawing.Font("微软雅黑", 8.5F);
+            this.textBox35.Location = new System.Drawing.Point(461, 12);
+            this.textBox35.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox35.Name = "textBox35";
+            this.textBox35.Size = new System.Drawing.Size(69, 26);
+            this.textBox35.TabIndex = 215;
+            this.textBox35.Text = "1";
+            // 
+            // label114
+            // 
+            this.label114.AutoSize = true;
+            this.label114.Font = new System.Drawing.Font("宋体", 10F);
+            this.label114.Location = new System.Drawing.Point(530, 45);
+            this.label114.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label114.Name = "label114";
+            this.label114.Size = new System.Drawing.Size(25, 17);
+            this.label114.TabIndex = 210;
+            this.label114.Text = "秒";
+            // 
+            // label115
+            // 
+            this.label115.AutoSize = true;
+            this.label115.BackColor = System.Drawing.Color.GhostWhite;
+            this.label115.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label115.Location = new System.Drawing.Point(333, 45);
+            this.label115.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label115.Name = "label115";
+            this.label115.Size = new System.Drawing.Size(125, 18);
+            this.label115.TabIndex = 208;
+            this.label115.Text = "清洗占空时间:";
+            // 
+            // label112
+            // 
+            this.label112.AutoSize = true;
+            this.label112.Font = new System.Drawing.Font("宋体", 10F);
+            this.label112.Location = new System.Drawing.Point(530, 18);
+            this.label112.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label112.Name = "label112";
+            this.label112.Size = new System.Drawing.Size(25, 17);
+            this.label112.TabIndex = 207;
+            this.label112.Text = "秒";
+            // 
+            // label113
+            // 
+            this.label113.AutoSize = true;
+            this.label113.BackColor = System.Drawing.Color.GhostWhite;
+            this.label113.Font = new System.Drawing.Font("宋体", 10.5F);
+            this.label113.Location = new System.Drawing.Point(333, 17);
+            this.label113.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label113.Name = "label113";
+            this.label113.Size = new System.Drawing.Size(107, 18);
+            this.label113.TabIndex = 205;
+            this.label113.Text = "清洗泵周期:";
             // 
             // ReadRegister
             // 
@@ -6036,9 +6106,9 @@
             this.CleanBtn.Location = new System.Drawing.Point(111, 25);
             this.CleanBtn.Margin = new System.Windows.Forms.Padding(4);
             this.CleanBtn.Name = "CleanBtn";
-            this.CleanBtn.Size = new System.Drawing.Size(80, 38);
+            this.CleanBtn.Size = new System.Drawing.Size(93, 38);
             this.CleanBtn.TabIndex = 151;
-            this.CleanBtn.Text = "清洗";
+            this.CleanBtn.Text = "挤墨";
             this.CleanBtn.UseVisualStyleBackColor = true;
             this.CleanBtn.Click += new System.EventHandler(this.CleanBtn_Click);
             // 
@@ -6080,7 +6150,7 @@
             this.PushInkBtn.Location = new System.Drawing.Point(9, 25);
             this.PushInkBtn.Margin = new System.Windows.Forms.Padding(4);
             this.PushInkBtn.Name = "PushInkBtn";
-            this.PushInkBtn.Size = new System.Drawing.Size(80, 38);
+            this.PushInkBtn.Size = new System.Drawing.Size(94, 38);
             this.PushInkBtn.TabIndex = 167;
             this.PushInkBtn.Text = "压墨";
             this.PushInkBtn.UseVisualStyleBackColor = true;
@@ -6268,71 +6338,30 @@
             this.label20.Text = "kPa";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label112
+            // label116
             // 
-            this.label112.AutoSize = true;
-            this.label112.Font = new System.Drawing.Font("宋体", 10F);
-            this.label112.Location = new System.Drawing.Point(530, 18);
-            this.label112.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label112.Name = "label112";
-            this.label112.Size = new System.Drawing.Size(25, 17);
-            this.label112.TabIndex = 207;
-            this.label112.Text = "秒";
+            this.label116.BackColor = System.Drawing.SystemColors.Control;
+            this.label116.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label116.Location = new System.Drawing.Point(241, 33);
+            this.label116.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label116.Name = "label116";
+            this.label116.Size = new System.Drawing.Size(91, 25);
+            this.label116.TabIndex = 215;
+            this.label116.Text = "直接压墨";
+            this.label116.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label113
+            // comboBox9
             // 
-            this.label113.AutoSize = true;
-            this.label113.BackColor = System.Drawing.Color.GhostWhite;
-            this.label113.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label113.Location = new System.Drawing.Point(333, 17);
-            this.label113.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label113.Name = "label113";
-            this.label113.Size = new System.Drawing.Size(107, 18);
-            this.label113.TabIndex = 205;
-            this.label113.Text = "清洗泵周期:";
-            // 
-            // label114
-            // 
-            this.label114.AutoSize = true;
-            this.label114.Font = new System.Drawing.Font("宋体", 10F);
-            this.label114.Location = new System.Drawing.Point(530, 45);
-            this.label114.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label114.Name = "label114";
-            this.label114.Size = new System.Drawing.Size(25, 17);
-            this.label114.TabIndex = 210;
-            this.label114.Text = "秒";
-            // 
-            // label115
-            // 
-            this.label115.AutoSize = true;
-            this.label115.BackColor = System.Drawing.Color.GhostWhite;
-            this.label115.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.label115.Location = new System.Drawing.Point(333, 45);
-            this.label115.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label115.Name = "label115";
-            this.label115.Size = new System.Drawing.Size(125, 18);
-            this.label115.TabIndex = 208;
-            this.label115.Text = "清洗泵占空比:";
-            // 
-            // textBox35
-            // 
-            this.textBox35.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox35.Location = new System.Drawing.Point(461, 12);
-            this.textBox35.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox35.Name = "textBox35";
-            this.textBox35.Size = new System.Drawing.Size(69, 26);
-            this.textBox35.TabIndex = 215;
-            this.textBox35.Text = "1";
-            // 
-            // textBox36
-            // 
-            this.textBox36.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox36.Location = new System.Drawing.Point(461, 40);
-            this.textBox36.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox36.Name = "textBox36";
-            this.textBox36.Size = new System.Drawing.Size(69, 26);
-            this.textBox36.TabIndex = 216;
-            this.textBox36.Text = "0.1";
+            this.comboBox9.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox9.FormattingEnabled = true;
+            this.comboBox9.Items.AddRange(new object[] {
+            "否",
+            "是"});
+            this.comboBox9.Location = new System.Drawing.Point(335, 33);
+            this.comboBox9.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox9.Name = "comboBox9";
+            this.comboBox9.Size = new System.Drawing.Size(55, 23);
+            this.comboBox9.TabIndex = 216;
             // 
             // 手动操作
             // 
@@ -6825,5 +6854,7 @@
         private System.Windows.Forms.Label label115;
         private System.Windows.Forms.TextBox textBox36;
         private System.Windows.Forms.TextBox textBox35;
+        private System.Windows.Forms.ComboBox comboBox9;
+        private System.Windows.Forms.Label label116;
     }
 }

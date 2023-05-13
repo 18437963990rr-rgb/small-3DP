@@ -1363,7 +1363,7 @@ namespace BinderJetting
                 converter.Dispose();
             }
         }
-        public int XDpi = 635 * 2;//20201017新增批注：X向打印分辨率
+        public float/*int*/ XDpi = 635 * 2;//20201017新增批注：X向打印分辨率
         /// <summary>
         /// 20200609：生成1帧的加工数据//20220524新增:新设备 幅面330MM*330MM
         /// </summary>
@@ -1384,10 +1384,35 @@ namespace BinderJetting
 #endif
 #if TwoPassPrintMode
 #if TwoPassPrintPerSixTimes
-                /*int*/ height = (int)(310/*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度//20230418修改：打印幅面高度修改为310mm，以允许多PASS打印
+                int OffsetPixels = (int)(15 / 25.4 * 600 + 1);//355
+                double Yheight = (1280 * 6 - 355) / 600 * 25.4;//310.0916
+                /*int*/
+                height = (int)(310.09/*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度//20230418修改：打印幅面高度修改为310mm，以允许多PASS打印
 #endif
+                int k = 0;//默认k取值为0
 #if TwoPassPrintPerThreeTimes
-                /*int*/ height = (int)(147/*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度//20230418修改：打印幅面高度修改为310mm，以允许多PASS打印
+                /*int*/ k = index * RePrintTimes + subindex;
+                if (k % 3 == 1 || k == 0)//
+                {
+                    int OffsetPixels = (int)(15 / 25.4 * 600 + 1);//355
+                    double Yheight = (1280 * 3 - 355) / 600 * 25.4;//147.5316
+                    /*int*/
+                    height = (int)(147.52f/*147*//*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度//20230418修改：打印幅面高度修改为310mm，以允许多PASS打印
+                }
+                else if (k % 3 == 2)
+                {
+                    int OffsetPixels2 = (int)(10 / 25.4 * 600 + 1);//237
+                    double Yheight2 = (1280 * 3 - 237) / 600 * 25.4;//152.527
+                    /*int*/
+                    height = (int)(152.52f/*147*//*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//3603
+                }
+                else if (k % 3 == 0 && k != 0)
+                {
+                    int OffsetPixels3 = (int)(5 / 25.4 * 600 + 1);//119
+                    double Yheight3 = (1280 * 3 - 119) / 600 * 25.4;//157.522
+                    /*int*/
+                    height = (int)(157.52f/*147*//*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//3721
+                }              
 #endif
 #endif
 
@@ -1526,18 +1551,39 @@ namespace BinderJetting
 #if TwoPassPrintPerSixTimes
                 CreatTwoPassFigure((int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)/*0*//*1280,*//*355*/, 6, clone, ref outputImage);
 #endif
-#if TwoPassPrintPerThreeTimes
-                CreatTwoPassFigure((int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
+#if TwoPassPrintPerThreeTimes             
+                /*int*/ k = index * RePrintTimes + subindex;
+                if (k % 3 == 1 || k == 0)//15mm偏移量
+                {
+                    CreatTwoPassFigure((int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
+                }
+                else if (k % 3 == 2)//10mm偏移量
+                {
+                    CreatTwoPassFigure((int)((gc_RysysParam.YJetOff-5) / (25.4 / 600) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
+                }
+                else if (k % 3 == 0 && k != 0)//5mm偏移量
+                {
+                    CreatTwoPassFigure((int)((gc_RysysParam.YJetOff - 10) / (25.4 / 600) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
+                }
 #endif
 
 #if DataProcessDebugMode
-                outputImage.Save("output1bpp-拼接.bmp", ImageFormat.Bmp);//保存到BMPFile  
+                outputImage.Save($"output1bpp-拼接-{{{k}}}.bmp", ImageFormat.Bmp);//保存到BMPFile  
 #endif
-                WriteImgLayerData(outputImage/*path*/, /*1*/index, subindex, RePrintTimes/*, 0, true*/, true);//201030修改：//20201117批注：数据封送处理//20210324:需要执行反色//20230420新增：
+                try 
+                {
+                    WriteImgLayerData(outputImage/*path*/, /*1*/index, subindex, RePrintTimes/*, 0, true*/, true);//201030修改：//20201117批注：数据封送处理//20210324:需要执行反色//20230420新增：
+                }
+                catch (Exception e)
+                {
+                    string msg2 = e.ToString();
+                    Log4Net.Info(msg2);//20230315新建：解决20230314打印94层中途停止的潜在问题
+                    MessageBox.Show(msg2);
+                }
 #endif
 
                 //System.Diagnostics.Process.Start(Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, filename)));//打开文件夹的指定文件
-                if(outputImage!=null)
+                if (outputImage!=null)
                 {
                     outputImage.Dispose();
                 }
@@ -1569,7 +1615,6 @@ namespace BinderJetting
 
             // Calculate the number of bytes per row for each bitmap
             int inputStride1 = inputData1.Stride;
-
 
             // 分配新图像数据的内存
             byte[] newData = new byte[inputStride1 * (inputHeight * 2 + initialOffset * 2)];
@@ -2092,7 +2137,7 @@ namespace BinderJetting
             royal.royal.g_prtimg_layer.nXEncOff = (int)(0/*gc_RysysParam.m_dXJetOff*200*/);//5um的精度//图像的XDPI，本质必须与光栅的DPI保持协调//20230321修订：X方向打印启打位置修订//20230327修正：此处存在潜在的问题//图层的整体偏移，可正可负
             //royal.royal.g_prtimg_layer.nYJetOff =;//20210311修正：Y向的位置起始偏差。
             //royal.royal.g_prtimg_layer.nYJetOff = k_dYJetOff/*(int)(g_RYSYSParam.m_dYJetOff * 600)*/;//20210311修正：Y向的位置起始偏差。
-            royal.royal.g_prtimg_layer.nXDPI = XDpi/*635*//*XDpi*//*635*//*1270*2*//*635*/;//图像的XDPI，本质必须与光栅的DPI保持协调//20200802批注：修改原有的X向分辨率，本来应该是635DPI，提升到635*2DPI//20210324修改：打印校准图应该为635DPI
+            royal.royal.g_prtimg_layer.nXDPI = /*(int)*/XDpi/*635*//*XDpi*//*635*//*1270*2*//*635*/;//图像的XDPI，本质必须与光栅的DPI保持协调//20200802批注：修改原有的X向分辨率，本来应该是635DPI，提升到635*2DPI//20210324修改：打印校准图应该为635DPI//20230511修改：修改为浮点数
             royal.royal.g_prtimg_layer.nYDPI = 600;//图像的XDPI，本值必须与喷头的DPI保持一致
             if (bpp == 1)
             {

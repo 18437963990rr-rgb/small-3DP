@@ -431,8 +431,8 @@ namespace BinderJetting
             index = comboBox6.FindString((k_RYSYSParam.m_dCarBackCleanStationMoveSpeed).ToString());
             comboBox6.SelectedIndex = index;
 
-            index = XDpiBox.FindString((k_RYSYSParam.m_XPrintDpi).ToString());
-            XDpiBox.SelectedIndex = index;
+            //index = XDpiBox.FindString((k_RYSYSParam.m_XPrintDpi[k_RYSYSParam.m_nXPrintDpiIndex]).ToString());//20230510注释：
+            XDpiBox.SelectedIndex = /*index*/k_RYSYSParam.m_nXPrintDpiIndex;//20230510注释：
 
             index = GrayScaleBox.FindString((k_RYSYSParam.m_nPixelGrayBits).ToString());//20220202修改：GrayScale修改控件
             GrayScaleBox.SelectedIndex = index;
@@ -556,7 +556,7 @@ namespace BinderJetting
             textBox26.DataBindings.Add("Text", k_RYSYSParam, "BlenderCycleSec", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//X向喷射密度：20201017新增
 
 
-            XDpiBox.DataBindings.Add("SelectedItem", k_RYSYSParam, "XPrintDpi", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//墨水搅拌周期：20200329新增
+            XDpiBox.DataBindings.Add("SelectedIndex"/*"SelectedItem"*/, k_RYSYSParam, "XPrintDpiIndex", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//墨水搅拌周期：20200329新增
 
 
             // 喷头保护设置参数：(清洗和闪喷两种作用)
@@ -614,7 +614,6 @@ namespace BinderJetting
             textBox38.DataBindings.Add("Text", k_RYSYSParam, "UnactDepth", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//灰度数据格式:20200411新增
             ////20210605新增：是否应用子区域处理算法
             comboBox1.DataBindings.Add("SelectedIndex", k_RYSYSParam, "ApplaySubAreaAlthogrim", true, DataSourceUpdateMode.OnPropertyChanged);//车头运动速度：20200326新增
-
             ////20230320新增：是否处于调试状态
             comboBox2.DataBindings.Add("SelectedIndex", k_RYSYSParam, "ApplyPowderSupplyMotion", true, DataSourceUpdateMode.OnPropertyChanged);//车头运动速度：20200326新增
         }
@@ -795,7 +794,10 @@ namespace BinderJetting
         public double m_dBlenderValidSec = 10;//墨水搅拌有效时间：20200329新增
         public double m_dBlenderCycleSec = 300;//墨水搅拌周期：20200329新增
 
-        public int m_XPrintDpi = 635 * 2;//X向喷射密度：20201017新增
+        public float[]/*float*//*int*/ m_XPrintDpi = { 63.5f,95.25f,127f,158.75f, 190.5f, 222.25f, 254f, 285.75f, 317.5f,349.25f,
+            381f,412.75f, 444.5f,476.25f, 508f, 539.75f, 571.5f,603.25f,635f,1270f,2540f};/*635*//* * 2*///X向喷射密度：20201017新增//20230510修改为635
+        
+        public int m_nXPrintDpiIndex = 18;//X向喷射密度索引
 
         /// <summary>
         /// 功能选项
@@ -812,7 +814,7 @@ namespace BinderJetting
         public double m_dPrtXEncPos = 50/*30*//*379.5*//*362*/;////任务的X向起打位置:20200923修改：设置X向启打位置值为362//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改//20220601新建：修改X向启打位置修订
         //20220524修改：起始打印值为幅面的左端起始点，修改为30MM
         public double m_dXJetOff = 0;//20230321新建：修改X向启打位置修订
-        public double m_dYJetOff = 0/*20*/;//Y向起打位置修订:20210311新增//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改//20230319新建：此值修改为默认值0，消除此前的相关BUGS       
+        public double m_dYJetOff = 15/*20*/;//Y向起打位置修订:20210311新增//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改//20230319新建：此值修改为默认值0，消除此前的相关BUGS       
 
 
         /// <summary>
@@ -853,7 +855,21 @@ namespace BinderJetting
         public int HSpeedSparkFreq//高速闪喷频率
         {
             get { return this.m_nHSpeedSparkFreq; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_nHSpeedSparkFreq) { this.m_nHSpeedSparkFreq = value; NotifyPropertyChanged(); } }
+            set 
+            { 
+                if ((value != this.m_nHSpeedSparkFreq) && (1 <= value && value <= 1500))
+                {
+                    this.m_nHSpeedSparkFreq = value; NotifyPropertyChanged();
+                }
+                else if (value > 1500)
+                {
+                    this.m_nHSpeedSparkFreq = 1500; NotifyPropertyChanged();
+                }
+                else if (value < 1)
+                {
+                    this.m_nHSpeedSparkFreq = 1; NotifyPropertyChanged();
+                }
+            }
         }
         public double HSpeedSparkTime//高速闪喷时间
         {
@@ -1014,10 +1030,22 @@ namespace BinderJetting
             set { if (value != this.m_dBlenderCycleSec) { this.m_dBlenderCycleSec = value; NotifyPropertyChanged(); } }
         }
 
-        public int XPrintDpi//X向喷射密度：20201017新增
+        public int XPrintDpiIndex//X向喷射密度：20201017新增
         {
-            get { return this.m_XPrintDpi; }
-            set { if (value != this.m_XPrintDpi) { this.m_XPrintDpi = value; NotifyPropertyChanged(); } }
+            get 
+            {
+                return this.m_nXPrintDpiIndex;
+            }
+            set 
+            { 
+                //int index = value.IndexOf("-"); // 找到等号的位置
+                //string result = value.Substring(index + 1); // 从等号的下一个字符开始截取
+                if (value != this.m_nXPrintDpiIndex) 
+                { 
+                    this.m_nXPrintDpiIndex = value;
+                    NotifyPropertyChanged(); 
+                }
+            }
         }
         /// <summary>
         /// 喷头保护设置
@@ -1139,12 +1167,41 @@ namespace BinderJetting
         public double PrtXEncPos//任务的X向起打位置:20200411新增
         {
             get { return this.m_dPrtXEncPos; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dPrtXEncPos) { this.m_dPrtXEncPos = value; NotifyPropertyChanged(); } }
+            set 
+            { 
+                if (value != this.m_dPrtXEncPos) { this.m_dPrtXEncPos = value; NotifyPropertyChanged(); }
+                if ((value != this.m_dPrtXEncPos) && (35 <= value && value <= 60))
+                {
+                    this.m_dPrtXEncPos = value; NotifyPropertyChanged();
+                }
+                else if (value > 60)
+                {
+                    this.m_dPrtXEncPos = 60; NotifyPropertyChanged();
+                }
+                else if (value < 35)
+                {
+                    this.m_dPrtXEncPos = 35; NotifyPropertyChanged();
+                }
+            }
         }
         public double XJetOff//X向起打位置修订:20210311新增
         {
             get { return this.m_dXJetOff; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-            set { if (value != this.m_dXJetOff) { this.m_dXJetOff = value; NotifyPropertyChanged(); } }
+            set 
+            { 
+                if ((value != this.m_dXJetOff) && (0 <= value && value <= 5))
+                {
+                    this.m_dXJetOff = value; NotifyPropertyChanged();
+                }
+                else if (value > 5)
+                {
+                    this.m_dXJetOff = 5; NotifyPropertyChanged();
+                }
+                else if (value < 0)
+                {
+                    this.m_dXJetOff = 0; NotifyPropertyChanged();
+                }
+            }
         }
 
         public double YJetOff//Y向起打位置修订:20210311新增//20230418修改：适用于多PASS打印过程处理
