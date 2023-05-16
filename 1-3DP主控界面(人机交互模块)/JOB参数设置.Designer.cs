@@ -296,7 +296,7 @@
             this.label1.Location = new System.Drawing.Point(21, 465);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(98, 18);
+            this.label1.Size = new System.Drawing.Size(77, 14);
             this.label1.TabIndex = 80;
             this.label1.Text = "UV灯功率：";
             // 
@@ -308,7 +308,7 @@
             this.label6.Location = new System.Drawing.Point(21, 491);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(161, 18);
+            this.label6.Size = new System.Drawing.Size(126, 14);
             this.label6.TabIndex = 81;
             this.label6.Text = "快门提前打开距离:";
             // 
@@ -320,7 +320,7 @@
             this.label12.Location = new System.Drawing.Point(21, 517);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(179, 18);
+            this.label12.Size = new System.Drawing.Size(140, 14);
             this.label12.TabIndex = 82;
             this.label12.Text = "打印完固化加强长度:";
             // 
@@ -329,7 +329,7 @@
             this.textBox2.Location = new System.Drawing.Point(193, 462);
             this.textBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(71, 27);
+            this.textBox2.Size = new System.Drawing.Size(71, 23);
             this.textBox2.TabIndex = 83;
             this.textBox2.Text = "4000";
             // 
@@ -344,7 +344,7 @@
             this.textBox4.Location = new System.Drawing.Point(193, 488);
             this.textBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(71, 27);
+            this.textBox4.Size = new System.Drawing.Size(71, 23);
             this.textBox4.TabIndex = 85;
             this.textBox4.Text = "10";
             // 
@@ -353,7 +353,7 @@
             this.textBox7.Location = new System.Drawing.Point(193, 514);
             this.textBox7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(71, 27);
+            this.textBox7.Size = new System.Drawing.Size(71, 23);
             this.textBox7.TabIndex = 86;
             this.textBox7.Text = "10";
             // 
@@ -364,7 +364,7 @@
             this.label7.Location = new System.Drawing.Point(266, 465);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(62, 17);
+            this.label7.Size = new System.Drawing.Size(49, 14);
             this.label7.TabIndex = 87;
             this.label7.Text = "W/mm^2";
             // 
@@ -375,7 +375,7 @@
             this.label13.Location = new System.Drawing.Point(266, 490);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(26, 17);
+            this.label13.Size = new System.Drawing.Size(21, 14);
             this.label13.TabIndex = 88;
             this.label13.Text = "mm";
             // 
@@ -386,7 +386,7 @@
             this.label15.Location = new System.Drawing.Point(266, 517);
             this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(26, 17);
+            this.label15.Size = new System.Drawing.Size(21, 14);
             this.label15.TabIndex = 89;
             this.label15.Text = "mm";
             // 
@@ -395,7 +395,7 @@
             this.textBox28.Location = new System.Drawing.Point(193, 558);
             this.textBox28.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox28.Name = "textBox28";
-            this.textBox28.Size = new System.Drawing.Size(71, 27);
+            this.textBox28.Size = new System.Drawing.Size(71, 23);
             this.textBox28.TabIndex = 133;
             this.textBox28.Text = "8";
             // 
@@ -407,7 +407,7 @@
             this.label65.Location = new System.Drawing.Point(20, 561);
             this.label65.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(125, 18);
+            this.label65.Size = new System.Drawing.Size(98, 14);
             this.label65.TabIndex = 132;
             this.label65.Text = "打印功能设置:";
             // 
@@ -418,7 +418,7 @@
             this.label64.Location = new System.Drawing.Point(266, 36);
             this.label64.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(35, 17);
+            this.label64.Size = new System.Drawing.Size(28, 14);
             this.label64.TabIndex = 90;
             this.label64.Text = "bit";
             // 
@@ -430,7 +430,7 @@
             this.label4.Location = new System.Drawing.Point(20, 36);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(134, 18);
+            this.label4.Size = new System.Drawing.Size(105, 14);
             this.label4.TabIndex = 90;
             this.label4.Text = "灰度数据格式：";
             // 
@@ -443,7 +443,7 @@
             this.checkBox14.Font = new System.Drawing.Font("宋体", 10.5F);
             this.checkBox14.Location = new System.Drawing.Point(21, 606);
             this.checkBox14.Name = "checkBox14";
-            this.checkBox14.Size = new System.Drawing.Size(165, 22);
+            this.checkBox14.Size = new System.Drawing.Size(131, 18);
             this.checkBox14.TabIndex = 131;
             this.checkBox14.Text = "打印结束X回原点";
             this.checkBox14.UseVisualStyleBackColor = false;
@@ -456,7 +456,7 @@
             this.checkBox13.Font = new System.Drawing.Font("宋体", 10.5F);
             this.checkBox13.Location = new System.Drawing.Point(191, 605);
             this.checkBox13.Name = "checkBox13";
-            this.checkBox13.Size = new System.Drawing.Size(120, 22);
+            this.checkBox13.Size = new System.Drawing.Size(96, 18);
             this.checkBox13.TabIndex = 130;
             this.checkBox13.Text = "保湿时闪喷";
             this.checkBox13.UseVisualStyleBackColor = true;
@@ -469,7 +469,7 @@
             this.checkBox12.Font = new System.Drawing.Font("宋体", 10.5F);
             this.checkBox12.Location = new System.Drawing.Point(23, 604);
             this.checkBox12.Name = "checkBox12";
-            this.checkBox12.Size = new System.Drawing.Size(138, 22);
+            this.checkBox12.Size = new System.Drawing.Size(110, 18);
             this.checkBox12.TabIndex = 129;
             this.checkBox12.Text = "允许液位报警";
             this.checkBox12.UseVisualStyleBackColor = true;
@@ -482,7 +482,7 @@
             this.checkBox11.Font = new System.Drawing.Font("宋体", 10.5F);
             this.checkBox11.Location = new System.Drawing.Point(191, 583);
             this.checkBox11.Name = "checkBox11";
-            this.checkBox11.Size = new System.Drawing.Size(120, 22);
+            this.checkBox11.Size = new System.Drawing.Size(96, 18);
             this.checkBox11.TabIndex = 128;
             this.checkBox11.Text = "开机时挤墨";
             this.checkBox11.UseVisualStyleBackColor = true;
@@ -494,7 +494,7 @@
             this.checkBox10.Font = new System.Drawing.Font("宋体", 10.5F);
             this.checkBox10.Location = new System.Drawing.Point(23, 582);
             this.checkBox10.Name = "checkBox10";
-            this.checkBox10.Size = new System.Drawing.Size(102, 22);
+            this.checkBox10.Size = new System.Drawing.Size(82, 18);
             this.checkBox10.TabIndex = 127;
             this.checkBox10.Text = "自动跳白";
             this.checkBox10.UseVisualStyleBackColor = true;
@@ -515,7 +515,7 @@
             this.checkBox8.Font = new System.Drawing.Font("宋体", 10.5F);
             this.checkBox8.Location = new System.Drawing.Point(491, 518);
             this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(156, 22);
+            this.checkBox8.Size = new System.Drawing.Size(124, 18);
             this.checkBox8.TabIndex = 133;
             this.checkBox8.Text = "打印等待时闪喷";
             this.checkBox8.UseVisualStyleBackColor = true;
@@ -526,7 +526,7 @@
             this.checkBox7.Font = new System.Drawing.Font("宋体", 10.5F);
             this.checkBox7.Location = new System.Drawing.Point(359, 518);
             this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(156, 22);
+            this.checkBox7.Size = new System.Drawing.Size(124, 18);
             this.checkBox7.TabIndex = 132;
             this.checkBox7.Text = "打印前高速闪喷";
             this.checkBox7.UseVisualStyleBackColor = true;
@@ -539,7 +539,7 @@
             this.checkBox4.Enabled = false;
             this.checkBox4.Location = new System.Drawing.Point(871, 519);
             this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(66, 22);
+            this.checkBox4.Size = new System.Drawing.Size(54, 18);
             this.checkBox4.TabIndex = 131;
             this.checkBox4.Text = "刮墨";
             this.checkBox4.UseVisualStyleBackColor = true;
@@ -549,7 +549,7 @@
             this.checkBox5.AutoSize = true;
             this.checkBox5.Location = new System.Drawing.Point(798, 519);
             this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(66, 22);
+            this.checkBox5.Size = new System.Drawing.Size(54, 18);
             this.checkBox5.TabIndex = 130;
             this.checkBox5.Text = "压墨";
             this.checkBox5.UseVisualStyleBackColor = true;
@@ -562,7 +562,7 @@
             this.checkBox6.Enabled = false;
             this.checkBox6.Location = new System.Drawing.Point(724, 519);
             this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(66, 22);
+            this.checkBox6.Size = new System.Drawing.Size(54, 18);
             this.checkBox6.TabIndex = 129;
             this.checkBox6.Text = "吸墨";
             this.checkBox6.UseVisualStyleBackColor = true;
@@ -575,7 +575,7 @@
             this.checkBox3.Enabled = false;
             this.checkBox3.Location = new System.Drawing.Point(871, 495);
             this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(66, 22);
+            this.checkBox3.Size = new System.Drawing.Size(54, 18);
             this.checkBox3.TabIndex = 128;
             this.checkBox3.Text = "刮墨";
             this.checkBox3.UseVisualStyleBackColor = true;
@@ -588,7 +588,7 @@
             this.checkBox2.Enabled = false;
             this.checkBox2.Location = new System.Drawing.Point(798, 495);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(66, 22);
+            this.checkBox2.Size = new System.Drawing.Size(54, 18);
             this.checkBox2.TabIndex = 127;
             this.checkBox2.Text = "压墨";
             this.checkBox2.UseVisualStyleBackColor = true;
@@ -601,7 +601,7 @@
             this.checkBox1.Enabled = false;
             this.checkBox1.Location = new System.Drawing.Point(724, 495);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(66, 22);
+            this.checkBox1.Size = new System.Drawing.Size(54, 18);
             this.checkBox1.TabIndex = 126;
             this.checkBox1.Text = "吸墨";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -613,7 +613,7 @@
             this.label50.Location = new System.Drawing.Point(645, 520);
             this.label50.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(98, 18);
+            this.label50.Size = new System.Drawing.Size(77, 14);
             this.label50.TabIndex = 124;
             this.label50.Text = "打印清洗：";
             // 
@@ -624,7 +624,7 @@
             this.label46.Location = new System.Drawing.Point(645, 496);
             this.label46.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(98, 18);
+            this.label46.Size = new System.Drawing.Size(77, 14);
             this.label46.TabIndex = 123;
             this.label46.Text = "普通清洗：";
             // 
@@ -635,7 +635,7 @@
             this.label44.Location = new System.Drawing.Point(898, 454);
             this.label44.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(26, 17);
+            this.label44.Size = new System.Drawing.Size(21, 14);
             this.label44.TabIndex = 122;
             this.label44.Text = "mm";
             // 
@@ -646,7 +646,7 @@
             this.label45.Location = new System.Drawing.Point(645, 473);
             this.label45.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(188, 18);
+            this.label45.Size = new System.Drawing.Size(147, 14);
             this.label45.TabIndex = 120;
             this.label45.Text = "清洗喷头时刮片高度：";
             // 
@@ -655,7 +655,7 @@
             this.textBox22.Location = new System.Drawing.Point(821, 462);
             this.textBox22.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox22.Name = "textBox22";
-            this.textBox22.Size = new System.Drawing.Size(71, 27);
+            this.textBox22.Size = new System.Drawing.Size(71, 23);
             this.textBox22.TabIndex = 121;
             this.textBox22.Text = "14.5";
             // 
@@ -666,7 +666,7 @@
             this.label47.Location = new System.Drawing.Point(645, 447);
             this.label47.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(179, 18);
+            this.label47.Size = new System.Drawing.Size(140, 14);
             this.label47.TabIndex = 117;
             this.label47.Text = "清洗刮动/抽吸次数：";
             // 
@@ -675,7 +675,7 @@
             this.textBox23.Location = new System.Drawing.Point(821, 437);
             this.textBox23.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox23.Name = "textBox23";
-            this.textBox23.Size = new System.Drawing.Size(71, 27);
+            this.textBox23.Size = new System.Drawing.Size(71, 23);
             this.textBox23.TabIndex = 118;
             this.textBox23.Text = "90";
             // 
@@ -687,7 +687,7 @@
             this.label28.Location = new System.Drawing.Point(646, 63);
             this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(125, 18);
+            this.label28.Size = new System.Drawing.Size(98, 14);
             this.label28.TabIndex = 90;
             this.label28.Text = "间歇闪喷周期:";
             // 
@@ -696,7 +696,7 @@
             this.textBox14.Location = new System.Drawing.Point(821, 60);
             this.textBox14.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox14.Name = "textBox14";
-            this.textBox14.Size = new System.Drawing.Size(71, 27);
+            this.textBox14.Size = new System.Drawing.Size(71, 23);
             this.textBox14.TabIndex = 93;
             this.textBox14.Text = "1";
             // 
@@ -708,7 +708,7 @@
             this.label22.Location = new System.Drawing.Point(646, 146);
             this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(134, 18);
+            this.label22.Size = new System.Drawing.Size(105, 14);
             this.label22.TabIndex = 80;
             this.label22.Text = "待机闪喷频率：";
             // 
@@ -719,7 +719,7 @@
             this.label33.Location = new System.Drawing.Point(898, 63);
             this.label33.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(25, 17);
+            this.label33.Size = new System.Drawing.Size(21, 14);
             this.label33.TabIndex = 96;
             this.label33.Text = "秒";
             // 
@@ -728,7 +728,7 @@
             this.textBox11.Location = new System.Drawing.Point(821, 143);
             this.textBox11.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(71, 27);
+            this.textBox11.Size = new System.Drawing.Size(71, 23);
             this.textBox11.TabIndex = 83;
             this.textBox11.Text = "50";
             // 
@@ -739,7 +739,7 @@
             this.label48.Location = new System.Drawing.Point(898, 426);
             this.label48.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(26, 17);
+            this.label48.Size = new System.Drawing.Size(21, 14);
             this.label48.TabIndex = 116;
             this.label48.Text = "mm";
             // 
@@ -750,7 +750,7 @@
             this.label27.Location = new System.Drawing.Point(898, 147);
             this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(26, 17);
+            this.label27.Size = new System.Drawing.Size(21, 14);
             this.label27.TabIndex = 87;
             this.label27.Text = "Hz";
             // 
@@ -761,7 +761,7 @@
             this.label49.Location = new System.Drawing.Point(645, 421);
             this.label49.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(215, 18);
+            this.label49.Size = new System.Drawing.Size(168, 14);
             this.label49.TabIndex = 114;
             this.label49.Text = "清洗刮片/抽吸运动长度：";
             // 
@@ -770,7 +770,7 @@
             this.textBox24.Location = new System.Drawing.Point(821, 412);
             this.textBox24.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox24.Name = "textBox24";
-            this.textBox24.Size = new System.Drawing.Size(71, 27);
+            this.textBox24.Size = new System.Drawing.Size(71, 23);
             this.textBox24.TabIndex = 115;
             this.textBox24.Text = "90";
             // 
@@ -781,7 +781,7 @@
             this.label38.Location = new System.Drawing.Point(898, 398);
             this.label38.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(25, 17);
+            this.label38.Size = new System.Drawing.Size(21, 14);
             this.label38.TabIndex = 113;
             this.label38.Text = "秒";
             // 
@@ -792,7 +792,7 @@
             this.label39.Location = new System.Drawing.Point(645, 395);
             this.label39.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(170, 18);
+            this.label39.Size = new System.Drawing.Size(133, 14);
             this.label39.TabIndex = 111;
             this.label39.Text = "清洗吸墨/等待时间:";
             // 
@@ -801,7 +801,7 @@
             this.textBox19.Location = new System.Drawing.Point(821, 387);
             this.textBox19.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox19.Name = "textBox19";
-            this.textBox19.Size = new System.Drawing.Size(71, 27);
+            this.textBox19.Size = new System.Drawing.Size(71, 23);
             this.textBox19.TabIndex = 112;
             this.textBox19.Text = "5";
             // 
@@ -812,7 +812,7 @@
             this.label40.Location = new System.Drawing.Point(898, 370);
             this.label40.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(25, 17);
+            this.label40.Size = new System.Drawing.Size(21, 14);
             this.label40.TabIndex = 110;
             this.label40.Text = "秒";
             // 
@@ -823,7 +823,7 @@
             this.label41.Location = new System.Drawing.Point(645, 369);
             this.label41.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(179, 18);
+            this.label41.Size = new System.Drawing.Size(140, 14);
             this.label41.TabIndex = 108;
             this.label41.Text = "清洗时压墨持续时间:";
             // 
@@ -832,7 +832,7 @@
             this.textBox20.Location = new System.Drawing.Point(821, 362);
             this.textBox20.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox20.Name = "textBox20";
-            this.textBox20.Size = new System.Drawing.Size(71, 27);
+            this.textBox20.Size = new System.Drawing.Size(71, 23);
             this.textBox20.TabIndex = 109;
             this.textBox20.Text = "1";
             // 
@@ -843,7 +843,7 @@
             this.label42.Location = new System.Drawing.Point(898, 342);
             this.label42.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(26, 17);
+            this.label42.Size = new System.Drawing.Size(21, 14);
             this.label42.TabIndex = 107;
             this.label42.Text = "mm";
             // 
@@ -854,7 +854,7 @@
             this.label43.Location = new System.Drawing.Point(645, 343);
             this.label43.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(143, 18);
+            this.label43.Size = new System.Drawing.Size(112, 14);
             this.label43.TabIndex = 105;
             this.label43.Text = "清洗时车头高度:";
             // 
@@ -864,7 +864,7 @@
             this.textBox21.Location = new System.Drawing.Point(821, 337);
             this.textBox21.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox21.Name = "textBox21";
-            this.textBox21.Size = new System.Drawing.Size(71, 27);
+            this.textBox21.Size = new System.Drawing.Size(71, 23);
             this.textBox21.TabIndex = 106;
             this.textBox21.Text = "3";
             // 
@@ -875,7 +875,7 @@
             this.label36.Location = new System.Drawing.Point(898, 314);
             this.label36.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(26, 17);
+            this.label36.Size = new System.Drawing.Size(21, 14);
             this.label36.TabIndex = 104;
             this.label36.Text = "mm";
             // 
@@ -886,7 +886,7 @@
             this.label37.Location = new System.Drawing.Point(645, 317);
             this.label37.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(143, 18);
+            this.label37.Size = new System.Drawing.Size(112, 14);
             this.label37.TabIndex = 102;
             this.label37.Text = "保湿时车头高度:";
             // 
@@ -896,7 +896,7 @@
             this.textBox18.Location = new System.Drawing.Point(821, 312);
             this.textBox18.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox18.Name = "textBox18";
-            this.textBox18.Size = new System.Drawing.Size(71, 27);
+            this.textBox18.Size = new System.Drawing.Size(71, 23);
             this.textBox18.TabIndex = 103;
             this.textBox18.Text = "33.7";
             // 
@@ -907,7 +907,7 @@
             this.label34.Location = new System.Drawing.Point(898, 292);
             this.label34.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(25, 17);
+            this.label34.Size = new System.Drawing.Size(21, 14);
             this.label34.TabIndex = 101;
             this.label34.Text = "秒";
             // 
@@ -918,7 +918,7 @@
             this.label35.Location = new System.Drawing.Point(645, 291);
             this.label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(161, 18);
+            this.label35.Size = new System.Drawing.Size(126, 14);
             this.label35.TabIndex = 99;
             this.label35.Text = "待机定时保湿时间:";
             // 
@@ -927,7 +927,7 @@
             this.textBox17.Location = new System.Drawing.Point(821, 287);
             this.textBox17.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox17.Name = "textBox17";
-            this.textBox17.Size = new System.Drawing.Size(71, 27);
+            this.textBox17.Size = new System.Drawing.Size(71, 23);
             this.textBox17.TabIndex = 100;
             this.textBox17.Text = "100000";
             // 
@@ -938,7 +938,7 @@
             this.label29.Location = new System.Drawing.Point(898, 264);
             this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(25, 17);
+            this.label29.Size = new System.Drawing.Size(21, 14);
             this.label29.TabIndex = 98;
             this.label29.Text = "秒";
             // 
@@ -950,7 +950,7 @@
             this.label30.Location = new System.Drawing.Point(646, 174);
             this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(170, 18);
+            this.label30.Size = new System.Drawing.Size(133, 14);
             this.label30.TabIndex = 91;
             this.label30.Text = "间歇闪喷有效时间：";
             // 
@@ -961,7 +961,7 @@
             this.label31.Location = new System.Drawing.Point(898, 175);
             this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(25, 17);
+            this.label31.Size = new System.Drawing.Size(21, 14);
             this.label31.TabIndex = 97;
             this.label31.Text = "秒";
             // 
@@ -972,7 +972,7 @@
             this.label32.Location = new System.Drawing.Point(646, 265);
             this.label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(161, 18);
+            this.label32.Size = new System.Drawing.Size(126, 14);
             this.label32.TabIndex = 92;
             this.label32.Text = "打印自动清洗周期:";
             // 
@@ -981,7 +981,7 @@
             this.textBox15.Location = new System.Drawing.Point(821, 262);
             this.textBox15.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox15.Name = "textBox15";
-            this.textBox15.Size = new System.Drawing.Size(71, 27);
+            this.textBox15.Size = new System.Drawing.Size(71, 23);
             this.textBox15.TabIndex = 95;
             this.textBox15.Text = "0";
             // 
@@ -990,7 +990,7 @@
             this.textBox16.Location = new System.Drawing.Point(821, 169);
             this.textBox16.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox16.Name = "textBox16";
-            this.textBox16.Size = new System.Drawing.Size(71, 27);
+            this.textBox16.Size = new System.Drawing.Size(71, 23);
             this.textBox16.TabIndex = 94;
             this.textBox16.Text = "1";
             // 
@@ -1001,7 +1001,7 @@
             this.label23.Location = new System.Drawing.Point(898, 89);
             this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(25, 17);
+            this.label23.Size = new System.Drawing.Size(21, 14);
             this.label23.TabIndex = 89;
             this.label23.Text = "秒";
             // 
@@ -1013,7 +1013,7 @@
             this.label24.Location = new System.Drawing.Point(646, 117);
             this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(125, 18);
+            this.label24.Size = new System.Drawing.Size(98, 14);
             this.label24.TabIndex = 81;
             this.label24.Text = "高速闪喷频率:";
             // 
@@ -1024,7 +1024,7 @@
             this.label25.Location = new System.Drawing.Point(898, 117);
             this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(26, 17);
+            this.label25.Size = new System.Drawing.Size(21, 14);
             this.label25.TabIndex = 88;
             this.label25.Text = "Hz";
             // 
@@ -1036,7 +1036,7 @@
             this.label26.Location = new System.Drawing.Point(646, 90);
             this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(125, 18);
+            this.label26.Size = new System.Drawing.Size(98, 14);
             this.label26.TabIndex = 82;
             this.label26.Text = "高速闪喷时间:";
             // 
@@ -1045,7 +1045,7 @@
             this.textBox12.Location = new System.Drawing.Point(821, 88);
             this.textBox12.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(71, 27);
+            this.textBox12.Size = new System.Drawing.Size(71, 23);
             this.textBox12.TabIndex = 86;
             this.textBox12.Text = "0.5";
             // 
@@ -1054,7 +1054,7 @@
             this.textBox13.Location = new System.Drawing.Point(821, 116);
             this.textBox13.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox13.Name = "textBox13";
-            this.textBox13.Size = new System.Drawing.Size(71, 27);
+            this.textBox13.Size = new System.Drawing.Size(71, 23);
             this.textBox13.TabIndex = 85;
             this.textBox13.Text = "500";
             // 
@@ -1120,7 +1120,7 @@
             this.label53.Location = new System.Drawing.Point(357, 596);
             this.label53.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(134, 18);
+            this.label53.Size = new System.Drawing.Size(105, 14);
             this.label53.TabIndex = 135;
             this.label53.Text = "运动系统校准：";
             // 
@@ -1130,7 +1130,7 @@
             this.ResetCorrectCheckBox.Font = new System.Drawing.Font("宋体", 10.5F);
             this.ResetCorrectCheckBox.Location = new System.Drawing.Point(470, 595);
             this.ResetCorrectCheckBox.Name = "ResetCorrectCheckBox";
-            this.ResetCorrectCheckBox.Size = new System.Drawing.Size(120, 22);
+            this.ResetCorrectCheckBox.Size = new System.Drawing.Size(96, 18);
             this.ResetCorrectCheckBox.TabIndex = 135;
             this.ResetCorrectCheckBox.Text = "断电后校准";
             this.ResetCorrectCheckBox.UseVisualStyleBackColor = true;
@@ -1154,7 +1154,7 @@
             this.label63.Location = new System.Drawing.Point(266, 253);
             this.label63.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(26, 17);
+            this.label63.Size = new System.Drawing.Size(21, 14);
             this.label63.TabIndex = 149;
             this.label63.Text = "mm";
             // 
@@ -1163,7 +1163,7 @@
             this.textBox8.Location = new System.Drawing.Point(192, 251);
             this.textBox8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(71, 27);
+            this.textBox8.Size = new System.Drawing.Size(71, 23);
             this.textBox8.TabIndex = 148;
             this.textBox8.Text = "0";
             // 
@@ -1175,7 +1175,7 @@
             this.label14.Location = new System.Drawing.Point(22, 255);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(125, 18);
+            this.label14.Size = new System.Drawing.Size(98, 14);
             this.label14.TabIndex = 147;
             this.label14.Text = "X向起打位置：";
             // 
@@ -1196,7 +1196,7 @@
             this.label59.Location = new System.Drawing.Point(268, 419);
             this.label59.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(25, 17);
+            this.label59.Size = new System.Drawing.Size(21, 14);
             this.label59.TabIndex = 102;
             this.label59.Text = "秒";
             // 
@@ -1205,7 +1205,7 @@
             this.textBox26.Location = new System.Drawing.Point(193, 415);
             this.textBox26.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox26.Name = "textBox26";
-            this.textBox26.Size = new System.Drawing.Size(71, 27);
+            this.textBox26.Size = new System.Drawing.Size(71, 23);
             this.textBox26.TabIndex = 101;
             this.textBox26.Text = "300";
             // 
@@ -1217,7 +1217,7 @@
             this.label60.Location = new System.Drawing.Point(23, 416);
             this.label60.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(125, 18);
+            this.label60.Size = new System.Drawing.Size(98, 14);
             this.label60.TabIndex = 100;
             this.label60.Text = "墨水搅拌周期:";
             // 
@@ -1228,7 +1228,7 @@
             this.label21.Location = new System.Drawing.Point(268, 391);
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(25, 17);
+            this.label21.Size = new System.Drawing.Size(21, 14);
             this.label21.TabIndex = 99;
             this.label21.Text = "秒";
             // 
@@ -1237,7 +1237,7 @@
             this.textBox25.Location = new System.Drawing.Point(193, 387);
             this.textBox25.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox25.Name = "textBox25";
-            this.textBox25.Size = new System.Drawing.Size(71, 27);
+            this.textBox25.Size = new System.Drawing.Size(71, 23);
             this.textBox25.TabIndex = 98;
             this.textBox25.Text = "10";
             // 
@@ -1249,7 +1249,7 @@
             this.label20.Location = new System.Drawing.Point(23, 389);
             this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(161, 18);
+            this.label20.Size = new System.Drawing.Size(126, 14);
             this.label20.TabIndex = 97;
             this.label20.Text = "墨水搅拌有效时间:";
             // 
@@ -1260,7 +1260,7 @@
             this.label17.Location = new System.Drawing.Point(266, 179);
             this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(26, 17);
+            this.label17.Size = new System.Drawing.Size(21, 14);
             this.label17.TabIndex = 92;
             this.label17.Text = "mm";
             // 
@@ -1272,7 +1272,7 @@
             this.label18.Location = new System.Drawing.Point(21, 231);
             this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(179, 18);
+            this.label18.Size = new System.Drawing.Size(140, 14);
             this.label18.TabIndex = 94;
             this.label18.Text = "车头运动缓冲长度2：";
             // 
@@ -1282,7 +1282,7 @@
             this.textBox9.Location = new System.Drawing.Point(192, 174);
             this.textBox9.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(71, 27);
+            this.textBox9.Size = new System.Drawing.Size(71, 23);
             this.textBox9.TabIndex = 91;
             this.textBox9.Text = "420";
             // 
@@ -1293,7 +1293,7 @@
             this.label19.Location = new System.Drawing.Point(266, 231);
             this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(26, 17);
+            this.label19.Size = new System.Drawing.Size(21, 14);
             this.label19.TabIndex = 96;
             this.label19.Text = "mm";
             // 
@@ -1302,7 +1302,7 @@
             this.textBox10.Location = new System.Drawing.Point(192, 226);
             this.textBox10.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(71, 27);
+            this.textBox10.Size = new System.Drawing.Size(71, 23);
             this.textBox10.TabIndex = 95;
             this.textBox10.Text = "100";
             // 
@@ -1338,7 +1338,7 @@
             "450"});
             this.SpeedBox.Location = new System.Drawing.Point(191, 88);
             this.SpeedBox.Name = "SpeedBox";
-            this.SpeedBox.Size = new System.Drawing.Size(72, 25);
+            this.SpeedBox.Size = new System.Drawing.Size(72, 22);
             this.SpeedBox.TabIndex = 93;
             this.SpeedBox.Text = "40";
             // 
@@ -1350,7 +1350,7 @@
             this.label16.Location = new System.Drawing.Point(22, 177);
             this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(107, 18);
+            this.label16.Size = new System.Drawing.Size(84, 14);
             this.label16.TabIndex = 90;
             this.label16.Text = "打印区长度:";
             // 
@@ -1361,7 +1361,7 @@
             this.label10.Location = new System.Drawing.Point(21, 204);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(179, 18);
+            this.label10.Size = new System.Drawing.Size(140, 14);
             this.label10.TabIndex = 80;
             this.label10.Text = "车头运动缓冲长度1：";
             // 
@@ -1372,7 +1372,7 @@
             this.label54.Location = new System.Drawing.Point(267, 363);
             this.label54.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(25, 17);
+            this.label54.Size = new System.Drawing.Size(21, 14);
             this.label54.TabIndex = 89;
             this.label54.Text = "秒";
             // 
@@ -1384,7 +1384,7 @@
             this.label2.Location = new System.Drawing.Point(20, 90);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(125, 18);
+            this.label2.Size = new System.Drawing.Size(98, 14);
             this.label2.TabIndex = 90;
             this.label2.Text = "墨车运动速度:";
             // 
@@ -1395,7 +1395,7 @@
             this.label8.Location = new System.Drawing.Point(265, 94);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(44, 17);
+            this.label8.Size = new System.Drawing.Size(35, 14);
             this.label8.TabIndex = 92;
             this.label8.Text = "mm/s";
             // 
@@ -1406,7 +1406,7 @@
             this.label55.Location = new System.Drawing.Point(22, 335);
             this.label55.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(161, 18);
+            this.label55.Size = new System.Drawing.Size(126, 14);
             this.label55.TabIndex = 81;
             this.label55.Text = "供墨循环有效时间:";
             // 
@@ -1417,7 +1417,7 @@
             this.label56.Location = new System.Drawing.Point(267, 335);
             this.label56.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(25, 17);
+            this.label56.Size = new System.Drawing.Size(21, 14);
             this.label56.TabIndex = 88;
             this.label56.Text = "秒";
             // 
@@ -1428,7 +1428,7 @@
             this.label57.Location = new System.Drawing.Point(22, 362);
             this.label57.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(125, 18);
+            this.label57.Size = new System.Drawing.Size(98, 14);
             this.label57.TabIndex = 82;
             this.label57.Text = "供墨循环周期:";
             // 
@@ -1439,7 +1439,7 @@
             this.label58.Location = new System.Drawing.Point(266, 205);
             this.label58.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(26, 17);
+            this.label58.Size = new System.Drawing.Size(21, 14);
             this.label58.TabIndex = 87;
             this.label58.Text = "mm";
             // 
@@ -1448,7 +1448,7 @@
             this.textBox1.Location = new System.Drawing.Point(192, 201);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(71, 27);
+            this.textBox1.Size = new System.Drawing.Size(71, 23);
             this.textBox1.TabIndex = 83;
             this.textBox1.Text = "100";
             // 
@@ -1457,7 +1457,7 @@
             this.textBox5.Location = new System.Drawing.Point(193, 359);
             this.textBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(71, 27);
+            this.textBox5.Size = new System.Drawing.Size(71, 23);
             this.textBox5.TabIndex = 86;
             this.textBox5.Text = "3600";
             // 
@@ -1466,7 +1466,7 @@
             this.textBox6.Location = new System.Drawing.Point(193, 331);
             this.textBox6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(71, 27);
+            this.textBox6.Size = new System.Drawing.Size(71, 23);
             this.textBox6.TabIndex = 85;
             this.textBox6.Text = "60";
             // 
@@ -1515,7 +1515,7 @@
             this.label9.Location = new System.Drawing.Point(357, 570);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(89, 18);
+            this.label9.Size = new System.Drawing.Size(70, 14);
             this.label9.TabIndex = 138;
             this.label9.Text = "日志路径:";
             // 
@@ -1524,7 +1524,7 @@
             this.textBox3.Location = new System.Drawing.Point(436, 567);
             this.textBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(179, 27);
+            this.textBox3.Size = new System.Drawing.Size(179, 23);
             this.textBox3.TabIndex = 94;
             // 
             // checkBox9
@@ -1534,7 +1534,7 @@
             this.checkBox9.Font = new System.Drawing.Font("宋体", 10.5F);
             this.checkBox9.Location = new System.Drawing.Point(359, 543);
             this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(120, 22);
+            this.checkBox9.Size = new System.Drawing.Size(96, 18);
             this.checkBox9.TabIndex = 134;
             this.checkBox9.Text = "打印前清洗";
             this.checkBox9.UseVisualStyleBackColor = true;
@@ -1710,10 +1710,10 @@
             this.tabPage2.Controls.Add(this.label9);
             this.tabPage2.Controls.Add(this.checkBox5);
             this.tabPage2.Font = new System.Drawing.Font("宋体", 10.5F);
-            this.tabPage2.Location = new System.Drawing.Point(4, 27);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(956, 593);
+            this.tabPage2.Size = new System.Drawing.Size(956, 596);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "系统参数";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1728,7 +1728,7 @@
             "No"});
             this.comboBox8.Location = new System.Drawing.Point(516, 386);
             this.comboBox8.Name = "comboBox8";
-            this.comboBox8.Size = new System.Drawing.Size(55, 25);
+            this.comboBox8.Size = new System.Drawing.Size(55, 22);
             this.comboBox8.TabIndex = 210;
             // 
             // label112
@@ -1739,7 +1739,7 @@
             this.label112.Location = new System.Drawing.Point(359, 389);
             this.label112.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label112.Name = "label112";
-            this.label112.Size = new System.Drawing.Size(152, 18);
+            this.label112.Size = new System.Drawing.Size(119, 14);
             this.label112.TabIndex = 209;
             this.label112.Text = "大幅面模式(Y/N):";
             // 
@@ -1753,7 +1753,7 @@
             "No"});
             this.comboBox7.Location = new System.Drawing.Point(516, 360);
             this.comboBox7.Name = "comboBox7";
-            this.comboBox7.Size = new System.Drawing.Size(55, 25);
+            this.comboBox7.Size = new System.Drawing.Size(55, 22);
             this.comboBox7.TabIndex = 208;
             // 
             // label111
@@ -1764,7 +1764,7 @@
             this.label111.Location = new System.Drawing.Point(359, 365);
             this.label111.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label111.Name = "label111";
-            this.label111.Size = new System.Drawing.Size(170, 18);
+            this.label111.Size = new System.Drawing.Size(133, 14);
             this.label111.TabIndex = 207;
             this.label111.Text = "周期重叠算法(Y/N):";
             // 
@@ -1775,7 +1775,7 @@
             this.label110.Location = new System.Drawing.Point(898, 230);
             this.label110.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label110.Name = "label110";
-            this.label110.Size = new System.Drawing.Size(25, 17);
+            this.label110.Size = new System.Drawing.Size(21, 14);
             this.label110.TabIndex = 206;
             this.label110.Text = "秒";
             // 
@@ -1785,7 +1785,7 @@
             this.textBox40.Location = new System.Drawing.Point(821, 225);
             this.textBox40.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox40.Name = "textBox40";
-            this.textBox40.Size = new System.Drawing.Size(71, 27);
+            this.textBox40.Size = new System.Drawing.Size(71, 23);
             this.textBox40.TabIndex = 205;
             this.textBox40.Text = "0.1";
             // 
@@ -1796,7 +1796,7 @@
             this.label109.Location = new System.Drawing.Point(898, 203);
             this.label109.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label109.Name = "label109";
-            this.label109.Size = new System.Drawing.Size(25, 17);
+            this.label109.Size = new System.Drawing.Size(21, 14);
             this.label109.TabIndex = 204;
             this.label109.Text = "秒";
             // 
@@ -1806,7 +1806,7 @@
             this.textBox39.Location = new System.Drawing.Point(821, 197);
             this.textBox39.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox39.Name = "textBox39";
-            this.textBox39.Size = new System.Drawing.Size(71, 27);
+            this.textBox39.Size = new System.Drawing.Size(71, 23);
             this.textBox39.TabIndex = 203;
             this.textBox39.Text = "1";
             // 
@@ -1818,7 +1818,7 @@
             this.label108.Location = new System.Drawing.Point(646, 230);
             this.label108.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label108.Name = "label108";
-            this.label108.Size = new System.Drawing.Size(125, 18);
+            this.label108.Size = new System.Drawing.Size(98, 14);
             this.label108.TabIndex = 202;
             this.label108.Text = "清洗泵占空比:";
             // 
@@ -1830,7 +1830,7 @@
             this.label107.Location = new System.Drawing.Point(646, 202);
             this.label107.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label107.Name = "label107";
-            this.label107.Size = new System.Drawing.Size(107, 18);
+            this.label107.Size = new System.Drawing.Size(84, 14);
             this.label107.TabIndex = 201;
             this.label107.Text = "清洗泵周期:";
             // 
@@ -1841,7 +1841,7 @@
             this.label106.Location = new System.Drawing.Point(898, 35);
             this.label106.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label106.Name = "label106";
-            this.label106.Size = new System.Drawing.Size(44, 17);
+            this.label106.Size = new System.Drawing.Size(35, 14);
             this.label106.TabIndex = 200;
             this.label106.Text = "mm/s";
             // 
@@ -1869,7 +1869,7 @@
             "500"});
             this.comboBox6.Location = new System.Drawing.Point(821, 32);
             this.comboBox6.Name = "comboBox6";
-            this.comboBox6.Size = new System.Drawing.Size(72, 25);
+            this.comboBox6.Size = new System.Drawing.Size(72, 22);
             this.comboBox6.TabIndex = 199;
             this.comboBox6.Text = "40";
             // 
@@ -1881,7 +1881,7 @@
             this.label105.Location = new System.Drawing.Point(646, 37);
             this.label105.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label105.Name = "label105";
-            this.label105.Size = new System.Drawing.Size(125, 18);
+            this.label105.Size = new System.Drawing.Size(98, 14);
             this.label105.TabIndex = 198;
             this.label105.Text = "回清洗站速度:";
             // 
@@ -1892,7 +1892,7 @@
             this.label104.Location = new System.Drawing.Point(267, 279);
             this.label104.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label104.Name = "label104";
-            this.label104.Size = new System.Drawing.Size(26, 17);
+            this.label104.Size = new System.Drawing.Size(21, 14);
             this.label104.TabIndex = 197;
             this.label104.Text = "mm";
             // 
@@ -1902,7 +1902,7 @@
             this.textBox27.Location = new System.Drawing.Point(192, 276);
             this.textBox27.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox27.Name = "textBox27";
-            this.textBox27.Size = new System.Drawing.Size(71, 27);
+            this.textBox27.Size = new System.Drawing.Size(71, 23);
             this.textBox27.TabIndex = 196;
             this.textBox27.Text = "0";
             // 
@@ -1914,7 +1914,7 @@
             this.label102.Location = new System.Drawing.Point(22, 279);
             this.label102.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label102.Name = "label102";
-            this.label102.Size = new System.Drawing.Size(161, 18);
+            this.label102.Size = new System.Drawing.Size(126, 14);
             this.label102.TabIndex = 195;
             this.label102.Text = "X向起打位置修订：";
             // 
@@ -1937,7 +1937,7 @@
             "No"});
             this.comboBox2.Location = new System.Drawing.Point(191, 142);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(72, 25);
+            this.comboBox2.Size = new System.Drawing.Size(72, 22);
             this.comboBox2.TabIndex = 192;
             // 
             // label101
@@ -1948,7 +1948,7 @@
             this.label101.Location = new System.Drawing.Point(20, 147);
             this.label101.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label101.Name = "label101";
-            this.label101.Size = new System.Drawing.Size(170, 18);
+            this.label101.Size = new System.Drawing.Size(133, 14);
             this.label101.TabIndex = 191;
             this.label101.Text = "开启铺粉运动(Y/N):";
             // 
@@ -1959,7 +1959,7 @@
             this.label100.Location = new System.Drawing.Point(266, 64);
             this.label100.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label100.Name = "label100";
-            this.label100.Size = new System.Drawing.Size(25, 17);
+            this.label100.Size = new System.Drawing.Size(21, 14);
             this.label100.TabIndex = 190;
             this.label100.Text = "阶";
             // 
@@ -1968,7 +1968,7 @@
             this.GrayValueBox.FormattingEnabled = true;
             this.GrayValueBox.Location = new System.Drawing.Point(191, 61);
             this.GrayValueBox.Name = "GrayValueBox";
-            this.GrayValueBox.Size = new System.Drawing.Size(72, 25);
+            this.GrayValueBox.Size = new System.Drawing.Size(72, 22);
             this.GrayValueBox.TabIndex = 189;
             this.GrayValueBox.Text = "1";
             // 
@@ -1980,7 +1980,7 @@
             this.label99.Location = new System.Drawing.Point(20, 61);
             this.label99.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label99.Name = "label99";
-            this.label99.Size = new System.Drawing.Size(98, 18);
+            this.label99.Size = new System.Drawing.Size(77, 14);
             this.label99.TabIndex = 188;
             this.label99.Text = "打印灰度：";
             // 
@@ -1993,7 +1993,7 @@
             "3"});
             this.GrayScaleBox.Location = new System.Drawing.Point(191, 34);
             this.GrayScaleBox.Name = "GrayScaleBox";
-            this.GrayScaleBox.Size = new System.Drawing.Size(72, 25);
+            this.GrayScaleBox.Size = new System.Drawing.Size(72, 22);
             this.GrayScaleBox.TabIndex = 187;
             this.GrayScaleBox.Text = "1";
             this.GrayScaleBox.SelectedIndexChanged += new System.EventHandler(this.GrayScaleBox_SelectedIndexChanged);
@@ -2007,7 +2007,7 @@
             "No"});
             this.comboBox1.Location = new System.Drawing.Point(516, 333);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(55, 25);
+            this.comboBox1.Size = new System.Drawing.Size(55, 22);
             this.comboBox1.TabIndex = 186;
             // 
             // label98
@@ -2018,7 +2018,7 @@
             this.label98.Location = new System.Drawing.Point(358, 339);
             this.label98.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label98.Name = "label98";
-            this.label98.Size = new System.Drawing.Size(170, 18);
+            this.label98.Size = new System.Drawing.Size(133, 14);
             this.label98.TabIndex = 173;
             this.label98.Text = "区域分割算法(Y/N):";
             // 
@@ -2029,7 +2029,7 @@
             this.label97.Location = new System.Drawing.Point(577, 313);
             this.label97.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label97.Name = "label97";
-            this.label97.Size = new System.Drawing.Size(25, 17);
+            this.label97.Size = new System.Drawing.Size(21, 14);
             this.label97.TabIndex = 172;
             this.label97.Text = "层";
             // 
@@ -2038,7 +2038,7 @@
             this.textBox38.Location = new System.Drawing.Point(516, 309);
             this.textBox38.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox38.Name = "textBox38";
-            this.textBox38.Size = new System.Drawing.Size(55, 27);
+            this.textBox38.Size = new System.Drawing.Size(55, 23);
             this.textBox38.TabIndex = 171;
             this.textBox38.Text = "5";
             // 
@@ -2050,7 +2050,7 @@
             this.label96.Location = new System.Drawing.Point(358, 311);
             this.label96.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label96.Name = "label96";
-            this.label96.Size = new System.Drawing.Size(197, 18);
+            this.label96.Size = new System.Drawing.Size(154, 14);
             this.label96.TabIndex = 170;
             this.label96.Text = "有效深度(UnactDepth):";
             // 
@@ -2061,7 +2061,7 @@
             this.label95.Location = new System.Drawing.Point(268, 307);
             this.label95.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label95.Name = "label95";
-            this.label95.Size = new System.Drawing.Size(26, 17);
+            this.label95.Size = new System.Drawing.Size(21, 14);
             this.label95.TabIndex = 169;
             this.label95.Text = "mm";
             // 
@@ -2070,7 +2070,7 @@
             this.textBox37.Location = new System.Drawing.Point(193, 302);
             this.textBox37.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox37.Name = "textBox37";
-            this.textBox37.Size = new System.Drawing.Size(71, 27);
+            this.textBox37.Size = new System.Drawing.Size(71, 23);
             this.textBox37.TabIndex = 168;
             this.textBox37.Text = "15";
             // 
@@ -2082,7 +2082,7 @@
             this.label94.Location = new System.Drawing.Point(23, 305);
             this.label94.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label94.Name = "label94";
-            this.label94.Size = new System.Drawing.Size(161, 18);
+            this.label94.Size = new System.Drawing.Size(126, 14);
             this.label94.TabIndex = 167;
             this.label94.Text = "Y向起打位置修正：";
             // 
@@ -2091,7 +2091,7 @@
             this.textBox31.Location = new System.Drawing.Point(516, 284);
             this.textBox31.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox31.Name = "textBox31";
-            this.textBox31.Size = new System.Drawing.Size(55, 27);
+            this.textBox31.Size = new System.Drawing.Size(55, 23);
             this.textBox31.TabIndex = 166;
             this.textBox31.Text = "3";
             // 
@@ -2125,7 +2125,7 @@
             this.label87.Location = new System.Drawing.Point(577, 234);
             this.label87.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label87.Name = "label87";
-            this.label87.Size = new System.Drawing.Size(26, 17);
+            this.label87.Size = new System.Drawing.Size(21, 14);
             this.label87.TabIndex = 160;
             this.label87.Text = "mm";
             // 
@@ -2137,7 +2137,7 @@
             this.label88.Location = new System.Drawing.Point(357, 286);
             this.label88.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label88.Name = "label88";
-            this.label88.Size = new System.Drawing.Size(188, 18);
+            this.label88.Size = new System.Drawing.Size(147, 14);
             this.label88.TabIndex = 161;
             this.label88.Text = "层间偏移(Deviation):";
             // 
@@ -2148,7 +2148,7 @@
             this.label89.Location = new System.Drawing.Point(576, 285);
             this.label89.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label89.Name = "label89";
-            this.label89.Size = new System.Drawing.Size(26, 17);
+            this.label89.Size = new System.Drawing.Size(21, 14);
             this.label89.TabIndex = 163;
             this.label89.Text = "mm";
             // 
@@ -2157,7 +2157,7 @@
             this.textBox32.Location = new System.Drawing.Point(516, 256);
             this.textBox32.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox32.Name = "textBox32";
-            this.textBox32.Size = new System.Drawing.Size(55, 27);
+            this.textBox32.Size = new System.Drawing.Size(55, 23);
             this.textBox32.TabIndex = 162;
             this.textBox32.Text = "100";
             // 
@@ -2169,7 +2169,7 @@
             this.label90.Location = new System.Drawing.Point(358, 232);
             this.label90.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label90.Name = "label90";
-            this.label90.Size = new System.Drawing.Size(188, 18);
+            this.label90.Size = new System.Drawing.Size(147, 14);
             this.label90.TabIndex = 158;
             this.label90.Text = "子区域间距(SubArea):";
             // 
@@ -2180,7 +2180,7 @@
             this.label91.Location = new System.Drawing.Point(357, 259);
             this.label91.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label91.Name = "label91";
-            this.label91.Size = new System.Drawing.Size(197, 18);
+            this.label91.Size = new System.Drawing.Size(154, 14);
             this.label91.TabIndex = 155;
             this.label91.Text = "弱连接宽度(WeakArea):";
             // 
@@ -2191,7 +2191,7 @@
             this.label92.Location = new System.Drawing.Point(577, 260);
             this.label92.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label92.Name = "label92";
-            this.label92.Size = new System.Drawing.Size(26, 17);
+            this.label92.Size = new System.Drawing.Size(21, 14);
             this.label92.TabIndex = 157;
             this.label92.Text = "um";
             // 
@@ -2200,7 +2200,7 @@
             this.textBox33.Location = new System.Drawing.Point(516, 230);
             this.textBox33.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox33.Name = "textBox33";
-            this.textBox33.Size = new System.Drawing.Size(55, 27);
+            this.textBox33.Size = new System.Drawing.Size(55, 23);
             this.textBox33.TabIndex = 156;
             this.textBox33.Text = "6";
             // 
@@ -2227,11 +2227,21 @@
             "90%-571.5",
             "95%-603.25",
             "100%-635",
+            "105%-666.75",
+            "110%-698.5",
+            "115%-730.25",
+            "120%-762",
+            "125%-793.75",
+            "130%-825.5",
+            "135%-857.25",
+            "140%-889",
+            "145%-920.75",
+            "150%-952.5",
             "200%-1270",
             "400%-2540"});
             this.XDpiBox.Location = new System.Drawing.Point(191, 114);
             this.XDpiBox.Name = "XDpiBox";
-            this.XDpiBox.Size = new System.Drawing.Size(72, 25);
+            this.XDpiBox.Size = new System.Drawing.Size(72, 22);
             this.XDpiBox.TabIndex = 154;
             this.XDpiBox.Text = "100%-635";
             // 
@@ -2242,7 +2252,7 @@
             this.label86.Location = new System.Drawing.Point(265, 119);
             this.label86.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label86.Name = "label86";
-            this.label86.Size = new System.Drawing.Size(35, 17);
+            this.label86.Size = new System.Drawing.Size(28, 14);
             this.label86.TabIndex = 153;
             this.label86.Text = "Dpi";
             // 
@@ -2254,7 +2264,7 @@
             this.label85.Location = new System.Drawing.Point(21, 117);
             this.label85.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label85.Name = "label85";
-            this.label85.Size = new System.Drawing.Size(161, 18);
+            this.label85.Size = new System.Drawing.Size(126, 14);
             this.label85.TabIndex = 151;
             this.label85.Text = "喷射密度（X向）：";
             // 
@@ -2277,10 +2287,10 @@
             this.tabPage1.Controls.Add(this.label66);
             this.tabPage1.Controls.Add(this.label67);
             this.tabPage1.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tabPage1.Location = new System.Drawing.Point(4, 27);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(956, 593);
+            this.tabPage1.Size = new System.Drawing.Size(956, 596);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "打印策略";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -2291,7 +2301,7 @@
             this.RenameText.Location = new System.Drawing.Point(797, 352);
             this.RenameText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.RenameText.Name = "RenameText";
-            this.RenameText.Size = new System.Drawing.Size(145, 25);
+            this.RenameText.Size = new System.Drawing.Size(145, 21);
             this.RenameText.TabIndex = 184;
             this.RenameText.Text = "默认策略";
             this.RenameText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -2317,7 +2327,7 @@
             this.label83.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label83.Location = new System.Drawing.Point(707, 386);
             this.label83.Name = "label83";
-            this.label83.Size = new System.Drawing.Size(103, 18);
+            this.label83.Size = new System.Drawing.Size(82, 14);
             this.label83.TabIndex = 185;
             this.label83.Text = "打印策略：";
             // 
@@ -2326,11 +2336,11 @@
             this.SelectedItemComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SelectedItemComboBox.Font = new System.Drawing.Font("宋体", 9F);
             this.SelectedItemComboBox.FormattingEnabled = true;
-            this.SelectedItemComboBox.ItemHeight = 15;
+            this.SelectedItemComboBox.ItemHeight = 12;
             this.SelectedItemComboBox.Location = new System.Drawing.Point(797, 384);
             this.SelectedItemComboBox.MaxDropDownItems = 50;
             this.SelectedItemComboBox.Name = "SelectedItemComboBox";
-            this.SelectedItemComboBox.Size = new System.Drawing.Size(144, 23);
+            this.SelectedItemComboBox.Size = new System.Drawing.Size(144, 20);
             this.SelectedItemComboBox.TabIndex = 184;
             this.SelectedItemComboBox.SelectedIndexChanged += new System.EventHandler(this.SelectedItemComboBox_SelectedIndexChanged);
             // 
@@ -2431,7 +2441,7 @@
             this.textBox30.Location = new System.Drawing.Point(159, 40);
             this.textBox30.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox30.Name = "textBox30";
-            this.textBox30.Size = new System.Drawing.Size(61, 22);
+            this.textBox30.Size = new System.Drawing.Size(61, 19);
             this.textBox30.TabIndex = 184;
             this.textBox30.Text = "1";
             // 
@@ -2453,7 +2463,7 @@
             this.label70.Location = new System.Drawing.Point(11, 14);
             this.label70.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label70.Name = "label70";
-            this.label70.Size = new System.Drawing.Size(116, 18);
+            this.label70.Size = new System.Drawing.Size(91, 14);
             this.label70.TabIndex = 152;
             this.label70.Text = "LayerStart：";
             // 
@@ -2465,7 +2475,7 @@
             this.label72.Location = new System.Drawing.Point(11, 42);
             this.label72.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label72.Name = "label72";
-            this.label72.Size = new System.Drawing.Size(89, 18);
+            this.label72.Size = new System.Drawing.Size(70, 14);
             this.label72.TabIndex = 155;
             this.label72.Text = "LayerEnd:";
             // 
@@ -2474,7 +2484,7 @@
             this.textBox29.Location = new System.Drawing.Point(158, 13);
             this.textBox29.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox29.Name = "textBox29";
-            this.textBox29.Size = new System.Drawing.Size(61, 22);
+            this.textBox29.Size = new System.Drawing.Size(61, 19);
             this.textBox29.TabIndex = 181;
             this.textBox29.Text = "1";
             // 
@@ -2486,7 +2496,7 @@
             this.label74.Location = new System.Drawing.Point(11, 72);
             this.label74.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label74.Name = "label74";
-            this.label74.Size = new System.Drawing.Size(179, 18);
+            this.label74.Size = new System.Drawing.Size(140, 14);
             this.label74.TabIndex = 158;
             this.label74.Text = "AutoPrintNextLayer:";
             // 
@@ -2499,7 +2509,7 @@
             "否"});
             this.comboBox5.Location = new System.Drawing.Point(158, 130);
             this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(61, 20);
+            this.comboBox5.Size = new System.Drawing.Size(61, 18);
             this.comboBox5.TabIndex = 180;
             // 
             // label76
@@ -2510,7 +2520,7 @@
             this.label76.Location = new System.Drawing.Point(11, 100);
             this.label76.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label76.Name = "label76";
-            this.label76.Size = new System.Drawing.Size(107, 18);
+            this.label76.Size = new System.Drawing.Size(84, 14);
             this.label76.TabIndex = 161;
             this.label76.Text = "NeedPowder:";
             // 
@@ -2523,7 +2533,7 @@
             "否"});
             this.comboBox4.Location = new System.Drawing.Point(158, 99);
             this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(61, 20);
+            this.comboBox4.Size = new System.Drawing.Size(61, 18);
             this.comboBox4.TabIndex = 179;
             // 
             // label78
@@ -2534,7 +2544,7 @@
             this.label78.Location = new System.Drawing.Point(11, 132);
             this.label78.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label78.Name = "label78";
-            this.label78.Size = new System.Drawing.Size(71, 18);
+            this.label78.Size = new System.Drawing.Size(56, 14);
             this.label78.TabIndex = 164;
             this.label78.Text = "NeedUV:";
             // 
@@ -2562,7 +2572,7 @@
             "否"});
             this.comboBox3.Location = new System.Drawing.Point(158, 70);
             this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(61, 20);
+            this.comboBox3.Size = new System.Drawing.Size(61, 18);
             this.comboBox3.TabIndex = 178;
             // 
             // AddLayerBtn
@@ -2603,7 +2613,7 @@
             this.label80.Location = new System.Drawing.Point(11, 164);
             this.label80.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label80.Name = "label80";
-            this.label80.Size = new System.Drawing.Size(116, 18);
+            this.label80.Size = new System.Drawing.Size(91, 14);
             this.label80.TabIndex = 167;
             this.label80.Text = "PowderThick:";
             // 
@@ -2612,7 +2622,7 @@
             this.textBox34.Location = new System.Drawing.Point(132, 161);
             this.textBox34.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox34.Name = "textBox34";
-            this.textBox34.Size = new System.Drawing.Size(55, 22);
+            this.textBox34.Size = new System.Drawing.Size(55, 19);
             this.textBox34.TabIndex = 168;
             this.textBox34.Text = "500";
             // 
@@ -2623,7 +2633,7 @@
             this.label69.Location = new System.Drawing.Point(197, 227);
             this.label69.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label69.Name = "label69";
-            this.label69.Size = new System.Drawing.Size(25, 17);
+            this.label69.Size = new System.Drawing.Size(21, 14);
             this.label69.TabIndex = 175;
             this.label69.Text = "号";
             // 
@@ -2634,7 +2644,7 @@
             this.label79.Location = new System.Drawing.Point(197, 162);
             this.label79.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label79.Name = "label79";
-            this.label79.Size = new System.Drawing.Size(26, 17);
+            this.label79.Size = new System.Drawing.Size(21, 14);
             this.label79.TabIndex = 169;
             this.label79.Text = "um";
             // 
@@ -2643,7 +2653,7 @@
             this.textBox36.Location = new System.Drawing.Point(132, 226);
             this.textBox36.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox36.Name = "textBox36";
-            this.textBox36.Size = new System.Drawing.Size(55, 22);
+            this.textBox36.Size = new System.Drawing.Size(55, 19);
             this.textBox36.TabIndex = 174;
             this.textBox36.Text = "500";
             // 
@@ -2655,7 +2665,7 @@
             this.label82.Location = new System.Drawing.Point(11, 194);
             this.label82.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label82.Name = "label82";
-            this.label82.Size = new System.Drawing.Size(80, 18);
+            this.label82.Size = new System.Drawing.Size(63, 14);
             this.label82.TabIndex = 170;
             this.label82.Text = "UVPower:";
             // 
@@ -2667,7 +2677,7 @@
             this.label73.Location = new System.Drawing.Point(11, 226);
             this.label73.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label73.Name = "label73";
-            this.label73.Size = new System.Drawing.Size(89, 18);
+            this.label73.Size = new System.Drawing.Size(70, 14);
             this.label73.TabIndex = 173;
             this.label73.Text = "WaveType:";
             // 
@@ -2676,7 +2686,7 @@
             this.textBox35.Location = new System.Drawing.Point(132, 192);
             this.textBox35.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox35.Name = "textBox35";
-            this.textBox35.Size = new System.Drawing.Size(55, 22);
+            this.textBox35.Size = new System.Drawing.Size(55, 19);
             this.textBox35.TabIndex = 171;
             this.textBox35.Text = "500";
             // 
@@ -2687,7 +2697,7 @@
             this.label81.Location = new System.Drawing.Point(200, 195);
             this.label81.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label81.Name = "label81";
-            this.label81.Size = new System.Drawing.Size(17, 17);
+            this.label81.Size = new System.Drawing.Size(14, 14);
             this.label81.TabIndex = 172;
             this.label81.Text = "%";
             // 
@@ -2815,7 +2825,7 @@
             this.label71.Location = new System.Drawing.Point(1220, 121);
             this.label71.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label71.Name = "label71";
-            this.label71.Size = new System.Drawing.Size(0, 17);
+            this.label71.Size = new System.Drawing.Size(0, 14);
             this.label71.TabIndex = 157;
             // 
             // label75
@@ -2825,7 +2835,7 @@
             this.label75.Location = new System.Drawing.Point(1220, 189);
             this.label75.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label75.Name = "label75";
-            this.label75.Size = new System.Drawing.Size(0, 17);
+            this.label75.Size = new System.Drawing.Size(0, 14);
             this.label75.TabIndex = 163;
             // 
             // label77
@@ -2835,12 +2845,12 @@
             this.label77.Location = new System.Drawing.Point(1220, 220);
             this.label77.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label77.Name = "label77";
-            this.label77.Size = new System.Drawing.Size(0, 17);
+            this.label77.Size = new System.Drawing.Size(0, 14);
             this.label77.TabIndex = 166;
             // 
             // JOB参数设置
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(983, 633);

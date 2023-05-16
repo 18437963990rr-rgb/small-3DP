@@ -1985,7 +1985,8 @@ namespace BinderJetting
                 msg = $"退出JOB参数设置：修改后参数：灰度数据格式{{{g_RYSYSParam.m_nPixelGrayBits}bits}}" +
                     $"打印灰阶{{{g_RYSYSParam.m_dPixelGrayValue}阶}}m_XPrintDpi{{{g_RYSYSParam.m_XPrintDpi[0]},{g_RYSYSParam.m_XPrintDpi[1]},{g_RYSYSParam.m_XPrintDpi[2]},{g_RYSYSParam.m_XPrintDpi[3]},{g_RYSYSParam.m_XPrintDpi[4]},{g_RYSYSParam.m_XPrintDpi[5]},{g_RYSYSParam.m_XPrintDpi[6]},{g_RYSYSParam.m_XPrintDpi[7]},{g_RYSYSParam.m_XPrintDpi[8]},{g_RYSYSParam.m_XPrintDpi[9]}," +
                     $"{g_RYSYSParam.m_XPrintDpi[10]},{g_RYSYSParam.m_XPrintDpi[11]},{g_RYSYSParam.m_XPrintDpi[12]},{g_RYSYSParam.m_XPrintDpi[13]},{g_RYSYSParam.m_XPrintDpi[14]},{g_RYSYSParam.m_XPrintDpi[15]},{g_RYSYSParam.m_XPrintDpi[16]},{g_RYSYSParam.m_XPrintDpi[17]},{g_RYSYSParam.m_XPrintDpi[18]},{g_RYSYSParam.m_XPrintDpi[19]}," +
-                    $"{g_RYSYSParam.m_XPrintDpi[20]}Dpi}}" +
+                    $"{g_RYSYSParam.m_XPrintDpi[20]},{g_RYSYSParam.m_XPrintDpi[21]},{g_RYSYSParam.m_XPrintDpi[22]},{g_RYSYSParam.m_XPrintDpi[23]},{g_RYSYSParam.m_XPrintDpi[24]},{g_RYSYSParam.m_XPrintDpi[25]},{g_RYSYSParam.m_XPrintDpi[26]},{g_RYSYSParam.m_XPrintDpi[27]},{g_RYSYSParam.m_XPrintDpi[28]}," +
+                    $"{g_RYSYSParam.m_XPrintDpi[29]},{g_RYSYSParam.m_XPrintDpi[30]}Dpi}}" +
                     $"当前打印任务选定DPI{{{g_RYSYSParam.m_XPrintDpi[g_RYSYSParam.m_nXPrintDpiIndex]}}}" +
                     $"墨车运动速度{{{g_RYSYSParam.CarMoveSpeed}MM/s}}X向起打位置{{{g_RYSYSParam.m_dPrtXEncPos}MM}}" +
                     $"X向起打位置偏移{{{g_RYSYSParam.m_dXJetOff}MM}}Y向起打位置偏移{{{g_RYSYSParam.m_dYJetOff}MM}}";
