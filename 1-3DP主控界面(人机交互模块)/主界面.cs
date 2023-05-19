@@ -3530,7 +3530,20 @@ namespace BinderJetting
 #if false//下送粉逻辑
                 AutoPrintMotion.AutoSupplyPowderThread();//20201029:自动进给预送粉
 #else//上送粉逻辑
-                    AutoPrintMotion3.NewAutoSupplyPowderThread2/*NewAutoSupplyPowderThread*/(ref toCamera, RecordLayerIndex, RecordProcessIndex);//20201029:自动上送粉//20230114修改：添加新的参数NewAutoSupplyPowderThread2
+                    //AutoPrintMotion3.NewAutoSupplyPowderThread2/*NewAutoSupplyPowderThread*/(ref toCamera, RecordLayerIndex, RecordProcessIndex);//20201029:自动上送粉//20230114修改：添加新的参数NewAutoSupplyPowderThread2
+
+                    if (AutoPrintMotion3.k_RYSYSParamAutoPrintParamInTest.m_nRecoaterMode == 0)//20230519新增：
+                    {
+                        AutoPrintMotion3.NewAutoSupplyPowderThread2/*NewAutoSupplyPowderThread*/(ref toCamera, RecordLayerIndex, RecordProcessIndex);//20201029:自动上送粉//20230114修改：添加新的参数NewAutoSupplyPowderThread2
+                        string msg = $"铺粉模式：铺粉固化同时进行！";
+                        Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                    }
+                    else
+                    {
+                        AutoPrintMotion3.NewAutoSupplyPowderThread2CureFirst/*NewAutoSupplyPowderThread*/(ref toCamera, RecordLayerIndex, RecordProcessIndex);//20201029:自动上送粉//20230114修改：添加新的参数NewAutoSupplyPowderThread2
+                        string msg = $"铺粉模式：固化结束再开启铺粉！";
+                        Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                    }
 #endif
                 }
                 else if (Command == 3)//自动固化逻辑
