@@ -1,4 +1,4 @@
-﻿//#define DataProcessDebugMode
+//#define DataProcessDebugMode
 //#define SinglePassPrintMode
 #define TwoPassPrintMode
 //#define TwoPassPrintPerSixTimes
@@ -35,10 +35,15 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using WinFormAnimation;
 
+using PluginLibrary;
+
 namespace BinderJetting
 {
     public partial class 主界面 : Form
     {
+        const int EncoderLinePerMM = 1000;
+        const int EncoderLinePerInch = EncoderLinePerMM * 254 / 10;
+
         private _3DP_GUI组件 _3DP_GUI = new _3DP_GUI组件();
         //20200223新增:多线程绘制图像数据
         //20200223新增:多线程绘制图像数据
@@ -1054,8 +1059,8 @@ namespace BinderJetting
                                                                    //string szTxt = ny1pos.ToString("X");//16进制显示——20200108
             double XPosValue = 0, YPosValue = 0, Z1PosValue = 0, Z2PosValue = 0, Z3PosValue = 0;
             string PositonText = null;
-            string ny1pos0 = String.Format("{0,9:#0000.000}", ((double)ny1pos) * 0.005);
-            XPosValue = ((double)ny1pos) * 0.005;
+            string ny1pos0 = String.Format("{0,9:#0000.000}", ((double)ny1pos) / EncoderLinePerMM);
+            XPosValue = ((double)ny1pos) / EncoderLinePerMM;
             //textBox4.AppendText(" " + "墨车当前位置：" + ny1pos0 + "mm\r\n");
             PositonText = " " + "墨车当前位置：" + ny1pos0 + " MM\r\n";
             //（5-2）刷新6轴的位置
@@ -1970,7 +1975,7 @@ namespace BinderJetting
                 //20200327新增:
                 //float m_szMovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);
                 //g_RYSYSParam.CarMoveSpeed = MM_TO_DOT(m_szMovSpeed, 5080);     
-                g_nCarSinglePassLength = (int)((g_RYSYSParam.m_dCarMoveBufferLength + g_RYSYSParam.m_dPrintAeraLength + g_RYSYSParam.m_dCarMoveBufferLength2) * 5080);//SinglePass运动距离：20200327新增：
+                g_nCarSinglePassLength = (int)((g_RYSYSParam.m_dCarMoveBufferLength + g_RYSYSParam.m_dPrintAeraLength + g_RYSYSParam.m_dCarMoveBufferLength2) * EncoderLinePerInch);//SinglePass运动距离：20200327新增：
 
                 g_PrintStrategys = ObjectCopier.Clone(f.PrintStrategys);//20200806新增：保存打印策略
 
@@ -2006,11 +2011,14 @@ namespace BinderJetting
                 Log4Net.Info(msg);
             }
         }
+
         private UInt32 MM_TO_DOT(float X, int DPI)
         {
-            UInt32 dot = (UInt32)((((float)(X * DPI)) / 25.4 + 0.45f) * 2.50);//20200803修改
-            return dot;
+            //UInt32 dot = (UInt32)((((float)(X * DPI)) / 25.4 + 0.45f) * 2.50);//20200803修改
+            double dot = X * DPI / 25.4 + 0.45;
+            return (UInt32) dot;
         }
+
         /*****************************************主控软件的属性设置及统一刷新*********************************************/
         /*****************************************主控软件的属性设置及统一刷新*********************************************/
         /*****************************************主控软件的属性设置及统一刷新*********************************************/
@@ -2042,7 +2050,7 @@ namespace BinderJetting
 
             do
             {
-                positonX = (double)royal.royal.DEV_GetPrintEncoderValue() * 0.005; //墨车位置
+                positonX = (double)royal.royal.DEV_GetPrintEncoderValue() / EncoderLinePerMM; //墨车位置
                 k_dJourney1 = AutomoveComponent.GetEncPos();//运动到正限，读取行程值。单位：脉冲//临时注释掉：
                 positionY = k_dJourney1[3] / 1000;//铺粉车位置
                 if (positonX > InkCarPosition || positionY > PowderCarPosition)
@@ -2107,8 +2115,8 @@ namespace BinderJetting
             InitCarMotor();//20200327新增：//（1）初始化被控对象及加工任务区间
 
             float m_szMovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增//确定准确的墨车运动速度值
-            uint m_unCarMoveSpeed = MM_TO_DOT(m_szMovSpeed, 5080);//20200328新增
-            g_nCarSinglePassLength = (int)((g_RYSYSParam.m_dCarMoveBufferLength + g_RYSYSParam.m_dPrintAeraLength + g_RYSYSParam.m_dCarMoveBufferLength2) * 5080);//SinglePass运动距离：20200327新增：
+            uint m_unCarMoveSpeed = MM_TO_DOT(m_szMovSpeed, EncoderLinePerInch);//20200328新增
+            g_nCarSinglePassLength = (int)((g_RYSYSParam.m_dCarMoveBufferLength + g_RYSYSParam.m_dPrintAeraLength + g_RYSYSParam.m_dCarMoveBufferLength2) * EncoderLinePerInch);//SinglePass运动距离：20200327新增：
 
             //royal.LPPrtRunInfo RTinfo = new LPPrtRunInfo();////（2-2）20200411新增（精华）：正式的打印处理框架：//20230213注释
             LPPassDataItem pPrtPassDes = new LPPassDataItem();//20200411:此处存在比较严重的问题            
@@ -2519,6 +2527,20 @@ namespace BinderJetting
                             }
                         }
 
+                        if (true) //20240105新增：添加手动回清洗站，具体执行还得看相关标志位
+                        {
+
+                            float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
+                            float m_BackCleanMovSpeed = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
+#if TwoPassPrintPerSixTimes
+                            EquipmentMotionLogic3(0, 6, 12/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0);//自动喷墨运动逻辑
+#endif
+#if TwoPassPrintPerThreeTimes
+                            EquipmentMotionLogic3(0, 6, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0, 0);//自动喷墨运动逻辑
+#endif
+                        }
+
+
 #if true//20210324//20220524批注//20220915修改：（1）自动喷墨运动（2）自动进给送粉（3）自动固化运动（4）自动清洗运动//20230402修改：（1）自动清洗运动（2）自动喷墨运动（3）自动进给送粉（4）自动固化运动
                         float m_MovSpeed2 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
                         float m_BackCleanMovSpeed2 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
@@ -2704,8 +2726,8 @@ namespace BinderJetting
             ConfigureJetEnvironmentControlMode();//20200602修改:初始化喷墨系统环境控制，具体包括：下发自动供墨指令、下发设置自动负压指令、下发二级墨盒的温度设置指令、设置墨水搅拌周期指令                                           
             InitCarMotor();//20200327新增：//（1）初始化被控对象及加工任务区间
             float m_szMovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增//确定准确的墨车运动速度值
-            uint m_unCarMoveSpeed = MM_TO_DOT(m_szMovSpeed, 5080);//20200328新增
-            g_nCarSinglePassLength = (int)((g_RYSYSParam.m_dCarMoveBufferLength + g_RYSYSParam.m_dPrintAeraLength + g_RYSYSParam.m_dCarMoveBufferLength2) * 5080);//SinglePass运动距离：20200327新增：
+            uint m_unCarMoveSpeed = MM_TO_DOT(m_szMovSpeed, EncoderLinePerInch);//20200328新增
+            g_nCarSinglePassLength = (int)((g_RYSYSParam.m_dCarMoveBufferLength + g_RYSYSParam.m_dPrintAeraLength + g_RYSYSParam.m_dCarMoveBufferLength2) * EncoderLinePerInch);//SinglePass运动距离：20200327新增：
             //royal.LPPrtRunInfo RTinfo = new LPPrtRunInfo();////（2-2）20200411新增（精华）：正式的打印处理框架：
             LPPassDataItem pPrtPassDes = new LPPassDataItem();//20200411:此处存在比较严重的问题            
             int size2 = Marshal.SizeOf(pPrtPassDes)/* * pPrtPassDes.Length*/;//20200427新增：
@@ -3040,6 +3062,10 @@ namespace BinderJetting
                                     break;
                                 }
                             }
+
+                            
+
+
 #if false
                             int nPassID = 0/*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行
                             bool ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
@@ -3274,17 +3300,17 @@ namespace BinderJetting
             UInt32 nCtlValue = /*2*/2; UInt32 CurrentPos = 0; bool DirFlag = false;
             //float m_MovSpeed = 50;//50mm/s速度进行移动；到站延时运动精度0.5mm//20201020新增：
             //bool Directory = false;uint nRevPls = 0; 
-            double nSpeed = MM_TO_DOT(m_MovSpeed, 5080);//20200803修改：已包含运动修正系统//double nSpeed = 68016;
+            double nSpeed = MM_TO_DOT(m_MovSpeed, EncoderLinePerInch);//20200803修改：已包含运动修正系统//double nSpeed = 68016;
 
             CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-            if (CurrentPos * 0.005 >= AimPos)//墨车在清洗站台右侧
+            if ((double)CurrentPos / EncoderLinePerMM >= AimPos)//墨车在清洗站台右侧
             { DirFlag = false; }
             else//墨车在清洗站台左侧
             { DirFlag = true; }
 
             if (AimPos >= 0 && AimPos <= 1230)//是否AimPos在工作流程内:在流程内，即可打印:确认在安全工作区内
             {
-                double MoveStep = (AimPos - CurrentPos * 0.005) * 500;//
+                double MoveStep = (AimPos - (double)CurrentPos / EncoderLinePerMM) * 500;//
                 bool nRetVal = royal.royal.DEM_Run(0, DirFlag, (UInt32)nSpeed, (int)System.Math.Abs(MoveStep), nCtlValue);//三菱驱动器的千脉冲MM数：按照之前代码，应该是500;运行100MM;单pulse-2um                                                              
                 //do//20200628新增：确保主运动到打印结束区域：不停运动监控，until打印结束，才执行下次打印
                 //{
@@ -3393,6 +3419,7 @@ namespace BinderJetting
             //（肆） 处理图层信息
             royal.royal.g_prtimg_layer.nXEncOff = 0;//
 
+            // g_prtimg_layer.nXDPI 如何计算？
             royal.royal.g_prtimg_layer.nXDPI = 635;//图像的XDPI，本质必须与光栅的DPI保持协调
             royal.royal.g_prtimg_layer.nYDPI = 600;//图像的XDPI，本值必须与喷头的DPI保持一致
             royal.royal.g_prtimg_layer.nBytesPerLine = bmpData.Stride;//bmpData每行的数据字节数
@@ -3470,6 +3497,22 @@ namespace BinderJetting
             return returnCode;
         }
 
+
+        /// <summary>
+        /// 自动运行动作罗辑
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="Command"></param>
+        /// <param name="PassIndex"></param>
+        /// <param name="m_MovSpeed"></param>
+        /// <param name="m_BackCleanMovSpeed"></param>
+        /// <param name="toCamera"></param>
+        /// <param name="RecordLayerIndex"></param>
+        /// <param name="RecordProcessIndex"></param>
+        /// <param name="PauseFlag"></param>
+        /// <param name="YJetOffWidth"></param>
+        /// <param name="NotGoCleanStationFlag"></param>
+        /// <param name="YJetBaseOffWidth"></param>
         private void EquipmentMotionLogic3(int index, int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth, int NotGoCleanStationFlag, double YJetBaseOffWidth)//20220524新增：PassIndex指示当前打印PASS序号
         {
             try
@@ -3540,7 +3583,7 @@ namespace BinderJetting
                     }
                     else
                     {
-                        AutoPrintMotion3.NewAutoSupplyPowderThread2CureFirst/*NewAutoSupplyPowderThread*/(ref toCamera, RecordLayerIndex, RecordProcessIndex);//20201029:自动上送粉//20230114修改：添加新的参数NewAutoSupplyPowderThread2
+                        AutoPrintMotion3.NewAutoSupplyPowderThread2CureFirst/*NewAutoSupplyPowderThread*/(ref toCamera, RecordLayerIndex, RecordProcessIndex, m_BackCleanMovSpeed);//20240105:在铺粉固化中添加附加清洗逻辑//20201029:自动上送粉//20230114修改：添加新的参数NewAutoSupplyPowderThread2
                         string msg = $"铺粉模式：固化结束再开启铺粉！";
                         Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                     }
@@ -3668,6 +3711,7 @@ namespace BinderJetting
             }
             return true;
         }
+
         /********************************传统的运动逻辑2：现在采用（结束）************************/
         /// <summary>
         /// EquipmentMotionLogic1：为本设备的运动逻辑，负责实现3dp设备1层的所有动作：包括送料配合及打印动作：20200411新增
@@ -3681,8 +3725,8 @@ namespace BinderJetting
 
             //（2）确定准确的墨车运动速度值
             float m_szMovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增
-            uint m_unCarMoveSpeed = MM_TO_DOT(m_szMovSpeed, 5080);//20200328新增
-            g_nCarSinglePassLength = (int)((g_RYSYSParam.m_dCarMoveBufferLength + g_RYSYSParam.m_dPrintAeraLength + g_RYSYSParam.m_dCarMoveBufferLength2) * 5080);//SinglePass运动距离：20200327新增：
+            uint m_unCarMoveSpeed = MM_TO_DOT(m_szMovSpeed, EncoderLinePerInch);//20200328新增
+            g_nCarSinglePassLength = (int)((g_RYSYSParam.m_dCarMoveBufferLength + g_RYSYSParam.m_dPrintAeraLength + g_RYSYSParam.m_dCarMoveBufferLength2) * EncoderLinePerInch);//SinglePass运动距离：20200327新增：
 
             //（3）执行打印逻辑任务：20200329批注
             LaserADD_BinderJetter.MoveComponent AutomoveComponent = new LaserADD_BinderJetter.MoveComponent();
@@ -4059,8 +4103,8 @@ namespace BinderJetting
 
         private void ElecBtn_Click(object sender, EventArgs e)//设备参数
         {
-            SliceSTL(1);
-#if false
+            //SliceSTL(1);
+#if true
             设备参数设置 f = new 设备参数设置();
             //f.Show();
             //Application.DoEvents();
@@ -5008,8 +5052,9 @@ namespace BinderJetting
 
                         msg = $"进入：EquipmentMotionLogic3=》创建完成-手动操作！";
                         Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
-
+#if false
                         AutoPrintMotion2.InitTemperatureControlCard(true, out g_IRControllerOpenCloseState);//20220523新建：与温度控制仪表建立通讯
+#endif
                         AutoPrintMotion2.InitModbusFlag = true;
 
                         MasterSwitchBtn.BackgroundImage = Resource.总开关_on_38x38;
@@ -5415,7 +5460,7 @@ namespace BinderJetting
                 royal.royal.g_PrtJobItem.fPrtYPos = 0;//世彪新增0104
                 //royal.royal.g_PrtJobItem.nPrtXEncPos = 71000/*63000*//*72000*//*54800*//*52000*//*0*//*0x100018*/;//世彪修改：20200711：//20200715修改：330的位置比较合适//20200804：63000//20200923新增：315MM调整到355MM(修复双驱限位移动+重新设置零位值)
                 //royal.royal.g_PrtJobItem.nPrtXEncPos = 355*200;//20200923新增：从成形参数模块中获取并设置对应的参数值
-                royal.royal.g_PrtJobItem.nPrtXEncPos = (uint)(g_RYSYSParam.m_dPrtXEncPos / 0.005/*0.005*/);//20200923新增：从成形参数模块中获取并设置对应的参数值//20220524修改：//20220531修改：1UM读数头光栅
+                royal.royal.g_PrtJobItem.nPrtXEncPos = (uint)(g_RYSYSParam.m_dPrtXEncPos / 0.001/*0.005*/);// 1um光栅，改为0.001，2024/04/12，Leon'//20200923新增：从成形参数模块中获取并设置对应的参数值//20220524修改：//20220531修改：1UM读数头光栅
                 royal.royal.g_PrtJobItem.szJobName = "金属3DP打印";//世彪新增0104
                 ///(2)开启JOB使能 
                 int returnCode = royal.royal.IDP_SartPrintJob(ref royal.royal.g_PrtJobItem);//20230209：需要确认灰度数据位数，不需要传入灰度阶数
@@ -7856,41 +7901,54 @@ namespace BinderJetting
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        private PluginHost pluginHost = new PluginHost();//20231225新增:
         private void CleanBtn_Click(object sender, EventArgs e)//20200604新增：
         {
+            //步骤 1：扫描并加载插件，然后将它们添加到列表控件中。
+            pluginHost.LoadPlugins(@"externalplugins");//将插件类编译为 DLL，并将其放置在您选择的插件目录中。
+            //步骤 2: 填充插件列表并允许用户选择
+            foreach (var plugin in pluginHost.AvailablePlugins)
+            {
+                //listBox1.Items.Add(plugin.Name); 
+            }
+            //步骤 3：测试插件
+            pluginHost.ExecutePlugins();
+
+
+
 #if true//实质是清洗：20200604新增
 
-            if (m_bCleanFlag == false)//(b)根据ID反转背景图片
-            {
-                //(sender as Control).BackColor = Color.DarkOrchid;
-                (sender as Control).Text = "清洗";
-            }
-            else
-            {
-                //(sender as Control).BackColor = Color.MintCream;
-                (sender as Control).Text = "关闭\r\n清洗";
-            }
-            //(c)计算输出
-            if (m_bCleanFlag == true)//打开和关闭闪喷：
-            {
-                //（1）开清洗阀门（==等效：关墨水阀门）。开煤气阀门： 打开对应的泵源。类似于供煤气、供水阀门。
-                OpenCloseVALVE(2 - 1, false);//20200605批注：Tag-1
+            //if (m_bCleanFlag == false)//(b)根据ID反转背景图片
+            //{
+            //    //(sender as Control).BackColor = Color.DarkOrchid;
+            //    (sender as Control).Text = "清洗";
+            //}
+            //else
+            //{
+            //    //(sender as Control).BackColor = Color.MintCream;
+            //    (sender as Control).Text = "关闭\r\n清洗";
+            //}
+            ////(c)计算输出
+            //if (m_bCleanFlag == true)//打开和关闭闪喷：
+            //{
+            //    //（1）开清洗阀门（==等效：关墨水阀门）。开煤气阀门： 打开对应的泵源。类似于供煤气、供水阀门。
+            //    OpenCloseVALVE(2 - 1, false);//20200605批注：Tag-1
 
-                //（2）开煤气、供水泵源：
-                uint nIoVal = 0x1FF;//控制:P1-P2-P3~P7,依次是清洗泵、压墨泵、供墨泵1-7
-                bool nRetVal = royal.royal.DEV_SetInkPump(nIoVal);//打开压墨泵
-                m_bCleanFlag = false;
-            }
-            else
-            {
-                //（1）关清洗阀门（==等效：开墨水阀门）。开煤气阀门： 打开对应的泵源。类似于供煤气、供水阀门。
-                OpenCloseVALVE(2 - 1, true);//20200605批注：Tag-1
+            //    //（2）开煤气、供水泵源：
+            //    uint nIoVal = 0x1FF;//控制:P1-P2-P3~P7,依次是清洗泵、压墨泵、供墨泵1-7
+            //    bool nRetVal = royal.royal.DEV_SetInkPump(nIoVal);//打开压墨泵
+            //    m_bCleanFlag = false;
+            //}
+            //else
+            //{
+            //    //（1）关清洗阀门（==等效：开墨水阀门）。开煤气阀门： 打开对应的泵源。类似于供煤气、供水阀门。
+            //    OpenCloseVALVE(2 - 1, true);//20200605批注：Tag-1
 
-                //（2）开煤气、供水泵源：
-                uint nIoVal = 0x0;//控制:P1-P2-P3~P7,依次是清洗泵、压墨泵、供墨泵1-7
-                bool nRetVal = royal.royal.DEV_SetInkPump(nIoVal);//关闭压墨泵
-                m_bCleanFlag = true;
-            }
+            //    //（2）开煤气、供水泵源：
+            //    uint nIoVal = 0x0;//控制:P1-P2-P3~P7,依次是清洗泵、压墨泵、供墨泵1-7
+            //    bool nRetVal = royal.royal.DEV_SetInkPump(nIoVal);//关闭压墨泵
+            //    m_bCleanFlag = true;
+            //}
 #else
             //(a)根据ID反转并存储到对应控件列表
             InkPumpFlag = !InkPumpFlag;
@@ -8072,7 +8130,7 @@ namespace BinderJetting
         private void EncoderResetThread()//墨车回零校准线程内容：20200326
         {
             float m_szMovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增
-            uint m_unCarMoveSpeed = MM_TO_DOT(m_szMovSpeed, 5080);//20200328新增
+            uint m_unCarMoveSpeed = MM_TO_DOT(m_szMovSpeed, EncoderLinePerInch);//20200328新增
 
             //(1)运动到负限位
             uint nIOState1;//运动之后的限位状态值 

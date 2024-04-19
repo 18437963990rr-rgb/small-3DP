@@ -1,0 +1,31 @@
+# Copyright (c) 2022-2032 Laseradd Techology (Guangzhou) Ltd., Co. All rights reserved.
+
+
+# DiMetal 50E Coding style spec for editors.
+
+# References:
+# [EC]          http://editorconfig.org/
+
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+guidelines = 80, 120
+
+# Yml files
+[*.yml]
+indent_style = space
+indent_size = 2
+
+# Xml files
+[*.xml]
+indent_size = 2
+
+# 文件头版权信息模板
+[*.{cs,vb}]
+file_header_template = {fileName}\n*****************************************************************************\nCopyright (c) 2022-2032, Laseradd Technology (Guangzhou) Co., Ltd. \nAll Rights Reserved.\n\nThis software is licensed under terms that can be found in the LICENSE file\nin the root directory of this software component.\nIf no LICENSE file comes with this software, it is provided AS-IS.\n*****************************************************************************\n\n       Author: Leon Lee\n Created Date: 2022/00/00\n\n*****************************************************************************

@@ -40,6 +40,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <IntermediateOutputPath>C:\Users\Leon\AppData\Local\Temp\vs3118.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -49,6 +50,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <IntermediateOutputPath>C:\Users\Leon\AppData\Local\Temp\vs3118.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>BinderJetting.Program</StartupObject>
@@ -60,6 +62,7 @@
     <Optimize>false</Optimize>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseVSHostingProcess>true</UseVSHostingProcess>
+    <IntermediateOutputPath>C:\Users\Leon\AppData\Local\Temp\vs3118.tmp\x64\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -75,6 +78,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>false</Optimize>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <IntermediateOutputPath>C:\Users\Leon\AppData\Local\Temp\vs3118.tmp\x64\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>128x128主界面icon.ico</ApplicationIcon>
@@ -84,12 +88,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">
     <PlatformTarget>x64</PlatformTarget>
+    <IntermediateOutputPath>C:\Users\Leon\AppData\Local\Temp\vs3118.tmp\Win32\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">
+    <IntermediateOutputPath>C:\Users\Leon\AppData\Local\Temp\vs3118.tmp\Win32\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CircularProgressBar, Version=2.8.0.16, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
@@ -115,6 +123,9 @@
     </Reference>
     <Reference Include="NModbus4, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NModbus4.2.1.0\lib\net40\NModbus4.dll</HintPath>
+    </Reference>
+    <Reference Include="PluginInterface">
+      <HintPath>..\PluginInterface\bin\Debug\netstandard2.0\PluginInterface.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -208,6 +219,7 @@
   <ItemGroup>
     <Compile Include="1-AccessServer.cs" />
     <Compile Include="10-ModubusMap.cs" />
+    <Compile Include="11-PluginInterface.cs" />
     <Compile Include="2-SerializeParam.cs" />
     <Compile Include="3-GoogolMotionMap.cs" />
     <Compile Include="5-SharpControl.cs" />

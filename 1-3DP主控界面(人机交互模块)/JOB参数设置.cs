@@ -794,9 +794,20 @@ namespace BinderJetting
         public double m_dBlenderValidSec = 10;//墨水搅拌有效时间：20200329新增
         public double m_dBlenderCycleSec = 300;//墨水搅拌周期：20200329新增
 
+        //public float[]/*float*//*int*/ m_XPrintDpi = { 63.5f,95.25f,127f,158.75f, 190.5f, 222.25f, 254f, 285.75f, 317.5f,349.25f,
+        //    381f,412.75f, 444.5f,476.25f, 508f, 539.75f, 571.5f,603.25f,635f,666.75f,698.5f,730.25f,762f,793.75f,825.5f,857.25f,889f,920.75f,952.5f,1270f,2540f};/*635*//* * 2*///X向喷射密度：20201017新增//20230510修改为635
+        ////20240124修改：增加1项打印密度=1111.25f，对于175%喷射密度
+        //public float[]/*float*//*int*/ m_XPrintDpi = { 63.5f,95.25f,127f,158.75f, 190.5f, 222.25f, 254f, 285.75f, 317.5f,349.25f,
+        //    381f,412.75f, 444.5f,476.25f, 508f, 539.75f, 571.5f,603.25f,635f,666.75f,698.5f,730.25f,762f,793.75f,825.5f,857.25f,889f,920.75f,952.5f,1111.25f,1270f,2540f};/*635*//* * 2*///X向喷射密度：20201017新增//20230510修改为635
+        //20240129修改：增加1项打印密度=1111.25f，对于175%喷射密度：增加225;250；275;300；325; 350；375; 400；425;450；475;500；525;550；575; 600dpi
         public float[]/*float*//*int*/ m_XPrintDpi = { 63.5f,95.25f,127f,158.75f, 190.5f, 222.25f, 254f, 285.75f, 317.5f,349.25f,
-            381f,412.75f, 444.5f,476.25f, 508f, 539.75f, 571.5f,603.25f,635f,666.75f,698.5f,730.25f,762f,793.75f,825.5f,857.25f,889f,920.75f,952.5f,1270f,2540f};/*635*//* * 2*///X向喷射密度：20201017新增//20230510修改为635
-        
+            381f,412.75f, 444.5f,476.25f, 508f, 539.75f, 571.5f,603.25f,635f,666.75f,698.5f,730.25f,762f,793.75f,825.5f,857.25f,889f,920.75f,952.5f,1111.25f,
+            1270f,1428.75f,1587.5f,1746.25f,
+            1905f,2063.75f,2222.5f,2381.25f,
+            2540f,2698.75f,2857.5f,3016.25f,
+            3175f,3333.75f,3492.5f,3651.25f,
+            3810f};/*635*//* * 2*///X向喷射密度：20201017新增//20230510修改为635
+
         public int m_nXPrintDpiIndex = 18+10;//X向喷射密度索引//20230516新增
 
         /// <summary>
@@ -814,8 +825,7 @@ namespace BinderJetting
         public double m_dPrtXEncPos = 50/*30*//*379.5*//*362*/;////任务的X向起打位置:20200923修改：设置X向启打位置值为362//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改//20220601新建：修改X向启打位置修订
         //20220524修改：起始打印值为幅面的左端起始点，修改为30MM
         public double m_dXJetOff = 0;//20230321新建：修改X向启打位置修订
-        public double m_dYJetOff = 15/*20*/;//Y向起打位置修订:20210311新增//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改//20230319新建：此值修改为默认值0，消除此前的相关BUGS       
-
+        public double m_dYJetOff = 15/*20*/;//Y向起打位置修订:20210311新增//20210312修正：依据实际测量的成型缸体截面尺寸，进行为修改//20230319新建：此值修改为默认值0，消除此前的相关BUGS       m_nXPrintDpiIndex
 
         /// <summary>
         /// 送粉系统校准
@@ -989,7 +999,7 @@ namespace BinderJetting
             get { return this.m_dCarMoveSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set 
             {
-                if ((value != this.m_dCarMoveSpeed) && (40 <= value && value <= 500))
+                if ((value != this.m_dCarMoveSpeed) && (5 <= value && value <= 500))
                 {
                     this.m_dCarMoveSpeed = value; NotifyPropertyChanged();
                 }
@@ -997,9 +1007,9 @@ namespace BinderJetting
                 {
                     this.m_dCarMoveSpeed = 500; NotifyPropertyChanged();
                 }
-                else if (value < 40)
+                else if (value < 5)
                 {
-                    this.m_dCarMoveSpeed = 40; NotifyPropertyChanged();
+                    this.m_dCarMoveSpeed = 5; NotifyPropertyChanged();
                 }
             }
         }

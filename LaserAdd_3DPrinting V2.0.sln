@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.489
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1-1-3DP主控软件：人机交互模块", "1-3DP主控界面(人机交互模块)\1-1-3DP主控软件：人机交互模块.csproj", "{BCF23539-2C6C-4F5E-B42D-C480D10613FE}"
 EndProject
@@ -22,6 +22,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4-RemoteLayersDataStruct", "4-RemoteLayersDataStruct\4-RemoteLayersDataStruct.csproj", "{26BB61C8-E39E-413B-A867-6CDBA8A30C69}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomPanel", "CustomPanel\CustomPanel.csproj", "{413129E7-20CE-4BA0-AC7C-C5BA8F6B3A27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginLibrary", "PluginLibrary\PluginLibrary.csproj", "{5C69A3F4-D55D-4585-8889-E8B01B7C5DF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginInterface", "PluginInterface\PluginInterface.csproj", "{77225DF4-18C8-47AD-AA9A-DC6FBE4C42F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -148,6 +152,30 @@ Global
 		{413129E7-20CE-4BA0-AC7C-C5BA8F6B3A27}.Release|x64.Build.0 = Release|Any CPU
 		{413129E7-20CE-4BA0-AC7C-C5BA8F6B3A27}.Release|x86.ActiveCfg = Release|Any CPU
 		{413129E7-20CE-4BA0-AC7C-C5BA8F6B3A27}.Release|x86.Build.0 = Release|Any CPU
+		{5C69A3F4-D55D-4585-8889-E8B01B7C5DF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C69A3F4-D55D-4585-8889-E8B01B7C5DF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C69A3F4-D55D-4585-8889-E8B01B7C5DF2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5C69A3F4-D55D-4585-8889-E8B01B7C5DF2}.Debug|x64.Build.0 = Debug|Any CPU
+		{5C69A3F4-D55D-4585-8889-E8B01B7C5DF2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5C69A3F4-D55D-4585-8889-E8B01B7C5DF2}.Debug|x86.Build.0 = Debug|Any CPU
+		{5C69A3F4-D55D-4585-8889-E8B01B7C5DF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C69A3F4-D55D-4585-8889-E8B01B7C5DF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C69A3F4-D55D-4585-8889-E8B01B7C5DF2}.Release|x64.ActiveCfg = Release|Any CPU
+		{5C69A3F4-D55D-4585-8889-E8B01B7C5DF2}.Release|x64.Build.0 = Release|Any CPU
+		{5C69A3F4-D55D-4585-8889-E8B01B7C5DF2}.Release|x86.ActiveCfg = Release|Any CPU
+		{5C69A3F4-D55D-4585-8889-E8B01B7C5DF2}.Release|x86.Build.0 = Release|Any CPU
+		{77225DF4-18C8-47AD-AA9A-DC6FBE4C42F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77225DF4-18C8-47AD-AA9A-DC6FBE4C42F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77225DF4-18C8-47AD-AA9A-DC6FBE4C42F5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{77225DF4-18C8-47AD-AA9A-DC6FBE4C42F5}.Debug|x64.Build.0 = Debug|Any CPU
+		{77225DF4-18C8-47AD-AA9A-DC6FBE4C42F5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{77225DF4-18C8-47AD-AA9A-DC6FBE4C42F5}.Debug|x86.Build.0 = Debug|Any CPU
+		{77225DF4-18C8-47AD-AA9A-DC6FBE4C42F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77225DF4-18C8-47AD-AA9A-DC6FBE4C42F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77225DF4-18C8-47AD-AA9A-DC6FBE4C42F5}.Release|x64.ActiveCfg = Release|Any CPU
+		{77225DF4-18C8-47AD-AA9A-DC6FBE4C42F5}.Release|x64.Build.0 = Release|Any CPU
+		{77225DF4-18C8-47AD-AA9A-DC6FBE4C42F5}.Release|x86.ActiveCfg = Release|Any CPU
+		{77225DF4-18C8-47AD-AA9A-DC6FBE4C42F5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
