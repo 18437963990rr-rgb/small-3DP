@@ -48,9 +48,14 @@ namespace BinderJetting
         const double INKCAR_DEFAULT_X = 680.0;          // 墨车开始打印前默认位置
         const double INKCAR_DEFAULT_Y = 116.0;
 
-        const double INKCAR_CLEAN_STATION_X = 850.0;    // 墨车清洗站位置坐标，刮墨位置
+        /*
+         * 刮墨位置坐标: (850, 10)
+         * 压墨位置坐标: (750,10)
+         */
+        const double INKCAR_CLEAN_STATION_X = 750.0;    // 墨车清洗站位置坐标，压墨位置
         const double INKCAR_CLEAN_STATION_Y =  10.0;
-        const double INKCAR_CLEAN_MOVE_OUT  = 100.0;    // 墨车清洗站压墨位置
+        const double INKCAR_CLEAN_SCRAPE_POS_REL = 100.0;    // 墨车清洗站刮墨位置
+
 
         // 铺粉车的一些常数
         const double POWDERCAR_TRAVEL_DIST = 918.0;     // 铺粉车行程距离，mm
@@ -6046,7 +6051,7 @@ namespace BinderJetting
                 if (i == 0)
                 {
                     /*
-                     * 墨车回清洗站，先启动Y轴，新的硬件会产生碰撞！！！！
+                     * 墨车回清洗站压墨区，先启动Y轴，新的硬件会产生碰撞！！！！
                      * 2024/04/15 已经修正自动清洗功能，Leon
                      *      1. 需要改先启动X轴！  
                      *      2. 加入判断，X轴在安全区域时同时移动Y轴
@@ -6092,7 +6097,7 @@ namespace BinderJetting
                     }
 
                     /*
-                     * 墨车重回清洁站
+                     * 墨车重回清洁站压墨区
                      */
                     BackToStation(INKCAR_CLEAN_STATION_X, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true, 1);   // Leon, 2024/04/15
                 }
@@ -6261,11 +6266,15 @@ namespace BinderJetting
                 }
 
                 /*
-                 * 本次清洗结束，左移100mm
+                 * 本次清洗结束，左移100mm，移至刮墨区
                  */
                 //BackToStation(680/*700*//*425*/, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------//780MM
-                BackToStation(INKCAR_CLEAN_STATION_X - INKCAR_CLEAN_MOVE_OUT, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true, 1);   // 墨车向左移动100mm
+                BackToStation(INKCAR_CLEAN_STATION_X + INKCAR_CLEAN_SCRAPE_POS_REL, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true, 1);   // 墨车向左移动100mm
             }
+
+            /*
+             * 清洗完毕，进行最后一次刮墨
+             */
 
             SinkPostion = (AimScraperPosition + SinkHomePosition)/*180*/;//顺时针135：20230331修改之后：避免飞溅//20230401修改:直接顺时针转180度即可//20230405修改：直接逆时针转180度即可
             motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*0.5*/, -SinkPostion);
@@ -6569,6 +6578,8 @@ namespace BinderJetting
                 if (i == 0)
                 {
                     /*
+                     * 移动墨车至压墨区
+                     * 
                      * DONE::先移动X轴，不等待到位
                      */
                     //BackToStation(116/*96 + 25*//*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//停靠在里侧，向外侧步进喷头幅 面^^^^^^^^^^^^^^^^^//96MM
@@ -6619,7 +6630,7 @@ namespace BinderJetting
                     }
 
                     /*
-                     * 墨车重回清洁站
+                     * 墨车重回清洁站的压墨区
                      */
                     BackToStation(INKCAR_CLEAN_STATION_X, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true, 1);   // Leon, 2024/04/15
                 }
@@ -6797,12 +6808,15 @@ namespace BinderJetting
                 ////motionMap.TrapMoveSpreaderAxis(4, k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed/*2*//*0.5*/, -SinkPostion);
 
                 /*
-                 * 本次清洗结束，墨车向左移动100mm
+                 * 本次清洗结束，墨车向左移动100mm，移至刮墨区
                  */
                 //BackToStation(680/*700*//*425*/, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------//780MM
-                BackToStation(INKCAR_CLEAN_STATION_X - INKCAR_CLEAN_MOVE_OUT, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true, 1);   // 墨车向左移动100mm
+                BackToStation(INKCAR_CLEAN_STATION_X + INKCAR_CLEAN_SCRAPE_POS_REL, (float)CleanNozzleSpeed/*ReturnVelocity1*/, false, true, 1);   // 墨车向左移动100mm
             }
 
+            /*
+             * 结束清洗前进行最后一次刮墨
+             */
             //SinkPostion = 180+45;//逆225：20230331之前方法
             SinkPostion = (AimScraperPosition + SinkHomePosition)/*180*//*-180*//*-135*//*180 + 45*/;//顺时针135：20230331修改之后：避免飞溅//20230401修改:直接顺时针转180度即可//20230405修改：直接逆时针转180度即可
             //SinkPostion = -180/*-135*//*180 + 45*/;//顺时针135：20230331修改之后：避免飞溅：进一步修改

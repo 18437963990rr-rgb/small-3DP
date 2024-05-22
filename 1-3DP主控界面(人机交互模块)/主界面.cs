@@ -5177,8 +5177,8 @@ namespace BinderJetting
                 string msg = "关闭系统：一键关闭系统开始！";
                 Log4Net.Info(msg);
 
-                AutoPrintMotion2.InitTemperatureControlCard(false, out g_IRControllerOpenCloseState);//20220523新建：与温度控制仪表建立通讯
-                AutoPrintMotion2.InitModbusFlag = false;
+                //AutoPrintMotion2.InitTemperatureControlCard(false, out g_IRControllerOpenCloseState);//20220523新建：与温度控制仪表建立通讯
+                //AutoPrintMotion2.InitModbusFlag = false;
                 //(2)继续退出
                 //e.Cancel = false;//继续正常退出
                 //1键关机策略：20200312新增
