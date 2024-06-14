@@ -54,7 +54,7 @@ namespace BinderJetting
          */
         const double INKCAR_CLEAN_STATION_X = 750.0;    // 墨车清洗站位置坐标，压墨位置
         const double INKCAR_CLEAN_STATION_Y =  10.0;
-        const double INKCAR_CLEAN_SCRAPE_POS_REL = 100.0;    // 墨车清洗站刮墨位置
+        const double INKCAR_CLEAN_SCRAPE_POS_REL = 105.0;    // 墨车清洗站刮墨位置, mm
 
 
         // 铺粉车的一些常数
