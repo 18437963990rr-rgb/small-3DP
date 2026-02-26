@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Motion;//导入GoogolMotionMap引用包
 using System.Xml.Linq;//20200719新增：
-using royal;
+//using royal; //20260203注释：移除royal引用，电气设备控制不依赖royal
 using LaserADD_BinderJetter;
 
 namespace BinderJetting
@@ -242,6 +242,7 @@ namespace BinderJetting
             //bool EffectiveLevel = this.EffectiveLevelLabel.Checked;//20200110：选中为高电平有效，未选中为低电平有效
             //(a)获取列表控件的Tag中存储的ID
             int myTag = Convert.ToInt32((sender as Control).Tag);
+            Control btn = sender as Control;
             //(b1)根据ID反转并存储到对应控件列表
             m_mGoogolMotionMap.m_bIoEnable[myTag - 1] = !m_mGoogolMotionMap.m_bIoEnable[myTag - 1];
             ////(b2)根据ID反转颜色状态

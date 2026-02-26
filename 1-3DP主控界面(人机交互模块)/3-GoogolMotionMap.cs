@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +23,10 @@ namespace Motion
 
         //世彪20104新增
         public bool[] m_bIoEnable = new bool[20];//20个按钮的值——固高的值为16个EXO——20200109备注
+
+        public bool m_bXmove = false;
+        public bool m_bYmove1 = false;
+        public bool m_bYmove2 = false;
 
 
         //public double vel, prfvel, encvel, prfpos, encpos;//保存监测到的位置参数：设置的速度、规划速度、编码器速度、规划位置、编码器位置
@@ -657,7 +661,7 @@ namespace Motion
             sRtn = mc.GT_Update(cardNumber, 1 << (AXIS - 1));// 启动AXIS轴的运动
         }
 
-        public void StopMotion(short AXIS)//平滑停止运动
+        public void StopMotion(short AXIS, bool bImmeStop = false)//平滑停止运动
         {
             //gts.mc.GT_Stop(cardNumber, 1 << (AXIS - 1), 0);//停止JOG运动——————使用的是平滑停止的方式——————此处需要修改
             //gts.mc.GT_Stop(cardNumber, 1 << (AXIS - 1), 1);//停止JOG运动——————使用的是紧急停止的方式——————此处需要修改

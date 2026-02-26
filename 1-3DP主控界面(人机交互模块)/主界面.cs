@@ -472,10 +472,10 @@ namespace BinderJetting
             { get { return Color.FromArgb(120, 120, 120, 120)/*Green*//*FromArgb(27, 27, 28)*/; } }
         }
 #endif
-        //(1)关闭事件：20200527新增
+        //(1)关闭事件：20200527新增222
         protected override void OnClosing(CancelEventArgs e)
         {
-            //(1)关闭传送线程：关闭底层正在工作的线程
+            //(1)关闭传送线程：关闭底层正在工作的线程 20260204
             //string tempThreadName = "DataTaskTHREAD";//(1)关闭联调线程
             //DeleteThread(tempThreadName);
 
@@ -1705,7 +1705,7 @@ namespace BinderJetting
             }
             else if (Convert.ToInt32((sender as Button).Tag) == 2)//20201117新增：启动打印按钮的初始Tag不为1:，标志动作为：关闭打印
             {
-                bool nRetVal3 = royal.royal.IDP_FlashPrtCtl(false);//20230331新建：手动关闭打印任务时，首先关闭闪喷状态
+                bool nRetVal3 = MeteorPrintEngine.SetFlash(false);//20230331新建：手动关闭打印任务时，首先关闭闪喷状态
                 string msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal3}}}";
                 Log4Net.Info(msg);
 
@@ -1902,9 +1902,9 @@ namespace BinderJetting
             {
                 if (PrintFlag == false)//处于待机状态
                 {
-                    bool nRetVal = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷
+                    bool nRetVal = MeteorPrintEngine.SetFlash(true);//打开闪喷
                     Thread.Sleep((int)g_InterSpeedSparkValidTime * 1000);//闪喷持续周期:本人设置为1s时间
-                    nRetVal = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷
+                    nRetVal = MeteorPrintEngine.SetFlash(false);//关闭闪喷
                     Thread.Sleep((int)(g_InterSpeedSparkCycleTime - g_InterSpeedSparkValidTime) * 1000);//闪喷间歇周期：本人设置20s时间
                 }
                 else//处于打印状态
@@ -2264,7 +2264,7 @@ namespace BinderJetting
                             /*****************（1）20220524批注：确保获取打印PASS信息*********************/
                             int nPassID = PassItems/*0*//*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行//20220524新增：修改为多PASS打印
                             /*bool*/
-                            ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                            ReturnFlag = MeteorPrintEngine.TryGetPassItem((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
                             /*string*/
                             msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
                                 $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
@@ -2285,7 +2285,7 @@ namespace BinderJetting
                             while (pPrtPassDes.nProcState != 3)//20200624批注：不成功就重新读
                             {
                                 Thread.Sleep(100);//等待1s时间，再次GetPassItem;
-                                ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                                ReturnFlag = MeteorPrintEngine.TryGetPassItem((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
                                 msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
                                     $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
                                     $"nHwMemAdrMatchMask{{{pPrtPassDes.nHwMemAdrMatchMask}}}nLayerIndex{{{pPrtPassDes.nLayerIndex}}}" +
@@ -2305,7 +2305,7 @@ namespace BinderJetting
                             /*****************（2）20220524批注：执行打印PASS运动逻辑*********************/
                             if (ReturnFlag == true/*pPrtPassDes!=null*/)//20200411:读到的数据不为空//20200430开启运动：
                             {
-                                bool returnCode2 = royal.royal.IDP_DoPassPrint2((uint)k, nPassID /*-1*/);
+                                bool returnCode2 = MeteorPrintEngine.TriggerPass((uint)k, nPassID /*-1*/);
                                 if (returnCode2 == false)
                                 {
                                     msg = $"使能Pass打印失败：IDP_DoPassPrint2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}";
@@ -2673,12 +2673,12 @@ namespace BinderJetting
 #endregion
 
             //20230331新增：打印完成后，关闭闪喷
-            bool nRetVal3 = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷
+            bool nRetVal3 = MeteorPrintEngine.SetFlash(false);//关闭闪喷
             msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal3}}}";
             Log4Net.Info(msg);
 
             /*bool*/
-            ReturnFlag = royal.royal.IDP_StopPrintJob();
+            ReturnFlag = MeteorPrintEngine.StopJob();
             msg = $"停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{{{ReturnFlag}}}";
             Log4Net.Info(msg);
 
@@ -2838,7 +2838,7 @@ namespace BinderJetting
                                 /*****************（1）20220524批注：确保获取打印PASS信息*********************/
                                 int nPassID = PassItems/*0*//*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行//20220524新增：修改为多PASS打印
                                 /*bool*/
-                                bool ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                                bool ReturnFlag = MeteorPrintEngine.TryGetPassItem((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
                                 /*string*/
                                 msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
                                     $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
@@ -2859,7 +2859,7 @@ namespace BinderJetting
                                 while (pPrtPassDes.nProcState != 3)//20200624批注：不成功就重新读
                                 {
                                     Thread.Sleep(100);//等待1s时间，再次GetPassItem;
-                                    ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                                    ReturnFlag = MeteorPrintEngine.TryGetPassItem((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
                                     msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
                                         $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
                                         $"nHwMemAdrMatchMask{{{pPrtPassDes.nHwMemAdrMatchMask}}}nLayerIndex{{{pPrtPassDes.nLayerIndex}}}" +
@@ -2879,7 +2879,7 @@ namespace BinderJetting
                                 /*****************（2）20220524批注：执行打印PASS运动逻辑*********************/
                                 if (ReturnFlag == true/*pPrtPassDes!=null*/)//20200411:读到的数据不为空//20200430开启运动：
                                 {
-                                    bool returnCode2 = royal.royal.IDP_DoPassPrint2((uint)k, nPassID /*-1*/);
+                                    bool returnCode2 = MeteorPrintEngine.TriggerPass((uint)k, nPassID /*-1*/);
                                     if (returnCode2 == false)
                                     {
                                         msg = $"使能Pass打印失败：IDP_DoPassPrint2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}";
@@ -3068,15 +3068,15 @@ namespace BinderJetting
 
 #if false
                             int nPassID = 0/*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行
-                            bool ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                            bool ReturnFlag = MeteorPrintEngine.TryGetPassItem((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
                             while (pPrtPassDes.nProcState != 3)//20200624批注：不成功就重新读
                             {
                                 Thread.Sleep(100);//等待1s时间，再次GetPassItem;
-                                ReturnFlag = royal.royal.IDP_GetPassItem2((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                                ReturnFlag = MeteorPrintEngine.TryGetPassItem((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
                             }
                             if (ReturnFlag == true/*pPrtPassDes!=null*/)//20200411:读到的数据不为空//20200430开启运动：
                             {
-                                bool returnCode2 = royal.royal.IDP_DoPassPrint2((uint)k, -1);
+                                bool returnCode2 = MeteorPrintEngine.TriggerPass((uint)k, -1);
                                 if (returnCode2 == false) { MessageBox.Show("启动打印失败！LayerIndex=" + pPrtPassDes.nLayerIndex + ",nProcState=" + pPrtPassDes.nProcState); }
                                 else
                                 {
@@ -3170,11 +3170,11 @@ namespace BinderJetting
             }
 
             //20230331新增：打印完成后，关闭闪喷
-            bool nRetVal3 = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷
+            bool nRetVal3 = MeteorPrintEngine.SetFlash(false);//关闭闪喷
             string msg2 = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal3}}}";
             Log4Net.Info(msg2);
 
-            bool ReturnFlag4 = royal.royal.IDP_StopPrintJob();
+            bool ReturnFlag4 = MeteorPrintEngine.StopJob();
             msg2 = $"停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{{{ReturnFlag4}}}";
             Log4Net.Info(msg2);
 
@@ -3438,7 +3438,7 @@ namespace BinderJetting
             int nRet = -1;//默认的数据为-1；
             do
             {
-                nRet = royal.royal.IDP_WriteImgLayerData(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, bytes);
+                nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, bytes);
                 if (nRet > 0)//返回值是33，计算出来的PASS总数；只要在PCS里面进行修改，即可然返回的值发生变化
                 {
                     //break;
@@ -5389,7 +5389,7 @@ namespace BinderJetting
                 royal.royal.g_PrtJobItem.nPrtXEncPos = 73500/*52000*//*0*//*0x100018*/;//世彪新增0104//20220524批注且需要修改：X方向起始打印位置
                 royal.royal.g_PrtJobItem.szJobName = "金属3DP打印";//世彪新增0104
                 ///(2)开启JOB使能 
-                int returnCode = royal.royal.IDP_SartPrintJob(ref royal.royal.g_PrtJobItem);
+                int returnCode = MeteorPrintEngine.StartJob(ref royal.royal.g_PrtJobItem);
                 if (returnCode < 0)
                 {
                     MessageBox.Show("Can't Print");
@@ -5411,7 +5411,7 @@ namespace BinderJetting
             else//（贰）关闭JOB指令
             {
                 ///(1)关闭JOB使能
-                bool returnCode = royal.royal.IDP_StopPrintJob();
+                bool returnCode = MeteorPrintEngine.StopJob();
                 if (returnCode == true)
                 {
                     RoyalMap.m_nPrintState = 0;
@@ -5463,7 +5463,7 @@ namespace BinderJetting
                 royal.royal.g_PrtJobItem.nPrtXEncPos = (uint)(g_RYSYSParam.m_dPrtXEncPos / 0.001/*0.005*/);// 1um光栅，改为0.001，2024/04/12，Leon'//20200923新增：从成形参数模块中获取并设置对应的参数值//20220524修改：//20220531修改：1UM读数头光栅
                 royal.royal.g_PrtJobItem.szJobName = "金属3DP打印";//世彪新增0104
                 ///(2)开启JOB使能 
-                int returnCode = royal.royal.IDP_SartPrintJob(ref royal.royal.g_PrtJobItem);//20230209：需要确认灰度数据位数，不需要传入灰度阶数
+                int returnCode = MeteorPrintEngine.StartJob(ref royal.royal.g_PrtJobItem);//20230209：需要确认灰度数据位数，不需要传入灰度阶数
                 if (returnCode < 0)
                 {
                     msg = "打印参数设置失败：IDP_SartPrintJob： " + returnCode;
@@ -5492,7 +5492,7 @@ namespace BinderJetting
             else//（贰）关闭JOB指令：实质是删除打印数据
             {
                 ///(1)关闭JOB使能
-                bool returnCode = royal.royal.IDP_StopPrintJob();
+                bool returnCode = MeteorPrintEngine.StopJob();
 
                 msg = $"停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{{{returnCode}}}";
                 Log4Net.Info(msg);
@@ -7861,7 +7861,7 @@ namespace BinderJetting
             //(c)计算输出
             if (m_bFlashFlag == true)//打开和关闭闪喷：
             {
-                bool nRetVal = royal.royal.IDP_FlashPrtCtl(true);//打开闪喷
+                bool nRetVal = MeteorPrintEngine.SetFlash(true);//打开闪喷
 
                 msg = $"开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal}}}";
                 Log4Net.Info(msg);
@@ -7870,7 +7870,7 @@ namespace BinderJetting
             }
             else
             {
-                bool nRetVal = royal.royal.IDP_FlashPrtCtl(false);//关闭闪喷
+                bool nRetVal = MeteorPrintEngine.SetFlash(false);//关闭闪喷
 
                 msg = $"关闭闪喷： IDP_FlashPrtCtl(true)：ReturnCode{{{nRetVal}}}";
                 Log4Net.Info(msg);
