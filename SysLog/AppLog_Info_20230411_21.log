@@ -1,0 +1,43 @@
+2023-04-11 21:00:01,274 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-04-11 21:00:01,555 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-11 21:00:33,098 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:00:34,019 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:00:34,409 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:00:34,752 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:00:35,282 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:00:35,626 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:01:26,372 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-11 21:01:27,308 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-11 21:01:28,057 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-11 21:01:36,918 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-11 21:01:43,189 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:01:43,610 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:01:43,860 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:01:44,063 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:01:44,266 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:01:44,484 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:01:44,624 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:01:44,890 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:01:45,420 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:01:45,638 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-11 21:01:49,117 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-11 21:02:35,309 [AppLog] INFO : 进入手动调试子模块！
+2023-04-11 21:02:35,309 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-11 21:02:35,340 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-11 21:02:35,340 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-11 21:02:37,493 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-11 21:02:37,571 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-11 21:02:39,583 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-11 21:02:39,615 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-11 21:06:11,057 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-11 21:06:22,960 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-11 21:06:24,037 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-04-11 21:06:30,245 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-04-11 21:06:30,245 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-04-11 21:06:30,277 [AppLog] INFO : 喷墨控制器关闭！
+2023-04-11 21:06:30,277 [AppLog] INFO : 进入电气控制模块
+2023-04-11 21:06:32,055 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-04-11 21:06:32,663 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-04-11 21:06:33,709 [AppLog] INFO : 退出电气控制模块

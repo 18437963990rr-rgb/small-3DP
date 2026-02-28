@@ -1,0 +1,38 @@
+2023-09-10 10:57:08,376 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{46.4283%} ，可用内存大小:{14438MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：70 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-09-10 10:57:35,021 [AppLog] INFO : 进入手动调试子模块！
+2023-09-10 10:57:35,021 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-09-10 10:57:35,224 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-09-10 10:57:37,424 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-09-10 10:57:38,859 [AppLog] INFO : 进入手动调试子模块！
+2023-09-10 10:57:38,859 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-09-10 10:57:38,890 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-09-10 10:59:25,875 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-09-10 10:59:26,951 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{System.Single[]Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{15MM}
+2023-09-10 10:59:31,709 [AppLog] INFO : 退出JOB参数设置：未修改直接退出！
+2023-09-10 10:59:32,957 [AppLog] INFO : 显示模组校准栏
+2023-09-10 10:59:34,439 [AppLog] INFO : 进入电气控制模块
+2023-09-10 10:59:35,469 [AppLog] INFO : 退出电气控制模块
+2023-09-10 10:59:36,748 [AppLog] INFO : 进入手动调试子模块！
+2023-09-10 10:59:36,748 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-09-10 10:59:36,779 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-09-10 10:59:39,681 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-09-10 10:59:40,773 [AppLog] INFO : 监控记录设置！
+2023-09-10 10:59:43,940 [AppLog] INFO : 更新监控配置文件：SaveJsonFile：配置文件路径{D:\Release-3DPrintingForBinderJetting-V2.0\MonitorPrint-Configuration.json}m_sMonitorRecordPath{D:\shibiao-daying-0808}m_sPrintJobName{Shibiao-0808-test11}m_anJettingBinderBedMonitorFlags{False,False,False,False,False,False,True,False,False,False,False,True,}
+2023-09-10 10:59:54,205 [AppLog] INFO : 监控记录设置！
+2023-09-10 10:59:55,687 [AppLog] INFO : 更新监控配置文件：SaveJsonFile：配置文件路径{D:\Release-3DPrintingForBinderJetting-V2.0\MonitorPrint-Configuration.json}m_sMonitorRecordPath{D:\shibiao-daying-0808}m_sPrintJobName{Shibiao-0808-test11}m_anJettingBinderBedMonitorFlags{False,False,False,False,False,False,True,False,False,False,False,True,}

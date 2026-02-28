@@ -1,0 +1,809 @@
+2023-05-06 15:20:22,967 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{37.49966%} ，可用内存大小:{14339MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：67 GB
+  盘符 E:\ 的剩余空间：57 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号:  USB  SanDisk 3.2Gen1 USB Device
+==========================================================================
+2023-05-06 15:20:26,602 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-05-06 15:20:26,617 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-05-06 15:20:32,701 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-05-06 15:20:32,889 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-05-06 15:20:32,967 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-05-06 15:20:56,445 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-05-06 15:20:56,476 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-05-06 15:21:16,288 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-05-06 15:21:16,288 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-05-06 15:21:16,319 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-05-06 15:21:16,459 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-05-06 15:21:16,459 [AppLog] INFO : 进入电气控制模块
+2023-05-06 15:21:17,536 [AppLog] INFO : 退出电气控制模块
+2023-05-06 15:21:18,347 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-05-06 15:21:19,033 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-05-06 15:21:25,258 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-05-06 15:21:25,258 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-05-06 15:21:25,445 [AppLog] INFO : 喷墨控制器关闭！
+2023-05-06 15:21:25,445 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2023-05-06 15:21:25,445 [AppLog] INFO : 进入电气控制模块
+2023-05-06 15:21:26,740 [AppLog] INFO : 退出电气控制模块
+2023-05-06 15:21:27,848 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-05-06 15:21:27,863 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-05-06 15:21:28,487 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{21.42826%} ，可用内存大小:{14300MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：67 GB
+  盘符 E:\ 的剩余空间：57 GB
+==========================================================================
+2023-05-06 15:21:46,708 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{35.71395%} ，可用内存大小:{14296MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：67 GB
+  盘符 E:\ 的剩余空间：57 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号:  USB  SanDisk 3.2Gen1 USB Device
+==========================================================================
+2023-05-06 15:21:46,724 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-05-06 15:21:46,724 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-05-06 15:21:52,808 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-05-06 15:21:52,979 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-05-06 15:21:53,042 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-05-06 15:22:16,520 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-05-06 15:22:16,551 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-05-06 15:22:23,524 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-05-06 15:22:23,524 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-05-06 15:22:23,555 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-05-06 15:22:23,680 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-05-06 15:22:23,680 [AppLog] INFO : 进入电气控制模块
+2023-05-06 15:22:25,115 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-05-06 15:22:25,724 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-05-06 15:22:26,301 [AppLog] INFO : 退出电气控制模块
+2023-05-06 15:22:27,050 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:22:27,050 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:22:27,065 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:22:27,065 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:22:51,854 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-05-06 15:22:52,602 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{15MM}
+2023-05-06 15:23:03,912 [AppLog] INFO : 退出JOB参数设置：修改后参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{15MM}
+2023-05-06 15:23:04,958 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-05-06 15:23:05,753 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-05-06 15:23:11,962 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-05-06 15:23:11,962 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-05-06 15:23:14,318 [AppLog] INFO : 喷墨控制器关闭！
+2023-05-06 15:23:14,318 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2023-05-06 15:23:14,318 [AppLog] INFO : 进入电气控制模块
+2023-05-06 15:23:15,222 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-05-06 15:23:15,784 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-05-06 15:23:16,268 [AppLog] INFO : 退出电气控制模块
+2023-05-06 15:23:17,719 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-05-06 15:23:17,719 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-05-06 15:23:18,358 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{57.14266%} ，可用内存大小:{14255MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：67 GB
+  盘符 E:\ 的剩余空间：57 GB
+==========================================================================
+2023-05-06 15:23:33,833 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{21.42817%} ，可用内存大小:{14298MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：67 GB
+  盘符 E:\ 的剩余空间：57 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号:  USB  SanDisk 3.2Gen1 USB Device
+==========================================================================
+2023-05-06 15:24:01,586 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-05-06 15:24:01,586 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-05-06 15:24:07,670 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-05-06 15:24:07,826 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-05-06 15:24:07,904 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-05-06 15:24:31,382 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-05-06 15:24:31,413 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-05-06 15:24:32,708 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-05-06 15:24:32,708 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-05-06 15:24:32,739 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-05-06 15:24:32,879 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-05-06 15:24:32,879 [AppLog] INFO : 进入电气控制模块
+2023-05-06 15:24:33,628 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-05-06 15:24:34,205 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-05-06 15:24:34,954 [AppLog] INFO : 退出电气控制模块
+2023-05-06 15:24:35,921 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:24:35,921 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:24:35,953 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:24:35,953 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:25:04,750 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 15:25:05,842 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:25:05,842 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:25:05,873 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:25:05,873 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:25:14,110 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:25:14,937 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:25:15,639 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:25:16,638 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:25:21,708 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:25:24,906 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:25:25,545 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:25:27,838 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:25:32,752 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.4}S
+2023-05-06 15:25:33,252 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:25:37,323 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.4}S
+2023-05-06 15:25:40,677 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:25:42,206 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.4}S
+2023-05-06 15:25:43,579 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:25:44,390 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.4}S
+2023-05-06 15:25:46,777 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:25:54,234 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.3}S
+2023-05-06 15:25:58,492 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:25:59,148 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.3}S
+2023-05-06 15:26:02,658 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:26:15,013 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:26:20,317 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:26:31,564 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:26:33,904 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:26:39,817 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.4}S
+2023-05-06 15:26:46,494 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:26:58,334 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.4}S
+2023-05-06 15:27:03,389 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:27:07,055 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:27:07,585 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:27:11,064 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:27:19,269 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:27:20,783 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:27:25,275 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:27:31,422 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:27:39,877 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:27:45,415 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:27:53,683 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:27:54,900 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:27:58,098 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:28:07,427 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:28:07,957 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:28:08,909 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:28:12,216 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:28:17,239 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:28:17,988 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:28:20,999 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:28:24,883 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:28:30,655 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:28:33,104 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:28:37,831 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:28:39,079 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:28:44,835 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:28:46,536 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:28:47,285 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:28:48,049 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:28:48,720 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:28:53,415 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:28:59,999 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:29:04,538 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:29:09,031 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:29:17,954 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:29:18,594 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:29:22,114 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:29:23,594 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 15:29:24,854 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:29:24,854 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:29:24,884 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:29:24,884 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:29:54,674 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2023-05-06 15:29:54,674 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-05-06 15:30:05,614 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{25MM/s}
+2023-05-06 15:30:05,624 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-05-06 15:30:10,074 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-05-06 15:30:10,074 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-05-06 15:30:32,204 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-05-06 15:30:42,874 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-05-06 15:30:42,874 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-05-06 15:30:43,314 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-05-06 15:30:43,314 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:30:43,314 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{51.63}AimPos{116}
+2023-05-06 15:30:44,034 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{64491.72367}nCtlValue{1}
+2023-05-06 15:30:44,094 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.235}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:30:44,094 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:30:44,094 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{738.655}AimPos{780}
+2023-05-06 15:30:44,134 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{41345}nCtlValue{2}
+2023-05-06 15:30:44,994 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{779.435}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:30:44,994 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:30:46,034 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-05-06 15:30:46,044 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:30:47,044 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:30:47,044 [AppLog] INFO : 压墨等待开启：{1S}
+2023-05-06 15:30:48,044 [AppLog] INFO : 压墨等待完成：{1S}
+2023-05-06 15:30:48,044 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:30:48,044 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:30:48,044 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.435}AimPos{680}
+2023-05-06 15:30:48,074 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99435.0000000001}nCtlValue{2}
+2023-05-06 15:30:48,954 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.07}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:30:49,404 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:30:49,424 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.765}AimPos{758}
+2023-05-06 15:30:49,454 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{77235}nCtlValue{2}
+2023-05-06 15:30:50,204 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{753.86}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:30:50,204 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:30:50,204 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.015}AimPos{317}
+2023-05-06 15:30:51,464 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{201365.062635}nCtlValue{1}
+2023-05-06 15:30:51,514 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{315.6}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:30:51,514 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-05-06 15:31:02,674 [AppLog] INFO : 手动停止自动清洗过程：AutoCleanBtn_Click
+2023-05-06 15:31:03,014 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-05-06 15:31:03,014 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-05-06 15:31:03,404 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-05-06 15:31:03,404 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:31:03,404 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{316.95}AimPos{116}
+2023-05-06 15:31:04,644 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-201329.99645}nCtlValue{1}
+2023-05-06 15:31:04,694 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{117.455}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:31:04,694 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:31:04,694 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{757.32}AimPos{780}
+2023-05-06 15:31:04,724 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{22679.9999999999}nCtlValue{2}
+2023-05-06 15:31:05,114 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.895}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:31:05,114 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:31:06,124 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-05-06 15:31:06,134 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:31:07,134 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:31:07,134 [AppLog] INFO : 压墨等待开启：{1S}
+2023-05-06 15:31:08,134 [AppLog] INFO : 压墨等待完成：{1S}
+2023-05-06 15:31:08,154 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:31:08,154 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:31:08,154 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.925}AimPos{680}
+2023-05-06 15:31:08,184 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99925.0000000001}nCtlValue{2}
+2023-05-06 15:31:09,054 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.32}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:31:09,504 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:31:09,504 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.745}AimPos{758}
+2023-05-06 15:31:09,524 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{77255}nCtlValue{2}
+2023-05-06 15:31:10,294 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{754.375}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:31:10,294 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:31:10,294 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.205}AimPos{317}
+2023-05-06 15:31:11,584 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{201174.703345}nCtlValue{1}
+2023-05-06 15:31:11,634 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{315.95}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:31:11,634 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-05-06 15:34:05,553 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:34:07,755 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:34:08,570 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:34:11,318 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:34:11,977 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:34:14,290 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:34:22,473 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:34:24,848 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:34:25,522 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:34:26,992 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:34:27,666 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:34:29,198 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:34:30,387 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:34:31,842 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:34:41,365 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:34:43,927 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:34:44,413 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:34:46,850 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:34:49,162 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-05-06 15:34:51,210 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:34:51,210 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:34:51,241 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:34:51,241 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:34:56,709 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 15:34:59,758 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:34:59,758 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:34:59,789 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:34:59,789 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:35:01,375 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-05-06 15:35:01,375 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-05-06 15:35:01,758 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-05-06 15:35:01,758 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:35:01,758 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{316.8}AimPos{116}
+2023-05-06 15:35:03,008 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-201179.7128}nCtlValue{1}
+2023-05-06 15:35:03,086 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{116.7}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:35:03,086 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:35:03,086 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{757.335}AimPos{780}
+2023-05-06 15:35:03,117 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{22665}nCtlValue{2}
+2023-05-06 15:35:03,509 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.89}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:35:03,540 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:35:04,524 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-05-06 15:35:04,524 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:35:06,554 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:35:06,554 [AppLog] INFO : 压墨等待开启：{1S}
+2023-05-06 15:35:07,554 [AppLog] INFO : 压墨等待完成：{1S}
+2023-05-06 15:35:07,554 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:35:07,554 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:35:07,554 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.915}AimPos{680}
+2023-05-06 15:35:07,586 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99915}nCtlValue{2}
+2023-05-06 15:35:08,448 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.415}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:35:08,901 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:35:08,901 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.745}AimPos{758}
+2023-05-06 15:35:08,932 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{77255}nCtlValue{2}
+2023-05-06 15:35:09,714 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{755.07}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:35:09,714 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:35:09,714 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.205}AimPos{317}
+2023-05-06 15:35:10,982 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{201174.703345}nCtlValue{1}
+2023-05-06 15:35:11,044 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{316.285}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:35:11,044 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-05-06 15:35:16,545 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 15:35:18,545 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:35:18,545 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:35:18,561 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:35:18,561 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:35:19,599 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-05-06 15:35:19,599 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-05-06 15:35:19,977 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-05-06 15:35:19,977 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:35:19,977 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{316.785}AimPos{116}
+2023-05-06 15:35:21,242 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-201164.684435}nCtlValue{1}
+2023-05-06 15:35:21,305 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{116.795}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:35:21,305 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:35:21,305 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{757.335}AimPos{780}
+2023-05-06 15:35:21,336 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{22665}nCtlValue{2}
+2023-05-06 15:35:21,727 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.915}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:35:21,727 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:35:22,712 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-05-06 15:35:22,712 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{2}S,{0.5}S
+2023-05-06 15:35:24,726 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:35:24,726 [AppLog] INFO : 压墨等待开启：{1S}
+2023-05-06 15:35:25,740 [AppLog] INFO : 压墨等待完成：{1S}
+2023-05-06 15:35:25,740 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:35:25,740 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:35:25,740 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.92}AimPos{680}
+2023-05-06 15:35:25,771 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99920.0000000001}nCtlValue{2}
+2023-05-06 15:35:26,630 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.665}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:35:27,083 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:35:27,083 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.74}AimPos{758}
+2023-05-06 15:35:27,114 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{77260}nCtlValue{2}
+2023-05-06 15:35:27,911 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{755.8}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:35:27,911 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:35:27,911 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.21}AimPos{317}
+2023-05-06 15:35:29,175 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{201169.69389}nCtlValue{1}
+2023-05-06 15:35:29,238 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{316.3}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:35:29,238 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-05-06 15:35:41,729 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 15:35:46,805 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:35:46,805 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:35:46,820 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:35:46,820 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:35:48,450 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-05-06 15:35:48,450 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-05-06 15:35:48,825 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-05-06 15:35:48,825 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:35:48,825 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{316.79}AimPos{116}
+2023-05-06 15:35:50,090 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-201169.69389}nCtlValue{1}
+2023-05-06 15:35:50,152 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{116.795}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:35:50,152 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:35:50,152 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{757.335}AimPos{780}
+2023-05-06 15:35:50,183 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{22665}nCtlValue{2}
+2023-05-06 15:35:50,573 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.8}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:35:50,589 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:35:51,573 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-05-06 15:35:51,573 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1.5}S,{0.5}S
+2023-05-06 15:35:53,587 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:35:53,587 [AppLog] INFO : 压墨等待开启：{1S}
+2023-05-06 15:35:54,601 [AppLog] INFO : 压墨等待完成：{1S}
+2023-05-06 15:35:54,601 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:35:54,601 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:35:54,601 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.915}AimPos{680}
+2023-05-06 15:35:54,632 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99915}nCtlValue{2}
+2023-05-06 15:35:55,507 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{683.7}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:35:55,960 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:35:55,976 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.76}AimPos{758}
+2023-05-06 15:35:56,007 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{77240}nCtlValue{2}
+2023-05-06 15:35:56,756 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{753.565}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:35:56,756 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:35:56,756 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.215}AimPos{317}
+2023-05-06 15:35:58,021 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{201164.684435}nCtlValue{1}
+2023-05-06 15:35:58,099 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{316.47}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:35:58,099 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-05-06 15:36:07,206 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 15:36:11,693 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:36:11,693 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:36:11,724 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:36:11,724 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:36:12,618 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-05-06 15:36:12,618 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-05-06 15:36:12,980 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-05-06 15:36:12,980 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:36:12,980 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{316.785}AimPos{116}
+2023-05-06 15:36:14,245 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-201164.684435}nCtlValue{1}
+2023-05-06 15:36:14,308 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{116.755}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:36:14,308 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:36:14,308 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{757.325}AimPos{780}
+2023-05-06 15:36:14,339 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{22675}nCtlValue{2}
+2023-05-06 15:36:14,730 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.855}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:36:14,730 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:36:15,715 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-05-06 15:36:15,715 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:36:16,730 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:36:16,730 [AppLog] INFO : 压墨等待开启：{1S}
+2023-05-06 15:36:17,730 [AppLog] INFO : 压墨等待完成：{1S}
+2023-05-06 15:36:17,730 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:36:17,730 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:36:17,746 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.91}AimPos{680}
+2023-05-06 15:36:17,777 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99910}nCtlValue{2}
+2023-05-06 15:36:18,636 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.7}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:36:19,089 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:36:19,089 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.755}AimPos{758}
+2023-05-06 15:36:19,121 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{77245}nCtlValue{2}
+2023-05-06 15:36:19,870 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{753.565}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:36:19,870 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:36:19,870 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.21}AimPos{317}
+2023-05-06 15:36:21,139 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{201169.69389}nCtlValue{1}
+2023-05-06 15:36:21,201 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{316.355}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:36:21,201 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-05-06 15:36:25,684 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 15:36:28,121 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:36:28,121 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:36:28,152 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:36:28,152 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:36:29,422 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-05-06 15:36:29,422 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-05-06 15:36:29,784 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-05-06 15:36:29,784 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:36:29,784 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{316.795}AimPos{116}
+2023-05-06 15:36:31,049 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-201174.703345}nCtlValue{1}
+2023-05-06 15:36:31,112 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{116.785}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:36:31,112 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:36:31,112 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{757.33}AimPos{780}
+2023-05-06 15:36:31,143 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{22670}nCtlValue{2}
+2023-05-06 15:36:31,534 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.84}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:36:31,534 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:36:32,517 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-05-06 15:36:32,517 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:36:34,032 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:36:34,032 [AppLog] INFO : 压墨等待开启：{1S}
+2023-05-06 15:36:35,032 [AppLog] INFO : 压墨等待完成：{1S}
+2023-05-06 15:36:35,032 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:36:35,032 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:36:35,032 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.925}AimPos{680}
+2023-05-06 15:36:35,064 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99925.0000000001}nCtlValue{2}
+2023-05-06 15:36:35,923 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.73}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:36:36,376 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:36:36,376 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.745}AimPos{758}
+2023-05-06 15:36:36,407 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{77255}nCtlValue{2}
+2023-05-06 15:36:37,187 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{755.12}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:36:37,187 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:36:37,187 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.205}AimPos{317}
+2023-05-06 15:36:38,453 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{201174.703345}nCtlValue{1}
+2023-05-06 15:36:38,515 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{316.27}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:36:38,515 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-05-06 15:36:53,488 [AppLog] INFO : 手动停止自动清洗过程：AutoCleanBtn_Click
+2023-05-06 15:36:53,912 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-05-06 15:36:53,912 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-05-06 15:36:54,295 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-05-06 15:36:54,295 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:36:54,295 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{316.795}AimPos{116}
+2023-05-06 15:36:55,575 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-201174.703345}nCtlValue{1}
+2023-05-06 15:36:55,638 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{116.63}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:36:55,638 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:36:55,638 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{757.325}AimPos{780}
+2023-05-06 15:36:55,669 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{22675}nCtlValue{2}
+2023-05-06 15:36:56,060 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.835}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:36:56,060 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:36:57,044 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-05-06 15:36:57,044 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:36:58,544 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:36:58,544 [AppLog] INFO : 压墨等待开启：{1S}
+2023-05-06 15:36:59,559 [AppLog] INFO : 压墨等待完成：{1S}
+2023-05-06 15:36:59,559 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:36:59,559 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:36:59,559 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.93}AimPos{680}
+2023-05-06 15:36:59,591 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99930.0000000001}nCtlValue{2}
+2023-05-06 15:37:00,464 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.185}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:37:00,918 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:37:00,918 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.745}AimPos{758}
+2023-05-06 15:37:00,949 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{77255}nCtlValue{2}
+2023-05-06 15:37:01,713 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{754.375}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:37:01,713 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:37:01,713 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.205}AimPos{317}
+2023-05-06 15:37:02,995 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{201174.703345}nCtlValue{1}
+2023-05-06 15:37:03,058 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{316.455}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:37:03,058 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-05-06 15:37:07,182 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:37:10,633 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:37:17,596 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1.5}S,{0.5}S
+2023-05-06 15:37:22,045 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:37:25,607 [AppLog] INFO : 手动停止自动清洗过程：AutoCleanBtn_Click
+2023-05-06 15:37:30,963 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-05-06 15:37:30,963 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-05-06 15:37:31,324 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-05-06 15:37:31,324 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:37:31,324 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{316.795}AimPos{116}
+2023-05-06 15:37:32,588 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-201174.703345}nCtlValue{1}
+2023-05-06 15:37:32,666 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{116.555}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:37:32,666 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:37:32,682 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{757.32}AimPos{780}
+2023-05-06 15:37:32,713 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{22679.9999999999}nCtlValue{2}
+2023-05-06 15:37:33,119 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{776.56}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:37:33,119 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:37:34,104 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-05-06 15:37:34,104 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1.5}S,{0.5}S
+2023-05-06 15:37:35,634 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:37:35,634 [AppLog] INFO : 压墨等待开启：{1S}
+2023-05-06 15:37:36,649 [AppLog] INFO : 压墨等待完成：{1S}
+2023-05-06 15:37:36,649 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:37:36,649 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:37:36,649 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.935}AimPos{680}
+2023-05-06 15:37:36,695 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99935.0000000001}nCtlValue{2}
+2023-05-06 15:37:37,570 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{683.76}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:37:38,085 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:37:38,085 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.75}AimPos{758}
+2023-05-06 15:37:38,116 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{77250}nCtlValue{2}
+2023-05-06 15:37:38,882 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{754.46}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:37:38,882 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:37:38,882 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.205}AimPos{317}
+2023-05-06 15:37:40,164 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{201174.703345}nCtlValue{1}
+2023-05-06 15:37:40,226 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{316.285}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:37:40,226 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-05-06 15:37:46,192 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 15:37:48,802 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:37:48,802 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:37:48,834 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:37:48,834 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:37:55,286 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-05-06 15:37:55,286 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-05-06 15:37:55,710 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-05-06 15:37:55,710 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:37:55,710 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{316.79}AimPos{116}
+2023-05-06 15:37:56,975 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-201169.69389}nCtlValue{1}
+2023-05-06 15:37:57,038 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{116.745}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:37:57,038 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:37:57,038 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{757.335}AimPos{780}
+2023-05-06 15:37:57,069 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{22665}nCtlValue{2}
+2023-05-06 15:37:57,459 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.755}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:37:57,459 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:37:58,442 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-05-06 15:37:58,442 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:37:59,956 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:37:59,956 [AppLog] INFO : 压墨等待开启：{1S}
+2023-05-06 15:38:00,971 [AppLog] INFO : 压墨等待完成：{1S}
+2023-05-06 15:38:00,971 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:38:00,971 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:38:00,971 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.925}AimPos{680}
+2023-05-06 15:38:01,002 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99925.0000000001}nCtlValue{2}
+2023-05-06 15:38:01,861 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.41}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:38:02,376 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:38:02,376 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.73}AimPos{758}
+2023-05-06 15:38:02,407 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{77270}nCtlValue{2}
+2023-05-06 15:38:03,313 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{757.32}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:38:03,313 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:38:03,313 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.21}AimPos{317}
+2023-05-06 15:38:04,578 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{201169.69389}nCtlValue{1}
+2023-05-06 15:38:04,641 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{316.29}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:38:04,641 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-05-06 15:39:14,229 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 15:39:15,961 [AppLog] INFO : 进入电气控制模块
+2023-05-06 15:39:16,678 [AppLog] INFO : 退出电气控制模块
+2023-05-06 15:39:17,193 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:39:17,193 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:39:17,224 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:39:17,224 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:39:19,127 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 15:39:20,812 [AppLog] INFO : 软件及设备关停中止：手动取消关停
+2023-05-06 15:39:21,436 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-05-06 15:39:22,185 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-05-06 15:39:28,409 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-05-06 15:39:28,409 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-05-06 15:39:28,597 [AppLog] INFO : 喷墨控制器关闭！
+2023-05-06 15:39:28,597 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2023-05-06 15:39:28,597 [AppLog] INFO : 进入电气控制模块
+2023-05-06 15:39:29,720 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-05-06 15:39:30,172 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-05-06 15:39:30,687 [AppLog] INFO : 退出电气控制模块
+2023-05-06 15:39:32,060 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-05-06 15:39:32,060 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-05-06 15:39:32,731 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{17.85674%} ，可用内存大小:{14014MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：67 GB
+  盘符 E:\ 的剩余空间：57 GB
+==========================================================================
+2023-05-06 15:44:36,199 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{6.249509%} ，可用内存大小:{14049MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：67 GB
+  盘符 E:\ 的剩余空间：57 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号:  USB  SanDisk 3.2Gen1 USB Device
+==========================================================================
+2023-05-06 15:44:38,258 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-05-06 15:44:38,258 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-05-06 15:44:44,342 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-05-06 15:44:44,514 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-05-06 15:44:44,576 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-05-06 15:45:08,054 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-05-06 15:45:08,085 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-05-06 15:45:10,722 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-05-06 15:45:10,722 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-05-06 15:45:10,753 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-05-06 15:45:10,878 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-05-06 15:45:10,878 [AppLog] INFO : 进入电气控制模块
+2023-05-06 15:45:11,704 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-05-06 15:45:12,250 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-05-06 15:45:12,703 [AppLog] INFO : 退出电气控制模块
+2023-05-06 15:45:13,327 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:45:13,327 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:45:13,358 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:45:13,358 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:45:17,289 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2023-05-06 15:45:17,289 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-05-06 15:45:18,756 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-05-06 15:45:18,756 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-05-06 15:45:28,116 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{25MM/s}
+2023-05-06 15:45:28,116 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-05-06 15:45:40,939 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-05-06 15:47:22,745 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-05-06 15:47:22,823 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-05-06 15:47:23,135 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-05-06 15:47:26,894 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-05-06 15:47:29,609 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:47:36,519 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:47:38,781 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:47:40,170 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:47:44,725 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.4}S
+2023-05-06 15:47:48,142 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:47:52,385 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.3}S
+2023-05-06 15:47:55,208 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:47:58,609 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.1}S
+2023-05-06 15:48:00,902 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:48:04,412 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.2}S
+2023-05-06 15:48:08,874 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:48:12,556 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.3}S
+2023-05-06 15:48:14,568 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:48:19,856 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-05-06 15:48:19,856 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-05-06 15:48:20,278 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-05-06 15:48:20,278 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:48:20,278 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{248.495}AimPos{116}
+2023-05-06 15:48:21,307 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-132745.548045}nCtlValue{1}
+2023-05-06 15:48:21,370 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{116.705}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:48:21,370 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:48:21,385 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{738.015}AimPos{780}
+2023-05-06 15:48:21,432 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{41985}nCtlValue{2}
+2023-05-06 15:48:21,978 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.04}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:48:21,994 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:48:22,976 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-05-06 15:48:23,008 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.3}S
+2023-05-06 15:48:24,521 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:48:24,521 [AppLog] INFO : 压墨等待开启：{1S}
+2023-05-06 15:48:25,535 [AppLog] INFO : 压墨等待完成：{1S}
+2023-05-06 15:48:25,535 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-06 15:48:25,535 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:48:25,535 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.27}AimPos{680}
+2023-05-06 15:48:25,566 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99270}nCtlValue{2}
+2023-05-06 15:48:26,424 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.99}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:48:26,876 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-05-06 15:48:26,876 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.765}AimPos{758}
+2023-05-06 15:48:26,908 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{77235}nCtlValue{2}
+2023-05-06 15:48:27,656 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{753.385}bImmeStop{False}nAxisMask{1}
+2023-05-06 15:48:27,656 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-05-06 15:48:27,656 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.085}AimPos{317}
+2023-05-06 15:48:28,936 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{201294.930265}nCtlValue{1}
+2023-05-06 15:48:28,998 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{316.31}bImmeStop{False}nAxisMask{2}
+2023-05-06 15:48:28,998 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-05-06 15:48:34,084 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 15:48:35,394 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:48:35,394 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:48:35,425 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:48:35,425 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:48:41,899 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 15:53:50,421 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:53:50,421 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:53:50,437 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:53:50,437 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:54:12,136 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:54:13,868 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:54:14,320 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:54:21,309 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:54:25,193 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:54:27,393 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:54:28,142 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:54:30,248 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:54:30,841 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:54:32,260 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:54:39,280 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 15:54:39,920 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 15:54:39,920 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 15:54:39,951 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 15:54:39,951 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 15:54:44,803 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.3}S
+2023-05-06 15:54:46,238 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:54:46,628 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.3}S
+2023-05-06 15:54:50,606 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:56:55,234 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:56:58,089 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:56:58,932 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:57:02,395 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:57:02,847 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:57:04,376 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:57:05,437 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:57:08,167 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:57:08,557 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:57:09,805 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:57:15,124 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:57:18,728 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:57:19,165 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:57:20,772 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:57:21,443 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-06 15:57:22,675 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:57:28,104 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.5}S
+2023-05-06 15:57:32,066 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:57:36,777 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.4}S
+2023-05-06 15:57:42,300 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:57:47,151 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.3}S
+2023-05-06 15:57:50,864 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:57:52,814 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{1}S,{0.3}S
+2023-05-06 15:57:58,446 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-06 15:58:35,777 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 15:58:36,822 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-05-06 15:58:37,976 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-05-06 15:58:44,201 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-05-06 15:58:44,201 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-05-06 15:58:46,775 [AppLog] INFO : 喷墨控制器关闭！
+2023-05-06 15:58:46,775 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2023-05-06 15:58:46,775 [AppLog] INFO : 进入电气控制模块
+2023-05-06 15:58:58,521 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-05-06 15:58:59,535 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-05-06 15:59:00,159 [AppLog] INFO : 退出电气控制模块
+2023-05-06 15:59:02,016 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-05-06 15:59:02,016 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-05-06 15:59:02,687 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{13993MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：67 GB
+  盘符 E:\ 的剩余空间：57 GB
+==========================================================================

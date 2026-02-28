@@ -1,0 +1,138 @@
+2023-11-22 14:51:31,188 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{39.28546%} ，可用内存大小:{14369MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：70 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-11-22 14:51:38,551 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-11-22 14:51:38,551 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-11-22 14:51:44,650 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-11-22 14:51:44,869 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-11-22 14:51:44,931 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-11-22 14:52:08,721 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-11-22 14:52:08,753 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-11-22 14:52:09,143 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-11-22 14:52:11,826 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-11-22 14:52:11,841 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-11-22 14:52:11,857 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-11-22 14:52:11,997 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-11-22 14:52:11,997 [AppLog] INFO : 进入电气控制模块
+2023-11-22 14:52:13,729 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-11-22 14:52:14,681 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-11-22 14:52:15,351 [AppLog] INFO : 退出电气控制模块
+2023-11-22 14:52:17,473 [AppLog] INFO : 进入数据加载模块
+2023-11-22 14:52:53,587 [AppLog] INFO : 进入数据加载模块
+2023-11-22 14:53:10,373 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\Box_1.cli
+2023-11-22 14:53:10,373 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\Box_1_1.cli
+2023-11-22 14:53:10,388 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\Box_1_1_1_4.cli
+2023-11-22 14:53:10,388 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\Box_1_1_2.cli
+2023-11-22 14:53:10,404 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\Box_1_2_1_4.cli
+2023-11-22 14:53:10,404 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\Box_1_2_2.cli
+2023-11-22 14:53:10,404 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\Box_1_3_3.cli
+2023-11-22 14:53:10,404 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\Box_1_4_3.cli
+2023-11-22 14:53:10,404 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\Box_2.cli
+2023-11-22 14:53:10,404 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\Box_2_1_2.cli
+2023-11-22 14:53:10,451 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\翅膀戒指_1_Rescaled(0.9)_Rescaled(0.9)_Rescaled(1.54321)_Rescaled(0.8).cli
+2023-11-22 14:53:10,497 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\翅膀戒指_1_Rescaled(0.9)_Rescaled(0.9)_Rescaled(1.54321)_Rescaled(0.8)_1_2.cli
+2023-11-22 14:53:10,513 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\叠罗汉_1_Rescaled(0.9)_Rescaled(1.5848)_Rescaled(0.369004)_Rescaled(1.5)_Rescaled(1.33333)_Rescaled(0.76)_Rescaled(1.0-1.0-1.31579).cli
+2023-11-22 14:53:10,544 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\叠罗汉_1_Rescaled(0.9)_Rescaled(1.5848)_Rescaled(0.369004)_Rescaled(1.5)_Rescaled(1.33333)_Rescaled(0.76)_Rescaled(1.0-1.0-1.31579)_1_2.cli
+2023-11-22 14:53:10,560 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\挂件_Rescaled(0.9)_Rescaled(1.38889)_Rescaled(1.38889)_Rescaled(0.720005)_Rescaled(0.8).cli
+2023-11-22 14:53:10,560 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\挂件_Rescaled(0.9)_Rescaled(1.38889)_Rescaled(1.38889)_Rescaled(0.720005)_Rescaled(0.8)_1_2.cli
+2023-11-22 14:53:10,575 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\拉伸件1.cli
+2023-11-22 14:53:10,575 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\拉伸件1_1_2.cli
+2023-11-22 14:53:10,591 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\拉伸件1_2_3.cli
+2023-11-22 14:53:10,607 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\拉伸件2.cli
+2023-11-22 14:53:10,607 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\拉伸件2_1_2.cli
+2023-11-22 14:53:10,622 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\拉伸件2_2_3.cli
+2023-11-22 14:53:10,653 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\铭牌（Arial字体）_1_Rescaled(0.5)_Rescaled(1.33333)_Rescaled(0.8)_1_Rescaled(0.6)_2.cli
+2023-11-22 14:53:10,669 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\231122ClipFiles\铭牌（Arial字体）_1_Rescaled(0.5)_Rescaled(1.33333)_Rescaled(0.8)_Rescaled(0.6).cli
+2023-11-22 14:53:45,878 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\231122ClipFiles\Box_1.cliD:\231122ClipFiles\Box_1_1.cliD:\231122ClipFiles\Box_1_1_1_4.cliD:\231122ClipFiles\Box_1_1_2.cliD:\231122ClipFiles\Box_1_2_1_4.cliD:\231122ClipFiles\Box_1_2_2.cliD:\231122ClipFiles\Box_1_3_3.cliD:\231122ClipFiles\Box_1_4_3.cliD:\231122ClipFiles\Box_2.cliD:\231122ClipFiles\Box_2_1_2.cliD:\231122ClipFiles\翅膀戒指_1_Rescaled(0.9)_Rescaled(0.9)_Rescaled(1.54321)_Rescaled(0.8).cliD:\231122ClipFiles\翅膀戒指_1_Rescaled(0.9)_Rescaled(0.9)_Rescaled(1.54321)_Rescaled(0.8)_1_2.cliD:\231122ClipFiles\叠罗汉_1_Rescaled(0.9)_Rescaled(1.5848)_Rescaled(0.369004)_Rescaled(1.5)_Rescaled(1.33333)_Rescaled(0.76)_Rescaled(1.0-1.0-1.31579).cliD:\231122ClipFiles\叠罗汉_1_Rescaled(0.9)_Rescaled(1.5848)_Rescaled(0.369004)_Rescaled(1.5)_Rescaled(1.33333)_Rescaled(0.76)_Rescaled(1.0-1.0-1.31579)_1_2.cliD:\231122ClipFiles\挂件_Rescaled(0.9)_Rescaled(1.38889)_Rescaled(1.38889)_Rescaled(0.720005)_Rescaled(0.8).cliD:\231122ClipFiles\挂件_Rescaled(0.9)_Rescaled(1.38889)_Rescaled(1.38889)_Rescaled(0.720005)_Rescaled(0.8)_1_2.cliD:\231122ClipFiles\拉伸件1.cliD:\231122ClipFiles\拉伸件1_1_2.cliD:\231122ClipFiles\拉伸件1_2_3.cliD:\231122ClipFiles\拉伸件2.cliD:\231122ClipFiles\拉伸件2_1_2.cliD:\231122ClipFiles\拉伸件2_2_3.cliD:\231122ClipFiles\铭牌（Arial字体）_1_Rescaled(0.5)_Rescaled(1.33333)_Rescaled(0.8)_1_Rescaled(0.6)_2.cliD:\231122ClipFiles\铭牌（Arial字体）_1_Rescaled(0.5)_Rescaled(1.33333)_Rescaled(0.8)_Rescaled(0.6).cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-107.949999MM}Y方向平移目标值{-39.661549MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{30MM}Z方向平移增量{0MM}
+2023-11-22 14:53:55,847 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\231122ClipFiles\Box_1.cliD:\231122ClipFiles\Box_1_1.cliD:\231122ClipFiles\Box_1_1_1_4.cliD:\231122ClipFiles\Box_1_1_2.cliD:\231122ClipFiles\Box_1_2_1_4.cliD:\231122ClipFiles\Box_1_2_2.cliD:\231122ClipFiles\Box_1_3_3.cliD:\231122ClipFiles\Box_1_4_3.cliD:\231122ClipFiles\Box_2.cliD:\231122ClipFiles\Box_2_1_2.cliD:\231122ClipFiles\翅膀戒指_1_Rescaled(0.9)_Rescaled(0.9)_Rescaled(1.54321)_Rescaled(0.8).cliD:\231122ClipFiles\翅膀戒指_1_Rescaled(0.9)_Rescaled(0.9)_Rescaled(1.54321)_Rescaled(0.8)_1_2.cliD:\231122ClipFiles\叠罗汉_1_Rescaled(0.9)_Rescaled(1.5848)_Rescaled(0.369004)_Rescaled(1.5)_Rescaled(1.33333)_Rescaled(0.76)_Rescaled(1.0-1.0-1.31579).cliD:\231122ClipFiles\叠罗汉_1_Rescaled(0.9)_Rescaled(1.5848)_Rescaled(0.369004)_Rescaled(1.5)_Rescaled(1.33333)_Rescaled(0.76)_Rescaled(1.0-1.0-1.31579)_1_2.cliD:\231122ClipFiles\挂件_Rescaled(0.9)_Rescaled(1.38889)_Rescaled(1.38889)_Rescaled(0.720005)_Rescaled(0.8).cliD:\231122ClipFiles\挂件_Rescaled(0.9)_Rescaled(1.38889)_Rescaled(1.38889)_Rescaled(0.720005)_Rescaled(0.8)_1_2.cliD:\231122ClipFiles\拉伸件1.cliD:\231122ClipFiles\拉伸件1_1_2.cliD:\231122ClipFiles\拉伸件1_2_3.cliD:\231122ClipFiles\拉伸件2.cliD:\231122ClipFiles\拉伸件2_1_2.cliD:\231122ClipFiles\拉伸件2_2_3.cliD:\231122ClipFiles\铭牌（Arial字体）_1_Rescaled(0.5)_Rescaled(1.33333)_Rescaled(0.8)_1_Rescaled(0.6)_2.cliD:\231122ClipFiles\铭牌（Arial字体）_1_Rescaled(0.5)_Rescaled(1.33333)_Rescaled(0.8)_Rescaled(0.6).cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-107.949999MM}Y方向平移目标值{-39.661549MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{50MM}Z方向平移增量{0MM}
+2023-11-22 14:54:05,300 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\231122ClipFiles\Box_1.cliD:\231122ClipFiles\Box_1_1.cliD:\231122ClipFiles\Box_1_1_1_4.cliD:\231122ClipFiles\Box_1_1_2.cliD:\231122ClipFiles\Box_1_2_1_4.cliD:\231122ClipFiles\Box_1_2_2.cliD:\231122ClipFiles\Box_1_3_3.cliD:\231122ClipFiles\Box_1_4_3.cliD:\231122ClipFiles\Box_2.cliD:\231122ClipFiles\Box_2_1_2.cliD:\231122ClipFiles\翅膀戒指_1_Rescaled(0.9)_Rescaled(0.9)_Rescaled(1.54321)_Rescaled(0.8).cliD:\231122ClipFiles\翅膀戒指_1_Rescaled(0.9)_Rescaled(0.9)_Rescaled(1.54321)_Rescaled(0.8)_1_2.cliD:\231122ClipFiles\叠罗汉_1_Rescaled(0.9)_Rescaled(1.5848)_Rescaled(0.369004)_Rescaled(1.5)_Rescaled(1.33333)_Rescaled(0.76)_Rescaled(1.0-1.0-1.31579).cliD:\231122ClipFiles\叠罗汉_1_Rescaled(0.9)_Rescaled(1.5848)_Rescaled(0.369004)_Rescaled(1.5)_Rescaled(1.33333)_Rescaled(0.76)_Rescaled(1.0-1.0-1.31579)_1_2.cliD:\231122ClipFiles\挂件_Rescaled(0.9)_Rescaled(1.38889)_Rescaled(1.38889)_Rescaled(0.720005)_Rescaled(0.8).cliD:\231122ClipFiles\挂件_Rescaled(0.9)_Rescaled(1.38889)_Rescaled(1.38889)_Rescaled(0.720005)_Rescaled(0.8)_1_2.cliD:\231122ClipFiles\拉伸件1.cliD:\231122ClipFiles\拉伸件1_1_2.cliD:\231122ClipFiles\拉伸件1_2_3.cliD:\231122ClipFiles\拉伸件2.cliD:\231122ClipFiles\拉伸件2_1_2.cliD:\231122ClipFiles\拉伸件2_2_3.cliD:\231122ClipFiles\铭牌（Arial字体）_1_Rescaled(0.5)_Rescaled(1.33333)_Rescaled(0.8)_1_Rescaled(0.6)_2.cliD:\231122ClipFiles\铭牌（Arial字体）_1_Rescaled(0.5)_Rescaled(1.33333)_Rescaled(0.8)_Rescaled(0.6).cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-107.949999MM}Y方向平移目标值{-39.661549MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{30MM}Z方向平移增量{0MM}
+2023-11-22 14:55:25,703 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\231122ClipFiles\Box_1.cliD:\231122ClipFiles\Box_1_1.cliD:\231122ClipFiles\Box_1_1_1_4.cliD:\231122ClipFiles\Box_1_1_2.cliD:\231122ClipFiles\Box_1_2_1_4.cliD:\231122ClipFiles\Box_1_2_2.cliD:\231122ClipFiles\Box_1_3_3.cliD:\231122ClipFiles\Box_1_4_3.cliD:\231122ClipFiles\Box_2.cliD:\231122ClipFiles\Box_2_1_2.cliD:\231122ClipFiles\翅膀戒指_1_Rescaled(0.9)_Rescaled(0.9)_Rescaled(1.54321)_Rescaled(0.8).cliD:\231122ClipFiles\翅膀戒指_1_Rescaled(0.9)_Rescaled(0.9)_Rescaled(1.54321)_Rescaled(0.8)_1_2.cliD:\231122ClipFiles\叠罗汉_1_Rescaled(0.9)_Rescaled(1.5848)_Rescaled(0.369004)_Rescaled(1.5)_Rescaled(1.33333)_Rescaled(0.76)_Rescaled(1.0-1.0-1.31579).cliD:\231122ClipFiles\叠罗汉_1_Rescaled(0.9)_Rescaled(1.5848)_Rescaled(0.369004)_Rescaled(1.5)_Rescaled(1.33333)_Rescaled(0.76)_Rescaled(1.0-1.0-1.31579)_1_2.cliD:\231122ClipFiles\挂件_Rescaled(0.9)_Rescaled(1.38889)_Rescaled(1.38889)_Rescaled(0.720005)_Rescaled(0.8).cliD:\231122ClipFiles\挂件_Rescaled(0.9)_Rescaled(1.38889)_Rescaled(1.38889)_Rescaled(0.720005)_Rescaled(0.8)_1_2.cliD:\231122ClipFiles\拉伸件1.cliD:\231122ClipFiles\拉伸件1_1_2.cliD:\231122ClipFiles\拉伸件1_2_3.cliD:\231122ClipFiles\拉伸件2.cliD:\231122ClipFiles\拉伸件2_1_2.cliD:\231122ClipFiles\拉伸件2_2_3.cliD:\231122ClipFiles\铭牌（Arial字体）_1_Rescaled(0.5)_Rescaled(1.33333)_Rescaled(0.8)_1_Rescaled(0.6)_2.cliD:\231122ClipFiles\铭牌（Arial字体）_1_Rescaled(0.5)_Rescaled(1.33333)_Rescaled(0.8)_Rescaled(0.6).cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-107.949999MM}Y方向平移目标值{-39.661549MM}Z方向平移目标值{0MM}X方向平移增量{5MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-11-22 14:55:58,853 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\231122ClipFiles\Box_2.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-1.450001MM}Y方向平移目标值{-49.9499985MM}Z方向平移目标值{0MM}X方向平移增量{-5MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-11-22 14:56:07,199 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\231122ClipFiles\Box_2_1_2.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-1.449997MM}Y方向平移目标值{-49.9499985MM}Z方向平移目标值{0MM}X方向平移增量{4MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-11-22 14:56:21,645 [AppLog] INFO : CAD数据保存：保存.bjgroup格式CAD数据成功：D:\231122ClipFiles\111.bjgroup
+2023-11-22 14:56:24,265 [AppLog] INFO : 进入数据加载模块
+2023-11-22 14:56:44,077 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-11-22 14:56:46,339 [AppLog] INFO : 中止并退出关闭流程！
+2023-11-22 14:56:49,132 [AppLog] INFO : 进入手动调试子模块！
+2023-11-22 14:56:49,132 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-11-22 14:56:49,163 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-11-22 14:56:49,163 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-11-22 14:57:06,495 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2023-11-22 14:57:06,495 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-11-22 14:57:15,121 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{50MM/s}
+2023-11-22 14:57:15,121 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-11-22 14:57:19,833 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-11-22 14:57:19,833 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2023-11-22 14:57:19,848 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-11-22 14:57:19,848 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-11-22 14:57:19,973 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2023-11-22 14:57:19,973 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-11-22 14:57:20,737 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2023-11-22 14:57:20,737 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-11-22 14:57:20,847 [AppLog] INFO : 手动停止自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-11-22 14:57:21,517 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-11-22 14:57:21,517 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-11-22 14:57:21,517 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-11-22 14:57:21,517 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-11-22 14:57:21,814 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2023-11-22 14:57:21,814 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2023-11-22 14:57:22,828 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2023-11-22 14:57:23,686 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{214MM},运动速度{250MM/s}
+2023-11-22 14:57:23,686 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2023-11-22 14:57:23,686 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2023-11-22 14:57:23,686 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2023-11-22 14:57:23,795 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2023-11-22 14:57:23,982 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2023-11-22 14:57:23,982 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-11-22 14:57:23,982 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2023-11-22 14:57:23,982 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-11-22 14:57:29,707 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2023-11-22 14:57:32,047 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2023-11-22 14:57:32,047 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2023-11-22 14:57:33,280 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-11-22 14:57:33,280 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-11-22 14:57:34,060 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2023-11-22 14:57:34,060 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-11-22 14:57:34,060 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-11-22 14:57:34,060 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-11-22 14:57:36,852 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2023-11-22 14:57:36,852 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2023-11-22 14:57:37,632 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2023-11-22 14:57:37,632 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-11-22 14:57:37,632 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-11-22 14:57:38,397 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-11-22 14:57:38,397 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-11-22 14:57:38,397 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-11-22 14:57:38,397 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-11-22 14:57:38,397 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2023-11-22 14:57:38,412 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2023-11-22 14:57:50,830 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-11-22 14:57:55,541 [AppLog] INFO : 进入手动调试子模块！
+2023-11-22 14:57:55,541 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-11-22 14:57:55,588 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-11-22 14:57:55,588 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-11-22 14:58:01,688 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-11-22 14:58:03,326 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-11-22 14:58:06,742 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-11-22 14:59:32,589 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！

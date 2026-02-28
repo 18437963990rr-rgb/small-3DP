@@ -1,0 +1,78 @@
+2023-03-03 13:43:21,147 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{42.85688%} ，可用内存大小:{14478MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：82 GB
+  盘符 D:\ 的剩余空间：97 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-03-03 13:43:21,303 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-03 13:43:21,303 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-03 13:43:27,402 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-03 13:43:53,751 [AppLog] INFO : 初始化喷墨控制器！
+2023-03-03 13:43:54,047 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-03-03 13:43:54,047 [AppLog] INFO : 进入电气控制模块
+2023-03-03 13:43:55,092 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-03-03 13:43:55,779 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-03-03 13:43:56,606 [AppLog] INFO : 退出电气控制模块
+2023-03-03 13:43:57,744 [AppLog] INFO : 进入手动调试子模块！
+2023-03-03 13:44:28,664 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-03-03 13:44:32,065 [AppLog] INFO : 停止自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{false},ControlBit{255}
+2023-03-03 13:44:34,982 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\ricoh_phcfg16 - wave4.rhdat}
+2023-03-03 13:44:40,395 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-03 13:44:45,808 [AppLog] INFO : 更新喷头电压及温度参数成功：MCU_SetPhVoltage:1号喷头电压：{18V,18V,18V,18V}；MCU_SetPhVoltage:1号喷头温度：{25℃}
+2023-03-03 13:45:10,160 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-03 13:45:23,716 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-03 13:46:08,176 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-03 13:46:13,964 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-03 13:57:41,301 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-03 13:57:42,502 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-03 13:57:46,199 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-03 13:57:54,109 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-03 13:58:13,500 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-03-03 13:58:18,616 [AppLog] INFO : 开启墨车和铺粉车回零校准：EncoderResetBtn_Click
+2023-03-03 13:58:18,616 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-03-03 13:58:18,616 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-03-03 13:58:28,866 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{30MM/s}
+2023-03-03 13:58:28,897 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-03-03 13:58:42,126 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-03-03 13:58:45,979 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-03 13:58:48,319 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-03 13:58:48,584 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-03 13:58:48,631 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-03 13:58:48,990 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-03 13:58:49,068 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-03 13:58:49,224 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-03 13:58:49,286 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-03 13:58:49,660 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-03 13:58:49,707 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-03 13:58:50,128 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-03 13:58:50,144 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-03 13:58:50,565 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-03 13:58:50,596 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-03 13:58:51,189 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-03 13:58:51,236 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-03 13:58:52,359 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-03 13:58:53,014 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-03 13:58:53,560 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-03 13:58:54,138 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-03 13:58:54,652 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-03 13:58:55,214 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-03 13:58:55,822 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-03 13:58:56,727 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-03 13:58:57,258 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-03 13:58:57,835 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-03 13:59:01,594 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-03 13:59:03,638 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-03 13:59:09,753 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-03 13:59:09,847 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-03 13:59:12,514 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-03-03 13:59:27,178 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-03-03 13:59:31,749 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-03 13:59:45,665 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{45℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.16kPa}

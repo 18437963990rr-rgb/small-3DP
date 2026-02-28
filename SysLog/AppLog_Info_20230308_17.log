@@ -1,0 +1,114 @@
+2023-03-08 17:22:13,623 [AppLog] INFO : 进入手动调试子模块！
+2023-03-08 17:22:17,291 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:22:17,709 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:22:20,738 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-03-08 17:22:21,467 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-08 17:22:21,468 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-08 17:22:27,470 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-08 17:22:47,455 [AppLog] INFO : 初始化喷墨控制器！
+2023-03-08 17:22:47,601 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-03-08 17:22:47,603 [AppLog] INFO : 进入电气控制模块
+2023-03-08 17:22:48,483 [AppLog] INFO : 退出电气控制模块
+2023-03-08 17:22:49,544 [AppLog] INFO : 进入电气控制模块
+2023-03-08 17:22:50,433 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-03-08 17:22:51,110 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-03-08 17:22:51,971 [AppLog] INFO : 退出电气控制模块
+2023-03-08 17:22:52,907 [AppLog] INFO : 进入手动调试子模块！
+2023-03-08 17:22:57,069 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:22:57,918 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:22:58,176 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:22:58,395 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:22:58,644 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:22:58,750 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:22:58,910 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:22:58,994 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:22:59,128 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:22:59,223 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:22:59,315 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:22:59,399 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:22:59,518 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:22:59,626 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:22:59,705 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:22:59,784 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:22:59,908 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:23:00,008 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:23:00,126 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:23:00,207 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:23:00,298 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:23:00,389 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:23:00,485 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:23:00,591 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:23:00,719 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:23:00,804 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:23:00,906 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:23:00,961 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:23:01,187 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:23:01,300 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:23:01,422 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:23:01,509 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:23:01,640 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:23:01,692 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:23:02,093 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:23:02,228 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:23:04,136 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-03-08 17:23:04,215 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-08 17:23:04,401 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-03-08 17:23:04,470 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-08 17:23:04,760 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-03-08 17:23:04,820 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-08 17:23:04,947 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-03-08 17:23:05,030 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-08 17:23:05,150 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-03-08 17:23:05,215 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-08 17:23:05,322 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-03-08 17:23:05,392 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-08 17:23:05,509 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-03-08 17:23:05,536 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-08 17:23:07,379 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:09,212 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:09,609 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:10,580 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:11,277 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:12,686 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:13,504 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:14,757 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:15,450 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:17,025 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:17,836 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:19,037 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:19,589 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:20,519 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:21,089 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:22,099 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:22,592 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:23,314 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:23:54,057 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:23:54,144 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:23:54,556 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:23:54,651 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:23:54,930 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:23:55,009 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:23:55,398 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:23:55,451 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:24:18,205 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:24:18,317 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:24:19,048 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-08 17:24:19,103 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-08 17:24:37,860 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:24:39,069 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:24:39,514 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:24:40,374 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-08 17:24:42,419 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-03-08 17:24:46,814 [AppLog] INFO : 进入电气控制模块
+2023-03-08 17:24:48,043 [AppLog] INFO : 退出电气控制模块
+2023-03-08 17:24:49,326 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-08 17:24:50,101 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-03-08 17:24:56,223 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-03-08 17:24:56,255 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-03-08 17:24:56,260 [AppLog] INFO : 喷墨控制器关闭！
+2023-03-08 17:24:56,268 [AppLog] INFO : 进入电气控制模块
+2023-03-08 17:25:00,001 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-03-08 17:25:00,689 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-03-08 17:25:03,140 [AppLog] INFO : 退出电气控制模块

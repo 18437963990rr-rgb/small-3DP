@@ -1,0 +1,82 @@
+2023-03-22 15:54:59,993 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{24.2757%} ，可用内存大小:{14267MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Generic Flash Disk USB Device
+==========================================================================
+2023-03-22 15:55:00,235 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-22 15:55:00,238 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-22 15:55:00,238 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-22 15:55:06,246 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-22 15:55:32,155 [AppLog] INFO : 更新{1}号喷头电压成功：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 15:55:32,233 [AppLog] INFO : 更新{1}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 15:55:32,607 [AppLog] INFO : 更新{2}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 15:55:32,794 [AppLog] INFO : 更新{2}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 15:55:33,169 [AppLog] INFO : 更新{3}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 15:55:33,356 [AppLog] INFO : 更新{3}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 15:55:33,730 [AppLog] INFO : 更新{4}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 15:55:33,918 [AppLog] INFO : 更新{4}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 15:55:34,292 [AppLog] INFO : 更新{5}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 15:55:34,479 [AppLog] INFO : 更新{5}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 15:55:34,854 [AppLog] INFO : 更新{6}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 15:55:35,041 [AppLog] INFO : 更新{6}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 15:55:35,415 [AppLog] INFO : 更新{7}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 15:55:35,602 [AppLog] INFO : 更新{7}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 15:55:35,977 [AppLog] INFO : 更新{8}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 15:55:36,164 [AppLog] INFO : 更新{8}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 15:55:36,180 [AppLog] INFO : 初始化喷墨控制器！
+2023-03-22 15:55:36,180 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-03-22 15:55:36,351 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-03-22 15:55:36,507 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-03-22 15:55:36,507 [AppLog] INFO : 进入电气控制模块
+2023-03-22 15:55:39,970 [AppLog] INFO : 退出电气控制模块
+2023-03-22 15:56:04,166 [AppLog] INFO : 进入手动调试子模块！
+2023-03-22 15:56:04,166 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-03-22 15:56:04,182 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-03-22 15:56:04,182 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-03-22 15:56:12,247 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 15:56:15,648 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-22 15:56:18,799 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 15:56:24,446 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{45℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.16kPa}
+2023-03-22 15:56:24,540 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-22 15:56:28,892 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 15:56:33,978 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{45℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.16kPa}
+2023-03-22 15:56:34,290 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-22 15:56:39,594 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 15:56:44,976 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{45℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.16kPa}
+2023-03-22 15:56:45,178 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-22 15:56:50,529 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 15:56:50,529 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-22 15:56:53,587 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 15:57:00,061 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{45℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.16kPa}
+2023-03-22 15:57:01,028 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-22 15:57:36,783 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 15:57:43,304 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{45℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.16kPa}
+2023-03-22 15:57:43,741 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-22 15:59:02,022 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-03-22 15:59:06,671 [AppLog] INFO : 进入手动调试子模块！
+2023-03-22 15:59:06,671 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-03-22 15:59:06,702 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-03-22 15:59:06,702 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-03-22 15:59:08,044 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-03-22 15:59:09,947 [AppLog] INFO : 进入电气控制模块
+2023-03-22 15:59:10,836 [AppLog] INFO : 退出电气控制模块
+2023-03-22 15:59:12,568 [AppLog] INFO : 进入手动调试子模块！
+2023-03-22 15:59:12,568 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-03-22 15:59:12,583 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-03-22 15:59:12,583 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-03-22 15:59:15,142 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 15:59:20,602 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{45℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.16kPa}
+2023-03-22 15:59:21,647 [AppLog] INFO : 进入气压控制卡参数设置状态时

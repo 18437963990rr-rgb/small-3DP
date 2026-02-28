@@ -1,0 +1,156 @@
+2023-07-21 10:39:15,225 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{4.416612%} ，可用内存大小:{14270MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：80 GB
+  盘符 E:\ 的剩余空间：0 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: VendorCo ProductCode USB Device
+==========================================================================
+2023-07-21 10:39:44,849 [AppLog] INFO : 进入手动调试子模块！
+2023-07-21 10:39:44,850 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-21 10:39:45,062 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-21 10:39:51,829 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2023-07-21 10:39:51,830 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-07-21 10:39:55,284 [AppLog] INFO : 粉车回零校准线程失败：PowderCarHomeResetThread
+2023-07-21 10:39:58,293 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-07-21 10:39:59,303 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-07-21 10:39:59,305 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-07-21 10:40:05,313 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-07-21 10:40:05,353 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-07-21 10:40:05,405 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-07-21 10:40:29,187 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-07-21 10:40:29,219 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-07-21 10:40:29,609 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-07-21 10:40:32,417 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-07-21 10:40:32,417 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-07-21 10:40:32,448 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-07-21 10:40:32,573 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-07-21 10:40:32,573 [AppLog] INFO : 进入电气控制模块
+2023-07-21 10:40:36,239 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-07-21 10:40:37,409 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-07-21 10:40:38,423 [AppLog] INFO : 退出电气控制模块
+2023-07-21 10:40:40,544 [AppLog] INFO : 进入手动调试子模块！
+2023-07-21 10:40:40,544 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-21 10:40:40,575 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-21 10:40:40,575 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-21 10:40:46,238 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2023-07-21 10:40:46,238 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-07-21 10:40:57,221 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{25MM/s}
+2023-07-21 10:40:57,221 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-07-21 10:41:09,139 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-07-21 10:41:09,139 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-07-21 10:41:31,697 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-07-21 10:41:44,629 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-07-21 10:41:46,111 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-07-21 10:41:48,638 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-07-21 10:41:51,446 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-07-21 10:41:51,930 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-07-21 10:41:52,289 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-07-21 10:41:59,558 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-07-21 10:41:59,761 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-07-21 10:42:02,632 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-07-21 10:42:02,772 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-07-21 10:42:05,798 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-07-21 10:42:05,845 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-07-21 10:42:06,469 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-07-21 10:42:06,563 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-07-21 10:42:07,000 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-07-21 10:42:07,109 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-07-21 10:42:07,483 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-07-21 10:42:07,530 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-07-21 10:42:07,951 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-07-21 10:42:08,014 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-07-21 10:42:14,363 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-07-21 10:42:15,907 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2023-07-21 10:42:16,952 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-07-21 10:42:17,046 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-07-21 10:42:17,686 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-07-21 10:42:18,185 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-07-21 10:42:18,575 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-07-21 10:42:20,338 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-07-21 10:42:22,178 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-07-21 10:42:22,272 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-07-21 10:42:22,709 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-07-21 10:42:22,740 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-07-21 10:42:23,504 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-07-21 10:42:23,567 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-07-21 10:42:24,440 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-07-21 10:42:24,518 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-07-21 10:42:25,610 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-07-21 10:42:25,688 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-07-21 10:42:33,301 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-21 10:42:38,184 [AppLog] INFO : 进入数据加载模块
+2023-07-21 10:43:58,727 [AppLog] INFO : CAD数据加载：添加.bjgroup格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\dayingjian-0720.bjgroup
+2023-07-21 10:44:06,699 [AppLog] INFO : 进入数据加载模块
+2023-07-21 10:44:28,351 [AppLog] INFO : 进入数据加载模块
+2023-07-21 10:45:37,007 [AppLog] INFO : 进入数据加载模块
+2023-07-21 10:46:20,906 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\SCUT-3DP测试件打-0915\Box-200X200X200.cli
+2023-07-21 10:47:17,050 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\SCUT-3DP测试件打-0915\Box-200X200X200.cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-50MM}Y方向平移目标值{-100MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-07-21 10:47:59,716 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\SCUT-3DP测试件打-0915\Box-200X200X200.cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-100MM}Y方向平移目标值{-50MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-07-21 10:49:03,536 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0718DAYING\Box_1.cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\SCUT-3DP测试件打-0915\Box-200X200X200.cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-120MM}Y方向平移目标值{-50MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-07-21 10:49:19,874 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\SCUT-3DP测试件打-0915\Box-200X200X200.cli
+2023-07-21 10:49:52,794 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\4-散热器_Rescaled(1.25).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\one0719_Rescaled(0.500179).cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-10MM}Y方向平移目标值{-53.1175004999999MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-07-21 10:50:09,074 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\4-散热器_Rescaled(1.25).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\one0719_Rescaled(0.500179).cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{10MM}Y方向平移目标值{-53.1175004999999MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-07-21 10:50:32,654 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\4-散热器_Rescaled(1.25).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\one0719_Rescaled(0.500179).cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-25.37685MM}Y方向平移目标值{-53.1175004999999MM}Z方向平移目标值{0MM}X方向平移增量{-30MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-07-21 10:50:57,144 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\4-散热器_Rescaled(1.25).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\one0719_Rescaled(0.500179).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0718DAYING\Box_1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-34.0037985MM}Y方向平移目标值{-53.1175004999999MM}Z方向平移目标值{0MM}X方向平移增量{-10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-07-21 10:51:08,024 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\two0719_Rescaled(0.5)_Rescaled(0.5)_Rescaled(2).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\蜂窝_Rescaled(0.625003)_Rescaled(0.625).cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-25.1673485MM}Y方向平移目标值{-52.979749MM}Z方向平移目标值{0MM}X方向平移增量{-10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-07-21 10:51:33,055 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\one0719_Rescaled(0.500179).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\two0719_Rescaled(0.5)_Rescaled(0.5)_Rescaled(2).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\蜂窝_Rescaled(0.625003)_Rescaled(0.625)_2.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-89.657404MM}Y方向平移目标值{-25.5568485MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{5MM}Z方向平移增量{0MM}
+2023-07-21 10:51:57,895 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\4-散热器_Rescaled(1.25).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\蜂窝_Rescaled(0.625003)_Rescaled(0.625).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\负泊松比（0.618壁厚3）_Rescaled(0.759878)_Rescaled(0.759878)_Rescaled(1.316).cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-89.041049MM}Y方向平移目标值{-25.3754995MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{-5MM}Z方向平移增量{0MM}
+2023-07-21 10:52:19,665 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\4-散热器_Rescaled(1.25).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\one0719_Rescaled(0.500179).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\two0719_Rescaled(0.5)_Rescaled(0.5)_Rescaled(2).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\蜂窝_Rescaled(0.625003)_Rescaled(0.625).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\蜂窝_Rescaled(0.625003)_Rescaled(0.625)_2.cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\负泊松比（0.618壁厚3）_Rescaled(0.759878)_Rescaled(0.759878)_Rescaled(1.316).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0718DAYING\Box_1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-98.2843525MM}Y方向平移目标值{-58.4979999999999MM}Z方向平移目标值{0MM}X方向平移增量{5MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-07-21 10:53:21,809 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\4-散热器_Rescaled(1.25).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\one0719_Rescaled(0.500179).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\two0719_Rescaled(0.5)_Rescaled(0.5)_Rescaled(2).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\蜂窝_Rescaled(0.625003)_Rescaled(0.625).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\蜂窝_Rescaled(0.625003)_Rescaled(0.625)_2.cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0720daying-yangjiang\负泊松比（0.618壁厚3）_Rescaled(0.759878)_Rescaled(0.759878)_Rescaled(1.316).cliD:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0718DAYING\Box_1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-98.2843525MM}Y方向平移目标值{-58.4979999999999MM}Z方向平移目标值{0MM}X方向平移增量{5MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-07-21 10:53:34,061 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0718DAYING\Box_1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-0.950000000000003MM}Y方向平移目标值{-74.9499985MM}Z方向平移目标值{0MM}X方向平移增量{-5MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-07-21 10:53:54,052 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{System.Single[]Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{15MM}
+2023-07-21 10:53:59,675 [AppLog] INFO : 退出JOB参数设置：未修改直接退出！
+2023-07-21 10:54:07,712 [AppLog] INFO : 进入手动调试子模块！
+2023-07-21 10:54:07,712 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-21 10:54:07,743 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-21 10:54:07,743 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-21 10:54:53,795 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-07-21 10:55:01,626 [AppLog] INFO : 进入数据加载模块
+2023-07-21 10:55:34,901 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield.cli
+2023-07-21 10:55:49,237 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield.cli
+2023-07-21 10:55:51,499 [AppLog] INFO : 进入数据加载模块
+2023-07-21 10:56:04,026 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-0321\Box_1_12.cli
+2023-07-21 10:56:10,656 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-0321\Box_1_12.cli
+2023-07-21 10:56:11,748 [AppLog] INFO : 进入数据加载模块
+2023-07-21 10:56:18,487 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-0517\Box_2.cli
+2023-07-21 10:56:24,899 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-0517\Box_2.cli
+2023-07-21 10:56:26,771 [AppLog] INFO : 进入数据加载模块
+2023-07-21 10:56:35,195 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\小方块-测试件\Box_96.cli
+2023-07-21 10:56:46,739 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\小方块-测试件\Box_96.cli
+2023-07-21 10:57:50,995 [AppLog] INFO : CAD数据阵列：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0718DAYING\Box_1.cli}
+X方向间距{10MM}Y方向间距{0MM}X方向数目{2}Y方向数目{1}
+2023-07-21 10:58:20,589 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0718DAYING\Box_1-copys-0-2.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-0.950000000000003MM}Y方向平移目标值{-74.9499985MM}Z方向平移目标值{0MM}X方向平移增量{-10MM}Y方向平移增量{0MM}Z方向平移增量{20MM}
+2023-07-21 10:58:59,651 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0718DAYING\Box_1-copys-0-2.cli
+2023-07-21 10:59:24,939 [AppLog] INFO : CAD数据阵列：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0718DAYING\Box_1.cli}
+X方向间距{10MM}Y方向间距{0MM}X方向数目{2}Y方向数目{1}
+2023-07-21 10:59:43,799 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0718DAYING\Box_1-copys-0-2.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-0.950000000000003MM}Y方向平移目标值{-74.9499985MM}Z方向平移目标值{0MM}X方向平移增量{-10MM}Y方向平移增量{0MM}Z方向平移增量{40MM}
+2023-07-21 10:59:54,126 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\0718DAYING\Box_1-copys-0-2.cli

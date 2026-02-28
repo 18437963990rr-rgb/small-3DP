@@ -1,0 +1,166 @@
+2023-03-11 12:36:37,864 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{46.4283%} ，可用内存大小:{14050MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：71 GB
+  盘符 D:\ 的剩余空间：92 GB
+  盘符 E:\ 的剩余空间：10 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Kingston DataTraveler 2.0 USB Device
+==========================================================================
+2023-03-11 12:36:39,424 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-11 12:36:39,424 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-11 12:36:45,524 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-11 12:37:40,342 [AppLog] INFO : 初始化喷墨控制器！
+2023-03-11 12:37:40,623 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-03-11 12:37:40,623 [AppLog] INFO : 进入电气控制模块
+2023-03-11 12:37:42,214 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-03-11 12:37:42,776 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-03-11 12:37:43,306 [AppLog] INFO : 退出电气控制模块
+2023-03-11 12:37:43,946 [AppLog] INFO : 进入手动调试子模块！
+2023-03-11 12:37:46,972 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:37:48,829 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:37:49,297 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:37:50,997 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:37:51,855 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:37:53,555 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:37:54,070 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:37:54,991 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:37:55,427 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:37:56,379 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:37:56,831 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:37:57,861 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:37:58,579 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:37:59,936 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:38:00,825 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:38:02,479 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:38:03,259 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:38:04,117 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:38:05,755 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:38:07,408 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:38:13,773 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\ricoh_phcfg16 - wave4.rhdat}
+2023-03-11 12:38:19,171 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-11 12:38:19,218 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-03-11 12:46:46,187 [AppLog] INFO : 进入电气控制模块
+2023-03-11 12:46:47,747 [AppLog] INFO : 退出电气控制模块
+2023-03-11 12:46:48,792 [AppLog] INFO : 进入手动调试子模块！
+2023-03-11 12:47:07,200 [AppLog] INFO : 更新喷头电压及温度参数成功：MCU_SetPhVoltage:1号喷头电压：{18V,18V,18V,18V}；MCU_SetPhVoltage:1号喷头温度：{25℃}
+2023-03-11 12:47:07,247 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-03-11 12:47:08,417 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:47:10,508 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 12:47:11,724 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-11 12:47:13,004 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-11 12:47:15,188 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-03-11 12:47:17,574 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-03-11 12:47:21,381 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-03-11 12:47:21,381 [AppLog] INFO : 中止自动清洗过程，墨车系统未回零：AutoCleanBtn_Click
+2023-03-11 12:47:25,671 [AppLog] INFO : 开启墨车和铺粉车回零校准：EncoderResetBtn_Click
+2023-03-11 12:47:25,671 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-03-11 12:47:25,671 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-03-11 12:47:35,936 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{30MM/s}
+2023-03-11 12:47:35,936 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-03-11 12:47:48,494 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-03-11 12:47:53,158 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-03-11 12:47:53,158 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-03-11 12:47:54,188 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)
+2023-03-11 12:47:54,188 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{52.725}AimPos{121}
+2023-03-11 12:47:54,219 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{68275}nCtlValue{0}
+2023-03-11 12:47:55,077 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{113.465}bImmeStop{False}nAxisMask{2}
+2023-03-11 12:47:55,077 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{738.25}AimPos{710}
+2023-03-11 12:47:55,108 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-28250}nCtlValue{2}
+2023-03-11 12:47:55,560 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{714.075}bImmeStop{False}nAxisMask{1}
+2023-03-11 12:47:56,403 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2023-03-11 12:47:59,414 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, true)
+2023-03-11 12:47:59,429 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-11 12:47:59,429 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{710.13}AimPos{780}
+2023-03-11 12:47:59,460 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{50000}MoveStep{69870}nCtlValue{2}
+2023-03-11 12:48:00,942 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{777.405}bImmeStop{False}nAxisMask{1}
+2023-03-11 12:48:01,332 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.475}AimPos{710}
+2023-03-11 12:48:01,364 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{50000}MoveStep{-69475}nCtlValue{2}
+2023-03-11 12:48:02,814 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{714.255}bImmeStop{False}nAxisMask{1}
+2023-03-11 12:48:04,390 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-03-11 12:48:06,356 [AppLog] INFO : 手动停止自动清洗过程：AutoCleanBtn_Click
+2023-03-11 12:48:11,831 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-03-11 12:48:11,831 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2023-03-11 12:48:11,847 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2023-03-11 12:48:12,658 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-03-11 12:48:13,703 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.5MM},运动速度{0.5MM/s}
+2023-03-11 12:48:13,703 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2023-03-11 12:48:14,015 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{694MM},运动速度{30MM/s}
+2023-03-11 12:48:14,015 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2023-03-11 12:48:18,945 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2023-03-11 12:48:22,533 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0588235294117647MM/s}
+2023-03-11 12:48:22,533 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-03-11 12:48:31,097 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2023-03-11 12:48:34,904 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2023-03-11 12:48:34,904 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2023-03-11 12:48:37,150 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-03-11 12:48:42,813 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-698MM},运动速度{150MM/s}
+2023-03-11 12:48:42,813 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)
+2023-03-11 12:48:43,593 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2023-03-11 12:48:43,593 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-03-11 12:48:44,607 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2023-03-11 12:48:44,607 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2023-03-11 12:48:51,877 [AppLog] INFO : 手动停止自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-03-11 12:49:09,146 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-11 12:57:32,979 [AppLog] INFO : 进入电气控制模块
+2023-03-11 12:57:35,964 [AppLog] INFO : 退出电气控制模块
+2023-03-11 12:57:36,661 [AppLog] INFO : 进入手动调试子模块！
+2023-03-11 12:57:47,039 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-03-11 12:57:47,040 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2023-03-11 12:57:47,041 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2023-03-11 12:57:47,842 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.08mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-03-11 12:57:48,844 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.5MM},运动速度{0.5MM/s}
+2023-03-11 12:57:48,844 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2023-03-11 12:57:49,145 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{698MM},运动速度{30MM/s}
+2023-03-11 12:57:49,145 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2023-03-11 12:57:54,203 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2023-03-11 12:57:57,747 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0588235294117647MM/s}
+2023-03-11 12:57:57,748 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-03-11 12:58:06,365 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2023-03-11 12:58:10,177 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2023-03-11 12:58:10,178 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2023-03-11 12:58:12,415 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-03-11 12:58:18,072 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-698MM},运动速度{150MM/s}
+2023-03-11 12:58:18,073 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)
+2023-03-11 12:58:18,824 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2023-03-11 12:58:18,824 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-03-11 12:58:19,824 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2023-03-11 12:58:19,824 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2023-03-11 12:58:36,654 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-11 12:58:37,607 [AppLog] INFO : 监控记录设置！
+2023-03-11 12:58:41,480 [AppLog] INFO : 更新监控配置文件：SaveJsonFile：配置文件路径{D:\Release\MonitorPrint-Configuration.json}m_sMonitorRecordPath{D:\shibiao-daying-0309}m_sPrintJobName{dayinpaizhaoceshi-0309}m_anJettingBinderBedMonitorFlags{True,False,False,False,False,False,True,True,False,True,False,True,}
+2023-03-11 12:58:42,464 [AppLog] INFO : 进入手动调试子模块！
+2023-03-11 12:58:46,551 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-03-11 12:58:46,552 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2023-03-11 12:58:46,553 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2023-03-11 12:58:47,353 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-03-11 12:58:48,355 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.5MM},运动速度{0.5MM/s}
+2023-03-11 12:58:48,355 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2023-03-11 12:58:48,656 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{698MM},运动速度{30MM/s}
+2023-03-11 12:58:48,656 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2023-03-11 12:58:53,712 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2023-03-11 12:58:57,257 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0588235294117647MM/s}
+2023-03-11 12:58:57,257 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-03-11 12:59:05,875 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2023-03-11 12:59:09,687 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2023-03-11 12:59:09,688 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2023-03-11 12:59:11,924 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-03-11 12:59:12,925 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2023-03-11 12:59:17,583 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-698MM},运动速度{150MM/s}
+2023-03-11 12:59:17,583 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)
+2023-03-11 12:59:18,336 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2023-03-11 12:59:18,336 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-03-11 12:59:19,336 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2023-03-11 12:59:19,336 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2023-03-11 12:59:38,416 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================

@@ -1,0 +1,372 @@
+2023-07-15 13:02:22,578 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{4.416607%} ，可用内存大小:{14282MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：81 GB
+  盘符 E:\ 的剩余空间：0 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: VendorCo ProductCode USB Device
+==========================================================================
+2023-07-15 13:02:27,481 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-07-15 13:02:27,484 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-07-15 13:02:33,493 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-07-15 13:02:33,701 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-07-15 13:02:33,777 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-07-15 13:02:53,177 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-07-15 13:02:53,219 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-07-15 13:02:53,577 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-07-15 13:02:56,008 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-07-15 13:02:56,009 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-07-15 13:02:56,037 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-07-15 13:02:56,174 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-07-15 13:02:56,175 [AppLog] INFO : 进入电气控制模块
+2023-07-15 13:02:56,876 [AppLog] INFO : 退出电气控制模块
+2023-07-15 13:02:57,713 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 13:02:57,713 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 13:02:57,742 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 13:02:57,743 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 13:03:42,286 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:03:42,286 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:03:43,596 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:03:58,853 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:03:58,853 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:04:00,163 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:04:39,522 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:04:39,522 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:04:40,833 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:05:27,102 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:05:35,760 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:05:39,629 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-07-15 13:05:43,607 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 13:05:44,481 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 13:05:44,481 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 13:05:44,512 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 13:05:44,512 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 13:05:56,867 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:05:56,867 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:05:58,178 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:05,913 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:05,913 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:07,239 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:15,320 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:15,320 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:16,630 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:24,727 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:24,727 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:26,037 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:29,110 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:29,110 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:30,421 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:39,063 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:39,063 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:40,373 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:52,666 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:52,666 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:53,977 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:57,268 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:57,268 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:07:58,579 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:08:01,979 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:08:01,979 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:08:03,290 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:08:05,833 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:08:05,833 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:08:07,143 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:08:21,916 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:08:21,916 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:08:23,227 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:09:02,320 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:09:02,320 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:09:03,631 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:09:19,746 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:09:19,746 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:09:21,056 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:12:00,129 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 13:12:01,003 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 13:12:01,003 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 13:12:01,034 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 13:12:01,034 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 13:12:03,093 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:12:03,405 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:12:04,700 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:12:04,997 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:12:08,351 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 13:12:09,037 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-07-15 13:12:10,238 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-07-15 13:12:16,447 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-07-15 13:12:16,447 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-07-15 13:12:20,332 [AppLog] INFO : 喷墨控制器关闭！
+2023-07-15 13:12:20,332 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2023-07-15 13:12:20,332 [AppLog] INFO : 进入电气控制模块
+2023-07-15 13:12:20,363 [AppLog] INFO : 电气控制模块：手动打开端口10
+2023-07-15 13:12:21,704 [AppLog] INFO : 退出电气控制模块
+2023-07-15 13:12:22,937 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-07-15 13:12:22,937 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-07-15 13:12:29,021 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-07-15 13:12:29,021 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2023-07-15 13:12:29,021 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-07-15 13:12:52,031 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-07-15 13:12:52,062 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-07-15 13:12:52,452 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-07-15 13:12:56,602 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-07-15 13:12:56,602 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-07-15 13:12:56,633 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-07-15 13:12:56,742 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-07-15 13:12:56,742 [AppLog] INFO : 进入电气控制模块
+2023-07-15 13:12:57,881 [AppLog] INFO : 退出电气控制模块
+2023-07-15 13:12:58,645 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 13:12:58,645 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 13:12:58,661 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 13:12:58,661 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 13:13:07,147 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:13:12,233 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:13:12,233 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-07-15 13:16:34,581 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:16:39,854 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:16:40,259 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-07-15 13:16:44,783 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:16:54,174 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:16:59,432 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:16:59,432 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:17:00,914 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:17:04,736 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-07-15 13:17:08,058 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:17:08,058 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:17:09,369 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:17:09,369 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:17:09,369 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:17:10,679 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:17:16,311 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 13:17:17,668 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 13:17:17,668 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 13:17:17,699 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 13:17:17,699 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 13:17:32,644 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:17:39,914 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:17:39,914 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-07-15 13:17:55,061 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:18:01,301 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:18:13,157 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-07-15 13:18:14,639 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-07-15 13:18:16,465 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-07-15 13:18:22,689 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-07-15 13:18:22,689 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-07-15 13:18:26,870 [AppLog] INFO : 喷墨控制器关闭！
+2023-07-15 13:18:26,870 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2023-07-15 13:18:26,870 [AppLog] INFO : 进入电气控制模块
+2023-07-15 13:18:28,570 [AppLog] INFO : 退出电气控制模块
+2023-07-15 13:18:30,941 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-07-15 13:18:30,941 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-07-15 13:18:31,612 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{55.35695%} ，可用内存大小:{14240MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：81 GB
+  盘符 E:\ 的剩余空间：0 GB
+==========================================================================
+2023-07-15 13:22:52,626 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{19.70996%} ，可用内存大小:{14272MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：81 GB
+  盘符 E:\ 的剩余空间：0 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: VendorCo ProductCode USB Device
+==========================================================================
+2023-07-15 13:22:52,641 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-07-15 13:22:52,644 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-07-15 13:22:58,653 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-07-15 13:22:58,867 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-07-15 13:22:58,941 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-07-15 13:23:18,335 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-07-15 13:23:18,372 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-07-15 13:23:18,730 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-07-15 13:23:22,313 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-07-15 13:23:22,313 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-07-15 13:23:22,347 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-07-15 13:23:22,475 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-07-15 13:23:22,476 [AppLog] INFO : 进入电气控制模块
+2023-07-15 13:23:23,776 [AppLog] INFO : 退出电气控制模块
+2023-07-15 13:23:26,185 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 13:23:26,185 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 13:23:26,218 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 13:23:26,218 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 13:23:36,355 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:23:36,356 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:23:37,656 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:23:37,658 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:23:37,658 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:23:38,958 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:27:12,379 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:27:14,922 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:27:18,651 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-07-15 13:27:19,649 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:27:21,880 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:27:31,396 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:27:37,636 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 13:27:47,635 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 13:27:47,635 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 13:27:47,667 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 13:27:47,667 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 13:27:50,646 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:27:54,390 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:27:57,105 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-07-15 13:28:26,464 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:28:33,874 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:28:39,724 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-07-15 13:28:45,278 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:28:45,278 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:28:46,588 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:28:46,791 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:28:46,791 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:28:48,101 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:29:01,829 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:29:04,622 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:29:15,276 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:29:22,952 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-07-15 13:29:31,173 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:29:31,220 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-07-15 13:29:35,151 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:29:35,572 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-07-15 13:30:23,963 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:30:27,083 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:30:33,245 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:30:39,111 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:30:41,045 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 13:30:42,169 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 13:30:42,169 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 13:30:42,200 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 13:30:42,200 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 13:30:50,109 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 13:30:51,279 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 13:30:51,279 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 13:30:51,310 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 13:30:51,310 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 13:31:06,052 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 13:31:23,524 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 13:31:23,524 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 13:31:23,555 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 13:31:23,555 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 13:32:40,386 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 13:32:41,212 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-07-15 13:32:42,382 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-07-15 13:32:48,607 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-07-15 13:32:48,607 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-07-15 13:32:48,794 [AppLog] INFO : 喷墨控制器关闭！
+2023-07-15 13:32:48,794 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2023-07-15 13:32:48,794 [AppLog] INFO : 进入电气控制模块
+2023-07-15 13:32:50,713 [AppLog] INFO : 退出电气控制模块
+2023-07-15 13:32:51,945 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-07-15 13:32:51,961 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-07-15 13:32:52,632 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{33.92823%} ，可用内存大小:{14240MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：81 GB
+  盘符 E:\ 的剩余空间：0 GB
+==========================================================================
+2023-07-15 13:37:47,708 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{19.70996%} ，可用内存大小:{14276MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：81 GB
+  盘符 E:\ 的剩余空间：0 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: VendorCo ProductCode USB Device
+==========================================================================
+2023-07-15 13:37:47,723 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-07-15 13:37:47,725 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-07-15 13:37:53,733 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-07-15 13:37:53,945 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-07-15 13:37:54,020 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-07-15 13:38:13,918 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-07-15 13:38:13,949 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-07-15 13:38:14,339 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-07-15 13:38:17,178 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-07-15 13:38:17,178 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-07-15 13:38:17,194 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-07-15 13:38:17,334 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-07-15 13:38:17,334 [AppLog] INFO : 进入电气控制模块
+2023-07-15 13:38:18,192 [AppLog] INFO : 退出电气控制模块
+2023-07-15 13:38:19,378 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 13:38:19,378 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 13:38:19,394 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 13:38:19,409 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 13:38:20,798 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-07-15 13:38:22,358 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 13:38:22,358 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 13:38:22,373 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 13:38:22,373 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 13:38:35,992 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-07-15 13:38:44,354 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-07-15 13:38:46,584 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-07-15 13:38:54,104 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:38:54,104 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:38:55,414 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:39:01,794 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:39:01,794 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:39:03,105 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:39:07,738 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:39:07,738 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:39:09,048 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:39:34,586 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:39:34,586 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:39:35,896 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:40:23,929 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:40:23,929 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:40:25,239 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:40:37,766 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:40:37,766 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:40:39,076 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:41:08,935 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:41:08,935 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:41:10,245 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:41:15,877 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:41:15,877 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 13:41:17,187 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click

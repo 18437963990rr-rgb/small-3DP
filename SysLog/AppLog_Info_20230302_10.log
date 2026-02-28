@@ -1,0 +1,167 @@
+2023-03-02 10:11:33,480 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{33.92823%} ，可用内存大小:{14486MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：82 GB
+  盘符 D:\ 的剩余空间：98 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-03-02 10:11:35,664 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-02 10:11:35,664 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-02 10:11:41,763 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-02 10:12:09,079 [AppLog] INFO : 初始化喷墨控制器！
+2023-03-02 10:12:09,375 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-03-02 10:12:09,375 [AppLog] INFO : 进入电气控制模块
+2023-03-02 10:12:10,748 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-03-02 10:12:11,856 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-03-02 10:12:12,558 [AppLog] INFO : 退出电气控制模块
+2023-03-02 10:12:13,837 [AppLog] INFO : 进入手动调试子模块！
+2023-03-02 10:12:16,676 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-02 10:12:17,955 [AppLog] INFO : 进入电气控制模块
+2023-03-02 10:12:18,798 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-03-02 10:12:19,547 [AppLog] INFO : 退出电气控制模块
+2023-03-02 10:12:20,155 [AppLog] INFO : 进入手动调试子模块！
+2023-03-02 10:12:21,278 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:12:21,278 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:12:21,528 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:12:21,606 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:12:22,121 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:12:22,183 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:12:22,947 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:12:23,057 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:12:23,696 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:12:23,759 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:12:24,071 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:12:24,133 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:12:24,554 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:12:24,648 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:12:26,723 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-02 10:12:27,690 [AppLog] INFO : 进入电气控制模块
+2023-03-02 10:12:28,595 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-03-02 10:12:29,406 [AppLog] INFO : 退出电气控制模块
+2023-03-02 10:12:30,108 [AppLog] INFO : 进入手动调试子模块！
+2023-03-02 10:12:31,044 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:12:31,137 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:12:31,371 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:12:31,543 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:12:31,652 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:12:31,793 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:12:31,949 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:12:32,526 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:12:32,651 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:12:36,005 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:12:36,114 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:12:37,611 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:12:37,799 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:12:41,964 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:12:45,131 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-02 10:12:46,082 [AppLog] INFO : 进入电气控制模块
+2023-03-02 10:12:47,315 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-03-02 10:12:47,751 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-03-02 10:12:48,609 [AppLog] INFO : 退出电气控制模块
+2023-03-02 10:12:49,280 [AppLog] INFO : 进入手动调试子模块！
+2023-03-02 10:12:50,528 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:13:40,152 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:13:40,323 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-03-02 10:13:40,776 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-03-02 10:24:18,458 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-02 10:24:22,062 [AppLog] INFO : 进入手动调试子模块！
+2023-03-02 10:24:26,336 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-03-02 10:25:00,609 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-02 10:25:03,090 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-02 10:25:26,646 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-02 10:25:26,646 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-02 10:25:38,518 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-02 10:25:38,533 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-02 10:25:59,094 [AppLog] INFO : 进入手动调试子模块！
+2023-03-02 10:26:08,298 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-02 10:26:31,324 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{45℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.16kPa}
+2023-03-02 10:26:33,523 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-02 10:26:55,722 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-02 10:26:55,722 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-02 10:26:58,717 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\ricoh_phcfg16 - wave4.rhdat}
+2023-03-02 10:27:04,146 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-02 10:27:09,512 [AppLog] INFO : 更新喷头电压及温度参数成功：MCU_SetPhVoltage:1号喷头电压：{18V,18V,18V,18V}；MCU_SetPhVoltage:1号喷头温度：{25℃}
+2023-03-02 10:27:50,166 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-03-02 10:28:00,369 [AppLog] INFO : 进入手动调试子模块！
+2023-03-02 10:28:14,377 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-03-02 10:28:14,440 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{40℃}
+2023-03-02 10:28:15,579 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-03-02 10:28:15,641 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-03-02 10:28:18,418 [AppLog] INFO : 开启墨车和铺粉车回零校准：EncoderResetBtn_Click
+2023-03-02 10:28:18,418 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-03-02 10:28:18,418 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-03-02 10:28:28,683 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{30MM/s}
+2023-03-02 10:28:28,698 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-03-02 10:28:41,896 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-03-02 10:29:11,645 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-02 10:29:11,785 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-02 10:29:12,129 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-02 10:29:12,129 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-02 10:29:12,160 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-02 10:29:12,160 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-02 10:29:12,253 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-02 10:29:12,316 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-02 10:29:12,456 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-02 10:29:12,534 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-02 10:29:12,628 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-02 10:29:12,753 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-02 10:29:12,831 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-02 10:29:12,955 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-02 10:29:13,033 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-02 10:29:13,080 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-02 10:29:13,205 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-02 10:29:13,252 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-02 10:29:14,874 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-03-02 10:29:16,668 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-03-02 10:29:17,604 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-02 10:29:17,838 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-02 10:29:17,994 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-02 10:29:19,539 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-02 10:29:19,679 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-02 10:29:19,991 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-02 10:29:20,974 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-02 10:29:21,036 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-02 10:29:21,972 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-02 10:29:22,035 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-02 10:29:24,297 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-03-02 10:29:35,919 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-03-02 10:30:44,465 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-02 10:30:45,448 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-02 10:30:52,296 [AppLog] INFO : 初始化喷墨控制器！
+2023-03-02 10:30:52,328 [AppLog] INFO : 红外灯控制器485通讯建立失败：串口打开失败：请检查子站电源及物理连接！
+2023-03-02 10:30:53,123 [AppLog] INFO : 进入电气控制模块
+2023-03-02 10:30:54,012 [AppLog] INFO : 退出电气控制模块
+2023-03-02 10:30:54,683 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-02 10:30:55,448 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-03-02 10:31:01,532 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-03-02 10:31:01,563 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-03-02 10:31:01,563 [AppLog] INFO : 喷墨控制器关闭！
+2023-03-02 10:31:01,563 [AppLog] INFO : 进入电气控制模块
+2023-03-02 10:31:03,700 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-03-02 10:31:04,386 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-03-02 10:31:05,322 [AppLog] INFO : 退出电气控制模块
+2023-03-02 10:31:08,052 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-03-02 10:31:08,052 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-03-02 10:31:08,723 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{14395MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：82 GB
+  盘符 D:\ 的剩余空间：98 GB
+==========================================================================

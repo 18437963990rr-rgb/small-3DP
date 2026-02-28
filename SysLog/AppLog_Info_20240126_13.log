@@ -1,0 +1,109 @@
+2024-01-26 13:03:20,927 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2024-01-26 13:03:22,050 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-26 13:03:22,971 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2024-01-26 13:03:29,180 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2024-01-26 13:03:29,211 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2024-01-26 13:03:29,211 [AppLog] INFO : 喷墨控制器关闭！
+2024-01-26 13:03:29,211 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2024-01-26 13:03:29,211 [AppLog] INFO : 进入电气控制模块
+2024-01-26 13:27:14,788 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-26 13:27:15,615 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-26 13:27:16,067 [AppLog] INFO : 退出电气控制模块
+2024-01-26 13:39:02,896 [AppLog] INFO : 进入数据加载模块
+2024-01-26 13:39:18,606 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:39:18,621 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2.cli
+2024-01-26 13:39:18,621 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_1_1_4.cli
+2024-01-26 13:39:18,621 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_1_2.cli
+2024-01-26 13:39:18,621 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_2_3.cli
+2024-01-26 13:39:18,621 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_3_6.cli
+2024-01-26 13:39:18,621 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_3_6_1_2.cli
+2024-01-26 13:39:18,621 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:39:18,652 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cli
+2024-01-26 13:39:18,668 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:39:18,715 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\小孔2mm_1.cli
+2024-01-26 13:39:27,934 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\Box_2.cliD:\Shaobo_0126\dayin\Box_2_1_1_4.cliD:\Shaobo_0126\dayin\Box_2_1_2.cliD:\Shaobo_0126\dayin\Box_2_2_3.cliD:\Shaobo_0126\dayin\Box_3_6.cliD:\Shaobo_0126\dayin\Box_3_6_1_2.cliD:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cliD:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\小孔2mm_1.cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-43.2192MM}Y方向平移目标值{-31.5749985MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2024-01-26 13:39:41,163 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:39:41,179 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2.cli
+2024-01-26 13:39:41,179 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_1_1_4.cli
+2024-01-26 13:39:41,179 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_1_2.cli
+2024-01-26 13:39:41,179 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_2_3.cli
+2024-01-26 13:39:41,179 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_3_6.cli
+2024-01-26 13:39:41,179 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_3_6_1_2.cli
+2024-01-26 13:39:41,179 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:39:41,179 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cli
+2024-01-26 13:39:41,179 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:39:41,194 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\小孔2mm_1.cli
+2024-01-26 13:39:42,614 [AppLog] INFO : 进入数据加载模块
+2024-01-26 13:40:03,643 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:40:03,643 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2.cli
+2024-01-26 13:40:03,643 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_1_1_4.cli
+2024-01-26 13:40:03,643 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_1_2.cli
+2024-01-26 13:40:03,643 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_2_3.cli
+2024-01-26 13:40:03,643 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_3_6.cli
+2024-01-26 13:40:03,643 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_3_6_1_2.cli
+2024-01-26 13:40:03,643 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:40:03,674 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cli
+2024-01-26 13:40:03,690 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:40:03,737 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\小孔2mm_1.cli
+2024-01-26 13:40:15,951 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\Box_2.cliD:\Shaobo_0126\dayin\Box_2_1_1_4.cliD:\Shaobo_0126\dayin\Box_2_1_2.cliD:\Shaobo_0126\dayin\Box_2_2_3.cliD:\Shaobo_0126\dayin\Box_3_6.cliD:\Shaobo_0126\dayin\Box_3_6_1_2.cliD:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cliD:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\小孔2mm_1.cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-43.2192MM}Y方向平移目标值{-31.5749985MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2024-01-26 13:40:49,788 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\Box_2.cliD:\Shaobo_0126\dayin\Box_2_1_1_4.cliD:\Shaobo_0126\dayin\Box_2_1_2.cliD:\Shaobo_0126\dayin\Box_2_2_3.cliD:\Shaobo_0126\dayin\Box_3_6.cliD:\Shaobo_0126\dayin\Box_3_6_1_2.cliD:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cliD:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\小孔2mm_1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-43.2192MM}Y方向平移目标值{-31.5749985MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{-20MM}Z方向平移增量{0MM}
+2024-01-26 13:41:06,792 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:41:06,792 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2.cli
+2024-01-26 13:41:06,792 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_1_1_4.cli
+2024-01-26 13:41:06,792 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_1_2.cli
+2024-01-26 13:41:06,792 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_2_3.cli
+2024-01-26 13:41:06,792 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_3_6.cli
+2024-01-26 13:41:06,792 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_3_6_1_2.cli
+2024-01-26 13:41:06,792 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:41:06,792 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cli
+2024-01-26 13:41:06,792 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:41:06,807 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\小孔2mm_1.cli
+2024-01-26 13:41:10,707 [AppLog] INFO : 进入数据加载模块
+2024-01-26 13:41:21,019 [AppLog] INFO : CAD数据加载：添加.bjgroup格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-231230daying\231230daying-2.bjgroup
+2024-01-26 13:41:37,415 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\20231230daying-2-guhua\Box.cli
+2024-01-26 13:41:37,415 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\20231230daying-2-guhua\Box_1.cli
+2024-01-26 13:41:37,415 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\20231230daying-2-guhua\Box_2.cli
+2024-01-26 13:41:37,415 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\20231230daying-2-guhua\布尔运算.cli
+2024-01-26 13:41:39,053 [AppLog] INFO : 进入数据加载模块
+2024-01-26 13:41:51,252 [AppLog] INFO : 进入数据加载模块
+2024-01-26 13:42:13,404 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:42:13,404 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2.cli
+2024-01-26 13:42:13,404 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_1_1_4.cli
+2024-01-26 13:42:13,404 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_1_2.cli
+2024-01-26 13:42:13,420 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_2_3.cli
+2024-01-26 13:42:13,420 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_3_6.cli
+2024-01-26 13:42:13,420 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_3_6_1_2.cli
+2024-01-26 13:42:13,420 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:42:13,451 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cli
+2024-01-26 13:42:13,466 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:42:13,513 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\小孔2mm_1.cli
+2024-01-26 13:42:43,153 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\Box_2.cliD:\Shaobo_0126\dayin\Box_2_1_1_4.cliD:\Shaobo_0126\dayin\Box_2_1_2.cliD:\Shaobo_0126\dayin\Box_2_2_3.cliD:\Shaobo_0126\dayin\Box_3_6.cliD:\Shaobo_0126\dayin\Box_3_6_1_2.cliD:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cliD:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\小孔2mm_1.cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-43.2192MM}Y方向平移目标值{-31.5749985MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2024-01-26 13:43:02,497 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\Box_2.cliD:\Shaobo_0126\dayin\Box_2_1_1_4.cliD:\Shaobo_0126\dayin\Box_2_1_2.cliD:\Shaobo_0126\dayin\Box_2_2_3.cliD:\Shaobo_0126\dayin\Box_3_6.cliD:\Shaobo_0126\dayin\Box_3_6_1_2.cliD:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cliD:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\小孔2mm_1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-43.2192MM}Y方向平移目标值{-31.5749985MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{-20MM}Z方向平移增量{0MM}
+2024-01-26 13:43:28,112 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\Box_2.cliD:\Shaobo_0126\dayin\Box_2_1_1_4.cliD:\Shaobo_0126\dayin\Box_2_1_2.cliD:\Shaobo_0126\dayin\Box_2_2_3.cliD:\Shaobo_0126\dayin\Box_3_6.cliD:\Shaobo_0126\dayin\Box_3_6_1_2.cliD:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cliD:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\小孔2mm_1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-43.2192MM}Y方向平移目标值{-31.5749985MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{5MM}Z方向平移增量{0MM}
+2024-01-26 13:43:52,355 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\Box_2.cliD:\Shaobo_0126\dayin\Box_2_1_1_4.cliD:\Shaobo_0126\dayin\Box_2_1_2.cliD:\Shaobo_0126\dayin\Box_2_2_3.cliD:\Shaobo_0126\dayin\Box_3_6.cliD:\Shaobo_0126\dayin\Box_3_6_1_2.cliD:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cliD:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\小孔2mm_1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-43.2192MM}Y方向平移目标值{-31.5749985MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{-5MM}Z方向平移增量{0MM}
+2024-01-26 13:44:22,182 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\Box_2.cliD:\Shaobo_0126\dayin\Box_2_1_1_4.cliD:\Shaobo_0126\dayin\Box_2_1_2.cliD:\Shaobo_0126\dayin\Box_2_2_3.cliD:\Shaobo_0126\dayin\Box_3_6.cliD:\Shaobo_0126\dayin\Box_3_6_1_2.cliD:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cliD:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\小孔2mm_1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-43.2192MM}Y方向平移目标值{-31.5749985MM}Z方向平移目标值{0MM}X方向平移增量{-10MM}Y方向平移增量{2.5MM}Z方向平移增量{0MM}
+2024-01-26 13:44:43,117 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\Box_2.cliD:\Shaobo_0126\dayin\Box_2_1_1_4.cliD:\Shaobo_0126\dayin\Box_2_1_2.cliD:\Shaobo_0126\dayin\Box_2_2_3.cliD:\Shaobo_0126\dayin\Box_3_6.cliD:\Shaobo_0126\dayin\Box_3_6_1_2.cliD:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cliD:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\小孔2mm_1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-43.2192MM}Y方向平移目标值{-31.5749985MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2024-01-26 13:45:08,857 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\Box_2.cliD:\Shaobo_0126\dayin\Box_2_1_1_4.cliD:\Shaobo_0126\dayin\Box_2_1_2.cliD:\Shaobo_0126\dayin\Box_2_2_3.cliD:\Shaobo_0126\dayin\Box_3_6.cliD:\Shaobo_0126\dayin\Box_3_6_1_2.cliD:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cliD:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cliD:\Shaobo_0126\dayin\小孔2mm_1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-43.2192MM}Y方向平移目标值{-31.5749985MM}Z方向平移目标值{0MM}X方向平移增量{-10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2024-01-26 13:45:30,042 [AppLog] INFO : CAD数据保存：保存.bjgroup格式CAD数据成功：D:\Shaobo_0126\dayin\ceshi.bjgroup
+2024-01-26 13:59:58,418 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_1_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:59:58,418 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2.cli
+2024-01-26 13:59:58,418 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_1_1_4.cli
+2024-01-26 13:59:58,418 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_1_2.cli
+2024-01-26 13:59:58,433 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_2_2_3.cli
+2024-01-26 13:59:58,433 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_3_6.cli
+2024-01-26 13:59:58,433 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_3_6_1_2.cli
+2024-01-26 13:59:58,433 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\Box_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:59:58,433 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\RFA-630x10F-Y直回式回油过滤器(1)_1.cli
+2024-01-26 13:59:58,433 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\布尔运算_Rescaled(1.0-1.0-0.5).cli
+2024-01-26 13:59:58,433 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Shaobo_0126\dayin\小孔2mm_1.cli

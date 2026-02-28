@@ -1,0 +1,565 @@
+2023-05-08 16:02:12,620 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{7.142386%} ，可用内存大小:{14375MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：67 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-05-08 16:02:22,494 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-05-08 16:02:22,494 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-05-08 16:02:28,579 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-05-08 16:02:28,781 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-05-08 16:02:28,844 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-05-08 16:02:52,337 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-05-08 16:02:52,369 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-05-08 16:02:54,693 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-05-08 16:02:54,693 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-05-08 16:02:54,724 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-05-08 16:02:54,865 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-05-08 16:02:54,865 [AppLog] INFO : 进入电气控制模块
+2023-05-08 16:02:57,002 [AppLog] INFO : 退出电气控制模块
+2023-05-08 16:02:58,031 [AppLog] INFO : 进入手动调试子模块！
+2023-05-08 16:02:58,031 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-08 16:02:58,063 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-08 16:02:58,063 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-08 16:03:00,964 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-08 16:03:02,103 [AppLog] INFO : 进入手动调试子模块！
+2023-05-08 16:03:02,103 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-08 16:03:02,134 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-08 16:03:02,134 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-08 16:03:05,738 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-08 16:03:07,157 [AppLog] INFO : 进入手动调试子模块！
+2023-05-08 16:03:07,157 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-08 16:03:07,204 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-08 16:03:07,204 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-08 16:03:17,219 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:03:17,282 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:03:35,097 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:03:35,159 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:03:36,922 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:03:36,985 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:04:26,343 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:04:26,406 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:04:40,836 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:04:40,882 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:05:22,394 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-05-08 16:05:23,439 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-05-08 16:05:23,439 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-05-08 16:05:24,219 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-05-08 16:05:24,297 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-05-08 16:05:24,297 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-05-08 16:05:41,878 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:05:41,941 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:05:45,544 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:05:45,607 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:05:47,198 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-05-08 16:05:48,040 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-05-08 16:05:48,040 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-05-08 16:12:25,576 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:12:25,638 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:12:28,400 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:12:28,462 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:12:30,225 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:12:30,287 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:12:46,652 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:12:46,714 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:12:49,912 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:12:49,974 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:12:58,960 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:12:59,022 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:13:03,047 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:13:03,110 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:13:26,307 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:13:26,369 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:13:29,286 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:13:29,349 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:13:38,990 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:13:39,052 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:13:42,078 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:13:42,141 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:13:55,760 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:13:55,822 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:13:58,677 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:13:58,724 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:14:16,383 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:14:16,445 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:14:18,848 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:14:18,910 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:14:30,283 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:14:30,345 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:14:35,306 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:14:35,353 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:14:58,113 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-05-08 16:14:58,831 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-05-08 16:14:58,831 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-05-08 16:15:02,185 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:15:02,247 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:15:04,119 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:15:04,166 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:15:05,882 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-05-08 16:15:06,755 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-05-08 16:15:06,755 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-05-08 16:15:20,873 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-05-08 16:15:21,326 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-05-08 16:15:22,745 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-05-08 16:15:22,933 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-05-08 16:15:26,084 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-05-08 16:15:26,723 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-05-08 16:15:26,723 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-05-08 16:15:27,113 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-05-08 16:15:27,831 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-05-08 16:15:27,831 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-05-08 16:15:28,049 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-05-08 16:15:28,408 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-05-08 16:15:28,424 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-05-08 16:15:28,907 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-05-08 16:15:29,032 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-05-08 16:15:29,032 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-05-08 16:15:33,166 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:15:33,229 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:15:34,789 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:15:34,851 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:15:36,988 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-05-08 16:15:38,143 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-05-08 16:15:38,143 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-05-08 16:15:48,564 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:15:48,610 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:15:50,748 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-05-08 16:15:52,292 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-05-08 16:15:52,292 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-05-08 16:15:52,666 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-05-08 16:15:55,474 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-05-08 16:15:55,474 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-05-08 16:15:57,580 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-05-08 16:15:57,924 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-05-08 16:15:57,924 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-05-08 16:16:04,600 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:16:04,663 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:16:16,176 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:16:16,222 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:16:16,472 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-08 16:16:17,392 [AppLog] INFO : 进入电气控制模块
+2023-05-08 16:16:20,700 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-05-08 16:17:16,501 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-05-08 16:17:50,852 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-05-08 16:17:58,200 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-05-08 16:18:04,877 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-05-08 16:18:59,742 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-05-08 16:19:28,696 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-05-08 16:46:14,655 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-05-08 16:47:42,717 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-05-08 16:47:43,450 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-05-08 16:47:44,698 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-05-08 16:47:45,353 [AppLog] INFO : 退出电气控制模块
+2023-05-08 16:47:46,523 [AppLog] INFO : 进入电气控制模块
+2023-05-08 16:47:47,615 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-05-08 16:47:48,567 [AppLog] INFO : 退出电气控制模块
+2023-05-08 16:47:49,144 [AppLog] INFO : 进入手动调试子模块！
+2023-05-08 16:47:49,144 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-08 16:47:49,175 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-08 16:47:49,175 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-08 16:47:52,233 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2023-05-08 16:47:59,019 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:06,850 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:07,100 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:17,193 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:17,411 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:20,048 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:20,282 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:27,239 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:27,458 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:32,418 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:32,543 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:33,776 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:33,932 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:34,540 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:34,665 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:35,148 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:35,242 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:35,585 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:35,663 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:35,835 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:35,882 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:40,187 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:40,390 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:42,371 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:42,558 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:43,151 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:43,292 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:43,479 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:43,572 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:43,697 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:43,775 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:43,900 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:43,994 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:44,118 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:44,181 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:44,306 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:44,399 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:44,524 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:44,586 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:44,696 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:44,789 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:44,930 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:45,008 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:45,132 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:45,210 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:45,304 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:45,398 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:45,538 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:45,616 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:45,741 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:45,819 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:45,944 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:46,037 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:46,178 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:46,271 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:46,427 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:46,490 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:46,630 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:46,724 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:46,848 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:46,942 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:47,067 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:47,176 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:47,316 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:47,394 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:48,034 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:48,330 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:48,798 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:49,048 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:49,344 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:49,547 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:49,750 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:49,859 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:50,483 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:50,592 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:51,388 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:51,575 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:51,825 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:51,981 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:52,558 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:52,730 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:53,244 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:53,463 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:53,712 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:53,946 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:54,149 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:54,336 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:54,695 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:54,882 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:55,054 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:55,304 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:55,584 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:55,772 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:56,162 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:56,333 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:56,926 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:57,082 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:57,519 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:57,690 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:48:58,080 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:48:59,890 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:49:00,264 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:00,514 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:49:01,107 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:01,419 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-05-08 16:49:01,669 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:06,536 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-08 16:49:07,191 [AppLog] INFO : 进入电气控制模块
+2023-05-08 16:49:08,642 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-05-08 16:49:10,873 [AppLog] INFO : 退出电气控制模块
+2023-05-08 16:49:11,403 [AppLog] INFO : 进入手动调试子模块！
+2023-05-08 16:49:11,403 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-08 16:49:11,434 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-08 16:49:11,434 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-08 16:49:13,447 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:49:14,227 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:49:15,022 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:49:15,802 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:49:16,582 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:49:17,362 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:49:18,142 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:49:18,922 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:49:18,922 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2023-05-08 16:49:21,184 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:21,340 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:21,652 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:21,871 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:22,229 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:22,557 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:22,760 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:23,259 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:23,524 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:24,242 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:24,601 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:25,396 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:25,677 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:26,410 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:27,409 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-08 16:49:28,532 [AppLog] INFO : 进入电气控制模块
+2023-05-08 16:49:29,546 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-05-08 16:49:35,068 [AppLog] INFO : 退出电气控制模块
+2023-05-08 16:49:35,692 [AppLog] INFO : 进入手动调试子模块！
+2023-05-08 16:49:35,692 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-08 16:49:35,723 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-08 16:49:35,723 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-08 16:49:37,003 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2023-05-08 16:49:40,247 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:40,419 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:40,747 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:41,137 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:41,308 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:42,073 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:42,431 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:42,946 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:43,196 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:43,570 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:43,835 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:44,101 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:46,097 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:47,548 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:47,876 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:48,344 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:48,671 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:48,843 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:49,108 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:49:49,888 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:49:55,567 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-08 16:49:56,300 [AppLog] INFO : 进入电气控制模块
+2023-05-08 16:49:57,501 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-05-08 16:49:58,905 [AppLog] INFO : 退出电气控制模块
+2023-05-08 16:49:59,732 [AppLog] INFO : 进入手动调试子模块！
+2023-05-08 16:49:59,732 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-08 16:49:59,763 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-08 16:49:59,763 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-08 16:50:26,595 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:50:27,375 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:50:28,155 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:50:28,935 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:50:29,715 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:50:31,072 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2023-05-08 16:50:32,180 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:50:32,305 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:50:32,757 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:50:39,153 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:50:39,871 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:50:40,510 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:50:41,446 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:50:42,850 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:50:44,067 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-08 16:50:45,206 [AppLog] INFO : 进入电气控制模块
+2023-05-08 16:50:46,516 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-05-08 16:50:47,187 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-05-08 16:50:48,029 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-05-08 16:50:48,700 [AppLog] INFO : 退出电气控制模块
+2023-05-08 16:50:49,636 [AppLog] INFO : 进入手动调试子模块！
+2023-05-08 16:50:49,636 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-08 16:50:49,667 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-08 16:50:49,667 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-08 16:50:52,241 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:50:53,599 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:50:54,113 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2023-05-08 16:50:54,706 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:51:10,899 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:51:11,102 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:51:16,219 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:51:16,671 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:51:17,467 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:51:17,701 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:51:18,621 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:51:20,571 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:51:20,665 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:51:21,226 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:51:21,320 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:51:22,272 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:51:22,350 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:53:58,163 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2023-05-08 16:53:58,163 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-05-08 16:54:05,526 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{70MM/s}
+2023-05-08 16:54:05,541 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-05-08 16:54:19,113 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-05-08 16:54:19,129 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2023-05-08 16:54:19,191 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.08MM},运动速度{2MM/s}
+2023-05-08 16:54:19,191 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.08mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:54:19,971 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2023-05-08 16:54:19,971 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:54:20,751 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:54:20,751 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:54:21,001 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.5MM},运动速度{2.5MM/s}
+2023-05-08 16:54:21,001 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2023-05-08 16:54:22,031 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2023-05-08 16:54:22,889 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{214MM},运动速度{250MM/s}
+2023-05-08 16:54:22,889 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2023-05-08 16:54:22,889 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{70MM/s}
+2023-05-08 16:54:22,889 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2023-05-08 16:54:23,029 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2023-05-08 16:54:23,216 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2023-05-08 16:54:23,216 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-05-08 16:54:23,216 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.105479452054795MM/s}
+2023-05-08 16:54:23,216 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-05-08 16:54:27,241 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2023-05-08 16:54:28,941 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2023-05-08 16:54:28,941 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2023-05-08 16:54:30,517 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2023-05-08 16:54:30,517 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:54:33,309 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2023-05-08 16:54:33,309 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2023-05-08 16:54:34,089 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2023-05-08 16:54:34,854 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:54:34,854 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:54:34,854 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2023-05-08 16:54:34,869 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2023-05-08 16:54:38,738 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:54:38,910 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:54:40,657 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:54:40,797 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:54:43,278 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:54:43,356 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:54:44,822 [AppLog] INFO : 切换为点动模式====》：输出AXIS{第1轴}
+2023-05-08 16:54:46,585 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:54:53,480 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2023-05-08 16:54:55,430 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:54:56,195 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:54:56,335 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:54:56,944 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:54:57,942 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:54:58,114 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:54:58,972 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:54:59,221 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-08 16:54:59,798 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-08 16:55:01,140 [AppLog] INFO : 切换为点动模式====》：输出AXIS{第1轴}
+2023-05-08 16:55:01,514 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2023-05-08 16:55:03,043 [AppLog] INFO : 切换为点动模式====》：输出AXIS{第1轴}
+2023-05-08 16:55:07,630 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{0.1MM},运动速度{2MM/s}
+2023-05-08 16:55:08,940 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{0.1MM},运动速度{2MM/s}
+2023-05-08 16:55:10,796 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{0.1MM},运动速度{2MM/s}
+2023-05-08 16:55:11,124 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{0.1MM},运动速度{2MM/s}
+2023-05-08 16:55:11,327 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{0.1MM},运动速度{2MM/s}
+2023-05-08 16:55:13,136 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2023-05-08 16:55:18,082 [AppLog] INFO : 手动停止自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-05-08 16:55:18,830 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-05-08 16:55:21,810 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-05-08 16:55:21,810 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2023-05-08 16:55:21,888 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.08MM},运动速度{2MM/s}
+2023-05-08 16:55:21,888 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.08mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:55:22,668 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2023-05-08 16:55:22,668 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:55:23,432 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:55:23,432 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:55:23,651 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.5MM},运动速度{2.5MM/s}
+2023-05-08 16:55:23,651 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2023-05-08 16:55:24,665 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2023-05-08 16:55:25,523 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{216.5MM},运动速度{250MM/s}
+2023-05-08 16:55:25,523 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2023-05-08 16:55:25,538 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{70MM/s}
+2023-05-08 16:55:25,538 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2023-05-08 16:55:25,663 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2023-05-08 16:55:25,804 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2023-05-08 16:55:25,804 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-05-08 16:55:25,804 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.105479452054795MM/s}
+2023-05-08 16:55:25,804 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-05-08 16:55:29,875 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2023-05-08 16:55:31,576 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2023-05-08 16:55:31,576 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2023-05-08 16:55:33,167 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2023-05-08 16:55:33,167 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:55:35,959 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2023-05-08 16:55:35,959 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2023-05-08 16:55:36,739 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2023-05-08 16:55:37,504 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:55:37,504 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:55:37,504 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2023-05-08 16:55:37,504 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2023-05-08 16:55:46,302 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:55:46,364 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:55:48,002 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:55:48,065 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:55:48,642 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:55:48,704 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:55:51,325 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:55:51,388 [AppLog] INFO : IR固化更新功率为设定值：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{100℃}
+2023-05-08 16:55:53,010 [AppLog] INFO : IR固化手动出光模式：WriteSingleRegister：SlaveNumber{1}RegisterAddress{132}RegisterValue{1}
+2023-05-08 16:55:53,072 [AppLog] INFO : IR固化停止出光成功：WriteSingleRegister：SlaveNumber{1}RegisterAddress{121}目标温度{0 ℃}
+2023-05-08 16:56:17,986 [AppLog] INFO : 手动停止自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-05-08 16:56:18,563 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-05-08 16:56:20,107 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-05-08 16:56:20,107 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2023-05-08 16:56:20,170 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.08MM},运动速度{2MM/s}
+2023-05-08 16:56:20,170 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.08mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:56:20,950 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2023-05-08 16:56:20,950 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:56:21,730 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:56:21,730 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:56:21,932 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.5MM},运动速度{2.5MM/s}
+2023-05-08 16:56:21,932 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2023-05-08 16:56:22,946 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2023-05-08 16:56:23,804 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{216.5MM},运动速度{250MM/s}
+2023-05-08 16:56:23,804 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2023-05-08 16:56:23,804 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{70MM/s}
+2023-05-08 16:56:23,820 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2023-05-08 16:56:23,960 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2023-05-08 16:56:24,085 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2023-05-08 16:56:24,085 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-05-08 16:56:24,085 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.105479452054795MM/s}
+2023-05-08 16:56:24,085 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-05-08 16:56:28,157 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2023-05-08 16:56:29,857 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2023-05-08 16:56:29,857 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2023-05-08 16:56:31,448 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2023-05-08 16:56:31,448 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:56:34,241 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2023-05-08 16:56:34,241 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2023-05-08 16:56:35,021 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2023-05-08 16:56:35,785 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:56:35,785 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:56:35,785 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2023-05-08 16:56:35,785 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2023-05-08 16:56:57,111 [AppLog] INFO : 手动停止自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-05-08 16:56:57,719 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-05-08 16:56:58,624 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-05-08 16:56:58,624 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2023-05-08 16:56:58,686 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.08MM},运动速度{2MM/s}
+2023-05-08 16:56:58,686 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.08mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:56:59,466 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2023-05-08 16:56:59,466 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:57:00,246 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:57:00,246 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:57:00,449 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.5MM},运动速度{2.5MM/s}
+2023-05-08 16:57:00,449 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2023-05-08 16:57:01,463 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2023-05-08 16:57:02,321 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{216.5MM},运动速度{250MM/s}
+2023-05-08 16:57:02,321 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2023-05-08 16:57:02,337 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{70MM/s}
+2023-05-08 16:57:02,337 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2023-05-08 16:57:02,461 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2023-05-08 16:57:02,602 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2023-05-08 16:57:02,602 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-05-08 16:57:02,602 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.105479452054795MM/s}
+2023-05-08 16:57:02,602 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-05-08 16:57:06,720 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2023-05-08 16:57:08,374 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2023-05-08 16:57:08,374 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2023-05-08 16:57:09,965 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2023-05-08 16:57:09,965 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:57:12,757 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2023-05-08 16:57:12,757 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2023-05-08 16:57:13,537 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2023-05-08 16:57:14,302 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-08 16:57:14,302 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-08 16:57:14,302 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2023-05-08 16:57:14,302 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory

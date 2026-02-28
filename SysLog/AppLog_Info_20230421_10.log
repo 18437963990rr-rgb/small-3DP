@@ -1,0 +1,14 @@
+2023-04-21 10:01:12,304 [AppLog] INFO : 进入手动调试子模块！
+2023-04-21 10:01:12,304 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-21 10:01:12,334 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-21 10:01:12,334 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-21 10:01:15,054 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-21 10:01:15,284 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-21 10:01:16,294 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-21 10:01:16,514 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-21 10:01:52,104 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-21 10:01:55,964 [AppLog] INFO : 进入数据加载模块
+2023-04-21 10:10:02,253 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-21 10:10:02,628 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-21 10:10:10,521 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}

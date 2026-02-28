@@ -1,0 +1,65 @@
+2023-05-06 19:45:58,914 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{28.5711%} ，可用内存大小:{14387MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：67 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-05-06 19:46:10,131 [AppLog] INFO : 进入电气控制模块
+2023-05-06 19:46:11,457 [AppLog] INFO : 退出电气控制模块
+2023-05-06 19:46:12,876 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-05-06 19:46:12,876 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-05-06 19:46:18,960 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-05-06 19:46:19,163 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-05-06 19:46:19,226 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-05-06 19:46:42,704 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-05-06 19:46:42,735 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-05-06 19:46:48,507 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-05-06 19:46:48,507 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-05-06 19:46:48,538 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-05-06 19:46:48,678 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-05-06 19:46:48,678 [AppLog] INFO : 进入电气控制模块
+2023-05-06 19:46:50,628 [AppLog] INFO : 退出电气控制模块
+2023-05-06 19:46:51,471 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 19:46:51,471 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 19:46:51,502 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 19:46:51,502 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 19:47:00,924 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:47:02,219 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:47:04,434 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-05-06 19:47:11,595 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:47:19,130 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:47:21,204 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:47:24,371 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:47:30,876 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:47:33,591 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:48:06,897 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:48:12,513 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:48:13,371 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:48:16,741 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:48:48,268 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:48:51,575 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:49:06,536 [AppLog] INFO : 停止自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{false},ControlBit{255}
+2023-05-06 19:50:29,263 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-05-06 19:51:08,512 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:53:23,702 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-06 19:53:39,178 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 19:55:31,919 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 19:55:31,919 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 19:55:31,950 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 19:55:31,950 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-06 19:55:36,661 [AppLog] INFO : 停止自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{false},ControlBit{255}
+2023-05-06 19:55:37,738 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 19:59:27,433 [AppLog] INFO : 进入手动调试子模块！
+2023-05-06 19:59:27,433 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-06 19:59:27,464 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-06 19:59:27,464 [AppLog] INFO : 加载成功：温控Modbus接口！

@@ -1,0 +1,61 @@
+2024-01-25 10:14:20,021 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{14.28524%} ，可用内存大小:{14329MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：39 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2024-01-25 10:14:20,037 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-25 10:14:20,037 [AppLog] INFO : 开启系统：一键启动系统开始！
+2024-01-25 10:14:26,137 [AppLog] INFO : 开启系统：一键启动系统结束！
+2024-01-25 10:14:26,339 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2024-01-25 10:14:26,417 [AppLog] INFO : 初始化喷墨控制器启动！
+2024-01-25 10:14:50,208 [AppLog] INFO : 打开喷墨控制器设备成功！
+2024-01-25 10:14:50,239 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2024-01-25 10:14:50,629 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-25 10:15:12,718 [AppLog] INFO : 初始化喷墨控制器成功！
+2024-01-25 10:15:12,718 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-25 10:15:12,750 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2024-01-25 10:15:12,890 [AppLog] INFO : 红外灯控制器485通讯建立！
+2024-01-25 10:15:12,890 [AppLog] INFO : 进入电气控制模块
+2024-01-25 10:15:14,278 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-25 10:15:15,058 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-25 10:15:15,682 [AppLog] INFO : 退出电气控制模块
+2024-01-25 10:15:16,696 [AppLog] INFO : 进入手动调试子模块！
+2024-01-25 10:15:16,696 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-25 10:15:16,712 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-25 10:15:16,712 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-25 10:15:21,704 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-25 10:15:22,219 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2024-01-25 10:15:23,061 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-25 10:15:26,509 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-25 10:18:12,150 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2024-01-25 10:18:13,289 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-25 10:18:14,427 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2024-01-25 10:18:20,636 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2024-01-25 10:18:20,636 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2024-01-25 10:18:20,823 [AppLog] INFO : 喷墨控制器关闭！
+2024-01-25 10:18:20,823 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2024-01-25 10:18:20,823 [AppLog] INFO : 进入电气控制模块
+2024-01-25 10:19:36,452 [AppLog] INFO : 退出电气控制模块
+2024-01-25 10:19:38,808 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2024-01-25 10:19:38,808 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2024-01-25 10:19:39,479 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{57.14266%} ，可用内存大小:{14153MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：39 GB
+==========================================================================

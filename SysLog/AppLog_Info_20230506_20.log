@@ -1,0 +1,36 @@
+2023-05-06 20:00:02,767 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-06 20:00:08,632 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-06 20:00:21,112 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-06 20:00:23,359 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-06 20:00:34,731 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-06 20:00:35,402 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-06 20:00:36,026 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-06 20:00:37,445 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-06 20:00:38,350 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-06 20:00:39,037 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-06 20:01:04,948 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-05-06 20:01:17,694 [AppLog] INFO : 停止自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{false},ControlBit{255}
+2023-05-06 20:04:35,658 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-05-06 20:04:39,308 [AppLog] INFO : 停止自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{false},ControlBit{255}
+2023-05-06 20:04:40,322 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-06 20:19:21,252 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-05-06 20:19:22,125 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-05-06 20:19:28,350 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-05-06 20:19:28,350 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-05-06 20:19:30,347 [AppLog] INFO : 喷墨控制器关闭！
+2023-05-06 20:19:30,347 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2023-05-06 20:19:30,347 [AppLog] INFO : 进入电气控制模块
+2023-05-06 20:19:31,735 [AppLog] INFO : 退出电气控制模块
+2023-05-06 20:19:34,902 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-05-06 20:19:34,902 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-05-06 20:19:35,573 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{3.571056%} ，可用内存大小:{14080MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：67 GB
+  盘符 E:\ 的剩余空间：57 GB
+==========================================================================

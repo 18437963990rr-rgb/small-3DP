@@ -1,0 +1,131 @@
+2023-05-18 13:06:51,093 [AppLog] INFO : 进入电气控制模块
+2023-05-18 13:06:52,245 [AppLog] INFO : 退出电气控制模块
+2023-05-18 13:06:54,645 [AppLog] INFO : 进入手动调试子模块！
+2023-05-18 13:06:54,645 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-18 13:06:54,677 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-18 13:06:54,677 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-18 13:08:45,647 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-18 13:08:46,399 [AppLog] INFO : 进入电气控制模块
+2023-05-18 13:08:47,326 [AppLog] INFO : 退出电气控制模块
+2023-05-18 13:08:48,054 [AppLog] INFO : 进入手动调试子模块！
+2023-05-18 13:08:48,054 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-18 13:08:48,090 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-18 13:08:48,090 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-18 13:08:51,042 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-18 13:08:54,482 [AppLog] INFO : 进入手动调试子模块！
+2023-05-18 13:08:54,482 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-18 13:08:54,518 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-18 13:08:54,518 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-18 13:13:51,354 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-18 13:13:52,228 [AppLog] INFO : 进入电气控制模块
+2023-05-18 13:13:56,369 [AppLog] INFO : 电气控制模块：手动关闭端口6
+2023-05-18 13:13:57,071 [AppLog] INFO : 退出电气控制模块
+2023-05-18 13:45:19,401 [AppLog] INFO : 进入数据加载模块
+2023-05-18 13:45:43,162 [AppLog] INFO : CAD数据保存：保存.bjgroup格式CAD数据成功：D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-0517\yushiyan-0517-youhua.bjgroup
+2023-05-18 13:51:36,437 [AppLog] INFO : 进入数据加载模块
+2023-05-18 13:51:48,520 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-0517\保护条-5mm50mm.cli
+2023-05-18 13:51:55,462 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-0517\保护条-5mm50mm.cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-2.479MM}Y方向平移目标值{-24.979MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-05-18 13:52:23,650 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-0517\保护条-5mm50mm.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-2.47900000000001MM}Y方向平移目标值{-24.979MM}Z方向平移目标值{0MM}X方向平移增量{-130MM}Y方向平移增量{50MM}Z方向平移增量{0MM}
+2023-05-18 13:52:33,442 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-E:\LaserAdd_3DP_Software_220426\1-3DP主控界面(人机交互模块)\bin\x64\Debug\CLI输入文件\shibiao-0321\shieldBody__shieldBody-copys-0-1.cli
+2023-05-18 13:52:51,194 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-0517\保护条-5mm50mm.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-2.47900000000001MM}Y方向平移目标值{-24.979MM}Z方向平移目标值{0MM}X方向平移增量{5MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-05-18 13:53:09,808 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-0517\保护条-5mm50mm.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-2.47900000000001MM}Y方向平移目标值{-24.979MM}Z方向平移目标值{0MM}X方向平移增量{5MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-05-18 13:53:17,247 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-0517\保护条-5mm50mm.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-2.47900000000001MM}Y方向平移目标值{-24.979MM}Z方向平移目标值{0MM}X方向平移增量{-2.5MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-05-18 13:53:28,281 [AppLog] INFO : CAD数据阵列：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-0517\保护条-5mm50mm.cli}
+X方向间距{240MM}Y方向间距{-5MM}X方向数目{2}Y方向数目{1}
+2023-05-18 13:53:34,179 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-E:\LaserAdd_3DP_Software_220426\1-3DP主控界面(人机交互模块)\bin\x64\Debug\CLI输入文件\shibiao-0321\shieldBody__shieldBody.cli
+2023-05-18 13:53:41,631 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-0517\保护条-5mm50mm-copys-0-1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-2.47900000000004MM}Y方向平移目标值{-24.979MM}Z方向平移目标值{0MM}X方向平移增量{-100MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-05-18 13:53:54,408 [AppLog] INFO : CAD数据保存：保存.bjgroup格式CAD数据成功：D:\Release-3DPrintingForBinderJetting-V2.0\CLI输入文件\shibiao-0517\yushiyan-0517-youhua-2.bjgroup
+2023-05-18 13:54:00,859 [AppLog] INFO : 进入电气控制模块
+2023-05-18 13:54:05,043 [AppLog] INFO : 电气控制模块：手动打开端口6
+2023-05-18 13:54:05,677 [AppLog] INFO : 退出电气控制模块
+2023-05-18 13:54:13,034 [AppLog] INFO : 进入手动调试子模块！
+2023-05-18 13:54:13,034 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-18 13:54:13,066 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-18 13:54:13,066 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-18 13:54:55,672 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-18 13:54:57,158 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-18 13:54:57,629 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-18 13:54:58,684 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-18 13:55:00,179 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-18 13:55:01,318 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-18 13:55:01,942 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-18 13:55:03,006 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-18 13:55:03,767 [AppLog] INFO : 开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{11}，清洗控制周期：{0.5}S,{0.5}S
+2023-05-18 13:55:05,377 [AppLog] INFO : 关闭手动清洗挤墨喷头：DEV_EnableTimer
+2023-05-18 13:55:26,877 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-18 13:55:28,746 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-18 13:55:29,916 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-18 13:55:32,696 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-18 13:55:33,914 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-18 13:55:35,864 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-18 13:55:40,024 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-05-18 13:55:42,713 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-05-18 13:55:45,492 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-05-18 13:56:40,631 [AppLog] INFO : {1}号喷头温度更新成功：MCU_SetPhStdTemp{25℃}
+2023-05-18 13:57:17,961 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-05-18 13:57:44,484 [AppLog] INFO : 进入手动调试子模块！
+2023-05-18 13:57:44,484 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-18 13:57:44,517 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-18 13:57:44,517 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-18 13:57:48,981 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-05-18 13:57:49,908 [AppLog] INFO : 进入手动调试子模块！
+2023-05-18 13:57:49,908 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-18 13:57:49,942 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-18 13:57:49,942 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-18 13:58:41,964 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-05-18 13:58:46,075 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{System.Single[]Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{15MM}
+2023-05-18 13:58:55,240 [AppLog] INFO : 退出JOB参数设置：修改后参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{63.5,95.25,127,158.75,190.5,222.25,254,285.75,317.5,349.25,381,412.75,444.5,476.25,508,539.75,571.5,603.25,635,666.75,698.5,730.25,762,793.75,825.5,857.25,889,920.75,952.5,1270,2540Dpi}当前打印任务选定DPI{317.5}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{15MM}
+2023-05-18 13:58:58,640 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{System.Single[]Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{15MM}
+2023-05-18 13:59:01,338 [AppLog] INFO : 退出JOB参数设置：修改后参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{63.5,95.25,127,158.75,190.5,222.25,254,285.75,317.5,349.25,381,412.75,444.5,476.25,508,539.75,571.5,603.25,635,666.75,698.5,730.25,762,793.75,825.5,857.25,889,920.75,952.5,1270,2540Dpi}当前打印任务选定DPI{317.5}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{15MM}
+2023-05-18 13:59:02,385 [AppLog] INFO : 进入手动调试子模块！
+2023-05-18 13:59:02,385 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-18 13:59:02,420 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-18 13:59:02,421 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-18 13:59:10,678 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-18 13:59:11,570 [AppLog] INFO : 进入手动调试子模块！
+2023-05-18 13:59:11,571 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-18 13:59:11,600 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-18 13:59:11,600 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-18 13:59:20,760 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-05-18 13:59:21,601 [AppLog] INFO : 进入手动调试子模块！
+2023-05-18 13:59:21,601 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-18 13:59:21,630 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-18 13:59:21,631 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-18 13:59:46,096 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-05-18 13:59:46,100 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2023-05-18 13:59:46,101 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-05-18 13:59:46,101 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-05-18 13:59:46,227 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2023-05-18 13:59:46,227 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-18 13:59:47,003 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2023-05-18 13:59:47,003 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-18 13:59:47,778 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-18 13:59:47,779 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-05-18 13:59:47,779 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-05-18 13:59:47,779 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-18 13:59:48,078 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2023-05-18 13:59:48,078 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2023-05-18 13:59:49,079 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2023-05-18 13:59:49,938 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{214MM},运动速度{250MM/s}
+2023-05-18 13:59:49,938 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2023-05-18 13:59:49,940 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{5MM/s}
+2023-05-18 13:59:49,940 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2023-05-18 13:59:50,051 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2023-05-18 13:59:50,234 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2023-05-18 13:59:50,235 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-05-18 13:59:50,235 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.00753424657534247MM/s}
+2023-05-18 13:59:50,236 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)

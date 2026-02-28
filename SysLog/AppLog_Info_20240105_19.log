@@ -1,0 +1,1793 @@
+2024-01-05 19:00:18,711 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:00:18,711 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:00:18,820 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:00:21,626 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:00:26,111 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:00:26,854 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:00:26,854 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:00:51,856 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:00:51,856 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:00:51,967 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:00:54,773 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:00:59,258 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:01:00,002 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:01:00,002 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:01:25,003 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:01:25,346 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:01:25,346 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:01:25,348 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{316.845}AimPos{116}
+2024-01-05 19:01:26,094 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-201224.797895}nCtlValue{1}
+2024-01-05 19:01:26,149 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{121.095}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:01:26,149 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:01:26,150 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{761.84}AimPos{780}
+2024-01-05 19:01:26,170 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{18160}nCtlValue{2}
+2024-01-05 19:01:26,604 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{778.915}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:01:27,810 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:01:29,111 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:01:29,111 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:01:32,611 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:01:32,611 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:01:32,613 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.655}AimPos{680}
+2024-01-05 19:01:32,645 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99655}nCtlValue{2}
+2024-01-05 19:01:33,498 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.95}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:01:34,049 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:01:34,050 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:01:34,050 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:01:34,173 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:01:36,958 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:01:41,452 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:01:42,195 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:01:42,195 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:02:07,198 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:02:07,198 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:02:07,319 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:02:10,124 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:02:14,599 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:02:15,342 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:02:15,343 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:02:40,345 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:02:40,345 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:02:40,464 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:02:43,270 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:02:47,747 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:02:48,489 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:02:48,490 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:03:13,492 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:03:13,492 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:03:13,611 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:03:16,416 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:03:20,894 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:03:21,637 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:03:21,637 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:03:46,637 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:03:46,980 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:03:46,980 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:03:46,982 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.15}AimPos{116}
+2024-01-05 19:03:47,095 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-150.283650000006}nCtlValue{1}
+2024-01-05 19:03:47,150 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.965}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:03:47,150 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:03:47,152 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.565}AimPos{780}
+2024-01-05 19:03:47,179 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99434.9999999999}nCtlValue{2}
+2024-01-05 19:03:48,039 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.825}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:03:49,247 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:03:50,547 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:03:50,547 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:03:54,047 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:03:54,047 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:03:54,048 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.425}AimPos{680}
+2024-01-05 19:03:54,075 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99425.0000000001}nCtlValue{2}
+2024-01-05 19:03:54,943 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{683.995}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:03:55,494 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:03:55,496 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:03:55,496 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:03:55,613 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:03:58,418 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:04:02,898 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:04:03,641 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:04:03,641 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:04:28,644 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:04:28,644 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:04:28,759 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:04:31,564 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:04:36,046 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:04:36,789 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:04:36,789 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:05:01,792 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:05:01,792 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:05:01,903 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:05:04,709 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:05:09,193 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:05:09,937 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:05:09,937 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:05:34,939 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:05:34,939 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:05:35,049 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:05:37,855 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:05:42,340 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:05:43,083 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:05:43,084 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:06:08,084 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:06:08,429 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:06:08,429 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:06:08,431 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{115.975}AimPos{116}
+2024-01-05 19:06:08,542 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{25.0472749999915}nCtlValue{1}
+2024-01-05 19:06:08,597 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.975}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:06:08,597 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:06:08,598 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.555}AimPos{780}
+2024-01-05 19:06:08,626 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99444.9999999999}nCtlValue{2}
+2024-01-05 19:06:09,512 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{777.095}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:06:10,720 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:06:12,020 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:06:12,020 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:06:15,521 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:06:15,522 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:06:15,523 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.43}AimPos{680}
+2024-01-05 19:06:15,552 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99430.0000000001}nCtlValue{2}
+2024-01-05 19:06:16,412 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.525}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:06:16,964 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:06:16,965 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:06:16,966 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:06:17,091 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:06:19,877 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:06:24,367 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:06:25,110 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:06:25,111 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:06:50,113 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:06:50,113 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:06:50,237 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:06:53,023 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:06:57,515 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:06:58,258 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:06:58,259 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:07:23,261 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:07:23,261 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:07:23,384 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:07:26,170 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:07:30,663 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:07:31,406 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:07:31,406 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:07:56,409 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:07:56,409 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:07:56,531 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:07:59,336 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:08:03,811 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:08:04,554 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:08:04,554 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:08:29,555 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:08:29,898 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:08:29,898 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:08:29,901 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{115.99}AimPos{116}
+2024-01-05 19:08:30,019 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{10.0189099999909}nCtlValue{1}
+2024-01-05 19:08:30,074 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.99}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:08:30,074 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:08:30,076 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.58}AimPos{780}
+2024-01-05 19:08:30,103 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99420}nCtlValue{2}
+2024-01-05 19:08:30,974 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{776.395}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:08:32,182 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:08:33,482 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:08:33,482 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:08:36,982 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:08:36,982 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:08:36,983 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.425}AimPos{680}
+2024-01-05 19:08:37,014 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99425.0000000001}nCtlValue{2}
+2024-01-05 19:08:37,874 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.485}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:08:38,425 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:08:38,426 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:08:38,427 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:08:38,536 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:08:41,341 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:08:45,829 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:08:46,572 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:08:46,573 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:09:11,574 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:09:11,574 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:09:11,683 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:09:14,489 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:09:18,976 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:09:19,719 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:09:19,719 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:09:44,722 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:09:44,722 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:09:44,832 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:09:47,638 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:09:52,124 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:09:52,867 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:09:52,868 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:10:17,870 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:10:17,870 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:10:17,979 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:10:20,784 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:10:25,272 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:10:26,014 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:10:26,015 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:10:51,016 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:10:51,360 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:10:51,360 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:10:51,362 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{115.995}AimPos{116}
+2024-01-05 19:10:51,481 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{5.00945499999544}nCtlValue{1}
+2024-01-05 19:10:51,536 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.995}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:10:51,536 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:10:51,537 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.595}AimPos{780}
+2024-01-05 19:10:51,565 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99405}nCtlValue{2}
+2024-01-05 19:10:52,440 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{776.635}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:10:53,647 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:10:54,947 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:10:54,947 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:10:58,447 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:10:58,447 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:10:58,449 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.375}AimPos{680}
+2024-01-05 19:10:58,475 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99375}nCtlValue{2}
+2024-01-05 19:10:59,328 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{685}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:10:59,879 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:10:59,880 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:10:59,881 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:11:00,001 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:11:02,806 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:11:07,283 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:11:08,026 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:11:08,026 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:11:33,027 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:11:33,028 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:11:33,147 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:11:35,953 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:11:40,430 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:11:41,173 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:11:41,173 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:12:06,175 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:12:06,175 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:12:06,295 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:12:09,101 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:12:13,577 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:12:14,320 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:12:14,320 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:12:39,323 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:12:39,323 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:12:39,444 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:12:42,249 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:12:46,725 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:12:47,468 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:12:47,468 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:13:12,469 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:13:12,813 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:13:12,813 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:13:12,815 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{115.995}AimPos{116}
+2024-01-05 19:13:12,944 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{5.00945499999544}nCtlValue{1}
+2024-01-05 19:13:13,000 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.995}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:13:13,001 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:13:13,001 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.62}AimPos{780}
+2024-01-05 19:13:13,027 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99380}nCtlValue{2}
+2024-01-05 19:13:13,900 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{776.545}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:13:15,108 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:13:16,408 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:13:16,408 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:13:19,908 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:13:19,908 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:13:19,909 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.39}AimPos{680}
+2024-01-05 19:13:19,937 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99390}nCtlValue{2}
+2024-01-05 19:13:20,794 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.675}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:13:21,345 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:13:21,346 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:13:21,347 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:13:21,467 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:13:24,273 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:13:28,749 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:13:29,492 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:13:29,493 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:13:29,493 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-05 19:13:29,856 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-90MM},运动速度{250MM/s}
+2024-01-05 19:13:29,856 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-05 19:13:29,857 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-05 19:13:29,857 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-05 19:13:30,632 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-05 19:13:30,633 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-05 19:13:30,633 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-05 19:13:30,633 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:13:30,633 [AppLog] INFO : 开启铺粉车不等停运动，准备运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-05 19:13:30,635 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{0MM},运动速度{250MM/s}
+2024-01-05 19:13:30,635 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-05 19:13:30,637 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-05 19:13:30,637 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置695mm，速度50mm/s：BackToStation2
+2024-01-05 19:13:30,769 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-05 19:13:30,770 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-05 19:13:30,771 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-05 19:13:30,771 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-05 19:13:39,001 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-05 19:13:39,001 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-05 19:13:40,239 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-05 19:13:40,240 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-05 19:13:41,016 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-05 19:13:41,016 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-05 19:13:41,016 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-05 19:13:41,016 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:13:43,806 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-05 19:13:43,807 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-05 19:13:44,558 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-05 19:13:44,558 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-05 19:13:44,558 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-05 19:13:45,334 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-05 19:13:45,334 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-05 19:13:45,335 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-05 19:13:45,335 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:13:45,335 [AppLog] INFO : 自动铺粉正常结束：NewAutoSupplyPowderThread2
+2024-01-05 19:13:45,336 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-05 19:13:45,336 [AppLog] INFO : 铺粉模式：固化结束再开启铺粉！
+2024-01-05 19:13:45,336 [AppLog] INFO : 执行完成铺粉固化操作：EquipmentMotionLogic3：m_bApplyPowderSupplyMotion:0
+2024-01-05 19:13:45,336 [AppLog] INFO : 接收到起始打印指令：PrintTaskTHREAD
+2024-01-05 19:13:45,338 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{4}nPassID{0}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{4}nLayerPassCount{6}nLayerPassIndex{0}nMinJet0ImgLinePos{355}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693757344}
+2024-01-05 19:13:45,348 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{4}nPassID{0}
+2024-01-05 19:13:45,350 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{4}nPassID{0}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{4}nPrintPassIndex{0}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:13:45,350 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:13:45,351 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:13:45,351 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:13:45,351 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:13:45,352 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:13:45,352 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:13:45,696 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:13:45,696 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:13:45,699 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116}AimPos{116}
+2024-01-05 19:13:45,699 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{0}nCtlValue{1}
+2024-01-05 19:13:45,755 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{116}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:13:45,755 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:13:45,759 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.605}AimPos{780}
+2024-01-05 19:13:45,787 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99395}nCtlValue{2}
+2024-01-05 19:13:46,638 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.195}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:13:47,846 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:13:49,146 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:13:49,146 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:13:52,646 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:13:52,646 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:13:52,649 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.39}AimPos{680}
+2024-01-05 19:13:52,682 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99390}nCtlValue{2}
+2024-01-05 19:13:53,542 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.645}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:13:54,093 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:13:54,093 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:13:54,093 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:13:54,093 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:13:54,094 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:13:54,094 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:13:54,101 [AppLog] INFO : 关闭闪喷操作：IDP_FlashPrtCtl：返回值{True}
+2024-01-05 19:13:54,101 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:13:54,105 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116}AimPos{88.5}
+2024-01-05 19:13:54,270 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-27552.0025}nCtlValue{1}
+2024-01-05 19:13:54,320 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:13:54,323 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.605}AimPos{425}
+2024-01-05 19:13:54,351 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-255605}nCtlValue{2}
+2024-01-05 19:13:55,754 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{429.84}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:13:55,754 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:13:55,758 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{429.595}AimPos{25}
+2024-01-05 19:13:55,786 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-404595}nCtlValue{2}
+2024-01-05 19:13:59,977 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{25.245}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:13:59,977 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:13:59,979 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{88.515}AimPos{103.521166666667}
+2024-01-05 19:14:00,166 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{15034.5433278333}nCtlValue{1}
+2024-01-05 19:14:00,221 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{99.975}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:14:00,221 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{4}nPassID{1}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{4}nLayerPassCount{6}nLayerPassIndex{1}nMinJet0ImgLinePos{1635}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693757504}
+2024-01-05 19:14:00,232 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{4}nPassID{1}
+2024-01-05 19:14:00,234 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{4}nPassID{1}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{4}nPrintPassIndex{1}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:14:00,234 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:14:00,235 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:14:00,235 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:14:00,235 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:14:00,236 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:14:00,236 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:14:00,236 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:14:00,240 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{21.515}AimPos{425}
+2024-01-05 19:14:00,264 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{100000}MoveStep{403485}nCtlValue{2}
+2024-01-05 19:14:04,439 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{419.345}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:14:04,440 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:14:04,440 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{103.5}AimPos{142.5}
+2024-01-05 19:14:04,873 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{39073.749}nCtlValue{1}
+2024-01-05 19:14:04,928 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{139.555}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:14:04,928 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{4}nPassID{2}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{4}nLayerPassCount{6}nLayerPassIndex{2}nMinJet0ImgLinePos{2915}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693757664}
+2024-01-05 19:14:04,937 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{4}nPassID{2}
+2024-01-05 19:14:04,946 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{4}nPassID{2}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{4}nPrintPassIndex{2}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:14:04,946 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:14:04,952 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:14:04,952 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:14:04,952 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:14:04,953 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:14:04,953 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:14:04,953 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:14:04,957 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{423.35}AimPos{25}
+2024-01-05 19:14:04,991 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-398350}nCtlValue{2}
+2024-01-05 19:14:09,120 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{30.44}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:14:09,120 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:14:09,121 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{142.45}AimPos{157.521166666667}
+2024-01-05 19:14:09,308 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{15099.6662428333}nCtlValue{1}
+2024-01-05 19:14:09,363 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{154.005}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:14:09,363 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{4}nPassID{3}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{4}nLayerPassCount{6}nLayerPassIndex{3}nMinJet0ImgLinePos{4195}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693757824}
+2024-01-05 19:14:09,372 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{4}nPassID{3}
+2024-01-05 19:14:09,374 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{4}nPassID{3}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{4}nPrintPassIndex{3}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:14:09,374 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:14:09,374 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:14:09,375 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:14:09,375 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:14:09,375 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:14:09,376 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:14:09,376 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:14:09,380 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{26.71}AimPos{425}
+2024-01-05 19:14:09,405 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{100000}MoveStep{398290}nCtlValue{2}
+2024-01-05 19:14:13,533 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{418.965}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:14:13,533 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:14:13,535 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{157.55}AimPos{196.5}
+2024-01-05 19:14:13,964 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{39023.65445}nCtlValue{1}
+2024-01-05 19:14:14,021 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{193.535}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:14:14,021 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{4}nPassID{4}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{4}nLayerPassCount{6}nLayerPassIndex{4}nMinJet0ImgLinePos{5475}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693757984}
+2024-01-05 19:14:14,056 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{4}nPassID{4}
+2024-01-05 19:14:14,060 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{4}nPassID{4}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{4}nPrintPassIndex{4}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:14:14,060 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:14:14,061 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:14:14,061 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:14:14,061 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:14:14,062 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:14:14,062 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:14:14,062 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:14:14,068 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{423.27}AimPos{25}
+2024-01-05 19:14:14,101 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-398270}nCtlValue{2}
+2024-01-05 19:14:18,233 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{30.725}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:14:18,233 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:14:18,235 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{196.45}AimPos{211.521166666667}
+2024-01-05 19:14:18,424 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{15099.6662428333}nCtlValue{1}
+2024-01-05 19:14:18,484 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{208.82}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:14:18,484 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{4}nPassID{5}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{4}nLayerPassCount{6}nLayerPassIndex{5}nMinJet0ImgLinePos{6755}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{0}
+2024-01-05 19:14:18,495 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{4}nPassID{5}
+2024-01-05 19:14:18,499 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{4}nPassID{5}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{4}nPrintPassIndex{5}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:14:18,499 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:14:18,500 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:14:18,500 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:14:18,500 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:14:18,500 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:14:18,501 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:14:18,501 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:14:18,506 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{26.75}AimPos{425}
+2024-01-05 19:14:18,547 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{100000}MoveStep{398250}nCtlValue{2}
+2024-01-05 19:14:22,680 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{418.985}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:14:22,680 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:14:22,682 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{419.11}AimPos{780}
+2024-01-05 19:14:22,712 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{360890}nCtlValue{2}
+2024-01-05 19:14:22,762 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:14:22,765 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{211.555}AimPos{121}
+2024-01-05 19:14:23,155 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-90726.239505}nCtlValue{1}
+2024-01-05 19:14:24,463 [AppLog] INFO : Y方向到位等停：DEM_StopAxisRun：返回值{True}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:14:24,470 [AppLog] INFO : X方向到位等停：DEM_StopAxisRun：返回值{True}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:14:24,489 [AppLog] INFO : 开启闪喷操作：IDP_FlashPrtCtl：返回值{True}
+2024-01-05 19:14:24,489 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:14:24,489 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:14:24,490 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:14:24,490 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:14:24,490 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:14:24,491 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:14:24,492 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{781.22}AimPos{758}
+2024-01-05 19:14:24,522 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-23220}nCtlValue{2}
+2024-01-05 19:14:24,923 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{765.765}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:14:24,923 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:14:24,925 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{121.08}AimPos{317}
+2024-01-05 19:14:25,652 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{196290.48472}nCtlValue{1}
+2024-01-05 19:14:25,707 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{312.78}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:14:25,707 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:14:25,708 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:14:25,708 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:14:25,709 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:14:25,709 [AppLog] INFO : 进入自动铺粉逻辑：NewAutoSupplyPowderThread2
+2024-01-05 19:14:25,709 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-05 19:14:25,709 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-05 19:14:25,785 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-05 19:14:25,785 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:14:26,561 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-05 19:14:26,561 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:14:26,561 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-05 19:14:26,562 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-05 19:14:26,810 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-05 19:14:26,810 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-05 19:14:27,810 [AppLog] INFO : 开启铺粉车不等停运动，准备运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-05 19:14:28,679 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{216.5MM},运动速度{250MM/s}
+2024-01-05 19:14:28,679 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-05 19:14:28,681 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{275MM},运动速度{25MM/s}
+2024-01-05 19:14:28,681 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:14:32,389 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:14:35,195 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:14:39,683 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:14:40,427 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:14:40,427 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:15:05,428 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:15:05,428 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:15:05,535 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:15:08,341 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:15:12,831 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:15:13,573 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:15:13,574 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:15:38,575 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:15:38,575 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:15:38,683 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:15:41,489 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:15:45,977 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:15:46,721 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:15:46,721 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:16:11,722 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:16:11,722 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:16:11,830 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:16:14,635 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:16:19,123 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:16:19,867 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:16:19,867 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:16:44,869 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:16:44,869 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:16:44,978 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:16:47,784 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:16:52,271 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:16:53,014 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:16:53,014 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:17:18,015 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:17:18,358 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:17:18,358 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:17:18,373 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{316.86}AimPos{116}
+2024-01-05 19:17:19,104 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-201239.82626}nCtlValue{1}
+2024-01-05 19:17:19,159 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{121.42}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:17:19,159 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:17:19,160 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{761.265}AimPos{780}
+2024-01-05 19:17:19,181 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{18735}nCtlValue{2}
+2024-01-05 19:17:19,601 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{778.435}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:17:20,808 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:17:22,108 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:17:22,108 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:17:25,608 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:17:25,608 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:17:25,610 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.67}AimPos{680}
+2024-01-05 19:17:25,639 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99670.0000000001}nCtlValue{2}
+2024-01-05 19:17:26,492 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.915}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:17:27,043 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:17:27,045 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:17:27,045 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:17:27,164 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:17:29,971 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:17:34,447 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:17:35,190 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:17:35,191 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:18:00,192 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:18:00,192 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:18:00,310 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:18:03,116 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:18:07,595 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:18:08,338 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:18:08,339 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:18:33,340 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:18:33,340 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:18:33,456 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:18:36,262 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:18:40,743 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:18:41,486 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:18:41,486 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:19:06,487 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:19:06,487 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:19:06,602 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:19:09,407 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:19:13,888 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:19:14,631 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:19:14,632 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:19:39,633 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:19:39,977 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:19:39,977 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:19:39,979 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.15}AimPos{116}
+2024-01-05 19:19:40,090 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-150.283650000006}nCtlValue{1}
+2024-01-05 19:19:40,145 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.96}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:19:40,145 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:19:40,146 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.54}AimPos{780}
+2024-01-05 19:19:40,174 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99460}nCtlValue{2}
+2024-01-05 19:19:41,104 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{778.61}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:19:42,311 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:19:43,611 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:19:43,611 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:19:47,111 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:19:47,111 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:19:47,112 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.43}AimPos{680}
+2024-01-05 19:19:47,131 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99430.0000000001}nCtlValue{2}
+2024-01-05 19:19:47,996 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.31}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:19:48,548 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:19:48,550 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:19:48,550 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:19:48,666 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:19:51,473 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:19:55,952 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:19:56,695 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:19:56,696 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:20:21,697 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:20:21,697 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:20:21,812 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:20:24,618 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:20:29,099 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:20:29,843 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:20:29,843 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:20:54,844 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:20:54,844 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:20:54,959 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:20:57,765 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:21:02,247 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:21:02,990 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:21:02,990 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:21:27,992 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:21:27,992 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:21:28,107 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:21:30,912 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:21:35,395 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:21:36,138 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:21:36,138 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:22:01,138 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:22:01,481 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:22:01,481 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:22:01,495 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{115.97}AimPos{116}
+2024-01-05 19:22:01,615 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{30.0567300000011}nCtlValue{1}
+2024-01-05 19:22:01,686 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.97}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:22:01,686 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:22:01,690 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.56}AimPos{780}
+2024-01-05 19:22:01,714 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99439.9999999999}nCtlValue{2}
+2024-01-05 19:22:02,590 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{776.58}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:22:03,798 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:22:05,098 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:22:05,098 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:22:08,598 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:22:08,598 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:22:08,599 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.445}AimPos{680}
+2024-01-05 19:22:08,624 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99445}nCtlValue{2}
+2024-01-05 19:22:09,489 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.21}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:22:10,041 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:22:10,043 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:22:10,043 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:22:10,152 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:22:12,958 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:22:17,444 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:22:18,187 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:22:18,188 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:22:43,189 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:22:43,189 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:22:43,298 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:22:46,105 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:22:50,592 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:22:51,334 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:22:51,335 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:23:16,336 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:23:16,336 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:23:16,446 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:23:19,251 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:23:23,738 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:23:24,483 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:23:24,484 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:23:49,485 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:23:49,485 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:23:49,593 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:23:52,398 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:23:56,888 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:23:57,631 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:23:57,631 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:24:22,632 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:24:22,976 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:24:22,976 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:24:22,978 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{115.985}AimPos{116}
+2024-01-05 19:24:23,091 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{15.0283650000006}nCtlValue{1}
+2024-01-05 19:24:23,149 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.985}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:24:23,149 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:24:23,151 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.56}AimPos{780}
+2024-01-05 19:24:23,175 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99439.9999999999}nCtlValue{2}
+2024-01-05 19:24:24,046 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{776.41}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:24:25,253 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:24:26,553 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:24:26,553 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:24:30,054 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:24:30,054 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:24:30,055 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.42}AimPos{680}
+2024-01-05 19:24:30,087 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99420.0000000001}nCtlValue{2}
+2024-01-05 19:24:30,947 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.435}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:24:31,499 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:24:31,500 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:24:31,500 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:24:31,618 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:24:34,423 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:24:38,902 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:24:39,645 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:24:39,645 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:25:04,647 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:25:04,647 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:25:04,764 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:25:07,570 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:25:12,048 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:25:12,792 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:25:12,792 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:25:37,793 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:25:37,793 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:25:37,909 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:25:40,715 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:25:45,196 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:25:45,938 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:25:45,939 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:26:10,940 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:26:10,940 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:26:11,055 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:26:13,861 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:26:18,342 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:26:19,086 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:26:19,086 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:26:44,086 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:26:44,429 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:26:44,429 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:26:44,432 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{115.995}AimPos{116}
+2024-01-05 19:26:44,553 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{5.00945499999544}nCtlValue{1}
+2024-01-05 19:26:44,609 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.995}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:26:44,609 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:26:44,610 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.585}AimPos{780}
+2024-01-05 19:26:44,637 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99415}nCtlValue{2}
+2024-01-05 19:26:45,491 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.52}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:26:46,698 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:26:47,998 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:26:47,998 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:26:51,499 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:26:51,499 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:26:51,500 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.415}AimPos{680}
+2024-01-05 19:26:51,533 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99415}nCtlValue{2}
+2024-01-05 19:26:52,391 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.565}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:26:52,942 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:26:52,943 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:26:52,943 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:26:53,062 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:26:55,868 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:27:00,345 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:27:01,088 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:27:01,088 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:27:26,091 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:27:26,091 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:27:26,211 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:27:29,017 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:27:33,493 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:27:34,236 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:27:34,236 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:27:59,237 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:27:59,237 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:27:59,359 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:28:02,145 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:28:06,639 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:28:07,383 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:28:07,383 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:28:32,384 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:28:32,385 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:28:32,507 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:28:35,293 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:28:39,787 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:28:40,530 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:28:40,531 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:29:05,531 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:29:05,874 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:29:05,874 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:29:05,878 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{115.995}AimPos{116}
+2024-01-05 19:29:05,998 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{5.00945499999544}nCtlValue{1}
+2024-01-05 19:29:06,053 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.995}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:29:06,053 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:29:06,055 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.585}AimPos{780}
+2024-01-05 19:29:06,083 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99415}nCtlValue{2}
+2024-01-05 19:29:06,952 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.585}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:29:08,158 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:29:09,459 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:29:09,459 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:29:12,959 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:29:12,959 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:29:12,960 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.41}AimPos{680}
+2024-01-05 19:29:12,994 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99410}nCtlValue{2}
+2024-01-05 19:29:13,872 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{683.525}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:29:14,424 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:29:14,425 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:29:14,425 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:29:14,532 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:29:17,338 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:29:21,827 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:29:22,570 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:29:22,570 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:29:22,570 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-05 19:29:22,933 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-90MM},运动速度{250MM/s}
+2024-01-05 19:29:22,934 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-05 19:29:22,934 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-05 19:29:22,934 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-05 19:29:23,710 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-05 19:29:23,710 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-05 19:29:23,711 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-05 19:29:23,711 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:29:23,711 [AppLog] INFO : 开启铺粉车不等停运动，准备运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-05 19:29:23,713 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{0MM},运动速度{250MM/s}
+2024-01-05 19:29:23,714 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-05 19:29:23,715 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-05 19:29:23,715 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置695mm，速度50mm/s：BackToStation2
+2024-01-05 19:29:23,848 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-05 19:29:23,848 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-05 19:29:23,849 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-05 19:29:23,849 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-05 19:29:32,081 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-05 19:29:32,081 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-05 19:29:33,319 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-05 19:29:33,319 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-05 19:29:34,095 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-05 19:29:34,095 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-05 19:29:34,095 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-05 19:29:34,096 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:29:36,885 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-05 19:29:36,885 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-05 19:29:37,636 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-05 19:29:37,636 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-05 19:29:37,636 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-05 19:29:38,412 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-05 19:29:38,412 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-05 19:29:38,412 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-05 19:29:38,413 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:29:38,413 [AppLog] INFO : 自动铺粉正常结束：NewAutoSupplyPowderThread2
+2024-01-05 19:29:38,413 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-05 19:29:38,413 [AppLog] INFO : 铺粉模式：固化结束再开启铺粉！
+2024-01-05 19:29:38,414 [AppLog] INFO : 执行完成铺粉固化操作：EquipmentMotionLogic3：m_bApplyPowderSupplyMotion:0
+2024-01-05 19:29:38,414 [AppLog] INFO : 接收到起始打印指令：PrintTaskTHREAD
+2024-01-05 19:29:38,424 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{5}nPassID{0}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{5}nLayerPassCount{6}nLayerPassIndex{0}nMinJet0ImgLinePos{355}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693758304}
+2024-01-05 19:29:38,433 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{5}nPassID{0}
+2024-01-05 19:29:38,440 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{5}nPassID{0}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{5}nPrintPassIndex{0}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:29:38,440 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:29:38,441 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:29:38,441 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:29:38,441 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:29:38,442 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:29:38,442 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:29:38,785 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:29:38,786 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:29:38,790 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116}AimPos{116}
+2024-01-05 19:29:38,790 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{0}nCtlValue{1}
+2024-01-05 19:29:38,848 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{116}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:29:38,849 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:29:38,853 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.6}AimPos{780}
+2024-01-05 19:29:38,890 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99400}nCtlValue{2}
+2024-01-05 19:29:39,761 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.755}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:29:40,970 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:29:42,270 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:29:42,270 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:29:45,771 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:29:45,771 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:29:45,777 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.39}AimPos{680}
+2024-01-05 19:29:45,802 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99390}nCtlValue{2}
+2024-01-05 19:29:46,677 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{683.745}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:29:47,228 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:29:47,228 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:29:47,228 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:29:47,228 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:29:47,229 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:29:47,229 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:29:47,233 [AppLog] INFO : 关闭闪喷操作：IDP_FlashPrtCtl：返回值{True}
+2024-01-05 19:29:47,233 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:29:47,237 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116}AimPos{91}
+2024-01-05 19:29:47,403 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-25047.275}nCtlValue{1}
+2024-01-05 19:29:47,453 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:29:47,456 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.62}AimPos{425}
+2024-01-05 19:29:47,486 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-255620}nCtlValue{2}
+2024-01-05 19:29:48,895 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{429.57}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:29:48,895 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:29:48,906 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{428.935}AimPos{25}
+2024-01-05 19:29:48,937 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-403935}nCtlValue{2}
+2024-01-05 19:29:53,119 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{25.96}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:29:53,120 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:29:53,121 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{91.025}AimPos{101.021166666667}
+2024-01-05 19:29:53,259 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{10015.0694178333}nCtlValue{1}
+2024-01-05 19:29:53,314 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{98.18}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:29:53,314 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{5}nPassID{1}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{5}nLayerPassCount{6}nLayerPassIndex{1}nMinJet0ImgLinePos{1635}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693758464}
+2024-01-05 19:29:53,323 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{5}nPassID{1}
+2024-01-05 19:29:53,331 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{5}nPassID{1}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{5}nPrintPassIndex{1}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:29:53,331 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:29:53,332 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:29:53,332 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:29:53,332 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:29:53,333 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:29:53,333 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:29:53,333 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:29:53,335 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{22.2}AimPos{425}
+2024-01-05 19:29:53,383 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{100000}MoveStep{402800}nCtlValue{2}
+2024-01-05 19:29:57,559 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{419.675}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:29:57,559 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:29:57,560 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{100.995}AimPos{145}
+2024-01-05 19:29:58,062 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{44088.213455}nCtlValue{1}
+2024-01-05 19:29:58,131 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{142.995}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:29:58,131 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{5}nPassID{2}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{5}nLayerPassCount{6}nLayerPassIndex{2}nMinJet0ImgLinePos{2915}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693758624}
+2024-01-05 19:29:58,143 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{5}nPassID{2}
+2024-01-05 19:29:58,146 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{5}nPassID{2}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{5}nPrintPassIndex{2}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:29:58,146 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:29:58,147 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:29:58,147 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:29:58,147 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:29:58,148 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:29:58,148 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:29:58,148 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:29:58,178 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{423.315}AimPos{25}
+2024-01-05 19:29:58,203 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-398315}nCtlValue{2}
+2024-01-05 19:30:02,328 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{30.7}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:30:02,328 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:30:02,331 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{144.99}AimPos{155.021166666667}
+2024-01-05 19:30:02,485 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{10050.1356028333}nCtlValue{1}
+2024-01-05 19:30:02,540 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{153.295}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:30:02,540 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{5}nPassID{3}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{5}nLayerPassCount{6}nLayerPassIndex{3}nMinJet0ImgLinePos{4195}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693758784}
+2024-01-05 19:30:02,550 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{5}nPassID{3}
+2024-01-05 19:30:02,552 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{5}nPassID{3}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{5}nPrintPassIndex{3}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:30:02,552 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:30:02,553 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:30:02,553 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:30:02,553 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:30:02,553 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:30:02,554 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:30:02,554 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:30:02,558 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{26.765}AimPos{425}
+2024-01-05 19:30:02,587 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{100000}MoveStep{398235}nCtlValue{2}
+2024-01-05 19:30:06,712 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{418.865}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:30:06,712 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:30:06,714 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{154.995}AimPos{199}
+2024-01-05 19:30:07,176 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{44088.213455}nCtlValue{1}
+2024-01-05 19:30:07,249 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{196.8}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:30:07,249 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{5}nPassID{4}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{5}nLayerPassCount{6}nLayerPassIndex{4}nMinJet0ImgLinePos{5475}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693758944}
+2024-01-05 19:30:07,259 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{5}nPassID{4}
+2024-01-05 19:30:07,268 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{5}nPassID{4}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{5}nPrintPassIndex{4}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:30:07,269 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:30:07,269 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:30:07,270 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:30:07,270 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:30:07,270 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:30:07,270 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:30:07,271 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:30:07,273 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{423.21}AimPos{25}
+2024-01-05 19:30:07,314 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-398210}nCtlValue{2}
+2024-01-05 19:30:11,436 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{31.22}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:30:11,436 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:30:11,437 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{198.995}AimPos{209.021166666667}
+2024-01-05 19:30:11,571 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{10045.1261478333}nCtlValue{1}
+2024-01-05 19:30:11,626 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{205.995}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:30:11,626 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{5}nPassID{5}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{5}nLayerPassCount{6}nLayerPassIndex{5}nMinJet0ImgLinePos{6755}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{0}
+2024-01-05 19:30:11,635 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{5}nPassID{5}
+2024-01-05 19:30:11,638 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{5}nPassID{5}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{5}nPrintPassIndex{5}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:30:11,638 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:30:11,639 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:30:11,639 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:30:11,639 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:30:11,640 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:30:11,640 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:30:11,640 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:30:11,649 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{26.745}AimPos{425}
+2024-01-05 19:30:11,697 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{100000}MoveStep{398255}nCtlValue{2}
+2024-01-05 19:30:15,825 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{418.25}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:30:15,825 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:30:15,827 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{418.37}AimPos{780}
+2024-01-05 19:30:15,847 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{361630}nCtlValue{2}
+2024-01-05 19:30:15,897 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:30:15,900 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{209.02}AimPos{121}
+2024-01-05 19:30:16,254 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-88186.44582}nCtlValue{1}
+2024-01-05 19:30:17,601 [AppLog] INFO : Y方向到位等停：DEM_StopAxisRun：返回值{True}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:30:17,606 [AppLog] INFO : X方向到位等停：DEM_StopAxisRun：返回值{True}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:30:17,629 [AppLog] INFO : 开启闪喷操作：IDP_FlashPrtCtl：返回值{True}
+2024-01-05 19:30:17,629 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:30:17,629 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:30:17,630 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:30:17,630 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:30:17,630 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:30:17,630 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:30:17,632 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{781.895}AimPos{758}
+2024-01-05 19:30:17,656 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-23895}nCtlValue{2}
+2024-01-05 19:30:18,063 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{765.95}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:30:18,064 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:30:18,066 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{121.095}AimPos{317}
+2024-01-05 19:30:18,777 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{196275.456355}nCtlValue{1}
+2024-01-05 19:30:18,832 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{311.305}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:30:18,832 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:30:18,833 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:30:18,833 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:30:18,833 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:30:18,833 [AppLog] INFO : 进入自动铺粉逻辑：NewAutoSupplyPowderThread2
+2024-01-05 19:30:18,834 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-05 19:30:18,834 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-05 19:30:18,910 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-05 19:30:18,910 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:30:19,686 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-05 19:30:19,687 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:30:19,687 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-05 19:30:19,687 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-05 19:30:19,936 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-05 19:30:19,936 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-05 19:30:20,936 [AppLog] INFO : 开启铺粉车不等停运动，准备运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-05 19:30:21,805 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{216.5MM},运动速度{250MM/s}
+2024-01-05 19:30:21,805 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-05 19:30:21,807 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{275MM},运动速度{25MM/s}
+2024-01-05 19:30:21,807 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:30:25,516 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:30:28,322 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:30:32,808 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:30:33,551 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:30:33,552 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:30:58,554 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:30:58,554 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:30:58,665 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:31:01,470 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:31:05,956 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:31:06,699 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:31:06,700 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:31:31,702 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:31:31,702 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:31:31,813 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:31:34,619 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:31:39,104 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:31:39,847 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:31:39,847 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:32:04,850 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:32:04,850 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:32:04,961 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:32:07,767 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:32:12,252 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:32:12,995 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:32:12,995 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:32:37,996 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:32:37,996 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:32:38,110 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:32:40,916 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:32:45,399 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:32:46,141 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:32:46,142 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:33:11,142 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:33:11,485 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:33:11,485 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:33:11,487 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{316.905}AimPos{116}
+2024-01-05 19:33:12,217 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-201284.911355}nCtlValue{1}
+2024-01-05 19:33:12,271 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{122.415}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:33:12,271 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:33:12,273 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{761.335}AimPos{780}
+2024-01-05 19:33:12,299 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{18665}nCtlValue{2}
+2024-01-05 19:33:12,653 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{774.895}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:33:13,860 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:33:15,161 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:33:15,161 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:33:18,661 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:33:18,661 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:33:18,663 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.65}AimPos{680}
+2024-01-05 19:33:18,696 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99650}nCtlValue{2}
+2024-01-05 19:33:19,548 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{685.395}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:33:20,100 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:33:20,102 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:33:20,102 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:33:20,216 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:33:23,022 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:33:27,503 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:33:28,246 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:33:28,247 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:33:53,249 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:33:53,249 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:33:53,365 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:33:56,170 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:34:00,650 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:34:01,394 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:34:01,395 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:34:26,397 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:34:26,397 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:34:26,515 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:34:29,320 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:34:33,799 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:34:34,542 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:34:34,542 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:34:59,544 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:34:59,544 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:34:59,665 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:35:02,471 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:35:06,946 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:35:07,689 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:35:07,689 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:35:32,689 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:35:33,033 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:35:33,033 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:35:33,035 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.1}AimPos{116}
+2024-01-05 19:35:33,146 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-100.189100000009}nCtlValue{1}
+2024-01-05 19:35:33,201 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.985}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:35:33,201 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:35:33,204 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.555}AimPos{780}
+2024-01-05 19:35:33,231 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99444.9999999999}nCtlValue{2}
+2024-01-05 19:35:34,117 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{777.185}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:35:35,328 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:35:36,628 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:35:36,628 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:35:40,128 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:35:40,128 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:35:40,131 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.44}AimPos{680}
+2024-01-05 19:35:40,158 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99440.0000000001}nCtlValue{2}
+2024-01-05 19:35:41,020 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.335}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:35:41,571 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:35:41,572 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:35:41,573 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:35:41,696 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:35:44,481 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:35:48,974 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:35:49,717 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:35:49,718 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:36:14,720 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:36:14,720 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:36:14,827 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:36:17,633 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:36:22,122 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:36:22,865 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:36:22,865 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:36:47,868 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:36:47,868 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:36:47,976 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:36:50,781 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:36:55,270 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:36:56,013 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:36:56,014 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:37:21,016 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:37:21,016 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:37:21,126 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:37:23,931 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:37:28,418 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:37:29,161 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:37:29,161 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:37:54,163 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:37:54,507 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:37:54,507 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:37:54,509 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{115.97}AimPos{116}
+2024-01-05 19:37:54,625 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{30.0567300000011}nCtlValue{1}
+2024-01-05 19:37:54,680 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.97}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:37:54,680 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:37:54,681 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.555}AimPos{780}
+2024-01-05 19:37:54,709 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99444.9999999999}nCtlValue{2}
+2024-01-05 19:37:55,593 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{777.105}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:37:56,800 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:37:58,100 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:37:58,100 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:38:01,600 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:38:01,600 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:38:01,601 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.44}AimPos{680}
+2024-01-05 19:38:01,619 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99440.0000000001}nCtlValue{2}
+2024-01-05 19:38:02,486 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.24}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:38:03,037 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:38:03,038 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:38:03,038 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:38:03,155 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:38:05,960 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:38:10,440 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:38:11,183 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:38:11,183 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:38:36,185 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:38:36,185 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:38:36,304 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:38:39,109 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:38:43,586 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:38:44,329 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:38:44,330 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:39:09,332 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:39:09,332 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:39:09,451 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:39:12,257 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:39:16,733 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:39:17,476 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:39:17,477 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:39:42,479 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:39:42,479 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:39:42,599 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:39:45,405 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:39:49,880 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:39:50,624 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:39:50,624 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:40:15,625 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:40:15,969 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:40:15,969 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:40:15,971 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{115.985}AimPos{116}
+2024-01-05 19:40:16,086 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{15.0283650000006}nCtlValue{1}
+2024-01-05 19:40:16,141 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.985}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:40:16,141 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:40:16,142 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.565}AimPos{780}
+2024-01-05 19:40:16,170 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99434.9999999999}nCtlValue{2}
+2024-01-05 19:40:17,033 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.925}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:40:18,241 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:40:19,541 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:40:19,541 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:40:23,041 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:40:23,041 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:40:23,042 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.435}AimPos{680}
+2024-01-05 19:40:23,065 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99435.0000000001}nCtlValue{2}
+2024-01-05 19:40:23,929 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.305}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:40:24,480 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:40:24,481 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:40:24,482 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:40:24,606 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:40:27,392 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:40:31,884 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:40:32,627 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:40:32,628 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:40:57,629 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:40:57,629 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:40:57,754 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:41:00,539 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:41:05,031 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:41:05,774 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:41:05,774 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:41:30,776 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:41:30,776 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:41:30,899 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:41:33,684 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:41:38,177 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:41:38,921 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:41:38,921 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:42:03,923 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:42:03,924 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:42:04,046 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:42:06,832 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:42:11,325 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:42:12,068 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:42:12,069 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:42:37,070 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:42:37,413 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:42:37,413 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:42:37,415 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{115.995}AimPos{116}
+2024-01-05 19:42:37,532 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{5.00945499999544}nCtlValue{1}
+2024-01-05 19:42:37,587 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.995}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:42:37,588 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:42:37,588 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.56}AimPos{780}
+2024-01-05 19:42:37,616 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99439.9999999999}nCtlValue{2}
+2024-01-05 19:42:38,486 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{776.375}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:42:39,694 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:42:40,994 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:42:40,994 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:42:44,494 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:42:44,494 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:42:44,514 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.44}AimPos{680}
+2024-01-05 19:42:44,542 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99440.0000000001}nCtlValue{2}
+2024-01-05 19:42:45,407 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.225}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:42:45,958 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:42:45,960 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:42:45,960 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:42:46,074 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:42:48,879 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:42:53,362 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:42:54,105 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:42:54,105 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:43:19,107 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:43:19,111 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:43:19,222 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:43:22,027 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:43:26,509 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:43:27,252 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:43:27,253 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:43:52,254 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:43:52,254 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:43:52,372 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:43:55,179 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:43:59,655 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:44:00,399 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:44:00,399 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:44:25,402 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:44:25,402 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:44:25,523 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:44:28,309 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:44:32,806 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:44:33,550 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:44:33,550 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:44:58,551 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:44:58,895 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:44:58,895 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:44:58,897 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116}AimPos{116}
+2024-01-05 19:44:58,897 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{0}nCtlValue{1}
+2024-01-05 19:44:58,952 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{116}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:44:58,952 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:44:58,953 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.555}AimPos{780}
+2024-01-05 19:44:58,984 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99444.9999999999}nCtlValue{2}
+2024-01-05 19:44:59,882 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{777.075}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:45:01,089 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:45:02,389 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:45:02,389 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:45:05,889 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:45:05,889 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:45:05,890 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.425}AimPos{680}
+2024-01-05 19:45:05,910 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99425.0000000001}nCtlValue{2}
+2024-01-05 19:45:06,770 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.58}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:45:07,321 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:45:07,322 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:45:07,322 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:45:07,431 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:45:10,237 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:45:14,725 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:45:15,468 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:45:15,469 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:45:15,469 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-05 19:45:15,832 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-90MM},运动速度{250MM/s}
+2024-01-05 19:45:15,833 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-05 19:45:15,833 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-05 19:45:15,833 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-05 19:45:16,609 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-05 19:45:16,609 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-05 19:45:16,610 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-05 19:45:16,610 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:45:16,610 [AppLog] INFO : 开启铺粉车不等停运动，准备运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-05 19:45:16,612 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{0MM},运动速度{250MM/s}
+2024-01-05 19:45:16,612 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-05 19:45:16,614 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-05 19:45:16,614 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置695mm，速度50mm/s：BackToStation2
+2024-01-05 19:45:16,746 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-05 19:45:16,747 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-05 19:45:16,748 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-05 19:45:16,748 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-05 19:45:24,978 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-05 19:45:24,979 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-05 19:45:26,217 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-05 19:45:26,217 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-05 19:45:26,993 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-05 19:45:26,993 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-05 19:45:26,993 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-05 19:45:26,994 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:45:29,783 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-05 19:45:29,784 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-05 19:45:30,535 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-05 19:45:30,535 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-05 19:45:30,535 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-05 19:45:31,311 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-05 19:45:31,311 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-05 19:45:31,312 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-05 19:45:31,312 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:45:31,312 [AppLog] INFO : 自动铺粉正常结束：NewAutoSupplyPowderThread2
+2024-01-05 19:45:31,312 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-05 19:45:31,313 [AppLog] INFO : 铺粉模式：固化结束再开启铺粉！
+2024-01-05 19:45:31,313 [AppLog] INFO : 执行完成铺粉固化操作：EquipmentMotionLogic3：m_bApplyPowderSupplyMotion:0
+2024-01-05 19:45:31,313 [AppLog] INFO : 接收到起始打印指令：PrintTaskTHREAD
+2024-01-05 19:45:31,314 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{6}nPassID{0}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{6}nLayerPassCount{6}nLayerPassIndex{0}nMinJet0ImgLinePos{355}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693759264}
+2024-01-05 19:45:31,323 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{6}nPassID{0}
+2024-01-05 19:45:31,330 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{6}nPassID{0}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{6}nPrintPassIndex{0}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:45:31,330 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:45:31,331 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:45:31,331 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:45:31,331 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:45:31,332 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:45:31,332 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:45:31,676 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:45:31,677 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:45:31,682 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116}AimPos{116}
+2024-01-05 19:45:31,683 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{0}nCtlValue{1}
+2024-01-05 19:45:31,740 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{116}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:45:31,740 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:45:31,744 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.605}AimPos{780}
+2024-01-05 19:45:31,776 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99395}nCtlValue{2}
+2024-01-05 19:45:32,637 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.83}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:45:33,852 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:45:35,152 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:45:35,152 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:45:38,652 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:45:38,652 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:45:38,654 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.385}AimPos{680}
+2024-01-05 19:45:38,686 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99385}nCtlValue{2}
+2024-01-05 19:45:39,541 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.84}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:45:40,093 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:45:40,093 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:45:40,093 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:45:40,093 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:45:40,094 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:45:40,094 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:45:40,101 [AppLog] INFO : 关闭闪喷操作：IDP_FlashPrtCtl：返回值{True}
+2024-01-05 19:45:40,101 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:45:40,106 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116}AimPos{93.5}
+2024-01-05 19:45:40,253 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-22542.5475}nCtlValue{1}
+2024-01-05 19:45:40,304 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:45:40,307 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.62}AimPos{425}
+2024-01-05 19:45:40,340 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-255620}nCtlValue{2}
+2024-01-05 19:45:41,747 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{429.445}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:45:41,748 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:45:41,752 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{429.155}AimPos{25}
+2024-01-05 19:45:41,775 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-404155}nCtlValue{2}
+2024-01-05 19:45:45,956 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{25.885}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:45:45,957 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:45:45,960 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{93.51}AimPos{98.5211666666667}
+2024-01-05 19:45:46,094 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{5020.64278283333}nCtlValue{1}
+2024-01-05 19:45:46,149 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{97.395}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:45:46,149 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{6}nPassID{1}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{6}nLayerPassCount{6}nLayerPassIndex{1}nMinJet0ImgLinePos{1635}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693759424}
+2024-01-05 19:45:46,159 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{6}nPassID{1}
+2024-01-05 19:45:46,195 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{6}nPassID{1}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{6}nPrintPassIndex{1}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:45:46,195 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:45:46,196 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:45:46,196 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:45:46,196 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:45:46,196 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:45:46,197 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:45:46,197 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:45:46,200 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{21.965}AimPos{425}
+2024-01-05 19:45:46,237 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{100000}MoveStep{403035}nCtlValue{2}
+2024-01-05 19:45:50,412 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{419.415}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:45:50,412 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:45:50,413 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{98.505}AimPos{147.5}
+2024-01-05 19:45:50,939 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{49087.649545}nCtlValue{1}
+2024-01-05 19:45:50,994 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{143.96}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:45:50,994 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{6}nPassID{2}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{6}nLayerPassCount{6}nLayerPassIndex{2}nMinJet0ImgLinePos{2915}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693759584}
+2024-01-05 19:45:51,003 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{6}nPassID{2}
+2024-01-05 19:45:51,012 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{6}nPassID{2}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{6}nPrintPassIndex{2}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:45:51,012 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:45:51,016 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:45:51,017 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:45:51,017 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:45:51,017 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:45:51,018 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:45:51,018 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:45:51,022 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{423.315}AimPos{25}
+2024-01-05 19:45:51,058 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-398315}nCtlValue{2}
+2024-01-05 19:45:55,182 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{30.66}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:45:55,182 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:45:55,183 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{147.46}AimPos{152.521166666667}
+2024-01-05 19:45:55,294 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{5070.73733283332}nCtlValue{1}
+2024-01-05 19:45:55,349 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{151.57}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:45:55,349 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{6}nPassID{3}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{6}nLayerPassCount{6}nLayerPassIndex{3}nMinJet0ImgLinePos{4195}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693759744}
+2024-01-05 19:45:55,358 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{6}nPassID{3}
+2024-01-05 19:45:55,367 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{6}nPassID{3}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{6}nPrintPassIndex{3}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:45:55,367 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:45:55,368 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:45:55,368 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:45:55,368 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:45:55,369 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:45:55,369 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:45:55,369 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:45:55,372 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{26.695}AimPos{425}
+2024-01-05 19:45:55,394 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{100000}MoveStep{398305}nCtlValue{2}
+2024-01-05 19:45:59,515 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{418.59}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:45:59,516 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:45:59,518 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{152.565}AimPos{201.5}
+2024-01-05 19:46:00,035 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{49027.536085}nCtlValue{1}
+2024-01-05 19:46:00,090 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{198.27}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:46:00,090 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{6}nPassID{4}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{6}nLayerPassCount{6}nLayerPassIndex{4}nMinJet0ImgLinePos{5475}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{693759904}
+2024-01-05 19:46:00,100 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{6}nPassID{4}
+2024-01-05 19:46:00,104 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{6}nPassID{4}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{6}nPrintPassIndex{4}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:46:00,104 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:46:00,105 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:46:00,105 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:46:00,105 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:46:00,105 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:46:00,106 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:46:00,106 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:46:00,112 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{423.29}AimPos{25}
+2024-01-05 19:46:00,136 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-398290}nCtlValue{2}
+2024-01-05 19:46:04,267 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{30.705}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:46:04,267 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:46:04,270 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{201.435}AimPos{206.521166666667}
+2024-01-05 19:46:04,390 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{100000}MoveStep{5095.78460783332}nCtlValue{1}
+2024-01-05 19:46:04,450 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{205.655}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:46:04,450 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{6}nPassID{5}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{6}nLayerPassCount{6}nLayerPassIndex{5}nMinJet0ImgLinePos{6755}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{4}nSrcEndCols{16000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{16619}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{0}
+2024-01-05 19:46:04,461 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{6}nPassID{5}
+2024-01-05 19:46:04,465 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{6}nPassID{5}LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{True}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{11}nDTLayerPassIndex{5}nDTPtrCtlIndex{0}nLayerPassCount{6}nPrintLayerIndex{6}nPrintPassIndex{5}nProcLayerIndex{11}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-05 19:46:04,465 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2024-01-05 19:46:04,466 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:46:04,466 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:46:04,466 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:46:04,466 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:46:04,467 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:46:04,467 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:46:04,472 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{26.76}AimPos{425}
+2024-01-05 19:46:04,505 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{100000}MoveStep{398240}nCtlValue{2}
+2024-01-05 19:46:08,635 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{419.075}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:46:08,635 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:46:08,638 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{419.26}AimPos{780}
+2024-01-05 19:46:08,670 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{360740}nCtlValue{2}
+2024-01-05 19:46:08,720 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:46:08,721 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{206.56}AimPos{121}
+2024-01-05 19:46:09,067 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-85721.79396}nCtlValue{1}
+2024-01-05 19:46:10,420 [AppLog] INFO : Y方向到位等停：DEM_StopAxisRun：返回值{True}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:46:10,427 [AppLog] INFO : X方向到位等停：DEM_StopAxisRun：返回值{True}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:46:10,445 [AppLog] INFO : 开启闪喷操作：IDP_FlashPrtCtl：返回值{True}
+2024-01-05 19:46:10,445 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:46:10,446 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:46:10,446 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:46:10,446 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:46:10,447 [AppLog] INFO : 进入：AutoPrintThread3！
+2024-01-05 19:46:10,447 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:46:10,448 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{781.01}AimPos{758}
+2024-01-05 19:46:10,480 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-23010}nCtlValue{2}
+2024-01-05 19:46:10,878 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{765.9}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:46:10,879 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:46:10,881 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{121.07}AimPos{317}
+2024-01-05 19:46:11,591 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{196300.50363}nCtlValue{1}
+2024-01-05 19:46:11,657 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{311.54}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:46:11,657 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-05 19:46:11,657 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2024-01-05 19:46:11,658 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2024-01-05 19:46:11,658 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2024-01-05 19:46:11,658 [AppLog] INFO : 进入自动铺粉逻辑：NewAutoSupplyPowderThread2
+2024-01-05 19:46:11,659 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-05 19:46:11,659 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-05 19:46:11,735 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-05 19:46:11,735 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:46:12,510 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-05 19:46:12,511 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-05 19:46:12,511 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-05 19:46:12,511 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-05 19:46:12,760 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-05 19:46:12,760 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-05 19:46:13,760 [AppLog] INFO : 开启铺粉车不等停运动，准备运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-05 19:46:14,629 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{216.5MM},运动速度{250MM/s}
+2024-01-05 19:46:14,629 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-05 19:46:14,631 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{275MM},运动速度{25MM/s}
+2024-01-05 19:46:14,631 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:46:18,354 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:46:21,140 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:46:25,633 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:46:26,376 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:46:26,377 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:46:51,378 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:46:51,379 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:46:51,500 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:46:54,305 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:46:58,781 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:46:59,524 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:46:59,524 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:47:24,526 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:47:24,526 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:47:24,646 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:47:27,451 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:47:31,928 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:47:32,672 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:47:32,672 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:47:57,673 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:47:57,673 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:47:57,793 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:48:00,599 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:48:05,075 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:48:05,819 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:48:05,819 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:48:30,822 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:48:30,822 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:48:30,941 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:48:33,747 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:48:38,223 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:48:38,967 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:48:38,967 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:49:03,968 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:49:04,311 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:49:04,311 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:49:04,313 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{316.885}AimPos{116}
+2024-01-05 19:49:05,035 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-201264.873535}nCtlValue{1}
+2024-01-05 19:49:05,090 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{123.1}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:49:05,090 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:49:05,092 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{761.305}AimPos{780}
+2024-01-05 19:49:05,123 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{18694.9999999999}nCtlValue{2}
+2024-01-05 19:49:05,481 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.67}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:49:06,688 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:49:07,988 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:49:07,988 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:49:11,488 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:49:11,488 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:49:11,489 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.675}AimPos{680}
+2024-01-05 19:49:11,518 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99675.0000000001}nCtlValue{2}
+2024-01-05 19:49:12,374 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.865}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:49:12,925 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:49:12,926 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:49:12,926 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:49:13,049 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:49:15,835 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:49:20,329 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:49:21,072 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:49:21,072 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:49:46,074 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:49:46,074 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:49:46,197 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:49:48,983 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:49:53,477 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:49:54,220 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:49:54,220 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:50:19,221 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:50:19,221 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:50:19,345 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:50:22,131 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:50:26,624 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:50:27,367 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:50:27,367 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:50:52,368 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:50:52,368 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:50:52,492 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:50:55,277 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:50:59,770 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:51:00,512 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:51:00,513 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:51:25,514 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:51:25,857 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:51:25,857 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:51:25,859 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{116.12}AimPos{116}
+2024-01-05 19:51:25,971 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-120.226920000005}nCtlValue{1}
+2024-01-05 19:51:26,026 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.965}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:51:26,026 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:51:26,027 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.53}AimPos{780}
+2024-01-05 19:51:26,054 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99470}nCtlValue{2}
+2024-01-05 19:51:27,024 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{779.13}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:51:28,232 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:51:29,532 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:51:29,532 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:51:33,033 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:51:33,033 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:51:33,058 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.435}AimPos{680}
+2024-01-05 19:51:33,089 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99435.0000000001}nCtlValue{2}
+2024-01-05 19:51:33,961 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{683.915}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:51:34,513 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:51:34,514 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:51:34,514 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:51:34,636 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:51:37,423 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:51:41,917 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:51:42,660 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:51:42,660 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:52:07,661 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:52:07,661 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:52:07,783 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:52:10,569 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:52:15,064 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:52:15,807 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:52:15,807 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:52:40,808 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:52:40,808 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:52:40,931 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:52:43,717 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:52:48,211 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:52:48,954 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:52:48,954 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:53:13,956 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:53:13,956 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:53:14,079 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:53:16,865 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:53:21,358 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:53:22,102 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:53:22,102 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:53:47,102 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:53:47,445 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:53:47,445 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:53:47,447 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{115.97}AimPos{116}
+2024-01-05 19:53:47,577 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{30.0567300000011}nCtlValue{1}
+2024-01-05 19:53:47,632 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.97}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:53:47,632 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:53:47,633 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.55}AimPos{780}
+2024-01-05 19:53:47,656 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99449.9999999999}nCtlValue{2}
+2024-01-05 19:53:48,557 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{777.855}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:53:49,764 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:53:51,064 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:53:51,064 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:53:54,564 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:53:54,564 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:53:54,565 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.465}AimPos{680}
+2024-01-05 19:53:54,598 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99465}nCtlValue{2}
+2024-01-05 19:53:55,452 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.88}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:53:56,004 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:53:56,005 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:53:56,005 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:53:56,125 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:53:58,930 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:54:03,407 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:54:04,150 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:54:04,151 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:54:29,152 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:54:29,152 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:54:29,271 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:54:32,077 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:54:36,555 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:54:37,298 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:54:37,298 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:55:02,299 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:55:02,299 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:55:02,419 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:55:05,224 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:55:09,701 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:55:10,444 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:55:10,445 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:55:35,446 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:55:35,446 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:55:35,566 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:55:38,372 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:55:42,848 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:55:43,591 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:55:43,592 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:56:08,592 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:56:08,935 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:56:08,935 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:56:08,937 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{115.985}AimPos{116}
+2024-01-05 19:56:09,049 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{15.0283650000006}nCtlValue{1}
+2024-01-05 19:56:09,105 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.985}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:56:09,105 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:56:09,106 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.535}AimPos{780}
+2024-01-05 19:56:09,133 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99465}nCtlValue{2}
+2024-01-05 19:56:10,078 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{778.955}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:56:11,285 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:56:12,585 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:56:12,585 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:56:16,086 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:56:16,086 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:56:16,088 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.465}AimPos{680}
+2024-01-05 19:56:16,107 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99465}nCtlValue{2}
+2024-01-05 19:56:16,961 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.895}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:56:17,512 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:56:17,513 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:56:17,513 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:56:17,631 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:56:20,436 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:56:24,915 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:56:25,658 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:56:25,659 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:56:50,661 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:56:50,661 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:56:50,777 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:56:53,583 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:56:58,062 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:56:58,805 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:56:58,806 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:57:23,807 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:57:23,807 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:57:23,924 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:57:26,731 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:57:31,210 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:57:31,953 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:57:31,953 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:57:56,954 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:57:56,954 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:57:57,070 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:57:59,875 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:58:04,356 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:58:05,099 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:58:05,100 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:58:30,100 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2024-01-05 19:58:30,444 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2024-01-05 19:58:30,444 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2024-01-05 19:58:30,447 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{115.995}AimPos{116}
+2024-01-05 19:58:30,574 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{5.00945499999544}nCtlValue{1}
+2024-01-05 19:58:30,644 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{115.995}bImmeStop{False}nAxisMask{2}
+2024-01-05 19:58:30,645 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:58:30,646 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.54}AimPos{780}
+2024-01-05 19:58:30,673 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99460}nCtlValue{2}
+2024-01-05 19:58:31,612 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{778.855}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:58:32,819 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2024-01-05 19:58:34,119 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, false)
+2024-01-05 19:58:34,119 [AppLog] INFO : 压墨等待开启：{3.5S}
+2024-01-05 19:58:37,620 [AppLog] INFO : 压墨等待完成：{3.5S}
+2024-01-05 19:58:37,620 [AppLog] INFO : 准备读取编码器位置：X方向！
+2024-01-05 19:58:37,621 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.46}AimPos{680}
+2024-01-05 19:58:37,647 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99460}nCtlValue{2}
+2024-01-05 19:58:38,498 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.97}bImmeStop{False}nAxisMask{1}
+2024-01-05 19:58:39,049 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2024-01-05 19:58:39,050 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:58:39,050 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:58:39,173 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:58:41,958 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:58:46,452 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:58:47,195 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:58:47,195 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:59:12,197 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:59:12,197 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:59:12,319 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:59:15,105 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:59:19,598 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:59:20,342 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:59:20,342 [AppLog] INFO : 当前铺粉车位置：打印位置305mm
+2024-01-05 19:59:45,344 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{25MM/s}
+2024-01-05 19:59:45,344 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-05 19:59:45,466 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-05 19:59:48,251 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-05 19:59:52,745 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置305mm，速度250mm/s：BackToStation2
+2024-01-05 19:59:53,488 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-185MM},运动速度{250MM/s}
+2024-01-05 19:59:53,489 [AppLog] INFO : 当前铺粉车位置：打印位置305mm

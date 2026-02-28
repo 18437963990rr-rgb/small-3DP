@@ -3362,123 +3362,108 @@ namespace BinderJetting
         /// <summary>
         /// 传输数据测试;传输BMP格式，载入1层的BMP数据//20200409批注：内存中的bmp文件的存储方式是从上到下，从左到右；BMP文件的存储方式是从下到上，从左到右；           
         /// </summary>
-        private int WriteImgLayerData(string jobPathName, int index, int PrtDirFlag, bool SpreadPowerFlagDir)//必须放在1个独立的线程中//文件的本质就是保存在HD的字节流
+        private int WriteImgLayerData(string jobPathName, int index, int PrtDirFlag, bool SpreadPowerFlagDir)//必须放在1个独立的线程中//文件的本质就是保存在HD的字节流；适配 Swath：整图分割为条带后按条发送
         {
-            /*****************************************新的有效方法*****************************************/
-            /*****************************************新的有效方法*****************************************/
-            //(壹)  使用Bitmap内置的文件流解析单点BMP数据//(A):第一步，完成图片文件的解析成字节流：
-            //(壹)  使用Bitmap内置的文件流解析单点BMP数据
-            //Bitmap processedBitmap = new Bitmap(@"C:\Users\SummerGhost\Documents\" +
-            //    @"Visual Studio 2017\Projects\LaserAdd_3DP_Software\1-3DP主控界面(人机交互模块)\" +
-            //    @"bin\x64\Debug\JOB输出文件\0.bmp");
-            //Bitmap processedBitmap = new Bitmap(jobPathName+ index+ @".bmp");//20200411新增：
-            System.Drawing.Bitmap processedBitmap = new System.Drawing.Bitmap(jobPathName);//20200411新增：
-            //(贰)校验传输的数据是否准确：20200409新增
-            //(贰)校验传输的数据是否准确：20200409新增
+            System.Drawing.Bitmap processedBitmap;
+            try
+            {
+                processedBitmap = new System.Drawing.Bitmap(jobPathName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("载入图层图像失败：" + ex.Message);
+                return -1;
+            }
             if (processedBitmap.PixelFormat != System.Drawing.Imaging.PixelFormat.Format1bppIndexed)
             {
                 MessageBox.Show("目前不支持非单点图像的打印");
-                return -1;//退出程序//20200411批注：本部分有待验证是否合理，理论上是不太存在问题的
+                processedBitmap.Dispose();
+                return -1;
             }
-            //(叁)图像取反处理：20200409新增
-            //(贰)图像取反处理：20200409新增
-            // （1）processedBit//执行必要的位操作
-            // （1）processedBit// Lock the bitmap's bits.  map.LockBits();//锁定到内存
-            Rectangle rect = new Rectangle(0, 0, processedBitmap.Width, processedBitmap.Height);
-            System.Drawing.Imaging.BitmapData bmpData = processedBitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, processedBitmap.PixelFormat);
-            // （2）Get the address of the first line.
-            IntPtr ptr = bmpData.Scan0;
-            // （3）Declare an array to hold the bytes of the bitmap.
-            int bytes = Math.Abs(bmpData.Stride) * processedBitmap.Height;//the size of BitmapData//20200423新增批注：Height是像素的大小，不是字节的大小
-            byte[] rgbValues = new byte[bytes];
-            // （4）Copy the RGB values into the array.
-            Marshal.Copy(ptr, rgbValues, 0, bytes);/*System.Runtime.InteropServices.*/
-            // （5）Set every third value to the opposite value
-            for (int counter = 0; counter < bytes; counter++)
-                rgbValues[counter] = (byte)~(rgbValues[counter]);
-            // （6）Copy the RGB values back to the bitmap
-            Marshal.Copy(rgbValues, 0, ptr, bytes);/*System.Runtime.InteropServices.*/
-            /***********************20200423调试新增：************************/
-            int size2 = Marshal.SizeOf(rgbValues[0]) * rgbValues.Length;
-            IntPtr ImgPtr = Marshal.AllocHGlobal(size2);
-            Marshal.Copy(rgbValues, 0, ImgPtr, rgbValues.Length);//复制到非托管区内存
 
-            //Marshal.FreeHGlobal(ImgPtr);//释放内存
-            /***********************20200423调试新增：************************/
-            /***************************20200423调试新增：*************************/
-            IntPtr[] NewImgPtr = new IntPtr[3];//存放3种颜色的数组//20200423新增：
-            NewImgPtr[0] = ImgPtr;
-            NewImgPtr[1] = ImgPtr;//20200428新增
-            NewImgPtr[2] = ImgPtr;//20200428新增
+            // 图形分割：按 Swath 高度在 Y 方向切分为多条带，再逐条发送
+            List<System.Drawing.Bitmap> strips = SwathImageSplitter.SplitLayerToSwathStrips(processedBitmap, 0, -1);
+            processedBitmap.Dispose();
 
-            int size3 = Marshal.SizeOf(NewImgPtr[0]) * NewImgPtr.Length;
-            IntPtr p_NewImgPtr = Marshal.AllocHGlobal(size3);
-            Marshal.Copy(NewImgPtr, 0, p_NewImgPtr, NewImgPtr.Length);//复制到非托管区内存
-            /***************************20200423调试新增：*************************/
-            //（肆） 保存附带的所有必要的BMP数据
-            //（肆） 处理图层信息
-            royal.royal.g_prtimg_layer.nXEncOff = 0;//
+            royal.royal.g_prtimg_layer.nXEncOff = 0;
+            royal.royal.g_prtimg_layer.nXDPI = 635;
+            royal.royal.g_prtimg_layer.nYDPI = 600;
+            royal.royal.g_prtimg_layer.nLayerIndex = index;
+            royal.royal.g_prtimg_layer.nColorCnts = 1;
+            royal.royal.g_prtimg_layer.nPrtFlag = 1;
+            royal.royal.g_prtimg_layer.nPrtDir = 0;
 
-            // g_prtimg_layer.nXDPI 如何计算？
-            royal.royal.g_prtimg_layer.nXDPI = 635;//图像的XDPI，本质必须与光栅的DPI保持协调
-            royal.royal.g_prtimg_layer.nYDPI = 600;//图像的XDPI，本值必须与喷头的DPI保持一致
-            royal.royal.g_prtimg_layer.nBytesPerLine = bmpData.Stride;//bmpData每行的数据字节数
-            royal.royal.g_prtimg_layer.nWidth = processedBitmap.Width;//bmpData的像素宽度
-            royal.royal.g_prtimg_layer.nHeight = processedBitmap.Height;//bmpData的像素高度
-            //int i = 1;//第1层的数据：20200409新增：具体实现的时候，会移植到为爱面
-            royal.royal.g_prtimg_layer.nLayerIndex = /*i*/index;//发送图层的序号
-            royal.royal.g_prtimg_layer.nColorCnts = 1;//颜色个数，打印图形颜色为单色
-
-            //不同的层需要进行不同的设置：20200429新增批注：单层需要正向打印，双层需要方向打印
-            royal.royal.g_prtimg_layer.nPrtFlag = 1;//双向打印 bit[0] 控制单双向打印
-            royal.royal.g_prtimg_layer.nPrtDir = 0/*(index % 2)*/ /*1*//*1*//*PrtDirFlag*/;//起始打印方向为增序：光栅计数增大的方向开始计数//20220524新增：起始打印均为负方向。
-
-            //（伍） 完成数据的传输
-            //（伍） 完成数据的传输
-            int nRet = -1;//默认的数据为-1；
-            do
+            int nRet = 2;
+            try
             {
-                nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, bytes);
-                if (nRet > 0)//返回值是33，计算出来的PASS总数；只要在PCS里面进行修改，即可然返回的值发生变化
+                for (int s = 0; s < strips.Count; s++)
                 {
-                    //break;
-                    nRet = 2;//总之nRet大于0即可，调出当前循环
-                }
-                else//20200409批注：分析错误号，做出相应处理：提示或者其他处理均可以
-                {
-                    switch (nRet)
-                    {
-                        case -110000://没有按照顺序，增加索引号
-                            MessageBox.Show("作业启动失败：指定图层打印执行时的PASS总数");
-                            break;
-                        case -110001:
-                            MessageBox.Show("作业启动失败：PC内存不足");
-                            break;
-                        case -110002:
-                            MessageBox.Show("作业启动失败：PASS计算小于0");
-                            break;
-                    }
-                    break;
-                }
-            } while (nRet <= 0);
-            /***************************20200423调试新增：*************************/
-            Marshal.FreeHGlobal(p_NewImgPtr);//释放内存
-            /***************************20200423调试新增：*************************/
-            Marshal.FreeHGlobal(ImgPtr);//释放内存
-            /***********************20200423调试新增：************************/
-            //（陆） 释放对应的数据
-            //（陆） 释放对应的数据
-            // （7）Unlock the bits.
-            processedBitmap.UnlockBits(bmpData);
-            return nRet;//返回核心代码——IDP_WriteImgLayerData——的执行结果
-            //反色测试：20200409新增
-            //processedBitmap.Save(@"C:\Users\SummerGhost\Documents\Visual Studio 2017\Projects\LaserAdd_3DP_Software\1-3DP主控界面(人机交互模块)\bin\x64\Debug\JOB输出文件\输出-反色-2.bmp", System.Drawing.Imaging.ImageFormat.Bmp);//————保存到BMP文件:20200408修改
-            //processedBitmap.Dispose();//及时释放掉clone：20200408新增
+                    System.Drawing.Bitmap strip = strips[s];
+                    System.Drawing.Rectangle rectStrip = new System.Drawing.Rectangle(0, 0, strip.Width, strip.Height);
+                    System.Drawing.Imaging.BitmapData bmpData = strip.LockBits(rectStrip, System.Drawing.Imaging.ImageLockMode.ReadOnly, strip.PixelFormat);
+                    int bytes = Math.Abs(bmpData.Stride) * strip.Height;
+                    int stride = bmpData.Stride;
+                    byte[] rgbValues = new byte[bytes];
+                    Marshal.Copy(bmpData.Scan0, rgbValues, 0, bytes);
+                    for (int counter = 0; counter < bytes; counter++)
+                        rgbValues[counter] = (byte)~(rgbValues[counter]);
+                    strip.UnlockBits(bmpData);
 
-            //（柒） 用不着
-            //（柒） 用不着
-            // （8）Another edit way: Draw the modified image.//modified the BMP file with graphics in VC
-            //e.Graphics.DrawImage(bmp, 0, 150);
+                    int size2 = Marshal.SizeOf(rgbValues[0]) * rgbValues.Length;
+                    IntPtr ImgPtr = Marshal.AllocHGlobal(size2);
+                    try
+                    {
+                        Marshal.Copy(rgbValues, 0, ImgPtr, rgbValues.Length);
+                        IntPtr[] NewImgPtr = new IntPtr[3];
+                        NewImgPtr[0] = ImgPtr;
+                        NewImgPtr[1] = ImgPtr;
+                        NewImgPtr[2] = ImgPtr;
+                        int size3 = Marshal.SizeOf(NewImgPtr[0]) * NewImgPtr.Length;
+                        IntPtr p_NewImgPtr = Marshal.AllocHGlobal(size3);
+                        try
+                        {
+                            Marshal.Copy(NewImgPtr, 0, p_NewImgPtr, NewImgPtr.Length);
+                            royal.royal.g_prtimg_layer.nBytesPerLine = stride;
+                            royal.royal.g_prtimg_layer.nWidth = strip.Width;
+                            royal.royal.g_prtimg_layer.nHeight = strip.Height;
+
+                            nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, p_NewImgPtr, bytes);
+                            if (nRet <= 0)
+                            {
+                                switch (nRet)
+                                {
+                                    case -110000:
+                                        MessageBox.Show("作业启动失败：指定图层打印执行时的PASS总数");
+                                        break;
+                                    case -110001:
+                                        MessageBox.Show("作业启动失败：PC内存不足");
+                                        break;
+                                    case -110002:
+                                        MessageBox.Show("作业启动失败：PASS计算小于0");
+                                        break;
+                                }
+                                break;
+                            }
+                            nRet = 2;
+                        }
+                        finally
+                        {
+                            Marshal.FreeHGlobal(p_NewImgPtr);
+                        }
+                    }
+                    finally
+                    {
+                        Marshal.FreeHGlobal(ImgPtr);
+                    }
+                    strip.Dispose();
+                }
+            }
+            finally
+            {
+                foreach (var b in strips)
+                    b?.Dispose();
+            }
+            return nRet;
         }
         private bool LoadAutoParamsFromJson(ref 手动操作 AutoPrintMotion)
         {

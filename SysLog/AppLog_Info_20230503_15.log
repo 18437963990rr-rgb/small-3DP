@@ -1,0 +1,82 @@
+2023-05-03 15:57:35,041 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{14360MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：67 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-05-03 15:57:38,957 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-05-03 15:57:38,957 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-05-03 15:57:45,056 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-05-03 15:57:45,259 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-05-03 15:57:45,321 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-05-03 15:58:08,815 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-05-03 15:58:08,831 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-05-03 15:58:19,376 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-05-03 15:58:19,376 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-05-03 15:58:19,408 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-05-03 15:58:19,532 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-05-03 15:58:19,532 [AppLog] INFO : 进入电气控制模块
+2023-05-03 15:58:20,827 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-05-03 15:58:21,685 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-05-03 15:58:22,309 [AppLog] INFO : 退出电气控制模块
+2023-05-03 15:58:23,448 [AppLog] INFO : 进入手动调试子模块！
+2023-05-03 15:58:23,448 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-03 15:58:23,464 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-03 15:58:23,464 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-03 15:58:27,582 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-05-03 15:58:34,976 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2023-05-03 15:58:34,992 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-05-03 15:58:38,081 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-05-03 15:58:38,081 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-05-03 15:58:46,536 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{15MM/s}
+2023-05-03 15:58:46,552 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-05-03 15:59:00,358 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-05-03 15:59:07,237 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-05-03 15:59:12,167 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-05-03 15:59:12,572 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-05-03 15:59:12,682 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-05-03 15:59:13,945 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-05-03 15:59:14,117 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-05-03 15:59:18,625 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调-喷射量3.rhdat}
+2023-05-03 15:59:18,625 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-05-03 15:59:23,992 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm! 当前波形文件的基准电压参考值为：{18V}
+2023-05-03 15:59:24,288 [AppLog] INFO : {1}号喷头电压调压成功：MCU_SetPhVoltage{0V,0V,0V,0V}；
+2023-05-03 15:59:28,188 [AppLog] INFO : {1}号喷头温度更新成功：MCU_SetPhStdTemp{25℃}
+2023-05-03 15:59:38,578 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-03 15:59:40,247 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2023-05-03 15:59:41,167 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-03 15:59:41,276 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-03 15:59:42,743 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-03 15:59:42,868 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-03 15:59:43,538 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-03 15:59:43,616 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-03 15:59:44,256 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-05-03 15:59:44,365 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-05-03 15:59:51,947 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-05-03 15:59:51,947 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2023-05-03 15:59:52,025 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.08MM},运动速度{2MM/s}
+2023-05-03 15:59:52,025 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.08mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-03 15:59:52,805 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2023-05-03 15:59:52,805 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-03 15:59:53,569 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-05-03 15:59:53,569 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-05-03 15:59:53,834 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.5MM},运动速度{2.5MM/s}
+2023-05-03 15:59:53,834 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2023-05-03 15:59:54,848 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2023-05-03 15:59:55,706 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{214MM},运动速度{250MM/s}
+2023-05-03 15:59:55,706 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2023-05-03 15:59:55,706 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{15MM/s}
+2023-05-03 15:59:55,706 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2023-05-03 15:59:55,831 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2023-05-03 15:59:56,019 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2023-05-03 15:59:56,019 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-05-03 15:59:56,019 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0226027397260274MM/s}
+2023-05-03 15:59:56,019 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)

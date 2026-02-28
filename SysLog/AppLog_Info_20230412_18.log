@@ -1,0 +1,820 @@
+2023-04-12 18:39:34,311 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-12 18:39:34,327 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-12 18:39:40,426 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-12 18:39:40,426 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-12 18:40:03,904 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-04-12 18:40:03,935 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{0},分频值{8},打印速度{300mm/s}
+2023-04-12 18:40:11,689 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-12 18:40:11,689 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:40:11,891 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-12 18:40:12,016 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-04-12 18:40:12,016 [AppLog] INFO : 进入电气控制模块
+2023-04-12 18:40:12,999 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-04-12 18:40:13,685 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-04-12 18:40:14,653 [AppLog] INFO : 退出电气控制模块
+2023-04-12 18:40:15,370 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:40:15,370 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:40:15,386 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:40:15,386 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:40:18,303 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-12 18:40:20,471 [AppLog] INFO : 显示模组校准栏
+2023-04-12 18:40:24,278 [AppLog] INFO : 更新打印校准配置文件：SaveJsonFile：配置文件路径{D:\Release\NozzleConfigInCorrection.json}
+2023-04-12 18:40:24,325 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-04-12 18:40:27,819 [AppLog] INFO : 更新打印校准配置文件：SaveJsonFile：配置文件路径{D:\Release\NozzleConfigInCorrection.json}
+2023-04-12 18:40:27,850 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-04-12 18:40:30,549 [AppLog] INFO : 更新打印校准配置文件：SaveJsonFile：配置文件路径{D:\Release\NozzleConfigInCorrection.json}
+2023-04-12 18:40:30,580 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-04-12 18:40:35,167 [AppLog] INFO : 进入数据加载模块
+2023-04-12 18:41:10,329 [AppLog] INFO : 不显示模组校准栏
+2023-04-12 18:41:11,109 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:41:11,109 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:41:11,140 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:41:11,140 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:41:30,843 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2023-04-12 18:41:30,843 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-04-12 18:41:32,419 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-04-12 18:41:32,419 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-04-12 18:41:39,548 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{50MM/s}
+2023-04-12 18:41:39,564 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-04-12 18:41:53,557 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-04-12 18:42:15,771 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-12 18:42:16,723 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:42:16,723 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:42:16,738 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:42:16,738 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:42:44,226 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-04-12 18:42:44,241 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-04-12 18:42:45,255 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-04-12 18:42:45,255 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:42:45,255 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{53.1}AimPos{121}
+2023-04-12 18:42:46,082 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{False}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{68028.3989}nCtlValue{1}
+2023-04-12 18:42:46,160 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{120.61}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:42:46,160 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:42:46,160 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{738.5}AimPos{780}
+2023-04-12 18:42:46,191 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{41500}nCtlValue{2}
+2023-04-12 18:42:47,174 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{779.5}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:42:47,954 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2023-04-12 18:42:49,966 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, true)
+2023-04-12 18:42:49,966 [AppLog] INFO : 压墨等待开启：{3S}
+2023-04-12 18:42:52,977 [AppLog] INFO : 压墨等待完成：{3S}
+2023-04-12 18:42:52,977 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:42:52,977 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.5}AimPos{680}
+2023-04-12 18:42:53,008 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{50000}MoveStep{-99500}nCtlValue{2}
+2023-04-12 18:42:55,068 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{682.975}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:42:55,894 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-04-12 18:43:07,922 [AppLog] INFO : 手动停止自动清洗过程：AutoCleanBtn_Click
+2023-04-12 18:43:09,732 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-04-12 18:43:09,732 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-04-12 18:43:10,714 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-04-12 18:43:10,714 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:43:10,730 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{121.02}AimPos{121}
+2023-04-12 18:43:10,855 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-20.037819999996}nCtlValue{1}
+2023-04-12 18:43:10,917 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{121.02}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:43:10,917 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:43:10,917 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{680.645}AimPos{780}
+2023-04-12 18:43:10,949 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{99355}nCtlValue{2}
+2023-04-12 18:43:12,462 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{779.335}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:43:13,289 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2023-04-12 18:43:15,301 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, true)
+2023-04-12 18:43:15,301 [AppLog] INFO : 压墨等待开启：{3S}
+2023-04-12 18:43:18,312 [AppLog] INFO : 压墨等待完成：{3S}
+2023-04-12 18:43:18,312 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:43:18,312 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.34}AimPos{680}
+2023-04-12 18:43:18,343 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{50000}MoveStep{-99340}nCtlValue{2}
+2023-04-12 18:43:20,402 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{683.13}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:43:21,229 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-04-12 18:43:23,241 [AppLog] INFO : 手动停止自动清洗过程：AutoCleanBtn_Click
+2023-04-12 18:43:41,025 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-12 18:43:42,819 [AppLog] INFO : 进入电气控制模块
+2023-04-12 18:43:43,443 [AppLog] INFO : 退出电气控制模块
+2023-04-12 18:43:46,095 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{0MM}
+2023-04-12 18:43:49,215 [AppLog] INFO : 退出JOB参数设置：修改后参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{0MM}
+2023-04-12 18:43:51,103 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:43:51,103 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:43:51,134 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:43:51,134 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:43:52,257 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-12 18:43:54,582 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:43:54,582 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:43:54,613 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:43:54,613 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:44:07,405 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-12 18:44:11,742 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:44:11,742 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:44:11,773 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:44:11,773 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:44:28,028 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-04-12 18:44:28,028 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-04-12 18:44:33,379 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm! 当前波形文件的基准电压参考值为：{18V}
+2023-04-12 18:44:33,691 [AppLog] INFO : {1}号喷头电压调压成功：MCU_SetPhVoltage{0V,0V,0V,0V}；
+2023-04-12 18:44:34,253 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-12 18:44:35,173 [AppLog] INFO : 进入数据加载模块
+2023-04-12 18:44:51,428 [AppLog] INFO : CAD数据加载：添加.bjgroup格式CAD数据成功-D:\Release\CLI输入文件\shibiao-0321\shibiao-0321晚.bjgroup
+2023-04-12 18:44:56,873 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:44:56,873 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:44:56,919 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:44:56,919 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:45:10,726 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-12 18:45:12,410 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:45:12,410 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:45:12,442 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:45:12,442 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:45:17,886 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-12 18:45:39,289 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:45:39,289 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:45:39,320 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:45:39,320 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:45:44,905 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-12 18:45:46,216 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:45:46,216 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:45:46,247 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:45:46,247 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:45:59,975 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-12 18:46:02,408 [AppLog] INFO : 启动打印任务：准备开启数据处理及打印线程
+2023-04-12 18:46:02,424 [AppLog] INFO : 停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{True}
+2023-04-12 18:46:02,424 [AppLog] INFO : 启动打印线程成功： DataTaskTHREAD
+2023-04-12 18:46:02,424 [AppLog] INFO : 启动打印线程成功：PrintTaskTHREAD
+2023-04-12 18:46:02,440 [AppLog] INFO : 写入打印参数：IDP_SartPrintJob：nJobID{1}szJobName{金属3DP打印}nPixelGrayBits{1} nPrtCtl{0}nPrtXEncPos{10000}fPrtYPos{0}
+2023-04-12 18:46:02,455 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:46:02,486 [AppLog] INFO : 创建：AutoPrintMotion4=》初次创建完成-手动操作！
+2023-04-12 18:46:02,502 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为0，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:46:02,689 [AppLog] INFO : 完成处理第0层数据：准备调用DrawLayerBMP，index为0，起始层为0
+2023-04-12 18:46:02,705 [AppLog] INFO : 完成处理第0层数据：准备调用DrawLayerBMP，index为0，起始层为0
+2023-04-12 18:46:03,422 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{0}LayerIndex{0}SubIndex{0}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:46:03,422 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为0，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:46:03,422 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为0，subindex为1，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:46:03,610 [AppLog] INFO : 完成处理第0层数据：准备调用DrawLayerBMP，index为0，起始层为0
+2023-04-12 18:46:03,610 [AppLog] INFO : 完成处理第0层数据：准备调用DrawLayerBMP，index为0，起始层为0
+2023-04-12 18:46:04,452 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{1}LayerIndex{0}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:46:04,452 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为0，subindex为1，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:46:04,468 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为1，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:46:04,561 [AppLog] INFO : 关闭自动供墨：DEV_EnableInkAutoSupply：ControlBit{0xX}
+2023-04-12 18:46:04,577 [AppLog] INFO : 初始化墨轴1：DEM_InitAxis：{0, 0x100}
+2023-04-12 18:46:04,577 [AppLog] INFO : 初始化墨轴2：DEM_InitAxis：{1, 0x1400}
+2023-04-12 18:46:04,592 [AppLog] INFO : 初始化墨轴3：DEM_InitAxis：{1, 0x1400}
+2023-04-12 18:46:04,592 [AppLog] INFO : 使能所有墨轴：DEM_EnableAxisRun：{true}
+2023-04-12 18:46:04,592 [AppLog] INFO : 使能双Y墨轴输出同步：DEM_EnableDYOutPut：{true, true}
+2023-04-12 18:46:04,624 [AppLog] INFO : 初始化墨轴1：DEM_InitAxis：{0, 0x100}
+2023-04-12 18:46:04,624 [AppLog] INFO : 使能所有墨轴：DEM_EnableAxisRun：{true}
+2023-04-12 18:46:04,639 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ControlBit{0xFF}
+2023-04-12 18:46:04,639 [AppLog] INFO : 完成处理第1层数据：准备调用DrawLayerBMP，index为1，起始层为0
+2023-04-12 18:46:04,639 [AppLog] INFO : 完成处理第1层数据：准备调用DrawLayerBMP，index为1，起始层为0
+2023-04-12 18:46:04,670 [AppLog] INFO : 接收到起始打印指令：PrintTaskTHREAD
+2023-04-12 18:46:04,686 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{1}nPassID{0}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{1}nLayerPassCount{6}nLayerPassIndex{0}nMinJet0ImgLinePos{0}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{605150000}
+2023-04-12 18:46:04,717 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{1}nPassID{0}
+2023-04-12 18:46:04,717 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{1}nPassID{0}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:56:48,595 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-12 18:56:48,607 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-12 18:56:54,611 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-12 18:56:54,612 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-12 18:57:15,416 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-04-12 18:57:15,447 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-04-12 18:57:18,053 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-12 18:57:18,053 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:57:18,209 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-12 18:57:18,333 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-04-12 18:57:18,333 [AppLog] INFO : 进入电气控制模块
+2023-04-12 18:57:19,176 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-04-12 18:57:21,282 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-04-12 18:57:21,921 [AppLog] INFO : 退出电气控制模块
+2023-04-12 18:57:23,871 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:57:23,871 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:57:23,887 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:57:23,887 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:57:25,915 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2023-04-12 18:57:25,915 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-04-12 18:57:27,272 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-04-12 18:57:27,272 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-04-12 18:57:34,433 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{50MM/s}
+2023-04-12 18:57:34,433 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-04-12 18:57:43,730 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-04-12 18:57:46,835 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-12 18:57:47,755 [AppLog] INFO : 进入数据加载模块
+2023-04-12 18:58:00,297 [AppLog] INFO : 进入电气控制模块
+2023-04-12 18:58:01,155 [AppLog] INFO : 退出电气控制模块
+2023-04-12 18:58:02,544 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:58:02,544 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:58:02,575 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:58:02,575 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:58:02,747 [AppLog] INFO : CAD数据加载：添加.bjgroup格式CAD数据成功-D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\shibiaoceshi-0309.bjgroup
+2023-04-12 18:58:04,338 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-12 18:58:07,317 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Merge of 打印测试件.cli
+2023-04-12 18:58:07,317 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Merge of 打印测试件-copys-0-1.cli
+2023-04-12 18:58:07,317 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Merge of 打印测试件-copys-1-0.cli
+2023-04-12 18:58:07,317 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Merge of 打印测试件-copys-1-1.cli
+2023-04-12 18:58:07,317 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-140.cli
+2023-04-12 18:58:07,333 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-140-copys-0-1.cli
+2023-04-12 18:58:07,333 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-140-copys-0-2.cli
+2023-04-12 18:58:07,333 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-140-copys-0-1-copys-0-1.cli
+2023-04-12 18:58:08,394 [AppLog] INFO : 进入数据加载模块
+2023-04-12 18:58:16,771 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:58:16,771 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:58:16,802 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:58:16,802 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:58:18,050 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-12 18:58:21,888 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:58:21,888 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:58:21,919 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:58:21,919 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:58:22,091 [AppLog] INFO : CAD数据加载：添加.bjgroup格式CAD数据成功-D:\Release\CLI输入文件\shibiao-0321\shibiao-0321晚.bjgroup
+2023-04-12 18:58:28,206 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-04-12 18:58:28,221 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-04-12 18:58:33,791 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm! 当前波形文件的基准电压参考值为：{18V}
+2023-04-12 18:58:34,072 [AppLog] INFO : {1}号喷头电压调压成功：MCU_SetPhVoltage{0V,0V,0V,0V}；
+2023-04-12 18:59:04,102 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-12 18:59:05,022 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:59:05,022 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:59:05,053 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:59:05,053 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:59:13,103 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-12 18:59:16,816 [AppLog] INFO : 启动打印任务：准备开启数据处理及打印线程
+2023-04-12 18:59:16,816 [AppLog] INFO : 停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{True}
+2023-04-12 18:59:16,816 [AppLog] INFO : 启动打印线程成功： DataTaskTHREAD
+2023-04-12 18:59:16,831 [AppLog] INFO : 启动打印线程成功：PrintTaskTHREAD
+2023-04-12 18:59:16,831 [AppLog] INFO : 写入打印参数：IDP_SartPrintJob：nJobID{1}szJobName{金属3DP打印}nPixelGrayBits{1} nPrtCtl{0}nPrtXEncPos{10000}fPrtYPos{0}
+2023-04-12 18:59:16,831 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:16,878 [AppLog] INFO : 创建：AutoPrintMotion4=》初次创建完成-手动操作！
+2023-04-12 18:59:16,878 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为0，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:17,065 [AppLog] INFO : 完成处理第0层数据：准备调用DrawLayerBMP，index为0，起始层为0
+2023-04-12 18:59:17,065 [AppLog] INFO : 完成处理第0层数据：准备调用DrawLayerBMP，index为0，起始层为0
+2023-04-12 18:59:17,767 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{0}LayerIndex{0}SubIndex{0}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:17,767 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为0，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:17,767 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为0，subindex为1，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:17,954 [AppLog] INFO : 完成处理第0层数据：准备调用DrawLayerBMP，index为0，起始层为0
+2023-04-12 18:59:17,954 [AppLog] INFO : 完成处理第0层数据：准备调用DrawLayerBMP，index为0，起始层为0
+2023-04-12 18:59:18,750 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{1}LayerIndex{0}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:18,750 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为0，subindex为1，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:18,750 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为1，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:18,797 [AppLog] INFO : 关闭自动供墨：DEV_EnableInkAutoSupply：ControlBit{0xX}
+2023-04-12 18:59:18,812 [AppLog] INFO : 初始化墨轴1：DEM_InitAxis：{0, 0x100}
+2023-04-12 18:59:18,828 [AppLog] INFO : 初始化墨轴2：DEM_InitAxis：{1, 0x1400}
+2023-04-12 18:59:18,828 [AppLog] INFO : 初始化墨轴3：DEM_InitAxis：{1, 0x1400}
+2023-04-12 18:59:18,844 [AppLog] INFO : 使能所有墨轴：DEM_EnableAxisRun：{true}
+2023-04-12 18:59:18,844 [AppLog] INFO : 使能双Y墨轴输出同步：DEM_EnableDYOutPut：{true, true}
+2023-04-12 18:59:18,844 [AppLog] INFO : 初始化墨轴1：DEM_InitAxis：{0, 0x100}
+2023-04-12 18:59:18,844 [AppLog] INFO : 使能所有墨轴：DEM_EnableAxisRun：{true}
+2023-04-12 18:59:18,859 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ControlBit{0xFF}
+2023-04-12 18:59:18,875 [AppLog] INFO : 接收到起始打印指令：PrintTaskTHREAD
+2023-04-12 18:59:18,890 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{1}nPassID{0}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{1}nLayerPassCount{6}nLayerPassIndex{0}nMinJet0ImgLinePos{0}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{676712672}
+2023-04-12 18:59:18,890 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{1}nPassID{0}
+2023-04-12 18:59:18,906 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{1}nPassID{0}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:18,937 [AppLog] INFO : 完成处理第1层数据：准备调用DrawLayerBMP，index为1，起始层为0
+2023-04-12 18:59:18,937 [AppLog] INFO : 完成处理第1层数据：准备调用DrawLayerBMP，index为1，起始层为0
+2023-04-12 18:59:18,968 [AppLog] INFO : 创建：AutoPrintMotion1=》初次创建完成-手动操作！
+2023-04-12 18:59:18,968 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:19,000 [AppLog] INFO : 进入：EquipmentMotionLogic3=》初次创建完成-手动操作！
+2023-04-12 18:59:19,000 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:19,000 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:19,000 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:19,015 [AppLog] INFO : 关闭闪喷操作：IDP_FlashPrtCtl：返回值{True}
+2023-04-12 18:59:19,015 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:19,015 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{52.865}AimPos{15}
+2023-04-12 18:59:19,202 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-37936.602715}nCtlValue{1}
+2023-04-12 18:59:19,265 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:19,265 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{738.13}AimPos{425}
+2023-04-12 18:59:19,296 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-313130}nCtlValue{2}
+2023-04-12 18:59:19,639 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{2}LayerIndex{1}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:19,639 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为1，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:19,639 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为2，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:19,826 [AppLog] INFO : 完成处理第2层数据：准备调用DrawLayerBMP，index为2，起始层为0
+2023-04-12 18:59:19,826 [AppLog] INFO : 完成处理第2层数据：准备调用DrawLayerBMP，index为2，起始层为0
+2023-04-12 18:59:20,528 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{3}LayerIndex{2}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:20,528 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为2，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:20,528 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为3，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:20,716 [AppLog] INFO : 完成处理第3层数据：准备调用DrawLayerBMP，index为3，起始层为0
+2023-04-12 18:59:20,716 [AppLog] INFO : 完成处理第3层数据：准备调用DrawLayerBMP，index为3，起始层为0
+2023-04-12 18:59:20,934 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{427.71}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:20,934 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:20,934 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{427.635}AimPos{25}
+2023-04-12 18:59:20,965 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-402635}nCtlValue{2}
+2023-04-12 18:59:21,418 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{4}LayerIndex{3}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:21,418 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为3，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:21,418 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为4，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:21,605 [AppLog] INFO : 完成处理第4层数据：准备调用DrawLayerBMP，index为4，起始层为0
+2023-04-12 18:59:21,605 [AppLog] INFO : 完成处理第4层数据：准备调用DrawLayerBMP，index为4，起始层为0
+2023-04-12 18:59:22,307 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{5}LayerIndex{4}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:22,307 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为4，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:22,322 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为5，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:22,494 [AppLog] INFO : 完成处理第5层数据：准备调用DrawLayerBMP，index为5，起始层为0
+2023-04-12 18:59:22,494 [AppLog] INFO : 完成处理第5层数据：准备调用DrawLayerBMP，index为5，起始层为0
+2023-04-12 18:59:22,868 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{27.075}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:22,868 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:22,868 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{15.015}AimPos{69}
+2023-04-12 18:59:23,087 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{54087.085635}nCtlValue{1}
+2023-04-12 18:59:23,102 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{0MM}
+2023-04-12 18:59:23,165 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{46.495}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:59:23,165 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{1}nPassID{1}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{1}nLayerPassCount{6}nLayerPassIndex{1}nMinJet0ImgLinePos{1280}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{676712832}
+2023-04-12 18:59:23,180 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{1}nPassID{1}
+2023-04-12 18:59:23,180 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{1}nPassID{1}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:23,180 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2023-04-12 18:59:23,180 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:23,180 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2023-04-12 18:59:23,180 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:23,180 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:23,180 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:23,180 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:23,180 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{23.435}AimPos{425}
+2023-04-12 18:59:23,212 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{401565}nCtlValue{2}
+2023-04-12 18:59:23,212 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{6}LayerIndex{5}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:23,212 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为5，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:23,243 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为6，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:23,446 [AppLog] INFO : 完成处理第6层数据：准备调用DrawLayerBMP，index为6，起始层为0
+2023-04-12 18:59:23,446 [AppLog] INFO : 完成处理第6层数据：准备调用DrawLayerBMP，index为6，起始层为0
+2023-04-12 18:59:24,179 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{7}LayerIndex{6}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:24,179 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为6，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:24,179 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为7，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:24,382 [AppLog] INFO : 完成处理第7层数据：准备调用DrawLayerBMP，index为7，起始层为0
+2023-04-12 18:59:24,382 [AppLog] INFO : 完成处理第7层数据：准备调用DrawLayerBMP，index为7，起始层为0
+2023-04-12 18:59:25,115 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{420.03}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:25,115 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:25,115 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{8}LayerIndex{7}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:25,115 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为7，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:25,115 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{69.03}AimPos{123}
+2023-04-12 18:59:25,115 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为8，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:25,286 [AppLog] INFO : 完成处理第8层数据：准备调用DrawLayerBMP，index为8，起始层为0
+2023-04-12 18:59:25,286 [AppLog] INFO : 完成处理第8层数据：准备调用DrawLayerBMP，index为8，起始层为0
+2023-04-12 18:59:25,333 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{54072.05727}nCtlValue{1}
+2023-04-12 18:59:25,333 [AppLog] INFO : 退出JOB参数设置：未修改直接退出！
+2023-04-12 18:59:25,396 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{94.985}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:59:25,396 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{1}nPassID{2}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{1}nLayerPassCount{6}nLayerPassIndex{2}nMinJet0ImgLinePos{2560}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{676713792}
+2023-04-12 18:59:25,411 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{1}nPassID{2}
+2023-04-12 18:59:25,411 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{1}nPassID{2}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:25,411 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2023-04-12 18:59:25,411 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:25,411 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2023-04-12 18:59:25,411 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:25,411 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:25,411 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:25,411 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:25,411 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{423.5}AimPos{25}
+2023-04-12 18:59:25,442 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-398500}nCtlValue{2}
+2023-04-12 18:59:26,129 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{9}LayerIndex{8}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:26,129 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为8，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:26,129 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为9，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:26,300 [AppLog] INFO : 完成处理第9层数据：准备调用DrawLayerBMP，index为9，起始层为0
+2023-04-12 18:59:26,300 [AppLog] INFO : 完成处理第9层数据：准备调用DrawLayerBMP，index为9，起始层为0
+2023-04-12 18:59:27,002 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{10}LayerIndex{9}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:27,018 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为9，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:27,034 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为10，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:27,236 [AppLog] INFO : 完成处理第10层数据：准备调用DrawLayerBMP，index为10，起始层为0
+2023-04-12 18:59:27,236 [AppLog] INFO : 完成处理第10层数据：准备调用DrawLayerBMP，index为10，起始层为0
+2023-04-12 18:59:27,314 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{30.81}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:27,314 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:27,314 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{122.955}AimPos{177}
+2023-04-12 18:59:27,548 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{54147.199095}nCtlValue{1}
+2023-04-12 18:59:27,611 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{148.485}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:59:27,611 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{1}nPassID{3}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{1}nLayerPassCount{6}nLayerPassIndex{3}nMinJet0ImgLinePos{3840}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{676713952}
+2023-04-12 18:59:27,626 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{1}nPassID{3}
+2023-04-12 18:59:27,626 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{1}nPassID{3}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:27,626 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2023-04-12 18:59:27,626 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:27,626 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2023-04-12 18:59:27,626 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:27,626 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:27,626 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:27,626 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:27,626 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{26.43}AimPos{425}
+2023-04-12 18:59:27,658 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{398570}nCtlValue{2}
+2023-04-12 18:59:27,938 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{11}LayerIndex{10}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:27,938 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为10，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:28,001 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为11，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:28,204 [AppLog] INFO : 完成处理第11层数据：准备调用DrawLayerBMP，index为11，起始层为0
+2023-04-12 18:59:28,204 [AppLog] INFO : 完成处理第11层数据：准备调用DrawLayerBMP，index为11，起始层为0
+2023-04-12 18:59:28,921 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{12}LayerIndex{11}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:28,921 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为11，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:28,968 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为12，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:29,155 [AppLog] INFO : 完成处理第12层数据：准备调用DrawLayerBMP，index为12，起始层为0
+2023-04-12 18:59:29,171 [AppLog] INFO : 完成处理第12层数据：准备调用DrawLayerBMP，index为12，起始层为0
+2023-04-12 18:59:29,530 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{418.98}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:29,530 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:29,545 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{176.945}AimPos{231}
+2023-04-12 18:59:29,764 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{54157.218005}nCtlValue{1}
+2023-04-12 18:59:29,826 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{202.84}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:59:29,826 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{1}nPassID{4}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{1}nLayerPassCount{6}nLayerPassIndex{4}nMinJet0ImgLinePos{5120}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{676714112}
+2023-04-12 18:59:29,826 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{1}nPassID{4}
+2023-04-12 18:59:29,842 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{1}nPassID{4}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:29,842 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2023-04-12 18:59:29,842 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:29,842 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2023-04-12 18:59:29,842 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:29,842 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:29,842 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:29,842 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:29,842 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{423.555}AimPos{25}
+2023-04-12 18:59:29,873 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-398555}nCtlValue{2}
+2023-04-12 18:59:29,888 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{13}LayerIndex{12}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:29,888 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为12，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:29,888 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为13，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:30,060 [AppLog] INFO : 完成处理第13层数据：准备调用DrawLayerBMP，index为13，起始层为0
+2023-04-12 18:59:30,060 [AppLog] INFO : 完成处理第13层数据：准备调用DrawLayerBMP，index为13，起始层为0
+2023-04-12 18:59:30,762 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{14}LayerIndex{13}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:30,762 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为13，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:30,762 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为14，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:30,949 [AppLog] INFO : 完成处理第14层数据：准备调用DrawLayerBMP，index为14，起始层为0
+2023-04-12 18:59:30,949 [AppLog] INFO : 完成处理第14层数据：准备调用DrawLayerBMP，index为14，起始层为0
+2023-04-12 18:59:31,667 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{15}LayerIndex{14}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:31,667 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为14，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:31,667 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为15，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:31,745 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{31.085}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:31,745 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:31,745 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{231.045}AimPos{285}
+2023-04-12 18:59:31,854 [AppLog] INFO : 完成处理第15层数据：准备调用DrawLayerBMP，index为15，起始层为0
+2023-04-12 18:59:31,854 [AppLog] INFO : 完成处理第15层数据：准备调用DrawLayerBMP，index为15，起始层为0
+2023-04-12 18:59:31,963 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{54057.028905}nCtlValue{1}
+2023-04-12 18:59:32,041 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{263.335}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:59:32,041 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{1}nPassID{5}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{1}nLayerPassCount{6}nLayerPassIndex{5}nMinJet0ImgLinePos{6400}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{0}
+2023-04-12 18:59:32,057 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{1}nPassID{5}
+2023-04-12 18:59:32,057 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{1}nPassID{5}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:32,057 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2023-04-12 18:59:32,057 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:32,057 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2023-04-12 18:59:32,057 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:32,057 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:32,057 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:32,057 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:32,072 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{26.48}AimPos{425}
+2023-04-12 18:59:32,104 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{398520}nCtlValue{2}
+2023-04-12 18:59:32,556 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{16}LayerIndex{15}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:32,556 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为15，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:32,556 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为16，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:32,743 [AppLog] INFO : 完成处理第16层数据：准备调用DrawLayerBMP，index为16，起始层为0
+2023-04-12 18:59:32,743 [AppLog] INFO : 完成处理第16层数据：准备调用DrawLayerBMP，index为16，起始层为0
+2023-04-12 18:59:33,461 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{17}LayerIndex{16}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:33,461 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为16，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:33,476 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为17，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:33,648 [AppLog] INFO : 完成处理第17层数据：准备调用DrawLayerBMP，index为17，起始层为0
+2023-04-12 18:59:33,648 [AppLog] INFO : 完成处理第17层数据：准备调用DrawLayerBMP，index为17，起始层为0
+2023-04-12 18:59:33,976 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{418.245}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:33,976 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:33,976 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{418.455}AimPos{780}
+2023-04-12 18:59:34,007 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{361545}nCtlValue{2}
+2023-04-12 18:59:34,069 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:34,085 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{285.02}AimPos{121}
+2023-04-12 18:59:34,350 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{18}LayerIndex{17}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:34,350 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为17，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:34,350 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为18，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:34,537 [AppLog] INFO : 完成处理第18层数据：准备调用DrawLayerBMP，index为18，起始层为0
+2023-04-12 18:59:34,537 [AppLog] INFO : 完成处理第18层数据：准备调用DrawLayerBMP，index为18，起始层为0
+2023-04-12 18:59:34,678 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-164330.16182}nCtlValue{1}
+2023-04-12 18:59:35,255 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{19}LayerIndex{18}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:35,255 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为18，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:35,270 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为19，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:35,442 [AppLog] INFO : 完成处理第19层数据：准备调用DrawLayerBMP，index为19，起始层为0
+2023-04-12 18:59:35,442 [AppLog] INFO : 完成处理第19层数据：准备调用DrawLayerBMP，index为19，起始层为0
+2023-04-12 18:59:35,754 [AppLog] INFO : Y方向到位等停：DEM_StopAxisRun：返回值{True}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:35,785 [AppLog] INFO : X方向到位等停：DEM_StopAxisRun：返回值{True}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:59:35,801 [AppLog] INFO : 开启闪喷操作：IDP_FlashPrtCtl：返回值{True}
+2023-04-12 18:59:35,801 [AppLog] INFO : 不执行跳过铺粉固化操作：m_bApplyPowderSupplyMotion:1
+2023-04-12 18:59:35,801 [AppLog] INFO : 接收到起始打印指令：PrintTaskTHREAD
+2023-04-12 18:59:35,816 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{2}nPassID{0}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{2}nLayerPassCount{6}nLayerPassIndex{0}nMinJet0ImgLinePos{0}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{676718768}
+2023-04-12 18:59:35,816 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{2}nPassID{0}
+2023-04-12 18:59:35,832 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{2}nPassID{0}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:35,832 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2023-04-12 18:59:35,832 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:35,832 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2023-04-12 18:59:35,832 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:35,832 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:35,832 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:35,832 [AppLog] INFO : 关闭闪喷操作：IDP_FlashPrtCtl：返回值{True}
+2023-04-12 18:59:35,832 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:35,832 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{120.945}AimPos{15}
+2023-04-12 18:59:36,144 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{20}LayerIndex{19}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:36,144 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为19，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:36,160 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为20，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:36,206 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-106145.341995}nCtlValue{1}
+2023-04-12 18:59:36,269 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:36,269 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{785.025}AimPos{425}
+2023-04-12 18:59:36,300 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-360025}nCtlValue{2}
+2023-04-12 18:59:36,331 [AppLog] INFO : 完成处理第20层数据：准备调用DrawLayerBMP，index为20，起始层为0
+2023-04-12 18:59:36,331 [AppLog] INFO : 完成处理第20层数据：准备调用DrawLayerBMP，index为20，起始层为0
+2023-04-12 18:59:37,049 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{21}LayerIndex{20}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:37,049 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为20，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:37,049 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为21，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:37,236 [AppLog] INFO : 完成处理第21层数据：准备调用DrawLayerBMP，index为21，起始层为0
+2023-04-12 18:59:37,236 [AppLog] INFO : 完成处理第21层数据：准备调用DrawLayerBMP，index为21，起始层为0
+2023-04-12 18:59:37,938 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{22}LayerIndex{21}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:37,938 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为21，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:37,938 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为22，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:38,047 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{429.99}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:38,047 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:38,047 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{429.81}AimPos{25}
+2023-04-12 18:59:38,078 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-404810}nCtlValue{2}
+2023-04-12 18:59:38,125 [AppLog] INFO : 完成处理第22层数据：准备调用DrawLayerBMP，index为22，起始层为0
+2023-04-12 18:59:38,125 [AppLog] INFO : 完成处理第22层数据：准备调用DrawLayerBMP，index为22，起始层为0
+2023-04-12 18:59:38,843 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{23}LayerIndex{22}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:38,843 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为22，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:38,858 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为23，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:39,046 [AppLog] INFO : 完成处理第23层数据：准备调用DrawLayerBMP，index为23，起始层为0
+2023-04-12 18:59:39,046 [AppLog] INFO : 完成处理第23层数据：准备调用DrawLayerBMP，index为23，起始层为0
+2023-04-12 18:59:39,748 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{24}LayerIndex{23}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:39,748 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为23，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:39,748 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为24，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:39,935 [AppLog] INFO : 完成处理第24层数据：准备调用DrawLayerBMP，index为24，起始层为0
+2023-04-12 18:59:39,935 [AppLog] INFO : 完成处理第24层数据：准备调用DrawLayerBMP，index为24，起始层为0
+2023-04-12 18:59:39,966 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{26.175}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:39,966 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:39,966 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{15.06}AimPos{69}
+2023-04-12 18:59:40,200 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{54042.00054}nCtlValue{1}
+2023-04-12 18:59:40,278 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{43.72}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:59:40,278 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{2}nPassID{1}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{2}nLayerPassCount{6}nLayerPassIndex{1}nMinJet0ImgLinePos{1280}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{676718928}
+2023-04-12 18:59:40,278 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{2}nPassID{1}
+2023-04-12 18:59:40,294 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{2}nPassID{1}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:40,294 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2023-04-12 18:59:40,294 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:40,294 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2023-04-12 18:59:40,294 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:40,294 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:40,294 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:40,294 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:40,294 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{21.745}AimPos{425}
+2023-04-12 18:59:40,325 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{403255}nCtlValue{2}
+2023-04-12 18:59:40,652 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{25}LayerIndex{24}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:40,652 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为24，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:40,652 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为25，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:40,730 [AppLog] INFO : 进入手动调试子模块！
+2023-04-12 18:59:40,730 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-12 18:59:40,762 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-12 18:59:40,762 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-12 18:59:40,840 [AppLog] INFO : 完成处理第25层数据：准备调用DrawLayerBMP，index为25，起始层为0
+2023-04-12 18:59:40,840 [AppLog] INFO : 完成处理第25层数据：准备调用DrawLayerBMP，index为25，起始层为0
+2023-04-12 18:59:41,760 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{26}LayerIndex{25}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:41,760 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为25，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:41,760 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为26，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:41,947 [AppLog] INFO : 完成处理第26层数据：准备调用DrawLayerBMP，index为26，起始层为0
+2023-04-12 18:59:41,947 [AppLog] INFO : 完成处理第26层数据：准备调用DrawLayerBMP，index为26，起始层为0
+2023-04-12 18:59:42,228 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{420.295}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:42,228 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:42,228 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{69.03}AimPos{123}
+2023-04-12 18:59:42,446 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{54072.05727}nCtlValue{1}
+2023-04-12 18:59:42,524 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{97.695}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:59:42,524 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{2}nPassID{2}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{2}nLayerPassCount{6}nLayerPassIndex{2}nMinJet0ImgLinePos{2560}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{676719088}
+2023-04-12 18:59:42,524 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{2}nPassID{2}
+2023-04-12 18:59:42,540 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{2}nPassID{2}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:42,540 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2023-04-12 18:59:42,540 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:42,540 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2023-04-12 18:59:42,540 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:42,540 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:42,540 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:42,540 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:42,540 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{423.46}AimPos{25}
+2023-04-12 18:59:42,571 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-398460}nCtlValue{2}
+2023-04-12 18:59:42,680 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{27}LayerIndex{26}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:42,680 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为26，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:42,680 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为27，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:42,868 [AppLog] INFO : 完成处理第27层数据：准备调用DrawLayerBMP，index为27，起始层为0
+2023-04-12 18:59:42,868 [AppLog] INFO : 完成处理第27层数据：准备调用DrawLayerBMP，index为27，起始层为0
+2023-04-12 18:59:43,585 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{28}LayerIndex{27}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:43,585 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为27，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:43,585 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为28，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:43,772 [AppLog] INFO : 完成处理第28层数据：准备调用DrawLayerBMP，index为28，起始层为0
+2023-04-12 18:59:43,772 [AppLog] INFO : 完成处理第28层数据：准备调用DrawLayerBMP，index为28，起始层为0
+2023-04-12 18:59:44,459 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{29.845}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:44,459 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:44,459 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{122.96}AimPos{177}
+2023-04-12 18:59:44,490 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{29}LayerIndex{28}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:44,490 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为28，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:44,490 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为29，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:44,677 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{54142.18964}nCtlValue{1}
+2023-04-12 18:59:44,677 [AppLog] INFO : 完成处理第29层数据：准备调用DrawLayerBMP，index为29，起始层为0
+2023-04-12 18:59:44,677 [AppLog] INFO : 完成处理第29层数据：准备调用DrawLayerBMP，index为29，起始层为0
+2023-04-12 18:59:44,740 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{149.845}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:59:44,740 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{2}nPassID{3}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{2}nLayerPassCount{6}nLayerPassIndex{3}nMinJet0ImgLinePos{3840}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{676709472}
+2023-04-12 18:59:44,755 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{2}nPassID{3}
+2023-04-12 18:59:44,755 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{2}nPassID{3}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:44,755 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2023-04-12 18:59:44,755 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:44,755 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2023-04-12 18:59:44,755 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:44,755 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:44,755 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:44,771 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:44,771 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{26.54}AimPos{425}
+2023-04-12 18:59:44,802 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{398460}nCtlValue{2}
+2023-04-12 18:59:45,395 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{30}LayerIndex{29}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:45,410 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为29，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:45,410 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为30，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:45,582 [AppLog] INFO : 完成处理第30层数据：准备调用DrawLayerBMP，index为30，起始层为0
+2023-04-12 18:59:45,582 [AppLog] INFO : 完成处理第30层数据：准备调用DrawLayerBMP，index为30，起始层为0
+2023-04-12 18:59:46,300 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{31}LayerIndex{30}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:46,300 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为30，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:46,300 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为31，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:46,487 [AppLog] INFO : 完成处理第31层数据：准备调用DrawLayerBMP，index为31，起始层为0
+2023-04-12 18:59:46,487 [AppLog] INFO : 完成处理第31层数据：准备调用DrawLayerBMP，index为31，起始层为0
+2023-04-12 18:59:46,690 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{419.745}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:46,690 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:46,690 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{176.975}AimPos{231}
+2023-04-12 18:59:46,908 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{54127.161275}nCtlValue{1}
+2023-04-12 18:59:46,970 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{203.015}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:59:46,970 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{2}nPassID{4}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{2}nLayerPassCount{6}nLayerPassIndex{4}nMinJet0ImgLinePos{5120}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{573295328}
+2023-04-12 18:59:46,986 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{2}nPassID{4}
+2023-04-12 18:59:46,986 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{2}nPassID{4}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:46,986 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2023-04-12 18:59:46,986 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:46,986 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2023-04-12 18:59:46,986 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:46,986 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:46,986 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:46,986 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:46,986 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{423.475}AimPos{25}
+2023-04-12 18:59:47,017 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-398475}nCtlValue{2}
+2023-04-12 18:59:47,204 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{32}LayerIndex{31}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:47,204 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为31，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:47,204 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为32，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:47,392 [AppLog] INFO : 完成处理第32层数据：准备调用DrawLayerBMP，index为32，起始层为0
+2023-04-12 18:59:47,392 [AppLog] INFO : 完成处理第32层数据：准备调用DrawLayerBMP，index为32，起始层为0
+2023-04-12 18:59:48,109 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{33}LayerIndex{32}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:48,109 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为32，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:48,109 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为33，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:48,296 [AppLog] INFO : 完成处理第33层数据：准备调用DrawLayerBMP，index为33，起始层为0
+2023-04-12 18:59:48,296 [AppLog] INFO : 完成处理第33层数据：准备调用DrawLayerBMP，index为33，起始层为0
+2023-04-12 18:59:48,905 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{30.205}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:48,905 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:48,905 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{231.03}AimPos{285}
+2023-04-12 18:59:49,030 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{34}LayerIndex{33}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:49,030 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为33，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:49,030 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为34，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:49,154 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{54072.05727}nCtlValue{1}
+2023-04-12 18:59:49,217 [AppLog] INFO : 完成处理第34层数据：准备调用DrawLayerBMP，index为34，起始层为0
+2023-04-12 18:59:49,217 [AppLog] INFO : 完成处理第34层数据：准备调用DrawLayerBMP，index为34，起始层为0
+2023-04-12 18:59:49,264 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{270.215}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:59:49,264 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{2}nPassID{5}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{2}nLayerPassCount{6}nLayerPassIndex{5}nMinJet0ImgLinePos{6400}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{0}
+2023-04-12 18:59:49,279 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{2}nPassID{5}
+2023-04-12 18:59:49,279 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{2}nPassID{5}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:49,279 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2023-04-12 18:59:49,279 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:49,279 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2023-04-12 18:59:49,279 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:49,279 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:49,279 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:49,279 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:49,279 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{26.525}AimPos{425}
+2023-04-12 18:59:49,326 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{398475}nCtlValue{2}
+2023-04-12 18:59:49,950 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{35}LayerIndex{34}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:49,950 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为34，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:49,981 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为35，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:50,168 [AppLog] INFO : 完成处理第35层数据：准备调用DrawLayerBMP，index为35，起始层为0
+2023-04-12 18:59:50,168 [AppLog] INFO : 完成处理第35层数据：准备调用DrawLayerBMP，index为35，起始层为0
+2023-04-12 18:59:50,870 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{36}LayerIndex{35}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:50,870 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为35，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:50,886 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为36，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:51,073 [AppLog] INFO : 完成处理第36层数据：准备调用DrawLayerBMP，index为36，起始层为0
+2023-04-12 18:59:51,073 [AppLog] INFO : 完成处理第36层数据：准备调用DrawLayerBMP，index为36，起始层为0
+2023-04-12 18:59:51,214 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{419.64}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:51,214 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:51,214 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{419.74}AimPos{780}
+2023-04-12 18:59:51,245 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{360260}nCtlValue{2}
+2023-04-12 18:59:51,307 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:51,307 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{284.995}AimPos{121}
+2023-04-12 18:59:51,791 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{37}LayerIndex{36}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:51,791 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为36，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:51,791 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为37，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:51,884 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-164305.114545}nCtlValue{1}
+2023-04-12 18:59:51,978 [AppLog] INFO : 完成处理第37层数据：准备调用DrawLayerBMP，index为37，起始层为0
+2023-04-12 18:59:51,978 [AppLog] INFO : 完成处理第37层数据：准备调用DrawLayerBMP，index为37，起始层为0
+2023-04-12 18:59:52,680 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{38}LayerIndex{37}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:52,680 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为37，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:52,680 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为38，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:52,867 [AppLog] INFO : 完成处理第38层数据：准备调用DrawLayerBMP，index为38，起始层为0
+2023-04-12 18:59:52,883 [AppLog] INFO : 完成处理第38层数据：准备调用DrawLayerBMP，index为38，起始层为0
+2023-04-12 18:59:52,992 [AppLog] INFO : Y方向到位等停：DEM_StopAxisRun：返回值{True}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:52,992 [AppLog] INFO : X方向到位等停：DEM_StopAxisRun：返回值{True}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:59:53,023 [AppLog] INFO : 开启闪喷操作：IDP_FlashPrtCtl：返回值{True}
+2023-04-12 18:59:53,023 [AppLog] INFO : 不执行跳过铺粉固化操作：m_bApplyPowderSupplyMotion:1
+2023-04-12 18:59:53,023 [AppLog] INFO : 接收到起始打印指令：PrintTaskTHREAD
+2023-04-12 18:59:53,039 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{3}nPassID{0}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{3}nLayerPassCount{6}nLayerPassIndex{0}nMinJet0ImgLinePos{0}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{573295648}
+2023-04-12 18:59:53,039 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{3}nPassID{0}
+2023-04-12 18:59:53,039 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{3}nPassID{0}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:53,039 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2023-04-12 18:59:53,054 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:53,054 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2023-04-12 18:59:53,054 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:53,054 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:53,054 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:53,070 [AppLog] INFO : 关闭闪喷操作：IDP_FlashPrtCtl：返回值{True}
+2023-04-12 18:59:53,070 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:53,070 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{121}AimPos{15}
+2023-04-12 18:59:53,491 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-106200.446}nCtlValue{1}
+2023-04-12 18:59:53,554 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:53,554 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{783.715}AimPos{425}
+2023-04-12 18:59:53,585 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-358715}nCtlValue{2}
+2023-04-12 18:59:53,600 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{39}LayerIndex{38}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:53,600 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为38，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:53,600 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为39，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:53,788 [AppLog] INFO : 完成处理第39层数据：准备调用DrawLayerBMP，index为39，起始层为0
+2023-04-12 18:59:53,788 [AppLog] INFO : 完成处理第39层数据：准备调用DrawLayerBMP，index为39，起始层为0
+2023-04-12 18:59:54,505 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{40}LayerIndex{39}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:54,505 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为39，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:54,505 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为40，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:54,692 [AppLog] INFO : 完成处理第40层数据：准备调用DrawLayerBMP，index为40，起始层为0
+2023-04-12 18:59:54,692 [AppLog] INFO : 完成处理第40层数据：准备调用DrawLayerBMP，index为40，起始层为0
+2023-04-12 18:59:55,332 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{430.005}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:55,332 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:55,332 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{429.915}AimPos{25}
+2023-04-12 18:59:55,363 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-404915}nCtlValue{2}
+2023-04-12 18:59:55,535 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{41}LayerIndex{40}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:55,535 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为40，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:55,535 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为41，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:55,722 [AppLog] INFO : 完成处理第41层数据：准备调用DrawLayerBMP，index为41，起始层为0
+2023-04-12 18:59:55,722 [AppLog] INFO : 完成处理第41层数据：准备调用DrawLayerBMP，index为41，起始层为0
+2023-04-12 18:59:56,455 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{42}LayerIndex{41}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:56,455 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为41，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:56,455 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为42，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:56,627 [AppLog] INFO : 完成处理第42层数据：准备调用DrawLayerBMP，index为42，起始层为0
+2023-04-12 18:59:56,627 [AppLog] INFO : 完成处理第42层数据：准备调用DrawLayerBMP，index为42，起始层为0
+2023-04-12 18:59:57,266 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{25.22}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:57,266 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:57,266 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{15.01}AimPos{69}
+2023-04-12 18:59:57,360 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{43}LayerIndex{42}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:57,360 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为42，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:57,360 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为43，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:57,485 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{54092.09509}nCtlValue{1}
+2023-04-12 18:59:57,547 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{40.945}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:59:57,547 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{3}nPassID{1}nProcState{3}LPPassDataItemb:PrtDir{True}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{3}nLayerPassCount{6}nLayerPassIndex{1}nMinJet0ImgLinePos{1280}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{10000}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{573295808}
+2023-04-12 18:59:57,547 [AppLog] INFO : 完成处理第43层数据：准备调用DrawLayerBMP，index为43，起始层为0
+2023-04-12 18:59:57,547 [AppLog] INFO : 完成处理第43层数据：准备调用DrawLayerBMP，index为43，起始层为0
+2023-04-12 18:59:57,594 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{3}nPassID{1}
+2023-04-12 18:59:57,594 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{3}nPassID{1}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:57,594 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2023-04-12 18:59:57,594 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:57,594 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2023-04-12 18:59:57,594 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:57,594 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:57,594 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:57,594 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:57,594 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{21.66}AimPos{425}
+2023-04-12 18:59:57,625 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{403340}nCtlValue{2}
+2023-04-12 18:59:58,249 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{44}LayerIndex{43}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:58,249 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为43，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:58,249 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为44，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:58,436 [AppLog] INFO : 完成处理第44层数据：准备调用DrawLayerBMP，index为44，起始层为0
+2023-04-12 18:59:58,436 [AppLog] INFO : 完成处理第44层数据：准备调用DrawLayerBMP，index为44，起始层为0
+2023-04-12 18:59:59,154 [AppLog] INFO : 作业写入成功：IDP_WriteImgLayerData：bpp:{1bit}灰阶:{1阶}nLayerIndex{45}LayerIndex{44}SubIndex{1}RePrintTimes{1}nBytesPerLine{1004}nWidth{8001}nHeight{7560}nXEncOff{0}nYJetOff{0}nImgStartJetIndex{0}nXDPI{635}nYDPI{600}nPrtDir{0} nPrtFlag{1}nColorCnts{1}nReserved{System.Int32[]}
+2023-04-12 18:59:59,154 [AppLog] INFO : 完成处理第1层数据：准备调用RenderToWic，index为44，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:59,170 [AppLog] INFO : 准备处理第1层数据：准备调用RenderToWic，index为45，subindex为0，g_nRePrintTimes为1，起始层为0
+2023-04-12 18:59:59,372 [AppLog] INFO : 完成处理第45层数据：准备调用DrawLayerBMP，index为45，起始层为0
+2023-04-12 18:59:59,372 [AppLog] INFO : 完成处理第45层数据：准备调用DrawLayerBMP，index为45，起始层为0
+2023-04-12 18:59:59,513 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{419.18}bImmeStop{False}nAxisMask{1}
+2023-04-12 18:59:59,513 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-12 18:59:59,513 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{69.03}AimPos{123}
+2023-04-12 18:59:59,731 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{54072.05727}nCtlValue{1}
+2023-04-12 18:59:59,794 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{94.96}bImmeStop{False}nAxisMask{2}
+2023-04-12 18:59:59,794 [AppLog] INFO : 获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{3}nPassID{2}nProcState{3}LPPassDataItemb:PrtDir{False}nDataTxCompleteCnt{1}nHwMemAdrMatchMask{1}nLayerIndex{3}nLayerPassCount{6}nLayerPassIndex{2}nMinJet0ImgLinePos{2560}nPrtMemHwAddr{System.UInt32[]}nPrtDataOffset{System.UInt32[]}nSrcDataSize{System.UInt32[]}nPrtColBytes{System.UInt32[]}nPrtPrecession{8}nSrcEndCols{8000}nSrcStartCols{0}nStartEncPos{76512}nValidPassJets{1280}nValidPrtCols{8310}nValidPrtCtlCnts{1}pDataBuf{0}pNextItem{573295968}
+2023-04-12 18:59:59,794 [AppLog] INFO : 使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{3}nPassID{2}
+2023-04-12 18:59:59,809 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{3}nPassID{2}LPPRINTER_INFO:nXSysEncDPI{0}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-04-12 18:59:59,809 [AppLog] INFO : 创建：AutoPrintMotion1=》不需重新创建-手动操作！
+2023-04-12 18:59:59,809 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-12 18:59:59,809 [AppLog] INFO : 进入：EquipmentMotionLogic3=》不需重新创建-手动操作！
+2023-04-12 18:59:59,809 [AppLog] INFO : 进入：EquipmentMotionLogic3=》赋值完成自-AutoPrintMotion2！
+2023-04-12 18:59:59,809 [AppLog] INFO : 进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！
+2023-04-12 18:59:59,809 [AppLog] INFO : 进入：AutoPrintThread2！
+2023-04-12 18:59:59,809 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-12 18:59:59,809 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{423.425}AimPos{25}
+2023-04-12 18:59:59,856 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-398425}nCtlValue{2}

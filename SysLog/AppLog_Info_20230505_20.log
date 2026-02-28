@@ -1,0 +1,123 @@
+2023-05-05 20:49:04,891 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{26.78539%} ，可用内存大小:{14390MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：67 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-05-05 20:49:05,016 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-05-05 20:49:05,016 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-05-05 20:49:11,116 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-05-05 20:49:11,303 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-05-05 20:49:11,381 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-05-05 20:49:34,875 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-05-05 20:49:34,906 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-05-05 20:49:46,965 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-05-05 20:49:46,965 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-05-05 20:49:46,996 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-05-05 20:49:47,121 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-05-05 20:49:47,121 [AppLog] INFO : 进入电气控制模块
+2023-05-05 20:49:48,228 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-05-05 20:49:48,977 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-05-05 20:49:49,632 [AppLog] INFO : 退出电气控制模块
+2023-05-05 20:49:52,175 [AppLog] INFO : 进入手动调试子模块！
+2023-05-05 20:49:52,175 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-05 20:49:52,206 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-05 20:49:52,206 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-05 20:51:15,978 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-05-05 20:51:18,537 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:51:22,905 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:51:24,449 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:51:29,847 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:51:30,611 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:51:36,586 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:51:37,132 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:51:39,191 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:51:40,002 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:51:41,297 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:51:41,999 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:51:46,726 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:51:47,210 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:51:50,408 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:51:51,188 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:51:54,822 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:51:59,315 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:52:03,480 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:52:09,471 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:52:10,344 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:52:52,761 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:52:54,461 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:52:57,737 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:52:59,781 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:53:02,027 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:53:04,445 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:53:07,394 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:53:10,077 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:53:13,306 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:53:15,599 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:53:48,734 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:53:53,305 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:53:54,693 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:53:56,175 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:54:10,090 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:54:11,681 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:55:30,446 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2023-05-05 20:55:30,446 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-05-05 20:55:33,488 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-05-05 20:55:33,488 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-05-05 20:55:41,397 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{25MM/s}
+2023-05-05 20:55:41,397 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-05-05 20:55:55,656 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-05-05 20:55:59,212 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-05-05 20:56:04,376 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-05-05 20:56:05,515 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-05-05 20:56:05,874 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-05-05 20:56:07,122 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-05-05 20:56:07,777 [AppLog] INFO : 进入数据加载模块
+2023-05-05 20:56:15,561 [AppLog] INFO : 进入手动调试子模块！
+2023-05-05 20:56:15,561 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-05 20:56:15,592 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-05 20:56:15,592 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-05 20:56:17,074 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-05-05 20:56:17,854 [AppLog] INFO : CAD数据加载：添加.bjgroup格式CAD数据成功-D:\Release\CLI输入文件\shibiao-0321\shibiao-0425.bjgroup
+2023-05-05 20:56:23,268 [AppLog] INFO : 进入手动调试子模块！
+2023-05-05 20:56:23,268 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-05 20:56:23,283 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-05 20:56:23,283 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-05 20:56:28,853 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调-喷射量3.rhdat}
+2023-05-05 20:56:28,853 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-05-05 20:56:34,266 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm! 当前波形文件的基准电压参考值为：{18V}
+2023-05-05 20:56:34,547 [AppLog] INFO : {1}号喷头电压调压成功：MCU_SetPhVoltage{0V,0V,0V,0V}；
+2023-05-05 20:56:39,367 [AppLog] INFO : {1}号喷头温度更新成功：MCU_SetPhStdTemp{25℃}
+2023-05-05 20:57:34,903 [AppLog] INFO : {1}号喷头温度更新成功：MCU_SetPhStdTemp{25℃}
+2023-05-05 20:58:17,366 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-05-05 20:58:23,419 [AppLog] INFO : 进入手动调试子模块！
+2023-05-05 20:58:23,419 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-05-05 20:58:23,450 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-05-05 20:58:23,450 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-05-05 20:58:42,326 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:58:45,790 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:58:46,304 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:58:48,676 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:58:59,221 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:59:03,371 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:59:08,737 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:59:09,595 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:59:09,767 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:59:13,480 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:59:22,122 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-05-05 20:59:27,239 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-05-05 20:59:37,644 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-05-05 20:59:38,939 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-05-05 20:59:39,532 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-05-05 20:59:50,795 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}

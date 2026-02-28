@@ -1,0 +1,915 @@
+2023-04-06 21:00:46,208 [AppLog] INFO : 进入手动调试子模块！
+2023-04-06 21:00:46,208 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-06 21:00:46,239 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-06 21:00:46,239 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-06 21:00:50,092 [AppLog] INFO : 开启刮墨轴回零校准：SpreaderHomeBtn_Click
+2023-04-06 21:00:50,872 [AppLog] INFO : 刮墨轴回零成功：SpreaderHomeBtn_Click：{AXIS{4},Vel{1圈/s},开槽位置{-107°}}
+2023-04-06 21:01:08,282 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:01:08,391 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:01:08,391 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:01:10,123 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:01:10,247 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:01:10,247 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:01:10,934 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:01:11,090 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:01:11,090 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:01:14,023 [AppLog] INFO : 切换为点动模式====》：输出AXIS{第4轴}
+2023-04-06 21:01:17,143 [AppLog] INFO : 开启刮墨轴回零校准：SpreaderHomeBtn_Click
+2023-04-06 21:01:18,313 [AppLog] INFO : 刮墨轴回零成功：SpreaderHomeBtn_Click：{AXIS{4},Vel{1圈/s},开槽位置{-107°}}
+2023-04-06 21:01:25,067 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},点动量{0.5MM},运动速度{0.5MM/s}
+2023-04-06 21:01:30,824 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-06 21:01:32,056 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-06 21:01:32,758 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-06 21:01:33,803 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-06 21:01:33,959 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-06 21:01:34,022 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-06 21:01:34,193 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-06 21:01:34,817 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-06 21:01:35,176 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-06 21:01:35,363 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-06 21:01:35,769 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-06 21:01:35,987 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-06 21:01:43,553 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-04-06 21:01:43,772 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-06 21:01:44,115 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-04-06 21:01:44,255 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-06 21:01:52,539 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-04-06 21:01:52,539 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-04-06 21:01:54,052 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)
+2023-04-06 21:01:54,052 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-06 21:01:54,052 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{120.3}AimPos{121}
+2023-04-06 21:01:54,083 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{700.000000000003}nCtlValue{0}
+2023-04-06 21:01:54,083 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{120.3}bImmeStop{False}nAxisMask{2}
+2023-04-06 21:01:54,083 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-06 21:01:54,083 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{787.075}AimPos{780}
+2023-04-06 21:01:54,115 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{300000}MoveStep{-7075.00000000005}nCtlValue{2}
+2023-04-06 21:01:54,333 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{783.54}bImmeStop{False}nAxisMask{1}
+2023-04-06 21:01:55,160 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2023-04-06 21:01:58,171 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, true)
+2023-04-06 21:01:58,171 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-06 21:01:58,171 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{780.275}AimPos{680}
+2023-04-06 21:01:58,202 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{50000}MoveStep{-100275}nCtlValue{2}
+2023-04-06 21:02:00,261 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{683.58}bImmeStop{False}nAxisMask{1}
+2023-04-06 21:02:01,088 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-04-06 21:02:05,050 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-06 21:02:08,202 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-06 21:02:08,919 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-04-06 21:02:10,464 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-06 21:02:29,074 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-06 21:02:30,244 [AppLog] INFO : 进入手动调试子模块！
+2023-04-06 21:02:30,244 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-06 21:02:30,276 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-06 21:02:30,276 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-06 21:02:31,399 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-04-06 21:02:31,399 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-04-06 21:02:32,366 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)
+2023-04-06 21:02:32,366 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-06 21:02:32,366 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{300.64}AimPos{121}
+2023-04-06 21:02:32,397 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-179640}nCtlValue{0}
+2023-04-06 21:02:32,990 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{167.645}bImmeStop{False}nAxisMask{2}
+2023-04-06 21:02:32,990 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-06 21:02:32,990 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{759.295}AimPos{780}
+2023-04-06 21:02:33,021 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{20705}nCtlValue{2}
+2023-04-06 21:02:33,411 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{776.925}bImmeStop{False}nAxisMask{1}
+2023-04-06 21:02:34,238 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2023-04-06 21:02:37,249 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, true)
+2023-04-06 21:02:37,249 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-06 21:02:37,264 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{780.02}AimPos{680}
+2023-04-06 21:02:37,296 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-100020}nCtlValue{2}
+2023-04-06 21:02:38,450 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{684.67}bImmeStop{False}nAxisMask{1}
+2023-04-06 21:02:39,277 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-04-06 21:02:43,645 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-06 21:02:46,874 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-06 21:02:47,841 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-04-06 21:02:49,651 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-06 21:03:04,252 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-06 21:03:12,068 [AppLog] INFO : 进入手动调试子模块！
+2023-04-06 21:03:12,068 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-06 21:03:12,099 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-06 21:03:12,099 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-06 21:03:14,392 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-04-06 21:03:14,392 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-04-06 21:03:15,375 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)
+2023-04-06 21:03:15,375 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-06 21:03:15,375 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{305.72}AimPos{121}
+2023-04-06 21:03:15,406 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-184720}nCtlValue{0}
+2023-04-06 21:03:16,015 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{167.845}bImmeStop{False}nAxisMask{2}
+2023-04-06 21:03:16,015 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-06 21:03:16,015 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{773.04}AimPos{780}
+2023-04-06 21:03:16,046 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{6960.00000000004}nCtlValue{2}
+2023-04-06 21:03:16,280 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{778.005}bImmeStop{False}nAxisMask{1}
+2023-04-06 21:03:17,060 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2023-04-06 21:03:20,071 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, true)
+2023-04-06 21:03:20,071 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-06 21:03:20,071 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{780.025}AimPos{680}
+2023-04-06 21:03:20,102 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-100025}nCtlValue{2}
+2023-04-06 21:03:21,272 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{683.775}bImmeStop{False}nAxisMask{1}
+2023-04-06 21:03:22,099 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-04-06 21:03:25,578 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-06 21:03:28,963 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-06 21:03:29,992 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-04-06 21:03:31,459 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-06 21:03:56,435 [AppLog] INFO : 开启刮墨轴回零校准：SpreaderHomeBtn_Click
+2023-04-06 21:03:57,339 [AppLog] INFO : 刮墨轴回零成功：SpreaderHomeBtn_Click：{AXIS{4},Vel{1圈/s},开槽位置{-90°}}
+2023-04-06 21:04:02,612 [AppLog] INFO : 开启刮墨轴回零校准：SpreaderHomeBtn_Click
+2023-04-06 21:04:03,533 [AppLog] INFO : 刮墨轴回零成功：SpreaderHomeBtn_Click：{AXIS{4},Vel{1圈/s},开槽位置{-110°}}
+2023-04-06 21:04:07,776 [AppLog] INFO : 手动停止自动清洗过程：AutoCleanBtn_Click
+2023-04-06 21:04:08,275 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-04-06 21:04:08,275 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-04-06 21:04:09,258 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)
+2023-04-06 21:04:09,258 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-06 21:04:09,258 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{314.335}AimPos{121}
+2023-04-06 21:04:09,289 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-193335}nCtlValue{0}
+2023-04-06 21:04:09,929 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{166.97}bImmeStop{False}nAxisMask{2}
+2023-04-06 21:04:09,929 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-06 21:04:09,929 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{755.13}AimPos{780}
+2023-04-06 21:04:09,960 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{24870}nCtlValue{2}
+2023-04-06 21:04:10,381 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{776.645}bImmeStop{False}nAxisMask{1}
+2023-04-06 21:04:11,208 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2023-04-06 21:04:14,219 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, true)
+2023-04-06 21:04:14,219 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-06 21:04:14,219 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{780.105}AimPos{680}
+2023-04-06 21:04:14,250 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-100105}nCtlValue{2}
+2023-04-06 21:04:15,420 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{683.825}bImmeStop{False}nAxisMask{1}
+2023-04-06 21:04:16,247 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-04-06 21:04:20,069 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-06 21:04:23,469 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-06 21:04:24,390 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-04-06 21:04:25,997 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-06 21:04:49,178 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-06 21:04:51,674 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-06 21:04:52,158 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-06 21:05:05,589 [AppLog] INFO : 进入手动调试子模块！
+2023-04-06 21:05:05,589 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-06 21:05:05,621 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-06 21:05:05,621 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-06 21:05:11,486 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:05:11,798 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:12,017 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:05:12,531 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:12,719 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:05:13,374 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:13,545 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:05:13,889 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:13,998 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:05:14,123 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:14,216 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:05:14,325 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:14,403 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:05:14,528 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:14,606 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:05:14,731 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:21,767 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:21,907 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:22,094 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:22,640 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:22,781 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:22,937 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:23,030 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:23,139 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:23,592 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:23,639 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:23,919 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:24,044 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:24,138 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:24,278 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:24,403 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:24,512 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:24,684 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:24,824 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:24,918 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:25,074 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:25,152 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:25,308 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:25,511 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:25,635 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:25,916 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:26,041 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:26,275 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:26,415 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:27,289 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:27,383 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:27,897 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:27,991 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:28,100 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:28,209 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:28,724 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:28,818 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:29,177 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:29,286 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:29,379 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:29,504 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:29,567 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:29,676 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:36,228 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:36,384 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:36,836 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:37,023 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:37,491 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:37,663 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:38,022 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:38,240 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:38,552 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:38,755 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:39,005 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:39,207 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:39,488 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:39,660 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:39,956 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:40,159 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:40,502 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:40,705 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:41,157 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:41,345 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:41,750 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:41,953 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:42,203 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:42,359 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:42,546 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:42,686 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:42,936 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:43,232 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:43,466 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:43,778 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:44,043 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:44,231 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:44,355 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:44,527 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:44,636 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:44,823 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:44,933 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:45,151 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:45,572 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:45,822 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:46,118 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:46,337 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:46,680 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:46,976 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:47,210 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:47,616 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:47,897 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:48,115 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:48,287 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:48,474 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:48,848 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:48,989 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:49,191 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:49,347 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:49,831 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:49,987 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:51,126 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:51,313 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:51,641 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:51,797 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:52,046 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:52,171 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:52,436 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:52,546 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:52,733 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:52,873 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:53,076 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:53,123 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:53,294 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:53,388 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:53,482 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:53,638 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:53,762 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:53,872 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:53,996 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:54,121 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:54,308 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:54,433 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:54,527 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:54,667 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:54,761 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:54,901 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:55,712 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:55,822 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:55,931 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:56,040 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:56,149 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:56,274 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:56,414 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:56,570 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:56,742 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:56,867 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:57,007 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:57,148 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:57,272 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:57,413 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:05:57,553 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{2MM/s}
+2023-04-06 21:05:57,709 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:06:12,202 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-06 21:06:13,044 [AppLog] INFO : 进入电气控制模块
+2023-04-06 21:06:17,724 [AppLog] INFO : 退出电气控制模块
+2023-04-06 21:06:18,332 [AppLog] INFO : 进入手动调试子模块！
+2023-04-06 21:06:18,332 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-06 21:06:18,364 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-06 21:06:18,364 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-06 21:06:26,335 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-04-06 21:06:26,569 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-04-06 21:06:27,365 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-04-06 21:06:27,583 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-04-06 21:06:28,504 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-04-06 21:06:28,691 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-04-06 21:06:29,939 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-04-06 21:06:30,173 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-04-06 21:06:30,875 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-04-06 21:06:31,078 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-04-06 21:07:19,191 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-06 21:07:19,335 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-06 21:07:20,377 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-06 21:07:20,422 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-06 21:07:31,141 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-06 21:07:31,263 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-06 21:07:46,642 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-04-06 21:07:46,754 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-04-06 21:07:47,615 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-04-06 21:07:47,687 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-04-06 21:07:48,616 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-04-06 21:07:48,671 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-04-06 21:07:49,649 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-04-06 21:07:49,716 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-04-06 21:07:51,284 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},运动速度{2MM/s}
+2023-04-06 21:07:51,424 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第8轴}
+2023-04-06 21:07:51,691 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},运动速度{2MM/s}
+2023-04-06 21:07:51,823 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第8轴}
+2023-04-06 21:07:52,059 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},运动速度{2MM/s}
+2023-04-06 21:07:52,264 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第8轴}
+2023-04-06 21:07:52,525 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},运动速度{2MM/s}
+2023-04-06 21:07:53,084 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第8轴}
+2023-04-06 21:07:53,249 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},运动速度{2MM/s}
+2023-04-06 21:07:53,354 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第8轴}
+2023-04-06 21:07:54,817 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:07:55,006 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:07:55,290 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:07:55,412 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:07:58,207 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:07:58,302 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:07:58,302 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:07:58,554 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:07:58,788 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:07:58,788 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:07:58,970 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:07:59,075 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:07:59,075 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:07:59,338 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:07:59,440 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:07:59,441 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:08:03,376 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:08:03,438 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:08:03,894 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:08:04,037 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:08:05,101 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:08:05,210 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:08:06,256 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:08:06,321 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:08:06,447 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:08:06,522 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:08:06,913 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:08:06,985 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:08:09,769 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:08:09,833 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:08:10,443 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:08:10,517 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:09:20,029 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:09:20,154 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:09:20,825 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:09:20,918 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:09:22,182 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:09:22,260 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:09:22,697 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:09:22,790 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:09:38,406 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:38,577 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:09:39,685 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:39,825 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:09:40,340 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:40,481 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:09:41,885 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:42,025 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:09:43,647 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:43,757 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:09:45,051 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:45,176 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:09:45,785 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:45,878 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:09:47,563 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:47,688 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:09:48,577 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:48,702 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:09:49,310 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:49,435 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:09:50,043 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:50,199 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:09:50,699 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:50,839 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:09:51,572 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:51,681 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:09:52,103 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:52,243 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:09:53,039 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:09:53,148 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:10:36,048 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-06 21:10:36,298 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-06 21:10:36,469 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-06 21:10:36,750 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-06 21:10:37,218 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-06 21:10:37,452 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-06 21:10:37,780 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-06 21:10:38,232 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-06 21:10:38,466 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-06 21:10:38,669 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-06 21:10:38,872 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-06 21:10:39,199 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-06 21:10:50,119 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:10:50,244 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:10:50,244 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:10:50,462 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:10:50,572 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:10:50,572 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:10:50,696 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:10:50,821 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:10:50,821 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:10:50,930 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:10:51,086 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:10:51,102 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:10:51,211 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:10:51,352 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:10:51,352 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:10:51,570 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:10:51,710 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:10:51,710 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:10:52,412 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:10:52,522 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:10:52,522 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:10:55,361 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:10:55,548 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:10:55,548 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:12:43,204 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-06 21:12:45,965 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-04-06 21:12:45,996 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-04-06 21:12:46,667 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{13919MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+==========================================================================
+2023-04-06 21:27:17,826 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{8.239923%} ，可用内存大小:{14196MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Generic Flash Disk USB Device
+==========================================================================
+2023-04-06 21:36:09,528 [AppLog] INFO : 进入手动调试子模块！
+2023-04-06 21:36:09,528 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-06 21:36:09,731 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-06 21:36:12,836 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-06 21:36:14,224 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-06 21:36:14,224 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-06 21:36:16,564 [AppLog] INFO : 进入手动调试子模块！
+2023-04-06 21:36:16,564 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-06 21:36:16,595 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-06 21:36:20,324 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-06 21:36:20,324 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-06 21:36:43,802 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-04-06 21:36:45,206 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-06 21:36:45,206 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-06 21:36:45,237 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-06 21:36:45,362 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-04-06 21:36:45,362 [AppLog] INFO : 进入电气控制模块
+2023-04-06 21:36:49,402 [AppLog] INFO : 退出电气控制模块
+2023-04-06 21:36:50,650 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-06 21:36:53,084 [AppLog] INFO : 进入手动调试子模块！
+2023-04-06 21:36:53,084 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-06 21:36:53,115 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-06 21:36:53,115 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-06 21:36:54,924 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:36:54,971 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:36:56,718 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:36:56,859 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:36:57,233 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:36:57,374 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:36:57,686 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:36:57,826 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:41:49,063 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:41:49,266 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:41:49,578 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:41:49,718 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:41:49,983 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:41:50,342 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:41:50,467 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:41:50,795 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:41:51,029 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:41:51,263 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:41:55,755 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:41:55,896 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:41:56,192 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:41:56,411 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:41:56,613 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:41:56,910 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:41:57,581 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:41:57,737 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:42:01,028 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:42:01,137 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:42:01,371 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:42:01,574 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:42:01,886 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:42:02,042 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:42:02,775 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:42:02,978 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:42:03,337 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:42:03,477 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:42:03,587 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:42:03,821 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:42:03,945 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:42:05,084 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:42:05,209 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:42:06,722 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:42:06,987 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:42:07,175 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:42:08,173 [AppLog] INFO : 切换为点动模式====》：输出AXIS{第7轴}
+2023-04-06 21:42:11,449 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},点动量{1MM},运动速度{10MM/s}
+2023-04-06 21:42:12,229 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},点动量{1MM},运动速度{10MM/s}
+2023-04-06 21:42:12,525 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},点动量{1MM},运动速度{10MM/s}
+2023-04-06 21:42:12,744 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},点动量{1MM},运动速度{10MM/s}
+2023-04-06 21:42:12,947 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},点动量{1MM},运动速度{10MM/s}
+2023-04-06 21:42:13,165 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},点动量{1MM},运动速度{10MM/s}
+2023-04-06 21:42:13,383 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},点动量{1MM},运动速度{10MM/s}
+2023-04-06 21:42:13,586 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},点动量{1MM},运动速度{10MM/s}
+2023-04-06 21:42:14,772 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},点动量{1MM},运动速度{10MM/s}
+2023-04-06 21:42:15,427 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},点动量{1MM},运动速度{10MM/s}
+2023-04-06 21:42:16,285 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},点动量{1MM},运动速度{10MM/s}
+2023-04-06 21:42:17,564 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},点动量{1MM},运动速度{10MM/s}
+2023-04-06 21:42:35,114 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:42:35,161 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:42:35,582 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:42:35,738 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:42:36,315 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:42:36,752 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:42:37,189 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:42:37,657 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:42:38,687 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},点动量{1MM},运动速度{10MM/s}
+2023-04-06 21:42:38,921 [AppLog] INFO : 手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},点动量{1MM},运动速度{10MM/s}
+2023-04-06 21:42:40,824 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第7轴}
+2023-04-06 21:42:41,339 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:42:41,510 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:42:41,682 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:42:41,807 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:42:41,900 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:42:41,994 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:42:42,368 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:42:42,477 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:42:43,757 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-06 21:42:44,505 [AppLog] INFO : 进入电气控制模块
+2023-04-06 21:42:49,029 [AppLog] INFO : 电气控制模块：手动打开端口13
+2023-04-06 21:42:49,685 [AppLog] INFO : 退出电气控制模块
+2023-04-06 21:42:51,447 [AppLog] INFO : 进入电气控制模块
+2023-04-06 21:42:52,446 [AppLog] INFO : 电气控制模块：手动关闭端口13
+2023-04-06 21:42:55,238 [AppLog] INFO : 电气控制模块：手动打开端口5
+2023-04-06 21:42:55,706 [AppLog] INFO : 电气控制模块：手动关闭端口5
+2023-04-06 21:42:57,859 [AppLog] INFO : 电气控制模块：手动关闭端口7
+2023-04-06 21:42:58,764 [AppLog] INFO : 退出电气控制模块
+2023-04-06 21:42:59,684 [AppLog] INFO : 进入手动调试子模块！
+2023-04-06 21:42:59,684 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-06 21:42:59,700 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-06 21:42:59,700 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-06 21:43:00,683 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:00,761 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:01,088 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:01,431 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:01,650 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:02,274 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:03,023 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:03,241 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:03,569 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:04,411 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:05,643 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-06 21:43:06,533 [AppLog] INFO : 进入电气控制模块
+2023-04-06 21:43:08,046 [AppLog] INFO : 电气控制模块：手动打开端口7
+2023-04-06 21:43:09,013 [AppLog] INFO : 退出电气控制模块
+2023-04-06 21:43:27,827 [AppLog] INFO : 进入手动调试子模块！
+2023-04-06 21:43:27,827 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-06 21:43:27,858 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-06 21:43:27,858 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-06 21:43:29,340 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:29,496 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:30,526 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:30,713 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:31,259 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:31,384 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:31,540 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:31,649 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:31,742 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:31,852 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:31,976 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:32,117 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:33,646 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:33,848 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:33,989 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:34,129 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:34,270 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:34,426 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:34,660 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:34,831 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:35,018 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:35,206 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:38,684 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:38,825 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:38,934 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:39,090 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:39,152 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:39,277 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:39,371 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:39,527 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:39,652 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:39,839 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:39,917 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:40,120 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:40,213 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:40,369 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:40,463 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:40,603 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:40,697 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:40,837 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:40,946 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:41,149 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:41,243 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:41,383 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:43:42,631 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:43:42,740 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:44:37,933 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:37,996 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:38,479 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:38,620 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:38,963 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:39,103 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:39,337 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:39,758 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:41,053 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:41,256 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:41,662 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:41,989 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:42,379 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:42,629 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:42,754 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:43,346 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:43,487 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:43,627 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:43,783 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:43,908 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:44,002 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:44,142 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:44,345 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:44,485 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:44,844 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:45,218 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:45,499 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:45,702 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:45,827 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:45,967 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:46,061 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:46,170 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:46,248 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:46,388 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:46,482 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:46,622 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:46,685 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:46,825 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:46,919 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:47,059 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:47,200 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:47,371 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:47,699 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:48,026 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:50,522 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-06 21:44:51,661 [AppLog] INFO : 进入手动调试子模块！
+2023-04-06 21:44:51,661 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-06 21:44:51,677 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-06 21:44:51,677 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-06 21:44:52,909 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:53,034 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:53,206 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:53,315 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:54,079 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:44:54,142 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:44:55,046 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:44:55,187 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:44:55,499 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:44:55,624 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:44:55,702 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:44:55,811 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:44:55,889 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:44:56,029 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:44:56,138 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:44:56,279 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:44:57,121 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:44:57,293 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:44:57,558 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:44:57,683 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:44:57,995 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:44:58,182 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:44:58,369 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:44:58,510 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:44:58,619 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:44:58,759 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:25,513 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:45:25,935 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:26,169 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:45:26,543 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:26,746 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:45:27,245 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:27,619 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:45:27,994 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:29,086 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:45:29,367 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:29,569 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:45:30,162 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:36,106 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:45:36,324 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:36,574 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:45:37,026 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:37,213 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:45:37,463 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:37,837 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:45:38,149 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:38,633 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:45:39,085 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:39,460 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:45:39,741 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:40,255 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:45:40,926 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:41,441 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:45:41,535 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:41,659 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:45:41,753 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:41,831 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:45:42,143 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:42,283 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:45:42,861 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:43,063 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{10MM/s}
+2023-04-06 21:45:43,188 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:49,210 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:45:49,288 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:49,569 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:45:49,943 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:50,146 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:45:50,458 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:50,754 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:45:50,848 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:51,113 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:45:51,394 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:51,721 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:45:51,987 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:54,358 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:45:54,810 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:54,935 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:45:55,169 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:55,341 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:45:55,450 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:55,528 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:45:55,668 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:56,526 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:45:57,571 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:58,663 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:45:59,631 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:00,754 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:01,378 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:02,470 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:02,735 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:03,234 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:03,484 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:03,952 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:04,233 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:04,420 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:05,356 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:05,496 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:05,637 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:05,777 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:05,980 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:07,025 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:07,212 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:07,353 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:07,415 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:07,540 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:07,633 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:07,774 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:08,398 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:09,474 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:09,927 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:10,348 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:10,878 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:11,065 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:11,533 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:11,643 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:12,189 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:12,376 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:13,015 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:13,156 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:13,593 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:13,905 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:14,201 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:14,716 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:15,449 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{100MM/s}
+2023-04-06 21:46:16,073 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:20,847 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{200MM/s}
+2023-04-06 21:46:21,205 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:21,783 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{200MM/s}
+2023-04-06 21:46:22,251 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:22,531 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{200MM/s}
+2023-04-06 21:46:22,719 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:23,389 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-06 21:46:24,466 [AppLog] INFO : 进入手动调试子模块！
+2023-04-06 21:46:24,466 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-06 21:46:24,481 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-06 21:46:24,481 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-06 21:46:25,558 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:46:25,667 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:25,776 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:46:25,885 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:25,948 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第7轴},运动速度{1MM/s}
+2023-04-06 21:46:26,073 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第7轴}
+2023-04-06 21:46:50,689 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:46:50,830 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:46:51,079 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:46:51,345 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:46:52,249 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-06 21:46:53,185 [AppLog] INFO : 进入手动调试子模块！
+2023-04-06 21:46:53,185 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-06 21:46:53,217 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-06 21:46:53,217 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-06 21:46:58,645 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:46:58,801 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:46:59,441 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:47:00,112 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:47:01,032 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:47:01,141 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:47:02,249 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:47:02,296 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:47:02,296 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:47:03,653 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{0.5MM/s}
+2023-04-06 21:47:03,715 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-04-06 21:47:03,715 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-04-06 21:47:04,979 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},运动速度{1MM/s}
+2023-04-06 21:47:04,979 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第3轴}
+2023-04-06 21:47:06,477 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:47:06,601 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:47:07,600 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:47:07,865 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:47:08,941 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-06 21:47:10,018 [AppLog] INFO : 进入手动调试子模块！
+2023-04-06 21:47:10,018 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-06 21:47:10,049 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-06 21:47:10,049 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-06 21:47:12,701 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:47:12,795 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:47:14,105 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第5轴},运动速度{2MM/s}
+2023-04-06 21:47:14,277 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第5轴}
+2023-04-06 21:55:49,374 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-06 21:55:50,466 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-06 21:55:51,386 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-04-06 21:55:57,611 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-04-06 21:55:57,626 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-04-06 21:55:57,642 [AppLog] INFO : 喷墨控制器关闭！
+2023-04-06 21:55:57,642 [AppLog] INFO : 进入电气控制模块
+2023-04-06 21:55:59,155 [AppLog] INFO : 退出电气控制模块
+2023-04-06 21:56:00,731 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-04-06 21:56:00,731 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-04-06 21:56:01,402 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{32.14252%} ，可用内存大小:{14223MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+==========================================================================

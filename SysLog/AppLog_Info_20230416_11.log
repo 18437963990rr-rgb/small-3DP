@@ -1,0 +1,167 @@
+2023-04-16 11:00:04,280 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-16 11:02:02,075 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-04-16 11:02:02,434 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-16 11:02:15,382 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-16 11:02:25,288 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-16 11:02:38,392 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-16 11:02:47,581 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-16 11:02:49,266 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{0MM}
+2023-04-16 11:02:53,618 [AppLog] INFO : 退出JOB参数设置：修改后参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{0MM}
+2023-04-16 11:02:54,913 [AppLog] INFO : 进入手动调试子模块！
+2023-04-16 11:02:54,913 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-16 11:02:54,928 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-16 11:02:54,928 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-16 11:02:57,456 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-16 11:05:12,942 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-04-16 11:05:12,957 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-04-16 11:05:21,038 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-04-16 11:05:45,359 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-04-16 11:05:50,600 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-04-16 11:05:50,678 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-04-16 11:05:55,717 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-04-16 11:05:55,717 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-04-16 11:05:55,733 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-04-16 11:06:01,005 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-04-16 11:06:55,247 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-16 11:06:58,492 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-04-16 11:07:00,348 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-04-16 11:07:58,770 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-04-16 11:08:40,906 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-16 11:10:30,044 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-16 11:10:43,148 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-04-16 11:10:45,269 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-04-16 11:11:11,898 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.1kPa}
+2023-04-16 11:11:11,898 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-04-16 11:11:13,146 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-16 11:11:16,953 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-16 11:12:32,878 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-16 11:13:10,162 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-16 11:13:23,843 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-16 11:13:27,572 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-16 11:13:30,520 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-04-16 11:13:31,659 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-04-16 11:14:11,346 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-16 11:14:15,027 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-16 11:14:31,236 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-04-16 11:14:33,076 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-04-16 11:15:05,212 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-04-16 11:15:07,022 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-04-16 11:15:36,756 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-04-16 11:15:38,487 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-04-16 11:16:47,471 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-16 11:16:54,147 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-04-16 11:16:55,926 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-04-16 11:20:06,402 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-04-16 11:20:07,135 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-04-16 11:20:07,681 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-04-16 11:20:08,196 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-04-16 11:20:08,727 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-04-16 11:20:10,053 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-04-16 11:23:05,319 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-16 11:23:09,328 [AppLog] INFO : 进入电气控制模块
+2023-04-16 11:23:10,716 [AppLog] INFO : 退出电气控制模块
+2023-04-16 11:23:13,602 [AppLog] INFO : 进入电气控制模块
+2023-04-16 11:23:14,492 [AppLog] INFO : 退出电气控制模块
+2023-04-16 11:23:46,971 [AppLog] INFO : 进入手动调试子模块！
+2023-04-16 11:23:46,971 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-16 11:23:47,018 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-16 11:23:47,018 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-16 11:23:50,762 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-16 11:23:55,551 [AppLog] INFO : 进入手动调试子模块！
+2023-04-16 11:23:55,551 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-16 11:23:55,582 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-16 11:23:55,582 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-16 11:24:05,083 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:05,441 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:05,847 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:06,175 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:06,565 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:06,986 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:07,407 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:07,766 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:07,984 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:08,359 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:08,546 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:08,717 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:08,951 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:09,170 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:09,404 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:09,575 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:09,778 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:10,059 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-04-16 11:24:18,701 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-16 11:24:19,138 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-16 11:24:19,949 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-16 11:29:45,148 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-16 11:31:12,055 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-16 11:49:09,057 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-16 11:49:10,164 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-04-16 11:49:16,286 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-04-16 11:49:16,318 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-04-16 11:49:16,333 [AppLog] INFO : 喷墨控制器关闭！
+2023-04-16 11:49:16,335 [AppLog] INFO : 进入电气控制模块
+2023-04-16 11:49:17,732 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-04-16 11:49:18,500 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-04-16 11:49:19,870 [AppLog] INFO : 退出电气控制模块
+2023-04-16 11:49:21,053 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-04-16 11:49:21,055 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-04-16 11:49:21,736 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{14033MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+==========================================================================
+2023-04-16 11:49:46,773 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{42.08214%} ，可用内存大小:{13973MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Generic Flash Disk USB Device
+==========================================================================
+2023-04-16 11:49:49,561 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-16 11:49:49,562 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-16 11:49:55,567 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-16 11:49:55,568 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-16 11:50:14,732 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-04-16 11:50:14,768 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-04-16 11:50:16,197 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-16 11:50:16,198 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-16 11:50:16,363 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-16 11:50:16,486 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-04-16 11:50:16,487 [AppLog] INFO : 进入电气控制模块
+2023-04-16 11:50:17,218 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-04-16 11:50:18,245 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-04-16 11:50:19,123 [AppLog] INFO : 退出电气控制模块
+2023-04-16 11:50:19,689 [AppLog] INFO : 进入手动调试子模块！
+2023-04-16 11:50:19,690 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-16 11:50:19,721 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-16 11:50:19,722 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-16 11:50:27,686 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-16 11:50:28,232 [AppLog] INFO : 进入手动调试子模块！
+2023-04-16 11:50:28,232 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-16 11:50:28,263 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-16 11:50:28,263 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-16 11:51:10,570 [AppLog] INFO : {1}号喷头温度更新成功：MCU_SetPhStdTemp{25℃}
+2023-04-16 11:56:10,356 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-16 11:56:11,167 [AppLog] INFO : 进入电气控制模块
+2023-04-16 11:56:12,946 [AppLog] INFO : 电气控制模块：手动关闭端口6
+2023-04-16 11:56:13,601 [AppLog] INFO : 退出电气控制模块

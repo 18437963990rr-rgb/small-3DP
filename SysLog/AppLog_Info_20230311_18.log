@@ -1,0 +1,108 @@
+2023-03-11 18:00:22,232 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-11 18:00:26,861 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-03-11 18:00:27,546 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-11 18:00:29,045 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-11 18:00:30,722 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-11 18:00:31,136 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-11 18:00:31,220 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-11 18:00:31,650 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-11 18:00:31,688 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-11 18:00:37,199 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{1MM/s}
+2023-03-11 18:00:37,508 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-03-11 18:00:37,509 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-03-11 18:00:37,792 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{1MM/s}
+2023-03-11 18:00:37,946 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-03-11 18:00:37,947 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-03-11 18:00:38,214 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{1MM/s}
+2023-03-11 18:00:38,321 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-03-11 18:00:38,322 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-03-11 18:00:38,775 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{1MM/s}
+2023-03-11 18:00:39,672 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-03-11 18:00:39,673 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-03-11 18:00:40,033 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{1MM/s}
+2023-03-11 18:00:40,084 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-03-11 18:00:40,084 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-03-11 18:01:40,980 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:01:45,945 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:01:46,752 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:01:48,756 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:01:49,397 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:01:50,296 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:02:02,022 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-11 18:02:02,542 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-11 18:02:02,817 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-11 18:02:03,332 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-11 18:02:03,706 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-11 18:02:03,813 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-11 18:02:12,989 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-03-11 18:02:13,559 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-11 18:02:13,753 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-03-11 18:02:13,881 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-11 18:02:15,647 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:02:17,709 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:02:18,127 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:02:18,696 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:02:25,699 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:02:26,716 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:02:36,250 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:02:37,161 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:02:53,025 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:02:55,546 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:02:56,558 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:02:57,942 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:02:58,681 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:02:59,974 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:03:19,131 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:03:22,672 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:03:29,664 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:03:30,955 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:03:35,321 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:03:38,968 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:04:26,962 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-03-11 18:04:26,968 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-11 18:04:28,007 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-03-11 18:04:28,100 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-11 18:04:28,632 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-03-11 18:04:28,873 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-03-11 18:04:52,947 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:04:55,253 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:05:00,990 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:05:07,583 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:05:19,398 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:05:25,571 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:05:32,471 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:05:39,826 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:05:45,778 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:05:51,967 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:06:08,135 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:06:09,358 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:06:12,112 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:06:12,753 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:06:15,287 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:06:17,796 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:06:48,456 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:06:49,321 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:07:28,931 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:07:36,340 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-11 18:08:48,925 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-11 18:08:50,313 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-11 18:08:52,471 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-03-11 18:08:58,599 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-03-11 18:08:58,613 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-03-11 18:08:58,635 [AppLog] INFO : 喷墨控制器关闭！
+2023-03-11 18:08:58,636 [AppLog] INFO : 进入电气控制模块
+2023-03-11 18:09:01,076 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-03-11 18:09:01,996 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-03-11 18:09:04,797 [AppLog] INFO : 退出电气控制模块
+2023-03-11 18:09:09,093 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-03-11 18:09:09,094 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-03-11 18:09:09,746 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{13578MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：71 GB
+  盘符 D:\ 的剩余空间：91 GB
+==========================================================================

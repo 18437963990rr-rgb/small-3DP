@@ -1,0 +1,95 @@
+2023-03-23 13:49:49,882 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{18.59641%} ，可用内存大小:{14274MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Generic Flash Disk USB Device
+==========================================================================
+2023-03-23 13:49:49,898 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-23 13:49:49,900 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-23 13:49:55,907 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-23 13:49:55,909 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-03-23 13:50:16,557 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-03-23 13:50:20,723 [AppLog] INFO : 更新{1}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-23 13:50:20,925 [AppLog] INFO : 更新{2}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-23 13:50:21,113 [AppLog] INFO : 更新{3}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-23 13:50:21,300 [AppLog] INFO : 更新{4}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-23 13:50:21,487 [AppLog] INFO : 更新{5}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-23 13:50:21,674 [AppLog] INFO : 更新{6}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-23 13:50:21,861 [AppLog] INFO : 更新{7}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-23 13:50:22,049 [AppLog] INFO : 更新{8}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-23 13:50:22,064 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-03-23 13:50:22,064 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-03-23 13:50:22,236 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-03-23 13:50:22,361 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-03-23 13:50:22,361 [AppLog] INFO : 进入电气控制模块
+2023-03-23 13:50:23,952 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-03-23 13:50:24,763 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-03-23 13:50:25,449 [AppLog] INFO : 退出电气控制模块
+2023-03-23 13:50:29,521 [AppLog] INFO : 进入手动调试子模块！
+2023-03-23 13:50:29,521 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-03-23 13:50:29,552 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-03-23 13:50:29,552 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-03-23 13:51:01,751 [AppLog] INFO : {1}号喷头电压更新成功：MCU_SetPhVoltage{12V,12V,18V,18V}；
+2023-03-23 13:51:02,172 [AppLog] INFO : {2}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:51:02,562 [AppLog] INFO : {3}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:51:02,967 [AppLog] INFO : {4}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:51:03,389 [AppLog] INFO : {5}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:51:03,779 [AppLog] INFO : {6}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:51:04,200 [AppLog] INFO : {7}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:51:04,590 [AppLog] INFO : {8}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:51:16,524 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\调好：WaveForm-31pl-双滴-18+13.rhdat}
+2023-03-23 13:51:16,524 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-03-23 13:51:21,922 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-23 13:52:04,260 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-23 13:52:04,260 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-03-23 13:52:09,751 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-23 13:52:14,899 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-23 13:52:14,899 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-03-23 13:52:14,899 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-23 13:53:33,726 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-23 13:53:33,726 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-03-23 13:53:33,726 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-23 13:53:51,058 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\调好：WaveForm-31pl-双滴-18+13.rhdat}
+2023-03-23 13:53:51,058 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-03-23 13:53:56,627 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-23 13:54:57,218 [AppLog] INFO : {1}号喷头电压更新成功：MCU_SetPhVoltage{0V,0V,0V,0V}；
+2023-03-23 13:54:57,608 [AppLog] INFO : {2}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:54:57,982 [AppLog] INFO : {3}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:54:58,388 [AppLog] INFO : {4}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:54:58,778 [AppLog] INFO : {5}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:54:59,183 [AppLog] INFO : {6}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:54:59,589 [AppLog] INFO : {7}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:54:59,963 [AppLog] INFO : {8}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:55:14,674 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\调好：WaveForm-31pl-双滴-18+13.rhdat}
+2023-03-23 13:55:14,674 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-03-23 13:55:14,674 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-23 13:55:31,335 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-23 13:55:31,335 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-03-23 13:55:36,920 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-23 13:55:45,578 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\调好：WaveForm-31pl-双滴-18+13.rhdat}
+2023-03-23 13:55:45,578 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-03-23 13:55:50,991 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-23 13:57:29,911 [AppLog] INFO : {1}号喷头电压更新成功：MCU_SetPhVoltage{16V,16V,16V,16V}；
+2023-03-23 13:57:30,332 [AppLog] INFO : {2}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:57:30,737 [AppLog] INFO : {3}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:57:31,127 [AppLog] INFO : {4}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:57:31,564 [AppLog] INFO : {5}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:57:31,954 [AppLog] INFO : {6}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:57:32,391 [AppLog] INFO : {7}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:57:32,797 [AppLog] INFO : {8}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-23 13:58:43,527 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-23 13:58:43,527 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-03-23 13:58:48,972 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-23 13:59:29,594 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\调好：WaveForm-31pl-双滴-18+13.rhdat}
+2023-03-23 13:59:29,594 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-03-23 13:59:35,148 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！

@@ -1,0 +1,257 @@
+2023-07-15 11:42:55,774 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{27.35665%} ，可用内存大小:{14292MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：81 GB
+  盘符 E:\ 的剩余空间：0 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: VendorCo ProductCode USB Device
+==========================================================================
+2023-07-15 11:42:57,672 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-07-15 11:42:57,674 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-07-15 11:43:03,694 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-07-15 11:43:03,897 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-07-15 11:43:03,959 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-07-15 11:43:27,734 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-07-15 11:43:27,765 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-07-15 11:43:28,155 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-07-15 11:43:31,088 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-07-15 11:43:31,088 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-07-15 11:43:31,119 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-07-15 11:43:31,244 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-07-15 11:43:31,244 [AppLog] INFO : 进入电气控制模块
+2023-07-15 11:43:32,055 [AppLog] INFO : 退出电气控制模块
+2023-07-15 11:43:33,194 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:43:33,194 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:43:33,225 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:43:33,225 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:43:35,534 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:35,893 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:36,813 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:37,297 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:39,715 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:40,292 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:41,992 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:42,663 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:44,145 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:45,487 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:47,983 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:48,934 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:50,806 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:51,649 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:53,536 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:43:54,410 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:04,285 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:04,285 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:05,798 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:05,860 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:05,860 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:07,373 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:07,373 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:07,373 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:08,887 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:08,887 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:09,745 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-07-15 11:44:17,404 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:44:17,404 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:44:17,435 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:44:17,435 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:44:19,526 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:19,963 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:20,867 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:22,178 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:24,721 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:24,721 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:26,234 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:30,711 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:30,711 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:32,224 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:35,173 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:35,173 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:36,686 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:38,698 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:38,698 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:40,211 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:43,597 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:43,597 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:45,110 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:47,091 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:47,091 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:44:48,604 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:45:22,472 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:45:22,472 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:45:23,985 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:45:23,985 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:45:23,985 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:45:25,498 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:45:27,292 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:45:27,776 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:45:49,476 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:45:50,708 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:46:26,572 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:46:26,572 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:46:28,086 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:46:59,442 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:47:00,643 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:47:00,659 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:47:00,690 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:47:00,690 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:47:02,577 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:47:02,577 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:47:04,091 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:47:28,551 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:47:29,300 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:47:29,300 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:47:29,316 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:47:29,316 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:47:31,859 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:47:31,859 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:47:33,372 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:47:45,368 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:47:46,117 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:48:00,126 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:48:03,043 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:48:20,718 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:48:21,810 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:48:21,810 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:48:21,841 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:48:21,841 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:48:30,421 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:48:30,421 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:48:31,934 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:48:43,057 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:48:44,087 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:48:44,087 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:48:44,134 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:48:44,134 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:48:52,729 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:48:53,509 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:48:53,509 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:48:53,540 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:48:53,540 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:49:05,552 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:49:06,364 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:49:06,364 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:49:06,395 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:49:06,395 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:49:09,374 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:49:09,374 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:49:12,385 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:49:30,450 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:49:31,214 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:49:31,214 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:49:31,246 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:49:31,246 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:49:45,442 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:49:45,442 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:49:48,343 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:50:03,865 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:50:04,739 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:50:04,739 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:50:04,770 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:50:04,770 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:50:12,695 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:50:12,695 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:50:15,456 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:50:21,493 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:52:49,422 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:52:49,422 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:52:49,452 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:52:49,452 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:52:57,102 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:52:58,362 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:52:58,362 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:52:58,392 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:52:58,392 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:53:02,612 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:53:02,612 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:53:04,612 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:53:25,482 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:53:25,492 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:53:26,992 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:53:35,652 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:53:36,772 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:53:36,772 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:53:36,802 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:53:36,802 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:53:45,442 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:53:45,442 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:53:46,942 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:54:00,892 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:54:00,892 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:54:02,392 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:54:09,642 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:54:10,412 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:54:10,412 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:54:10,452 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:54:10,452 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:54:15,132 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:54:16,332 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:54:16,332 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:54:16,362 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:54:16,362 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:54:20,262 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:54:20,262 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:54:21,762 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:54:31,732 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:54:33,092 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:54:33,092 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:54:33,122 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:54:33,122 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:54:37,422 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:54:37,432 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:54:38,932 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:54:56,672 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:54:57,412 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:54:57,412 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:54:57,432 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:54:57,432 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:56:05,702 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:56:05,702 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:56:07,202 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:56:58,421 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:56:58,421 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:56:59,934 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:57:46,126 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:57:46,126 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:57:47,639 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:58:04,004 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:58:04,004 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:58:05,517 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:58:23,753 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:58:23,753 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:58:25,266 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:59:04,859 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-07-15 11:59:16,700 [AppLog] INFO : 进入手动调试子模块！
+2023-07-15 11:59:16,700 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-07-15 11:59:16,731 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-07-15 11:59:16,731 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-07-15 11:59:18,821 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-07-15 11:59:59,974 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-07-15 11:59:59,974 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click

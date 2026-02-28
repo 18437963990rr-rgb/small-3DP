@@ -1,0 +1,335 @@
+2023-04-16 13:00:16,824 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-16 13:00:16,855 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-16 13:00:17,354 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-16 13:00:17,432 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-16 13:00:17,994 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-16 13:00:18,040 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-16 13:00:19,101 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-16 13:00:19,132 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-16 13:00:20,505 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-16 13:00:20,568 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-16 13:00:22,440 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-16 13:00:22,486 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-16 13:00:27,400 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-16 13:18:44,441 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-16 13:18:45,393 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-04-16 13:18:51,601 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-04-16 13:18:51,633 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-04-16 13:18:51,648 [AppLog] INFO : 喷墨控制器关闭！
+2023-04-16 13:18:51,648 [AppLog] INFO : 进入电气控制模块
+2023-04-16 13:18:52,989 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-04-16 13:18:53,653 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-04-16 13:18:54,386 [AppLog] INFO : 退出电气控制模块
+2023-04-16 13:18:55,622 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-04-16 13:18:55,623 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-04-16 13:18:56,309 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{10.30451%} ，可用内存大小:{14008MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+==========================================================================
+2023-04-16 13:19:56,748 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{53.12476%} ，可用内存大小:{14037MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Generic Flash Disk USB Device
+==========================================================================
+2023-04-16 13:19:56,748 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-16 13:19:56,748 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-16 13:20:02,847 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-16 13:20:02,847 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-16 13:20:26,325 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-04-16 13:20:26,356 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-04-16 13:20:28,962 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-16 13:20:28,962 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-16 13:20:29,133 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-16 13:20:29,258 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-04-16 13:20:29,258 [AppLog] INFO : 进入电气控制模块
+2023-04-16 13:20:30,147 [AppLog] INFO : 退出电气控制模块
+2023-04-16 13:20:30,943 [AppLog] INFO : 进入电气控制模块
+2023-04-16 13:20:31,551 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-04-16 13:20:32,487 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-04-16 13:20:33,018 [AppLog] INFO : 退出电气控制模块
+2023-04-16 13:20:35,545 [AppLog] INFO : 进入手动调试子模块！
+2023-04-16 13:20:35,545 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-16 13:20:35,560 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-16 13:20:35,560 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-16 13:20:39,055 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2023-04-16 13:20:39,055 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-04-16 13:20:40,552 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-04-16 13:20:40,552 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-04-16 13:20:47,775 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{50MM/s}
+2023-04-16 13:20:47,775 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-04-16 13:21:02,814 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-04-16 13:21:06,511 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-16 13:21:08,305 [AppLog] INFO : 进入手动调试子模块！
+2023-04-16 13:21:08,305 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-16 13:21:08,336 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-16 13:21:08,336 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-16 13:21:20,707 [AppLog] INFO : 开启刮墨轴回零校准：SpreaderHomeBtn_Click
+2023-04-16 13:21:21,612 [AppLog] INFO : 刮墨轴回零成功：SpreaderHomeBtn_Click：{AXIS{4},Vel{1圈/s},开槽位置{-85°}}
+2023-04-16 13:21:24,701 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-16 13:21:25,590 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{0MM}
+2023-04-16 13:21:30,738 [AppLog] INFO : 退出JOB参数设置：修改后参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{0MM}
+2023-04-16 13:21:33,203 [AppLog] INFO : 进入手动调试子模块！
+2023-04-16 13:21:33,203 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-16 13:21:33,234 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-16 13:21:33,234 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-16 13:21:35,558 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-16 13:21:36,931 [AppLog] INFO : 监控记录设置！
+2023-04-16 13:21:38,772 [AppLog] INFO : 更新监控配置文件：SaveJsonFile：配置文件路径{D:\Release\MonitorPrint-Configuration.json}m_sMonitorRecordPath{D:\shibiao-daying-0309}m_sPrintJobName{Shibiao-0314}m_anJettingBinderBedMonitorFlags{False,False,False,False,False,False,True,False,False,False,False,True,}
+2023-04-16 13:21:39,458 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{0MM}
+2023-04-16 13:21:43,623 [AppLog] INFO : 退出JOB参数设置：修改后参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{0MM}
+2023-04-16 13:21:44,357 [AppLog] INFO : 进入手动调试子模块！
+2023-04-16 13:21:44,357 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-16 13:21:44,388 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-16 13:21:44,388 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-16 13:21:58,693 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-16 13:21:59,629 [AppLog] INFO : 进入手动调试子模块！
+2023-04-16 13:21:59,629 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-16 13:21:59,660 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-16 13:21:59,660 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-16 13:22:11,079 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-04-16 13:22:11,079 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-04-16 13:22:11,922 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-04-16 13:22:11,922 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-16 13:22:11,922 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{51.63}AimPos{116}
+2023-04-16 13:22:12,749 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{False}nAxis{1}DirFlag{True}nSpeed{300000}MoveStep{64491723.67}nCtlValue{1}
+2023-04-16 13:22:12,811 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{198.36}bImmeStop{False}nAxisMask{2}
+2023-04-16 13:22:12,811 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-16 13:22:12,811 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{738.5}AimPos{780}
+2023-04-16 13:22:12,842 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{41500}nCtlValue{2}
+2023-04-16 13:22:13,809 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{779.535}bImmeStop{False}nAxisMask{1}
+2023-04-16 13:22:13,825 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-16 13:22:13,825 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2023-04-16 13:22:15,338 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, true)
+2023-04-16 13:22:15,338 [AppLog] INFO : 压墨等待开启：{2.5S}
+2023-04-16 13:22:17,850 [AppLog] INFO : 压墨等待完成：{2.5S}
+2023-04-16 13:22:17,850 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-16 13:22:18,677 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-16 13:22:18,677 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.535}AimPos{680}
+2023-04-16 13:22:18,708 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-99535}nCtlValue{2}
+2023-04-16 13:22:19,581 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{683.44}bImmeStop{False}nAxisMask{1}
+2023-04-16 13:22:20,408 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-04-16 13:22:29,924 [AppLog] INFO : 手动停止自动清洗过程：AutoCleanBtn_Click
+2023-04-16 13:22:34,011 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-16 13:22:36,351 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-16 13:22:40,236 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-04-16 13:22:40,236 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-04-16 13:22:41,078 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-04-16 13:22:41,078 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-16 13:22:41,078 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{196.605}AimPos{116}
+2023-04-16 13:22:47,084 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{False}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-80757424.055}nCtlValue{1}
+2023-04-16 13:22:47,115 [AppLog] INFO : 手动停止自动清洗过程：AutoCleanBtn_Click
+2023-04-16 13:22:47,958 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-16 13:22:48,878 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-16 13:22:50,984 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-04-16 13:22:59,065 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-16 13:23:07,411 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-04-16 13:23:07,442 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-04-16 13:23:08,113 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{14012MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+==========================================================================
+2023-04-16 13:37:13,400 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{49.99973%} ，可用内存大小:{14328MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Generic Flash Disk USB Device
+==========================================================================
+2023-04-16 13:37:13,415 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-16 13:37:13,415 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-16 13:37:13,415 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-16 13:37:19,515 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-16 13:37:19,515 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-16 13:37:42,993 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-04-16 13:37:43,024 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-04-16 13:37:45,161 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-16 13:37:45,161 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-16 13:37:45,348 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-16 13:39:28,075 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{49.99977%} ，可用内存大小:{14291MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Generic Flash Disk USB Device
+==========================================================================
+2023-04-16 13:39:28,090 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-16 13:39:28,090 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-16 13:39:34,174 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-16 13:39:34,174 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-16 13:39:57,652 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-04-16 13:39:57,683 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-04-16 13:40:00,382 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-16 13:40:00,382 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-16 13:40:00,538 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-16 13:40:00,663 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-04-16 13:40:00,663 [AppLog] INFO : 进入电气控制模块
+2023-04-16 13:40:01,303 [AppLog] INFO : 退出电气控制模块
+2023-04-16 13:40:02,239 [AppLog] INFO : 进入电气控制模块
+2023-04-16 13:40:03,502 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-04-16 13:40:04,157 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-04-16 13:40:04,610 [AppLog] INFO : 退出电气控制模块
+2023-04-16 13:40:05,327 [AppLog] INFO : 进入手动调试子模块！
+2023-04-16 13:40:05,327 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-16 13:40:05,359 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-16 13:40:05,359 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-16 13:40:10,148 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-04-16 13:40:10,148 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-04-16 13:40:36,091 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-04-16 13:40:37,339 [AppLog] INFO : 墨车回零校准线程失败：InkCarEncoderResetThread
+2023-04-16 13:40:38,540 [AppLog] INFO : 开启刮墨轴回零校准：SpreaderHomeBtn_Click
+2023-04-16 13:40:39,445 [AppLog] INFO : 刮墨轴回零成功：SpreaderHomeBtn_Click：{AXIS{4},Vel{1圈/s},开槽位置{-85°}}
+2023-04-16 13:40:41,348 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-16 13:40:43,688 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-16 13:40:44,905 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-16 13:40:45,420 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-16 13:40:54,265 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-04-16 13:40:54,265 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-04-16 13:40:55,107 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkHomePosition)
+2023-04-16 13:40:55,107 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-16 13:40:55,107 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{170.905}AimPos{116}
+2023-04-16 13:41:01,316 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{False}nAxis{1}DirFlag{False}nSpeed{300000}MoveStep{-55008825.355}nCtlValue{1}
+2023-04-16 13:41:01,378 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{3.905}bImmeStop{False}nAxisMask{2}
+2023-04-16 13:41:01,378 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-16 13:41:01,378 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{711.39}AimPos{780}
+2023-04-16 13:41:01,410 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{300000}MoveStep{68610}nCtlValue{2}
+2023-04-16 13:41:02,486 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{711.39}bImmeStop{False}nAxisMask{1}
+2023-04-16 13:41:02,502 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-04-16 13:41:02,502 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2023-04-16 13:41:04,015 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, true)
+2023-04-16 13:41:04,015 [AppLog] INFO : 压墨等待开启：{2.5S}
+2023-04-16 13:41:06,526 [AppLog] INFO : 压墨等待完成：{2.5S}
+2023-04-16 13:41:06,526 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-04-16 13:41:07,353 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-16 13:41:07,353 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{711.39}AimPos{680}
+2023-04-16 13:41:07,384 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{200000}MoveStep{-31390}nCtlValue{2}
+2023-04-16 13:41:07,884 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{711.39}bImmeStop{False}nAxisMask{1}
+2023-04-16 13:41:08,710 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-04-16 13:41:13,047 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-16 13:41:13,827 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-16 13:41:14,701 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-04-16 13:41:33,109 [AppLog] INFO : 进入电气控制模块
+2023-04-16 13:41:34,092 [AppLog] INFO : 电气控制模块：手动关闭端口9
+2023-04-16 13:41:34,419 [AppLog] INFO : 电气控制模块：手动关闭端口10
+2023-04-16 13:41:34,731 [AppLog] INFO : 电气控制模块：手动关闭端口11
+2023-04-16 13:41:35,262 [AppLog] INFO : 电气控制模块：手动关闭端口8
+2023-04-16 13:41:35,652 [AppLog] INFO : 电气控制模块：手动关闭端口1
+2023-04-16 13:41:36,042 [AppLog] INFO : 电气控制模块：手动关闭端口2
+2023-04-16 13:41:36,494 [AppLog] INFO : 电气控制模块：手动关闭端口3
+2023-04-16 13:41:36,900 [AppLog] INFO : 电气控制模块：手动关闭端口4
+2023-04-16 13:41:37,368 [AppLog] INFO : 电气控制模块：手动关闭端口6
+2023-04-16 13:41:37,695 [AppLog] INFO : 电气控制模块：手动关闭端口7
+2023-04-16 13:41:38,101 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-04-16 13:41:38,912 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2023-04-16 13:41:39,801 [AppLog] INFO : 退出电气控制模块
+2023-04-16 13:41:42,500 [AppLog] INFO : 进入手动调试子模块！
+2023-04-16 13:41:42,500 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-16 13:41:42,531 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-16 13:41:42,531 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-16 13:57:59,639 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-16 13:58:01,636 [AppLog] INFO : 进入电气控制模块
+2023-04-16 13:58:02,697 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-04-16 13:58:03,055 [AppLog] INFO : 退出电气控制模块
+2023-04-16 13:58:04,335 [AppLog] INFO : 进入电气控制模块
+2023-04-16 13:58:04,974 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2023-04-16 13:58:06,160 [AppLog] INFO : 退出电气控制模块
+2023-04-16 13:58:06,893 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-16 13:58:09,394 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-04-16 13:58:09,410 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-04-16 13:58:10,105 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{43.45282%} ，可用内存大小:{14233MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+==========================================================================
+2023-04-16 13:58:52,378 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{51.73515%} ，可用内存大小:{14242MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Generic Flash Disk USB Device
+==========================================================================
+2023-04-16 13:58:56,216 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-16 13:58:56,218 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-16 13:59:02,251 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-16 13:59:02,251 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-16 13:59:25,729 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-04-16 13:59:25,760 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-04-16 13:59:27,430 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-16 13:59:27,430 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-16 13:59:27,586 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-16 13:59:27,695 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-04-16 13:59:27,695 [AppLog] INFO : 进入电气控制模块
+2023-04-16 13:59:28,662 [AppLog] INFO : 退出电气控制模块
+2023-04-16 13:59:29,520 [AppLog] INFO : 进入电气控制模块
+2023-04-16 13:59:30,113 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-04-16 13:59:30,721 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-04-16 13:59:31,189 [AppLog] INFO : 退出电气控制模块
+2023-04-16 13:59:31,688 [AppLog] INFO : 进入手动调试子模块！
+2023-04-16 13:59:31,688 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-16 13:59:31,720 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-16 13:59:31,720 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-16 13:59:36,571 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-04-16 13:59:36,571 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-04-16 13:59:58,411 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread

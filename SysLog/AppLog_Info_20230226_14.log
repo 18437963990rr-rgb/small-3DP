@@ -1,0 +1,294 @@
+2023-02-26 14:40:01,052 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{14.28532%} ，可用内存大小:{14435MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：82 GB
+  盘符 D:\ 的剩余空间：97 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-02-26 14:40:01,067 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-02-26 14:40:01,067 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-02-26 14:40:06,153 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-02-26 14:40:49,537 [AppLog] INFO : 初始化喷墨控制器！
+2023-02-26 14:40:49,833 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-02-26 14:40:49,833 [AppLog] INFO : 进入电气控制模块
+2023-02-26 14:40:51,830 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-02-26 14:40:52,547 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-02-26 14:40:53,296 [AppLog] INFO : 退出电气控制模块
+2023-02-26 14:40:55,511 [AppLog] INFO : 进入手动调试子模块！
+2023-02-26 14:44:49,699 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:44:49,761 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:44:49,855 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:44:49,980 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:44:50,073 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:44:50,120 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:44:50,526 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:44:50,619 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:44:54,145 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:45:07,015 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:45:07,374 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:45:07,717 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:45:08,466 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:45:08,653 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:45:08,840 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:45:08,965 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:45:09,028 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:45:09,152 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:45:12,943 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:45:13,037 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:45:13,489 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:45:13,567 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:45:15,221 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:45:15,283 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:45:15,439 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:45:15,517 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:45:15,595 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:45:15,673 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:45:15,767 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:45:15,829 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:45:16,032 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:45:16,094 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:45:16,906 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:45:27,560 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:45:28,871 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:45:29,011 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:45:29,339 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:45:29,432 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:45:29,900 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:45:29,978 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:45:31,445 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:45:43,145 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:45:48,589 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:45:48,730 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:45:49,104 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:45:49,198 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:45:50,149 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:45:50,773 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:45:52,505 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:45:52,723 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:45:53,144 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:46:04,673 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:46:05,983 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:46:06,217 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:46:06,358 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:46:06,592 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:46:06,997 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:46:07,091 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:46:09,353 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:46:09,446 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:46:10,570 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:46:10,663 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:46:11,568 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:46:11,818 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:46:11,974 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:46:23,658 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:46:23,892 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:46:24,079 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:47:03,454 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:47:06,215 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:47:07,026 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-02-26 14:47:07,135 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-02-26 14:47:07,900 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:47:17,790 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:48:08,709 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:48:21,095 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:48:28,053 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:48:28,443 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:48:28,661 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:48:28,848 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:48:29,051 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:48:29,207 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:48:29,847 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:48:34,043 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:48:34,105 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:48:43,699 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:48:43,918 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:48:44,245 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:48:44,479 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:48:44,635 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:48:46,024 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:48:46,164 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:48:46,601 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-02-26 14:48:46,710 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-02-26 14:49:40,234 [AppLog] INFO : 开启墨车和铺粉车回零校准：EncoderResetBtn_Click
+2023-02-26 14:49:40,234 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-02-26 14:49:40,234 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-02-26 14:49:50,171 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{30MM/s}
+2023-02-26 14:49:50,171 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-02-26 14:49:55,943 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-02-26 14:50:00,982 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\ricoh_phcfg16 - wave4.rhdat}
+2023-02-26 14:50:06,489 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-02-26 14:50:12,713 [AppLog] INFO : 更新喷头电压及温度参数成功：MCU_SetPhVoltage:1号喷头电压：{18V,18V,18V,18V}；MCU_SetPhVoltage:1号喷头温度：{25℃}
+2023-02-26 14:50:28,220 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-02-26 14:50:28,220 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2023-02-26 14:50:28,235 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2023-02-26 14:50:28,235 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{0MM},运动速度{1MM/s}
+2023-02-26 14:50:29,046 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-02-26 14:50:30,092 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.5MM},运动速度{0.5MM/s}
+2023-02-26 14:50:30,092 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2023-02-26 14:50:30,404 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{694MM},运动速度{30MM/s}
+2023-02-26 14:50:30,404 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2023-02-26 14:50:35,349 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2023-02-26 14:50:38,921 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0588235294117647MM/s}
+2023-02-26 14:50:38,921 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2023-02-26 14:50:47,517 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2023-02-26 14:50:51,292 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2023-02-26 14:50:51,292 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2023-02-26 14:50:53,539 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1MM},运动速度{1MM/s}
+2023-02-26 14:50:53,539 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-02-26 14:51:00,137 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-698MM},运动速度{125MM/s}
+2023-02-26 14:51:00,137 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)
+2023-02-26 14:51:00,902 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2023-02-26 14:51:00,902 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1MM},运动速度{1MM/s}
+2023-02-26 14:51:00,902 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2023-02-26 14:51:01,916 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2023-02-26 14:51:01,916 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2023-02-26 14:51:03,351 [AppLog] INFO : 手动停止自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2023-02-26 14:51:30,869 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 14:51:31,057 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 14:51:31,228 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 14:51:31,509 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 14:51:31,727 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 14:51:31,774 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 14:51:31,930 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 14:51:31,946 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 14:51:32,039 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 14:51:33,319 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 14:51:33,599 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 14:51:33,615 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 14:51:33,880 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 14:51:34,286 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 14:51:34,707 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 14:51:34,816 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 14:51:35,081 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 14:51:35,159 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 14:51:35,471 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 14:51:35,471 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 14:51:35,565 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 14:51:35,659 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 14:51:35,737 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 14:51:35,986 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 14:51:37,531 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 14:51:37,531 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 14:51:38,498 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 14:51:38,607 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 14:51:42,476 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-02-26 14:51:43,318 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-02-26 14:51:56,422 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-02-26 14:52:00,322 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-02-26 14:52:00,338 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-02-26 14:52:01,336 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)
+2023-02-26 14:52:01,336 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{320.5}AimPos{121}
+2023-02-26 14:52:01,367 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{100000}MoveStep{-199500}nCtlValue{0}
+2023-02-26 14:52:03,520 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{129.35}bImmeStop{False}nAxisMask{2}
+2023-02-26 14:52:03,520 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{738.565}AimPos{710}
+2023-02-26 14:52:03,551 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-28565.0000000001}nCtlValue{2}
+2023-02-26 14:52:04,019 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{713.485}bImmeStop{False}nAxisMask{1}
+2023-02-26 14:52:04,862 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2023-02-26 14:52:07,873 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, true)
+2023-02-26 14:52:07,951 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-02-26 14:52:07,951 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{710.11}AimPos{780}
+2023-02-26 14:52:07,997 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{50000}MoveStep{69890}nCtlValue{2}
+2023-02-26 14:52:09,464 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{776.185}bImmeStop{False}nAxisMask{1}
+2023-02-26 14:52:09,807 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.41}AimPos{710}
+2023-02-26 14:52:09,838 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{50000}MoveStep{-69410}nCtlValue{2}
+2023-02-26 14:52:11,289 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{714.545}bImmeStop{False}nAxisMask{1}
+2023-02-26 14:52:12,865 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-02-26 14:52:15,345 [AppLog] INFO : 手动停止自动清洗过程：AutoCleanBtn_Click
+2023-02-26 14:52:17,935 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-02-26 14:52:19,635 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{1270Dpi}墨车运动速度{50MM/s}X向起打位置{50MM}Y向起打位置{20MM}
+2023-02-26 14:52:21,382 [AppLog] INFO : 退出JOB参数设置：修改后参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{1270Dpi}墨车运动速度{50MM/s}X向起打位置{50MM}Y向起打位置{20MM}
+2023-02-26 14:52:23,582 [AppLog] INFO : 进入数据加载模块
+2023-02-26 14:52:38,511 [AppLog] INFO : CAD数据加载：添加.bjgroup格式CAD数据成功-D:\hk\ceshizujian.bjgroup
+2023-02-26 14:53:00,258 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield.cliD:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-copys-0-1.cliD:\hk\Box.cliD:\hk\Box-copys-0-1.cliD:\hk\Box-copys-0-2.cliD:\hk\Box-copys-0-3.cliD:\hk\Box-copys-0-4.cliD:\hk\Box-copys-0-5.cliD:\hk\Box-copys-0-6.cliD:\hk\Box-copys-1-0.cliD:\hk\Box-copys-1-1.cliD:\hk\Box-copys-1-2.cliD:\hk\Box-copys-1-3.cliD:\hk\Box-copys-1-4.cliD:\hk\Box-copys-1-5.cliD:\hk\Box-copys-1-6.cliD:\hk\拉伸件__凸台-拉伸1.cliD:\hk\拉伸件__凸台-拉伸1-copys-0-1.cliD:\hk\拉伸件__凸台-拉伸1-copys-1-0.cliD:\hk\拉伸件__凸台-拉伸1-copys-1-1.cliD:\hk\Changtiao_水平.cliD:\hk\Changtiao_水平-copys-0-1.cliD:\hk\Changtiao_水平-copys-0-2.cliD:\hk\Changtiao_水平-copys-1-0.cliD:\hk\Changtiao_水平-copys-0-1-copys-1-0.cliD:\hk\Changtiao_水平-copys-0-2-copys-1-0.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-82.5MM}Y方向平移目标值{-32.7349995MM}Z方向平移目标值{0MM}X方向平移增量{-10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-02-26 14:53:09,087 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield.cliD:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-copys-0-1.cliD:\hk\Box.cliD:\hk\Box-copys-0-1.cliD:\hk\Box-copys-0-2.cliD:\hk\Box-copys-0-3.cliD:\hk\Box-copys-0-4.cliD:\hk\Box-copys-0-5.cliD:\hk\Box-copys-0-6.cliD:\hk\Box-copys-1-0.cliD:\hk\Box-copys-1-1.cliD:\hk\Box-copys-1-2.cliD:\hk\Box-copys-1-3.cliD:\hk\Box-copys-1-4.cliD:\hk\Box-copys-1-5.cliD:\hk\Box-copys-1-6.cliD:\hk\拉伸件__凸台-拉伸1.cliD:\hk\拉伸件__凸台-拉伸1-copys-0-1.cliD:\hk\拉伸件__凸台-拉伸1-copys-1-0.cliD:\hk\拉伸件__凸台-拉伸1-copys-1-1.cliD:\hk\Changtiao_水平.cliD:\hk\Changtiao_水平-copys-0-1.cliD:\hk\Changtiao_水平-copys-0-2.cliD:\hk\Changtiao_水平-copys-1-0.cliD:\hk\Changtiao_水平-copys-0-1-copys-1-0.cliD:\hk\Changtiao_水平-copys-0-2-copys-1-0.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-82.5MM}Y方向平移目标值{-32.7349995MM}Z方向平移目标值{0MM}X方向平移增量{-10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-02-26 14:53:25,608 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield.cliD:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-copys-0-1.cliD:\hk\Box.cliD:\hk\Box-copys-0-1.cliD:\hk\Box-copys-0-2.cliD:\hk\Box-copys-0-3.cliD:\hk\Box-copys-0-4.cliD:\hk\Box-copys-0-5.cliD:\hk\Box-copys-0-6.cliD:\hk\Box-copys-1-0.cliD:\hk\Box-copys-1-1.cliD:\hk\Box-copys-1-2.cliD:\hk\Box-copys-1-3.cliD:\hk\Box-copys-1-4.cliD:\hk\Box-copys-1-5.cliD:\hk\Box-copys-1-6.cliD:\hk\拉伸件__凸台-拉伸1.cliD:\hk\拉伸件__凸台-拉伸1-copys-0-1.cliD:\hk\拉伸件__凸台-拉伸1-copys-1-0.cliD:\hk\拉伸件__凸台-拉伸1-copys-1-1.cliD:\hk\Changtiao_水平.cliD:\hk\Changtiao_水平-copys-0-1.cliD:\hk\Changtiao_水平-copys-0-2.cliD:\hk\Changtiao_水平-copys-1-0.cliD:\hk\Changtiao_水平-copys-0-1-copys-1-0.cliD:\hk\Changtiao_水平-copys-0-2-copys-1-0.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-82.5MM}Y方向平移目标值{-32.7349995MM}Z方向平移目标值{0MM}X方向平移增量{-10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-02-26 14:53:56,324 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield.cliD:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-copys-0-1.cliD:\hk\Box.cliD:\hk\Box-copys-0-1.cliD:\hk\Box-copys-0-2.cliD:\hk\Box-copys-0-3.cliD:\hk\Box-copys-0-4.cliD:\hk\Box-copys-0-5.cliD:\hk\Box-copys-0-6.cliD:\hk\Box-copys-1-0.cliD:\hk\Box-copys-1-1.cliD:\hk\Box-copys-1-2.cliD:\hk\Box-copys-1-3.cliD:\hk\Box-copys-1-4.cliD:\hk\Box-copys-1-5.cliD:\hk\Box-copys-1-6.cliD:\hk\拉伸件__凸台-拉伸1.cliD:\hk\拉伸件__凸台-拉伸1-copys-0-1.cliD:\hk\拉伸件__凸台-拉伸1-copys-1-0.cliD:\hk\拉伸件__凸台-拉伸1-copys-1-1.cliD:\hk\Changtiao_水平.cliD:\hk\Changtiao_水平-copys-0-1.cliD:\hk\Changtiao_水平-copys-0-2.cliD:\hk\Changtiao_水平-copys-1-0.cliD:\hk\Changtiao_水平-copys-0-1-copys-1-0.cliD:\hk\Changtiao_水平-copys-0-2-copys-1-0.cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-82.5MM}Y方向平移目标值{-32.7349995MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-02-26 14:54:02,938 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box.cli
+2023-02-26 14:54:02,938 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-0-1.cli
+2023-02-26 14:54:02,954 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-0-2.cli
+2023-02-26 14:54:02,970 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-0-3.cli
+2023-02-26 14:54:02,970 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-0-4.cli
+2023-02-26 14:54:02,985 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-0-5.cli
+2023-02-26 14:54:02,985 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-0-6.cli
+2023-02-26 14:54:03,001 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-0.cli
+2023-02-26 14:54:03,001 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-1.cli
+2023-02-26 14:54:03,001 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-2.cli
+2023-02-26 14:54:03,016 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-3.cli
+2023-02-26 14:54:03,016 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-4.cli
+2023-02-26 14:54:03,016 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-5.cli
+2023-02-26 14:54:03,016 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-6.cli
+2023-02-26 14:54:04,842 [AppLog] INFO : 进入数据加载模块
+2023-02-26 14:54:16,776 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\hk\Box.cli
+2023-02-26 14:54:25,995 [AppLog] INFO : CAD数据阵列：SelectCADFile{D:\hk\Box.cli}
+X方向间距{5MM}Y方向间距{-5MM}X方向数目{8}Y方向数目{2}
+2023-02-26 14:54:29,318 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\Box.cliD:\hk\Box-copys-0-1.cliD:\hk\Box-copys-0-2.cliD:\hk\Box-copys-0-3.cliD:\hk\Box-copys-0-4.cliD:\hk\Box-copys-0-5.cliD:\hk\Box-copys-0-6.cliD:\hk\Box-copys-0-7.cliD:\hk\Box-copys-1-0.cliD:\hk\Box-copys-1-1.cliD:\hk\Box-copys-1-2.cliD:\hk\Box-copys-1-3.cliD:\hk\Box-copys-1-4.cliD:\hk\Box-copys-1-5.cliD:\hk\Box-copys-1-6.cliD:\hk\Box-copys-1-7.cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-65.259992MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-02-26 14:55:11,672 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\Box.cliD:\hk\Box-copys-0-1.cliD:\hk\Box-copys-0-2.cliD:\hk\Box-copys-0-3.cliD:\hk\Box-copys-0-4.cliD:\hk\Box-copys-0-5.cliD:\hk\Box-copys-0-6.cliD:\hk\Box-copys-0-7.cliD:\hk\Box-copys-1-0.cliD:\hk\Box-copys-1-1.cliD:\hk\Box-copys-1-2.cliD:\hk\Box-copys-1-3.cliD:\hk\Box-copys-1-4.cliD:\hk\Box-copys-1-5.cliD:\hk\Box-copys-1-6.cliD:\hk\Box-copys-1-7.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-65.259992MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{-50MM}Z方向平移增量{0MM}
+2023-02-26 14:55:20,907 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\Box.cliD:\hk\Box-copys-0-1.cliD:\hk\Box-copys-0-2.cliD:\hk\Box-copys-0-3.cliD:\hk\Box-copys-0-4.cliD:\hk\Box-copys-0-5.cliD:\hk\Box-copys-0-6.cliD:\hk\Box-copys-0-7.cliD:\hk\Box-copys-1-0.cliD:\hk\Box-copys-1-1.cliD:\hk\Box-copys-1-2.cliD:\hk\Box-copys-1-3.cliD:\hk\Box-copys-1-4.cliD:\hk\Box-copys-1-5.cliD:\hk\Box-copys-1-6.cliD:\hk\Box-copys-1-7.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-65.259992MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{20MM}Z方向平移增量{0MM}
+2023-02-26 14:55:31,765 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\Box.cliD:\hk\Box-copys-0-1.cliD:\hk\Box-copys-0-2.cliD:\hk\Box-copys-0-3.cliD:\hk\Box-copys-0-4.cliD:\hk\Box-copys-0-5.cliD:\hk\Box-copys-0-6.cliD:\hk\Box-copys-0-7.cliD:\hk\Box-copys-1-0.cliD:\hk\Box-copys-1-1.cliD:\hk\Box-copys-1-2.cliD:\hk\Box-copys-1-3.cliD:\hk\Box-copys-1-4.cliD:\hk\Box-copys-1-5.cliD:\hk\Box-copys-1-6.cliD:\hk\Box-copys-1-7.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-65.259992MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{-10MM}Z方向平移增量{0MM}
+2023-02-26 14:55:42,841 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\Box.cliD:\hk\Box-copys-0-1.cliD:\hk\Box-copys-0-2.cliD:\hk\Box-copys-0-3.cliD:\hk\Box-copys-0-4.cliD:\hk\Box-copys-0-5.cliD:\hk\Box-copys-0-6.cliD:\hk\Box-copys-0-7.cliD:\hk\Box-copys-1-0.cliD:\hk\Box-copys-1-1.cliD:\hk\Box-copys-1-2.cliD:\hk\Box-copys-1-3.cliD:\hk\Box-copys-1-4.cliD:\hk\Box-copys-1-5.cliD:\hk\Box-copys-1-6.cliD:\hk\Box-copys-1-7.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-65.259992MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{5MM}Z方向平移增量{0MM}
+2023-02-26 14:56:01,545 [AppLog] INFO : CAD数据保存：保存.bjgroup格式CAD数据成功：D:\hk\ceshizujian2.bjgroup
+2023-02-26 14:56:04,837 [AppLog] INFO : 进入数据加载模块
+2023-02-26 14:56:16,256 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{1270Dpi}墨车运动速度{50MM/s}X向起打位置{50MM}Y向起打位置{20MM}
+2023-02-26 14:56:17,723 [AppLog] INFO : 退出JOB参数设置：修改后参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{1270Dpi}墨车运动速度{50MM/s}X向起打位置{50MM}Y向起打位置{20MM}
+2023-02-26 14:56:18,908 [AppLog] INFO : 进入手动调试子模块！
+2023-02-26 14:56:24,821 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-02-26 14:57:12,557 [AppLog] INFO : 进入手动调试子模块！
+2023-02-26 14:57:25,021 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-02-26 14:57:27,299 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{1270Dpi}墨车运动速度{50MM/s}X向起打位置{50MM}Y向起打位置{20MM}
+2023-02-26 14:57:29,358 [AppLog] INFO : 退出JOB参数设置：修改后参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{1270Dpi}墨车运动速度{50MM/s}X向起打位置{50MM}Y向起打位置{20MM}
+2023-02-26 14:58:15,503 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\Changtiao_水平.cliD:\hk\Changtiao_水平-copys-0-1.cliD:\hk\Changtiao_水平-copys-0-2.cliD:\hk\Changtiao_水平-copys-1-0.cliD:\hk\Changtiao_水平-copys-0-1-copys-1-0.cliD:\hk\Changtiao_水平-copys-0-2-copys-1-0.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-49.9100045MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{5MM}Z方向平移增量{0MM}
+2023-02-26 14:58:29,543 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\拉伸件__凸台-拉伸1.cliD:\hk\拉伸件__凸台-拉伸1-copys-0-1.cliD:\hk\拉伸件__凸台-拉伸1-copys-1-0.cliD:\hk\拉伸件__凸台-拉伸1-copys-1-1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-67.44MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{-5MM}Z方向平移增量{0MM}
+2023-02-26 14:58:56,578 [AppLog] INFO : CAD数据保存：保存.bjgroup格式CAD数据成功：D:\hk\ceshizujian2.bjgroup
+2023-02-26 14:59:32,317 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\拉伸件__凸台-拉伸1.cli
+2023-02-26 14:59:32,317 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\拉伸件__凸台-拉伸1-copys-0-1.cli
+2023-02-26 14:59:32,333 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\拉伸件__凸台-拉伸1-copys-1-0.cli
+2023-02-26 14:59:32,333 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\拉伸件__凸台-拉伸1-copys-1-1.cli
+2023-02-26 14:59:32,333 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Changtiao_水平.cli
+2023-02-26 14:59:32,349 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Changtiao_水平-copys-0-1.cli
+2023-02-26 14:59:32,349 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Changtiao_水平-copys-0-2.cli
+2023-02-26 14:59:32,349 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Changtiao_水平-copys-1-0.cli
+2023-02-26 14:59:32,349 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Changtiao_水平-copys-0-1-copys-1-0.cli
+2023-02-26 14:59:32,364 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Changtiao_水平-copys-0-2-copys-1-0.cli
+2023-02-26 14:59:32,364 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box.cli
+2023-02-26 14:59:32,364 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-0-1.cli
+2023-02-26 14:59:32,364 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-0-2.cli
+2023-02-26 14:59:32,364 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-0-3.cli
+2023-02-26 14:59:32,364 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-0-4.cli
+2023-02-26 14:59:32,380 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-0-5.cli
+2023-02-26 14:59:32,380 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-0-6.cli
+2023-02-26 14:59:32,380 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-0-7.cli
+2023-02-26 14:59:32,395 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-0.cli
+2023-02-26 14:59:32,395 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-1.cli
+2023-02-26 14:59:32,395 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-2.cli
+2023-02-26 14:59:32,411 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-3.cli
+2023-02-26 14:59:32,411 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-4.cli
+2023-02-26 14:59:32,411 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-5.cli
+2023-02-26 14:59:32,427 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-6.cli
+2023-02-26 14:59:32,427 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\Box-copys-1-7.cli
+2023-02-26 14:59:35,999 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-copys-0-1.cli
+2023-02-26 14:59:43,003 [AppLog] INFO : CAD数据阵列：SelectCADFile{D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield.cli}
+X方向间距{5MM}Y方向间距{-5MM}X方向数目{2}Y方向数目{1}
+2023-02-26 14:59:52,551 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield.cli
+2023-02-26 14:59:52,551 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-copys-0-1.cli
+2023-02-26 14:59:54,906 [AppLog] INFO : 进入数据加载模块

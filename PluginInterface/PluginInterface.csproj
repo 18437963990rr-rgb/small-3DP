@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+
+	<PackageId>PluginInterface</PackageId>
+	<Version>1.0.0</Version>
+	<Authors>ShibiaoW</Authors>
+	<Company>BJAM.Sys.Co.Ltd</Company>
+	<Description>Your plugin interface description.</Description>
+
+  </PropertyGroup>
+
+</Project>

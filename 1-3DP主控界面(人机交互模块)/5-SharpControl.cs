@@ -1544,7 +1544,17 @@ namespace BinderJetting
                 clone.Save("output1bpp.bmp", ImageFormat.Bmp);//保存到BMPFile
 #endif
 #if SinglePassPrintMode
-                WriteImgLayerData(clone/*path*/, /*1*/index, subindex, RePrintTimes/*, 0, true*/, true);//201030修改：//20201117批注：数据封送处理//20210324:需要执行反色
+                // 适配 Swath：整层图分割为条带后逐条发送
+                List<System.Drawing.Bitmap> strips = SwathImageSplitter.SplitLayerToSwathStrips(clone, 0, -1);
+                try
+                {
+                    foreach (var strip in strips)
+                        WriteImgLayerData(strip, index, subindex, RePrintTimes, true);
+                }
+                finally
+                {
+                    foreach (var b in strips) b?.Dispose();
+                }
 #endif
                 System.Drawing.Bitmap outputImage = null;
 #if TwoPassPrintMode
@@ -1570,15 +1580,22 @@ namespace BinderJetting
 #if DataProcessDebugMode
                 outputImage.Save($"output1bpp-拼接-{{{k}}}.bmp", ImageFormat.Bmp);//保存到BMPFile  
 #endif
-                try 
+                // 适配 Swath：整层图分割为条带后逐条发送
+                List<System.Drawing.Bitmap> stripsTwoPass = SwathImageSplitter.SplitLayerToSwathStrips(outputImage, 0, -1);
+                try
                 {
-                    WriteImgLayerData(outputImage/*path*/, /*1*/index, subindex, RePrintTimes/*, 0, true*/, true);//201030修改：//20201117批注：数据封送处理//20210324:需要执行反色//20230420新增：
+                    foreach (var strip in stripsTwoPass)
+                        WriteImgLayerData(strip, index, subindex, RePrintTimes, true);
                 }
                 catch (Exception e)
                 {
                     string msg2 = e.ToString();
                     Log4Net.Info(msg2);//20230315新建：解决20230314打印94层中途停止的潜在问题
                     MessageBox.Show(msg2);
+                }
+                finally
+                {
+                    foreach (var b in stripsTwoPass) b?.Dispose();
                 }
 #endif
 
@@ -1742,21 +1759,49 @@ namespace BinderJetting
 #endif
 
 #if SinglePassPrintMode
-                WriteImgLayerData(clone/*path*/, /*1*/index, subindex, RePrintTimes/*, 0, true*/, true);//201030修改：//20201117批注：数据封送处理//20210324:需要执行反色
+                // 适配 Swath：整层图分割为条带后逐条发送
+                List<System.Drawing.Bitmap> stripsAlt = SwathImageSplitter.SplitLayerToSwathStrips(clone, 0, -1);
+                try
+                {
+                    foreach (var strip in stripsAlt)
+                        WriteImgLayerData(strip, index, subindex, RePrintTimes, true);
+                }
+                finally
+                {
+                    foreach (var b in stripsAlt) b?.Dispose();
+                }
 #endif
 
 #if TwoPassPrintMode
 #if TwoPassPrintPerSixTimes
                 System.Drawing.Bitmap outputImage = null;
                 CreatTwoPassFigure(0/*1280,*//*355*/, 6, clone, ref outputImage);
-                WriteImgLayerData(clone, index/*1-2-3*/, subindex/*0-1-2*/, RePrintTimes/*1*/, false);//201030修改：//20201117批注：数据封送处理//20210324:不需要执行反色
+                List<System.Drawing.Bitmap> strips6 = SwathImageSplitter.SplitLayerToSwathStrips(outputImage, 0, -1);
+                try
+                {
+                    foreach (var strip in strips6)
+                        WriteImgLayerData(strip, index, subindex, RePrintTimes, false);
+                }
+                finally
+                {
+                    foreach (var b in strips6) b?.Dispose();
+                }
                 outputImage.Dispose();
 #endif
 
 #if TwoPassPrintPerThreeTimes
                 System.Drawing.Bitmap outputImage2 = null;
                 CreatTwoPassFigure(0/*1280,*//*355*/, 3, clone, ref outputImage2);
-                WriteImgLayerData(clone, index/*1-2-3*/, subindex/*0-1-2*/, RePrintTimes/*1*/, false);//201030修改：//20201117批注：数据封送处理//20210324:不需要执行反色
+                List<System.Drawing.Bitmap> strips3 = SwathImageSplitter.SplitLayerToSwathStrips(outputImage2, 0, -1);
+                try
+                {
+                    foreach (var strip in strips3)
+                        WriteImgLayerData(strip, index, subindex, RePrintTimes, false);
+                }
+                finally
+                {
+                    foreach (var b in strips3) b?.Dispose();
+                }
                 outputImage2.Dispose();
 #endif
 

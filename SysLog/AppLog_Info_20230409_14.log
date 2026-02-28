@@ -1,0 +1,135 @@
+2023-04-09 14:44:11,383 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-09 14:44:11,399 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-09 14:44:17,483 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-09 14:44:17,483 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-09 14:44:40,961 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-04-09 14:44:42,287 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-09 14:44:42,287 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-09 14:44:42,443 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-09 14:44:42,583 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-04-09 14:44:42,583 [AppLog] INFO : 进入电气控制模块
+2023-04-09 14:44:43,519 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-04-09 14:44:44,081 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-04-09 14:44:44,720 [AppLog] INFO : 退出电气控制模块
+2023-04-09 14:44:45,766 [AppLog] INFO : 进入手动调试子模块！
+2023-04-09 14:44:45,766 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-09 14:44:45,797 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-09 14:44:45,797 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-09 14:45:18,151 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-09 14:45:19,165 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{0MM}
+2023-04-09 14:45:22,472 [AppLog] INFO : 退出JOB参数设置：未修改直接退出！
+2023-04-09 14:45:23,377 [AppLog] INFO : 进入手动调试子模块！
+2023-04-09 14:45:23,377 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-09 14:45:23,408 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-09 14:45:23,408 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-09 14:46:02,393 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-09 14:46:04,093 [AppLog] INFO : 进入手动调试子模块！
+2023-04-09 14:46:04,093 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-09 14:46:04,109 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-09 14:46:04,109 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-09 14:46:05,575 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-09 14:46:06,309 [AppLog] INFO : 显示模组校准栏
+2023-04-09 14:46:48,741 [AppLog] INFO : 显示模组校准栏
+2023-04-09 14:48:12,107 [AppLog] INFO : 显示JOB任务栏
+2023-04-09 14:50:57,249 [AppLog] INFO : 停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{False}
+2023-04-09 14:50:57,249 [AppLog] INFO : 启动打印线程成功： DataTaskTHREAD2
+2023-04-09 14:50:57,249 [AppLog] INFO : 打印参数设置失败：IDP_SartPrintJob： -200010
+2023-04-09 14:50:57,265 [AppLog] INFO : 启动打印线程成功：PrintTaskTHREAD2
+2023-04-09 14:51:06,469 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-09 14:51:06,469 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-09 14:51:12,553 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-09 14:51:12,553 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-09 14:51:12,553 [AppLog] INFO : 打开喷墨控制器设备失败！
+2023-04-09 14:51:15,907 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-09 14:51:15,907 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-09 14:51:16,047 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-09 14:51:16,172 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-04-09 14:51:16,172 [AppLog] INFO : 进入电气控制模块
+2023-04-09 14:51:17,498 [AppLog] INFO : 退出电气控制模块
+2023-04-09 14:51:18,387 [AppLog] INFO : 关闭打印线程成功：PrintTaskTHREAD2
+2023-04-09 14:51:18,387 [AppLog] INFO : 关闭打印线程成功：DataTaskTHREAD2
+2023-04-09 14:51:18,387 [AppLog] INFO : 停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{False}
+2023-04-09 14:51:19,214 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-09 14:51:19,854 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-04-09 14:51:26,078 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-04-09 14:51:26,078 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-04-09 14:51:26,078 [AppLog] INFO : 喷墨控制器关闭！
+2023-04-09 14:51:26,078 [AppLog] INFO : 进入电气控制模块
+2023-04-09 14:51:27,342 [AppLog] INFO : 退出电气控制模块
+2023-04-09 14:51:28,075 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-09 14:51:28,075 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-09 14:51:34,159 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-09 14:51:34,159 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-09 14:51:57,637 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-04-09 14:51:59,166 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-09 14:51:59,166 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-09 14:51:59,197 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-09 14:51:59,322 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-04-09 14:51:59,322 [AppLog] INFO : 进入电气控制模块
+2023-04-09 14:52:00,086 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-04-09 14:52:00,601 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-04-09 14:52:01,194 [AppLog] INFO : 退出电气控制模块
+2023-04-09 14:52:03,612 [AppLog] INFO : 进入手动调试子模块！
+2023-04-09 14:52:03,612 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-09 14:52:03,643 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-09 14:52:03,643 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-09 14:52:08,370 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2023-04-09 14:52:08,370 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-04-09 14:52:17,090 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{50MM/s}
+2023-04-09 14:52:17,090 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-04-09 14:52:18,588 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-04-09 14:52:18,588 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-04-09 14:52:39,429 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-04-09 14:52:43,392 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-04-09 14:52:43,392 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-04-09 14:52:53,703 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-04-09 14:53:02,751 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-04-09 14:53:02,751 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-04-09 14:53:13,094 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-04-09 14:53:15,965 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y2轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x4}}
+2023-04-09 14:53:17,618 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-09 14:53:19,241 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-09 14:53:32,469 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-09 14:53:36,603 [AppLog] INFO : 停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{True}
+2023-04-09 14:53:36,603 [AppLog] INFO : 启动打印线程成功： DataTaskTHREAD2
+2023-04-09 14:53:36,603 [AppLog] INFO : 启动打印线程成功：PrintTaskTHREAD2
+2023-04-09 14:53:36,619 [AppLog] INFO : 写入打印参数：IDP_SartPrintJob：nJobID{1}szJobName{金属3DP打印}nPixelGrayBits{1} nPrtCtl{0}nPrtXEncPos{10000}fPrtYPos{0}
+2023-04-09 14:54:02,156 [AppLog] INFO : 显示模组校准栏
+2023-04-09 14:54:05,697 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-09 14:54:05,697 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-09 14:54:11,781 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-09 14:54:11,781 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-09 14:54:35,259 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-04-09 14:55:11,764 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-09 14:55:11,764 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-09 14:55:11,904 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-09 14:55:12,029 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-04-09 14:55:12,029 [AppLog] INFO : 进入电气控制模块
+2023-04-09 14:55:13,355 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-04-09 14:55:13,979 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-04-09 14:55:14,540 [AppLog] INFO : 退出电气控制模块
+2023-04-09 14:55:15,180 [AppLog] INFO : 进入手动调试子模块！
+2023-04-09 14:55:15,180 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-09 14:55:15,211 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-09 14:55:15,211 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-09 14:55:17,785 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2023-04-09 14:55:17,785 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-04-09 14:55:26,303 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{50MM/s}
+2023-04-09 14:55:26,303 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-04-09 14:55:31,607 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-04-09 14:55:31,607 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-04-09 14:55:45,974 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-04-09 14:55:50,904 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-04-09 14:55:50,904 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-04-09 14:55:56,458 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm! 当前波形文件的基准电压参考值为：{18V}
+2023-04-09 14:55:56,738 [AppLog] INFO : {1}号喷头电压调压成功：MCU_SetPhVoltage{0V,0V,0V,0V}；
+2023-04-09 14:55:58,205 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-09 14:56:08,407 [AppLog] INFO : 停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{True}
+2023-04-09 14:56:08,407 [AppLog] INFO : 启动打印线程成功： DataTaskTHREAD2
+2023-04-09 14:56:08,423 [AppLog] INFO : 启动打印线程成功：PrintTaskTHREAD2
+2023-04-09 14:56:08,423 [AppLog] INFO : 写入打印参数：IDP_SartPrintJob：nJobID{1}szJobName{金属3DP打印}nPixelGrayBits{1} nPrtCtl{0}nPrtXEncPos{10000}fPrtYPos{0}

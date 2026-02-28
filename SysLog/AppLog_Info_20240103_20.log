@@ -1,0 +1,2143 @@
+2024-01-03 20:04:56,306 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:04:56,947 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-03 20:04:57,639 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2024-01-03 20:05:03,828 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2024-01-03 20:05:03,828 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2024-01-03 20:05:04,015 [AppLog] INFO : 喷墨控制器关闭！
+2024-01-03 20:05:04,015 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2024-01-03 20:05:04,015 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:05:05,263 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:05:05,840 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:05:06,511 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:05:08,118 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2024-01-03 20:05:08,118 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2024-01-03 20:05:08,789 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{19.64245%} ，可用内存大小:{14605MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：42 GB
+  盘符 F:\ 的剩余空间：43 GB
+==========================================================================
+2024-01-03 20:05:29,303 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{46.42839%} ，可用内存大小:{14648MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：42 GB
+  盘符 F:\ 的剩余空间：43 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号:  USB  SanDisk 3.2Gen1 USB Device
+==========================================================================
+2024-01-03 20:05:29,318 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-03 20:05:29,318 [AppLog] INFO : 开启系统：一键启动系统开始！
+2024-01-03 20:05:35,402 [AppLog] INFO : 开启系统：一键启动系统结束！
+2024-01-03 20:05:35,574 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2024-01-03 20:05:35,652 [AppLog] INFO : 初始化喷墨控制器启动！
+2024-01-03 20:05:59,426 [AppLog] INFO : 打开喷墨控制器设备成功！
+2024-01-03 20:05:59,458 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2024-01-03 20:05:59,848 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-03 20:06:02,952 [AppLog] INFO : 初始化喷墨控制器成功！
+2024-01-03 20:06:02,952 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-03 20:06:02,983 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2024-01-03 20:06:03,108 [AppLog] INFO : 红外灯控制器485通讯建立！
+2024-01-03 20:06:03,108 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:06:03,935 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:06:04,684 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:06:05,245 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:06:05,822 [AppLog] INFO : 不显示监控栏
+2024-01-03 20:06:06,712 [AppLog] INFO : 显示监控栏
+2024-01-03 20:06:07,585 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:06:07,585 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:06:07,632 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:06:07,632 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:06:10,206 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2024-01-03 20:06:10,206 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2024-01-03 20:06:11,797 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2024-01-03 20:06:11,797 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2024-01-03 20:06:18,833 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{50MM/s}
+2024-01-03 20:06:18,848 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2024-01-03 20:06:22,171 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2024-01-03 20:06:39,987 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:06:40,798 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:06:40,798 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:06:40,829 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:06:40,829 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:06:51,718 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:06:51,718 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:06:51,718 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:06:51,718 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:06:51,843 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:06:51,843 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:06:52,623 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:06:52,623 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:06:52,623 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:06:52,623 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:06:52,919 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:06:52,919 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:06:53,933 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:06:54,791 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{214MM},运动速度{250MM/s}
+2024-01-03 20:06:54,791 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:06:54,791 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{145MM},运动速度{50MM/s}
+2024-01-03 20:06:54,791 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:06:54,931 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:06:55,509 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:06:57,693 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:06:58,348 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:06:58,348 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:06:58,348 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:06:58,363 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:06:58,473 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:06:59,502 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:07:01,655 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:07:02,326 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:07:02,326 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:07:02,326 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:07:02,326 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:07:02,451 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:07:03,449 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:07:05,633 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:07:06,288 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:07:06,288 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:07:06,288 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:07:06,382 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{20MM},运动速度{250MM/s}
+2024-01-03 20:07:06,382 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:07:06,382 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:07:06,382 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:07:07,146 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:07:07,146 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:07:07,146 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:07:07,146 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:07:07,146 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:07:07,146 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:07:07,333 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:07:07,333 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:07:07,333 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:07:07,333 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:07:15,523 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:07:15,523 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:07:16,756 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:07:16,756 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:07:17,536 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:07:17,536 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:07:17,536 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:07:17,536 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:07:20,328 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:07:20,328 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:07:21,108 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:07:21,108 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:07:21,108 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:07:21,873 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:07:21,873 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:07:21,873 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:07:21,873 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:07:21,873 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:07:21,888 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:07:33,900 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:07:35,179 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:07:35,179 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:07:35,211 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:07:35,211 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:07:38,580 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:07:39,547 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:07:39,547 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:07:39,579 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:07:39,579 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:07:43,603 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:07:43,603 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:07:43,603 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:07:43,603 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:07:43,681 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:07:43,681 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:07:44,446 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:07:44,446 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:07:44,446 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:07:44,446 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:07:44,695 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:07:44,695 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:07:45,709 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:07:46,567 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{216.5MM},运动速度{250MM/s}
+2024-01-03 20:07:46,567 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:07:46,567 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{195MM},运动速度{50MM/s}
+2024-01-03 20:07:46,567 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:07:46,692 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:07:48,299 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:07:50,483 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:07:51,341 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-215MM},运动速度{250MM/s}
+2024-01-03 20:07:51,341 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:07:51,341 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{215MM},运动速度{50MM/s}
+2024-01-03 20:07:51,341 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:07:51,466 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:07:53,463 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:07:55,647 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:07:56,505 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-215MM},运动速度{250MM/s}
+2024-01-03 20:07:56,505 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:07:56,505 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{215MM},运动速度{50MM/s}
+2024-01-03 20:07:56,505 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:07:56,629 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:07:58,657 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:08:00,810 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:08:01,684 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-215MM},运动速度{250MM/s}
+2024-01-03 20:08:01,684 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:08:01,684 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{215MM},运动速度{50MM/s}
+2024-01-03 20:08:01,684 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:08:01,809 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:08:03,805 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:08:05,989 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:08:06,847 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-215MM},运动速度{250MM/s}
+2024-01-03 20:08:06,847 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:08:06,847 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{215MM},运动速度{50MM/s}
+2024-01-03 20:08:06,847 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:08:06,972 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:08:08,953 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:08:11,153 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:08:12,011 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-215MM},运动速度{250MM/s}
+2024-01-03 20:08:12,011 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:08:12,011 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:08:12,105 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{20MM},运动速度{250MM/s}
+2024-01-03 20:08:12,105 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:08:12,105 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:08:12,105 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:08:12,869 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:08:12,869 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:08:12,869 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:08:12,869 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:08:12,869 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:08:12,869 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:08:13,009 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:08:13,009 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:08:13,009 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:08:13,009 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:08:21,246 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:08:21,246 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:08:22,479 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:08:22,479 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:08:23,259 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:08:23,259 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:08:23,259 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:08:23,259 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:08:26,051 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:08:26,051 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:08:26,831 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:08:26,831 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:08:26,831 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:08:27,595 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:08:27,595 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:08:27,595 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:08:27,595 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:08:27,595 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:08:27,595 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:08:27,970 [AppLog] INFO : 手动停止自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:08:29,046 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:08:29,748 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:08:29,748 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:08:29,748 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:08:29,748 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:08:29,842 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:08:29,842 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:08:30,606 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:08:30,606 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:08:30,606 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:08:30,606 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:08:30,856 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:08:30,856 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:08:31,870 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:08:32,728 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{216.5MM},运动速度{250MM/s}
+2024-01-03 20:08:32,728 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:08:32,728 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{195MM},运动速度{50MM/s}
+2024-01-03 20:08:32,728 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:08:32,868 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:08:34,460 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:08:36,644 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:08:37,502 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-215MM},运动速度{250MM/s}
+2024-01-03 20:08:37,502 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:08:37,502 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{215MM},运动速度{50MM/s}
+2024-01-03 20:08:37,502 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:08:37,658 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:08:39,608 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:08:41,807 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:08:42,665 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-215MM},运动速度{250MM/s}
+2024-01-03 20:08:42,665 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:08:42,665 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{215MM},运动速度{50MM/s}
+2024-01-03 20:08:42,665 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:08:42,774 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:08:44,787 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:08:46,971 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:08:47,844 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-215MM},运动速度{250MM/s}
+2024-01-03 20:08:47,844 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:08:47,844 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{215MM},运动速度{50MM/s}
+2024-01-03 20:08:47,844 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:08:47,969 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:08:49,982 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:08:52,150 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:08:53,008 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-215MM},运动速度{250MM/s}
+2024-01-03 20:08:53,008 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:08:53,008 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{215MM},运动速度{50MM/s}
+2024-01-03 20:08:53,008 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:08:53,117 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:08:55,130 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:08:57,314 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:08:58,172 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-215MM},运动速度{250MM/s}
+2024-01-03 20:08:58,172 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:08:58,172 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:08:58,265 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{20MM},运动速度{250MM/s}
+2024-01-03 20:08:58,265 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:08:58,265 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:08:58,265 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:08:59,030 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:08:59,030 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:08:59,030 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:08:59,030 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:08:59,045 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:08:59,045 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:08:59,170 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:08:59,170 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:08:59,170 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:08:59,170 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:09:07,407 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:09:07,407 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:09:08,639 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:09:08,639 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:09:09,419 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:09:09,419 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:09:09,419 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:09:09,419 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:09:12,212 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:09:12,212 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:09:12,992 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:09:12,992 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:09:12,992 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:09:13,756 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:09:13,756 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:09:13,756 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:09:13,772 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:09:13,772 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:09:13,772 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:09:17,204 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:09:18,249 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:09:18,249 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:09:18,280 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:09:18,280 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:09:19,700 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:09:19,700 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:09:19,700 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:09:19,700 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:09:19,778 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:09:19,778 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:09:20,558 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:09:20,558 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:09:20,558 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:09:20,558 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:09:20,807 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:09:20,807 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:09:21,821 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:09:22,679 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{216.5MM},运动速度{250MM/s}
+2024-01-03 20:09:22,679 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:09:22,679 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{195MM},运动速度{50MM/s}
+2024-01-03 20:09:22,679 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:09:22,804 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:09:24,411 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:09:26,595 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:09:27,453 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-215MM},运动速度{250MM/s}
+2024-01-03 20:09:27,453 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:09:27,453 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{215MM},运动速度{50MM/s}
+2024-01-03 20:09:27,453 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:09:27,562 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:09:29,574 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:09:31,758 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:09:32,616 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-215MM},运动速度{250MM/s}
+2024-01-03 20:09:32,616 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:09:32,616 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:09:32,710 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{20MM},运动速度{250MM/s}
+2024-01-03 20:09:32,710 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:09:32,710 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:09:32,710 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:09:33,474 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:09:33,474 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:09:33,474 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:09:33,474 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:09:33,490 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:09:33,490 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:09:33,615 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:09:33,615 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:09:33,615 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:09:33,615 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:09:41,852 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:09:41,852 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:09:43,084 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:09:43,084 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:09:43,864 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:09:43,864 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:09:43,864 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:09:43,864 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:09:46,656 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:09:46,656 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:09:47,436 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:09:47,436 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:09:47,436 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:09:48,201 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:09:48,201 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:09:48,201 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:09:48,201 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:09:48,201 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:09:48,201 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:09:48,887 [AppLog] INFO : 手动停止自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:09:52,538 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:10:05,096 [AppLog] INFO : 开启UV灯：OpenUVLamp出光频率{125Hz}占空比{25%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:10:08,730 [AppLog] INFO : 回复默认光区：左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:10:09,573 [AppLog] INFO : 关闭UV灯：OpenUVLamp出光频率{125Hz}占空比{25%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:10:13,098 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:10:13,691 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:10:15,485 [AppLog] INFO : 电气控制模块：手动打开端口5
+2024-01-03 20:10:17,622 [AppLog] INFO : 电气控制模块：手动关闭端口4
+2024-01-03 20:10:18,792 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:10:19,448 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:10:19,448 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:10:19,479 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:10:19,479 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:10:23,129 [AppLog] INFO : 开启UV灯：OpenUVLamp出光频率{125Hz}占空比{25%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:10:26,437 [AppLog] INFO : 关闭UV灯：OpenUVLamp出光频率{125Hz}占空比{25%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:10:31,787 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:10:31,803 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:10:31,803 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:10:31,803 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:10:31,865 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:10:31,865 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:10:32,645 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:10:32,645 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:10:32,645 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:10:32,645 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:10:32,895 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:10:32,895 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:10:33,909 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:10:34,767 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{216.5MM},运动速度{250MM/s}
+2024-01-03 20:10:34,767 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:10:34,767 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{195MM},运动速度{50MM/s}
+2024-01-03 20:10:34,767 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:10:35,204 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:10:37,185 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:10:38,683 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:10:39,385 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-175MM},运动速度{250MM/s}
+2024-01-03 20:10:39,385 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:10:39,385 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{175MM},运动速度{50MM/s}
+2024-01-03 20:10:39,385 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:10:39,400 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:10:41,381 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:10:42,879 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:10:43,581 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-175MM},运动速度{250MM/s}
+2024-01-03 20:10:43,581 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:10:43,581 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:10:43,675 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-20MM},运动速度{250MM/s}
+2024-01-03 20:10:43,675 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:10:43,675 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:10:43,675 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:10:44,455 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:10:44,455 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:10:44,455 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:10:44,455 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:10:44,455 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:10:44,455 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:10:44,579 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:10:44,579 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:10:44,579 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:10:44,579 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:10:52,816 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:10:52,816 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:10:54,049 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:10:54,049 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:10:54,829 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:10:54,829 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:10:54,829 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:10:54,829 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:10:57,621 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:10:57,621 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:10:58,401 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:10:58,401 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:10:58,401 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:10:59,165 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:10:59,165 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:10:59,165 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:10:59,165 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:10:59,165 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:10:59,165 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:10:59,555 [AppLog] INFO : 手动停止自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:11:00,398 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:11:01,006 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:11:01,006 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:11:01,006 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:11:01,006 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:11:01,084 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:11:01,084 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:11:01,849 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:11:01,849 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:11:01,849 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:11:01,849 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:11:02,098 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:11:02,098 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:11:03,112 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:11:03,970 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{216.5MM},运动速度{250MM/s}
+2024-01-03 20:11:03,970 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:11:03,970 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{195MM},运动速度{50MM/s}
+2024-01-03 20:11:03,970 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:11:04,391 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:11:06,388 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:11:07,886 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:11:08,588 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-175MM},运动速度{250MM/s}
+2024-01-03 20:11:08,588 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:11:08,588 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{175MM},运动速度{50MM/s}
+2024-01-03 20:11:08,588 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:11:08,619 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:11:10,600 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:11:12,082 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:11:12,784 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-175MM},运动速度{250MM/s}
+2024-01-03 20:11:12,784 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:11:12,784 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:11:12,878 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-20MM},运动速度{250MM/s}
+2024-01-03 20:11:12,878 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:11:12,878 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:11:12,878 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:11:13,658 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:11:13,658 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:11:13,658 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:11:13,658 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:11:13,658 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:11:13,658 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:11:13,783 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:11:13,783 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:11:13,783 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:11:13,783 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:11:22,019 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:11:22,019 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:11:23,252 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:11:23,252 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:11:24,032 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:11:24,032 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:11:24,032 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:11:24,032 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:11:26,824 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:11:26,824 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:11:27,604 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:11:27,604 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:11:27,604 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:11:28,369 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:11:28,369 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:11:28,369 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:11:28,369 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:11:28,369 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:11:28,369 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:11:31,067 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:11:31,863 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:11:32,783 [AppLog] INFO : 电气控制模块：手动关闭端口5
+2024-01-03 20:11:33,251 [AppLog] INFO : 电气控制模块：手动打开端口4
+2024-01-03 20:11:33,875 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:11:34,515 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:11:34,515 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:11:34,546 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:11:34,546 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:11:54,904 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:11:56,979 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:11:56,979 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:11:57,010 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:11:57,010 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:12:03,469 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:12:03,484 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:12:03,484 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:12:03,484 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:12:03,562 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:12:03,562 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:12:04,327 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:12:04,327 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:12:04,327 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:12:04,327 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:12:04,576 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:12:04,576 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:12:05,590 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:12:06,448 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{216.5MM},运动速度{250MM/s}
+2024-01-03 20:12:06,448 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:12:06,448 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{145MM},运动速度{50MM/s}
+2024-01-03 20:12:06,448 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:12:06,573 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:12:07,166 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:12:09,350 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:12:10,021 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:12:10,021 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:12:10,021 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:12:10,021 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:12:10,177 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:12:11,144 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:12:13,328 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:12:13,983 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:12:13,983 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:12:13,983 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:12:13,983 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:12:14,123 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:12:15,122 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:12:17,290 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:12:17,961 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:12:17,961 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:12:17,961 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:12:17,961 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:12:18,070 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:12:19,100 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:12:21,268 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:12:21,924 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:12:21,924 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:12:21,924 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:12:21,924 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:12:22,048 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:12:23,047 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:12:25,231 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:12:25,902 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:12:25,902 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:12:25,902 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:12:25,980 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{20MM},运动速度{250MM/s}
+2024-01-03 20:12:25,980 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:12:25,980 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:12:25,980 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:12:26,760 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:12:26,760 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:12:26,760 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:12:26,760 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:12:26,760 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:12:26,760 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:12:26,884 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:12:26,884 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:12:26,884 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:12:26,884 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:12:35,121 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:12:35,121 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:12:36,354 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:12:36,354 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:12:37,134 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:12:37,134 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:12:37,134 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:12:37,134 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:12:39,926 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:12:39,926 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:12:40,706 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:12:40,706 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:12:40,706 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:12:41,470 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:12:41,470 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:12:41,470 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:12:41,470 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:12:41,470 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:12:41,470 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:12:58,911 [AppLog] INFO : 手动停止自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:12:59,270 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:12:59,613 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:12:59,629 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:12:59,629 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:12:59,629 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:12:59,691 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:12:59,691 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:13:00,471 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:13:00,471 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:13:00,471 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:13:00,471 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:13:00,721 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:13:00,721 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:13:01,735 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:13:02,593 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{216.5MM},运动速度{250MM/s}
+2024-01-03 20:13:02,593 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:13:02,593 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{145MM},运动速度{50MM/s}
+2024-01-03 20:13:02,593 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:13:02,718 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:13:03,326 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:13:05,510 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:13:06,165 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:13:06,165 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:13:06,165 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:13:06,165 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:13:06,290 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:13:07,304 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:13:09,472 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:13:10,128 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:13:10,128 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:13:10,143 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:13:10,143 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:13:10,252 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:13:11,298 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:13:13,435 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:13:14,106 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:13:14,106 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:13:14,106 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:13:14,106 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:13:14,230 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:13:15,229 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:13:17,413 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:13:18,068 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:13:18,068 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:13:18,068 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:13:18,068 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:13:18,193 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:13:19,191 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:13:21,375 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:13:22,046 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:13:22,046 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:13:22,046 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:13:22,124 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{20MM},运动速度{250MM/s}
+2024-01-03 20:13:22,124 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:13:22,124 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:13:22,124 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:13:22,904 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:13:22,904 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:13:22,904 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:13:22,904 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:13:22,904 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:13:22,904 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:13:23,029 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:13:23,029 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:13:23,044 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:13:23,044 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:13:31,266 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:13:31,266 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:13:32,514 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:13:32,514 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:13:33,278 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:13:33,278 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:13:33,278 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:13:33,278 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:13:36,070 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:13:36,070 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:13:36,850 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:13:36,850 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:13:36,850 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:13:37,615 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:13:37,615 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:13:37,615 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:13:37,615 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:13:37,615 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:13:37,615 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:13:38,551 [AppLog] INFO : 手动停止自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:13:40,454 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:13:41,031 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:13:41,031 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:13:41,031 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:13:41,031 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:13:41,109 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:13:41,109 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:13:41,889 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:13:41,889 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:13:41,889 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:13:41,889 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:13:42,139 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:13:42,139 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:13:43,153 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:13:44,011 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{216.5MM},运动速度{250MM/s}
+2024-01-03 20:13:44,011 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:13:44,011 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{145MM},运动速度{50MM/s}
+2024-01-03 20:13:44,011 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:13:44,120 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:13:44,744 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:13:46,912 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:13:47,583 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:13:47,583 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:13:47,583 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:13:47,583 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:13:47,708 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:13:48,706 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:13:50,890 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:13:51,546 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:13:51,546 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:13:51,561 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:13:51,561 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:13:51,717 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:13:52,684 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:13:54,853 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:13:55,524 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:13:55,524 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:13:55,524 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:13:55,524 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:13:55,648 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:13:56,647 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:13:58,831 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:13:59,486 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:13:59,486 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:13:59,502 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:13:59,502 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:13:59,611 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:14:00,609 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:14:02,793 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:14:03,464 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:14:03,464 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:14:03,464 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:14:03,542 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{20MM},运动速度{250MM/s}
+2024-01-03 20:14:03,542 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:14:03,542 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:14:03,542 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:14:04,322 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:14:04,322 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:14:04,322 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:14:04,322 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:14:04,322 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:14:04,322 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:14:04,462 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:14:04,462 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:14:04,462 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:14:04,462 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:14:12,684 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:14:12,684 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:14:13,791 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2024-01-03 20:14:13,932 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:14:13,932 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:14:14,696 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:14:14,696 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:14:14,696 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:14:14,696 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:14:17,489 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:14:17,489 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:14:18,269 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:14:18,269 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:14:18,269 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:14:19,033 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:14:19,033 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:14:19,033 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:14:19,033 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:14:19,033 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:14:19,033 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:19:46,462 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-03 20:19:47,538 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2024-01-03 20:19:53,706 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2024-01-03 20:19:53,754 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2024-01-03 20:19:53,769 [AppLog] INFO : 喷墨控制器关闭！
+2024-01-03 20:19:53,770 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2024-01-03 20:19:53,779 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:19:55,801 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:19:56,706 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:19:57,283 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:19:58,688 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2024-01-03 20:19:58,703 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2024-01-03 20:19:59,374 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{14619MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：42 GB
+  盘符 F:\ 的剩余空间：43 GB
+==========================================================================
+2024-01-03 20:20:31,838 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{46.4283%} ，可用内存大小:{14652MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：42 GB
+  盘符 F:\ 的剩余空间：43 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号:  USB  SanDisk 3.2Gen1 USB Device
+==========================================================================
+2024-01-03 20:20:33,959 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-03 20:20:33,959 [AppLog] INFO : 开启系统：一键启动系统开始！
+2024-01-03 20:20:40,043 [AppLog] INFO : 开启系统：一键启动系统结束！
+2024-01-03 20:20:40,230 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2024-01-03 20:20:40,293 [AppLog] INFO : 初始化喷墨控制器启动！
+2024-01-03 20:21:04,083 [AppLog] INFO : 打开喷墨控制器设备成功！
+2024-01-03 20:21:04,114 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2024-01-03 20:21:04,504 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-03 20:21:07,421 [AppLog] INFO : 初始化喷墨控制器成功！
+2024-01-03 20:21:07,421 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-03 20:21:07,452 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2024-01-03 20:21:07,577 [AppLog] INFO : 红外灯控制器485通讯建立！
+2024-01-03 20:21:07,577 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:21:08,591 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:21:09,106 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:21:09,512 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:21:10,526 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:21:10,526 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:21:10,541 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:21:10,541 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:21:19,605 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2024-01-03 20:21:19,605 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2024-01-03 20:21:21,165 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2024-01-03 20:21:21,165 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2024-01-03 20:21:28,247 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{50MM/s}
+2024-01-03 20:21:28,247 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2024-01-03 20:21:31,539 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2024-01-03 20:21:33,723 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2024-01-03 20:21:34,971 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:21:34,971 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:21:35,002 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:21:35,002 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:21:36,110 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:21:36,110 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:21:36,125 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:21:36,125 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:21:36,250 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:21:36,250 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:21:37,030 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:21:37,030 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:21:37,030 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:21:37,030 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:21:37,326 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:21:37,326 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:21:38,340 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置165mm，速度250mm/s：BackToStation2
+2024-01-03 20:21:38,996 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{164MM},运动速度{250MM/s}
+2024-01-03 20:21:38,996 [AppLog] INFO : 当前铺粉车位置：打印位置165mm
+2024-01-03 20:21:38,996 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{195MM},运动速度{50MM/s}
+2024-01-03 20:21:38,996 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:21:39,713 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:21:40,696 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:21:42,896 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:21:43,566 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:21:43,566 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:21:43,566 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:21:43,566 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:21:43,676 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:21:44,674 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:21:46,858 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:21:47,529 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:21:47,529 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:21:47,529 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:21:47,529 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:21:47,654 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:21:48,636 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:21:50,836 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:21:51,491 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:21:51,491 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:21:51,507 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:21:51,507 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:21:51,632 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:21:52,630 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:21:54,799 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:21:55,469 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:21:55,469 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:21:55,469 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{165MM},运动速度{50MM/s}
+2024-01-03 20:21:55,469 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:21:55,594 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:21:56,593 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:21:58,777 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:21:59,432 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-165MM},运动速度{250MM/s}
+2024-01-03 20:21:59,432 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:21:59,432 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:21:59,525 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{20MM},运动速度{250MM/s}
+2024-01-03 20:21:59,525 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:21:59,525 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:21:59,525 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:22:00,290 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:22:00,290 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:22:00,290 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:22:00,290 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:22:00,290 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:22:00,290 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:22:00,477 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:22:00,477 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:22:00,477 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:22:00,477 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:22:08,667 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:22:08,667 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:22:09,899 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:22:09,899 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:22:10,679 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:22:10,679 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:22:10,679 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:22:10,679 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:22:13,472 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:22:13,472 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:22:13,831 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:22:14,252 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:22:14,252 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:22:14,252 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:22:14,829 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:22:14,829 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:22:14,860 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:22:14,860 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:22:15,016 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:22:15,016 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:22:15,016 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:22:15,016 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:22:15,016 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:22:15,032 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:22:21,412 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:22:22,348 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:22:22,348 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:22:22,379 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:22:22,379 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:22:26,888 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:22:26,888 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:22:26,888 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:22:26,888 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:22:26,966 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:22:26,966 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:22:27,746 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:22:27,746 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:22:27,746 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:22:27,746 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:22:27,995 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:22:27,995 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:22:29,009 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置165mm，速度250mm/s：BackToStation2
+2024-01-03 20:22:29,665 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{166.5MM},运动速度{250MM/s}
+2024-01-03 20:22:29,665 [AppLog] INFO : 当前铺粉车位置：打印位置165mm
+2024-01-03 20:22:29,680 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{50MM/s}
+2024-01-03 20:22:29,680 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:22:30,398 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:22:31,193 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:22:33,377 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:22:34,001 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-155MM},运动速度{250MM/s}
+2024-01-03 20:22:34,001 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:22:39,009 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{155MM},运动速度{50MM/s}
+2024-01-03 20:22:39,009 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:22:39,118 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:22:39,914 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:22:42,113 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:22:42,722 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-155MM},运动速度{250MM/s}
+2024-01-03 20:22:42,737 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:22:47,745 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{155MM},运动速度{50MM/s}
+2024-01-03 20:22:47,745 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:22:47,854 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:22:48,650 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:22:50,849 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:22:51,458 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-155MM},运动速度{250MM/s}
+2024-01-03 20:22:51,473 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:22:56,481 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:22:56,559 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{20MM},运动速度{250MM/s}
+2024-01-03 20:22:56,559 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:22:56,559 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:22:56,559 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:22:57,339 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:22:57,339 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:22:57,339 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:22:57,339 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:22:57,339 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:22:57,339 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:22:57,464 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:22:57,464 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:22:57,464 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:22:57,464 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:23:05,701 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:23:05,701 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:23:06,933 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:23:06,933 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:23:07,713 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:23:07,713 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:23:07,713 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:23:07,713 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:23:10,505 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:23:10,505 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:23:11,285 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:23:11,285 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:23:11,285 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:23:12,050 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:23:12,050 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:23:12,050 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:23:12,050 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:23:12,050 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:23:12,050 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:23:55,558 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:23:56,728 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:23:56,728 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:23:56,760 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:23:56,760 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:24:03,046 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:24:04,435 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:24:04,435 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:24:04,482 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:24:04,482 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:24:07,617 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:24:07,617 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:24:07,633 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:24:07,633 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:24:07,711 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:24:07,711 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:24:08,475 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:24:08,475 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:24:08,475 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:24:08,475 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:24:08,725 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:24:08,725 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:24:09,739 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置165mm，速度250mm/s：BackToStation2
+2024-01-03 20:24:10,394 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{166.5MM},运动速度{250MM/s}
+2024-01-03 20:24:10,394 [AppLog] INFO : 当前铺粉车位置：打印位置165mm
+2024-01-03 20:24:10,410 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{30MM/s}
+2024-01-03 20:24:10,410 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:24:11,517 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:24:12,843 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:24:16,572 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:24:17,196 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-155MM},运动速度{250MM/s}
+2024-01-03 20:24:17,196 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:24:22,203 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{155MM},运动速度{30MM/s}
+2024-01-03 20:24:22,203 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:24:22,312 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:24:23,654 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:24:27,367 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:24:27,991 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-155MM},运动速度{250MM/s}
+2024-01-03 20:24:27,991 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:24:32,998 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{155MM},运动速度{30MM/s}
+2024-01-03 20:24:32,998 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:24:33,108 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:24:34,449 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:24:38,162 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:24:38,786 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-155MM},运动速度{250MM/s}
+2024-01-03 20:24:38,786 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:24:43,794 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{155MM},运动速度{30MM/s}
+2024-01-03 20:24:43,794 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:24:43,903 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:24:45,229 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:24:48,957 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:24:49,581 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-155MM},运动速度{250MM/s}
+2024-01-03 20:24:49,581 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:24:54,589 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{155MM},运动速度{30MM/s}
+2024-01-03 20:24:54,589 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:24:54,698 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:24:56,040 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:24:59,752 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:25:00,376 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-155MM},运动速度{250MM/s}
+2024-01-03 20:25:00,376 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:25:05,384 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:25:05,462 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{20MM},运动速度{250MM/s}
+2024-01-03 20:25:05,462 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:25:05,462 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:25:05,462 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:25:06,242 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:25:06,242 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:25:06,242 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:25:06,242 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:25:06,242 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:25:06,242 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:25:06,367 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:25:06,367 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:25:06,367 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:25:06,367 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:25:14,604 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:25:14,604 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:25:15,836 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:25:15,836 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:25:16,616 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:25:16,616 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:25:16,616 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:25:16,616 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:25:19,408 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:25:19,408 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:25:20,188 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:25:20,188 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:25:20,188 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:25:20,953 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:25:20,953 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:25:20,953 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:25:20,953 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:25:20,953 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:25:20,953 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:25:26,210 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:25:26,834 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:25:26,834 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:25:26,865 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:25:26,865 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:25:38,955 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:25:39,891 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:25:39,891 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:25:39,923 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:25:39,923 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:25:50,094 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:25:50,094 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:25:50,094 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:25:50,109 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:25:50,172 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:25:50,172 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:25:50,952 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:25:50,952 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:25:50,952 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:25:50,952 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:25:51,201 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:25:51,201 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:25:52,215 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置165mm，速度250mm/s：BackToStation2
+2024-01-03 20:25:52,871 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{166.5MM},运动速度{250MM/s}
+2024-01-03 20:25:52,871 [AppLog] INFO : 当前铺粉车位置：打印位置165mm
+2024-01-03 20:25:52,886 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{460MM},运动速度{50MM/s}
+2024-01-03 20:25:52,886 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:25:52,995 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:25:59,906 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:26:02,090 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:26:03,806 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-430MM},运动速度{250MM/s}
+2024-01-03 20:26:03,806 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:26:08,814 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:26:08,892 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{20MM},运动速度{250MM/s}
+2024-01-03 20:26:08,892 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:26:08,892 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:26:08,892 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:26:09,672 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:26:09,672 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:26:09,672 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:26:09,672 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:26:09,672 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:26:09,672 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:26:09,797 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:26:09,797 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:26:09,797 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:26:09,797 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:26:18,033 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:26:18,033 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:26:19,266 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:26:19,266 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:26:20,046 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:26:20,046 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:26:20,046 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:26:20,046 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:26:22,838 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:26:22,838 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:26:23,618 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:26:23,618 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:26:23,618 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:26:24,383 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:26:24,383 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:26:24,383 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:26:24,383 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:26:24,383 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:26:24,383 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:26:27,815 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:26:28,673 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:26:28,673 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:26:28,719 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:26:28,719 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:26:34,039 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:26:34,039 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:26:34,039 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:26:34,039 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:26:34,117 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:26:34,117 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:26:34,881 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:26:34,881 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:26:34,881 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:26:34,881 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:26:35,131 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:26:35,131 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:26:36,145 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置165mm，速度250mm/s：BackToStation2
+2024-01-03 20:26:36,800 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{166.5MM},运动速度{250MM/s}
+2024-01-03 20:26:36,800 [AppLog] INFO : 当前铺粉车位置：打印位置165mm
+2024-01-03 20:26:36,816 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{460MM},运动速度{50MM/s}
+2024-01-03 20:26:36,816 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:26:36,925 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:26:43,836 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:26:46,020 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:26:47,736 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-430MM},运动速度{250MM/s}
+2024-01-03 20:26:47,736 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:26:47,736 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:26:47,814 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{20MM},运动速度{250MM/s}
+2024-01-03 20:26:47,814 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:26:47,814 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:26:47,814 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:26:48,594 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:26:48,594 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:26:48,594 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:26:48,594 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:26:48,594 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:26:48,594 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:26:48,734 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:26:48,734 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:26:48,734 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:26:48,734 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:26:56,955 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:26:56,971 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:26:58,203 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:26:58,203 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:26:58,983 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:26:58,983 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:26:58,983 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:26:58,983 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:27:01,760 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:27:01,760 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:27:02,540 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:27:02,540 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:27:02,540 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:27:03,305 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:27:03,305 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:27:03,305 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:27:03,305 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:27:03,305 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:27:03,305 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:27:04,303 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:27:06,471 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:27:07,985 [AppLog] INFO : 电气控制模块：手动关闭端口4
+2024-01-03 20:27:08,499 [AppLog] INFO : 电气控制模块：手动打开端口5
+2024-01-03 20:27:09,357 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:27:10,122 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:27:10,122 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:27:10,153 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:27:10,153 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:27:18,000 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:27:18,983 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:27:18,983 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:27:19,014 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:27:19,029 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:27:21,572 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:27:21,572 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:27:21,572 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:27:21,572 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:27:21,650 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:27:21,650 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:27:22,430 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:27:22,430 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:27:22,430 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:27:22,430 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:27:22,680 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:27:22,680 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:27:23,694 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置165mm，速度250mm/s：BackToStation2
+2024-01-03 20:27:24,349 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{166.5MM},运动速度{250MM/s}
+2024-01-03 20:27:24,349 [AppLog] INFO : 当前铺粉车位置：打印位置165mm
+2024-01-03 20:27:24,365 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{50MM/s}
+2024-01-03 20:27:24,365 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:27:54,769 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:27:55,970 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:27:55,970 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:27:56,017 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:27:56,017 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:27:58,154 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2024-01-03 20:27:59,839 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:27:59,839 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:27:59,870 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:27:59,870 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:28:05,502 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:28:07,405 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:28:09,558 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:28:10,853 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:28:11,742 [AppLog] INFO : 电气控制模块：手动打开端口4
+2024-01-03 20:28:12,148 [AppLog] INFO : 电气控制模块：手动关闭端口5
+2024-01-03 20:28:12,787 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:28:13,474 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:28:13,474 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:28:13,505 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:28:13,505 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:28:18,076 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:28:19,511 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:28:20,790 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:28:22,303 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:28:22,303 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:28:22,350 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:28:22,350 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:28:24,128 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2024-01-03 20:28:25,439 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-03 20:28:26,219 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2024-01-03 20:28:35,719 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2024-01-03 20:28:35,750 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2024-01-03 20:28:36,421 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{14597MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：42 GB
+  盘符 F:\ 的剩余空间：43 GB
+==========================================================================
+2024-01-03 20:28:48,293 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{14659MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：42 GB
+  盘符 F:\ 的剩余空间：43 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号:  USB  SanDisk 3.2Gen1 USB Device
+==========================================================================
+2024-01-03 20:28:53,878 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-03 20:28:53,878 [AppLog] INFO : 开启系统：一键启动系统开始！
+2024-01-03 20:28:59,962 [AppLog] INFO : 开启系统：一键启动系统结束！
+2024-01-03 20:29:00,149 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2024-01-03 20:29:00,227 [AppLog] INFO : 初始化喷墨控制器启动！
+2024-01-03 20:29:24,001 [AppLog] INFO : 打开喷墨控制器设备成功！
+2024-01-03 20:29:24,032 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2024-01-03 20:29:24,422 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-03 20:29:26,716 [AppLog] INFO : 初始化喷墨控制器成功！
+2024-01-03 20:29:26,716 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-03 20:29:26,747 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2024-01-03 20:29:26,872 [AppLog] INFO : 红外灯控制器485通讯建立！
+2024-01-03 20:29:26,872 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:29:28,260 [AppLog] INFO : 电气控制模块：手动打开端口5
+2024-01-03 20:29:28,603 [AppLog] INFO : 电气控制模块：手动关闭端口4
+2024-01-03 20:29:29,212 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:29:30,007 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:29:30,678 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:29:31,879 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:29:32,503 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:29:33,221 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:29:33,221 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:29:33,237 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:29:33,237 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:29:38,728 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2024-01-03 20:29:43,954 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2024-01-03 20:29:43,954 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2024-01-03 20:29:46,637 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2024-01-03 20:29:46,637 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2024-01-03 20:29:50,677 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{50MM/s}
+2024-01-03 20:29:50,693 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2024-01-03 20:29:59,086 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:29:59,897 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:29:59,913 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:29:59,944 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:29:59,944 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:30:08,477 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:30:09,444 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:30:09,444 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:30:09,475 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:30:09,475 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:30:10,443 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:30:10,443 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:30:10,458 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:30:10,458 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:30:10,583 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:30:10,583 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:30:11,363 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:30:11,363 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:30:11,363 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:30:11,363 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:30:11,659 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:30:11,659 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:30:12,673 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置165mm，速度250mm/s：BackToStation2
+2024-01-03 20:30:13,329 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{164MM},运动速度{250MM/s}
+2024-01-03 20:30:13,329 [AppLog] INFO : 当前铺粉车位置：打印位置165mm
+2024-01-03 20:30:13,329 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{50MM/s}
+2024-01-03 20:30:13,329 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:30:14,764 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:30:15,528 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:30:17,026 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:30:17,494 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:30:17,494 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:30:17,494 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{115MM},运动速度{50MM/s}
+2024-01-03 20:30:17,494 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:30:17,525 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:30:18,305 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:30:19,803 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:30:20,255 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:30:20,255 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:30:20,271 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{115MM},运动速度{50MM/s}
+2024-01-03 20:30:20,271 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:30:20,286 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:30:21,066 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:30:22,564 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:30:23,032 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:30:23,032 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:30:23,032 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:30:23,110 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-20MM},运动速度{250MM/s}
+2024-01-03 20:30:23,110 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:30:23,110 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:30:23,110 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:30:23,890 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:30:23,890 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:30:23,890 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:30:23,890 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:30:23,890 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:30:23,890 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:30:24,077 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:30:24,077 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:30:24,077 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:30:24,077 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:30:32,251 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:30:32,251 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:30:33,499 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:30:33,499 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:30:34,279 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:30:34,279 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:30:34,279 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:30:34,279 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:30:37,056 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:30:37,056 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:30:37,399 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:30:37,836 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:30:37,836 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:30:37,836 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:30:38,195 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:30:38,601 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:30:38,601 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:30:38,601 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:30:38,601 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:30:38,601 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:30:38,616 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:30:39,209 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:30:39,989 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:30:39,989 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:30:40,020 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:30:40,020 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:30:42,485 [AppLog] INFO : 开启UV灯：OpenUVLamp出光频率{125Hz}占空比{20%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:30:45,745 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:30:45,745 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:30:45,745 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:30:45,745 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:30:45,823 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:30:45,823 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:30:46,603 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:30:46,603 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:30:46,603 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:30:46,603 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:30:46,853 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:30:46,853 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:30:47,867 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置165mm，速度250mm/s：BackToStation2
+2024-01-03 20:30:48,522 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{166.5MM},运动速度{250MM/s}
+2024-01-03 20:30:48,522 [AppLog] INFO : 当前铺粉车位置：打印位置165mm
+2024-01-03 20:30:48,538 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{50MM/s}
+2024-01-03 20:30:48,538 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:30:49,957 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:30:50,753 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:30:52,235 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:30:52,703 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:30:52,703 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:30:52,703 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{115MM},运动速度{50MM/s}
+2024-01-03 20:30:52,703 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:30:52,719 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:30:53,499 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:30:54,996 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:30:55,464 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:30:55,464 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:30:55,464 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{115MM},运动速度{50MM/s}
+2024-01-03 20:30:55,464 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:30:55,480 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:30:56,275 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:30:57,773 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:30:58,241 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:30:58,241 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:30:58,241 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:30:58,319 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-20MM},运动速度{250MM/s}
+2024-01-03 20:30:58,319 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:30:58,319 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:30:58,319 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:30:59,099 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:30:59,099 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:30:59,099 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:30:59,099 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:30:59,099 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:30:59,099 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:30:59,224 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:30:59,224 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:30:59,224 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:30:59,224 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:31:01,704 [AppLog] INFO : 关闭UV灯：OpenUVLamp出光频率{125Hz}占空比{30%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:31:07,461 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:31:07,461 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:31:08,693 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:31:08,709 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:31:09,473 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:31:09,473 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:31:09,473 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:31:09,473 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:31:12,265 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:31:12,265 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:31:12,983 [AppLog] INFO : 回复默认光区：左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:31:13,045 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:31:13,045 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:31:13,045 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:31:13,810 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:31:13,810 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:31:13,810 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:31:13,810 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:31:13,810 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:31:13,810 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:31:16,150 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:31:16,977 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:31:18,069 [AppLog] INFO : 电气控制模块：手动关闭端口5
+2024-01-03 20:31:18,786 [AppLog] INFO : 电气控制模块：手动打开端口5
+2024-01-03 20:31:20,877 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:31:21,641 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:31:21,641 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:31:21,672 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:31:21,672 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:31:24,558 [AppLog] INFO : 开启UV灯：OpenUVLamp出光频率{125Hz}占空比{30%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:31:28,178 [AppLog] INFO : 关闭UV灯：OpenUVLamp出光频率{125Hz}占空比{30%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:31:29,207 [AppLog] INFO : 回复默认光区：左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:31:30,174 [AppLog] INFO : 开启UV灯：OpenUVLamp出光频率{125Hz}占空比{30%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:31:32,998 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:31:32,998 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:31:32,998 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:31:32,998 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:31:33,076 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:31:33,076 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:31:33,840 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:31:33,840 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:31:33,840 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:31:33,840 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:31:34,090 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:31:34,090 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:31:35,104 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置165mm，速度250mm/s：BackToStation2
+2024-01-03 20:31:35,759 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{166.5MM},运动速度{250MM/s}
+2024-01-03 20:31:35,759 [AppLog] INFO : 当前铺粉车位置：打印位置165mm
+2024-01-03 20:31:35,775 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{50MM/s}
+2024-01-03 20:31:35,775 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:31:37,179 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:31:37,974 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:31:39,472 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:31:39,940 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:31:39,940 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:31:39,940 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{115MM},运动速度{50MM/s}
+2024-01-03 20:31:39,940 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:31:39,956 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:31:40,736 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:31:42,233 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:31:42,701 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:31:42,701 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:31:42,701 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{115MM},运动速度{50MM/s}
+2024-01-03 20:31:42,701 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:31:42,717 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:31:43,512 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:31:45,010 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:31:45,478 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:31:45,478 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:31:45,478 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:31:45,556 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-20MM},运动速度{250MM/s}
+2024-01-03 20:31:45,556 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:31:45,556 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:31:45,556 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:31:46,336 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:31:46,336 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:31:46,336 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:31:46,336 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:31:46,336 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:31:46,336 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:31:46,461 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:31:46,461 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:31:46,461 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:31:46,461 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:31:54,698 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:31:54,698 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:31:55,930 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:31:55,930 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:31:56,710 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:31:56,710 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:31:56,710 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:31:56,710 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:31:59,502 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:31:59,502 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:32:00,282 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:32:00,282 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:32:00,282 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:32:01,047 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:32:01,047 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:32:01,047 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:32:01,047 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:32:01,047 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:32:01,047 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:32:01,078 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:32:01,842 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:32:02,685 [AppLog] INFO : 电气控制模块：手动打开端口4
+2024-01-03 20:32:04,463 [AppLog] INFO : 电气控制模块：手动关闭端口5
+2024-01-03 20:32:05,212 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:32:05,820 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:32:05,820 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:32:05,852 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:32:05,852 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:32:15,539 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:32:15,539 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:32:15,539 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:32:15,539 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:32:15,617 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:32:15,617 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:32:16,397 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:32:16,397 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:32:16,397 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:32:16,397 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:32:16,647 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:32:16,647 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:32:17,661 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置165mm，速度250mm/s：BackToStation2
+2024-01-03 20:32:18,316 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{166.5MM},运动速度{250MM/s}
+2024-01-03 20:32:18,316 [AppLog] INFO : 当前铺粉车位置：打印位置165mm
+2024-01-03 20:32:18,332 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{50MM/s}
+2024-01-03 20:32:18,332 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:32:19,736 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:32:20,531 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:32:22,029 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:32:22,497 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:32:22,497 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:32:22,497 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{115MM},运动速度{50MM/s}
+2024-01-03 20:32:22,497 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:32:22,512 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:32:23,308 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:32:24,806 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:32:25,258 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:32:25,258 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:32:25,258 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{115MM},运动速度{50MM/s}
+2024-01-03 20:32:25,258 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:32:25,274 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:32:26,069 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:32:27,567 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:32:28,035 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:32:28,035 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:32:28,035 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:32:28,113 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-20MM},运动速度{250MM/s}
+2024-01-03 20:32:28,113 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:32:28,113 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:32:28,113 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:32:28,893 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:32:28,893 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:32:28,893 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:32:28,893 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:32:28,893 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:32:28,893 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:32:29,033 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:32:29,033 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:32:29,033 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:32:29,033 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:32:37,254 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:32:37,254 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:32:38,502 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:32:38,502 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:32:39,267 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:32:39,267 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:32:39,267 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:32:39,267 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:32:42,059 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:32:42,059 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:32:42,839 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:32:42,839 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:32:42,839 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:32:43,604 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:32:43,604 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:32:43,604 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:32:43,604 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:32:43,604 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:32:43,604 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:32:45,366 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:32:46,240 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:32:46,240 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:32:46,287 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:32:46,287 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:32:49,001 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:32:49,017 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:32:49,017 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:32:49,017 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:32:49,095 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:32:49,095 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:32:49,859 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:32:49,859 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:32:49,859 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:32:49,859 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:32:50,109 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:32:50,109 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:32:51,123 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置165mm，速度250mm/s：BackToStation2
+2024-01-03 20:32:51,778 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{166.5MM},运动速度{250MM/s}
+2024-01-03 20:32:51,778 [AppLog] INFO : 当前铺粉车位置：打印位置165mm
+2024-01-03 20:32:51,794 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{50MM/s}
+2024-01-03 20:32:51,794 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:32:52,496 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:32:53,291 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:32:55,491 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:32:56,115 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-155MM},运动速度{250MM/s}
+2024-01-03 20:32:56,115 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:32:56,115 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{155MM},运动速度{50MM/s}
+2024-01-03 20:32:56,115 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:32:56,224 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:32:57,020 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:32:59,219 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:32:59,843 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-155MM},运动速度{250MM/s}
+2024-01-03 20:32:59,843 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:32:59,843 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{155MM},运动速度{50MM/s}
+2024-01-03 20:32:59,843 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:32:59,968 [AppLog] INFO : 打开IR灯：OpenIRLamp(true)
+2024-01-03 20:33:00,748 [AppLog] INFO : 关闭IR灯：OpenIRLamp(false)
+2024-01-03 20:33:02,948 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置195mm，速度250mm/s：BackToStation2
+2024-01-03 20:33:03,572 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-155MM},运动速度{250MM/s}
+2024-01-03 20:33:03,572 [AppLog] INFO : 当前铺粉车位置：打印位置195mm
+2024-01-03 20:33:03,572 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:33:03,650 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{20MM},运动速度{250MM/s}
+2024-01-03 20:33:03,650 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:33:03,650 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:33:03,650 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:33:04,430 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:33:04,430 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:33:04,430 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:33:04,430 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:33:04,430 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:33:04,430 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:33:04,570 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:33:04,570 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:33:04,570 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:33:04,570 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:33:12,791 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:33:12,791 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:33:14,039 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:33:14,039 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:33:14,804 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:33:14,819 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:33:14,819 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:33:14,819 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:33:17,596 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:33:17,596 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:33:18,376 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:33:18,376 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:33:18,376 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:33:19,141 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:33:19,141 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:33:19,141 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:33:19,141 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:33:19,141 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:33:19,141 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:33:21,683 [AppLog] INFO : 手动停止自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:33:25,630 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:33:26,410 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:33:27,253 [AppLog] INFO : 电气控制模块：手动关闭端口4
+2024-01-03 20:33:27,674 [AppLog] INFO : 电气控制模块：手动打开端口5
+2024-01-03 20:33:29,296 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:34:00,839 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:34:04,209 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:34:05,083 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:34:05,098 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:34:05,129 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:34:05,129 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:34:23,054 [AppLog] INFO : 开启UV灯：OpenUVLamp出光频率{125Hz}占空比{50%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:34:25,456 [AppLog] INFO : 关闭UV灯：OpenUVLamp出光频率{125Hz}占空比{50%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:34:26,455 [AppLog] INFO : 回复默认光区：左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:34:27,500 [AppLog] INFO : 开启UV灯：OpenUVLamp出光频率{125Hz}占空比{50%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:34:28,264 [AppLog] INFO : 关闭UV灯：OpenUVLamp出光频率{125Hz}占空比{50%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:34:29,231 [AppLog] INFO : 开启UV灯：OpenUVLamp出光频率{125Hz}占空比{50%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:34:34,036 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:34:34,036 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:34:34,036 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:34:34,036 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:34:34,114 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:34:34,114 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:34:34,894 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:34:34,894 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:34:34,894 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:34:34,894 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:34:35,144 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:34:35,144 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:34:36,158 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置165mm，速度250mm/s：BackToStation2
+2024-01-03 20:34:36,813 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{166.5MM},运动速度{250MM/s}
+2024-01-03 20:34:36,813 [AppLog] INFO : 当前铺粉车位置：打印位置165mm
+2024-01-03 20:34:36,829 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{50MM/s}
+2024-01-03 20:34:36,829 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:34:38,233 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:34:39,028 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:34:40,526 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:34:40,994 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:34:40,994 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:34:40,994 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{115MM},运动速度{50MM/s}
+2024-01-03 20:34:40,994 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:34:41,009 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:34:41,789 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:34:43,287 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:34:43,755 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:34:43,755 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:34:43,755 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{115MM},运动速度{50MM/s}
+2024-01-03 20:34:43,755 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:34:43,802 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:34:44,566 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:34:46,064 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:34:46,532 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:34:46,532 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:34:46,532 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:34:46,610 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-20MM},运动速度{250MM/s}
+2024-01-03 20:34:46,610 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:34:46,610 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:34:46,610 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:34:47,390 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:34:47,390 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:34:47,390 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:34:47,390 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:34:47,390 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:34:47,390 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:34:47,515 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:34:47,515 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:34:47,515 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:34:47,515 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:34:55,751 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:34:55,751 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:34:56,984 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:34:56,984 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:34:57,764 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:34:57,764 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:34:57,764 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:34:57,764 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:35:00,556 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:35:00,556 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:35:01,336 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:35:01,336 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:35:01,336 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:35:02,101 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:35:02,101 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:35:02,101 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:35:02,101 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:35:02,101 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:35:02,101 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:35:03,349 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:35:04,316 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-03 20:35:05,127 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2024-01-03 20:35:11,102 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2024-01-03 20:35:11,102 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2024-01-03 20:35:13,426 [AppLog] INFO : 喷墨控制器关闭！
+2024-01-03 20:35:13,426 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2024-01-03 20:35:13,426 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:35:14,955 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:35:15,876 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:35:16,734 [AppLog] INFO : 电气控制模块：手动关闭端口5
+2024-01-03 20:35:17,514 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:35:19,089 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2024-01-03 20:35:19,089 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2024-01-03 20:35:19,760 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{14621MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：42 GB
+  盘符 F:\ 的剩余空间：43 GB
+==========================================================================
+2024-01-03 20:35:30,415 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{21.42826%} ，可用内存大小:{14660MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：42 GB
+  盘符 F:\ 的剩余空间：43 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号:  USB  SanDisk 3.2Gen1 USB Device
+==========================================================================
+2024-01-03 20:35:31,242 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-03 20:35:31,242 [AppLog] INFO : 开启系统：一键启动系统开始！
+2024-01-03 20:35:37,341 [AppLog] INFO : 开启系统：一键启动系统结束！
+2024-01-03 20:35:37,528 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2024-01-03 20:35:37,591 [AppLog] INFO : 初始化喷墨控制器启动！
+2024-01-03 20:36:01,381 [AppLog] INFO : 打开喷墨控制器设备成功！
+2024-01-03 20:36:01,412 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2024-01-03 20:36:01,802 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-03 20:36:02,956 [AppLog] INFO : 初始化喷墨控制器成功！
+2024-01-03 20:36:02,956 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-03 20:36:03,003 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2024-01-03 20:36:03,128 [AppLog] INFO : 红外灯控制器485通讯建立！
+2024-01-03 20:36:03,128 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:36:04,220 [AppLog] INFO : 电气控制模块：手动打开端口5
+2024-01-03 20:36:04,828 [AppLog] INFO : 电气控制模块：手动关闭端口4
+2024-01-03 20:36:05,515 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:36:06,186 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:36:06,186 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:36:06,201 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:36:06,201 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:36:13,720 [AppLog] INFO : 开启UV灯：OpenUVLamp出光频率{125Hz}占空比{50%}左灯开启{550MM}左灯关闭{1000MM}右灯开启{270MM}右灯关闭{720MM}
+2024-01-03 20:36:17,730 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2024-01-03 20:36:17,730 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2024-01-03 20:36:20,990 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2024-01-03 20:36:20,990 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2024-01-03 20:36:26,356 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{50MM/s}
+2024-01-03 20:36:26,356 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2024-01-03 20:36:31,380 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2024-01-03 20:36:35,966 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:36:35,966 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:36:35,966 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:36:35,966 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:36:36,091 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:36:36,091 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:36:36,871 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:36:36,871 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:36:36,871 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:36:36,871 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:36:37,167 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:36:37,167 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:36:38,181 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置165mm，速度250mm/s：BackToStation2
+2024-01-03 20:36:38,836 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{164MM},运动速度{250MM/s}
+2024-01-03 20:36:38,836 [AppLog] INFO : 当前铺粉车位置：打印位置165mm
+2024-01-03 20:36:38,836 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{50MM/s}
+2024-01-03 20:36:38,836 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:36:40,256 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:36:41,036 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:36:42,534 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:36:43,002 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:36:43,002 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:36:43,002 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{115MM},运动速度{50MM/s}
+2024-01-03 20:36:43,002 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:36:43,017 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:36:43,828 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:36:45,310 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:36:45,778 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:36:45,778 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:36:45,778 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{115MM},运动速度{50MM/s}
+2024-01-03 20:36:45,778 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:36:45,794 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:36:46,574 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:36:48,072 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:36:48,540 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:36:48,540 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:36:48,540 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:36:48,618 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-20MM},运动速度{250MM/s}
+2024-01-03 20:36:48,618 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:36:48,618 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:36:48,618 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:36:49,398 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:36:49,398 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:36:49,398 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:36:49,398 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:36:49,398 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:36:49,398 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:36:49,585 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:36:49,585 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:36:49,585 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:36:49,585 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:36:57,775 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:36:57,775 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:36:59,007 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:36:59,007 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:36:59,787 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:36:59,787 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:36:59,787 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:36:59,787 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:37:02,580 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:37:02,580 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:37:03,344 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:37:03,344 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:37:03,344 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:37:04,109 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:37:04,109 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:37:04,109 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:37:04,109 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:37:04,109 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:37:04,124 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:37:06,932 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:37:07,697 [AppLog] INFO : 进入手动调试子模块！
+2024-01-03 20:37:07,697 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-03 20:37:07,728 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-03 20:37:07,728 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-03 20:37:09,225 [AppLog] INFO : 手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click
+2024-01-03 20:37:09,225 [AppLog] INFO : 开启手动铺粉逻辑：NewAutoSupplyPowderThread
+2024-01-03 20:37:09,225 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:37:09,225 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:37:09,303 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-0.1MM},运动速度{2MM/s}
+2024-01-03 20:37:09,303 [AppLog] INFO : 成形面高度下降层厚 TrapSpace{0.1mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:37:10,068 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:37:10,068 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:37:10,068 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:37:10,068 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:37:10,317 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第8轴},点动量{0.6MM},运动速度{2.5MM/s}
+2024-01-03 20:37:10,317 [AppLog] INFO : Hopper落粉轴转2圈落粉，速度0.5rev/s：TrapMoveUp(8, true, 0.5, rotateNuM.ToString(), true, false)
+2024-01-03 20:37:11,331 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置165mm，速度250mm/s：BackToStation2
+2024-01-03 20:37:11,987 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{166.5MM},运动速度{250MM/s}
+2024-01-03 20:37:11,987 [AppLog] INFO : 当前铺粉车位置：打印位置165mm
+2024-01-03 20:37:12,002 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{185MM},运动速度{50MM/s}
+2024-01-03 20:37:12,002 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:37:13,406 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:37:14,202 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:37:15,699 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:37:16,167 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:37:16,167 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:37:21,175 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{115MM},运动速度{50MM/s}
+2024-01-03 20:37:21,175 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:37:21,191 [AppLog] INFO : 打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)
+2024-01-03 20:37:21,971 [AppLog] INFO : 关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)
+2024-01-03 20:37:23,468 [AppLog] INFO : 开启铺粉车不等停运动至再次出光前位置235mm，速度250mm/s：BackToStation2
+2024-01-03 20:37:23,936 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-115MM},运动速度{250MM/s}
+2024-01-03 20:37:23,936 [AppLog] INFO : 当前铺粉车位置：打印位置235mm
+2024-01-03 20:37:28,944 [AppLog] INFO : 开启铺粉车不等停运动至准备打印位置215mm，速度250mm/s：BackToStation2
+2024-01-03 20:37:29,022 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-20MM},运动速度{250MM/s}
+2024-01-03 20:37:29,022 [AppLog] INFO : 当前铺粉车位置：打印位置215mm
+2024-01-03 20:37:29,022 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:37:29,022 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:37:29,802 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:37:29,802 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:37:29,802 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:37:29,802 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:37:29,802 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{480MM},运动速度{50MM/s}
+2024-01-03 20:37:29,802 [AppLog] INFO : 开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2
+2024-01-03 20:37:29,927 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.125MM},运动速度{1MM/s}
+2024-01-03 20:37:29,927 [AppLog] INFO : 在{40mm}处，落粉轴运动{45度}，落粉轴转速{1rev/s}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:37:29,927 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{0.0753424657534247MM/s}
+2024-01-03 20:37:29,927 [AppLog] INFO : 开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)
+2024-01-03 20:37:38,163 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第3轴},点动量{0.5MM},运动速度{2MM/s}
+2024-01-03 20:37:38,163 [AppLog] INFO : 落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)
+2024-01-03 20:37:39,396 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:37:39,396 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:37:40,176 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{-1.5MM},运动速度{2MM/s}
+2024-01-03 20:37:40,176 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:37:40,176 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:37:40,176 [AppLog] INFO : 成形面高度下降指定厚度 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:37:42,968 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-696.5MM},运动速度{250MM/s}
+2024-01-03 20:37:42,968 [AppLog] INFO : 铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：-1.5mm，速度250mm/s：BackToStation2
+2024-01-03 20:37:43,748 [AppLog] INFO : 落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{True}
+2024-01-03 20:37:43,748 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-03 20:37:43,748 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-03 20:37:44,513 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-03 20:37:44,513 [AppLog] INFO : 电气控制模块：手动关闭端口15
+2024-01-03 20:37:44,513 [AppLog] INFO : 电气控制模块：手动关闭端口14
+2024-01-03 20:37:44,513 [AppLog] INFO : 成形面高度上升层厚 TrapSpace{1.5mm}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）
+2024-01-03 20:37:44,513 [AppLog] INFO : 手动铺粉正常结束：NewAutoSupplyPowderThread
+2024-01-03 20:37:44,513 [AppLog] INFO : 发送监控指令，拍照记录1条：SendMessageFromSharedMemory
+2024-01-03 20:37:45,090 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2024-01-03 20:37:46,307 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-03 20:37:47,087 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2024-01-03 20:37:49,770 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:37:53,405 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2024-01-03 20:37:53,405 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2024-01-03 20:37:53,592 [AppLog] INFO : 喷墨控制器关闭！
+2024-01-03 20:37:53,592 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2024-01-03 20:37:53,592 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:37:54,637 [AppLog] INFO : 电气控制模块：手动关闭端口5
+2024-01-03 20:37:55,557 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:37:57,414 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:37:58,256 [AppLog] INFO : 进入电气控制模块
+2024-01-03 20:37:59,411 [AppLog] INFO : 电气控制模块：手动关闭端口7
+2024-01-03 20:38:00,081 [AppLog] INFO : 电气控制模块：手动关闭端口9
+2024-01-03 20:38:00,581 [AppLog] INFO : 退出电气控制模块
+2024-01-03 20:38:02,265 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2024-01-03 20:38:02,281 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2024-01-03 20:38:02,952 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{5.356588%} ，可用内存大小:{14636MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：42 GB
+  盘符 F:\ 的剩余空间：43 GB
+==========================================================================

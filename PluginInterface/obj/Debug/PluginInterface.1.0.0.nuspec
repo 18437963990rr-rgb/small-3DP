@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>PluginInterface</id>
+    <version>1.0.0</version>
+    <authors>ShibiaoW</authors>
+    <owners>ShibiaoW</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Your plugin interface description.</description>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="E:\LaserAdd_3DP_Software_220426\PluginInterface\bin\Debug\netstandard2.0\PluginInterface.dll" target="lib\netstandard2.0\PluginInterface.dll" />
+  </files>
+</package>

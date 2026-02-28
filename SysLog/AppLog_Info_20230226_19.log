@@ -1,0 +1,220 @@
+2023-02-26 19:34:39,247 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{49.99973%} ，可用内存大小:{14475MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：82 GB
+  盘符 D:\ 的剩余空间：97 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-02-26 19:34:40,168 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-02-26 19:34:40,168 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-02-26 19:34:45,253 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-02-26 19:35:14,098 [AppLog] INFO : 初始化喷墨控制器！
+2023-02-26 19:35:14,410 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-02-26 19:35:14,410 [AppLog] INFO : 进入电气控制模块
+2023-02-26 19:35:16,282 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-02-26 19:35:17,062 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-02-26 19:35:17,904 [AppLog] INFO : 退出电气控制模块
+2023-02-26 19:35:19,215 [AppLog] INFO : 进入手动调试子模块！
+2023-02-26 19:35:24,706 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-02-26 19:35:37,701 [AppLog] INFO : 开启墨车和铺粉车回零校准：EncoderResetBtn_Click
+2023-02-26 19:35:37,701 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-02-26 19:35:37,701 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2023-02-26 19:35:47,950 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{30MM/s}
+2023-02-26 19:35:47,950 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2023-02-26 19:36:01,803 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-02-26 19:36:12,036 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:14,018 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 19:36:14,501 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:14,579 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 19:36:14,844 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:15,110 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 19:36:15,375 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:15,453 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 19:36:15,687 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:15,718 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 19:36:15,827 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:15,874 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 19:36:16,092 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:16,092 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 19:36:16,217 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:16,248 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 19:36:16,358 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:16,436 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 19:36:16,545 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:16,623 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 19:36:16,966 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:17,028 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 19:36:17,372 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:17,387 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 19:36:17,808 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:17,871 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 19:36:18,245 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:18,292 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-02-26 19:36:19,056 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-02-26 19:36:19,134 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-02-26 19:36:19,478 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-02-26 19:36:19,509 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-02-26 19:36:19,868 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-02-26 19:36:19,930 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-02-26 19:36:21,677 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:21,771 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-02-26 19:36:22,332 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-02-26 19:36:22,395 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-02-26 19:36:23,393 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-02-26 19:36:29,930 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-02-26 19:36:33,408 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-02-26 19:36:33,408 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-02-26 19:36:34,204 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)
+2023-02-26 19:36:34,204 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{319.62}AimPos{121}
+2023-02-26 19:36:34,235 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{100000}MoveStep{-198620}nCtlValue{0}
+2023-02-26 19:36:36,372 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{129.645}bImmeStop{False}nAxisMask{2}
+2023-02-26 19:36:36,372 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{738.24}AimPos{710}
+2023-02-26 19:36:36,404 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-28240}nCtlValue{2}
+2023-02-26 19:36:36,856 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{713.985}bImmeStop{False}nAxisMask{1}
+2023-02-26 19:36:37,698 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2023-02-26 19:36:40,709 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, true)
+2023-02-26 19:36:40,725 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-02-26 19:36:40,725 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{710.23}AimPos{780}
+2023-02-26 19:36:40,756 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{50000}MoveStep{69770}nCtlValue{2}
+2023-02-26 19:36:42,222 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{776.525}bImmeStop{False}nAxisMask{1}
+2023-02-26 19:36:42,550 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.435}AimPos{710}
+2023-02-26 19:36:42,581 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{50000}MoveStep{-69435.0000000001}nCtlValue{2}
+2023-02-26 19:36:44,048 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{713.595}bImmeStop{False}nAxisMask{1}
+2023-02-26 19:36:45,623 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-02-26 19:41:07,953 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-02-26 19:41:08,109 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-02-26 19:41:08,250 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-02-26 19:41:08,453 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-02-26 19:42:54,704 [AppLog] INFO : 手动停止自动清洗过程：AutoCleanBtn_Click
+2023-02-26 19:42:55,250 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-02-26 19:42:55,250 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-02-26 19:42:56,062 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)
+2023-02-26 19:42:56,062 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{121.49}AimPos{121}
+2023-02-26 19:42:56,093 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{100000}MoveStep{-490.000000000009}nCtlValue{0}
+2023-02-26 19:42:56,140 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{121.49}bImmeStop{False}nAxisMask{2}
+2023-02-26 19:42:56,140 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{747.545}AimPos{710}
+2023-02-26 19:42:56,171 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-37545}nCtlValue{2}
+2023-02-26 19:42:56,732 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{713.675}bImmeStop{False}nAxisMask{1}
+2023-02-26 19:42:57,575 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2023-02-26 19:43:00,586 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, true)
+2023-02-26 19:43:00,601 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-02-26 19:43:00,601 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{710.99}AimPos{780}
+2023-02-26 19:43:00,632 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{50000}MoveStep{69010}nCtlValue{2}
+2023-02-26 19:43:02,083 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.84}bImmeStop{False}nAxisMask{1}
+2023-02-26 19:43:02,411 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{779.01}AimPos{710}
+2023-02-26 19:43:02,442 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{50000}MoveStep{-69010}nCtlValue{2}
+2023-02-26 19:43:03,893 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{713.865}bImmeStop{False}nAxisMask{1}
+2023-02-26 19:43:05,468 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-02-26 19:43:15,047 [AppLog] INFO : 手动停止自动清洗过程：AutoCleanBtn_Click
+2023-02-26 19:43:17,558 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-02-26 19:43:17,590 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-02-26 19:43:17,886 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-02-26 19:43:18,042 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-02-26 19:43:18,541 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{100000},nPlsCount{750000},cControlFlag{2}
+2023-02-26 19:43:18,635 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-02-26 19:43:31,739 [AppLog] INFO : 手动开启自动清洗过程：AutoCleanBtn_Click
+2023-02-26 19:43:31,739 [AppLog] INFO : 进入自动清洗过程：AutoCleanThread
+2023-02-26 19:43:32,472 [AppLog] INFO : 刮墨轴回零成功：motionMap.SetBackSpreaderAxis(4, 1, 2, -SinkPosition)
+2023-02-26 19:43:32,472 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{121.005}AimPos{121}
+2023-02-26 19:43:32,503 [AppLog] INFO : Y方向运动开始：DEM_Run：返回值{True}nAxis{1}DirFlag{False}nSpeed{100000}MoveStep{-4.99999999999545}nCtlValue{0}
+2023-02-26 19:43:32,503 [AppLog] INFO : Y方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{121.005}bImmeStop{False}nAxisMask{2}
+2023-02-26 19:43:32,503 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{734.53}AimPos{710}
+2023-02-26 19:43:32,534 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{100000}MoveStep{-24530}nCtlValue{2}
+2023-02-26 19:43:32,971 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{713.705}bImmeStop{False}nAxisMask{1}
+2023-02-26 19:43:33,814 [AppLog] INFO : 开启压墨： motionMap.SetDo(13, true)
+2023-02-26 19:43:36,824 [AppLog] INFO : 关闭压墨： motionMap.SetDo(13, true)
+2023-02-26 19:43:36,840 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-02-26 19:43:36,840 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{711.1}AimPos{780}
+2023-02-26 19:43:36,871 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{True}nSpeed{50000}MoveStep{68900}nCtlValue{2}
+2023-02-26 19:43:38,322 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{775.855}bImmeStop{False}nAxisMask{1}
+2023-02-26 19:43:38,650 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{778.955}AimPos{710}
+2023-02-26 19:43:38,681 [AppLog] INFO : X方向运动开始：DEM_Run：返回值{True}nAxis{0}DirFlag{False}nSpeed{50000}MoveStep{-68955}nCtlValue{2}
+2023-02-26 19:43:40,132 [AppLog] INFO : X方向到位停止：DEM_StopAxisRun：返回值{True}CurrentPos{714.435}bImmeStop{False}nAxisMask{1}
+2023-02-26 19:43:41,707 [AppLog] INFO : 结束自动清洗过程：AutoCleanThread
+2023-02-26 19:44:02,408 [AppLog] INFO : 手动停止自动清洗过程：AutoCleanBtn_Click
+2023-02-26 19:54:12,075 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-02-26 19:54:14,072 [AppLog] INFO : 进入数据加载模块
+2023-02-26 19:54:33,400 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\hk\最终零件\Box-大尺寸.cli
+2023-02-26 19:54:46,036 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-大尺寸.cli
+2023-02-26 19:54:47,238 [AppLog] INFO : 进入数据加载模块
+2023-02-26 19:54:56,223 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Release\CLI输入文件\250x40x10长条形零件.cli
+2023-02-26 19:54:59,780 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\Release\CLI输入文件\250x40x10长条形零件.cli
+2023-02-26 19:55:02,916 [AppLog] INFO : 进入数据加载模块
+2023-02-26 19:55:08,422 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-140.cli
+2023-02-26 19:55:21,214 [AppLog] INFO : CAD数据阵列：SelectCADFile{D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-140.cli}
+X方向间距{5MM}Y方向间距{-5MM}X方向数目{2}Y方向数目{1}
+2023-02-26 19:55:24,553 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-140.cliD:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-140-copys-0-1.cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-12.5MM}Y方向平移目标值{70MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-02-26 19:55:31,822 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-140.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-5MM}Y方向平移目标值{70MM}Z方向平移目标值{0MM}X方向平移增量{-60MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-02-26 19:55:38,702 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-140-copys-0-1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-5MM}Y方向平移目标值{70MM}Z方向平移目标值{0MM}X方向平移增量{60MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-02-26 19:55:44,427 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-140.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-5MM}Y方向平移目标值{70MM}Z方向平移目标值{0MM}X方向平移增量{-20MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-02-26 19:55:50,620 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\Release\CLI输入文件\SCUT-3DP测试件打-0915\Box-Shield-140-copys-0-1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-5MM}Y方向平移目标值{70MM}Z方向平移目标值{0MM}X方向平移增量{20MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-02-26 19:55:56,970 [AppLog] INFO : 进入数据加载模块
+2023-02-26 19:56:13,100 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\hk\最终零件\Box-40.cli
+2023-02-26 19:56:19,169 [AppLog] INFO : CAD数据阵列：SelectCADFile{D:\hk\最终零件\Box-40.cli}
+X方向间距{5MM}Y方向间距{-5MM}X方向数目{3}Y方向数目{2}
+2023-02-26 19:56:22,491 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\最终零件\Box-40.cliD:\hk\最终零件\Box-40-copys-0-1.cliD:\hk\最终零件\Box-40-copys-0-2.cliD:\hk\最终零件\Box-40-copys-1-0.cliD:\hk\最终零件\Box-40-copys-1-1.cliD:\hk\最终零件\Box-40-copys-1-2.cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-49.700003MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-02-26 19:56:32,304 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\最终零件\Box-40.cliD:\hk\最终零件\Box-40-copys-0-1.cliD:\hk\最终零件\Box-40-copys-0-2.cliD:\hk\最终零件\Box-40-copys-1-0.cliD:\hk\最终零件\Box-40-copys-1-1.cliD:\hk\最终零件\Box-40-copys-1-2.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-49.700003MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{40MM}Z方向平移增量{0MM}
+2023-02-26 19:56:39,792 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\最终零件\Box-40.cliD:\hk\最终零件\Box-40-copys-0-1.cliD:\hk\最终零件\Box-40-copys-0-2.cliD:\hk\最终零件\Box-40-copys-1-0.cliD:\hk\最终零件\Box-40-copys-1-1.cliD:\hk\最终零件\Box-40-copys-1-2.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-49.700003MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{20MM}Z方向平移增量{0MM}
+2023-02-26 19:56:47,576 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\最终零件\Box-40.cliD:\hk\最终零件\Box-40-copys-0-1.cliD:\hk\最终零件\Box-40-copys-0-2.cliD:\hk\最终零件\Box-40-copys-1-0.cliD:\hk\最终零件\Box-40-copys-1-1.cliD:\hk\最终零件\Box-40-copys-1-2.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-49.700003MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{-10MM}Z方向平移增量{0MM}
+2023-02-26 19:56:50,493 [AppLog] INFO : 进入数据加载模块
+2023-02-26 19:57:04,596 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\hk\最终零件\Box-300.cli
+2023-02-26 19:57:07,326 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-300.cli
+2023-02-26 19:57:08,714 [AppLog] INFO : 进入数据加载模块
+2023-02-26 19:57:20,399 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\hk\最终零件\Box.cli
+2023-02-26 19:57:30,008 [AppLog] INFO : CAD数据阵列：SelectCADFile{D:\hk\最终零件\Box.cli}
+X方向间距{5MM}Y方向间距{-5MM}X方向数目{8}Y方向数目{2}
+2023-02-26 19:57:33,019 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\最终零件\Box.cliD:\hk\最终零件\Box-copys-0-1.cliD:\hk\最终零件\Box-copys-0-2.cliD:\hk\最终零件\Box-copys-0-3.cliD:\hk\最终零件\Box-copys-0-4.cliD:\hk\最终零件\Box-copys-0-5.cliD:\hk\最终零件\Box-copys-0-6.cliD:\hk\最终零件\Box-copys-0-7.cliD:\hk\最终零件\Box-copys-1-0.cliD:\hk\最终零件\Box-copys-1-1.cliD:\hk\最终零件\Box-copys-1-2.cliD:\hk\最终零件\Box-copys-1-3.cliD:\hk\最终零件\Box-copys-1-4.cliD:\hk\最终零件\Box-copys-1-5.cliD:\hk\最终零件\Box-copys-1-6.cliD:\hk\最终零件\Box-copys-1-7.cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-65.179996MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-02-26 19:57:42,972 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\最终零件\Box.cliD:\hk\最终零件\Box-copys-0-1.cliD:\hk\最终零件\Box-copys-0-2.cliD:\hk\最终零件\Box-copys-0-3.cliD:\hk\最终零件\Box-copys-0-4.cliD:\hk\最终零件\Box-copys-0-5.cliD:\hk\最终零件\Box-copys-0-6.cliD:\hk\最终零件\Box-copys-0-7.cliD:\hk\最终零件\Box-copys-1-0.cliD:\hk\最终零件\Box-copys-1-1.cliD:\hk\最终零件\Box-copys-1-2.cliD:\hk\最终零件\Box-copys-1-3.cliD:\hk\最终零件\Box-copys-1-4.cliD:\hk\最终零件\Box-copys-1-5.cliD:\hk\最终零件\Box-copys-1-6.cliD:\hk\最终零件\Box-copys-1-7.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-65.179996MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{-50MM}Z方向平移增量{0MM}
+2023-02-26 19:58:19,195 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box.cli
+2023-02-26 19:58:19,211 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-0-1.cli
+2023-02-26 19:58:19,211 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-0-2.cli
+2023-02-26 19:58:19,226 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-0-3.cli
+2023-02-26 19:58:19,226 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-0-4.cli
+2023-02-26 19:58:19,226 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-0-5.cli
+2023-02-26 19:58:19,242 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-0-6.cli
+2023-02-26 19:58:19,242 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-0-7.cli
+2023-02-26 19:58:19,242 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-1-0.cli
+2023-02-26 19:58:19,242 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-1-1.cli
+2023-02-26 19:58:19,258 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-1-2.cli
+2023-02-26 19:58:19,258 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-1-3.cli
+2023-02-26 19:58:19,258 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-1-4.cli
+2023-02-26 19:58:19,273 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-1-5.cli
+2023-02-26 19:58:19,273 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-1-6.cli
+2023-02-26 19:58:19,273 [AppLog] INFO : CAD数据删除：删除.CLI格式CAD数据成功-D:\hk\最终零件\Box-copys-1-7.cli
+2023-02-26 19:58:20,209 [AppLog] INFO : 进入数据加载模块
+2023-02-26 19:58:26,090 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\hk\最终零件\Box.cli
+2023-02-26 19:58:32,798 [AppLog] INFO : CAD数据阵列：SelectCADFile{D:\hk\最终零件\Box.cli}
+X方向间距{5MM}Y方向间距{-5MM}X方向数目{7}Y方向数目{2}
+2023-02-26 19:58:35,310 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\最终零件\Box.cliD:\hk\最终零件\Box-copys-0-1.cliD:\hk\最终零件\Box-copys-0-2.cliD:\hk\最终零件\Box-copys-0-3.cliD:\hk\最终零件\Box-copys-0-4.cliD:\hk\最终零件\Box-copys-0-5.cliD:\hk\最终零件\Box-copys-0-6.cliD:\hk\最终零件\Box-copys-1-0.cliD:\hk\最终零件\Box-copys-1-1.cliD:\hk\最终零件\Box-copys-1-2.cliD:\hk\最终零件\Box-copys-1-3.cliD:\hk\最终零件\Box-copys-1-4.cliD:\hk\最终零件\Box-copys-1-5.cliD:\hk\最终零件\Box-copys-1-6.cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-56.7199965MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-02-26 19:58:42,970 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\最终零件\Box.cliD:\hk\最终零件\Box-copys-0-1.cliD:\hk\最终零件\Box-copys-0-2.cliD:\hk\最终零件\Box-copys-0-3.cliD:\hk\最终零件\Box-copys-0-4.cliD:\hk\最终零件\Box-copys-0-5.cliD:\hk\最终零件\Box-copys-0-6.cliD:\hk\最终零件\Box-copys-1-0.cliD:\hk\最终零件\Box-copys-1-1.cliD:\hk\最终零件\Box-copys-1-2.cliD:\hk\最终零件\Box-copys-1-3.cliD:\hk\最终零件\Box-copys-1-4.cliD:\hk\最终零件\Box-copys-1-5.cliD:\hk\最终零件\Box-copys-1-6.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-56.7199965MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{-40MM}Z方向平移增量{0MM}
+2023-02-26 19:58:57,618 [AppLog] INFO : 进入数据加载模块
+2023-02-26 19:59:14,232 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\hk\最终零件\拉伸件__凸台-拉伸1.cli
+2023-02-26 19:59:20,191 [AppLog] INFO : CAD数据阵列：SelectCADFile{D:\hk\最终零件\拉伸件__凸台-拉伸1.cli}
+X方向间距{5MM}Y方向间距{-5MM}X方向数目{2}Y方向数目{2}
+2023-02-26 19:59:22,734 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\最终零件\拉伸件__凸台-拉伸1.cliD:\hk\最终零件\拉伸件__凸台-拉伸1-copys-0-1.cliD:\hk\最终零件\拉伸件__凸台-拉伸1-copys-1-0.cliD:\hk\最终零件\拉伸件__凸台-拉伸1-copys-1-1.cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-67.439999MM}Y方向平移目标值{-2.5MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2023-02-26 19:59:39,457 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\最终零件\拉伸件__凸台-拉伸1-copys-1-0.cliD:\hk\最终零件\拉伸件__凸台-拉伸1-copys-1-1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-67.439999MM}Y方向平移目标值{4.97004999999999MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{20MM}Z方向平移增量{0MM}
+2023-02-26 19:59:50,830 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\hk\最终零件\拉伸件__凸台-拉伸1-copys-1-0.cliD:\hk\最终零件\拉伸件__凸台-拉伸1-copys-1-1.cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-67.439999MM}Y方向平移目标值{4.97004999999999MM}Z方向平移目标值{0MM}X方向平移增量{0MM}Y方向平移增量{5MM}Z方向平移增量{0MM}

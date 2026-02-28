@@ -1,0 +1,33 @@
+2026-02-04 15:24:35,920 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 10 专业版}
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：E
+CPU使用率：{1.658344%} ，可用内存大小:{8821MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：11 GB
+  盘符 D:\ 的剩余空间：80 GB
+  盘符 E:\ 的剩余空间：585 GB
+  盘符 Z:\ 的剩余空间：12891 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i5-10400F CPU @ 2.90GHz
+  内存条厂家: Kingston 内存条型号: 99P5723-031.A00G    
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: KINGSTON SA400S37240G
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: WDC WD10EZEX-08WN4A0
+==========================================================================
+2026-02-04 15:24:41,147 [AppLog] INFO : 进入电气控制模块
+2026-02-04 15:24:47,798 [AppLog] INFO : 退出电气控制模块
+2026-02-04 15:24:49,178 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2026-02-04 15:24:49,180 [AppLog] INFO : 开启系统：一键启动系统开始！
+2026-02-04 15:24:55,187 [AppLog] INFO : 开启系统：一键启动系统结束！
+2026-02-04 15:24:55,486 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2026-02-04 15:24:55,528 [AppLog] INFO : 初始化喷墨控制器启动！
+2026-02-04 15:24:55,546 [AppLog] INFO : 打开喷墨控制器设备成功！
+2026-02-04 15:24:55,579 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2026-02-04 15:24:55,580 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{0}nPrintStatus{0}bSuperDevice{0}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{0}nFpgaVersion{0}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2026-02-04 15:24:56,989 [AppLog] INFO : 初始化喷墨控制器成功！
+2026-02-04 15:24:56,990 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2026-02-04 15:24:57,021 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2026-02-04 15:27:46,164 [AppLog] INFO : 软件及设备关停中止：手动取消关停
+2026-02-04 15:27:52,496 [AppLog] INFO : 软件及设备关停中止：手动取消关停

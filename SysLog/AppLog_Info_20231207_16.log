@@ -1,0 +1,302 @@
+2023-12-07 16:10:12,794 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{28.5711%} ，可用内存大小:{14383MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：70 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-12-07 16:10:12,810 [AppLog] INFO : 进入手动调试子模块！
+2023-12-07 16:10:12,810 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-12-07 16:10:13,012 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-12-07 16:10:14,479 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-12-07 16:10:17,380 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-12-07 16:10:17,396 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-12-07 16:10:23,480 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-12-07 16:10:23,511 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-12-07 16:10:23,558 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-12-07 16:10:47,348 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-12-07 16:10:47,364 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-12-07 16:10:47,754 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-12-07 16:10:49,361 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-12-07 16:10:49,361 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-12-07 16:10:49,392 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-12-07 16:10:49,532 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-12-07 16:10:49,532 [AppLog] INFO : 进入电气控制模块
+2023-12-07 16:10:51,576 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-12-07 16:10:53,027 [AppLog] INFO : 退出电气控制模块
+2023-12-07 16:10:55,429 [AppLog] INFO : 进入手动调试子模块！
+2023-12-07 16:10:55,429 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-12-07 16:10:55,476 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-12-07 16:10:55,476 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-12-07 16:11:01,872 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2023-12-07 16:11:02,714 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:03,307 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:03,744 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:07,160 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:07,706 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:08,798 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:09,063 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:09,859 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:10,171 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:10,889 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:11,481 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:16,723 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:17,628 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:20,545 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:23,166 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:26,738 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:26,957 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:28,922 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:32,791 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:33,353 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:33,524 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:35,037 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:35,303 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:35,989 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:36,816 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:39,234 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:39,452 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:39,983 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:40,653 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:11:42,026 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:11:47,455 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-12-07 16:11:48,469 [AppLog] INFO : 进入电气控制模块
+2023-12-07 16:11:50,778 [AppLog] INFO : 退出电气控制模块
+2023-12-07 16:11:52,197 [AppLog] INFO : 进入手动调试子模块！
+2023-12-07 16:11:52,197 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-12-07 16:11:52,229 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-12-07 16:11:52,229 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-12-07 16:11:55,473 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2023-12-07 16:11:58,531 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:12:03,944 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:12:04,256 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:12:08,421 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:12:12,477 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-12-07 16:12:13,569 [AppLog] INFO : 进入电气控制模块
+2023-12-07 16:12:14,880 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-12-07 16:12:15,707 [AppLog] INFO : 退出电气控制模块
+2023-12-07 16:12:16,939 [AppLog] INFO : 进入手动调试子模块！
+2023-12-07 16:12:16,939 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-12-07 16:12:16,955 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-12-07 16:12:16,955 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-12-07 16:12:23,054 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2023-12-07 16:12:24,146 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2023-12-07 16:12:24,942 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:12:39,200 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:12:45,238 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:12:46,392 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:12:46,720 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:12:47,468 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:12:51,790 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:12:52,226 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:12:52,757 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:12:53,334 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:12:53,599 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:12:55,970 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:12:56,189 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:12:56,610 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:12:57,936 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:13:00,073 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:13:04,426 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-12-07 16:13:04,535 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:13:04,597 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-12-07 16:13:04,862 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:13:05,237 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-12-07 16:13:18,450 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:13:18,840 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-12-07 16:13:19,292 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:13:19,682 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-12-07 16:13:20,057 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:13:20,384 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-12-07 16:13:20,806 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:13:21,586 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{5MM/s}
+2023-12-07 16:13:21,835 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:13:27,326 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:13:32,147 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:13:33,176 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:13:54,860 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:13:55,110 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:12,878 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:13,237 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:13,814 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:14,641 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:28,666 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:28,869 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:33,034 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:33,330 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:38,494 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:38,681 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:40,101 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:40,366 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:41,473 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:41,739 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:42,441 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:42,753 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:43,470 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:43,829 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:44,297 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:44,999 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:45,654 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:46,029 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:46,403 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:47,089 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:47,947 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:48,228 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:48,883 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:49,164 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:49,663 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:55,014 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:55,092 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:57,214 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:57,307 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:14:58,774 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:14:58,867 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:15:00,833 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:15:00,958 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:15:02,190 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:15:02,284 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:15:03,953 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:15:04,062 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:15:04,842 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:15:04,905 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:15:05,544 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:15:05,591 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:15:06,667 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:15:06,730 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:15:07,354 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:15:07,416 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:15:08,040 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2023-12-07 16:15:08,134 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2023-12-07 16:19:11,073 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-12-07 16:19:11,120 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-12-07 16:19:11,619 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-12-07 16:19:11,697 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-12-07 16:19:11,947 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-12-07 16:19:12,025 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-12-07 16:19:12,274 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-12-07 16:19:12,337 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-12-07 16:19:12,524 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-12-07 16:19:12,524 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-12-07 16:19:12,633 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-12-07 16:19:12,695 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-12-07 16:19:12,820 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-12-07 16:19:12,883 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-12-07 16:19:13,304 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-12-07 16:19:13,366 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-12-07 16:19:13,741 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-12-07 16:19:13,787 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-12-07 16:19:14,084 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-12-07 16:19:14,084 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-12-07 16:19:15,363 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-12-07 16:19:15,363 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-12-07 16:19:15,722 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-12-07 16:19:15,737 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-12-07 16:19:16,096 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-12-07 16:19:16,127 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-12-07 16:19:16,424 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-12-07 16:19:16,486 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-12-07 16:20:57,844 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:20:57,844 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:20:59,144 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:20:59,764 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:20:59,764 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:21:01,064 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:21:01,984 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:21:01,984 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:21:03,284 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:21:07,534 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:21:07,534 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:21:08,834 [AppLog] INFO : 关闭手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:22:15,494 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:22:19,534 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:23:05,404 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:23:12,274 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:23:55,464 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-12-07 16:24:26,730 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:24:36,698 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:24:38,352 [AppLog] INFO : 开启手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:24:40,895 [AppLog] INFO : 停止手动压墨上墨：PushInkBtn_Click
+2023-12-07 16:24:54,482 [AppLog] INFO : 停止自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{false},ControlBit{255}
+2023-12-07 16:25:51,188 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-12-07 16:25:52,670 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-12-07 16:25:55,026 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-12-07 16:26:01,235 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-12-07 16:26:01,235 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-12-07 16:26:04,043 [AppLog] INFO : 喷墨控制器关闭！
+2023-12-07 16:26:04,043 [AppLog] INFO : 创建：AutoPrintMotion0=》不需重新创建-手动操作！
+2023-12-07 16:26:04,043 [AppLog] INFO : 进入电气控制模块
+2023-12-07 16:26:11,203 [AppLog] INFO : 退出电气控制模块
+2023-12-07 16:26:34,837 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-12-07 16:26:34,837 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-12-07 16:26:35,508 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{48.21411%} ，可用内存大小:{14315MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：70 GB
+==========================================================================
+2023-12-07 16:48:24,698 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{14361MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：70 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-12-07 16:48:25,260 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-12-07 16:48:25,275 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-12-07 16:48:31,359 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-12-07 16:48:31,562 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2023-12-07 16:48:31,640 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-12-07 16:48:55,430 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-12-07 16:48:55,446 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-12-07 16:48:55,836 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2023-12-07 16:49:02,216 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-12-07 16:49:02,216 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-12-07 16:49:02,247 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-12-07 16:49:02,388 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-12-07 16:49:02,388 [AppLog] INFO : 进入电气控制模块
+2023-12-07 16:49:07,754 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-12-07 16:49:09,720 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-12-07 16:49:10,921 [AppLog] INFO : 退出电气控制模块
+2023-12-07 16:49:13,121 [AppLog] INFO : 进入手动调试子模块！
+2023-12-07 16:49:13,121 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-12-07 16:49:13,152 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-12-07 16:49:13,152 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-12-07 16:49:16,365 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-12-07 16:49:18,971 [AppLog] INFO : 进入手动调试子模块！
+2023-12-07 16:49:18,971 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-12-07 16:49:19,002 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-12-07 16:49:19,002 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-12-07 16:54:24,294 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-12-07 16:54:25,495 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{System.Single[]Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{15MM}
+2023-12-07 16:59:42,410 [AppLog] INFO : 退出JOB参数设置：修改后参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{63.5,95.25,127,158.75,190.5,222.25,254,285.75,317.5,349.25,381,412.75,444.5,476.25,508,539.75,571.5,603.25,635,666.75,698.5,730.25,762,793.75,825.5,857.25,889,920.75,952.5,1270,2540Dpi}当前打印任务选定DPI{635}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{15MM}
+2023-12-07 16:59:44,625 [AppLog] INFO : 进入手动调试子模块！
+2023-12-07 16:59:44,625 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-12-07 16:59:44,656 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-12-07 16:59:44,656 [AppLog] INFO : 加载成功：温控Modbus接口！

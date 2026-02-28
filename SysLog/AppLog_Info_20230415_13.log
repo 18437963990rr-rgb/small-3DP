@@ -1,0 +1,22 @@
+2023-04-15 13:41:11,441 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-15 13:41:11,455 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-15 13:41:17,464 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-15 13:41:17,467 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-15 13:41:36,641 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-04-15 13:41:36,684 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-04-15 13:54:07,371 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-15 13:54:07,386 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-15 13:54:07,574 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-15 13:54:07,730 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-04-15 13:54:07,730 [AppLog] INFO : 进入电气控制模块
+2023-04-15 13:54:08,697 [AppLog] INFO : 退出电气控制模块
+2023-04-15 13:54:09,851 [AppLog] INFO : 进入手动调试子模块！
+2023-04-15 13:54:09,867 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-15 13:54:09,882 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-15 13:54:09,882 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-15 13:54:15,717 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-15 13:54:15,779 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-15 13:54:16,138 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-15 13:54:16,325 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-15 13:54:16,622 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-15 13:54:16,762 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}

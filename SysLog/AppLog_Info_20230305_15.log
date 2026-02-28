@@ -1,0 +1,98 @@
+2023-03-05 15:31:28,470 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{16.07103%} ，可用内存大小:{14454MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：82 GB
+  盘符 D:\ 的剩余空间：97 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-03-05 15:31:28,485 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-05 15:31:28,485 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-05 15:31:34,569 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-05 15:32:00,107 [AppLog] INFO : 初始化喷墨控制器！
+2023-03-05 15:32:00,403 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-03-05 15:32:00,403 [AppLog] INFO : 进入电气控制模块
+2023-03-05 15:32:01,386 [AppLog] INFO : 电气控制模块：手动打开端口14
+2023-03-05 15:32:02,135 [AppLog] INFO : 电气控制模块：手动打开端口15
+2023-03-05 15:32:02,899 [AppLog] INFO : 退出电气控制模块
+2023-03-05 15:32:59,792 [AppLog] INFO : 进入手动调试子模块！
+2023-03-05 15:33:41,585 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:33:42,349 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:34:55,420 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:34:57,775 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:35:04,280 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:35:12,673 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:35:56,291 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:36:00,737 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:36:04,918 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:36:07,960 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:36:08,443 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:36:11,111 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:36:52,155 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:36:54,557 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:37:00,407 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-05 15:37:00,423 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-05 15:37:02,778 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-05 15:37:02,794 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-05 15:37:08,831 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-05 15:37:08,831 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-05 15:37:11,233 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-05 15:37:11,265 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-05 15:37:14,073 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-03-05 15:37:14,088 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-03-05 15:37:33,838 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:37:38,877 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:37:39,516 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:37:44,399 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:37:48,954 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:37:52,324 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:37:55,787 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:38:03,946 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:38:04,773 [AppLog] INFO : 开启手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:38:06,645 [AppLog] INFO : 关闭手动冲洗喷头：CleanBtn_Click
+2023-03-05 15:54:42,223 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\ricoh_phcfg16 - wave4.rhdat}
+2023-03-05 15:54:47,667 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-05 15:54:53,424 [AppLog] INFO : 更新喷头电压及温度参数成功：MCU_SetPhVoltage:1号喷头电压：{18V,18V,18V,18V}；MCU_SetPhVoltage:1号喷头温度：{25℃}
+2023-03-05 15:56:59,581 [AppLog] INFO : 开启自动供墨：DEV_EnableInkAutoSupply：ReturnCode{True},Action{true},ControlBit{255}
+2023-03-05 15:57:12,170 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-03-05 15:57:33,168 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-03-05 15:57:35,758 [AppLog] INFO : 开启手动压墨：PushInkBtn_Click
+2023-03-05 15:57:38,550 [AppLog] INFO : 停止手动压墨：PushInkBtn_Click
+2023-03-05 15:57:41,062 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-05 15:57:41,748 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-05 15:57:42,887 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-05 15:57:43,542 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-05 15:57:44,790 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-05 15:57:45,991 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-05 15:57:48,269 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-05 15:57:49,579 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-05 15:57:50,110 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-05 15:57:51,014 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-05 15:58:28,798 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-03-05 15:58:40,888 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-03-05 15:58:41,949 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-03-05 15:58:51,121 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-03-05 15:58:53,820 [AppLog] INFO : 切换为点动模式====》：输出AXIS{第1轴}
+2023-03-05 15:58:54,756 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1MM},运动速度{5MM/s}
+2023-03-05 15:58:57,814 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-03-05 15:59:06,877 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-03-05 15:59:07,845 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-03-05 15:59:16,066 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-03-05 15:59:17,298 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1MM},运动速度{5MM/s}
+2023-03-05 15:59:18,172 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-03-05 15:59:26,643 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-03-05 15:59:27,516 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},运动速度{50MM/s}
+2023-03-05 15:59:36,065 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第2轴}
+2023-03-05 15:59:39,466 [AppLog] INFO : 开启撒粉轴回零校准：SpreaderHomeBtn_Click
+2023-03-05 15:59:40,152 [AppLog] INFO : 撒粉轴回零成功：SetBackSpreaderAxis：{AXIS{3}, Vel{0.5圈/s},开槽位置{-40°}}
+2023-03-05 15:59:46,876 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第4轴},运动速度{1MM/s}
+2023-03-05 15:59:47,437 [AppLog] INFO : 自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{第6轴}
+2023-03-05 15:59:47,437 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第4轴}
+2023-03-05 15:59:56,501 [AppLog] INFO : 开启刮墨轴回零校准：SpreaderHomeBtn_Click
+2023-03-05 15:59:58,061 [AppLog] INFO : 刮墨轴回零成功：SpreaderHomeBtn_Click：{AXIS{4},Vel{1圈/s},开槽位置{-107°}}

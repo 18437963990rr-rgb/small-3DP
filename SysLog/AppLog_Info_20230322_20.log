@@ -1,0 +1,404 @@
+2023-03-22 20:00:37,107 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{31.17999%} ，可用内存大小:{14391MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-03-22 20:00:45,046 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-22 20:00:45,049 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-22 20:00:51,146 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-22 20:00:51,146 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-03-22 20:01:14,624 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-03-22 20:01:16,481 [AppLog] INFO : 更新{1}号喷头电压成功：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:01:16,559 [AppLog] INFO : 更新{1}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:01:16,933 [AppLog] INFO : 更新{2}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:01:17,120 [AppLog] INFO : 更新{2}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:01:17,495 [AppLog] INFO : 更新{3}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:01:17,682 [AppLog] INFO : 更新{3}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:01:18,056 [AppLog] INFO : 更新{4}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:01:18,243 [AppLog] INFO : 更新{4}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:01:18,618 [AppLog] INFO : 更新{5}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:01:18,805 [AppLog] INFO : 更新{5}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:01:19,179 [AppLog] INFO : 更新{6}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:01:19,367 [AppLog] INFO : 更新{6}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:01:19,741 [AppLog] INFO : 更新{7}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:01:19,928 [AppLog] INFO : 更新{7}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:01:20,303 [AppLog] INFO : 更新{8}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:01:20,490 [AppLog] INFO : 更新{8}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:01:20,505 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-03-22 20:01:20,505 [AppLog] INFO : 【RecordPressureAndTemperatureAndValtage】: 准备读取{1}号喷头打印前状态：读取电压！！
+2023-03-22 20:01:20,661 [AppLog] INFO : 【RecordPressureAndTemperatureAndValtage】: 准备读取{1}号喷头打印前状态：读取温度！！
+2023-03-22 20:01:22,003 [AppLog] INFO : 【RecordPressureAndTemperatureAndValtage】: {1}号喷头打印前状态：系统负压为{-2.40kPa}，喷头温度为{14.91451℃}，喷头电压为{14.91451V,15.02201V,14.91451V,16.48082V}；
+2023-03-22 20:01:22,003 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-03-22 20:01:22,159 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-03-22 20:02:55,588 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{28.5711%} ，可用内存大小:{14382MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-03-22 20:02:55,603 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-22 20:02:55,603 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-22 20:03:01,703 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-22 20:03:01,703 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-03-22 20:03:25,181 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-03-22 20:03:28,566 [AppLog] INFO : 更新{1}号喷头电压成功：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:03:28,644 [AppLog] INFO : 更新{1}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:03:29,019 [AppLog] INFO : 更新{2}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:03:29,206 [AppLog] INFO : 更新{2}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:03:29,580 [AppLog] INFO : 更新{3}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:03:29,767 [AppLog] INFO : 更新{3}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:03:30,142 [AppLog] INFO : 更新{4}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:03:30,329 [AppLog] INFO : 更新{4}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:03:30,703 [AppLog] INFO : 更新{5}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:03:30,891 [AppLog] INFO : 更新{5}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:03:31,265 [AppLog] INFO : 更新{6}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:03:31,452 [AppLog] INFO : 更新{6}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:03:31,827 [AppLog] INFO : 更新{7}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:03:32,014 [AppLog] INFO : 更新{7}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:03:32,388 [AppLog] INFO : 更新{8}号喷头电压失败：MCU_SetPhVoltage{15V,15V,15V,15V}；
+2023-03-22 20:03:32,575 [AppLog] INFO : 更新{8}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:03:32,591 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-03-22 20:03:32,591 [AppLog] INFO : 【RecordPressureAndTemperatureAndValtage】: 准备读取{1}号喷头打印前状态：读取电压！！
+2023-03-22 20:03:32,747 [AppLog] INFO : 【RecordPressureAndTemperatureAndValtage】: 准备读取{1}号喷头打印前状态：读取温度！！
+2023-03-22 20:03:34,073 [AppLog] INFO : 【RecordPressureAndTemperatureAndValtage】: {1}号喷头打印前状态：系统负压为{-2.40kPa}，喷头温度为{14.97701℃}，喷头电压为{14.94139V,14.91451V,14.87889V,16.48082V}；
+2023-03-22 20:03:34,073 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-03-22 20:03:34,198 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-03-22 20:06:38,666 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{13.12322%} ，可用内存大小:{14154MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Generic Flash Disk USB Device
+==========================================================================
+2023-03-22 20:06:38,679 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-22 20:06:38,681 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-22 20:06:44,686 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-22 20:06:44,694 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-03-22 20:07:03,856 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-03-22 20:07:06,036 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-03-22 20:07:06,037 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-03-22 20:07:06,165 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-03-22 20:14:15,921 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{32.14262%} ，可用内存大小:{14353MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-03-22 20:14:16,499 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-22 20:14:16,514 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-22 20:14:22,598 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-22 20:14:22,598 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-03-22 20:14:46,076 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-03-22 20:14:49,259 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-03-22 20:14:49,259 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-03-22 20:14:49,415 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-03-22 20:14:49,539 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-03-22 20:14:49,539 [AppLog] INFO : 进入电气控制模块
+2023-03-22 20:14:50,725 [AppLog] INFO : 退出电气控制模块
+2023-03-22 20:14:55,826 [AppLog] INFO : 进入手动调试子模块！
+2023-03-22 20:14:55,826 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-03-22 20:14:55,842 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-03-22 20:14:55,842 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-03-22 20:15:07,027 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-22 20:15:12,393 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:16:43,919 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\调好：WaveForm-31pl-双滴-18+13.rhdat}
+2023-03-22 20:16:49,270 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:17:17,755 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-22 20:17:23,153 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:17:53,105 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\调好：WaveForm-31pl-双滴-18+13.rhdat}
+2023-03-22 20:17:58,315 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:18:17,035 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-22 20:18:22,339 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:19:04,272 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-22 20:19:04,272 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:19:16,003 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\调好：WaveForm-31pl-双滴-18+13.rhdat}
+2023-03-22 20:19:21,526 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:19:50,729 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 20:19:51,930 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-22 20:19:53,771 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 20:19:54,114 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-22 20:19:55,690 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 20:19:56,704 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-22 20:19:59,762 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 20:19:59,777 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-22 20:20:03,069 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 20:20:03,303 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-22 20:20:10,338 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-22 20:20:15,783 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:20:55,110 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\调好：WaveForm-31pl-双滴-18+13.rhdat}
+2023-03-22 20:21:00,664 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:42:21,083 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-22 20:42:22,362 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-22 20:42:23,002 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-03-22 20:42:29,171 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-03-22 20:42:29,180 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-03-22 20:42:29,205 [AppLog] INFO : 喷墨控制器关闭！
+2023-03-22 20:42:29,214 [AppLog] INFO : 进入电气控制模块
+2023-03-22 20:42:30,255 [AppLog] INFO : 退出电气控制模块
+2023-03-22 20:42:31,942 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-03-22 20:42:31,942 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-03-22 20:42:32,597 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{27.85371%} ，可用内存大小:{14251MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+==========================================================================
+2023-03-22 20:43:42,825 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{26.16879%} ，可用内存大小:{14278MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Generic Flash Disk USB Device
+==========================================================================
+2023-03-22 20:43:48,343 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-22 20:43:48,345 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-22 20:43:54,353 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-22 20:43:54,356 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-03-22 20:44:13,530 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-03-22 20:44:17,841 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-03-22 20:44:17,841 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-03-22 20:44:18,004 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-03-22 20:44:18,140 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-03-22 20:44:18,141 [AppLog] INFO : 进入电气控制模块
+2023-03-22 20:44:19,268 [AppLog] INFO : 退出电气控制模块
+2023-03-22 20:44:20,866 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-03-22 20:44:20,899 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-03-22 20:44:21,571 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{14059MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+==========================================================================
+2023-03-22 20:46:25,436 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{27.35675%} ，可用内存大小:{14266MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Generic Flash Disk USB Device
+==========================================================================
+2023-03-22 20:46:25,451 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-22 20:46:25,453 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-22 20:46:31,461 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-22 20:46:31,462 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-03-22 20:46:50,639 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-03-22 20:46:57,173 [AppLog] INFO : 更新{1}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:46:57,253 [AppLog] INFO : 更新{2}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:46:57,336 [AppLog] INFO : 更新{3}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:46:57,417 [AppLog] INFO : 更新{4}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:46:57,497 [AppLog] INFO : 更新{5}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:46:57,578 [AppLog] INFO : 更新{6}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:46:57,658 [AppLog] INFO : 更新{7}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:46:57,738 [AppLog] INFO : 更新{8}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:46:57,764 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-03-22 20:46:57,765 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-03-22 20:46:57,946 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-03-22 20:46:58,068 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-03-22 20:46:58,069 [AppLog] INFO : 进入电气控制模块
+2023-03-22 20:46:59,673 [AppLog] INFO : 退出电气控制模块
+2023-03-22 20:47:28,546 [AppLog] INFO : 进入手动调试子模块！
+2023-03-22 20:47:28,546 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-03-22 20:47:28,577 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-03-22 20:47:28,577 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-03-22 20:47:46,142 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\调好：WaveForm-31pl-双滴-18+13.rhdat}
+2023-03-22 20:47:51,634 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:48:04,566 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-22 20:48:10,135 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:48:21,866 [AppLog] INFO : {1}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:22,085 [AppLog] INFO : {2}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:22,288 [AppLog] INFO : {3}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:22,490 [AppLog] INFO : {4}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:22,678 [AppLog] INFO : {5}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:22,880 [AppLog] INFO : {6}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:23,083 [AppLog] INFO : {7}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:23,286 [AppLog] INFO : {8}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:34,674 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\调好：WaveForm-31pl-双滴-18+13.rhdat}
+2023-03-22 20:48:40,041 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:48:46,499 [AppLog] INFO : {1}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:46,827 [AppLog] INFO : {2}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:47,107 [AppLog] INFO : {3}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:47,310 [AppLog] INFO : {4}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:47,513 [AppLog] INFO : {5}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:47,716 [AppLog] INFO : {6}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:47,903 [AppLog] INFO : {7}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:48,106 [AppLog] INFO : {8}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:52,536 [AppLog] INFO : {1}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:52,755 [AppLog] INFO : {2}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:52,957 [AppLog] INFO : {3}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:53,160 [AppLog] INFO : {4}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:53,347 [AppLog] INFO : {5}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:53,535 [AppLog] INFO : {6}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:53,737 [AppLog] INFO : {7}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:48:53,940 [AppLog] INFO : {8}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:50:19,194 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-22 20:50:24,686 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:51:17,102 [AppLog] INFO : {1}号喷头电压更新成功：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:17,523 [AppLog] INFO : {2}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:17,928 [AppLog] INFO : {3}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:18,334 [AppLog] INFO : {4}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:18,724 [AppLog] INFO : {5}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:19,114 [AppLog] INFO : {6}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:19,520 [AppLog] INFO : {7}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:19,941 [AppLog] INFO : {8}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:29,784 [AppLog] INFO : {1}号喷头电压更新成功：MCU_SetPhVoltage{18V,18V,19V,18V}；
+2023-03-22 20:51:30,206 [AppLog] INFO : {2}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:30,580 [AppLog] INFO : {3}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:30,954 [AppLog] INFO : {4}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:31,344 [AppLog] INFO : {5}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:31,719 [AppLog] INFO : {6}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:32,109 [AppLog] INFO : {7}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:32,514 [AppLog] INFO : {8}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:51:59,736 [AppLog] INFO : {1}号喷头电压更新成功：MCU_SetPhVoltage{19V,19V,19V,18V}；
+2023-03-22 20:52:00,111 [AppLog] INFO : {2}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:00,501 [AppLog] INFO : {3}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:00,906 [AppLog] INFO : {4}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:01,312 [AppLog] INFO : {5}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:01,702 [AppLog] INFO : {6}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:02,123 [AppLog] INFO : {7}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:02,529 [AppLog] INFO : {8}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:22,622 [AppLog] INFO : {1}号喷头电压更新成功：MCU_SetPhVoltage{20V,20V,20V,18V}；
+2023-03-22 20:52:23,027 [AppLog] INFO : {2}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:23,402 [AppLog] INFO : {3}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:23,807 [AppLog] INFO : {4}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:24,213 [AppLog] INFO : {5}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:24,619 [AppLog] INFO : {6}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:25,009 [AppLog] INFO : {7}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:25,430 [AppLog] INFO : {8}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:37,021 [AppLog] INFO : {1}号喷头电压更新成功：MCU_SetPhVoltage{20V,20V,20V,18V}；
+2023-03-22 20:52:37,411 [AppLog] INFO : {2}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:37,816 [AppLog] INFO : {3}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:38,206 [AppLog] INFO : {4}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:38,612 [AppLog] INFO : {5}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:39,017 [AppLog] INFO : {6}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:39,423 [AppLog] INFO : {7}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:52:39,829 [AppLog] INFO : {8}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:53:00,889 [AppLog] INFO : {1}号喷头电压更新成功：MCU_SetPhVoltage{20V,20V,20V,18V}；
+2023-03-22 20:53:01,325 [AppLog] INFO : {2}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:53:01,731 [AppLog] INFO : {3}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:53:02,168 [AppLog] INFO : {4}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:53:02,589 [AppLog] INFO : {5}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:53:02,995 [AppLog] INFO : {6}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:53:03,400 [AppLog] INFO : {7}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:53:03,806 [AppLog] INFO : {8}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:03,523 [AppLog] INFO : {1}号喷头电压更新成功：MCU_SetPhVoltage{21V,21V,21V,21V}；
+2023-03-22 20:54:03,897 [AppLog] INFO : {2}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:04,303 [AppLog] INFO : {3}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:04,708 [AppLog] INFO : {4}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:05,098 [AppLog] INFO : {5}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:05,504 [AppLog] INFO : {6}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:05,894 [AppLog] INFO : {7}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:06,300 [AppLog] INFO : {8}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:19,294 [AppLog] INFO : {1}号喷头电压更新成功：MCU_SetPhVoltage{21V,21V,21V,21V}；
+2023-03-22 20:54:19,684 [AppLog] INFO : {2}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:20,074 [AppLog] INFO : {3}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:20,480 [AppLog] INFO : {4}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:20,886 [AppLog] INFO : {5}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:21,276 [AppLog] INFO : {6}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:21,697 [AppLog] INFO : {7}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:22,087 [AppLog] INFO : {8}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:54:57,390 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-22 20:54:57,390 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:56:37,854 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-22 20:56:37,854 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm！
+2023-03-22 20:56:41,067 [AppLog] INFO : {1}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:56:41,395 [AppLog] INFO : {2}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:56:41,691 [AppLog] INFO : {3}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:56:41,894 [AppLog] INFO : {4}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:56:42,113 [AppLog] INFO : {5}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:56:42,300 [AppLog] INFO : {6}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:56:42,487 [AppLog] INFO : {7}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:56:42,674 [AppLog] INFO : {8}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-22 20:56:54,156 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 20:56:55,029 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-22 20:57:11,565 [AppLog] INFO : 进入气压控制卡参数监控状态时
+2023-03-22 20:57:19,100 [AppLog] INFO : 更新气压控制卡参数：DEV_AdibControl:二级墨盒加热电压：{12V}；MCU_SetPhVoltage:二级墨盒加热温度：{25℃}MCU_SetPhVoltage:负压目标值：{System.Single[]kPa}MCU_SetPhVoltage:负压阈值：{0.16kPa}
+2023-03-22 20:57:19,334 [AppLog] INFO : 进入气压控制卡参数设置状态时
+2023-03-22 20:57:30,332 [AppLog] INFO : {1}号喷头电压更新成功：MCU_SetPhVoltage{21V,21V,21V,21V}；
+2023-03-22 20:57:30,738 [AppLog] INFO : {2}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:57:31,143 [AppLog] INFO : {3}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:57:31,533 [AppLog] INFO : {4}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:57:31,923 [AppLog] INFO : {5}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:57:32,313 [AppLog] INFO : {6}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:57:32,703 [AppLog] INFO : {7}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:57:33,093 [AppLog] INFO : {8}号喷头电压更新失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-22 20:58:46,960 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-22 20:58:48,738 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-22 20:58:50,033 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-03-22 20:58:56,257 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-03-22 20:58:56,257 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-03-22 20:58:58,426 [AppLog] INFO : 喷墨控制器关闭！
+2023-03-22 20:58:58,426 [AppLog] INFO : 进入电气控制模块
+2023-03-22 20:58:59,486 [AppLog] INFO : 退出电气控制模块
+2023-03-22 20:59:00,953 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-03-22 20:59:00,953 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-03-22 20:59:01,624 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{14231MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+==========================================================================

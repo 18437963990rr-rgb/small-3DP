@@ -1,0 +1,220 @@
+2024-01-29 12:19:50,353 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{35.71404%} ，可用内存大小:{14115MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：41 GB
+  盘符 E:\ 的剩余空间：18 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: hp v285w USB Device
+==========================================================================
+2024-01-29 12:19:50,369 [AppLog] INFO : 进入手动调试子模块！
+2024-01-29 12:19:50,369 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-29 12:19:50,572 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-29 12:19:52,834 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2024-01-29 12:19:54,316 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-29 12:19:54,316 [AppLog] INFO : 开启系统：一键启动系统开始！
+2024-01-29 12:20:00,415 [AppLog] INFO : 开启系统：一键启动系统结束！
+2024-01-29 12:20:00,447 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2024-01-29 12:20:00,509 [AppLog] INFO : 初始化喷墨控制器启动！
+2024-01-29 12:20:24,283 [AppLog] INFO : 打开喷墨控制器设备成功！
+2024-01-29 12:20:35,391 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2024-01-29 12:20:35,796 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-29 12:22:44,403 [AppLog] INFO : 初始化喷墨控制器成功！
+2024-01-29 12:22:44,403 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-29 12:22:44,434 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2024-01-29 12:22:44,574 [AppLog] INFO : 红外灯控制器485通讯建立！
+2024-01-29 12:22:44,574 [AppLog] INFO : 进入电气控制模块
+2024-01-29 12:22:45,432 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-29 12:22:46,244 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-29 12:22:47,008 [AppLog] INFO : 退出电气控制模块
+2024-01-29 12:22:47,882 [AppLog] INFO : 进入手动调试子模块！
+2024-01-29 12:22:47,882 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-29 12:22:47,928 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-29 12:22:47,928 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-29 12:22:54,106 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},点动量{1.5MM},运动速度{2MM/s}
+2024-01-29 12:22:54,558 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2024-01-29 12:22:55,151 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:23:00,034 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:23:02,608 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:23:05,946 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:32:39,388 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2024-01-29 12:32:40,854 [AppLog] INFO : 进入数据加载模块
+2024-01-29 12:33:36,671 [AppLog] INFO : 进入数据加载模块
+2024-01-29 12:34:01,070 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\shibiao_0129\饱和度测量\Cylinder_Rescaled(1.0-1.0-0.3)_Rescaled(1.0-1.0-1.0).cli
+2024-01-29 12:34:10,710 [AppLog] INFO : 软件及设备关停中止：手动取消关停
+2024-01-29 12:34:21,428 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{48.43726%} ，可用内存大小:{14058MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：41 GB
+  盘符 E:\ 的剩余空间：18 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: hp v285w USB Device
+==========================================================================
+2024-01-29 12:34:21,443 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-29 12:34:21,443 [AppLog] INFO : 开启系统：一键启动系统开始！
+2024-01-29 12:34:27,527 [AppLog] INFO : 开启系统：一键启动系统结束！
+2024-01-29 12:34:27,699 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2024-01-29 12:34:27,777 [AppLog] INFO : 初始化喷墨控制器启动！
+2024-01-29 12:34:51,551 [AppLog] INFO : 打开喷墨控制器设备成功！
+2024-01-29 12:34:53,142 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2024-01-29 12:34:53,532 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-29 12:34:58,275 [AppLog] INFO : 初始化喷墨控制器成功！
+2024-01-29 12:34:58,275 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-29 12:34:58,306 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2024-01-29 12:34:58,446 [AppLog] INFO : 红外灯控制器485通讯建立！
+2024-01-29 12:34:58,446 [AppLog] INFO : 进入电气控制模块
+2024-01-29 12:35:00,334 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-29 12:35:01,566 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-29 12:35:02,112 [AppLog] INFO : 退出电气控制模块
+2024-01-29 12:35:03,126 [AppLog] INFO : 进入手动调试子模块！
+2024-01-29 12:35:03,126 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-29 12:35:03,158 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-29 12:35:03,158 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-29 12:35:05,467 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2024-01-29 12:35:07,136 [AppLog] INFO : 进入数据加载模块
+2024-01-29 12:35:15,154 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\shibiao_0129\饱和度测量\Cylinder_Rescaled(1.0-1.0-0.3)_Rescaled(1.0-1.0-1.0).cli
+2024-01-29 12:35:25,513 [AppLog] INFO : 软件及设备关停中止：手动取消关停
+2024-01-29 12:35:35,699 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{32.14252%} ，可用内存大小:{14046MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：41 GB
+  盘符 E:\ 的剩余空间：18 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: hp v285w USB Device
+==========================================================================
+2024-01-29 12:35:35,715 [AppLog] INFO : 进入数据加载模块
+2024-01-29 12:35:47,524 [AppLog] INFO : CAD数据加载：添加.CLI格式CAD数据成功-D:\shibiao_0129\饱和度测量\Cylinder_Rescaled(1.0-1.0-0.3)_Rescaled(1.0-1.0-1.0).cli
+2024-01-29 12:35:50,800 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\shibiao_0129\饱和度测量\Cylinder_Rescaled(1.0-1.0-0.3)_Rescaled(1.0-1.0-1.0).cli}
+平移方式{true为目标位置平移，false为相对平移{True}}X方向平移目标值{-44.949999MM}Y方向平移目标值{-44.949999MM}Z方向平移目标值{0MM}X方向平移增量{10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2024-01-29 12:36:17,383 [AppLog] INFO : CAD位置平移：SelectCADFile{D:\shibiao_0129\饱和度测量\Cylinder_Rescaled(1.0-1.0-0.3)_Rescaled(1.0-1.0-1.0).cli}
+平移方式{true为目标位置平移，false为相对平移{False}}X方向平移目标值{-44.949999MM}Y方向平移目标值{-44.949999MM}Z方向平移目标值{0MM}X方向平移增量{-10MM}Y方向平移增量{0MM}Z方向平移增量{0MM}
+2024-01-29 12:36:55,337 [AppLog] INFO : CAD数据保存：保存.bjgroup格式CAD数据成功：D:\shibiao_0129\饱和度测量\baohedu.bjgroup
+2024-01-29 12:49:51,135 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2024-01-29 12:49:51,135 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2024-01-29 12:49:51,805 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{14027MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：41 GB
+  盘符 E:\ 的剩余空间：18 GB
+==========================================================================
+2024-01-29 12:56:44,225 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{14.28532%} ，可用内存大小:{14324MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：41 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: hp v285w USB Device
+==========================================================================
+2024-01-29 12:56:44,428 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2024-01-29 12:56:44,428 [AppLog] INFO : 开启系统：一键启动系统开始！
+2024-01-29 12:56:50,512 [AppLog] INFO : 开启系统：一键启动系统结束！
+2024-01-29 12:56:50,731 [AppLog] INFO : 创建：AutoPrintMotion0=》初次创建完成-手动操作！
+2024-01-29 12:56:50,809 [AppLog] INFO : 初始化喷墨控制器启动！
+2024-01-29 12:57:14,583 [AppLog] INFO : 打开喷墨控制器设备成功！
+2024-01-29 12:57:14,583 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2024-01-29 12:57:14,973 [AppLog] INFO : PASS打印前关键状态：DEV_GetDeviceInfo：LPPRINTER_INFO:nXSysEncDPI{5080}nStatus{909129520}nPrintStatus{0}bSuperDevice{1}
+LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{False}bLayerPrtIsOver{False}nContReqMemErr{0}nContWDErr{0}nCurPrtDir{0}nDTLayerIndex{0}nDTLayerPassIndex{0}nDTPtrCtlIndex{0}nLayerPassCount{0}nPrintLayerIndex{0}nPrintPassIndex{0}nProcLayerIndex{0}nPrtDataMemAddr{0}nPrtState{0}nReverse{System.Int32[]}nRevPrtCols{0}
+LPPRINTER_INFO-LPDRVINFO:nFMVersion{45074}nFpgaVersion{539038216}nPCBVersion{0}nState{0}nNextState{0}nPtvwarnState{0}nCrc32{0}nRevInfo{System.UInt32[]}nSignature{0}
+2024-01-29 12:57:46,938 [AppLog] INFO : 初始化喷墨控制器成功！
+2024-01-29 12:57:46,938 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2024-01-29 12:57:46,969 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2024-01-29 12:57:47,109 [AppLog] INFO : 红外灯控制器485通讯建立！
+2024-01-29 12:57:47,109 [AppLog] INFO : 进入电气控制模块
+2024-01-29 12:57:47,796 [AppLog] INFO : 电气控制模块：手动打开端口14
+2024-01-29 12:57:48,451 [AppLog] INFO : 电气控制模块：手动打开端口15
+2024-01-29 12:57:49,059 [AppLog] INFO : 退出电气控制模块
+2024-01-29 12:58:09,027 [AppLog] INFO : 进入手动调试子模块！
+2024-01-29 12:58:09,027 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2024-01-29 12:58:09,058 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2024-01-29 12:58:09,058 [AppLog] INFO : 加载成功：温控Modbus接口！
+2024-01-29 12:58:10,416 [AppLog] INFO : 切换为JOG模式====》：输出AXIS{第1轴}
+2024-01-29 12:58:11,102 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:11,289 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:11,757 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:12,288 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:12,896 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:13,489 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:13,894 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:14,440 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:14,752 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:15,330 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:20,478 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:20,696 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:23,972 [AppLog] INFO : 手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:24,128 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:26,109 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:26,265 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:26,936 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:27,092 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:27,576 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:27,716 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:28,012 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:28,153 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:28,512 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:28,746 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:29,604 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:29,760 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:30,118 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:30,259 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:31,366 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:31,616 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:32,677 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:32,864 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:33,956 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:34,174 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:35,344 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:35,547 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:58:35,953 [AppLog] INFO : 手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{第1轴},运动速度{2MM/s}
+2024-01-29 12:58:36,140 [AppLog] INFO : 手动停止JOG输出（8轴运控板卡系统） ====》：输出AXIS{第1轴}
+2024-01-29 12:59:00,382 [AppLog] INFO : 开启铺粉车回零校准：PowderCarHomeBtn_Click
+2024-01-29 12:59:00,382 [AppLog] INFO : 开启粉车回零校准线程：PowderCarHomeResetThread
+2024-01-29 12:59:03,596 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2024-01-29 12:59:03,596 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2024-01-29 12:59:08,229 [AppLog] INFO : 手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{第2轴},点动量{-116MM},运动速度{75MM/s}
+2024-01-29 12:59:08,245 [AppLog] INFO : 粉车回零校准线程成功：PowderCarHomeResetThread
+2024-01-29 12:59:25,717 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2024-01-29 12:59:28,057 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2024-01-29 12:59:33,111 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2024-01-29 12:59:34,203 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2024-01-29 12:59:34,703 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}

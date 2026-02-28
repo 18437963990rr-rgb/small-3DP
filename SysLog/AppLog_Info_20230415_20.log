@@ -1,0 +1,205 @@
+2023-04-15 20:33:12,939 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-15 20:33:13,772 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-04-15 20:33:19,904 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-04-15 20:33:19,912 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-04-15 20:33:20,036 [AppLog] INFO : 喷墨控制器关闭！
+2023-04-15 20:33:20,037 [AppLog] INFO : 进入电气控制模块
+2023-04-15 20:33:21,637 [AppLog] INFO : 退出电气控制模块
+2023-04-15 20:34:08,496 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-15 20:34:08,511 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-15 20:34:14,583 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-15 20:34:14,583 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-15 20:34:38,034 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-04-15 20:34:38,065 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-04-15 20:34:39,849 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-15 20:34:39,849 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-15 20:34:40,023 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-15 20:34:40,148 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-04-15 20:34:40,148 [AppLog] INFO : 进入电气控制模块
+2023-04-15 20:34:41,008 [AppLog] INFO : 退出电气控制模块
+2023-04-15 20:34:41,946 [AppLog] INFO : 进入手动调试子模块！
+2023-04-15 20:34:41,946 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-15 20:34:41,961 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-15 20:34:41,961 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-15 20:34:47,182 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-04-15 20:34:47,182 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-04-15 20:34:58,541 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-04-15 20:35:00,290 [AppLog] INFO : 墨车回零校准线程失败：InkCarEncoderResetThread
+2023-04-15 20:35:00,994 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-15 20:35:03,474 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-15 20:35:07,002 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-15 20:35:08,468 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-15 20:35:09,671 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-04-15 20:35:10,561 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-15 20:35:12,903 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-15 20:35:13,105 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-15 20:35:19,659 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{178.015}AimPos{35623}
+2023-04-15 20:35:19,675 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-15 20:35:19,675 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{178.015}AimPos{35623}
+2023-04-15 20:35:29,162 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{178.02}AimPos{35624}
+2023-04-15 20:35:29,162 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-15 20:35:29,162 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{178.02}AimPos{35624}
+2023-04-15 20:35:36,761 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-15 20:35:37,590 [AppLog] INFO : 进入手动调试子模块！
+2023-04-15 20:35:37,590 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-15 20:35:37,621 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-15 20:35:37,621 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-15 20:35:40,107 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-15 20:35:40,154 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-15 20:35:41,170 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-15 20:35:41,233 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-15 20:35:44,355 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{697.715}AimPos{139563}
+2023-04-15 20:35:44,355 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:35:44,355 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{697.715}AimPos{139563}
+2023-04-15 20:35:49,661 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{179.53}AimPos{35926}
+2023-04-15 20:35:49,661 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-15 20:35:49,661 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{179.53}AimPos{35926}
+2023-04-15 20:35:53,048 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{697.715}AimPos{139563}
+2023-04-15 20:35:53,048 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:35:53,048 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{697.715}AimPos{139563}
+2023-04-15 20:35:55,091 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-15 20:35:55,109 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-15 20:35:55,829 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-15 20:35:56,203 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-15 20:35:57,484 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-04-15 20:35:57,812 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-15 20:35:59,093 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-15 20:35:59,358 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-15 20:35:59,906 [AppLog] INFO : 手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{0},Dir{true},nPlsSpeed{50000},nPlsCount{750000},cControlFlag{2}
+2023-04-15 20:36:00,156 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-15 20:54:16,535 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-15 20:54:17,575 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-15 20:54:18,337 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-04-15 20:54:24,470 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-04-15 20:54:24,479 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-04-15 20:54:25,057 [AppLog] INFO : 喷墨控制器关闭！
+2023-04-15 20:54:25,058 [AppLog] INFO : 进入电气控制模块
+2023-04-15 20:54:26,239 [AppLog] INFO : 退出电气控制模块
+2023-04-15 20:54:55,351 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-04-15 20:54:55,364 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-04-15 20:55:01,367 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-04-15 20:55:01,371 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-04-15 20:55:20,536 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-04-15 20:55:20,572 [AppLog] INFO : 输入校准值1次{成功}，打印往返差校准值为：BiDirEncPrtOff{5},分频值{8},打印速度{300mm/s}
+2023-04-15 20:55:22,623 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-04-15 20:55:22,623 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-04-15 20:55:22,785 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-04-15 20:55:22,914 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-04-15 20:55:22,915 [AppLog] INFO : 进入电气控制模块
+2023-04-15 20:55:23,468 [AppLog] INFO : 退出电气控制模块
+2023-04-15 20:55:24,346 [AppLog] INFO : 进入手动调试子模块！
+2023-04-15 20:55:24,346 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-15 20:55:24,380 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-15 20:55:24,380 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-15 20:55:31,065 [AppLog] INFO : 开启墨车回零校准：PrintCarHomeBtn_Click
+2023-04-15 20:55:31,065 [AppLog] INFO : 开启墨车回零校准线程：InkCarEncoderResetThread
+2023-04-15 20:55:49,660 [AppLog] INFO : 墨车回零校准线程成功：InkCarEncoderResetThread
+2023-04-15 20:55:50,908 [AppLog] INFO : 墨车回零校准线程失败：InkCarEncoderResetThread
+2023-04-15 20:55:51,625 [AppLog] INFO : 手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-15 20:55:53,872 [AppLog] INFO : 手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}
+2023-04-15 20:55:54,777 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-15 20:55:55,588 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-15 20:55:55,915 [AppLog] INFO : 手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}
+2023-04-15 20:55:56,290 [AppLog] INFO : 手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{false},nAxisMask{0x1}
+2023-04-15 20:56:00,283 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{166.69}AimPos{186.69}
+2023-04-15 20:56:00,283 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-15 20:56:00,283 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{166.69}AimPos{37338}
+2023-04-15 20:56:06,258 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{696.1}
+2023-04-15 20:56:06,258 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:06,258 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{139220}
+2023-04-15 20:56:11,593 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{166.69}AimPos{186.69}
+2023-04-15 20:56:11,593 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-15 20:56:11,593 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{166.69}AimPos{37338}
+2023-04-15 20:56:18,192 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:18,192 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:18,192 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:22,123 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:22,123 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:22,123 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:24,136 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:24,136 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:24,136 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:26,148 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:26,148 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:26,148 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:28,161 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:28,161 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:28,161 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:30,173 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:30,173 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:30,173 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:32,185 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:32,185 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:32,185 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:34,198 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:34,198 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:34,198 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:36,210 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:36,210 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:36,210 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:38,223 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:38,223 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:38,223 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:40,235 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:40,235 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:40,235 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:42,247 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:42,247 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:42,247 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:44,260 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:44,260 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:44,260 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:46,272 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:46,272 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:46,272 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:48,285 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:48,285 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:48,285 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:50,297 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:50,297 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:50,297 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:52,309 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:52,309 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:52,309 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:54,322 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:54,322 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:54,322 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:56,334 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:56,334 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:56,334 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:56:58,347 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:56:58,347 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:56:58,347 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:57:00,359 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{686.1}
+2023-04-15 20:57:00,359 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:57:00,359 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{137220}
+2023-04-15 20:57:02,372 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{166.69}AimPos{186.69}
+2023-04-15 20:57:02,372 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-15 20:57:02,372 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{166.69}AimPos{37338}
+2023-04-15 20:57:04,384 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{166.69}AimPos{186.69}
+2023-04-15 20:57:04,384 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-15 20:57:04,384 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{166.69}AimPos{37338}
+2023-04-15 20:57:06,412 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-04-15 20:57:10,094 [AppLog] INFO : 进入手动调试子模块！
+2023-04-15 20:57:10,094 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-15 20:57:10,109 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-15 20:57:10,109 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-15 20:57:12,668 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{676.1}AimPos{696.1}
+2023-04-15 20:57:12,668 [AppLog] INFO : 准备读取编码器位置：X方向！
+2023-04-15 20:57:12,668 [AppLog] INFO : 准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{false为Y方向：False}CurrentPos{676.1}AimPos{139220}
+2023-04-15 20:57:17,426 [AppLog] INFO : 编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{166.69}AimPos{186.69}
+2023-04-15 20:57:17,426 [AppLog] INFO : 准备读取编码器位置：Y方向！
+2023-04-15 20:57:17,426 [AppLog] INFO : 准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{false为Y方向：True}CurrentPos{166.69}AimPos{37338}
+2023-04-15 20:57:21,138 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-04-15 20:57:23,541 [AppLog] INFO : 进入电气控制模块
+2023-04-15 20:57:24,461 [AppLog] INFO : 退出电气控制模块
+2023-04-15 20:57:25,132 [AppLog] INFO : 进入手动调试子模块！
+2023-04-15 20:57:25,132 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-04-15 20:57:25,163 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-04-15 20:57:25,163 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-04-15 20:57:28,065 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================

@@ -1,0 +1,105 @@
+2023-12-04 11:28:31,332 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{20.31215%} ，可用内存大小:{14378MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：70 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-12-04 11:28:37,463 [AppLog] INFO : 进入电气控制模块
+2023-12-04 11:28:38,259 [AppLog] INFO : 退出电气控制模块
+2023-12-04 11:28:39,600 [AppLog] INFO : 进入电气控制模块
+2023-12-04 11:28:40,318 [AppLog] INFO : 退出电气控制模块
+2023-12-04 11:28:41,379 [AppLog] INFO : 进入手动调试子模块！
+2023-12-04 11:28:41,379 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-12-04 11:28:41,581 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-12-04 11:28:42,814 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-12-04 11:28:44,155 [AppLog] INFO : 进入电气控制模块
+2023-12-04 11:28:44,904 [AppLog] INFO : 退出电气控制模块
+2023-12-04 11:28:46,261 [AppLog] INFO : 进入手动调试子模块！
+2023-12-04 11:28:46,261 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-12-04 11:28:46,277 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-12-04 11:28:47,463 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-12-04 11:28:49,085 [AppLog] INFO : 进入电气控制模块
+2023-12-04 11:28:49,896 [AppLog] INFO : 退出电气控制模块
+2023-12-04 11:28:51,846 [AppLog] INFO : 进入电气控制模块
+2023-12-04 11:28:52,938 [AppLog] INFO : 退出电气控制模块
+2023-12-04 11:28:54,498 [AppLog] INFO : 进入手动调试子模块！
+2023-12-04 11:28:54,498 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-12-04 11:28:54,529 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-12-04 11:28:55,715 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-12-04 11:28:57,650 [AppLog] INFO : 显示模组校准栏
+2023-12-04 11:28:58,960 [AppLog] INFO : 不显示模组校准栏
+2023-12-04 11:29:00,177 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{System.Single[]Dpi}墨车运动速度{300MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{15MM}
+2023-12-04 11:29:05,387 [AppLog] INFO : 退出JOB参数设置：未修改直接退出！
+2023-12-04 11:29:09,989 [AppLog] INFO : 监控记录设置！
+2023-12-04 11:29:24,388 [AppLog] INFO : 更新监控配置文件：SaveJsonFile：配置文件路径{D:\Release-3DPrintingForBinderJetting-V2.0\MonitorPrint-Configuration.json}m_sMonitorRecordPath{D:\shibiao-daying-0808}m_sPrintJobName{Shibiao-0808-test11}m_anJettingBinderBedMonitorFlags{False,False,False,False,False,False,True,False,False,False,False,True,}
+2023-12-04 11:29:26,198 [AppLog] INFO : 监控记录设置！
+2023-12-04 11:29:28,272 [AppLog] INFO : 更新监控配置文件：SaveJsonFile：配置文件路径{D:\Release-3DPrintingForBinderJetting-V2.0\MonitorPrint-Configuration.json}m_sMonitorRecordPath{D:\shibiao-daying-0808}m_sPrintJobName{Shibiao-0808-test11}m_anJettingBinderBedMonitorFlags{False,False,False,False,False,False,True,False,False,False,False,True,}
+2023-12-04 11:31:07,870 [AppLog] INFO : 监控记录设置！
+2023-12-04 11:33:10,115 [AppLog] INFO : 更新监控配置文件：SaveJsonFile：配置文件路径{D:\Release-3DPrintingForBinderJetting-V2.0\MonitorPrint-Configuration.json}m_sMonitorRecordPath{D:\shibiao-daying-0808}m_sPrintJobName{Shibiao-0808-test11}m_anJettingBinderBedMonitorFlags{False,False,False,False,False,False,True,False,False,False,False,True,}
+2023-12-04 11:34:24,535 [AppLog] INFO : 进入手动调试子模块！
+2023-12-04 11:34:24,535 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-12-04 11:34:24,577 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-12-04 11:34:37,518 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-12-04 11:34:38,864 [AppLog] INFO : 进入手动调试子模块！
+2023-12-04 11:34:38,864 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-12-04 11:34:38,895 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-12-04 11:34:40,088 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-12-04 11:34:52,935 [AppLog] INFO : 进入手动调试子模块！
+2023-12-04 11:34:52,936 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-12-04 11:34:52,968 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-12-04 11:34:55,522 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-12-04 11:35:18,846 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-12-04 11:35:18,850 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-12-04 11:35:19,509 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{20.05406%} ，可用内存大小:{13668MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：70 GB
+==========================================================================
+2023-12-04 11:36:37,534 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{6.249589%} ，可用内存大小:{14370MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：70 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-12-04 11:36:37,550 [AppLog] INFO : 进入手动调试子模块！
+2023-12-04 11:36:37,550 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-12-04 11:36:37,753 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-12-04 11:37:16,566 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-12-04 11:37:21,027 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-12-04 11:37:21,027 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-12-04 11:37:21,651 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{14391MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：70 GB
+==========================================================================

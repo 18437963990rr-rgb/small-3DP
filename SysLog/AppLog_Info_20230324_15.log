@@ -1,0 +1,446 @@
+2023-03-24 15:02:57,247 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{37.49966%} ，可用内存大小:{14396MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-03-24 15:02:57,262 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-24 15:02:57,262 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-24 15:03:03,362 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-24 15:03:03,362 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-03-24 15:03:26,840 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-03-24 15:03:31,364 [AppLog] INFO : 更新{1}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:31,551 [AppLog] INFO : 更新{2}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:31,739 [AppLog] INFO : 更新{3}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:31,926 [AppLog] INFO : 更新{4}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:32,113 [AppLog] INFO : 更新{5}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:32,300 [AppLog] INFO : 更新{6}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:32,487 [AppLog] INFO : 更新{7}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:32,675 [AppLog] INFO : 更新{8}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:32,690 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-03-24 15:03:32,690 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-03-24 15:03:32,877 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-03-24 15:03:33,018 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-03-24 15:03:33,018 [AppLog] INFO : 进入电气控制模块
+2023-03-24 15:03:34,422 [AppLog] INFO : 退出电气控制模块
+2023-03-24 15:03:35,529 [AppLog] INFO : 进入手动调试子模块！
+2023-03-24 15:03:35,529 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-03-24 15:03:35,545 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-03-24 15:03:35,545 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-03-24 15:03:47,354 [AppLog] INFO : {1}号喷头温度更新失败：MCU_SetPhVoltage{28℃}
+2023-03-24 15:03:47,557 [AppLog] INFO : {2}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:47,775 [AppLog] INFO : {3}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:47,994 [AppLog] INFO : {4}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:48,181 [AppLog] INFO : {5}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:48,384 [AppLog] INFO : {6}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:48,587 [AppLog] INFO : {7}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:48,805 [AppLog] INFO : {8}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:03:54,218 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-24 15:03:54,218 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-03-24 15:03:59,787 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm! 当前波形文件的基准电压参考值为：{18V}
+2023-03-24 15:04:00,099 [AppLog] INFO : {1}号喷头电压调压成功：MCU_SetPhVoltage{0V,0V,0V,0V}；
+2023-03-24 15:04:18,991 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:04:20,910 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:04:21,331 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:04:22,969 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:04:23,484 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:04:25,059 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:04:25,668 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:04:27,805 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:04:28,725 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:04:30,956 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:04:31,518 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:04:35,995 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:04:36,447 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:04:38,709 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:04:39,115 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:04:40,644 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:04:44,185 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:04:47,196 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:04:47,679 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:04:48,787 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:05:15,541 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:05:16,945 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:05:17,460 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:05:20,408 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:05:20,845 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:05:21,734 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:05:22,218 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:05:24,262 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:05:24,870 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:05:25,338 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:07:46,861 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:07:50,231 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:07:50,683 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:07:55,925 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:07:56,315 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:07:57,844 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:07:58,296 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:08:02,071 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:08:02,461 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:08:03,631 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:08:04,146 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:08:04,817 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:08:29,574 [AppLog] INFO : {1}号喷头电压调压成功：MCU_SetPhVoltage{19V,19V,19V,19V}；
+2023-03-24 15:08:29,980 [AppLog] INFO : {2}号喷头电压调压失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-24 15:08:30,354 [AppLog] INFO : {3}号喷头电压调压失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-24 15:08:30,775 [AppLog] INFO : {4}号喷头电压调压失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-24 15:08:31,150 [AppLog] INFO : {5}号喷头电压调压失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-24 15:08:31,571 [AppLog] INFO : {6}号喷头电压调压失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-24 15:08:31,992 [AppLog] INFO : {7}号喷头电压调压失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-24 15:08:32,398 [AppLog] INFO : {8}号喷头电压调压失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-24 15:08:40,135 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:08:42,678 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:08:43,396 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:08:46,641 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:08:47,155 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:08:48,747 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:08:49,433 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:08:53,567 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:08:54,300 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:08:57,436 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:09:15,267 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:09:19,962 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:09:20,586 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:09:23,098 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:09:34,580 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:09:40,164 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:09:40,882 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:09:51,599 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:10:05,405 [AppLog] INFO : {1}号喷头电压调压成功：MCU_SetPhVoltage{20V,20V,20V,20V}；
+2023-03-24 15:10:05,842 [AppLog] INFO : {2}号喷头电压调压失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-24 15:10:06,232 [AppLog] INFO : {3}号喷头电压调压失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-24 15:10:06,638 [AppLog] INFO : {4}号喷头电压调压失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-24 15:10:07,043 [AppLog] INFO : {5}号喷头电压调压失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-24 15:10:07,433 [AppLog] INFO : {6}号喷头电压调压失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-24 15:10:07,854 [AppLog] INFO : {7}号喷头电压调压失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-24 15:10:08,260 [AppLog] INFO : {8}号喷头电压调压失败：MCU_SetPhVoltage{18V,18V,18V,18V}；
+2023-03-24 15:10:16,419 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:10:23,096 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:10:23,626 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:10:26,590 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:10:27,261 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:10:32,502 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:10:33,126 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:10:33,922 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:11:16,666 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:11:18,959 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:11:19,568 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:11:21,362 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:11:22,095 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:11:25,153 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:11:26,104 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:11:30,441 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:11:31,081 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:11:36,899 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:11:38,943 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:11:43,295 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:11:59,535 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\调好：WaveForm-31pl-双滴-18+13.rhdat}
+2023-03-24 15:11:59,535 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{20V,20V,20V,20V}；
+2023-03-24 15:12:05,089 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm! 当前波形文件的基准电压参考值为：{20V}
+2023-03-24 15:12:05,385 [AppLog] INFO : {1}号喷头电压调压成功：MCU_SetPhVoltage{20V,20V,20V,20V}；
+2023-03-24 15:12:16,165 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:12:20,860 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:12:21,281 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:12:24,901 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:12:25,400 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:12:32,623 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:12:35,571 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:13:21,232 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:13:21,732 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:13:27,613 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:13:32,012 [AppLog] INFO : 退出手动调试子模块,已执行修改
+==========================================================================
+2023-03-24 15:13:33,588 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{200MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{0MM}
+2023-03-24 15:13:45,490 [AppLog] INFO : 退出JOB参数设置：修改后参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{200MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{0MM}
+2023-03-24 15:13:47,222 [AppLog] INFO : 进入JOB参数设置：修改前初始参数：灰度数据格式{1bits}打印灰阶{1阶}m_XPrintDpi{635Dpi}墨车运动速度{200MM/s}X向起打位置{50MM}X向起打位置偏移{0MM}Y向起打位置偏移{0MM}
+2023-03-24 15:13:48,361 [AppLog] INFO : 退出JOB参数设置：未修改直接退出！
+2023-03-24 15:13:49,234 [AppLog] INFO : 进入手动调试子模块！
+2023-03-24 15:13:49,234 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-03-24 15:13:49,266 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-03-24 15:13:49,266 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-03-24 15:13:55,521 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:13:59,577 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:14:00,014 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:14:02,962 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:14:03,399 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:14:18,952 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:16:59,867 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-24 15:22:03,599 [AppLog] INFO : 软件及设备关停中止：手动取消关停
+2023-03-24 15:22:06,126 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-24 15:22:06,922 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-03-24 15:22:13,131 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-03-24 15:22:13,131 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-03-24 15:22:14,894 [AppLog] INFO : 喷墨控制器关闭！
+2023-03-24 15:22:14,894 [AppLog] INFO : 进入电气控制模块
+2023-03-24 15:22:16,345 [AppLog] INFO : 退出电气控制模块
+2023-03-24 15:22:18,653 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-03-24 15:22:18,653 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-03-24 15:22:19,324 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{32.14252%} ，可用内存大小:{14289MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+==========================================================================
+2023-03-24 15:23:51,014 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{1.785253%} ，可用内存大小:{14325MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+==========================================================================
+2023-03-24 15:24:02,402 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-24 15:24:02,417 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-24 15:24:08,502 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-24 15:24:08,502 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-03-24 15:24:31,980 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-03-24 15:24:46,519 [AppLog] INFO : 更新{1}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:24:46,706 [AppLog] INFO : 更新{2}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:24:46,784 [AppLog] INFO : 更新{3}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:24:46,971 [AppLog] INFO : 更新{4}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:24:47,158 [AppLog] INFO : 更新{5}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:24:47,346 [AppLog] INFO : 更新{6}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:24:47,533 [AppLog] INFO : 更新{7}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:24:47,720 [AppLog] INFO : 更新{8}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:24:47,736 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-03-24 15:24:47,736 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-03-24 15:24:47,923 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-03-24 15:24:48,048 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-03-24 15:24:48,048 [AppLog] INFO : 进入电气控制模块
+2023-03-24 15:24:49,623 [AppLog] INFO : 退出电气控制模块
+2023-03-24 15:25:00,793 [AppLog] INFO : 进入手动调试子模块！
+2023-03-24 15:25:00,793 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-03-24 15:25:00,824 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-03-24 15:25:00,824 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-03-24 15:25:08,078 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\Release\波形文件\0316新调=波形文件=水性胶水\世彪新调：ricoh_big-单点模式-开启MN1(开启微动).rhdat}
+2023-03-24 15:25:08,078 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-03-24 15:25:13,678 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm! 当前波形文件的基准电压参考值为：{18V}
+2023-03-24 15:25:14,068 [AppLog] INFO : {1}号喷头电压调压失败：MCU_SetPhVoltage{0V,0V,0V,0V}；
+2023-03-24 15:25:48,420 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:25:50,962 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:25:51,399 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:25:53,739 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:25:54,160 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:25:55,674 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:25:56,438 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:25:57,717 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:25:58,138 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:25:58,825 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:25:59,215 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:25:59,792 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:26:00,291 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:26:00,775 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:26:08,544 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:26:11,196 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:26:11,570 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:26:14,409 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:26:14,893 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:26:15,985 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:26:16,422 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:26:18,933 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:26:19,573 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:26:22,818 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:26:23,395 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:26:25,220 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:26:36,468 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:26:40,680 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:26:41,148 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:26:41,865 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:26:42,287 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:26:43,269 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:36:47,224 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-24 15:36:49,245 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-03-24 15:36:49,278 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-03-24 15:36:49,943 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{10.30461%} ，可用内存大小:{14240MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+==========================================================================
+2023-03-24 15:45:17,376 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{31.24971%} ，可用内存大小:{14248MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Generic Flash Disk USB Device
+==========================================================================
+2023-03-24 15:45:17,391 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-24 15:45:17,407 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-24 15:45:23,491 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-24 15:45:23,491 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-03-24 15:45:46,969 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-03-24 15:45:50,292 [AppLog] INFO : 更新{1}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:45:50,479 [AppLog] INFO : 更新{2}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:45:50,666 [AppLog] INFO : 更新{3}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:45:50,853 [AppLog] INFO : 更新{4}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:45:51,041 [AppLog] INFO : 更新{5}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:45:51,228 [AppLog] INFO : 更新{6}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:45:51,415 [AppLog] INFO : 更新{7}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:45:51,602 [AppLog] INFO : 更新{8}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:45:51,618 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-03-24 15:45:51,618 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-03-24 15:45:51,789 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-03-24 15:45:51,914 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-03-24 15:45:51,914 [AppLog] INFO : 进入电气控制模块
+2023-03-24 15:45:52,959 [AppLog] INFO : 退出电气控制模块
+2023-03-24 15:45:54,223 [AppLog] INFO : 进入手动调试子模块！
+2023-03-24 15:45:54,223 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-03-24 15:45:54,254 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-03-24 15:45:54,254 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-03-24 15:46:03,567 [AppLog] INFO : {1}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:46:03,786 [AppLog] INFO : {2}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:46:03,973 [AppLog] INFO : {3}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:46:04,176 [AppLog] INFO : {4}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:46:04,379 [AppLog] INFO : {5}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:46:04,581 [AppLog] INFO : {6}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:46:04,784 [AppLog] INFO : {7}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:46:04,971 [AppLog] INFO : {8}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:46:12,927 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-24 15:46:14,534 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-24 15:46:15,392 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-03-24 15:46:21,601 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-03-24 15:46:21,601 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-03-24 15:46:21,788 [AppLog] INFO : 喷墨控制器关闭！
+2023-03-24 15:46:21,788 [AppLog] INFO : 进入电气控制模块
+2023-03-24 15:46:23,598 [AppLog] INFO : 退出电气控制模块
+2023-03-24 15:46:25,688 [AppLog] INFO : 软件及设备关停中：墨车所有方向运动确认停止（X,Y,Y2)： bImmeStop{False},nAxisMask{0x7}
+2023-03-24 15:46:25,688 [AppLog] INFO : 软件及设备关停中：喷墨控制器板卡系统关闭（X,Y,Y2)：DEV_CloseDevice
+2023-03-24 15:46:26,328 [AppLog] INFO : 软件及设备关停成功
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{0%} ，可用内存大小:{14245MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+==========================================================================
+2023-03-24 15:50:03,104 [AppLog] INFO : 软件开机密码正确，登录成功1次
+==========================================================================
+操作系统:{Microsoft Windows 7 旗舰版 }
+运行环境:{ .Net Framework Enviroment Version 4.0.30319.42000}
+盘符：D
+CPU使用率：{12.91703%} ，可用内存大小:{14298MB}，硬盘剩余空间：
+  盘符 C:\ 的剩余空间：70 GB
+  盘符 D:\ 的剩余空间：88 GB
+  盘符 F:\ 的剩余空间：3 GB
+硬件配置情况：
+  CPU 厂家: GenuineIntel CPU 型号: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  内存条厂家: Kingston 内存条型号: 99P5471-043.A00LF 
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Micron_1300_MTFDDAK256TDL ATA Device
+  硬盘厂家: (标准磁盘驱动器) 硬盘型号: Generic Flash Disk USB Device
+==========================================================================
+2023-03-24 15:50:03,119 [AppLog] INFO : 进入电气控制模块
+2023-03-24 15:50:13,473 [AppLog] INFO : 电气控制模块：手动打开端口8
+2023-03-24 15:50:34,776 [AppLog] INFO : 退出电气控制模块
+2023-03-24 15:56:25,184 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-24 15:56:25,184 [AppLog] INFO : 开启系统：一键启动系统开始！
+2023-03-24 15:56:31,283 [AppLog] INFO : 开启系统：一键启动系统结束！
+2023-03-24 15:56:31,283 [AppLog] INFO : 初始化喷墨控制器启动！
+2023-03-24 15:56:33,093 [AppLog] INFO : 打开喷墨控制器设备成功！
+2023-03-24 15:56:38,179 [AppLog] INFO : 更新{1}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:56:38,381 [AppLog] INFO : 更新{2}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:56:38,569 [AppLog] INFO : 更新{3}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:56:38,756 [AppLog] INFO : 更新{4}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:56:38,943 [AppLog] INFO : 更新{5}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:56:39,130 [AppLog] INFO : 更新{6}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:56:39,317 [AppLog] INFO : 更新{7}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:56:39,505 [AppLog] INFO : 更新{8}号喷头温度失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:56:39,520 [AppLog] INFO : 初始化喷墨控制器成功！
+2023-03-24 15:56:39,520 [AppLog] INFO : 进入：EquipmentMotionLogic3=》准备创建对象-手动操作！
+2023-03-24 15:56:39,692 [AppLog] INFO : 进入：EquipmentMotionLogic3=》创建完成-手动操作！
+2023-03-24 15:56:39,817 [AppLog] INFO : 红外灯控制器485通讯建立！
+2023-03-24 15:56:39,817 [AppLog] INFO : 进入电气控制模块
+2023-03-24 15:56:42,406 [AppLog] INFO : 退出电气控制模块
+2023-03-24 15:56:43,139 [AppLog] INFO : 进入手动调试子模块！
+2023-03-24 15:56:43,139 [AppLog] INFO : 进入：ManulBtn_Click=》准备创建对象-手动操作！
+2023-03-24 15:56:43,171 [AppLog] INFO : 创建：ManualControl=》创建完成-手动操作！
+2023-03-24 15:56:43,171 [AppLog] INFO : 加载成功：温控Modbus接口！
+2023-03-24 15:57:05,057 [AppLog] INFO : {1}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:05,245 [AppLog] INFO : {2}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:05,447 [AppLog] INFO : {3}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:05,650 [AppLog] INFO : {4}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:05,853 [AppLog] INFO : {5}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:06,056 [AppLog] INFO : {6}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:06,243 [AppLog] INFO : {7}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:06,446 [AppLog] INFO : {8}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:23,434 [AppLog] INFO : {1}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:23,637 [AppLog] INFO : {2}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:23,840 [AppLog] INFO : {3}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:24,027 [AppLog] INFO : {4}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:24,246 [AppLog] INFO : {5}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:24,448 [AppLog] INFO : {6}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:24,651 [AppLog] INFO : {7}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:24,854 [AppLog] INFO : {8}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:34,339 [AppLog] INFO : {1}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:34,557 [AppLog] INFO : {2}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:34,744 [AppLog] INFO : {3}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:34,947 [AppLog] INFO : {4}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:35,134 [AppLog] INFO : {5}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:35,337 [AppLog] INFO : {6}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:35,540 [AppLog] INFO : {7}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:57:35,743 [AppLog] INFO : {8}号喷头温度更新失败：MCU_SetPhVoltage{25℃}
+2023-03-24 15:58:18,253 [AppLog] INFO : 更新波形路径：DEV_UpdateParam：{D:\ricoh_phcfg.rhdat}
+2023-03-24 15:58:18,253 [AppLog] INFO : {1}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{0V,0V,0V,0V}；
+2023-03-24 15:58:23,760 [AppLog] INFO : 重新加载完波形：DEV_ReloadWaveForm! 当前波形文件的基准电压参考值为：{19V}
+2023-03-24 15:58:24,056 [AppLog] INFO : {1}号喷头电压调压成功：MCU_SetPhVoltage{0V,0V,0V,0V}；
+2023-03-24 15:58:31,762 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:58:32,886 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:58:33,525 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:58:35,538 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:58:36,052 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:58:37,332 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:58:38,049 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:58:39,094 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:58:39,828 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:58:41,544 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:58:42,448 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:58:43,322 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:58:44,024 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:58:45,054 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:58:45,912 [AppLog] INFO : 开启闪喷： IDP_FlashPrtCtl(true)：ReturnCode{True}
+2023-03-24 15:58:46,770 [AppLog] INFO : 关闭闪喷： IDP_FlashPrtCtl(false)：ReturnCode{True}
+2023-03-24 15:58:51,621 [AppLog] INFO : 退出手动调试子模块，未执行修改
+==========================================================================
+2023-03-24 15:58:52,978 [AppLog] INFO : 开启系统：板卡通讯，伺服供电，照明系统，UV/HR固化系统！
+2023-03-24 15:58:53,836 [AppLog] INFO : 关闭系统：一键关闭系统开始！
+2023-03-24 15:59:00,061 [AppLog] INFO : 关闭系统：一键关闭系统结束！
+2023-03-24 15:59:00,092 [AppLog] INFO : 喷墨控制器的所有轴输出关闭！
+2023-03-24 15:59:00,123 [AppLog] INFO : 喷墨控制器关闭！
+2023-03-24 15:59:00,139 [AppLog] INFO : 进入电气控制模块
+2023-03-24 15:59:39,482 [AppLog] INFO : 退出电气控制模块
