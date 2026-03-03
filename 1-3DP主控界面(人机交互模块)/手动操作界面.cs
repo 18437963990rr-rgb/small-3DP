@@ -57,6 +57,11 @@ namespace BinderJetting
         const double INKCAR_CLEAN_STATION_Y =  10.0;
         const double INKCAR_CLEAN_SCRAPE_POS_REL = 105.0;    // 墨车清洗站刮墨位置, mm
 
+        /// <summary>
+        /// Y 轴开始运动时触发（在 BackToStation 的 Y 分支内、运动已启动后发出）。
+        /// 可用于 Meteor 扫描模式下在每条 swath 结束后发 PCMD_ENDDOC 等逻辑。
+        /// </summary>
+        public static event Action YAxisMoveStarted;
 
         // 铺粉车的一些常数
         const double POWDERCAR_TRAVEL_DIST = /*918.0*/900;     // 铺粉车行程距离，mm //20251206修改，硬件更换
@@ -5378,7 +5383,7 @@ namespace BinderJetting
                 k_RYSYSParamAutoPrintParamInTest.CurrectLoadWaveName = CurrentWaveName;//20230419新增:更新当前的波形路径
 
 
-                //(1)重新更新基准电压值//20230323新增：
+                //(1)重新更新基准电压值//20230323新增：若 RYPrtCtler.dll 无 DEV_SetWaveStdVoltage 则跳过，避免崩溃
                 float[] fstdVoltage = new float[4];//内存中的对应值
                 for (int i = 0; i < 4; i++)
                 {
@@ -5387,18 +5392,33 @@ namespace BinderJetting
                 int size = Marshal.SizeOf(fstdVoltage[0]) * fstdVoltage.Length;
                 IntPtr PfstdVoltage = Marshal.AllocHGlobal(size);
                 Marshal.Copy(fstdVoltage, 0, PfstdVoltage, fstdVoltage.Length);//复制到非托管区内存
-                bool returnCode = royal.royal.DEV_SetWaveStdVoltage(PfstdVoltage, 0, 0);//20230323批注：基准电压设置值<1时，基准电压的设定值以波形文件中为准
-                if (returnCode == false)
+                bool returnCode;
+                try
                 {
-                    string msg2 = $"{{{0 + 1}}}号喷头基准电压更新失败：DEV_SetWaveStdVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
-                    Log4Net.Info(msg2);
+                    returnCode = royal.royal.DEV_SetWaveStdVoltage(PfstdVoltage, 0, 0);//20230323批注：基准电压设置值<1时，基准电压的设定值以波形文件中为准
+                    if (returnCode == false)
+                    {
+                        string msg2 = $"{{{0 + 1}}}号喷头基准电压更新失败：DEV_SetWaveStdVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
+                        Log4Net.Info(msg2);
+                    }
+                    else
+                    {
+                        string msg2 = $"{{{0 + 1}}}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
+                        Log4Net.Info(msg2);
+                    }
                 }
-                else
+                catch (System.EntryPointNotFoundException ex)
                 {
-                    string msg2 = $"{{{0 + 1}}}号喷头基准电压更新成功：DEV_SetWaveStdVoltage{{{fstdVoltage[0]}V,{fstdVoltage[1]}V,{ fstdVoltage[2]}V,{ fstdVoltage[3]}V}}；";
-                    Log4Net.Info(msg2);
+                    Log4Net.Info($"波形加载：RYPrtCtler.dll 中未找到 DEV_SetWaveStdVoltage，跳过基准电压设置并继续加载波形。{ex.Message}");
                 }
-                Marshal.FreeHGlobal(PfstdVoltage);
+                catch (DllNotFoundException ex)
+                {
+                    Log4Net.Info($"波形加载：RYPrtCtler.dll 加载异常，跳过基准电压设置。{ex.Message}");
+                }
+                finally
+                {
+                    Marshal.FreeHGlobal(PfstdVoltage);
+                }
 
                 //(2)生效波形及其基准电压值，特别的，重新更新基准电压值
                 float[] fVcomInWaveFile = new float[1]; fVcomInWaveFile[0] = 0.0f;
@@ -5881,6 +5901,9 @@ namespace BinderJetting
                            
                             msg = $"Y方向运动开始：nAxis{{{1}}}DirFlag{{{DirFlag}}}nSpeed{{{nSpeed}}}MoveStep{{{MoveStep}}}nCtlValue{{{nCtlValue}}}";
                             Log4Net.Info(msg);
+
+                            // Y 轴开始运动判断：供外部（如 Meteor ENDDOC/swath 完成）订阅
+                            try { YAxisMoveStarted?.Invoke(); } catch (Exception ex) { Log4Net.Info($"YAxisMoveStarted 回调异常：{ex.Message}"); }
 
                             Thread.Sleep(100);//CPU的指令执行是快于FPGA的，很有可能DEM_Run之后，直接调用DEM_AxisIsRuning，显示还未运动，直接跳过了此部分的检查
 

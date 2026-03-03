@@ -1544,17 +1544,12 @@ namespace BinderJetting
                 clone.Save("output1bpp.bmp", ImageFormat.Bmp);//保存到BMPFile
 #endif
 #if SinglePassPrintMode
-                // 适配 Swath：整层图分割为条带后逐条发送
-                List<System.Drawing.Bitmap> strips = SwathImageSplitter.SplitLayerToSwathStrips(clone, 0, -1);
-                try
-                {
-                    foreach (var strip in strips)
-                        WriteImgLayerData(strip, index, subindex, RePrintTimes, true);
-                }
-                finally
-                {
-                    foreach (var b in strips) b?.Dispose();
-                }
+                // 适配 Swath：流式分割，逐条发送并立即释放；扫描模式 STARTJOB / 每条 STARTSCAN+IMAGE+ENDDOC / ENDJOB
+                Log4Net.Info($"写入图层数据（SharpControl SinglePass）：开始Swath图形分割，层index={index}，整图尺寸={clone.Width}x{clone.Height}");
+                int stripIndex = 0;
+                MeteorPrintEngine.SendStartJob(0, (uint)clone.Width);
+                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, strip => { MeteorPrintEngine.SendStartScan(stripIndex % 2 == 0); WriteImgLayerData(strip, index, subindex, RePrintTimes, true); MeteorPrintEngine.SendEndDoc(); stripIndex++; }, 0, -1);
+                MeteorPrintEngine.SendEndJob();
 #endif
                 System.Drawing.Bitmap outputImage = null;
 #if TwoPassPrintMode
@@ -1580,22 +1575,20 @@ namespace BinderJetting
 #if DataProcessDebugMode
                 outputImage.Save($"output1bpp-拼接-{{{k}}}.bmp", ImageFormat.Bmp);//保存到BMPFile  
 #endif
-                // 适配 Swath：整层图分割为条带后逐条发送
-                List<System.Drawing.Bitmap> stripsTwoPass = SwathImageSplitter.SplitLayerToSwathStrips(outputImage, 0, -1);
+                // 适配 Swath：流式分割，逐条发送并立即释放；扫描模式 STARTJOB / 每条 STARTSCAN+IMAGE+ENDDOC / ENDJOB
+                Log4Net.Info($"写入图层数据（SharpControl TwoPass）：开始Swath图形分割，层index={index}，整图尺寸={outputImage.Width}x{outputImage.Height}");
                 try
                 {
-                    foreach (var strip in stripsTwoPass)
-                        WriteImgLayerData(strip, index, subindex, RePrintTimes, true);
+                    int stripIndexTwoPass = 0;
+                    MeteorPrintEngine.SendStartJob(0, (uint)outputImage.Width);
+                    SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, strip => { MeteorPrintEngine.SendStartScan(stripIndexTwoPass % 2 == 0); WriteImgLayerData(strip, index, subindex, RePrintTimes, true); MeteorPrintEngine.SendEndDoc(); stripIndexTwoPass++; }, 0, -1);
+                    MeteorPrintEngine.SendEndJob();
                 }
                 catch (Exception e)
                 {
                     string msg2 = e.ToString();
                     Log4Net.Info(msg2);//20230315新建：解决20230314打印94层中途停止的潜在问题
                     MessageBox.Show(msg2);
-                }
-                finally
-                {
-                    foreach (var b in stripsTwoPass) b?.Dispose();
                 }
 #endif
 
@@ -1759,49 +1752,34 @@ namespace BinderJetting
 #endif
 
 #if SinglePassPrintMode
-                // 适配 Swath：整层图分割为条带后逐条发送
-                List<System.Drawing.Bitmap> stripsAlt = SwathImageSplitter.SplitLayerToSwathStrips(clone, 0, -1);
-                try
-                {
-                    foreach (var strip in stripsAlt)
-                        WriteImgLayerData(strip, index, subindex, RePrintTimes, true);
-                }
-                finally
-                {
-                    foreach (var b in stripsAlt) b?.Dispose();
-                }
+                // 适配 Swath：流式分割，逐条发送并立即释放；扫描模式 STARTJOB / 每条 STARTSCAN+IMAGE+ENDDOC / ENDJOB
+                Log4Net.Info($"写入图层数据（SharpControl SinglePass 分支2）：开始Swath图形分割，层index={index}");
+                int stripIndexSp2 = 0;
+                MeteorPrintEngine.SendStartJob(0, (uint)clone.Width);
+                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, strip => { MeteorPrintEngine.SendStartScan(stripIndexSp2 % 2 == 0); WriteImgLayerData(strip, index, subindex, RePrintTimes, true); MeteorPrintEngine.SendEndDoc(); stripIndexSp2++; }, 0, -1);
+                MeteorPrintEngine.SendEndJob();
 #endif
 
 #if TwoPassPrintMode
 #if TwoPassPrintPerSixTimes
                 System.Drawing.Bitmap outputImage = null;
                 CreatTwoPassFigure(0/*1280,*//*355*/, 6, clone, ref outputImage);
-                List<System.Drawing.Bitmap> strips6 = SwathImageSplitter.SplitLayerToSwathStrips(outputImage, 0, -1);
-                try
-                {
-                    foreach (var strip in strips6)
-                        WriteImgLayerData(strip, index, subindex, RePrintTimes, false);
-                }
-                finally
-                {
-                    foreach (var b in strips6) b?.Dispose();
-                }
+                Log4Net.Info($"写入图层数据（SharpControl TwoPass 6次）：开始Swath图形分割，层index={index}");
+                int stripIndex6 = 0;
+                MeteorPrintEngine.SendStartJob(0, (uint)outputImage.Width);
+                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, strip => { MeteorPrintEngine.SendStartScan(stripIndex6 % 2 == 0); WriteImgLayerData(strip, index, subindex, RePrintTimes, false); MeteorPrintEngine.SendEndDoc(); stripIndex6++; }, 0, -1);
+                MeteorPrintEngine.SendEndJob();
                 outputImage.Dispose();
 #endif
 
 #if TwoPassPrintPerThreeTimes
                 System.Drawing.Bitmap outputImage2 = null;
                 CreatTwoPassFigure(0/*1280,*//*355*/, 3, clone, ref outputImage2);
-                List<System.Drawing.Bitmap> strips3 = SwathImageSplitter.SplitLayerToSwathStrips(outputImage2, 0, -1);
-                try
-                {
-                    foreach (var strip in strips3)
-                        WriteImgLayerData(strip, index, subindex, RePrintTimes, false);
-                }
-                finally
-                {
-                    foreach (var b in strips3) b?.Dispose();
-                }
+                Log4Net.Info($"写入图层数据（SharpControl TwoPass 3次）：开始Swath图形分割，层index={index}");
+                int stripIndex3 = 0;
+                MeteorPrintEngine.SendStartJob(0, (uint)outputImage2.Width);
+                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage2, strip => { MeteorPrintEngine.SendStartScan(stripIndex3 % 2 == 0); WriteImgLayerData(strip, index, subindex, RePrintTimes, false); MeteorPrintEngine.SendEndDoc(); stripIndex3++; }, 0, -1);
+                MeteorPrintEngine.SendEndJob();
                 outputImage2.Dispose();
 #endif
 

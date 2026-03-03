@@ -3364,6 +3364,7 @@ namespace BinderJetting
         /// </summary>
         private int WriteImgLayerData(string jobPathName, int index, int PrtDirFlag, bool SpreadPowerFlagDir)//必须放在1个独立的线程中//文件的本质就是保存在HD的字节流；适配 Swath：整图分割为条带后按条发送
         {
+            Log4Net.Info($"写入图层数据：开始（将进行Swath图形分割），path={jobPathName}，层索引={index}");
             System.Drawing.Bitmap processedBitmap;
             try
             {
@@ -3381,10 +3382,7 @@ namespace BinderJetting
                 return -1;
             }
 
-            // 图形分割：按 Swath 高度在 Y 方向切分为多条带，再逐条发送
-            List<System.Drawing.Bitmap> strips = SwathImageSplitter.SplitLayerToSwathStrips(processedBitmap, 0, -1);
-            processedBitmap.Dispose();
-
+            // 图形分割：流式分割，逐条发送并立即释放条带，降低大图内存峰值
             royal.royal.g_prtimg_layer.nXEncOff = 0;
             royal.royal.g_prtimg_layer.nXDPI = 635;
             royal.royal.g_prtimg_layer.nYDPI = 600;
@@ -3393,76 +3391,75 @@ namespace BinderJetting
             royal.royal.g_prtimg_layer.nPrtFlag = 1;
             royal.royal.g_prtimg_layer.nPrtDir = 0;
 
-            int nRet = 2;
-            try
+            // 扫描模式：整层发送前发 STARTJOB，每条带前 STARTSCAN、条带后 ENDDOC，整层后 ENDJOB
+            MeteorPrintEngine.SendStartJob(0, (uint)processedBitmap.Width);
+            int stripIndex = 0;
+            int nRet = SwathImageSplitter.SplitLayerToSwathStripsAndProcess(processedBitmap, strip =>
             {
-                for (int s = 0; s < strips.Count; s++)
-                {
-                    System.Drawing.Bitmap strip = strips[s];
-                    System.Drawing.Rectangle rectStrip = new System.Drawing.Rectangle(0, 0, strip.Width, strip.Height);
-                    System.Drawing.Imaging.BitmapData bmpData = strip.LockBits(rectStrip, System.Drawing.Imaging.ImageLockMode.ReadOnly, strip.PixelFormat);
-                    int bytes = Math.Abs(bmpData.Stride) * strip.Height;
-                    int stride = bmpData.Stride;
-                    byte[] rgbValues = new byte[bytes];
-                    Marshal.Copy(bmpData.Scan0, rgbValues, 0, bytes);
-                    for (int counter = 0; counter < bytes; counter++)
-                        rgbValues[counter] = (byte)~(rgbValues[counter]);
-                    strip.UnlockBits(bmpData);
+                MeteorPrintEngine.SendStartScan(stripIndex % 2 == 0); // 偶数为正向，奇数为反向
+                stripIndex++;
 
-                    int size2 = Marshal.SizeOf(rgbValues[0]) * rgbValues.Length;
-                    IntPtr ImgPtr = Marshal.AllocHGlobal(size2);
+                System.Drawing.Rectangle rectStrip = new System.Drawing.Rectangle(0, 0, strip.Width, strip.Height);
+                System.Drawing.Imaging.BitmapData bmpData = strip.LockBits(rectStrip, System.Drawing.Imaging.ImageLockMode.ReadOnly, strip.PixelFormat);
+                int bytes = Math.Abs(bmpData.Stride) * strip.Height;
+                int stride = bmpData.Stride;
+                byte[] rgbValues = new byte[bytes];
+                Marshal.Copy(bmpData.Scan0, rgbValues, 0, bytes);
+                for (int counter = 0; counter < bytes; counter++)
+                    rgbValues[counter] = (byte)~(rgbValues[counter]);
+                strip.UnlockBits(bmpData);
+
+                int size2 = Marshal.SizeOf(rgbValues[0]) * rgbValues.Length;
+                IntPtr ImgPtr = Marshal.AllocHGlobal(size2);
+                try
+                {
+                    Marshal.Copy(rgbValues, 0, ImgPtr, rgbValues.Length);
+                    IntPtr[] NewImgPtr = new IntPtr[3];
+                    NewImgPtr[0] = ImgPtr;
+                    NewImgPtr[1] = ImgPtr;
+                    NewImgPtr[2] = ImgPtr;
+                    int size3 = Marshal.SizeOf(NewImgPtr[0]) * NewImgPtr.Length;
+                    IntPtr p_NewImgPtr = Marshal.AllocHGlobal(size3);
                     try
                     {
-                        Marshal.Copy(rgbValues, 0, ImgPtr, rgbValues.Length);
-                        IntPtr[] NewImgPtr = new IntPtr[3];
-                        NewImgPtr[0] = ImgPtr;
-                        NewImgPtr[1] = ImgPtr;
-                        NewImgPtr[2] = ImgPtr;
-                        int size3 = Marshal.SizeOf(NewImgPtr[0]) * NewImgPtr.Length;
-                        IntPtr p_NewImgPtr = Marshal.AllocHGlobal(size3);
-                        try
-                        {
-                            Marshal.Copy(NewImgPtr, 0, p_NewImgPtr, NewImgPtr.Length);
-                            royal.royal.g_prtimg_layer.nBytesPerLine = stride;
-                            royal.royal.g_prtimg_layer.nWidth = strip.Width;
-                            royal.royal.g_prtimg_layer.nHeight = strip.Height;
+                        Marshal.Copy(NewImgPtr, 0, p_NewImgPtr, NewImgPtr.Length);
+                        royal.royal.g_prtimg_layer.nBytesPerLine = stride;
+                        royal.royal.g_prtimg_layer.nWidth = strip.Width;
+                        royal.royal.g_prtimg_layer.nHeight = strip.Height;
 
-                            nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, p_NewImgPtr, bytes);
-                            if (nRet <= 0)
-                            {
-                                switch (nRet)
-                                {
-                                    case -110000:
-                                        MessageBox.Show("作业启动失败：指定图层打印执行时的PASS总数");
-                                        break;
-                                    case -110001:
-                                        MessageBox.Show("作业启动失败：PC内存不足");
-                                        break;
-                                    case -110002:
-                                        MessageBox.Show("作业启动失败：PASS计算小于0");
-                                        break;
-                                }
-                                break;
-                            }
-                            nRet = 2;
-                        }
-                        finally
+                        int ret = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, p_NewImgPtr, bytes);
+                        MeteorPrintEngine.SendEndDoc(); // 当前 swath 结束
+                        if (ret <= 0)
                         {
-                            Marshal.FreeHGlobal(p_NewImgPtr);
+                            switch (ret)
+                            {
+                                case -110000:
+                                    MessageBox.Show("作业启动失败：指定图层打印执行时的PASS总数");
+                                    break;
+                                case -110001:
+                                    MessageBox.Show("作业启动失败：PC内存不足");
+                                    break;
+                                case -110002:
+                                    MessageBox.Show("作业启动失败：PASS计算小于0");
+                                    break;
+                            }
+                            return ret;
                         }
+                        return 2;
                     }
                     finally
                     {
-                        Marshal.FreeHGlobal(ImgPtr);
+                        Marshal.FreeHGlobal(p_NewImgPtr);
                     }
-                    strip.Dispose();
                 }
-            }
-            finally
-            {
-                foreach (var b in strips)
-                    b?.Dispose();
-            }
+                finally
+                {
+                    Marshal.FreeHGlobal(ImgPtr);
+                }
+            }, 0, -1);
+
+            MeteorPrintEngine.SendEndJob(); // 扫描模式：整层条带发送完毕
+            processedBitmap.Dispose();
             return nRet;
         }
         private bool LoadAutoParamsFromJson(ref 手动操作 AutoPrintMotion)
