@@ -32,12 +32,18 @@ namespace BinderJetting
 {
     public partial class 手动操作 : Form
     {
-        // 定义常量光栅尺分辨率为每毫米1000线，每英寸25400线
+        // 定义常量光栅尺分辨率为每毫米1000线，每英寸25400线（Royal/旧光栅用）
         const int EncoderLinePerMM = 1000;
         const int EncoderLinePerInch =  EncoderLinePerMM * 254 / 10;
-        const int DriverPulsePerMM = 1000;              // 伺服驱动器每毫米发送脉冲数
+        const int DriverPulsePerMM = 1000;              // 伺服驱动器每毫米发送脉冲数（它轴沿用）
         const int XMaxDistanceMM = 860;                 // X轴正负行程开关之间距离
         const int YMaxDistanceMM = 470;                 // Y轴正负行程开关之间距离
+
+        // 墨车 X/Y 轴固高编码器换算（编码器信号供 Meteor/伺服，定位由固高读编码器）
+        // 伺服编码器 131072（17 位）已写入驱动器，螺杆导程 20mm → 计数/mm
+        const int InkCarEncoderCountPerRev = 131072;
+        const double InkCarLeadMM = 20.0;
+        const double InkCarEncoderCountPerMM = InkCarEncoderCountPerRev / InkCarLeadMM;  // 6553.6
 
         // 墨车的一些常用位置
         const double INKCAR_SOA_MIN_X = 10.0;           // 墨车安全区右上角坐标，（X，Y）
@@ -62,6 +68,12 @@ namespace BinderJetting
         /// 可用于 Meteor 扫描模式下在每条 swath 结束后发 PCMD_ENDDOC 等逻辑。
         /// </summary>
         public static event Action YAxisMoveStarted;
+
+        /// <summary>
+        /// 简易测试运动开关。为 true 时：从 (0,0) 先 X+50mm、Y+80mm，再按 X 50/350、Y 步进 54mm 做扫描循环。
+        /// 原始 X/Y 运动逻辑不注释，仅通过本开关在“正式打印”与“简易测试”之间切换。
+        /// </summary>
+        public static bool UseSimpleTestMotion = false;
 
         // 铺粉车的一些常数
         const double POWDERCAR_TRAVEL_DIST = /*918.0*/900;     // 铺粉车行程距离，mm //20251206修改，硬件更换
@@ -5727,42 +5739,30 @@ namespace BinderJetting
             }
         }
 
-        private void ExchangeToSNexttation(double AimPos)//运动切换到新工作站区域：精华
+        private void ExchangeToSNexttation(double AimPos)//运动切换到新工作站区域：固高编码器定位，不依赖 Royal 光栅
         {
-            UInt32 nCtlValue = 2; UInt32 ny1pos = 0; UInt32 ny2pos = 0; bool DirFlag = false; float m_MovSpeed = 50;//50mm/s速度进行移动；到站延时运动精度0.5mm
-            double nSpeed = MM_TO_DOT(m_MovSpeed, EncoderLinePerInch, 0);//20220506修改：第1轴 //20200803修改：已包含运动修正系统//double nSpeed = 68016;
-            bool Directory = false; uint nRevPls = 0;
+            float m_MovSpeed = 50f;
+            double[] enc = motionMap.GetEncPos();
+            double currentMm = enc[0] / InkCarEncoderCountPerMM;
+            int moveCounts = (int)((AimPos - currentMm) * InkCarEncoderCountPerMM);
+            double velCountPerMs = m_MovSpeed * InkCarEncoderCountPerMM / 1000.0;
 
-            ny1pos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-            if ((double)ny1pos / EncoderLinePerMM >= AimPos)//墨车在清洗站台右侧
-            { DirFlag = false; }
-            else//墨车在清洗站台左侧
-            { DirFlag = true; }
-
-            double MoveStep = (AimPos - (double)ny1pos / EncoderLinePerMM) * 500;
-            // 2026-02-02修改：墨车X轴切换到固高控制（4轴卡测试），注释Royal运动控制
-            //bool nRetVal = royal.royal.DEM_Run(0, DirFlag, (UInt32)nSpeed, (int)System.Math.Abs(MoveStep)/*50000*/, nCtlValue);//三菱驱动器的千脉冲MM数：按照之前代码，应该是500;运行100MM;单pulse-2um
-            // 2026-02-02新增：墨车X轴固高运动控制（4轴卡测试，轴号1）
             gts.mc.TTrapPrm xTrapPrm = new gts.mc.TTrapPrm();
-            xTrapPrm.acc = 0.5;
-            xTrapPrm.dec = 0.5;
-            xTrapPrm.velStart = 5;
-            xTrapPrm.smoothTime = 1;
-
-            int xPosition = (int)System.Math.Abs(MoveStep) / 1000; // 转换为mm单位
-            if (DirFlag == false) xPosition = -xPosition; // 方向控制
+            xTrapPrm.acc = 0.5; xTrapPrm.dec = 0.5; xTrapPrm.velStart = 5; xTrapPrm.smoothTime = 1;
+            InkCarMotionMap.TrapMotion(1, ref xTrapPrm, moveCounts, velCountPerMs, 0, 0, true);
+            InkCarMotionMap.StopMotion(1, true);
+            /* ========== Royal控制逻辑（ExchangeToSNexttation，已替换为固高编码器定位，保留供参考）==========
+            UInt32 nCtlValue = 2; UInt32 ny1pos = 0; bool DirFlag = false; float m_MovSpeed = 50;
+            double nSpeed = MM_TO_DOT(m_MovSpeed, EncoderLinePerInch, 0); bool Directory = false; uint nRevPls = 0;
+            ny1pos = royal.royal.DEV_GetPrintEncoderValue();
+            if ((double)ny1pos / EncoderLinePerMM >= AimPos) { DirFlag = false; } else { DirFlag = true; }
+            double MoveStep = (AimPos - (double)ny1pos / EncoderLinePerMM) * 500;
+            int xPosition = (int)System.Math.Abs(MoveStep) / 1000; if (DirFlag == false) xPosition = -xPosition;
             double xVel = nSpeed;
             InkCarMotionMap.TrapMotion(1, ref xTrapPrm, xPosition, xVel, 0, 0, false);
-
-            while (royal.royal.DEM_AxisIsRuning(0, ref Directory, ref nRevPls))//int SleepTime = (int)((double)(AimPos - CurrentPos) / nSpeed);//Thread.Sleep(5000);//Sleep时间必须要有依据//确保运行到位，运行精度为2UM
-            {
-                Thread.Sleep(1);
-            }
-            // 2026-02-02修改：墨车X轴切换到固高控制（4轴卡测试），注释Royal停止操作
-            //nRetVal = royal.royal.DEM_StopAxisRun(false, 0x1);//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108
-       // 2026-02-02新增：墨车X轴固高停止操作（4轴卡测试，轴号1）
+            while (royal.royal.DEM_AxisIsRuning(0, ref Directory, ref nRevPls)) { Thread.Sleep(1); }
             InkCarMotionMap.StopMotion(1, true);
-       
+            ========== */
         }
 
 
@@ -5787,19 +5787,29 @@ namespace BinderJetting
             TrapMoveUp(4, true, Convert.ToString(m_MovSpeed), Convert.ToString(AimPos), true, !WaitStopFLag/*true*/);//20200528批注：TrapSpace量为转数，m_MovSpeed为转/秒
         }
 
+        /// <summary>读取指定轴当前编码器位置（mm）。轴1/2 用墨车编码器 131072/20 换算，它轴用 1000/mm。</summary>
         private double GetCurrentPos(int Axis)//20220520新建：读取指定轴的当前编码器位置
         {
-            double[] g_dEncpos = new double[8]; g_dEncpos = motionMap.GetEncPos(); double CurrentPos = g_dEncpos[Axis - 1/*1*/] / 1000;//粉车位置：
+            double[] g_dEncpos = new double[8]; g_dEncpos = motionMap.GetEncPos();
+            double countPerMM = (Axis == 1 || Axis == 2) ? InkCarEncoderCountPerMM : 1000.0;
+            return g_dEncpos[Axis - 1] / countPerMM;
+            /* Royal控制逻辑（已替换：轴1/2 改用 InkCarEncoderCountPerMM，它轴仍 1000/mm）：
+            double CurrentPos = g_dEncpos[Axis - 1] / 1000;
             return CurrentPos;
+            */
         }
         private void WaitStop(int Axis)//20220520新建：实现墨车相关的等停逻辑
         {
+            if (Axis == 1 || Axis == 2)
+            {
+                // 墨车 X/Y 已由固高 TrapMotion 内部等停，不再依赖 Royal，避免卡顿
+                return;
+            }
+            // ========== Royal控制逻辑（非墨车轴等停，墨车轴1/2 已在上方 return，保留供参考）==========
             bool Directory = false; uint nRevPls = 0;
-            while (royal.royal.DEM_AxisIsRuning((uint)(Axis - 1)/*0*/, ref Directory, ref nRevPls)) { Thread.Sleep(1);/*确保运行到位，运行精度为2UM*/ }//0为第1轴，1为第2轴
-            bool nRetVal2 = royal.royal.DEM_StopAxisRun(false, (uint)Axis/*0x1*//*0x2*/);//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108
-
-            string msg = $"{(Axis > 1 ? "X" : "Y")}方向到位等停：DEM_StopAxisRun：返回值{{{nRetVal2}}}bImmeStop{{{false}}}nAxisMask{{{(uint)Axis}}}";
-            Log4Net.Info(msg);
+            while (royal.royal.DEM_AxisIsRuning((uint)(Axis - 1), ref Directory, ref nRevPls)) { Thread.Sleep(1); }
+            bool nRetVal2 = royal.royal.DEM_StopAxisRun(false, (uint)Axis);
+            Log4Net.Info($"轴{Axis} 到位等停(非墨车)：DEM_StopAxisRun={nRetVal2}");
         }
 
 
@@ -5818,127 +5828,80 @@ namespace BinderJetting
             {   
                 switch (MoveDirectionFlag)
                 {
-                    case false://20220513新建：为X方向的运动指令
-                        UInt32 nCtlValue = 2; UInt32 CurrentPos = 0; bool DirFlag = false;
-                        bool Directory = false; uint nRevPls = 0; double nSpeed = MM_TO_DOT(m_MovSpeed, EncoderLinePerInch, 0);//20220506修改：第1轴//20200803修改：已包含运动修正系统//double nSpeed = 68016;
-
-                        string msg = $"准备读取编码器位置：X方向！";
-                        Log4Net.Info(msg);//20230315新建：解决20230314打印94层中途停止的潜在问题
-
-                        CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-
-                        /*string*/
-                        msg = $"准备运动，当前位置：DEV_GetPrintEncoderValue：MoveDirectionFlag{{false为Y方向：{MoveDirectionFlag}}}CurrentPos{{{CurrentPos / EncoderLinePerMM}}}AimPos{{{AimPos}}}";
-                        Log4Net.Info(msg);
-
-                        if ((double)CurrentPos / EncoderLinePerMM >= AimPos) { DirFlag = false; }/*墨车在目标位置右侧*/else { DirFlag = true; }//墨车在目标位置左侧
-
-                        //if (AimPos >= 10 && AimPos <= 780)//是否AimPos在工作流程内:在流程内，即可打印:确认在安全工作区内；行程为（0MM，790MM）
-                        if (AimPos >= 5 && AimPos <= (XMaxDistanceMM-5))//是否AimPos在工作流程内:在流程内，即可打印:确认在安全工作区内；行程为（0MM，860MM）
+                    case false://X 轴：固高编码器定位，不再依赖 Royal 光栅，避免卡顿
+                        if (AimPos >= 5 && AimPos <= (XMaxDistanceMM - 5))
                         {
-                            double MoveStep = (AimPos - (double)CurrentPos / EncoderLinePerMM) * 1000/*1000*//*1004.737*//*1000*/;//20220513修改：//20230410修改：1004.737
-                            bool nRetVal = royal.royal.DEM_Run(0, DirFlag, (UInt32)nSpeed, (int)System.Math.Abs(MoveStep), nCtlValue);//三菱驱动器的千脉冲MM数：按照之前代码，应该是500;运行100MM;单pulse-2um                                                              
+                            double[] encX = motionMap.GetEncPos();
+                            double currentMmX = encX[0] / InkCarEncoderCountPerMM;
+                            int moveCountsX = (int)((AimPos - currentMmX) * InkCarEncoderCountPerMM);
+                            double velCountPerMsX = m_MovSpeed * InkCarEncoderCountPerMM / 1000.0;
 
-                            msg = $"X方向运动开始：DEM_Run：返回值{{{nRetVal}}}nAxis{{{0}}}DirFlag{{{DirFlag}}}nSpeed{{{nSpeed}}}MoveStep{{{MoveStep}}}nCtlValue{{{nCtlValue}}}";
+                            string msg = $"X 固高定位：当前{{{currentMmX:F3}}}mm 目标{{{AimPos}}}mm 相对{{{moveCountsX}}}count 速度{{{velCountPerMsX:F1}}}count/ms";
                             Log4Net.Info(msg);
 
-                            Thread.Sleep(100);//CPU的指令执行是快于FPGA的，很有可能DEM_Run之后，直接调用DEM_AxisIsRuning，显示还未运动，直接跳过了此部分的检查
+                            gts.mc.TTrapPrm xTrapPrm = new gts.mc.TTrapPrm();
+                            xTrapPrm.acc = 0.5; xTrapPrm.dec = 0.5; xTrapPrm.velStart = 5; xTrapPrm.smoothTime = 1;
+                            InkCarMotionMap.TrapMotion(1, ref xTrapPrm, moveCountsX, velCountPerMsX, 0, 0, WaitStopFLag);
 
-                            if (WaitStopFLag == true)
-                            {
-                                while (royal.royal.DEM_AxisIsRuning(0, ref Directory, ref nRevPls))
-                                {
-                                    Thread.Sleep(10);/*确保运行到位，运行精度为2UM*/
-                                }
-
-                                // 保险措施
-                                bool nRetVal2 = royal.royal.DEM_StopAxisRun(false, 0x1);//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108
-
-                                Thread.Sleep(10);
-                                CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：20230213新增：
-                                msg = $"X方向到位停止：DEM_StopAxisRun：返回值{{{nRetVal2}}}CurrentPos{{{CurrentPos / EncoderLinePerMM}}}bImmeStop{{{false}}}nAxisMask{{{0x1}}}";
-                                Log4Net.Info(msg);
+                            if (WaitStopFLag)
+                                InkCarMotionMap.StopMotion(1, true);
+                            double afterMm = motionMap.GetEncPos()[0] / InkCarEncoderCountPerMM;
+                            Log4Net.Info($"X 到位：编码器位置{{{afterMm:F3}}}mm");
+                        }
+                        /* ========== Royal控制逻辑（X 轴，已替换为固高编码器定位，保留供参考）==========
+                        UInt32 nCtlValue = 2; UInt32 CurrentPos = 0; bool DirFlag = false;
+                        bool Directory = false; uint nRevPls = 0; double nSpeed = MM_TO_DOT(m_MovSpeed, EncoderLinePerInch, 0);
+                        CurrentPos = royal.royal.DEV_GetPrintEncoderValue();
+                        if ((double)CurrentPos / EncoderLinePerMM >= AimPos) { DirFlag = false; } else { DirFlag = true; }
+                        if (AimPos >= 5 && AimPos <= (XMaxDistanceMM-5)) {
+                            double MoveStep = (AimPos - (double)CurrentPos / EncoderLinePerMM) * 1000;
+                            bool nRetVal = royal.royal.DEM_Run(0, DirFlag, (UInt32)nSpeed, (int)System.Math.Abs(MoveStep), nCtlValue);
+                            if (WaitStopFLag == true) {
+                                while (royal.royal.DEM_AxisIsRuning(0, ref Directory, ref nRevPls)) { Thread.Sleep(10); }
+                                bool nRetVal2 = royal.royal.DEM_StopAxisRun(false, 0x1);
+                                CurrentPos = royal.royal.DEV_GetPrintEncoderValue();
                             }
                         }
-                        else { }//不在安全工作区内:不进行运动
-
+                        ========== */
                         break;
 
-                    case true://20220513新建：为Y方向的运动指令
-                        nCtlValue = 1/*0*/; CurrentPos = 0; DirFlag = false;//20230410修改：消除潜在的问题
-                        Directory = false; nRevPls = 0; nSpeed = MM_TO_DOT(m_MovSpeed, EncoderLinePerInch, 0);//20220506修改：第1轴//20200803修改：已包含运动修正系统//double nSpeed = 68016;
-
-                        /*string*/
-                        msg = $"准备读取编码器位置：Y方向！";
-                        Log4Net.Info(msg);//20230315新建：解决20230314打印94层中途停止的潜在问题
-
-                        CurrentPos = royal.royal.DEM_GetAxisEncodeVal(1/*获取第2轴编码器*/);//初始编码器位置：
-
-                        msg = $"准备运动，编码器当前位置：DEM_GetAxisEncodeVal：MoveDirectionFlag{{false为Y方向：{MoveDirectionFlag}}}CurrentPos{{{CurrentPos / EncoderLinePerMM}}}AimPos{{{AimPos}}}";
-                        Log4Net.Info(msg);
-
-                        if ((double)CurrentPos / EncoderLinePerMM >= AimPos) { DirFlag = false; }/*墨车在目标位置前侧*/else { DirFlag = true; }//墨车在目标位置后侧
-
-                        //if (AimPos >= 5/*10*/ && AimPos <= 322/*295*/)//是否AimPos在工作流程内:在流程内，即可打印:确认在安全工作区内//20230410修改：扩展Y轴运动范围到322，以允许在暂停打印时运行到暂停位//20230419修改：Y方向运动范围扩展到5MM-322MM
-                        if (AimPos >= 1 && AimPos <= (YMaxDistanceMM - 10))  // 检测AimPos坐标值是否在工作区内
+                    case true://Y 轴：固高编码器定位，不再依赖 Royal 编码器/光栅，避免卡顿
+                        if (AimPos >= 1 && AimPos <= (YMaxDistanceMM - 10))
                         {
-                            //double MoveStep = (AimPos - (double)CurrentPos / EncoderLinePerMM) * /*1000*/  /*CorrectionRatio*/1001.891/*1000*//*1004.737*//*1000*/;//20220513修改：//20230410修改：1004.737
-                            double MoveStep = (AimPos - (double)CurrentPos / EncoderLinePerMM) * 1000;
-                           
-                           // 2026-02-02修改：墨车Y1轴切换到固高控制（4轴卡测试），注释Royal运动控制
-                           // bool nRetVal = royal.royal.DEM_Run(1/*第2轴*/, DirFlag, (UInt32)nSpeed, (int)System.Math.Abs(MoveStep), nCtlValue);//三菱驱动器的千脉冲MM数：按照之前代码，应该是500;运行100MM;单pulse-2um                                                              
-                           // 2026-02-02新增：墨车Y1轴固高运动控制（4轴卡测试，轴号2）
-                            gts.mc.TTrapPrm y1TrapPrm = new gts.mc.TTrapPrm();
-                            y1TrapPrm.acc = 0.5;
-                            y1TrapPrm.dec = 0.5;
-                            y1TrapPrm.velStart = 5;
-                            y1TrapPrm.smoothTime = 1;
+                            double[] encY = motionMap.GetEncPos();
+                            double currentMmY = encY[1] / InkCarEncoderCountPerMM;
+                            int moveCountsY = (int)((AimPos - currentMmY) * InkCarEncoderCountPerMM);
+                            double velCountPerMsY = m_MovSpeed * InkCarEncoderCountPerMM / 1000.0;
 
-                            int y1Position = (int)System.Math.Abs(MoveStep) / 1000; // 转换为mm单位
-                            if (DirFlag == false) y1Position = -y1Position; // 方向控制
-                            double y1Vel = nSpeed;
-                            InkCarMotionMap.TrapMotion(2, ref y1TrapPrm, y1Position, y1Vel, 0, 0, false);
-                           
-                            msg = $"Y方向运动开始：nAxis{{{1}}}DirFlag{{{DirFlag}}}nSpeed{{{nSpeed}}}MoveStep{{{MoveStep}}}nCtlValue{{{nCtlValue}}}";
+                            string msg = $"Y 固高定位：当前{{{currentMmY:F3}}}mm 目标{{{AimPos}}}mm 相对{{{moveCountsY}}}count 速度{{{velCountPerMsY:F1}}}count/ms";
                             Log4Net.Info(msg);
 
-                            // Y 轴开始运动判断：供外部（如 Meteor ENDDOC/swath 完成）订阅
+                            gts.mc.TTrapPrm y1TrapPrm = new gts.mc.TTrapPrm();
+                            y1TrapPrm.acc = 0.5; y1TrapPrm.dec = 0.5; y1TrapPrm.velStart = 5; y1TrapPrm.smoothTime = 1;
+                            InkCarMotionMap.TrapMotion(2, ref y1TrapPrm, moveCountsY, velCountPerMsY, 0, 0, WaitStopFLag);
+
                             try { YAxisMoveStarted?.Invoke(); } catch (Exception ex) { Log4Net.Info($"YAxisMoveStarted 回调异常：{ex.Message}"); }
 
-                            Thread.Sleep(100);//CPU的指令执行是快于FPGA的，很有可能DEM_Run之后，直接调用DEM_AxisIsRuning，显示还未运动，直接跳过了此部分的检查
-
-                            if (WaitStopFLag == true)
-                            {
-                                while (royal.royal.DEM_AxisIsRuning(1/*第2轴*/, ref Directory, ref nRevPls))
-                                {
-                                    Thread.Sleep(10);
-                                }//int SleepTime = (int)((double)(AimPos - CurrentPos) / nSpeed);//Thread.Sleep(5000);//Sleep时间必须要有依据//确保运行到位，运行精度为2UM
-
-                                // 安全措施
-                                // 2026-02-02修改：墨车Y1轴切换到固高控制（4轴卡测试），注释Royal停止操作
-                                //bool nRetVal2 = royal.royal.DEM_StopAxisRun(false, 0x2/*第2轴*/);//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108
-                                // 2026-02-02新增：墨车Y1轴固高停止操作（4轴卡测试，轴号2）
+                            if (WaitStopFLag)
                                 InkCarMotionMap.StopMotion(2, true);
-
-
-                                Thread.Sleep(10);
-
-                                CurrentPos = royal.royal.DEM_GetAxisEncodeVal(1/*获取第2轴编码器*/);//初始编码器位置：20230213新增：
-
-                                msg = $"Y方向到位停止：CurrentPos{{{CurrentPos / EncoderLinePerMM}}}bImmeStop{{{false}}}nAxisMask{{{0x2}}}";
-                                Log4Net.Info(msg);
-
-                                ////if (CurrentPos / EncoderLinePerMM >= AimPos) { DirFlag = false; }/*墨车在目标位置前侧*/else { DirFlag = true; }//墨车在目标位置后侧
-                                ////MoveStep = (AimPos - CurrentPos / EncoderLinePerMM) * 1001.667/*1004.737*//*1000*/;//20220513修改：//20230410修改：1004.737
-                                ////nRetVal = royal.royal.DEM_Run(1/*第2轴*/, DirFlag, (UInt32)(nSpeed/100), (int)System.Math.Abs(MoveStep), nCtlValue);//三菱驱动器的千脉冲MM数：按照之前代码，应该是500;运行100MM;单pulse-2um                                                              
-                                ////Thread.Sleep(1000);
-                                ////CurrentPos = royal.royal.DEM_GetAxisEncodeVal(1/*获取第2轴编码器*/);//初始编码器位置：20230213新增：
-                                ////msg = $"Y方向运动开始：DEM_Run：返回值{{{nRetVal2}}}nAxis{{{1}}}DirFlag{{{DirFlag}}}nSpeed{{{nSpeed/100}}}MoveStep{{{MoveStep}}}nCtlValue{{{nCtlValue}}}";
-                                ////Log4Net.Info(msg);
+                            double afterMmY = motionMap.GetEncPos()[1] / InkCarEncoderCountPerMM;
+                            Log4Net.Info($"Y 到位：编码器位置{{{afterMmY:F3}}}mm");
+                        }
+                        /* ========== Royal控制逻辑（Y 轴，已替换为固高编码器定位，保留供参考）==========
+                        nCtlValue = 1; CurrentPos = 0; DirFlag = false; Directory = false; nRevPls = 0; nSpeed = MM_TO_DOT(m_MovSpeed, EncoderLinePerInch, 0);
+                        CurrentPos = royal.royal.DEM_GetAxisEncodeVal(1);
+                        if ((double)CurrentPos / EncoderLinePerMM >= AimPos) { DirFlag = false; } else { DirFlag = true; }
+                        if (AimPos >= 1 && AimPos <= (YMaxDistanceMM - 10)) {
+                            double MoveStep = (AimPos - (double)CurrentPos / EncoderLinePerMM) * 1000;
+                            int y1Position = (int)System.Math.Abs(MoveStep) / 1000; if (DirFlag == false) y1Position = -y1Position;
+                            InkCarMotionMap.TrapMotion(2, ref y1TrapPrm, y1Position, y1Vel, 0, 0, false);
+                            if (WaitStopFLag == true) {
+                                while (royal.royal.DEM_AxisIsRuning(1, ref Directory, ref nRevPls)) { Thread.Sleep(10); }
+                                InkCarMotionMap.StopMotion(2, true);
+                                CurrentPos = royal.royal.DEM_GetAxisEncodeVal(1);
                             }
                         }
-                        else { }//不在安全工作区内:不进行运动
-
+                        ========== */
                         break;
                 }
             }
@@ -10903,7 +10866,81 @@ namespace BinderJetting
 #endregion
         }
 
+        /// <summary>
+        /// 简易测试运动：假定 X、Y 在 0 点，先 X+50mm、Y+80mm，再按 X 50/350、Y 步进 54mm 做 6 道扫描循环。
+        /// 仅当 UseSimpleTestMotion 为 true 时由 AutoPrintThread2 调用；原始 X/Y 运动逻辑不注释。
+        /// </summary>
+        private void RunSimpleTestMotionPass(int PassIndex, float ReturnVelocity1, float ReturnVelocity2, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, int NotGoCleanStationFlag)
+        {
+            const double SimpleTestXStart = 50;
+            const double SimpleTestXEnd = 350;
+            const double SimpleTestYStart = 80;
+            const double SimpleTestYStep = 54;
 
+            if (PassIndex == 0)
+            {
+                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
+                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 1);
+                bool nRetVal = MeteorPrintEngine.SetFlash(false);
+                Log4Net.Info($"简易测试：关闭闪喷 返回值={nRetVal}");
+                BackToStation(SimpleTestXStart, ReturnVelocity2, false, true, 1);// X 正向 50mm
+                BackToStation(SimpleTestYStart, ReturnVelocity2, true, true, 1);// Y 正向 80mm
+                BackToStation(SimpleTestXEnd, ReturnVelocity1, false, true, 1);// 扫描：X 到 350
+                BackToStation(SimpleTestYStart + SimpleTestYStep, ReturnVelocity1, true, true, 1);// Y 步进
+                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
+                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 2);
+                return;
+            }
+            if (PassIndex == 1)
+            {
+                BackToStation(SimpleTestXStart, ReturnVelocity1, false, true, 1);
+                BackToStation(SimpleTestYStart + 2 * SimpleTestYStep, ReturnVelocity1, true, true, 1);
+                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
+                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 3);
+                return;
+            }
+            if (PassIndex == 2)
+            {
+                BackToStation(SimpleTestXEnd, ReturnVelocity1, false, true, 1);
+                BackToStation(SimpleTestYStart + 3 * SimpleTestYStep, ReturnVelocity1, true, true, 1);
+                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
+                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 4);
+                return;
+            }
+            if (PassIndex == 3)
+            {
+                BackToStation(SimpleTestXStart, ReturnVelocity1, false, true, 1);
+                BackToStation(SimpleTestYStart + 4 * SimpleTestYStep, ReturnVelocity1, true, true, 1);
+                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[4])
+                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 5);
+                return;
+            }
+            if (PassIndex == 4)
+            {
+                BackToStation(SimpleTestXEnd, ReturnVelocity1, false, true, 1);
+                BackToStation(SimpleTestYStart + 5 * SimpleTestYStep, ReturnVelocity1, true, true, 1);
+                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
+                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 6);
+                return;
+            }
+            if (PassIndex == 5)
+            {
+                BackToStation(SimpleTestXStart, ReturnVelocity1, false, true, 1);
+                if (NotGoCleanStationFlag == 1) { }
+                else if (PauseFlag != 1)
+                {
+                    BackToStation(780, ReturnVelocity2, false, false, 1);
+                    BackToStation(96 + 25, ReturnVelocity2, true, false, 1);
+                    WaitStop(1);
+                    WaitStop(2);
+                }
+                else if (PauseFlag == 1)
+                {
+                    BackToStation(734.275, ReturnVelocity2, false, true, 1);
+                    BackToStation(321.455, ReturnVelocity2, true, true, 1);
+                }
+            }
+        }
 
         /// <summary>
         /// 自动打印函数，由自动打印过程调用
@@ -10932,6 +10969,12 @@ namespace BinderJetting
                 ReturnVelocity1 = m_MovSpeed;
                 double ReturnVelocity2 = m_BackCleanMovSpeed;//20230404新增：
                 {
+                    // 简易测试：从 (0,0) 先 X+50mm、Y+80mm，再按 X 50/350、Y 步进 54mm 做扫描循环；原始 X/Y 逻辑不注释，由此开关切换
+                    if (UseSimpleTestMotion)
+                    {
+                        RunSimpleTestMotionPass(PassIndex, (float)ReturnVelocity1, (float)ReturnVelocity2, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, NotGoCleanStationFlag);
+                        return;
+                    }
                     switch (PassIndex)
                     {
                         case 0:
@@ -13462,6 +13505,27 @@ namespace BinderJetting
         private void MoveUpBtn1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void HomeEndsLabel0_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            // 切换布尔值
+            UseSimpleTestMotion = !UseSimpleTestMotion;
+
+            // 可选：根据当前状态更新按钮文字，让用户知道当前模式
+            if (UseSimpleTestMotion)
+            {
+                button16.Text = "简单测试启用";   // 当前已启用，点击后将禁用
+            }
+            else
+            {
+                button16.Text = "简单测试禁用";   // 当前已禁用，点击后将启用
+            }
         }
     }
 }

@@ -2562,7 +2562,13 @@ namespace BinderJetting
 
                                 //EquipmentMotionLogic3(0, 2);//自动进给预送粉
                                 //EquipmentMotionLogic3(0, 3);//自动进给正式铺粉
-                                if (g_RYSYSParam.m_bApplyPowderSupplyMotion == 0)//0为采用
+                                // 简易测试平台：X/Y 接在固高轴1/2（整机为成型缸/铺粉轴），若仍执行铺粉会与喷墨共用轴1/2，造成冲突；故简易测试时强制跳过铺粉
+                                if (手动操作.UseSimpleTestMotion)
+                                {
+                                    msg = $"简易测试模式：跳过铺粉/成型缸运动，避免与墨车X/Y（固高轴1/2）冲突";
+                                    Log4Net.Info(msg);
+                                }
+                                else if (g_RYSYSParam.m_bApplyPowderSupplyMotion == 0)//0为采用
                                 {
                                     EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, m_BackCleanMovSpeed2, ref sendMessageToCamera, renderIndex, 10, 0, 0, 0, 0);//自动铺粉逻辑//20230319调试修改此处
 

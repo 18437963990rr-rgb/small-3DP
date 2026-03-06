@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Your plugin interface description.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cdcde8752c8130c998d3e69fd95b4a4de8e576a4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1d8699c279a6a2f822c973714adc872a309a1942")]
 [assembly: System.Reflection.AssemblyProductAttribute("PluginInterface")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PluginInterface")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
