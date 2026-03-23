@@ -1,4 +1,4 @@
-#define TwoPassPrintMode
+﻿#define TwoPassPrintMode
 //#define SinglePassPrintMode
 //#define DataProcessDebugMode
 //#define UseP5PortForCleaning
@@ -41,9 +41,8 @@ namespace BinderJetting
 
         // 墨车 X/Y 轴固高编码器换算（编码器信号供 Meteor/伺服，定位由固高读编码器）
         // 伺服编码器 131072（17 位）已写入驱动器，螺杆导程 20mm → 计数/mm
-        const int InkCarEncoderCountPerRev = 131072;
-        const double InkCarLeadMM = 20.0;
-        const double InkCarEncoderCountPerMM = InkCarEncoderCountPerRev / InkCarLeadMM;  // 6553.6
+        const double InkCarXEncoderCountPerMM = 4194304.0 / 10000.0;
+        const double InkCarYEncoderCountPerMM = 131072.0 / 2000.0;
 
         // 墨车的一些常用位置
         const double INKCAR_SOA_MIN_X = 10.0;           // 墨车安全区右上角坐标，（X，Y）
@@ -2351,8 +2350,8 @@ namespace BinderJetting
             double PosValue = g_dEncpos[3] / 1000;//铺粉位置
             string PositonText = "粉车: " + PosValue.ToString("F1") + " MM";
             PowerPosLable.Text = PositonText;//202001021新增位置监测：
-            UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-            PosValue = (double)CurrentPos / EncoderLinePerMM;
+            double CurrentPos = GetCurrentPos(1);//初始编码器位置：
+            PosValue = CurrentPos;
             PositonText = "墨车: " + PosValue.ToString("F1") + " MM";
             InkCarPosLable.Text = PositonText;//202001021新增位置监测：
 
@@ -5743,9 +5742,9 @@ namespace BinderJetting
         {
             float m_MovSpeed = 50f;
             double[] enc = motionMap.GetEncPos();
-            double currentMm = enc[0] / InkCarEncoderCountPerMM;
-            int moveCounts = (int)((AimPos - currentMm) * InkCarEncoderCountPerMM);
-            double velCountPerMs = m_MovSpeed * InkCarEncoderCountPerMM / 1000.0;
+            double currentMm = enc[0] / InkCarXEncoderCountPerMM;
+            int moveCounts = (int)((AimPos - currentMm) * InkCarXEncoderCountPerMM);
+            double velCountPerMs = m_MovSpeed * InkCarXEncoderCountPerMM / 1000.0;
 
             gts.mc.TTrapPrm xTrapPrm = new gts.mc.TTrapPrm();
             xTrapPrm.acc = 0.5; xTrapPrm.dec = 0.5; xTrapPrm.velStart = 5; xTrapPrm.smoothTime = 1;
@@ -5787,18 +5786,28 @@ namespace BinderJetting
             TrapMoveUp(4, true, Convert.ToString(m_MovSpeed), Convert.ToString(AimPos), true, !WaitStopFLag/*true*/);//20200528批注：TrapSpace量为转数，m_MovSpeed为转/秒
         }
 
-        /// <summary>读取指定轴当前编码器位置（mm）。轴1/2 用墨车编码器 131072/20 换算，它轴用 1000/mm。</summary>
-        private double GetCurrentPos(int Axis)//20220520新建：读取指定轴的当前编码器位置
+        /// <summary>璇诲彇鎸囧畾杞村綋鍓嶇紪鐮佸櫒浣嶇疆锛坢m锛夈€?X/Y 杞寸敤鍚勮嚜鐨勭數瀛愰娇杞︽瘮杩涜鎹㈢畻銆?/summary>
+        private double GetCurrentPos(int Axis)//20220520鏂板缓锛氳鍙栨寚瀹氳酱鐨勫綋鍓嶇紪鐮佸櫒浣嶇疆
         {
             double[] g_dEncpos = new double[8]; g_dEncpos = motionMap.GetEncPos();
-            double countPerMM = (Axis == 1 || Axis == 2) ? InkCarEncoderCountPerMM : 1000.0;
+            double countPerMM = GetInkCarCountPerMM(Axis);
             return g_dEncpos[Axis - 1] / countPerMM;
-            /* Royal控制逻辑（已替换：轴1/2 改用 InkCarEncoderCountPerMM，它轴仍 1000/mm）：
-            double CurrentPos = g_dEncpos[Axis - 1] / 1000;
-            return CurrentPos;
-            */
         }
-        private void WaitStop(int Axis)//20220520新建：实现墨车相关的等停逻辑
+
+        private double GetInkCarCountPerMM(int Axis)
+        {
+            if (Axis == 1)
+            {
+                return InkCarXEncoderCountPerMM;
+            }
+            if (Axis == 2)
+            {
+                return InkCarYEncoderCountPerMM;
+            }
+            return 1000.0;
+        }
+
+        private void WaitStop(int Axis)//20220520鏂板缓锛氬疄鐜板ⅷ杞︾浉鍏崇殑绛夊仠閫昏緫
         {
             if (Axis == 1 || Axis == 2)
             {
@@ -5832,9 +5841,9 @@ namespace BinderJetting
                         if (AimPos >= 5 && AimPos <= (XMaxDistanceMM - 5))
                         {
                             double[] encX = motionMap.GetEncPos();
-                            double currentMmX = encX[0] / InkCarEncoderCountPerMM;
-                            int moveCountsX = (int)((AimPos - currentMmX) * InkCarEncoderCountPerMM);
-                            double velCountPerMsX = m_MovSpeed * InkCarEncoderCountPerMM / 1000.0;
+                            double currentMmX = encX[0] / InkCarXEncoderCountPerMM;
+                            int moveCountsX = (int)((AimPos - currentMmX) * InkCarXEncoderCountPerMM);
+                            double velCountPerMsX = m_MovSpeed * InkCarXEncoderCountPerMM / 1000.0;
 
                             string msg = $"X 固高定位：当前{{{currentMmX:F3}}}mm 目标{{{AimPos}}}mm 相对{{{moveCountsX}}}count 速度{{{velCountPerMsX:F1}}}count/ms";
                             Log4Net.Info(msg);
@@ -5845,7 +5854,7 @@ namespace BinderJetting
 
                             if (WaitStopFLag)
                                 InkCarMotionMap.StopMotion(1, true);
-                            double afterMm = motionMap.GetEncPos()[0] / InkCarEncoderCountPerMM;
+                            double afterMm = motionMap.GetEncPos()[0] / InkCarXEncoderCountPerMM;
                             Log4Net.Info($"X 到位：编码器位置{{{afterMm:F3}}}mm");
                         }
                         /* ========== Royal控制逻辑（X 轴，已替换为固高编码器定位，保留供参考）==========
@@ -5869,9 +5878,9 @@ namespace BinderJetting
                         if (AimPos >= 1 && AimPos <= (YMaxDistanceMM - 10))
                         {
                             double[] encY = motionMap.GetEncPos();
-                            double currentMmY = encY[1] / InkCarEncoderCountPerMM;
-                            int moveCountsY = (int)((AimPos - currentMmY) * InkCarEncoderCountPerMM);
-                            double velCountPerMsY = m_MovSpeed * InkCarEncoderCountPerMM / 1000.0;
+                            double currentMmY = encY[1] / InkCarYEncoderCountPerMM;
+                            int moveCountsY = (int)((AimPos - currentMmY) * InkCarYEncoderCountPerMM);
+                            double velCountPerMsY = m_MovSpeed * InkCarYEncoderCountPerMM / 1000.0;
 
                             string msg = $"Y 固高定位：当前{{{currentMmY:F3}}}mm 目标{{{AimPos}}}mm 相对{{{moveCountsY}}}count 速度{{{velCountPerMsY:F1}}}count/ms";
                             Log4Net.Info(msg);
@@ -5884,7 +5893,7 @@ namespace BinderJetting
 
                             if (WaitStopFLag)
                                 InkCarMotionMap.StopMotion(2, true);
-                            double afterMmY = motionMap.GetEncPos()[1] / InkCarEncoderCountPerMM;
+                            double afterMmY = motionMap.GetEncPos()[1] / InkCarYEncoderCountPerMM;
                             Log4Net.Info($"Y 到位：编码器位置{{{afterMmY:F3}}}mm");
                         }
                         /* ========== Royal控制逻辑（Y 轴，已替换为固高编码器定位，保留供参考）==========
@@ -6245,7 +6254,7 @@ namespace BinderJetting
                     {
                         Thread.Sleep(100);
 
-                        pos_x = (double)royal.royal.DEV_GetPrintEncoderValue() / EncoderLinePerMM;
+                        pos_x = GetCurrentPos(1);
                     } while (pos_x < INKCAR_SOA_MAX_X);
 
                     // X轴已经安全，移动Y轴
@@ -6571,10 +6580,10 @@ namespace BinderJetting
 #elif false//20220518批注：该功能注释掉，就设备好用的固化清洗逻辑
             //(1)执行清洗及固化动作，判断是否需要执行清洗动作；
             int DirFlag = 0;
-            UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
+            double CurrentPos = GetCurrentPos(1);//初始编码器位置：
             
-            if ((CurrentPos / EncoderLinePerMM <= 50) && (0 <= CurrentPos / EncoderLinePerMM)) { DirFlag = 1; }//墨车在清洗站台右侧;
-            else if ((1180 <= CurrentPos / EncoderLinePerMM) && (CurrentPos / EncoderLinePerMM <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
+            if ((CurrentPos <= 50) && (0 <= CurrentPos)) { DirFlag = 1; }//墨车在清洗站台右侧;
+            else if ((1180 <= CurrentPos) && (CurrentPos <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
             else { DirFlag = 3; }
             if (DirFlag == 1)//在清洗端近端
             {
@@ -6779,7 +6788,7 @@ namespace BinderJetting
                     {
                         Thread.Sleep(100);
 
-                        pos_x = (double)royal.royal.DEV_GetPrintEncoderValue() / EncoderLinePerMM;
+                        pos_x = GetCurrentPos(1);
                     } while (pos_x < INKCAR_SOA_MAX_X);
 
                     // X轴已经安全，移动Y轴
@@ -7117,10 +7126,10 @@ namespace BinderJetting
 #elif false//20220518批注：该功能注释掉，就设备好用的固化清洗逻辑
             //(1)执行清洗及固化动作，判断是否需要执行清洗动作；
             int DirFlag = 0;
-            UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
+            double CurrentPos = GetCurrentPos(1);//初始编码器位置：
             
-            if ((CurrentPos / EncoderLinePerMM <= 50) && (0 <= CurrentPos / EncoderLinePerMM)) { DirFlag = 1; }//墨车在清洗站台右侧;
-            else if ((1180 <= CurrentPos / EncoderLinePerMM) && (CurrentPos / EncoderLinePerMM <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
+            if ((CurrentPos <= 50) && (0 <= CurrentPos)) { DirFlag = 1; }//墨车在清洗站台右侧;
+            else if ((1180 <= CurrentPos) && (CurrentPos <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
             else { DirFlag = 3; }
             if (DirFlag == 1)//在清洗端近端
             {
@@ -7549,9 +7558,9 @@ namespace BinderJetting
 #if false
                             //(1)判断是否可以执行自动进给铺粉动作
                             int DirFlag = 0;
-                            UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-                            if ((CurrentPos / EncoderLinePerMM <= 50) && (0 <= CurrentPos / EncoderLinePerMM)) { DirFlag = 1; }//墨车在清洗站台右侧;
-                            else if ((1180 <= CurrentPos / EncoderLinePerMM) && (CurrentPos / EncoderLinePerMM <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
+                            double CurrentPos = GetCurrentPos(1);//初始编码器位置：
+                            if ((CurrentPos <= 50) && (0 <= CurrentPos)) { DirFlag = 1; }//墨车在清洗站台右侧;
+                            else if ((1180 <= CurrentPos) && (CurrentPos <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
                             else { DirFlag = 3; }
 #endif
 #region 监控发送指令//20230113新建且批注：
@@ -9092,9 +9101,9 @@ namespace BinderJetting
 #if false
                 //(1)判断是否可以执行自动进给铺粉动作
                 int DirFlag = 0;
-                UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-                if ((CurrentPos / EncoderLinePerMM <= 50) && (0 <= CurrentPos / EncoderLinePerMM)) { DirFlag = 1; }//墨车在清洗站台右侧;
-                else if ((1180 <= CurrentPos / EncoderLinePerMM) && (CurrentPos / EncoderLinePerMM <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
+                double CurrentPos = GetCurrentPos(1);//初始编码器位置：
+                if ((CurrentPos <= 50) && (0 <= CurrentPos)) { DirFlag = 1; }//墨车在清洗站台右侧;
+                else if ((1180 <= CurrentPos) && (CurrentPos <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
                 else { DirFlag = 3; }
 #endif
                 #region 监控指令：铺粉拍摄位点1
@@ -9711,9 +9720,9 @@ namespace BinderJetting
 #if false
                 //(1)判断是否可以执行自动进给铺粉动作
                 int DirFlag = 0;
-                UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-                if ((CurrentPos / EncoderLinePerMM <= 50) && (0 <= CurrentPos / EncoderLinePerMM)) { DirFlag = 1; }//墨车在清洗站台右侧;
-                else if ((1180 <= CurrentPos / EncoderLinePerMM) && (CurrentPos / EncoderLinePerMM <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
+                double CurrentPos = GetCurrentPos(1);//初始编码器位置：
+                if ((CurrentPos <= 50) && (0 <= CurrentPos)) { DirFlag = 1; }//墨车在清洗站台右侧;
+                else if ((1180 <= CurrentPos) && (CurrentPos <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
                 else { DirFlag = 3; }
 #endif
 #region 监控指令：铺粉拍摄位点1
@@ -10269,9 +10278,9 @@ namespace BinderJetting
 #if false
                 //(1)判断是否可以执行自动进给铺粉动作
                 int DirFlag = 0;
-                UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-                if ((CurrentPos / EncoderLinePerMM <= 50) && (0 <= CurrentPos / EncoderLinePerMM)) { DirFlag = 1; }//墨车在清洗站台右侧;
-                else if ((1180 <= CurrentPos / EncoderLinePerMM) && (CurrentPos / EncoderLinePerMM <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
+                double CurrentPos = GetCurrentPos(1);//初始编码器位置：
+                if ((CurrentPos <= 50) && (0 <= CurrentPos)) { DirFlag = 1; }//墨车在清洗站台右侧;
+                else if ((1180 <= CurrentPos) && (CurrentPos <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
                 else { DirFlag = 3; }
 #endif
 #region 监控指令：铺粉拍摄位点1
@@ -10648,9 +10657,9 @@ namespace BinderJetting
             {
                 //(1)判断是否可以执行自动进给铺粉动作
                 int DirFlag = 0;
-                UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-                if ((CurrentPos / EncoderLinePerMM <= 50) && (0 <= CurrentPos / EncoderLinePerMM)) { DirFlag = 1; }//墨车在清洗站台右侧;
-                else if ((1180 <= CurrentPos / EncoderLinePerMM) && (CurrentPos / EncoderLinePerMM <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
+                double CurrentPos = GetCurrentPos(1);//初始编码器位置：
+                if ((CurrentPos <= 50) && (0 <= CurrentPos)) { DirFlag = 1; }//墨车在清洗站台右侧;
+                else if ((1180 <= CurrentPos) && (CurrentPos <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
                 else { DirFlag = 3; }
 
                 if ((DirFlag == 1) || (DirFlag == 2))//墨车在非安全区域++粉车在正常工作区间内==粉末在正负限位区间内
@@ -11738,11 +11747,11 @@ namespace BinderJetting
                 if (PowderCarHomeFlag == true/*true*//*InkCarHomeFlag == true*/)//确保：墨车系统回零成功；确保在指定区间，否则报错//20230330修改：
                 {
                     //int DirFlag = 0;
-                    //UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-                    //double PosValue = CurrentPos / EncoderLinePerMM;
+                    //double CurrentPos = GetCurrentPos(1);//初始编码器位置：
+                    //double PosValue = CurrentPos;
 
-                    //if ((CurrentPos / EncoderLinePerMM <= 50) && (0 <= CurrentPos / EncoderLinePerMM)) { DirFlag = 1; }//墨车在清洗站台右侧;
-                    //else if ((1180 <= CurrentPos / EncoderLinePerMM) && (CurrentPos / EncoderLinePerMM <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
+                    //if ((CurrentPos <= 50) && (0 <= CurrentPos)) { DirFlag = 1; }//墨车在清洗站台右侧;
+                    //else if ((1180 <= CurrentPos) && (CurrentPos <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
                     //else { DirFlag = 3; }
 
                     //string PositonText = "墨车: " + PosValue.ToString("F2") + " MM";
@@ -11784,11 +11793,11 @@ namespace BinderJetting
                 if (InkCarHomeFlag == true)//确保：墨车系统回零成功；确保在指定区间，否则报错
                 {
                     int DirFlag = 0;
-                    UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-                    double PosValue = CurrentPos / EncoderLinePerMM;
+                    double CurrentPos = GetCurrentPos(1);//初始编码器位置：
+                    double PosValue = CurrentPos;
 
-                    if ((CurrentPos / EncoderLinePerMM <= 50) && (0 <= CurrentPos / EncoderLinePerMM)) { DirFlag = 1; }//墨车在清洗站台右侧;
-                    else if ((1180 <= CurrentPos / EncoderLinePerMM) && (CurrentPos / EncoderLinePerMM <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
+                    if ((CurrentPos <= 50) && (0 <= CurrentPos)) { DirFlag = 1; }//墨车在清洗站台右侧;
+                    else if ((1180 <= CurrentPos) && (CurrentPos <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
                     else { DirFlag = 3; }
 
                     string PositonText = "墨车: " + PosValue.ToString("F2") + " MM";
@@ -11832,10 +11841,10 @@ namespace BinderJetting
                     else { AutoPrintFlag[2] = false; this.AutoPrintBtn.Text = "自动喷墨运动"; }
 #else//20220513注释：第一代设备时使用此逻辑
                     int DirFlag = 0;
-                    UInt32 CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-                    double PosValue = CurrentPos / EncoderLinePerMM;
-                    if ((CurrentPos / EncoderLinePerMM <= 50) && (0 <= CurrentPos / EncoderLinePerMM)) { DirFlag = 1; }//墨车在清洗站台右侧;
-                    else if ((1180 <= CurrentPos / EncoderLinePerMM) && (CurrentPos / EncoderLinePerMM <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
+                    double CurrentPos = GetCurrentPos(1);//初始编码器位置：
+                    double PosValue = CurrentPos;
+                    if ((CurrentPos <= 50) && (0 <= CurrentPos)) { DirFlag = 1; }//墨车在清洗站台右侧;
+                    else if ((1180 <= CurrentPos) && (CurrentPos <= 1230)) { DirFlag = 2; }//墨车在清洗站台左侧
                     else { DirFlag = 3; }
 
                     string PositonText = "墨车: " + PosValue.ToString("F2") + " MM";
@@ -12465,7 +12474,7 @@ namespace BinderJetting
             double XStepWidth = 20;
             double YStepWidth = 20;/*距离设为50MM*/
             double MoveSpeed = m_szMovSpeed/*20*/;//喷墨移动速度
-            UInt32 CurrentPos, AimPos, CurrentPos2;
+            double CurrentPos, AimPos, CurrentPos2;
             string msg = null;
 
             //(b2)根据ID反转颜色状态
@@ -12486,19 +12495,19 @@ namespace BinderJetting
 
                     MoveSpeed = m_szMovSpeed/*20*/;//喷墨移动速度
                     //（1）墨车X方向点动：按照千脉冲/MM算
-                    CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-                    AimPos = (UInt32)(CurrentPos / EncoderLinePerMM) + (UInt32)XStepWidth;
+                    CurrentPos = GetCurrentPos(1);//初始编码器位置：
+                    AimPos = CurrentPos + XStepWidth;
 
-                    msg = $"编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{{{CurrentPos / EncoderLinePerMM}}}AimPos{{{AimPos}}}";
+                    msg = $"编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{{{CurrentPos:F3}}}AimPos{{{AimPos:F3}}}";
                     Log4Net.Info(msg);
                     BackToStation(AimPos, (float)MoveSpeed, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
                     Thread.Sleep(2000);//等待停稳
 
                     //（2）计算校准系数：根据实际的光栅值进行校准系数计算
-                    CurrentPos2 = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-                    msg = $"编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{{{CurrentPos2 / EncoderLinePerMM}}}";
+                    CurrentPos2 = GetCurrentPos(1);//初始编码器位置：
+                    msg = $"编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{{{CurrentPos2:F3}}}";
 
-                    double XcorrectionRatio = (double)(CurrentPos2 - CurrentPos) / EncoderLinePerMM / XStepWidth;
+                    double XcorrectionRatio = (CurrentPos2 - CurrentPos) / XStepWidth;
                     label106.Text = XcorrectionRatio.ToString("F3");//刷新显示：小数点后3位
 
                     break;
@@ -12516,19 +12525,19 @@ namespace BinderJetting
                     }
 
                     MoveSpeed = m_szMovSpeed/*20*/;//喷墨移动速度
-                    CurrentPos = royal.royal.DEM_GetAxisEncodeVal(1);//初始编码器位置：
-                    AimPos = (UInt32)(CurrentPos / EncoderLinePerMM)+ (UInt32)YStepWidth;
-                    msg = $"编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{{{CurrentPos / EncoderLinePerMM}}}AimPos{{{AimPos}}}";
+                    CurrentPos = GetCurrentPos(2);//初始编码器位置：
+                    AimPos = CurrentPos + YStepWidth;
+                    msg = $"编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{{{CurrentPos:F3}}}AimPos{{{AimPos:F3}}}";
                     Log4Net.Info(msg);
 
                     BackToStation(AimPos, (float)MoveSpeed, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
                     Thread.Sleep(2000);//等待停稳
 
                     //（2）计算校准系数：根据实际的光栅值进行校准系数计算
-                    CurrentPos2 = royal.royal.DEM_GetAxisEncodeVal(1);//初始编码器位置：
-                    msg = $"编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{{{CurrentPos2 / EncoderLinePerMM}}}";
+                    CurrentPos2 = GetCurrentPos(2);//初始编码器位置：
+                    msg = $"编码器当前位置：DEM_GetAxisEncodeVal：CurrentPos{{{CurrentPos2:F3}}}";
 
-                    double YcorrectionRatio = (double)(CurrentPos2 - CurrentPos) / EncoderLinePerMM / YStepWidth;
+                    double YcorrectionRatio = (CurrentPos2 - CurrentPos) / YStepWidth;
                     label107.Text = YcorrectionRatio.ToString("F3");//刷新显示：小数点后3位
 
                     break;
