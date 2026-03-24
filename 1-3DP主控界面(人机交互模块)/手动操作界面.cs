@@ -1,4 +1,4 @@
-﻿#define TwoPassPrintMode
+#define TwoPassPrintMode
 //#define SinglePassPrintMode
 //#define DataProcessDebugMode
 //#define UseP5PortForCleaning
@@ -43,6 +43,7 @@ namespace BinderJetting
         // 伺服编码器 131072（17 位）已写入驱动器，螺杆导程 20mm → 计数/mm
         const double InkCarXEncoderCountPerMM = 4194304.0 / 10000.0;
         const double InkCarYEncoderCountPerMM = 131072.0 / 2000.0;
+        private const bool DisableRoyalStartupPolling = true;
 
         // 墨车的一些常用位置
         const double INKCAR_SOA_MIN_X = 10.0;           // 墨车安全区右上角坐标，（X，Y）
@@ -98,7 +99,13 @@ namespace BinderJetting
             //刷新（1）墨量余量（2）温度、电压、气压状态定时器
             Timer3 = new System.Windows.Forms.Timer() { Interval = 300 };
             Timer3.Tick += new EventHandler(Timer3_Tick);
-            Timer3.Start();
+            if (!DisableRoyalStartupPolling)
+            {
+            if (!DisableRoyalStartupPolling)
+            {
+                Timer3.Start();
+            }
+            }
 
             StartUpadateMAixsMoveStatus();//开启6轴轴MOVE限位信号：20200110
 #endif
@@ -138,12 +145,25 @@ namespace BinderJetting
             //刷新（1）墨量余量（2）温度、电压、气压状态定时器
             Timer3 = new System.Windows.Forms.Timer() { Interval = 300 };
             Timer3.Tick += new EventHandler(Timer3_Tick);
-            Timer3.Start();
+            if (!DisableRoyalStartupPolling)
+            {
+                Timer3.Start();
+            }
 
-            StartUpadateMAixsMoveStatus();//开启6轴轴MOVE限位信号：20200110
+            if (!DisableRoyalStartupPolling)
+            {
+                StartUpadateMAixsMoveStatus();
+            }
+            else
+            {
+                Log4Net.Info("Startup royal polling disabled: skip move-status refresh.");
+            }
 #endif
 
-            StartCloseMoveBtn(true);//是否开启双Y轴运动监控:20200514 new created
+            if (!DisableRoyalStartupPolling)
+            {
+                StartCloseMoveBtn(true);//是否开启双Y轴运动监控:20200514 new created
+            }
 
             if (m_PowerBackBtnFlag == 1)//执行手动铺粉系统回零操作，进入对应的模块
             {
@@ -635,7 +655,8 @@ namespace BinderJetting
         /***********************************************成型缸********************************************************/
         /***********************************************成型缸********************************************************/
         //(1)运动模式动态挂载切换响应：
-        GoogolMotionMap motionMap = new GoogolMotionMap();//创建GoogolMotionMap对象，供本窗口调用
+        private GoogolMotionMap _motionMap;
+        private GoogolMotionMap motionMap => _motionMap ?? (_motionMap = new GoogolMotionMap());//创建GoogolMotionMap对象，供本窗口调用
         /// 互斥配置多轴的点动和JOG运动配置：动态挂载初始化：20200110
         private void InitDynamicConfigureMotionMode()
         {
@@ -2914,9 +2935,11 @@ namespace BinderJetting
         }
 
         /*******************************挤墨控件集体控制初始化***************************/
-        royal.RoyalPrintingMap RoyalMap = new royal.RoyalPrintingMap();//创建GoogolMotionMap对象，供本窗口调用
+        private royal.RoyalPrintingMap _RoyalMap;
+        private royal.RoyalPrintingMap RoyalMap => _RoyalMap ?? (_RoyalMap = new royal.RoyalPrintingMap());//创建GoogolMotionMap对象，供本窗口调用
         
-        Motion.GoogolMotionMap InkCarMotionMap = new Motion.GoogolMotionMap();// 2026-02-02新增：墨车轴切换到固高控制（4轴卡测试），创建固高运动控制对象
+        private Motion.GoogolMotionMap _InkCarMotionMap;
+        private Motion.GoogolMotionMap InkCarMotionMap => _InkCarMotionMap ?? (_InkCarMotionMap = new Motion.GoogolMotionMap());// 2026-02-02新增：墨车轴切换到固高控制（4轴卡测试），创建固高运动控制对象
         ///// InitShoveInk控件初始化：————修改为static使用
         public void InitShoveInk(UInt32 nValveStateMask)/*private void InitShoveInk()*///20200718新建：初始化挤墨控件
         {
@@ -3946,7 +3969,9 @@ namespace BinderJetting
             nRetVal3 = royal.royal.DEM_SetAxisEncodeVal(1, 50 * EncoderLinePerMM);
 
             //暂时不生效 //BackToStation(40/*22.715*/, 50);
-            InkCarHomeFlag = true;//20200627新增：墨车校准成功标志位
+            InkCarXHomeFlag = true;
+            InkCarYHomeFlag = true;
+            RefreshInkCarHomeFlag();
 #endif
             if (EncoderResetBtn.InvokeRequired == true)
             {
@@ -3961,6 +3986,7 @@ namespace BinderJetting
                             //CorrectFlag = true;//20200919新建：校准完成标志位 
                             PrintCarHomeBtn.Text = "已校准墨车";//20230330新增：
                             InkCarHomeBtn.BackColor = Color.Lime; //已校标志//this.EncoderResetBtn.Text = "运动系统已校";//恢复控件操作 //this.EncoderResetBtn.BackColor = Color.Tomato;                   
+                            UpdateInkCarHomeButtonText();
                             MessageBox.Show("墨车-Home成功！");
                             //20200604新增：回复回零速度为界面选中速度
                             nSpeed = MM_TO_DOT(m_szMovSpeed/*50f*/, EncoderLinePerInch, 0);//20220506修改：第1轴 //YINC_PERDOT扩展到48——20200108
@@ -3969,6 +3995,10 @@ namespace BinderJetting
                         {
                             PrintCarHomeBtn.Text = "校准墨车失败";//20230330新增：
                             InkCarHomeBtn.BackColor = Color.Tomato;
+                            InkCarXHomeFlag = false;
+                            InkCarYHomeFlag = false;
+                            RefreshInkCarHomeFlag();
+                            UpdateInkCarHomeButtonText();
                         }
 
                         if (InkCarHomeFlag == true && PowderCarHomeFlag == true)//20220521新建：粉车、墨车全部校准汇报
@@ -3991,6 +4021,7 @@ namespace BinderJetting
         }
 
         public bool InkCarHomeFlag = false; public bool PowderCarHomeFlag = false;
+        public bool InkCarXHomeFlag = false; public bool InkCarYHomeFlag = false;
 
         //刷新虚拟打印编码器状态显示定时器
         public/*private*/ System.Windows.Forms.Timer Timer4 = null;//刷新虚拟打印编码器状态显示定时器
@@ -10876,15 +10907,17 @@ namespace BinderJetting
         }
 
         /// <summary>
-        /// 简易测试运动：假定 X、Y 在 0 点，先 X+50mm、Y+80mm，再按 X 50/350、Y 步进 54mm 做 6 道扫描循环。
-        /// 仅当 UseSimpleTestMotion 为 true 时由 AutoPrintThread2 调用；原始 X/Y 运动逻辑不注释。
+        /// 简易测试运动：X 起点 810mm，Y 起点 50mm。
+        /// Pass0~Pass3 按 X 560/810 交替运动，并在每次 X 到位后让 Y 正向步进 64.96mm。
+        /// 该流程假定 X/Y 已通过专门的回零按钮完成初始位定位；额外 pass 不做动作，避免触发旧的清洗站逻辑。
         /// </summary>
         private void RunSimpleTestMotionPass(int PassIndex, float ReturnVelocity1, float ReturnVelocity2, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, int NotGoCleanStationFlag)
         {
-            const double SimpleTestXStart = 50;
-            const double SimpleTestXEnd = 350;
-            const double SimpleTestYStart = 80;
-            const double SimpleTestYStep = 54;
+            const double SimpleTestXHome = 810.0;
+            const double SimpleTestXWork = 560.0;
+            const double SimpleTestYHome = 50.0;
+            const double SimpleTestYStep = 64.96;
+            const float SimpleTestSpeed = 10.0f;
 
             if (PassIndex == 0)
             {
@@ -10892,63 +10925,38 @@ namespace BinderJetting
                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 1);
                 bool nRetVal = MeteorPrintEngine.SetFlash(false);
                 Log4Net.Info($"简易测试：关闭闪喷 返回值={nRetVal}");
-                BackToStation(SimpleTestXStart, ReturnVelocity2, false, true, 1);// X 正向 50mm
-                BackToStation(SimpleTestYStart, ReturnVelocity2, true, true, 1);// Y 正向 80mm
-                BackToStation(SimpleTestXEnd, ReturnVelocity1, false, true, 1);// 扫描：X 到 350
-                BackToStation(SimpleTestYStart + SimpleTestYStep, ReturnVelocity1, true, true, 1);// Y 步进
+                BackToStation(SimpleTestXWork, SimpleTestSpeed, false, true, 1);// pass0: X 810 -> 560
+                BackToStation(SimpleTestYHome + SimpleTestYStep, SimpleTestSpeed, true, true, 1);// pass0: Y +64.96
                 if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 2);
                 return;
             }
             if (PassIndex == 1)
             {
-                BackToStation(SimpleTestXStart, ReturnVelocity1, false, true, 1);
-                BackToStation(SimpleTestYStart + 2 * SimpleTestYStep, ReturnVelocity1, true, true, 1);
+                BackToStation(SimpleTestXHome, SimpleTestSpeed, false, true, 1);// pass1: X 560 -> 810
+                BackToStation(SimpleTestYHome + 2 * SimpleTestYStep, SimpleTestSpeed, true, true, 1);// pass1: Y +64.96
                 if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 3);
                 return;
             }
             if (PassIndex == 2)
             {
-                BackToStation(SimpleTestXEnd, ReturnVelocity1, false, true, 1);
-                BackToStation(SimpleTestYStart + 3 * SimpleTestYStep, ReturnVelocity1, true, true, 1);
+                BackToStation(SimpleTestXWork, SimpleTestSpeed, false, true, 1);// pass2: X 810 -> 560
+                BackToStation(SimpleTestYHome + 3 * SimpleTestYStep, SimpleTestSpeed, true, true, 1);// pass2: Y +64.96
                 if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 4);
                 return;
             }
             if (PassIndex == 3)
             {
-                BackToStation(SimpleTestXStart, ReturnVelocity1, false, true, 1);
-                BackToStation(SimpleTestYStart + 4 * SimpleTestYStep, ReturnVelocity1, true, true, 1);
+                BackToStation(SimpleTestXHome, SimpleTestSpeed, false, true, 1);// pass3: X 560 -> 810
+                BackToStation(SimpleTestYHome + 4 * SimpleTestYStep, SimpleTestSpeed, true, true, 1);// pass3: Y +64.96
+                BackToStation(SimpleTestYHome, SimpleTestSpeed, true, true, 1);// 最后回到 Y=50mm
                 if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[4])
                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 5);
                 return;
             }
-            if (PassIndex == 4)
-            {
-                BackToStation(SimpleTestXEnd, ReturnVelocity1, false, true, 1);
-                BackToStation(SimpleTestYStart + 5 * SimpleTestYStep, ReturnVelocity1, true, true, 1);
-                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
-                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 6);
-                return;
-            }
-            if (PassIndex == 5)
-            {
-                BackToStation(SimpleTestXStart, ReturnVelocity1, false, true, 1);
-                if (NotGoCleanStationFlag == 1) { }
-                else if (PauseFlag != 1)
-                {
-                    BackToStation(780, ReturnVelocity2, false, false, 1);
-                    BackToStation(96 + 25, ReturnVelocity2, true, false, 1);
-                    WaitStop(1);
-                    WaitStop(2);
-                }
-                else if (PauseFlag == 1)
-                {
-                    BackToStation(734.275, ReturnVelocity2, false, true, 1);
-                    BackToStation(321.455, ReturnVelocity2, true, true, 1);
-                }
-            }
+            // 4 个 pass 之后不再执行旧的清洗站逻辑。
         }
 
         /// <summary>
@@ -12446,6 +12454,161 @@ namespace BinderJetting
 
                 MessageBox.Show("回零失败");
             }
+        }
+
+        private void SetInkCarHomeButtonState(bool enabled)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new Action(() => SetInkCarHomeButtonState(enabled)));
+                return;
+            }
+
+            InkCarHomeBtn.Enabled = enabled;
+            PowderHomeBtn.Enabled = enabled;
+        }
+
+        private void RefreshInkCarHomeFlag()
+        {
+            InkCarHomeFlag = InkCarXHomeFlag && InkCarYHomeFlag;
+        }
+
+        private void UpdateInkCarHomeButtonText()
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new Action(UpdateInkCarHomeButtonText));
+                return;
+            }
+
+            InkCarHomeBtn.Text = InkCarXHomeFlag ? "X已回零" : "X回零";
+            PowderHomeBtn.Text = InkCarYHomeFlag ? "Y已回零" : "Y回零";
+        }
+
+        private bool RunInkCarAxisLimitHome(short Axis, bool SearchPositiveDirection, double HomeMm)
+        {
+            try
+            {
+                double countPerMm = GetInkCarCountPerMM(Axis);
+                int searchCounts = (int)(2000.0 * countPerMm);
+                int backoffCounts = (int)(50.0 * countPerMm);
+                double homeCounts = HomeMm * countPerMm;
+                double velocity = 20.0 * countPerMm / 1000.0;
+
+                gts.mc.TTrapPrm trapPrm = new gts.mc.TTrapPrm();
+                trapPrm.acc = 0.5;
+                trapPrm.dec = 0.5;
+                trapPrm.velStart = 5;
+                trapPrm.smoothTime = 1;
+
+                motionMap.ClrLimitAndAbrupt(Axis);
+                InkCarMotionMap.StopMotion(Axis, true);
+
+                int searchPosition = SearchPositiveDirection ? searchCounts : -searchCounts;
+                Log4Net.Info($"墨车轴{Axis}限位回零：开始搜索限位，方向={(SearchPositiveDirection ? "正" : "负")}，目标脉冲={searchPosition}");
+                InkCarMotionMap.TrapMotion(Axis, ref trapPrm, searchPosition, velocity, 0, 0, true);
+                Log4Net.Info($"墨车轴{Axis}限位回零：搜索阶段完成");
+
+                motionMap.ReadAxisSate(Axis);
+                bool hitLimit = SearchPositiveDirection
+                    ? motionMap.axisSateMonitor.FlagPosLimit1
+                    : motionMap.axisSateMonitor.FlagNegLimit1;
+                if (!hitLimit)
+                {
+                    Log4Net.Info($"墨车轴{Axis}限位回零：未检测到预期限位，终止");
+                    return false;
+                }
+
+                InkCarMotionMap.StopMotion(Axis, true);
+                Thread.Sleep(250);
+                motionMap.ClrLimitAndAbrupt(Axis);
+
+                int backoffPosition = SearchPositiveDirection ? -backoffCounts : backoffCounts;
+                Log4Net.Info($"墨车轴{Axis}限位回零：脱离限位，回退脉冲={backoffPosition}");
+                InkCarMotionMap.TrapMotion(Axis, ref trapPrm, backoffPosition, velocity, 0, 0, true);
+                Log4Net.Info($"墨车轴{Axis}限位回零：脱离阶段完成");
+
+                InkCarMotionMap.StopMotion(Axis, true);
+                Thread.Sleep(100);
+                motionMap.ClrLimitAndAbrupt(Axis);
+                motionMap.SetEncPos(Axis, (int)homeCounts);
+                motionMap.ReadAxisSate(Axis);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Error($"墨车轴{Axis}限位回零异常：{ex}");
+                try
+                {
+                    motionMap.ClrLimitAndAbrupt(Axis);
+                    InkCarMotionMap.StopMotion(Axis, true);
+                }
+                catch { }
+                return false;
+            }
+        }
+
+        private void RunInkCarAxisHome(short Axis, bool SearchPositiveDirection, double HomeMm, string AxisName)
+        {
+            string msg = $"开启墨车{AxisName}轴回零";
+            Log4Net.Info(msg);
+
+            SetInkCarHomeButtonState(false);
+
+            bool returnCode = RunInkCarAxisLimitHome(Axis, SearchPositiveDirection, HomeMm);
+            if (Axis == 1)
+            {
+                InkCarXHomeFlag = returnCode;
+            }
+            else if (Axis == 2)
+            {
+                InkCarYHomeFlag = returnCode;
+            }
+            RefreshInkCarHomeFlag();
+
+            UpdateInkCarHomeButtonText();
+            SetInkCarHomeButtonState(true);
+
+            if (returnCode == true)
+            {
+                msg = $"墨车{AxisName}轴回零成功";
+                Log4Net.Info(msg);
+                MessageBox.Show($"{AxisName}轴回零成功");
+            }
+            else
+            {
+                msg = $"墨车{AxisName}轴回零失败";
+                Log4Net.Info(msg);
+                MessageBox.Show($"{AxisName}轴回零失败");
+            }
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            Thread xHomeThread = new Thread(() => RunInkCarAxisHome(1, true, 810.0, "X"))
+            {
+                IsBackground = true
+            };
+            xHomeThread.Start();
+        }
+
+        private void button18_Click_1(object sender, EventArgs e)
+        {
+            button18_Click(sender, e);
+        }
+
+        private void button25_Click(object sender, EventArgs e)
+        {
+            Thread yHomeThread = new Thread(() => RunInkCarAxisHome(2, false, 50.0, "Y"))
+            {
+                IsBackground = true
+            };
+            yHomeThread.Start();
+        }
+
+        private void button25_Click_1(object sender, EventArgs e)
+        {
+            button25_Click(sender, e);
         }
 
         private void ReadRegister_Click(object sender, EventArgs e)

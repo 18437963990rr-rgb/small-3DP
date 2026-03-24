@@ -1,4 +1,4 @@
-﻿namespace BinderJetting
+namespace BinderJetting
 {
     partial class 手动操作
     {
@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(手动操作));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button16 = new System.Windows.Forms.Button();
             this.HomeEndsLabel0 = new System.Windows.Forms.CheckBox();
             this.PLLabel1 = new System.Windows.Forms.Label();
             this.homeButton1 = new System.Windows.Forms.Button();
@@ -480,7 +481,9 @@
             this.label127 = new System.Windows.Forms.Label();
             this.textBox48 = new System.Windows.Forms.TextBox();
             this.label131 = new System.Windows.Forms.Label();
-            this.button16 = new System.Windows.Forms.Button();
+            this.button17 = new System.Windows.Forms.Button();
+            this.button18 = new System.Windows.Forms.Button();
+            this.button25 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.ManulDebugTAB.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -543,6 +546,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "成型缸运动（伺服-1）";
+            // 
+            // button16
+            // 
+            this.button16.Location = new System.Drawing.Point(141, 138);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(54, 43);
+            this.button16.TabIndex = 123;
+            this.button16.Text = "简单测试";
+            this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
             // 
             // HomeEndsLabel0
             // 
@@ -810,7 +823,7 @@
             this.tabPage1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(953, 712);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "送料系统手动控制";
@@ -3222,7 +3235,7 @@
             this.tabPage2.Controls.Add(this.groupBox23);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(953, 712);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "喷射系统手动控制";
@@ -3765,15 +3778,15 @@
             // InkCarHomeBtn
             // 
             this.InkCarHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.InkCarHomeBtn.Enabled = false;
             this.InkCarHomeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.InkCarHomeBtn.Location = new System.Drawing.Point(186, 278);
+            this.InkCarHomeBtn.Location = new System.Drawing.Point(181, 278);
             this.InkCarHomeBtn.Name = "InkCarHomeBtn";
-            this.InkCarHomeBtn.Size = new System.Drawing.Size(44, 29);
+            this.InkCarHomeBtn.Size = new System.Drawing.Size(60, 29);
             this.InkCarHomeBtn.TabIndex = 170;
             this.InkCarHomeBtn.Tag = "1";
-            this.InkCarHomeBtn.Text = "墨车";
+            this.InkCarHomeBtn.Text = "X回零";
             this.InkCarHomeBtn.UseVisualStyleBackColor = true;
+            this.InkCarHomeBtn.Click += new System.EventHandler(this.button18_Click);
             // 
             // panel1
             // 
@@ -3815,7 +3828,7 @@
             this.panel1.Controls.Add(this.label101);
             this.panel1.Controls.Add(this.label90);
             this.panel1.Location = new System.Drawing.Point(237, 214);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(298, 167);
             this.panel1.TabIndex = 200;
@@ -4217,15 +4230,15 @@
             // PowderHomeBtn
             // 
             this.PowderHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.PowderHomeBtn.Enabled = false;
             this.PowderHomeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PowderHomeBtn.Location = new System.Drawing.Point(129, 278);
+            this.PowderHomeBtn.Location = new System.Drawing.Point(125, 278);
             this.PowderHomeBtn.Name = "PowderHomeBtn";
-            this.PowderHomeBtn.Size = new System.Drawing.Size(46, 29);
+            this.PowderHomeBtn.Size = new System.Drawing.Size(60, 29);
             this.PowderHomeBtn.TabIndex = 61;
             this.PowderHomeBtn.Tag = "1";
-            this.PowderHomeBtn.Text = "粉车";
+            this.PowderHomeBtn.Text = "Y回零";
             this.PowderHomeBtn.UseVisualStyleBackColor = true;
+            this.PowderHomeBtn.Click += new System.EventHandler(this.button25_Click);
             // 
             // EncoderResetBtn
             // 
@@ -5717,15 +5730,15 @@
             this.dataGridView1.Location = new System.Drawing.Point(496, 28);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.NullValue = null;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.NullValue = null;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView1.RowTemplate.Height = 23;
@@ -5751,15 +5764,15 @@
             this.dataGridView2.Location = new System.Drawing.Point(12, 65);
             this.dataGridView2.MultiSelect = false;
             this.dataGridView2.Name = "dataGridView2";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.NullValue = null;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.NullValue = null;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView2.RowTemplate.Height = 23;
@@ -6141,6 +6154,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.button25);
+            this.tabPage3.Controls.Add(this.button18);
+            this.tabPage3.Controls.Add(this.button17);
             this.tabPage3.Controls.Add(this.label134);
             this.tabPage3.Controls.Add(this.textBox40);
             this.tabPage3.Controls.Add(this.label133);
@@ -6162,9 +6178,9 @@
             this.tabPage3.Controls.Add(this.textBox48);
             this.tabPage3.Controls.Add(this.label131);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage3.Size = new System.Drawing.Size(953, 712);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "原位固化增强控制";
@@ -6383,15 +6399,34 @@
             this.label131.TabIndex = 216;
             this.label131.Text = "出光位置(mm)";
             // 
-            // button16
+            // button17
             // 
-            this.button16.Location = new System.Drawing.Point(141, 138);
-            this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(54, 43);
-            this.button16.TabIndex = 123;
-            this.button16.Text = "简单测试";
-            this.button16.UseVisualStyleBackColor = true;
-            this.button16.Click += new System.EventHandler(this.button16_Click);
+            this.button17.Location = new System.Drawing.Point(666, 200);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(75, 23);
+            this.button17.TabIndex = 244;
+            this.button17.Text = "button17";
+            this.button17.UseVisualStyleBackColor = true;
+            // 
+            // button18
+            // 
+            this.button18.Location = new System.Drawing.Point(666, 250);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(75, 23);
+            this.button18.TabIndex = 245;
+            this.button18.Text = "测试X回零";
+            this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.button18_Click_1);
+            // 
+            // button25
+            // 
+            this.button25.Location = new System.Drawing.Point(666, 301);
+            this.button25.Name = "button25";
+            this.button25.Size = new System.Drawing.Size(75, 23);
+            this.button25.TabIndex = 246;
+            this.button25.Text = "测试Y回零";
+            this.button25.UseVisualStyleBackColor = true;
+            this.button25.Click += new System.EventHandler(this.button25_Click_1);
             // 
             // 手动操作
             // 
@@ -6921,5 +6956,8 @@
         private System.Windows.Forms.Label label133;
         private System.Windows.Forms.Label label134;
         private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Button button25;
+        private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.Button button17;
     }
 }
