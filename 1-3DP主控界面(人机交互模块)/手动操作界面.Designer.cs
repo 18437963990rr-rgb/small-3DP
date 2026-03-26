@@ -555,6 +555,8 @@ namespace BinderJetting
             this.button16.TabIndex = 123;
             this.button16.Text = "简单测试";
             this.button16.UseVisualStyleBackColor = true;
+            this.button16.MouseDown += new System.Windows.Forms.MouseEventHandler(this.button16_MouseDown);
+            this.button16.MouseUp += new System.Windows.Forms.MouseEventHandler(this.button16_MouseUp);
             this.button16.Click += new System.EventHandler(this.button16_Click);
             // 
             // HomeEndsLabel0

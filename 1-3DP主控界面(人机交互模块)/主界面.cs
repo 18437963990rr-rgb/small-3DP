@@ -1,4 +1,4 @@
-//#define DataProcessDebugMode
+﻿//#define DataProcessDebugMode
 //#define SinglePassPrintMode
 #define TwoPassPrintMode
 //#define TwoPassPrintPerSixTimes
@@ -1691,6 +1691,7 @@ namespace BinderJetting
                 {
                     string msg = "启动打印任务：准备开启数据处理及打印线程";
                     Log4Net.Info(msg);
+                    Log4Net.Info($"启动打印任务：层范围确认，LayerStart.Text={this.LayerStart.Text}，LayerEnd.Text={this.LayerEnd.Text}，g_nLayerStart={g_nLayerStart}，g_nLayerEnd={g_nLayerEnd}，g_nRePrintTimes={g_nRePrintTimes}");
 
                     TaskAddDeleteTHREAD("CreateFirst");
                 }
@@ -2131,11 +2132,22 @@ namespace BinderJetting
             /*************************************************************************************************/
 #if true//20220524批注：准备操作（打印机准备开启）
 
+            SendMessageToCamera sendMessageToCamera = null;
+            if (DisableRoyalPrintRuntimeInit)
+            {
+                Log4Net.Info("Meteor print mode: skip PrintTaskTHREAD royal axis/ink initialization block.");
+                goto PrintTaskTHREADRoyalInitSkip;
+            }
             //RoyalMap.OpenUV(false, g_UVLightParam);//20200628批注：提高性能//20200619批注：每1层的UV灯参数完全可调//20201013修改：打印过程不打开UV灯//201030注释掉：UV灯使能不在此处开启。在自动打印逻辑中应用
             bool nRetVal0 = royal.royal.DEM_InitAxis(0, 0x100/*0x100*/);//分别初始化各轴的运动参数：20200305//加速度：256pluse/ms^2
             string msg = $"初始化墨轴1：DEM_InitAxis：{{0, 0x100}}";
             Log4Net.Info(msg);
 
+            if (DisableRoyalPrintRuntimeInit)
+            {
+                Log4Net.Info("Meteor print mode: skip PrintTaskTHREAD royal axis/ink initialization block.");
+                goto PrintTaskTHREADRoyalInitSkip;
+            }
             nRetVal0 = royal.royal.DEM_EnableAxisRun(true);//所有的轴共用1个使能，使能一次就OK!:20200305     
             msg = $"使能所有墨轴：DEM_EnableAxisRun：{{true}}";
             Log4Net.Info(msg);
@@ -2157,11 +2169,13 @@ namespace BinderJetting
 
 #endif
 #region 监控发送指令//20230113新建且批注：
-            SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
+            sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
                                                                                      //sendMessageToCamera.LoadJsonFile();
                                                                                      //sendMessageToCamera.SendMessageFromSharedMemory(tempStartMode,10,13);//20230113新建且批注：监控发送指令
                                                                                      //sendMessageToCamera.Dispose();//20230113新建且批注：监控发送指令
 #endregion
+        PrintTaskTHREADRoyalInitSkip:
+            Log4Net.Info($"打印线程：进入主循环前，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={PrintConrolFlag}，CurrentStartPrintLayer={CurrentStartPrintLayer}");
             while ((RoyalMap.m_bJobStarted == true))//开启打印处理线程：20200411新建
             {
                 returnPrintValue = (CurrentStartPrintLayer + 1) * g_nRePrintTimes;//20200508：复位打印进度值   
@@ -2170,7 +2184,9 @@ namespace BinderJetting
                 for (int k = CurrentStartPrintLayer + 1/*(CurrentStartPrintLayer+1) * g_nRePrintTimes*//* + 1*/ ;
                     k <= (LayerEndNum - g_nLayerStart + 1) * g_nRePrintTimes/*(LayerEndNum- g_nLayerStart + 1) * g_nRePrintTimes*/; k++)//核心代码//20200411新建：k为打印层数的Index
                 {
+                    Log4Net.Info($"打印线程：准备推进当前打印层号，k={k}，上一层号={g_nCurrentPrintLayerID}，CurrentStartPrintLayer={CurrentStartPrintLayer}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={PrintConrolFlag}");
                     g_nCurrentPrintLayerID = k;//20230420新增：
+                    Log4Net.Info($"打印线程：已推进当前打印层号，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}，k={k}，CurrentStartPrintLayer={CurrentStartPrintLayer}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={PrintConrolFlag}");
                     if (PrintConrolFlag == "StartPrint" || PrintConrolFlag == "KeepPrint")//每次打印之前，都需要执行指令判断
                     {
                         if (PrintConrolFlag == "StartPrint")//20230213新增
@@ -2189,6 +2205,7 @@ namespace BinderJetting
                         int renderIndex = ((k - 1) / g_nRePrintTimes) + g_nLayerStart /*k*/;
                         Rendering2D(renderIndex); //20200601：实现成形层的逐层预览刷新//201030修改：
                         CurrentStartPrintLayer = k;//启打层
+                        Log4Net.Info($"打印线程：已更新CurrentStartPrintLayer={CurrentStartPrintLayer}，当前打印层号={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={PrintConrolFlag}");
 
                         g_SharpControl.g_CorrectionFigureFlag = 0;//临时显示是1；//20230409修复：恢复到非校准图显示状态
 #endif
@@ -2239,7 +2256,16 @@ namespace BinderJetting
                         ///20230402批注：加入喷墨打印逻辑
                         int PassItems = 0;//20220524新增：
 #region 监控指令：喷墨拍摄位点1
-                        sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
+                        if (DisableMonitoringRuntimeInit)
+                        {
+                            Log4Net.Info($"监控配置：跳过 sendMessageToCamera.LoadJsonFile，layer={renderIndex}, pass={PassItems}");
+                        }
+                        else
+                        {
+                            Log4Net.Info($"监控配置：准备加载 sendMessageToCamera.LoadJsonFile，layer={renderIndex}, pass={PassItems}");
+                            sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
+                            Log4Net.Info($"监控配置：sendMessageToCamera.LoadJsonFile 完成，layer={renderIndex}, pass={PassItems}");
+                        }
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems])
                         {
                             sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 1);//20230113新建且批注：监控发送指令
@@ -2440,16 +2466,19 @@ namespace BinderJetting
 #if SinglePassPrintMode
                                     if (g_nRePrintTimes == 1)//20230418批注：重喷次数取值范围为：1-4
                                     {
+                                        Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=4，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                                         EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2,0);//自动喷墨运动逻辑
                                     }
                                     else if (g_nRePrintTimes == 2)
                                     {
                                         if (k % g_nRePrintTimes == 1) //20230418修改:第1PASS打印
                                         {
+                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=4，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                                             EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2,1);//自动喷墨运动逻辑 
                                         }
                                         else if (k % g_nRePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                                         {
+                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=5，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                                             EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff/2,0);//自动喷墨运动逻辑
                                         }
        
@@ -2458,14 +2487,17 @@ namespace BinderJetting
                                     {
                                         if (k % g_nRePrintTimes == 1) //20230418修改:第1PASS打印
                                         {
+                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=4，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                                             EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2,1);//自动喷墨运动逻辑 
                                         }
                                         else if (k % g_nRePrintTimes == 2)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                                         {
+                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=5，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                                             EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2,1);//自动喷墨运动逻辑
                                         }
                                         else if (k % g_nRePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                                         {
+                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=4，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                                             EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2,0);//自动喷墨运动逻辑
                                         }
                                     }
@@ -2473,18 +2505,22 @@ namespace BinderJetting
                                     {
                                         if (k % g_nRePrintTimes == 1) //20230418修改:第1PASS打印
                                         {
+                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=4，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                                             EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2,1);//自动喷墨运动逻辑 
                                         }
                                         else if (k % g_nRePrintTimes == 2)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                                         {
+                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=5，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                                             EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2,1);//自动喷墨运动逻辑
                                         }
                                         else if (k % g_nRePrintTimes == 3)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                                         {
+                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=4，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                                             EquipmentMotionLogic3(0, 4, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2,1);//自动喷墨运动逻辑
                                         }
                                         else if (k % g_nRePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                                         {
+                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=5，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                                             EquipmentMotionLogic3(0, 5, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2,0);//自动喷墨运动逻辑
                                         }
                                     }
@@ -2493,6 +2529,7 @@ namespace BinderJetting
 #if TwoPassPrintPerSixTimes
                                     if (g_nRePrintTimes == 1)//20230418批注：重喷次数取值范围为：1-4
                                     {
+                                        Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=6(6次)，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                                         EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0);//自动喷墨运动逻辑
                                     }
 #endif
@@ -2502,14 +2539,17 @@ namespace BinderJetting
                                         ///*int*/k = index * RePrintTimes + subindex;
                                         if (k % 3 == 1 || k == 0)//15mm偏移量
                                         {
+                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=6(3次/offset-15)，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                                             EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0, 0);//自动喷墨运动逻辑
                                         }
                                         else if (k % 3 == 2)//10mm偏移量
                                         {
+                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=6(3次/offset-10)，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                                             EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, (g_RYSYSParam.m_dYJetOff - 5) / 2, 0, 0/*2.5*/);//自动喷墨运动逻辑
                                         }
                                         else if (k % 3 == 0 && k != 0)//5mm偏移量
                                         {
+                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=6(3次/offset-5)，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                                             EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, (g_RYSYSParam.m_dYJetOff - 10) / 2, 0, 0/*5.0*/);//自动喷墨运动逻辑
                                         }
                                         //EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0);//自动喷墨运动逻辑
@@ -2743,7 +2783,18 @@ namespace BinderJetting
             int CurrentStartPrintLayer = 1;//int CurrentStartPrintLayer = g_nLayerStart - g_nLayerStart;//20201121新增：//20201124修改：初始值永远为0//20210323修改:监控反馈启打层
             /*************************************************************************************************/
             /*************************************************************************************************/
+            SendMessageToCamera sendMessageToCamera = null;
+            if (DisableRoyalPrintRuntimeInit)
+            {
+                Log4Net.Info("Meteor print mode: skip PrintTaskTHREAD2 royal axis/ink initialization block.");
+                goto PrintTaskTHREAD2RoyalInitSkip;
+            }
 #if true//进行打印进度监控测试
+            if (DisableRoyalPrintRuntimeInit)
+            {
+                Log4Net.Info("Meteor print mode: skip PrintTaskTHREAD2 royal axis/ink initialization block.");
+                goto PrintTaskTHREAD2RoyalInitSkip;
+            }
 
             bool nRetVal0 = royal.royal.DEM_InitAxis(0, 0x100/*0x100*/);//分别初始化各轴的运动参数：20200305//加速度：256pluse/ms^2
             /*string*/ msg = $"初始化墨轴1：DEM_InitAxis：{{0, 0x100}}";
@@ -2758,8 +2809,9 @@ namespace BinderJetting
             msg = $"开启自动供墨：DEV_EnableInkAutoSupply：ControlBit{{0xFF}}";
             Log4Net.Info(msg);
 #endif
+        PrintTaskTHREAD2RoyalInitSkip:
 
-            SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
+            sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
             //sendMessageToCamera.LoadJsonFile();
 
             while ((RoyalMap.m_bJobStarted == true))//开启打印处理线程：20200411新建
@@ -2821,8 +2873,17 @@ namespace BinderJetting
 
                             //string msg;
                             int PassItems = 0;
+                            Log4Net.Info($"监控配置：准备创建 SendMessageToCamera，layer={k}, pass={PassItems}");
                             /*SendMessageToCamera*/ sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
-                            sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
+                            Log4Net.Info($"监控配置：SendMessageToCamera 创建完成，layer={k}, pass={PassItems}");
+                            if (DisableMonitoringRuntimeInit)
+                            {
+                                Log4Net.Info($"监控配置：跳过 sendMessageToCamera.LoadJsonFile，layer={k}, pass={PassItems}");
+                            }
+                            else
+                            {
+                                sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
+                            }
                                                                //if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems])
                                                                //{
                                                                //    sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 1);//20230113新建且批注：监控发送指令
@@ -2844,6 +2905,7 @@ namespace BinderJetting
                                 /*****************（1）20220524批注：确保获取打印PASS信息*********************/
                                 int nPassID = PassItems/*0*//*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行//20220524新增：修改为多PASS打印
                                 /*bool*/
+                                Log4Net.Info($"Meteor pass准备：开始获取PassItem，layer={k}, pass={nPassID}");
                                 bool ReturnFlag = MeteorPrintEngine.TryGetPassItem((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
                                 /*string*/
                                 msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
@@ -2864,6 +2926,7 @@ namespace BinderJetting
 
                                 while (pPrtPassDes.nProcState != 3)//20200624批注：不成功就重新读
                                 {
+                                    Log4Net.Info($"Meteor pass等待：nProcState={pPrtPassDes.nProcState} 未到3，继续轮询，layer={k}, pass={nPassID}");
                                     Thread.Sleep(100);//等待1s时间，再次GetPassItem;
                                     ReturnFlag = MeteorPrintEngine.TryGetPassItem((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
                                     msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
@@ -3509,9 +3572,11 @@ namespace BinderJetting
                 Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 
                 /*手动操作*/
+                Log4Net.Info("EquipmentMotionLogic3: about to construct AutoPrintMotion3 (手动操作).");
                 if (AutoPrintMotion3 == null)
                 {
                     AutoPrintMotion3 = new 手动操作(0, nValveStateMask, false);//20230317修正:修正潜在的闪退问题
+                    Log4Net.Info("EquipmentMotionLogic3: AutoPrintMotion3 constructed.");
                     msg = $"进入：EquipmentMotionLogic3=》初次创建完成-手动操作！";
                     Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                 }
@@ -3542,6 +3607,7 @@ namespace BinderJetting
                 bool returnCode = AutoPrintMotion3.LoadJsonFile(false);//加载自动供给送粉的配置文件
                 msg = $"进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！";
                 Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                Log4Net.Info($"EquipmentMotionLogic3: 入口状态，Command={Command}，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}，AutoPrintMotion3={(AutoPrintMotion3 == null ? "null" : "ok")}");
             }
             catch (Exception e)
             {
@@ -3584,26 +3650,36 @@ namespace BinderJetting
                 }
                 else if (Command == 4)//20220524新增：自动喷墨逻辑,采用双PASS方式打印，第1PASS打印逻辑
                 {
+                    Log4Net.Info($"EquipmentMotionLogic3: 进入Command=4分支，准备调用AutoPrintThread2，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3.AutoPrintThread2(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag);//
+                    Log4Net.Info($"EquipmentMotionLogic3: 完成调用AutoPrintThread2，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                 }
                 else if (Command == 5)//20230418新增：自动喷墨逻辑,采用双PASS方式进行打印，第2PASS打印逻辑
                 {
+                    Log4Net.Info($"EquipmentMotionLogic3: 进入Command=5分支，准备调用AutoPrintThread3，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3.AutoPrintThread3(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag);//
+                    Log4Net.Info($"EquipmentMotionLogic3: 完成调用AutoPrintThread3，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                 }
                 else if (Command == 6)//20230418新增：自动喷墨逻辑,采用双PASS方式进行打印，第2PASS打印逻辑
                 {
 #if TwoPassPrintMode
 #if TwoPassPrintPerSixTimes
+                    Log4Net.Info($"EquipmentMotionLogic3: 进入Command=6分支(6次)，准备调用AutoPrintThread4，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3.AutoPrintThread4(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag);//
+                    Log4Net.Info($"EquipmentMotionLogic3: 完成调用AutoPrintThread4(6次)，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
 #endif
 #if TwoPassPrintPerThreeTimes
+                    Log4Net.Info($"EquipmentMotionLogic3: 进入Command=6分支(3次)，准备调用AutoPrintThread5，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3.AutoPrintThread5(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag, YJetBaseOffWidth);//20230502新增：YJetBaseOffWidth
+                    Log4Net.Info($"EquipmentMotionLogic3: 完成调用AutoPrintThread5(3次)，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
 #endif
 #endif
                 }
                 else if (Command == 7)//20230418新增：自动喷墨逻辑,采用双PASS方式进行打印，第2PASS打印逻辑
                 {
+                    Log4Net.Info($"EquipmentMotionLogic3: 进入Command=7分支，准备调用AutoPrintThread4，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3.AutoPrintThread4(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag);//
+                    Log4Net.Info($"EquipmentMotionLogic3: 完成调用AutoPrintThread4(命令7)，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                 }
                 else
                 {
@@ -3821,6 +3897,12 @@ namespace BinderJetting
         /// </summary>
         private void ConfigureJetEnvironmentControlMode()//必须结合《royal3DP测试软件DEMO》及最新的洪哥的DLL及head信息来确定//需要更新本项目的《4-royal.cs》文件，完成本部分的代码工作
         {
+            if (DisableRoyalPrintRuntimeInit)
+            {
+                Log4Net.Info("Meteor print mode: skip ConfigureJetEnvironmentControlMode royal initialization.");
+                return;
+            }
+
             bool nRetVal;
             //（1）PPCB的ADIB参数设置（最重要的1个逻辑实现）：20200329新增
 #if false//20200602批注：每次打印前，设置ADIB是非必要的;统一设置1次即可
@@ -3926,6 +4008,8 @@ namespace BinderJetting
         private bool g_bAutoSupplyInkFlag = false;//20201028新增：自动供墨标志位
 
         private int g_nRePrintTimes = 1;//20201030新增：重新喷墨次数，默认为1；初始或使用时，从文件加载即可；
+        private const bool DisableRoyalPrintRuntimeInit = true;//Meteor替代royal硬件后，跳过旧式打印初始化
+        private const bool DisableMonitoringRuntimeInit = true;//监控配置加载可能阻塞打印时，允许跳过
 
         //public static AutoPrintParamInTest g_RYSYSParamAutoPrintParamInTest = new AutoPrintParamInTest();//存储所有的的JOB参数//非常关键//20200327新建:
         //手动操作 f2 = null;
@@ -6839,7 +6923,7 @@ namespace BinderJetting
             else
             {
                 UpdateDataAndTransferDelegate DMSGD = new UpdateDataAndTransferDelegate(UpdateDataAndTransfer);
-                this.listView2.Invoke(DMSGD, LayerCount, subLayerCount, OperationFlag);
+                this.listView2.BeginInvoke(DMSGD, LayerCount, subLayerCount, OperationFlag);
             }
         }
         /// <summary>
@@ -7331,6 +7415,7 @@ namespace BinderJetting
             string msg = null;
             g_TaskThreadSTATE[3] = 2;//20201119新增：处于运行状态
             g_PrintSchedule = -1;//20201118新增：每次开启数据处理线程时，均复位
+            Log4Net.Info($"数据处理线程：启动，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={TransferModifyFlag}，g_nLayerStart={g_nLayerStart}，g_nRePrintTimes={g_nRePrintTimes}");
 
             //（1）设置JOB-预备传送-核心代码：20200613批注：
             // 20200609批注：传输控制线程：关键在于，等待，当检测到内存不足的情况下，随即进入等待状态。计算能力远高于传输及下游处理能力时。
@@ -7371,6 +7456,8 @@ namespace BinderJetting
                 int tempRePrintTimes = g_nRePrintTimes;
                 for (int j = g_nLayerStart - g_nLayerStart; j <= g_nLayerEnd - g_nLayerStart; j++)//202006002批注：持续的输出零件：打印任务区间，j为起始层，20为终止层
                 {
+                    var layerStopwatch = System.Diagnostics.Stopwatch.StartNew();
+                    int layerSubCount = 0;
                     //UpdateDataAndTransfer(j,0, 1);//20200610:在标题栏刷新当前数据处理层//Rendering2D(j); //20200601：实现成形层的逐层预览刷新
                     switch (TransferModifyFlag)//无论如何，应该等待1层执行完成，再做定夺。这比较合理
                     {
@@ -7384,9 +7471,11 @@ namespace BinderJetting
                                 {
                                     while (((j * tempRePrintTimes + i+1) - 10/*3*/ >= g_nCurrentPrintLayerID) && (TransferModifyFlag == "StartFlag"))//发送大于打印进度前20层的数据即可//20230509新建：发送10层的数据
                                     {
+                                        Log4Net.Info($"数据处理线程：层节流等待，layer={j}，sub={i}，发送进度={(j * tempRePrintTimes + i + 1)}，等待阈值={((j * tempRePrintTimes + i + 1) - 10)}，当前打印进度={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={TransferModifyFlag}");
                                         DataTaskFlag = 3;
                                         Thread.Sleep(500);
                                     }
+                                    Log4Net.Info($"数据处理线程：层节流等待结束，layer={j}，sub={i}，发送进度={(j * tempRePrintTimes + i + 1)}，当前打印进度={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={TransferModifyFlag}");
                                     
                                     if (j == 0 || ModifyJobAeraFLag == true)//201030批注：第1层额外多发送1层数据
                                     {
@@ -7395,9 +7484,12 @@ namespace BinderJetting
                                         int ActualStartNum = g_nLayerStart;
                                         msg = $"准备处理第{j}层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
                                         Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                                        var renderStopwatch = System.Diagnostics.Stopwatch.StartNew();
                                         g_SharpControl.RenderToWic(true, j/*1*/, i, g_nRePrintTimes, ActualStartNum);//第一层无效
+                                        renderStopwatch.Stop();
                                         msg = $"完成处理第{j}层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
                                         Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                                        Log4Net.Info($"数据处理线程：RenderToWic耗时，layer={j}，sub={i}，elapsedMs={renderStopwatch.ElapsedMilliseconds}");
                                     }
                                     else
                                     {
@@ -7405,13 +7497,24 @@ namespace BinderJetting
                                         int ActualStartNum = g_nLayerStart;
                                         msg = $"准备处理第{j}层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
                                         Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                                        var renderStopwatch = System.Diagnostics.Stopwatch.StartNew();
                                         g_SharpControl.RenderToWic(true, j/*1*/, i + 1, g_nRePrintTimes, ActualStartNum);//需要校对渲染区间是否正确//201030修改：
+                                        renderStopwatch.Stop();
                                         msg = $"完成处理第{j}层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
                                         Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                                        Log4Net.Info($"数据处理线程：RenderToWic耗时，layer={j}，sub={i}，elapsedMs={renderStopwatch.ElapsedMilliseconds}");
 
                                     }//201030批注：其余层不做额外补偿
+                                    Log4Net.Info($"数据处理线程：准备调用 UpdateDataAndTransfer，layer={j}，sub={i}");
+                                    var transferStopwatch = System.Diagnostics.Stopwatch.StartNew();
                                     UpdateDataAndTransfer(j, i, 1);//20200610:在标题栏刷新当前数据处理层//Rendering2D(j); //20200601：实现成形层的逐层预览刷新
+                                    transferStopwatch.Stop();
+                                    Log4Net.Info($"数据处理线程：UpdateDataAndTransfer 完成，layer={j}，sub={i}");
+                                    Log4Net.Info($"数据处理线程：UpdateDataAndTransfer耗时，layer={j}，sub={i}，elapsedMs={transferStopwatch.ElapsedMilliseconds}");
+                                    layerSubCount++;
                                 }
+                                layerStopwatch.Stop();
+                                Log4Net.Info($"数据处理线程：层处理完成，layer={j}，subCount={layerSubCount}，totalElapsedMs={layerStopwatch.ElapsedMilliseconds}，g_PrintSchedule={g_PrintSchedule}，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}");
                             }
                             break;
 #if false//20230410修正：数据处理线程不适用于暂停及恢复操作；暂停及恢复操作对数据处理无影响
@@ -7441,6 +7544,7 @@ namespace BinderJetting
                             break;
                     }
                     g_PrintSchedule = j + 1;//20201118新增：从数据处理形成中更新全局打印进度
+                    Log4Net.Info($"数据处理线程：已更新g_PrintSchedule={g_PrintSchedule}，当前层={j}，当前打印层号={g_nCurrentPrintLayerID}，TransferModifyFlag={TransferModifyFlag}");
                 }
                 DataTaskFlag = 4;//结束态标志
                 g_TaskThreadSTATE[3] = 3;//20201119新增：终止状态
@@ -7459,6 +7563,7 @@ namespace BinderJetting
         {
             g_TaskThreadSTATE[3] = 2;//20201119新增：处于运行状态
             g_PrintSchedule = -1;//20201118新增：每次开启数据处理线程时，均复位
+            Log4Net.Info($"数据处理线程2：启动，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={TransferModifyFlag}，g_nLayerStart={g_nLayerStart}，g_nRePrintTimes={g_nRePrintTimes}，g_CorrectionFigureType={g_CorrectionFigureType}");
 
             //（1）设置JOB-预备传送-核心代码：20200613批注：
             // 20200609批注：传输控制线程：关键在于，等待，当检测到内存不足的情况下，随即进入等待状态。计算能力远高于传输及下游处理能力时。
@@ -7488,9 +7593,11 @@ namespace BinderJetting
                                 {
                                     g_SharpControl.RenderToWic2(true, 0/*1*/, 0, 1, g_calirationFigurePaths[0]);//第一层无效：发送第1次
                                     g_PrintSchedule = 0;//20201118新增：从数据处理形成中更新全局打印进度
+                                    Log4Net.Info($"数据处理线程2：已更新g_PrintSchedule={g_PrintSchedule}，当前打印层号={g_nCurrentPrintLayerID}，图类型={g_CorrectionFigureType}，层=0，子层=0");
                                 }
                                 g_SharpControl.RenderToWic2(true, 1/*1*/, 0, 1, g_calirationFigurePaths[0]);//需要校对渲染区间是否正确//发送第2次
                                 g_PrintSchedule = 1;//20201118新增：从数据处理形成中更新全局打印进度
+                                Log4Net.Info($"数据处理线程2：已更新g_PrintSchedule={g_PrintSchedule}，当前打印层号={g_nCurrentPrintLayerID}，图类型={g_CorrectionFigureType}，层=1，子层=0");
 
 
                                 UpdateDataAndTransfer(1, 0, 1);//20200610:在标题栏刷新当前数据处理层 //20200601：实现成形层的逐层预览刷新
@@ -7501,11 +7608,14 @@ namespace BinderJetting
                                 {
                                     g_SharpControl.RenderToWic2(true, 0/*1*/, 0, 1, g_calirationFigurePaths[1]);//第一层无效：发送第1次
                                     g_PrintSchedule = 0;//20201118新增：从数据处理形成中更新全局打印进度
+                                    Log4Net.Info($"数据处理线程2：已更新g_PrintSchedule={g_PrintSchedule}，当前打印层号={g_nCurrentPrintLayerID}，图类型={g_CorrectionFigureType}，层=0，子层=0");
                                 }
                                 g_SharpControl.RenderToWic2(true, 1/*1*/, 0, 1, g_calirationFigurePaths[1]);//需要校对渲染区间是否正确//发送第2次
                                 g_PrintSchedule = 1;//20201118新增：从数据处理形成中更新全局打印进度
+                                Log4Net.Info($"数据处理线程2：已更新g_PrintSchedule={g_PrintSchedule}，当前打印层号={g_nCurrentPrintLayerID}，图类型={g_CorrectionFigureType}，层=1，子层=0");
                                 g_SharpControl.RenderToWic2(true, 2/*1*/, 0, 1, g_calirationFigurePaths[2]);//需要校对渲染区间是否正确//发送第3次
                                 g_PrintSchedule = 2;//20201118新增：从数据处理形成中更新全局打印进度
+                                Log4Net.Info($"数据处理线程2：已更新g_PrintSchedule={g_PrintSchedule}，当前打印层号={g_nCurrentPrintLayerID}，图类型={g_CorrectionFigureType}，层=2，子层=0");
 
                                 UpdateDataAndTransfer(1, 0, 1);//20200610:在标题栏刷新当前数据处理层 //20200601：实现成形层的逐层预览刷新
                             }
@@ -7515,9 +7625,11 @@ namespace BinderJetting
                                 {
                                     g_SharpControl.RenderToWic2(true, 0/*1*/, 0, 1, g_calirationFigurePaths[6]);//第一层无效：发送第1次
                                     g_PrintSchedule = 0;//20201118新增：从数据处理形成中更新全局打印进度
+                                    Log4Net.Info($"数据处理线程2：已更新g_PrintSchedule={g_PrintSchedule}，当前打印层号={g_nCurrentPrintLayerID}，图类型={g_CorrectionFigureType}，层=0，子层=0");
                                 }
                                 g_SharpControl.RenderToWic2(true, 1/*1*/, 0, 1, g_calirationFigurePaths[6]);//需要校对渲染区间是否正确//发送第2次
                                 g_PrintSchedule = 1;//20201118新增：从数据处理形成中更新全局打印进度
+                                Log4Net.Info($"数据处理线程2：已更新g_PrintSchedule={g_PrintSchedule}，当前打印层号={g_nCurrentPrintLayerID}，图类型={g_CorrectionFigureType}，层=1，子层=0");
                                 //g_SharpControl.RenderToWic2(true, 2/*1*/, 0, 1, g_calirationFigurePaths[2]);//需要校对渲染区间是否正确//发送第3次
                                 //g_PrintSchedule = 2;//20201118新增：从数据处理形成中更新全局打印进度
 
@@ -7529,11 +7641,14 @@ namespace BinderJetting
                                 {
                                     g_SharpControl.RenderToWic2(true, 0/*1*/, 0, 1, g_calirationFigurePaths[3]);//第一层无效：发送第1次
                                     g_PrintSchedule = 0;//20201118新增：从数据处理形成中更新全局打印进度
+                                    Log4Net.Info($"数据处理线程2：已更新g_PrintSchedule={g_PrintSchedule}，当前打印层号={g_nCurrentPrintLayerID}，图类型={g_CorrectionFigureType}，层=0，子层=0");
                                 }
                                 g_SharpControl.RenderToWic2(true, 1/*1*/, 0, 1, g_calirationFigurePaths[3]);//需要校对渲染区间是否正确//发送第2次
                                 g_PrintSchedule = 1;//20201118新增：从数据处理形成中更新全局打印进度
+                                Log4Net.Info($"数据处理线程2：已更新g_PrintSchedule={g_PrintSchedule}，当前打印层号={g_nCurrentPrintLayerID}，图类型={g_CorrectionFigureType}，层=1，子层=0");
                                 g_SharpControl.RenderToWic2(true, 2/*1*/, 0, 1, g_calirationFigurePaths[4]);//需要校对渲染区间是否正确//发送第3次
                                 g_PrintSchedule = 2;//20201118新增：从数据处理形成中更新全局打印进度
+                                Log4Net.Info($"数据处理线程2：已更新g_PrintSchedule={g_PrintSchedule}，当前打印层号={g_nCurrentPrintLayerID}，图类型={g_CorrectionFigureType}，层=2，子层=0");
 
                                 UpdateDataAndTransfer(1, 0, 1);//20200610:在标题栏刷新当前数据处理层 //20200601：实现成形层的逐层预览刷新
                             }
@@ -7543,9 +7658,11 @@ namespace BinderJetting
                                 {
                                     g_SharpControl.RenderToWic2(true, 0/*1*/, 0, 1, g_calirationFigurePaths[5]);//第一层无效：发送第1次
                                     g_PrintSchedule = 0;//20201118新增：从数据处理形成中更新全局打印进度
+                                    Log4Net.Info($"数据处理线程2：已更新g_PrintSchedule={g_PrintSchedule}，当前打印层号={g_nCurrentPrintLayerID}，图类型={g_CorrectionFigureType}，层=0，子层=0");
                                 }
                                 g_SharpControl.RenderToWic2(true, 1/*1*/, 0, 1, g_calirationFigurePaths[5]);//需要校对渲染区间是否正确//发送第2次
                                 g_PrintSchedule = 1;//20201118新增：从数据处理形成中更新全局打印进度
+                                Log4Net.Info($"数据处理线程2：已更新g_PrintSchedule={g_PrintSchedule}，当前打印层号={g_nCurrentPrintLayerID}，图类型={g_CorrectionFigureType}，层=1，子层=0");
 
                                 UpdateDataAndTransfer(1, 0, 1);//20200610:在标题栏刷新当前数据处理层 //20200601：实现成形层的逐层预览刷新
                             }
@@ -8074,6 +8191,12 @@ namespace BinderJetting
         }
         private void InitCarMotor()//20200327新增
         {
+            if (DisableRoyalPrintRuntimeInit)
+            {
+                Log4Net.Info("Meteor print mode: skip InitCarMotor royal axis initialization.");
+                return;
+            }
+
             //初始化墨车电机参数：
             /////////////////////******初始化墨车电机******///////////
             bool nRetVal = royal.royal.DEM_InitAxis(0, 0x100);//分别初始化各轴的运动参数：20200305
