@@ -447,6 +447,7 @@
             resources.ApplyResources(this.LayerStart, "LayerStart");
             this.LayerStart.ForeColor = System.Drawing.Color.Black;
             this.LayerStart.Name = "LayerStart";
+            this.LayerStart.TextChanged += new System.EventHandler(this.LayerStart_TextChanged);
             // 
             // StartJobBtn
             // 
@@ -1909,4 +1910,3 @@
         private System.Windows.Forms.Label label38;
     }
 }
-

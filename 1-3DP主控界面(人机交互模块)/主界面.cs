@@ -679,6 +679,9 @@ namespace BinderJetting
         int g_nLayerStart = 1;//20200220新增：g_nLayerStart需要小于等于g_nLayerNum
         int g_nLayerEnd = 1/*10*/;//20200220新增：20230419修改：中止层数目，需要更具打印的最大层数来自动更新，当然支持手动的修改
         int g_nLayerCurrent = 0;//20200220新增：指示当前打印层
+        private int g_nSelectedLayerStart = -1;
+        private int g_nSelectedLayerEnd = -1;
+        private bool g_bSelectedLayerRangeReady = false;
         private int SetLayerStart//20200601:
         {
             set//终止层必须大于起始层
@@ -693,16 +696,57 @@ namespace BinderJetting
             set//终止层必须大于起始层
             {
                 if (value >= g_nLayerStart)
-                { g_nLayerCurrent = value; }
+                { g_nLayerEnd = value; }
             }
-            get { return g_nLayerCurrent; }
+            get { return g_nLayerEnd; }
+        }
+
+        private bool CaptureLayerRangeFromUI(string sourceTag)
+        {
+            int startDisplay;
+            int endDisplay;
+            if (!int.TryParse(this.LayerStart.Text, out startDisplay)
+                || !int.TryParse(this.LayerEnd.Text, out endDisplay))
+            {
+                Log4Net.Info($"层范围快照失败：source={sourceTag}，LayerStart.Text={this.LayerStart.Text}，LayerEnd.Text={this.LayerEnd.Text}");
+                return false;
+            }
+
+            if (startDisplay < 1)
+            {
+                startDisplay = 1;
+            }
+
+            if (endDisplay < startDisplay)
+            {
+                endDisplay = startDisplay;
+            }
+
+            g_nSelectedLayerStart = startDisplay - 1;
+            g_nSelectedLayerEnd = endDisplay - 1;
+            g_bSelectedLayerRangeReady = true;
+
+            g_nLayerStart = g_nSelectedLayerStart;
+            g_nLayerEnd = g_nSelectedLayerEnd;
+            g_SharpControl.g_nLayerEnd = g_nLayerEnd;
+
+            Log4Net.Info($"层范围快照成功：source={sourceTag}，LayerStart.Text={this.LayerStart.Text}，LayerEnd.Text={this.LayerEnd.Text}，g_nLayerStart={g_nLayerStart}，g_nLayerEnd={g_nLayerEnd}");
+            return true;
         }
 
         private void ReadLayerInfo()
         {
             //(5)（5）打印任务及运动信息     
-            g_nLayerStart = Convert.ToInt32(this.LayerStart.Text) - 1;//201030批注：系统内部打印区间为从0开始计数第1层
-            g_nLayerEnd = Convert.ToInt32(this.LayerEnd.Text) - 1;//201030批注：系统内部打印区间为从0开始计数第1层
+            if (g_bSelectedLayerRangeReady)
+            {
+                g_nLayerStart = g_nSelectedLayerStart;
+                g_nLayerEnd = g_nSelectedLayerEnd;
+            }
+            else
+            {
+                g_nLayerStart = Convert.ToInt32(this.LayerStart.Text) - 1;//201030批注：系统内部打印区间为从0开始计数第1层
+                g_nLayerEnd = Convert.ToInt32(this.LayerEnd.Text) - 1;//201030批注：系统内部打印区间为从0开始计数第1层
+            }
 
             g_SharpControl.g_nLayerEnd = g_nLayerEnd;//20210530新增：打印的总层数：打印显示的时候都会即时更新
 
@@ -1689,6 +1733,7 @@ namespace BinderJetting
                 DialogResult result = f.ShowDialog();
                 if (result == DialogResult.OK)//OK时，执行对应操作
                 {
+                    CaptureLayerRangeFromUI("PrintBtn_Click");
                     string msg = "启动打印任务：准备开启数据处理及打印线程";
                     Log4Net.Info(msg);
                     Log4Net.Info($"启动打印任务：层范围确认，LayerStart.Text={this.LayerStart.Text}，LayerEnd.Text={this.LayerEnd.Text}，g_nLayerStart={g_nLayerStart}，g_nLayerEnd={g_nLayerEnd}，g_nRePrintTimes={g_nRePrintTimes}");
@@ -1807,6 +1852,50 @@ namespace BinderJetting
         }
 
         string PrintConrolFlag = "StartPrint";//20200618新增：打印标志位
+        private const int PassItemTimeoutMs = 5000;//20260327新增：防止TryGetPassItem长时间阻塞导致打印线程无法收尾
+
+        private bool TryGetPassItemWithTimeout(uint layerIndex, int passId, ref LPPassDataItem passDes, int timeoutMs, string sourceTag)
+        {
+            bool returnFlag = false;
+            Exception workerException = null;
+            LPPassDataItem localPassDes = passDes;
+            Thread worker = new Thread(() =>
+            {
+                try
+                {
+                    returnFlag = MeteorPrintEngine.TryGetPassItem(layerIndex, passId, ref localPassDes);
+                }
+                catch (Exception ex)
+                {
+                    workerException = ex;
+                }
+            });
+            worker.IsBackground = true;
+            worker.Name = $"TryGetPassItemWorker_{layerIndex}_{passId}";
+
+            Log4Net.Info($"{sourceTag}: TryGetPassItem 超时保护启动，layer={layerIndex}，pass={passId}，timeoutMs={timeoutMs}");
+            var watch = Stopwatch.StartNew();
+            worker.Start();
+            bool finished = worker.Join(timeoutMs);
+            watch.Stop();
+
+            if (!finished)
+            {
+                Log4Net.Info($"{sourceTag}: TryGetPassItem 超时，layer={layerIndex}，pass={passId}，elapsedMs={watch.ElapsedMilliseconds}，workerState={worker.ThreadState}");
+                return false;
+            }
+
+            if (workerException != null)
+            {
+                Log4Net.Info($"{sourceTag}: TryGetPassItem 线程异常，layer={layerIndex}，pass={passId}，elapsedMs={watch.ElapsedMilliseconds}，ex={workerException.GetType().FullName}，msg={workerException.Message}");
+                throw new Exception($"{sourceTag}: TryGetPassItem 线程异常", workerException);
+            }
+
+            passDes = localPassDes;
+            Log4Net.Info($"{sourceTag}: TryGetPassItem 超时保护结束，layer={layerIndex}，pass={passId}，returnFlag={returnFlag}，nProcState={passDes.nProcState}，elapsedMs={watch.ElapsedMilliseconds}");
+            return returnFlag;
+        }
+
         private void PauseBtn_Click(object sender, EventArgs e)//暂停自动打印过程
         {
             if ((g_TaskThreadSTATE[4] == 2) || (g_TaskThreadSTATE[4] == 2))
@@ -2106,6 +2195,7 @@ namespace BinderJetting
 
             g_TaskThreadSTATE[4] = 2;//20201119新增：DataTaskThread恢复为运行状态（关机后）
             ReadLayerInfo();//更新指定的加工任务区间
+            Log4Net.Info($"打印线程：ReadLayerInfo完成，g_bSelectedLayerRangeReady={g_bSelectedLayerRangeReady}，g_nLayerStart={g_nLayerStart}，g_nLayerEnd={g_nLayerEnd}，g_nRePrintTimes={g_nRePrintTimes}");
             g_PrintSchedule = g_nLayerStart;//20201118新增：
             while ((g_PrintSchedule == -1) || g_PrintSchedule == g_nLayerStart)//20201118新增：处于初始态或者已经传输1层数据
             {
@@ -2256,19 +2346,21 @@ namespace BinderJetting
                         ///20230402批注：加入喷墨打印逻辑
                         int PassItems = 0;//20220524新增：
 #region 监控指令：喷墨拍摄位点1
-                        if (DisableMonitoringRuntimeInit)
+                        if (DisableMonitoringRuntimeInit || sendMessageToCamera == null)
                         {
-                            Log4Net.Info($"监控配置：跳过 sendMessageToCamera.LoadJsonFile，layer={renderIndex}, pass={PassItems}");
+                            Log4Net.Info($"监控配置：完全跳过 sendMessageToCamera 相关逻辑，layer={renderIndex}, pass={PassItems}，DisableMonitoringRuntimeInit={DisableMonitoringRuntimeInit}，sendMessageToCameraNull={(sendMessageToCamera == null)}");
                         }
                         else
                         {
                             Log4Net.Info($"监控配置：准备加载 sendMessageToCamera.LoadJsonFile，layer={renderIndex}, pass={PassItems}");
                             sendMessageToCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
                             Log4Net.Info($"监控配置：sendMessageToCamera.LoadJsonFile 完成，layer={renderIndex}, pass={PassItems}");
-                        }
-                        if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems])
-                        {
-                            sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 1);//20230113新建且批注：监控发送指令
+                            if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[PassItems])
+                            {
+                                Log4Net.Info($"监控配置：准备发送监控消息，layer={renderIndex}, pass={PassItems}");
+                                sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 1);//20230113新建且批注：监控发送指令
+                                Log4Net.Info($"监控配置：发送监控消息完成，layer={renderIndex}, pass={PassItems}");
+                            }
                         }
                         #endregion
                         
@@ -2290,7 +2382,15 @@ namespace BinderJetting
                             /*****************（1）20220524批注：确保获取打印PASS信息*********************/
                             int nPassID = PassItems/*0*//*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行//20220524新增：修改为多PASS打印
                             /*bool*/
-                            ReturnFlag = MeteorPrintEngine.TryGetPassItem((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                            Log4Net.Info($"打印线程：准备调用 TryGetPassItem，nLayerIndex={k}，nPassID={nPassID}，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={PrintConrolFlag}");
+                            ReturnFlag = TryGetPassItemWithTimeout((uint)k, nPassID, ref pPrtPassDes, PassItemTimeoutMs, "打印线程");
+                            Log4Net.Info($"打印线程：TryGetPassItem 返回确认，nLayerIndex={k}，nPassID={nPassID}，ReturnFlag={ReturnFlag}，nProcState={pPrtPassDes.nProcState}");
+                            if (ReturnFlag == false)
+                            {
+                                Log4Net.Info($"打印线程：TryGetPassItem 未返回有效数据，准备中止当前打印任务，nLayerIndex={k}，nPassID={nPassID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={PrintConrolFlag}");
+                                PrintConrolFlag = "StopPrint";
+                                break;
+                            }
                             /*string*/
                             msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
                                 $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
@@ -2310,8 +2410,10 @@ namespace BinderJetting
 
                             while (pPrtPassDes.nProcState != 3)//20200624批注：不成功就重新读
                             {
+                                Log4Net.Info($"打印线程：准备重试 TryGetPassItem，nLayerIndex={k}，nPassID={nPassID}，当前ProcState={pPrtPassDes.nProcState}");
                                 Thread.Sleep(100);//等待1s时间，再次GetPassItem;
-                                ReturnFlag = MeteorPrintEngine.TryGetPassItem((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
+                                ReturnFlag = TryGetPassItemWithTimeout((uint)k, nPassID, ref pPrtPassDes, PassItemTimeoutMs, "打印线程");
+                                Log4Net.Info($"打印线程：TryGetPassItem 重试返回确认，nLayerIndex={k}，nPassID={nPassID}，ReturnFlag={ReturnFlag}，nProcState={pPrtPassDes.nProcState}");
                                 msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
                                     $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
                                     $"nHwMemAdrMatchMask{{{pPrtPassDes.nHwMemAdrMatchMask}}}nLayerIndex{{{pPrtPassDes.nLayerIndex}}}" +
@@ -2331,7 +2433,11 @@ namespace BinderJetting
                             /*****************（2）20220524批注：执行打印PASS运动逻辑*********************/
                             if (ReturnFlag == true/*pPrtPassDes!=null*/)//20200411:读到的数据不为空//20200430开启运动：
                             {
+                                Log4Net.Info($"打印线程：准备调用 TriggerPass，nLayerIndex={k}，nPassID={nPassID}，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}");
+                                var triggerWatch = System.Diagnostics.Stopwatch.StartNew();
                                 bool returnCode2 = MeteorPrintEngine.TriggerPass((uint)k, nPassID /*-1*/);
+                                triggerWatch.Stop();
+                                Log4Net.Info($"打印线程：TriggerPass 返回，nLayerIndex={k}，nPassID={nPassID}，returnCode2={returnCode2}，elapsedMs={triggerWatch.ElapsedMilliseconds}");
                                 if (returnCode2 == false)
                                 {
                                     msg = $"使能Pass打印失败：IDP_DoPassPrint2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}";
@@ -2715,7 +2821,16 @@ namespace BinderJetting
                 PrinterRunInfo(":当前打印任务完成：区间为" + (g_nLayerStart + 1) + " 层到 " + (g_nLayerEnd + 1) + " 层");
             }
 #region 监控发送指令//20230113新建且批注：
-            sendMessageToCamera.Dispose(); //20230113新建且批注：监控发送指令
+            if (sendMessageToCamera != null)
+            {
+                Log4Net.Info("打印线程：准备释放 sendMessageToCamera");
+                sendMessageToCamera.Dispose(); //20230113新建且批注：监控发送指令
+                Log4Net.Info("打印线程：sendMessageToCamera 已释放");
+            }
+            else
+            {
+                Log4Net.Info("打印线程：跳过释放 sendMessageToCamera，因为对象为空");
+            }
 #endregion
 
             //20230331新增：打印完成后，关闭闪喷
@@ -2728,21 +2843,28 @@ namespace BinderJetting
             msg = $"停止打印任务，释放板卡内存：IDP_StopPrintJob()：ReturnFlag{{{ReturnFlag}}}";
             Log4Net.Info(msg);
 
+            Log4Net.Info($"打印线程：StopJob 已完成，准备释放 ImgPtr，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={PrintConrolFlag}");
             Marshal.FreeHGlobal(ImgPtr);//20200429批注：释放内存,一定要及时释放内存//批注：代码位置，需要重点考虑
+            Log4Net.Info("打印线程：ImgPtr 已释放");
             PrintFlag = false;//20200716新增：关闭打印机维护的间歇闪喷使能
             g_TaskThreadSTATE[4] = 3;//20201119新增：DataTaskThread恢复为终止状态（打印完）
 #region
             //（3）自然执行完毕，自然结束打印区间任务
+            Log4Net.Info($"打印线程：准备 DeleteThread(\"PrintTaskTHREAD\")，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={PrintConrolFlag}");
             DeleteThread("PrintTaskTHREAD");//20200220：本线程结束，需要及时清理相关线程
+            Log4Net.Info("打印线程：DeleteThread(\"PrintTaskTHREAD\") 已执行");
             if (LayerEnd.InvokeRequired == true)//20200313新增批注：此位置严格来说执行不到
             {
+                Log4Net.Info("打印线程：LayerEnd.InvokeRequired=true，准备 BeginInvoke 恢复控件");
                 LayerEnd.BeginInvoke(new Action(() =>
                 {
                     this.LayerEnd.Enabled = true;//恢复控件操作
                     this.LayerStart.Enabled = true;//恢复控件操作
                 }));
+                Log4Net.Info("打印线程：LayerEnd.BeginInvoke 已提交");
             }
 #endregion
+            Log4Net.Info("打印线程：结束收尾完成");
         }
 
         //手动操作 ManualControl = null;//20230317修正:修正潜在的闪退问题
@@ -2945,14 +3067,18 @@ namespace BinderJetting
                                         $"pNextItem{{{pPrtPassDes.pNextItem}}}";
                                     Log4Net.Info(msg);
                                 }
-                                /*****************（2）20220524批注：执行打印PASS运动逻辑*********************/
-                                if (ReturnFlag == true/*pPrtPassDes!=null*/)//20200411:读到的数据不为空//20200430开启运动：
+                            /*****************（2）20220524批注：执行打印PASS运动逻辑*********************/
+                            if (ReturnFlag == true/*pPrtPassDes!=null*/)//20200411:读到的数据不为空//20200430开启运动：
+                            {
+                                Log4Net.Info($"打印线程：准备调用 TriggerPass，nLayerIndex={k}，nPassID={nPassID}，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}");
+                                var triggerWatch = Stopwatch.StartNew();
+                                bool returnCode2 = MeteorPrintEngine.TriggerPass((uint)k, nPassID /*-1*/);
+                                triggerWatch.Stop();
+                                Log4Net.Info($"打印线程：TriggerPass 返回，nLayerIndex={k}，nPassID={nPassID}，returnCode2={returnCode2}，elapsedMs={triggerWatch.ElapsedMilliseconds}");
+                                if (returnCode2 == false)
                                 {
-                                    bool returnCode2 = MeteorPrintEngine.TriggerPass((uint)k, nPassID /*-1*/);
-                                    if (returnCode2 == false)
-                                    {
-                                        msg = $"使能Pass打印失败：IDP_DoPassPrint2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}";
-                                        Log4Net.Info(msg);
+                                    msg = $"使能Pass打印失败：IDP_DoPassPrint2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}";
+                                    Log4Net.Info(msg);
 
                                         MessageBox.Show("启动打印失败！LayerIndex=" + pPrtPassDes.nLayerIndex + ",nProcState=" + pPrtPassDes.nProcState + "；打印分频值=" + pPrtPassDes.nPrtPrecession + "有效列数" + pPrtPassDes.nValidPrtCols);//20220531修改：
                                     }
@@ -3608,6 +3734,29 @@ namespace BinderJetting
                 msg = $"进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！";
                 Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                 Log4Net.Info($"EquipmentMotionLogic3: 入口状态，Command={Command}，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}，AutoPrintMotion3={(AutoPrintMotion3 == null ? "null" : "ok")}");
+
+                if (手动操作.UseSimpleTestMotion)
+                {
+                    if (Command == 4 || Command == 5 || Command == 6 || Command == 7)
+                    {
+                        Log4Net.Info($"EquipmentMotionLogic3: 简易测试运行时旁路生效，Command={Command}，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
+                        if (AutoPrintMotion3 == null)
+                        {
+                            Log4Net.Info($"EquipmentMotionLogic3: 简易测试运行时旁路失败，AutoPrintMotion3为空，Command={Command}，PassIndex={PassIndex}");
+                            return;
+                        }
+
+                        AutoPrintMotion3.RunSimpleTestMotionRuntimeStep(m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, NotGoCleanStationFlag);
+                        Log4Net.Info($"EquipmentMotionLogic3: 简易测试运行时旁路完成，Command={Command}，PassIndex={PassIndex}");
+                        return;
+                    }
+
+                    if (Command == 1 || Command == 2 || Command == 3)
+                    {
+                        Log4Net.Info($"EquipmentMotionLogic3: 简易测试模式下跳过辅助运动，Command={Command}，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
+                        return;
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -6731,6 +6880,7 @@ namespace BinderJetting
 #if true
                 g_nLayerStart = 1;//20230419修改：
                 g_nLayerEnd = LayerCount;//20230419修改：
+                g_bSelectedLayerRangeReady = false;
                 this.LayerStart.Text = g_nLayerStart.ToString();
                 this.LayerEnd.Text = g_nLayerEnd.ToString();
                 this.LayerStart.Enabled = true;//20200602
@@ -6790,7 +6940,7 @@ namespace BinderJetting
                     case 1://PrintTaskTHREAD更新层数       
                         //SetCurrentCLI = LayerCount;//使用属性方式管理//20200601：实现成形层的逐层预览刷新;类似于HScrollBar控件的事件处理
                         ImportCLIFlag = true;//CLI导入标志
-                        circularProgressBar1.Value = LayerCount * g_nRePrintTimes + (subLayerCount + 1);
+                        SetCircularProgressValueSafe(circularProgressBar1, LayerCount * g_nRePrintTimes + (subLayerCount + 1), "UpdateDataAndTransfer(case1)");
                         circularProgressBar1.Text = (((double)LayerCount + ((double)(subLayerCount + 1) / (double)g_nRePrintTimes)) / ((double)g_nLayerEnd + 1)).ToString("P1"/*"P0"*/)/*+"%"*/;//精华：20200504新增批注
                         this.Text = "打印数据：当前处理第" + (LayerCount + g_nLayerStart + 1) + "-" + (subLayerCount + 1) + "层";
                         this.Invalidate();
@@ -6804,9 +6954,9 @@ namespace BinderJetting
                         this.PrintBtn.TextAlign = ContentAlignment.MiddleRight;
                         this.PrintBtn.BackgroundImage = Resource.Continue_38x38;
 
-                        circularProgressBar1.Value = (int)0;
+                        SetCircularProgressValueSafe(circularProgressBar1, 0, "UpdateDataAndTransfer(case2/cpb1)");
                         circularProgressBar1.Text = (((double)0) / ((double)g_nLayerEnd + 1)).ToString("P1");//精华：20200504新增批注
-                        circularProgressBar2.Value = (int)0;//20201121新增：
+                        SetCircularProgressValueSafe(circularProgressBar2, 0, "UpdateDataAndTransfer(case2/cpb2)");//20201121新增：
                         circularProgressBar2.Text = (((double)0) / ((double)g_nLayerEnd + 1)).ToString("P1");//精华：20200504新增批注
 
                         PrintBtn.Tag = 1;
@@ -6873,10 +7023,12 @@ namespace BinderJetting
                         break;
 
                     case 8://加载CLI完成后，刷新总层数
+                        Log4Net.Info($"UpdateDataAndTransfer(case8): enter, LayerCount={LayerCount}, subLayerCount={subLayerCount}, OperationFlag={OperationFlag}, g_PrintSchedule={g_PrintSchedule}, g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}, TransferModifyFlag={TransferModifyFlag}");
                         this.Text = "打印完成！！";
 
                         FinalJOBThreadExistedFlag = false;//20200415批注：个人感觉可以去掉，使用后台辅助工作的话
                         TransferModifyFlag = "StartFlag";//传送取消标志位
+                        Log4Net.Info($"UpdateDataAndTransfer(case8): exit, FinalJOBThreadExistedFlag={FinalJOBThreadExistedFlag}, TransferModifyFlag={TransferModifyFlag}");
                         break;
 
                     case 9://正在更改续打
@@ -7432,6 +7584,7 @@ namespace BinderJetting
 
                 DataTaskFlag = 2;//工作态标志//工作态不可强制暂停
                 ReadLayerInfo();//20200611新增：更新指定的加工任务区间//（2）开始传送-核心代码：20200507新增：正式向远程传输数据
+                Log4Net.Info($"数据处理线程：ReadLayerInfo完成，g_bSelectedLayerRangeReady={g_bSelectedLayerRangeReady}，g_nLayerStart={g_nLayerStart}，g_nLayerEnd={g_nLayerEnd}，g_nRePrintTimes={g_nRePrintTimes}");
 
                 msg = $"进入：EquipmentMotionLogic3=》准备创建对象-手动操作！";
                 Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
@@ -7747,7 +7900,7 @@ namespace BinderJetting
             {
                 /*double */
                 returnValue = GetBackValue();
-                circularProgressBar1.Value = (int)returnValue;
+                SetCircularProgressValueSafe(circularProgressBar1, (int)returnValue, "timer3_Monitor");
                 circularProgressBar1.Text = (/*circularProgressBar.Value*/(returnValue + 1)
                     / (g_nLayerEnd + 1) /*20*//*circularProgressBar.Maximum*/).ToString("P1"/*"P0"*/)/*+"%"*/;//精华：20200504新增批注
                 if (returnValue == g_nLayerEnd /*20*/)
@@ -7771,7 +7924,7 @@ namespace BinderJetting
             if ((returnPrintValue <= (g_nLayerEnd + 1) * g_nRePrintTimes /*20*/) && (StopPrintFlag == false))//201121修改：
             {
                 //returnPrintValue = GetBackValue();
-                circularProgressBar2.Value = (int)returnPrintValue;
+                SetCircularProgressValueSafe(circularProgressBar2, (int)returnPrintValue, "timer4_Monitor");
                 circularProgressBar2.Text = ((returnPrintValue/*+1*/) / (double)((g_nLayerEnd + 1) * g_nRePrintTimes)).ToString("P1")/*+"%"*/;//精华：20200504新增批注//201121修改：
                 if (returnPrintValue == (g_nLayerEnd + 1) * g_nRePrintTimes/*g_nLayerEnd*/)//20201121修改：
                 {
@@ -7786,6 +7939,37 @@ namespace BinderJetting
         }
 
         public RemoteObject service;//20200504新增：
+        private void SetCircularProgressValueSafe(CircularProgressBar.CircularProgressBar bar, int requestedValue, string sourceTag)
+        {
+            try
+            {
+                if (bar == null || bar.IsDisposed)
+                {
+                    return;
+                }
+
+                int safeValue = requestedValue;
+                if (safeValue < bar.Minimum)
+                {
+                    safeValue = bar.Minimum;
+                }
+                if (safeValue > bar.Maximum)
+                {
+                    safeValue = bar.Maximum;
+                }
+
+                if (safeValue != requestedValue)
+                {
+                    Log4Net.Info($"{sourceTag}: circular progress clamp, requested={requestedValue}, safe={safeValue}, min={bar.Minimum}, max={bar.Maximum}");
+                }
+
+                bar.Value = safeValue;
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Error($"{sourceTag}: circular progress set failed, requested={requestedValue}\r\n{ex}");
+            }
+        }
         private void StartProgressMonitor(int CircularProgressIndex, int Minimum, int Maximum)//20200601新增：区间Minimum和Maximum
         {
             switch (CircularProgressIndex)
@@ -8645,9 +8829,22 @@ namespace BinderJetting
             {
                 if (null != WorkProgressBar && !WorkProgressBar.IsDisposed)//jobsProgressBar被释放？且不为空
                 {
-                    WorkProgressBar.Value = iValue;
+                    int safeValue = iValue;
+                    if (safeValue < WorkProgressBar.Minimum)
+                    {
+                        safeValue = WorkProgressBar.Minimum;
+                    }
+                    if (safeValue > WorkProgressBar.Maximum)
+                    {
+                        safeValue = WorkProgressBar.Maximum;
+                    }
+                    if (safeValue != iValue)
+                    {
+                        Log4Net.Info($"UpdateBarValueMethod2: clamp, requested={iValue}, safe={safeValue}, min={WorkProgressBar.Minimum}, max={WorkProgressBar.Maximum}");
+                    }
+                    WorkProgressBar.Value = safeValue;
                     //double rate = (double)iValue / (double)50 * 100;
-                    string tempRate = iValue.ToString();
+                    string tempRate = safeValue.ToString();
                     string layerNum = this.LayerEnd.Text;
                     string showRate = "PRT进度： " + tempRate + "/" + layerNum + "层";//保留小数点后两位
                     this.WorkRate.Text = showRate;//保留小数点后两位
@@ -9502,7 +9699,33 @@ namespace BinderJetting
         private void LayerEnd_TextChanged(object sender, EventArgs e)//20210530新增：
         {
             //g_nLayerEnd = Convert.ToInt32(this.LayerEnd.Text) - 1;//201030批注：系统内部打印区间为从0开始计数第1层
-            g_SharpControl.g_nLayerEnd = Convert.ToInt32(this.LayerEnd.Text) - 1; ;//20210530新增：打印的总层数：打印显示的时候都会即时更新
+            int layerEnd;
+            if (int.TryParse(this.LayerEnd.Text, out layerEnd))
+            {
+                if (layerEnd < 1)
+                {
+                    layerEnd = 1;
+                }
+
+                g_nLayerEnd = layerEnd - 1;
+                g_SharpControl.g_nLayerEnd = g_nLayerEnd;//20210530新增：打印的总层数：打印显示的时候都会即时更新
+                g_bSelectedLayerRangeReady = false;
+            }
+        }
+
+        private void LayerStart_TextChanged(object sender, EventArgs e)
+        {
+            int layerStart;
+            if (int.TryParse(this.LayerStart.Text, out layerStart))
+            {
+                if (layerStart < 1)
+                {
+                    layerStart = 1;
+                }
+
+                g_nLayerStart = layerStart - 1;
+                g_bSelectedLayerRangeReady = false;
+            }
         }
 
         private void SendMessageBtn_Click(object sender, EventArgs e)

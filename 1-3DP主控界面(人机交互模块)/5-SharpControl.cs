@@ -1497,35 +1497,47 @@ namespace BinderJetting
                 //(1)方式1：采用文件流
                 var stream = new WICStream(wicFactory, filename, NativeFileAccess.Write);//存在3种流可以选择：文件流、非托管区内存流、托管区内存流
 #else
+                Log4Net.Info($"RenderToWic: before ImgPtr alloc, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 int size2 = 54 + (wicBitmap.Size.Width) * (wicBitmap.Size.Height) * 4;//这么多字节
                 IntPtr ImgPtr = Marshal.AllocHGlobal(size2);//非托管区位置
                 //Marshal.Copy(rgbValues, 0, ImgPtr, size2);//复制到非托管区内存
 
+                Log4Net.Info($"RenderToWic: after ImgPtr alloc, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, size2={size2}");
+                Log4Net.Info($"RenderToWic: before WICStream init, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 var stream = new WICStream(wicFactory, new DataPointer(ImgPtr, size2));//WIC流到非托管区内存
+                Log4Net.Info($"RenderToWic: after WICStream init, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
 #endif
                 // Initialize a Jpeg encoder with this stream
+                Log4Net.Info($"RenderToWic: before encoder init, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 var encoder = new BmpBitmapEncoder(wicFactory);//生成BMP图片
                 encoder.Initialize(stream);
+                Log4Net.Info($"RenderToWic: after encoder init, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
 
                 // Create a Frame encoder
+                Log4Net.Info($"RenderToWic: before bitmapFrameEncode init, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 var bitmapFrameEncode = new BitmapFrameEncode(encoder);
                 bitmapFrameEncode.Initialize();
                 bitmapFrameEncode.SetSize(width, height);
+                Log4Net.Info($"RenderToWic: after bitmapFrameEncode init/SetSize, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, width={width}, height={height}");
 #if true
                 var pixelFormatGuid = SharpDX.WIC.PixelFormat./*Format32bppPBGRA*/Format32bppBGR/*Format1bppIndexed*//*FormatDontCare*/;
 #else
                 var pixelFormatGuid = SharpDX.WIC.PixelFormat.Format1bppIndexed/*FormatDontCare*/;
 #endif
                 bitmapFrameEncode.SetPixelFormat(ref pixelFormatGuid);
+                Log4Net.Info($"RenderToWic: after SetPixelFormat, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, pixelFormat={pixelFormatGuid}");
                 bitmapFrameEncode.WriteSource(wicBitmap);
+                Log4Net.Info($"RenderToWic: after WriteSource, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 //这一步非常费时，直接编码生成Format1bppIndexed；
                 //编码到Format1bppIndexed的内存流：耗时2325-2405-2640ms;（使用WIC进行格式转换）
                 //编码到Format32bppBGR的内存流：耗时294-304ms;（不使用WIC进行格式转换）
                 //编码到Format32bppBGR的文件流：耗时3940-4820ms;（不使用WIC进行格式转换）
                 //编码到Format1bppIndexed的文件流：耗时2409-2465-2497ms;（不使用WIC进行格式转换）
 
+                Log4Net.Info($"RenderToWic: before encoder commit, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 bitmapFrameEncode.Commit();//帧提交
                 encoder.Commit();//编码器提交
+                Log4Net.Info($"RenderToWic: after encoder commit, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
 
                 bitmapFrameEncode.Dispose();
                 encoder.Dispose();
@@ -1558,12 +1570,20 @@ namespace BinderJetting
                 System.Drawing.Bitmap clone = null;
                 bool cloneInProgress = true;
                 int cloneStartTick = Environment.TickCount;
+                Log4Net.Info($"RenderToWic: Clone watchdog setup, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, outputSize={outputBmpSize}");
                 Thread cloneWatchdogThread = new Thread(() =>
                 {
+                    int lastHeartbeatBucket = -1;
                     while (cloneInProgress)
                     {
                         Thread.Sleep(500);
                         int elapsedMs = unchecked(Environment.TickCount - cloneStartTick);
+                        int heartbeatBucket = elapsedMs / 500;
+                        if (heartbeatBucket != lastHeartbeatBucket)
+                        {
+                            lastHeartbeatBucket = heartbeatBucket;
+                            Log4Net.Info($"RenderToWic: Clone watchdog heartbeat, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, elapsedMs={elapsedMs}, outputSize={outputBmpSize}");
+                        }
                         if (elapsedMs >= 2000)
                         {
                             Log4Net.Info($"RenderToWic: Clone watchdog active, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, elapsedMs={elapsedMs}, outputSize={outputBmpSize}");
@@ -1572,8 +1592,10 @@ namespace BinderJetting
                 });
                 cloneWatchdogThread.IsBackground = true;
                 cloneWatchdogThread.Start();
+                Log4Net.Info($"RenderToWic: Clone watchdog started, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 try
                 {
+                    Log4Net.Info($"RenderToWic: Clone begin invoke, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, outputSize={outputBmpSize}");
                     clone = outputBMP.Clone(new System.Drawing.Rectangle(0, 0, outputBMP.Width, outputBMP.Height), System.Drawing.Imaging.PixelFormat.Format1bppIndexed);
                     Log4Net.Info($"RenderToWic: after Clone to 1bpp, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, cloneSize={clone.Width}x{clone.Height}");
                 }

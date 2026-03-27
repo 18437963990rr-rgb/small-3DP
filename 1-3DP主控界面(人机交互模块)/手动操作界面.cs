@@ -74,6 +74,8 @@ namespace BinderJetting
         /// 原始 X/Y 运动逻辑不注释，仅通过本开关在“正式打印”与“简易测试”之间切换。
         /// </summary>
         public static bool UseSimpleTestMotion = false;
+        private static readonly object SimpleTestRuntimeLock = new object();
+        private static int SimpleTestRuntimePassIndex = 0;
 
         // 铺粉车的一些常数
         const double POWDERCAR_TRAVEL_DIST = /*918.0*/900;     // 铺粉车行程距离，mm //20251206修改，硬件更换
@@ -5824,9 +5826,33 @@ namespace BinderJetting
         /// <summary>璇诲彇鎸囧畾杞村綋鍓嶇紪鐮佸櫒浣嶇疆锛坢m锛夈€?X/Y 杞寸敤鍚勮嚜鐨勭數瀛愰娇杞︽瘮杩涜鎹㈢畻銆?/summary>
         private double GetCurrentPos(int Axis)//20220520鏂板缓锛氳鍙栨寚瀹氳酱鐨勫綋鍓嶇紪鐮佸櫒浣嶇疆
         {
-            double[] g_dEncpos = new double[8]; g_dEncpos = motionMap.GetEncPos();
-            double countPerMM = GetInkCarCountPerMM(Axis);
-            return g_dEncpos[Axis - 1] / countPerMM;
+            try
+            {
+                Log4Net.Info($"GetCurrentPos: enter, Axis={Axis}");
+                double[] g_dEncpos = motionMap.GetEncPos();
+                if (g_dEncpos == null)
+                {
+                    Log4Net.Info($"GetCurrentPos: enc array is null, Axis={Axis}");
+                    return 0;
+                }
+
+                if (g_dEncpos.Length < Axis)
+                {
+                    Log4Net.Info($"GetCurrentPos: enc array length insufficient, Axis={Axis}, length={g_dEncpos.Length}");
+                    return 0;
+                }
+
+                double countPerMM = GetInkCarCountPerMM(Axis);
+                double rawCount = g_dEncpos[Axis - 1];
+                double currentMm = rawCount / countPerMM;
+                Log4Net.Info($"GetCurrentPos: exit, Axis={Axis}, rawCount={rawCount}, countPerMM={countPerMM}, currentMm={currentMm:F3}");
+                return currentMm;
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Error($"GetCurrentPos: exception, Axis={Axis}, ex={ex}");
+                throw;
+            }
         }
 
         private double GetInkCarCountPerMM(int Axis)
@@ -5844,16 +5870,29 @@ namespace BinderJetting
 
         private void WaitStop(int Axis)//20220520鏂板缓锛氬疄鐜板ⅷ杞︾浉鍏崇殑绛夊仠閫昏緫
         {
+            Log4Net.Info($"WaitStop: enter, Axis={Axis}");
             if (Axis == 1 || Axis == 2)
             {
                 // 墨车 X/Y 已由固高 TrapMotion 内部等停，不再依赖 Royal，避免卡顿
+                Log4Net.Info($"WaitStop: Axis={Axis} is inkcar direct return");
                 return;
             }
             // ========== Royal控制逻辑（非墨车轴等停，墨车轴1/2 已在上方 return，保留供参考）==========
             bool Directory = false; uint nRevPls = 0;
-            while (royal.royal.DEM_AxisIsRuning((uint)(Axis - 1), ref Directory, ref nRevPls)) { Thread.Sleep(1); }
+            DateTime waitStart = DateTime.Now;
+            DateTime lastHeartbeat = waitStart;
+            while (royal.royal.DEM_AxisIsRuning((uint)(Axis - 1), ref Directory, ref nRevPls))
+            {
+                if ((DateTime.Now - lastHeartbeat) >= TimeSpan.FromSeconds(1))
+                {
+                    Log4Net.Info($"WaitStop: waiting, Axis={Axis}, elapsedMs={(DateTime.Now - waitStart).TotalMilliseconds:F0}, directory={Directory}, nRevPls={nRevPls}");
+                    lastHeartbeat = DateTime.Now;
+                }
+                Thread.Sleep(1);
+            }
             bool nRetVal2 = royal.royal.DEM_StopAxisRun(false, (uint)Axis);
             Log4Net.Info($"轴{Axis} 到位等停(非墨车)：DEM_StopAxisRun={nRetVal2}");
+            Log4Net.Info($"WaitStop: exit, Axis={Axis}, elapsedMs={(DateTime.Now - waitStart).TotalMilliseconds:F0}");
         }
 
 
@@ -5870,11 +5909,13 @@ namespace BinderJetting
         {
             try 
             {   
+                Log4Net.Info($"BackToStation: enter, AimPos={AimPos:F3}, m_MovSpeed={m_MovSpeed:F3}, MoveDirectionFlag={(MoveDirectionFlag ? "Y" : "X")}, WaitStopFlag={WaitStopFLag}, CorrectionRatio={CorrectionRatio:F3}");
                 switch (MoveDirectionFlag)
                 {
                     case false://X 轴：固高编码器定位，不再依赖 Royal 光栅，避免卡顿
                         if (AimPos >= 5 && AimPos <= (XMaxDistanceMM - 5))
                         {
+                            Log4Net.Info($"BackToStation X: before GetEncPos, AimPos={AimPos:F3}");
                             double[] encX = motionMap.GetEncPos();
                             double currentMmX = encX[0] / InkCarXEncoderCountPerMM;
                             int moveCountsX = (int)((AimPos - currentMmX) * InkCarXEncoderCountPerMM);
@@ -5885,10 +5926,17 @@ namespace BinderJetting
 
                             gts.mc.TTrapPrm xTrapPrm = new gts.mc.TTrapPrm();
                             xTrapPrm.acc = 0.5; xTrapPrm.dec = 0.5; xTrapPrm.velStart = 5; xTrapPrm.smoothTime = 1;
+                            Log4Net.Info($"BackToStation X: before TrapMotion, moveCountsX={moveCountsX}, velCountPerMsX={velCountPerMsX:F3}, waitStop={WaitStopFLag}");
                             InkCarMotionMap.TrapMotion(1, ref xTrapPrm, moveCountsX, velCountPerMsX, 0, 0, WaitStopFLag);
+                            Log4Net.Info("BackToStation X: after TrapMotion");
 
                             if (WaitStopFLag)
+                            {
+                                Log4Net.Info("BackToStation X: before StopMotion");
                                 InkCarMotionMap.StopMotion(1, true);
+                                Log4Net.Info("BackToStation X: after StopMotion");
+                            }
+                            Log4Net.Info("BackToStation X: before encoder readback");
                             double afterMm = motionMap.GetEncPos()[0] / InkCarXEncoderCountPerMM;
                             Log4Net.Info($"X 到位：编码器位置{{{afterMm:F3}}}mm");
                         }
@@ -5912,6 +5960,7 @@ namespace BinderJetting
                     case true://Y 轴：固高编码器定位，不再依赖 Royal 编码器/光栅，避免卡顿
                         if (AimPos >= 1 && AimPos <= (YMaxDistanceMM - 10))
                         {
+                            Log4Net.Info($"BackToStation Y: before GetEncPos, AimPos={AimPos:F3}");
                             double[] encY = motionMap.GetEncPos();
                             double currentMmY = encY[1] / InkCarYEncoderCountPerMM;
                             int moveCountsY = (int)((AimPos - currentMmY) * InkCarYEncoderCountPerMM);
@@ -5922,12 +5971,19 @@ namespace BinderJetting
 
                             gts.mc.TTrapPrm y1TrapPrm = new gts.mc.TTrapPrm();
                             y1TrapPrm.acc = 0.5; y1TrapPrm.dec = 0.5; y1TrapPrm.velStart = 5; y1TrapPrm.smoothTime = 1;
+                            Log4Net.Info($"BackToStation Y: before TrapMotion, moveCountsY={moveCountsY}, velCountPerMsY={velCountPerMsY:F3}, waitStop={WaitStopFLag}");
                             InkCarMotionMap.TrapMotion(2, ref y1TrapPrm, moveCountsY, velCountPerMsY, 0, 0, WaitStopFLag);
+                            Log4Net.Info("BackToStation Y: after TrapMotion");
 
                             try { YAxisMoveStarted?.Invoke(); } catch (Exception ex) { Log4Net.Info($"YAxisMoveStarted 回调异常：{ex.Message}"); }
 
                             if (WaitStopFLag)
+                            {
+                                Log4Net.Info("BackToStation Y: before StopMotion");
                                 InkCarMotionMap.StopMotion(2, true);
+                                Log4Net.Info("BackToStation Y: after StopMotion");
+                            }
+                            Log4Net.Info("BackToStation Y: before encoder readback");
                             double afterMmY = motionMap.GetEncPos()[1] / InkCarYEncoderCountPerMM;
                             Log4Net.Info($"Y 到位：编码器位置{{{afterMmY:F3}}}mm");
                         }
@@ -10928,14 +10984,12 @@ namespace BinderJetting
             if (PassIndex == 0)
             {
                 Log4Net.Info($"简易测试：进入 Pass0，目标路径 X={SimpleTestXHome:0.###} -> {SimpleTestXWork:0.###}，Y={SimpleTestYHome:0.###} -> {(SimpleTestYHome + SimpleTestYStep):0.###}");
-                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
-                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 1);
+                TrySendSimpleTestMonitor(toCamera, 0, RecordLayerIndex, 1, "Pass0-位点1");
                 bool nRetVal = MeteorPrintEngine.SetFlash(false);
                 Log4Net.Info($"简易测试：关闭闪喷 返回值={nRetVal}");
                 BackToStation(SimpleTestXWork, SimpleTestSpeed, false, true, 1);// pass0: X 810 -> 560
                 BackToStation(SimpleTestYHome + SimpleTestYStep, SimpleTestSpeed, true, true, 1);// pass0: Y +64.96
-                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
-                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 2);
+                TrySendSimpleTestMonitor(toCamera, 1, RecordLayerIndex, 2, "Pass0-位点2");
                 Log4Net.Info("简易测试：Pass0 完成");
                 return;
             }
@@ -10944,8 +10998,7 @@ namespace BinderJetting
                 Log4Net.Info($"简易测试：进入 Pass1，目标路径 X={SimpleTestXWork:0.###} -> {SimpleTestXHome:0.###}，Y={(SimpleTestYHome + SimpleTestYStep):0.###} -> {(SimpleTestYHome + 2 * SimpleTestYStep):0.###}");
                 BackToStation(SimpleTestXHome, SimpleTestSpeed, false, true, 1);// pass1: X 560 -> 810
                 BackToStation(SimpleTestYHome + 2 * SimpleTestYStep, SimpleTestSpeed, true, true, 1);// pass1: Y +64.96
-                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
-                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 3);
+                TrySendSimpleTestMonitor(toCamera, 2, RecordLayerIndex, 3, "Pass1-位点3");
                 Log4Net.Info("简易测试：Pass1 完成");
                 return;
             }
@@ -10954,8 +11007,7 @@ namespace BinderJetting
                 Log4Net.Info($"简易测试：进入 Pass2，目标路径 X={SimpleTestXHome:0.###} -> {SimpleTestXWork:0.###}，Y={(SimpleTestYHome + 2 * SimpleTestYStep):0.###} -> {(SimpleTestYHome + 3 * SimpleTestYStep):0.###}");
                 BackToStation(SimpleTestXWork, SimpleTestSpeed, false, true, 1);// pass2: X 810 -> 560
                 BackToStation(SimpleTestYHome + 3 * SimpleTestYStep, SimpleTestSpeed, true, true, 1);// pass2: Y +64.96
-                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
-                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 4);
+                TrySendSimpleTestMonitor(toCamera, 3, RecordLayerIndex, 4, "Pass2-位点4");
                 Log4Net.Info("简易测试：Pass2 完成");
                 return;
             }
@@ -10965,13 +11017,89 @@ namespace BinderJetting
                 BackToStation(SimpleTestXHome, SimpleTestSpeed, false, true, 1);// pass3: X 560 -> 810
                 BackToStation(SimpleTestYHome + 4 * SimpleTestYStep, SimpleTestSpeed, true, true, 1);// pass3: Y +64.96
                 BackToStation(SimpleTestYHome, SimpleTestSpeed, true, true, 1);// 最后回到 Y=50mm
-                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[4])
-                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 5);
+                TrySendSimpleTestMonitor(toCamera, 4, RecordLayerIndex, 5, "Pass3-位点5");
                 Log4Net.Info("简易测试：Pass3 完成");
                 return;
             }
             // 4 个 pass 之后不再执行旧的清洗站逻辑。
             Log4Net.Info($"简易测试：PassIndex={PassIndex} 超出范围，未执行任何动作");
+        }
+
+        private bool TrySendSimpleTestMonitor(SendMessageToCamera toCamera, int flagIndex, int recordLayerIndex, int recordProcessIndex, string context)
+        {
+            if (toCamera == null)
+            {
+                Log4Net.Info($"简易测试：{context} 跳过监控发送，toCamera为空");
+                return false;
+            }
+
+            if (toCamera.k_MonitorPrintParam == null)
+            {
+                Log4Net.Info($"简易测试：{context} 跳过监控发送，k_MonitorPrintParam为空");
+                return false;
+            }
+
+            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags == null)
+            {
+                Log4Net.Info($"简易测试：{context} 跳过监控发送，m_anJettingBinderBedMonitorFlags为空");
+                return false;
+            }
+
+            if (flagIndex < 0 || flagIndex >= toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags.Length)
+            {
+                Log4Net.Info($"简易测试：{context} 跳过监控发送，flagIndex={flagIndex} 越界");
+                return false;
+            }
+
+            if (!toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[flagIndex])
+            {
+                Log4Net.Info($"简易测试：{context} 监控标志未开启，flagIndex={flagIndex}");
+                return false;
+            }
+
+            try
+            {
+                toCamera.SendMessageFromSharedMemory(false, recordLayerIndex, recordProcessIndex);
+                Log4Net.Info($"简易测试：{context} 监控消息已发送，RecordLayerIndex={recordLayerIndex}，RecordProcessIndex={recordProcessIndex}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"简易测试：{context} 发送监控消息异常：{ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 运行时简单测试旁路的单步执行入口。
+        /// 该入口用于保留正式切片/传输流程，只替换运动调度层。
+        /// </summary>
+        public void RunSimpleTestMotionRuntimeStep(float ReturnVelocity1, float ReturnVelocity2, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, int NotGoCleanStationFlag)
+        {
+            int passIndex;
+            int nextPassIndex;
+            lock (SimpleTestRuntimeLock)
+            {
+                passIndex = SimpleTestRuntimePassIndex;
+                nextPassIndex = (SimpleTestRuntimePassIndex + 1) % 4;
+                SimpleTestRuntimePassIndex = nextPassIndex;
+            }
+
+            Log4Net.Info($"简易测试：运行时序列步进，PassIndex={passIndex}，NextPassIndex={nextPassIndex}，ReturnVelocity1={ReturnVelocity1}，ReturnVelocity2={ReturnVelocity2}");
+            RunSimpleTestMotionPass(passIndex, ReturnVelocity1, ReturnVelocity2, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, NotGoCleanStationFlag);
+        }
+
+        /// <summary>
+        /// 重置运行时简单测试序列索引。
+        /// </summary>
+        public static void ResetSimpleTestMotionRuntimeSequence()
+        {
+            lock (SimpleTestRuntimeLock)
+            {
+                SimpleTestRuntimePassIndex = 0;
+            }
+
+            Log4Net.Info("简易测试：运行时序列已重置，PassIndex=0");
         }
 
         /// <summary>
@@ -12504,7 +12632,9 @@ namespace BinderJetting
 
         private bool WaitForInkCarLimitHit(short Axis, bool SearchPositiveDirection, TimeSpan timeout)
         {
+            Log4Net.Info($"墨车轴{Axis}限位回零：开始轮询限位，方向={(SearchPositiveDirection ? "正" : "负")}，timeoutMs={timeout.TotalMilliseconds:F0}");
             DateTime startTime = DateTime.Now;
+            DateTime lastHeartbeat = startTime;
             while ((DateTime.Now - startTime) < timeout)
             {
                 int axisStatus = 0;
@@ -12519,26 +12649,44 @@ namespace BinderJetting
                     return true;
                 }
 
-                Thread.Sleep(20);
-            }
-
-            return false;
-        }
-
-        private bool WaitForInkCarPosition(short Axis, double targetMm, double toleranceMm, TimeSpan timeout)
-        {
-            DateTime startTime = DateTime.Now;
-            while ((DateTime.Now - startTime) < timeout)
-            {
-                double currentMm = GetCurrentPos(Axis);
-                if (Math.Abs(currentMm - targetMm) <= toleranceMm)
+                if ((DateTime.Now - lastHeartbeat) >= TimeSpan.FromSeconds(1))
                 {
-                    return true;
+                    Log4Net.Info($"墨车轴{Axis}限位回零：等待中，elapsedMs={(DateTime.Now - startTime).TotalMilliseconds:F0}, 状态=0x{axisStatus:X}, PosLimit={motionMap.axisSateMonitor.FlagPosLimit1}, NegLimit={motionMap.axisSateMonitor.FlagNegLimit1}");
+                    lastHeartbeat = DateTime.Now;
                 }
 
                 Thread.Sleep(20);
             }
 
+            Log4Net.Info($"墨车轴{Axis}限位回零：等待超时，方向={(SearchPositiveDirection ? "正" : "负")}，timeoutMs={timeout.TotalMilliseconds:F0}");
+            return false;
+        }
+
+        private bool WaitForInkCarPosition(short Axis, double targetMm, double toleranceMm, TimeSpan timeout)
+        {
+            Log4Net.Info($"墨车轴{Axis}位置等待：开始轮询，targetMm={targetMm:F3}, toleranceMm={toleranceMm:F3}, timeoutMs={timeout.TotalMilliseconds:F0}");
+            DateTime startTime = DateTime.Now;
+            DateTime lastHeartbeat = startTime;
+            double currentMm = double.NaN;
+            while ((DateTime.Now - startTime) < timeout)
+            {
+                currentMm = GetCurrentPos(Axis);
+                if (Math.Abs(currentMm - targetMm) <= toleranceMm)
+                {
+                    Log4Net.Info($"墨车轴{Axis}位置等待：达到目标，currentMm={currentMm:F3}, targetMm={targetMm:F3}, toleranceMm={toleranceMm:F3}");
+                    return true;
+                }
+
+                if ((DateTime.Now - lastHeartbeat) >= TimeSpan.FromSeconds(1))
+                {
+                    Log4Net.Info($"墨车轴{Axis}位置等待：等待中，elapsedMs={(DateTime.Now - startTime).TotalMilliseconds:F0}, currentMm={currentMm:F3}, targetMm={targetMm:F3}, toleranceMm={toleranceMm:F3}");
+                    lastHeartbeat = DateTime.Now;
+                }
+
+                Thread.Sleep(20);
+            }
+
+            Log4Net.Info($"墨车轴{Axis}位置等待：等待超时，currentMm={currentMm:F3}, targetMm={targetMm:F3}, toleranceMm={toleranceMm:F3}");
             return false;
         }
 
@@ -12546,6 +12694,7 @@ namespace BinderJetting
         {
             try
             {
+                Log4Net.Info($"墨车轴{Axis}限位回零：进入，方向={(SearchPositiveDirection ? "正" : "负")}, HomeMm={HomeMm:F3}");
                 double countPerMm = GetInkCarCountPerMM(Axis);
                 int searchCounts = (int)(2000.0 * countPerMm);
                 double homeCounts = HomeMm * countPerMm;
@@ -12586,6 +12735,7 @@ namespace BinderJetting
                 bool homeMatch = Math.Abs(homeReadBackMm - HomeMm) <= 0.5;
                 Log4Net.Info($"墨车轴{Axis}限位回零：初始位设置完成，当前显示位置={homeReadBackMm:F3}mm");
                 Log4Net.Info($"墨车轴{Axis}限位回零：坐标设定检查，目标位置={HomeMm:F3}mm，实际位置={homeReadBackMm:F3}mm，结果={(homeMatch ? "OK" : "NG")}");
+                Log4Net.Info($"墨车轴{Axis}限位回零：退出，结果=OK");
                 return true;
             }
             catch (Exception ex)
@@ -12605,6 +12755,7 @@ namespace BinderJetting
         {
             string msg = $"开启墨车{AxisName}轴回零";
             Log4Net.Info(msg);
+            Log4Net.Info($"RunInkCarAxisHome: enter, Axis={Axis}, AxisName={AxisName}, SearchPositiveDirection={SearchPositiveDirection}, HomeMm={HomeMm:F3}");
 
             SetInkCarHomeButtonState(false);
 
@@ -12645,6 +12796,7 @@ namespace BinderJetting
                 msg = $"墨车{AxisName}轴回零失败";
                 Log4Net.Info(msg);
             }
+            Log4Net.Info($"RunInkCarAxisHome: exit, Axis={Axis}, AxisName={AxisName}, returnCode={returnCode}");
         }
 
         private void button18_Click(object sender, EventArgs e)
@@ -13752,6 +13904,7 @@ namespace BinderJetting
         {
             // 切换布尔值
             UseSimpleTestMotion = !UseSimpleTestMotion;
+            ResetSimpleTestMotionRuntimeSequence();
             Log4Net.Info($"简单测试模式切换：UseSimpleTestMotion={(UseSimpleTestMotion ? "Enabled" : "Disabled")}");
 
             // 可选：根据当前状态更新按钮文字，让用户知道当前模式
