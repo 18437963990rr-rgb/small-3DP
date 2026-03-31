@@ -135,7 +135,19 @@ namespace LaserADD_BinderJetter
         /***********************************************成型缸********************************************************/
         /***********************************************成型缸********************************************************/
         //(1)运动模式动态挂载切换响应：
-        GoogolMotionMap motionMap = new GoogolMotionMap();//创建GoogolMotionMap对象，供本窗口调用
+        GoogolMotionMap motionMap;
+
+        public MoveComponent()
+        {
+            motionMap = CreateMotionMap();
+        }
+
+        private GoogolMotionMap CreateMotionMap()
+        {
+            var map = new GoogolMotionMap();
+            map.SetLogSink(msg => BinderJetting.Log4Net.Info(msg), msg => BinderJetting.Log4Net.Error(msg));
+            return map;
+        }
         ///// 互斥配置多轴的点动和JOG运动配置：动态挂载初始化：20200110
         //private void InitDynamicConfigureMotionMode()
         //{}

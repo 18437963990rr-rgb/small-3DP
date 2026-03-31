@@ -1144,7 +1144,6 @@ namespace BinderJetting
                     layerDataCount = gc_RemoteCLIs2[CLIlayerIndex].aLayerData[0].aLayer.LineList.Count();
                 }
             }
-            Log4Net.Info($"DrawLayerBMP: enter, CLIImportFlag={CLIImportFlag}, InputCLIlayerIndex={InputCLIlayerIndex}, CLIlayerIndex={CLIlayerIndex}, ActualStartNum={ActualStartNum}, xsize={xsize}, ysize={ysize}, gc_RemoteCLIs2Count={(gc_RemoteCLIs2 == null ? -1 : gc_RemoteCLIs2.Count)}, layerCount={layerCount}, firstLineListCount={layerDataCount}, solidColorBrush={(solidColorBrush == null ? "null" : "ok")}");
 #if true //20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
             // CLIlayerIndex 已在入口日志前计算
 #endif
@@ -1388,7 +1387,6 @@ namespace BinderJetting
             if (action == true)
             {
                 Log4Net.Info($"RenderToWic: enter, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, ActualStartNum={ActualStartNum}, XDpi={XDpi}");
-                Log4Net.Info($"RenderToWic: object state, index={index}, subindex={subindex}, wicFactory={(wicFactory == null ? "null" : "ok")}, d2dFactory={(d2dFactory == null ? "null" : "ok")}, wicBitmap={(wicBitmap == null ? "null" : "ok")}, d2dRenderTarget={(d2dRenderTarget == null ? "null" : "ok")}, solidColorBrush={(solidColorBrush == null ? "null" : "ok")}, solidColorBrush2={(solidColorBrush2 == null ? "null" : "ok")}");
                 try
                 {
                 //wicFactory = new ImagingFactory();
@@ -1462,82 +1460,57 @@ namespace BinderJetting
                 myMatrix.TranslationVector = vector2;//坐标系平移
                 d2dRenderTarget.Transform = myMatrix;
 
-                Log4Net.Info($"RenderToWic: BeginDraw before DrawLayerBMP, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 d2dRenderTarget.BeginDraw();
                 d2dRenderTarget.Clear(SharpDX.Color.White);//修改为SharpDX的色彩
 #if false//测试
                 d2dRenderTarget.FillGeometry(rectangleGeometry, solidColorBrush, null);
 #else
                 //20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
-                string msg = $"完成处理第{index}层数据：准备调用DrawLayerBMP，index为{index}，起始层为{ActualStartNum}";
-                Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                 DrawLayerBMP(true, index, width, height, solidColorBrush, ActualStartNum);//20201117批注：生成正式打印数据
-                msg = $"完成处理第{index}层数据：准备调用DrawLayerBMP，index为{index}，起始层为{ActualStartNum}";
-                Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 #endif
-                Log4Net.Info($"RenderToWic: after DrawLayerBMP, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
-
                 long tag1, tag2;
-                Log4Net.Info($"RenderToWic: before TryEndDraw, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 Result EndDrawResult = d2dRenderTarget.TryEndDraw(out tag1, out tag2);//deviceContext.EndDraw(); //long a, b;deviceContext.TryEndDraw(out a,out b);
                 int tryEndDrawRetryCount = 0;
                 while (EndDrawResult != Result.Ok)
                 {
                     tryEndDrawRetryCount++;
-                    if (tryEndDrawRetryCount <= 5 || (tryEndDrawRetryCount % 50) == 0)
-                    {
-                        Log4Net.Info($"RenderToWic: TryEndDraw retry={tryEndDrawRetryCount}, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, result={EndDrawResult}");
-                    }
                     Thread.Sleep(1);//等待20ms
                     EndDrawResult = d2dRenderTarget.TryEndDraw(out tag1, out tag2);
                 }
-                Log4Net.Info($"RenderToWic: after TryEndDraw, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, result={EndDrawResult}, retryCount={tryEndDrawRetryCount}, tag1={tag1}, tag2={tag2}");
 
 #if false
                 //(1)方式1：采用文件流
                 var stream = new WICStream(wicFactory, filename, NativeFileAccess.Write);//存在3种流可以选择：文件流、非托管区内存流、托管区内存流
 #else
-                Log4Net.Info($"RenderToWic: before ImgPtr alloc, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 int size2 = 54 + (wicBitmap.Size.Width) * (wicBitmap.Size.Height) * 4;//这么多字节
                 IntPtr ImgPtr = Marshal.AllocHGlobal(size2);//非托管区位置
                 //Marshal.Copy(rgbValues, 0, ImgPtr, size2);//复制到非托管区内存
 
-                Log4Net.Info($"RenderToWic: after ImgPtr alloc, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, size2={size2}");
-                Log4Net.Info($"RenderToWic: before WICStream init, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 var stream = new WICStream(wicFactory, new DataPointer(ImgPtr, size2));//WIC流到非托管区内存
-                Log4Net.Info($"RenderToWic: after WICStream init, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
 #endif
                 // Initialize a Jpeg encoder with this stream
-                Log4Net.Info($"RenderToWic: before encoder init, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 var encoder = new BmpBitmapEncoder(wicFactory);//生成BMP图片
                 encoder.Initialize(stream);
-                Log4Net.Info($"RenderToWic: after encoder init, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
 
                 // Create a Frame encoder
-                Log4Net.Info($"RenderToWic: before bitmapFrameEncode init, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 var bitmapFrameEncode = new BitmapFrameEncode(encoder);
                 bitmapFrameEncode.Initialize();
                 bitmapFrameEncode.SetSize(width, height);
-                Log4Net.Info($"RenderToWic: after bitmapFrameEncode init/SetSize, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, width={width}, height={height}");
 #if true
                 var pixelFormatGuid = SharpDX.WIC.PixelFormat./*Format32bppPBGRA*/Format32bppBGR/*Format1bppIndexed*//*FormatDontCare*/;
 #else
                 var pixelFormatGuid = SharpDX.WIC.PixelFormat.Format1bppIndexed/*FormatDontCare*/;
 #endif
                 bitmapFrameEncode.SetPixelFormat(ref pixelFormatGuid);
-                Log4Net.Info($"RenderToWic: after SetPixelFormat, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, pixelFormat={pixelFormatGuid}");
                 bitmapFrameEncode.WriteSource(wicBitmap);
-                Log4Net.Info($"RenderToWic: after WriteSource, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 //这一步非常费时，直接编码生成Format1bppIndexed；
                 //编码到Format1bppIndexed的内存流：耗时2325-2405-2640ms;（使用WIC进行格式转换）
                 //编码到Format32bppBGR的内存流：耗时294-304ms;（不使用WIC进行格式转换）
                 //编码到Format32bppBGR的文件流：耗时3940-4820ms;（不使用WIC进行格式转换）
                 //编码到Format1bppIndexed的文件流：耗时2409-2465-2497ms;（不使用WIC进行格式转换）
 
-                Log4Net.Info($"RenderToWic: before encoder commit, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 bitmapFrameEncode.Commit();//帧提交
                 encoder.Commit();//编码器提交
-                Log4Net.Info($"RenderToWic: after encoder commit, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
 
                 bitmapFrameEncode.Dispose();
                 encoder.Dispose();
@@ -1558,73 +1531,36 @@ namespace BinderJetting
 #endif
                 //从内存流解析
                 //System.Drawing.Bitmap outputBMP = new System.Drawing.Bitmap(memoryStream);//20200411新增：200ms执行时间
-                Log4Net.Info($"RenderToWic: before outputBMP ctor, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, width={width}, height={height}, stride={width * 4}");
                 System.Drawing.Bitmap outputBMP = new System.Drawing.Bitmap(
                     width, height, width * 4, System.Drawing.Imaging.PixelFormat.Format32bppArgb, ImgPtr + 54);//20200609新增：直接使用非托管内存，200ms执行时间
-                Log4Net.Info($"RenderToWic: after outputBMP ctor, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, outputSize={outputBMP.Width}x{outputBMP.Height}");
 
                 //耗时1000ms
                 string outputBmpState = outputBMP == null ? "null" : "ok";
                 string outputBmpSize = outputBMP == null ? "null" : $"{outputBMP.Width}x{outputBMP.Height}";
-                Log4Net.Info($"RenderToWic: before Clone to 1bpp, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, outputBMP={outputBmpState}, outputSize={outputBmpSize}");
                 System.Drawing.Bitmap clone = null;
-                bool cloneInProgress = true;
-                int cloneStartTick = Environment.TickCount;
-                Log4Net.Info($"RenderToWic: Clone watchdog setup, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, outputSize={outputBmpSize}");
-                Thread cloneWatchdogThread = new Thread(() =>
-                {
-                    int lastHeartbeatBucket = -1;
-                    while (cloneInProgress)
-                    {
-                        Thread.Sleep(500);
-                        int elapsedMs = unchecked(Environment.TickCount - cloneStartTick);
-                        int heartbeatBucket = elapsedMs / 500;
-                        if (heartbeatBucket != lastHeartbeatBucket)
-                        {
-                            lastHeartbeatBucket = heartbeatBucket;
-                            Log4Net.Info($"RenderToWic: Clone watchdog heartbeat, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, elapsedMs={elapsedMs}, outputSize={outputBmpSize}");
-                        }
-                        if (elapsedMs >= 2000)
-                        {
-                            Log4Net.Info($"RenderToWic: Clone watchdog active, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, elapsedMs={elapsedMs}, outputSize={outputBmpSize}");
-                        }
-                    }
-                });
-                cloneWatchdogThread.IsBackground = true;
-                cloneWatchdogThread.Start();
-                Log4Net.Info($"RenderToWic: Clone watchdog started, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
                 try
                 {
-                    Log4Net.Info($"RenderToWic: Clone begin invoke, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, outputSize={outputBmpSize}");
                     clone = outputBMP.Clone(new System.Drawing.Rectangle(0, 0, outputBMP.Width, outputBMP.Height), System.Drawing.Imaging.PixelFormat.Format1bppIndexed);
-                    Log4Net.Info($"RenderToWic: after Clone to 1bpp, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, cloneSize={clone.Width}x{clone.Height}");
                 }
                 catch (Exception exClone)
                 {
                     Log4Net.Error($"RenderToWic: Clone to 1bpp exception, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, outputBMP={outputBmpState}, outputSize={outputBmpSize}\r\n{exClone}");
                     throw;
                 }
-                finally
-                {
-                    cloneInProgress = false;
-                }
                 outputBMP.Dispose();//————————————————————————释放bmp文件
 
                 Marshal.FreeHGlobal(ImgPtr);//释放内存
                 string cloneState = clone == null ? "null" : "ok";
                 string cloneSize = clone == null ? "null" : $"{clone.Width}x{clone.Height}";
-                Log4Net.Info($"RenderToWic: before SetResolution, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, clone={cloneState}, cloneSize={cloneSize}");
                 try
                 {
                     clone.SetResolution(600f, 600f);//Windows7的系统BUG
-                    Log4Net.Info($"RenderToWic: clone ready, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, cloneSize={clone.Width}x{clone.Height}");
                 }
                 catch (Exception exSetResolution)
                 {
                     Log4Net.Error($"RenderToWic: SetResolution exception, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, clone={cloneState}, cloneSize={cloneSize}\r\n{exSetResolution}");
                     throw;
                 }
-                Log4Net.Info($"RenderToWic: after clone ready branch, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}, entering print mode branch");
 
                 //#region//20230202新建：根据1bpp,2bpp,3bpp++以及GrayScale来重新编码为最新需要下发的数据
                 //int bpp = 1;
@@ -1643,8 +1579,6 @@ namespace BinderJetting
                 clone.Save("output1bpp.bmp", ImageFormat.Bmp);//保存到BMPFile
 #endif
 #if SinglePassPrintMode
-                // 适配 Swath：流式分割，逐条发送并立即释放；扫描模式 STARTJOB / 每条 STARTSCAN+IMAGE+ENDDOC / ENDJOB
-                Log4Net.Info($"写入图层数据（SharpControl SinglePass）：开始Swath图形分割，层index={index}，整图尺寸={clone.Width}x{clone.Height}");
                 int stripIndex = 0;
                 MeteorPrintEngine.SendStartJob(0, (uint)clone.Width);
                 SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, strip => { MeteorPrintEngine.SendStartScan(stripIndex % 2 == 0); WriteImgLayerData(strip, index, subindex, RePrintTimes, true); MeteorPrintEngine.SendEndDoc(); stripIndex++; }, 0, -1);
@@ -1659,21 +1593,15 @@ namespace BinderJetting
                 /*int*/ k = index * RePrintTimes + subindex;
                 if (k % 3 == 1 || k == 0)//15mm偏移量
                 {
-                    Log4Net.Info($"RenderToWic: before CreatTwoPassFigure(3), index={index}, subindex={subindex}, k={k}, ActualStartNum={ActualStartNum}");
                     CreatTwoPassFigure((int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
-                    Log4Net.Info($"RenderToWic: after CreatTwoPassFigure(3), index={index}, subindex={subindex}, k={k}, ActualStartNum={ActualStartNum}, outputSize={(outputImage != null ? $"{outputImage.Width}x{outputImage.Height}" : "null")}");
                 }
                 else if (k % 3 == 2)//10mm偏移量
                 {
-                    Log4Net.Info($"RenderToWic: before CreatTwoPassFigure(3) offset-5, index={index}, subindex={subindex}, k={k}, ActualStartNum={ActualStartNum}");
                     CreatTwoPassFigure((int)((gc_RysysParam.YJetOff-5) / (25.4 / 600) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
-                    Log4Net.Info($"RenderToWic: after CreatTwoPassFigure(3) offset-5, index={index}, subindex={subindex}, k={k}, ActualStartNum={ActualStartNum}, outputSize={(outputImage != null ? $"{outputImage.Width}x{outputImage.Height}" : "null")}");
                 }
                 else if (k % 3 == 0 && k != 0)//5mm偏移量
                 {
-                    Log4Net.Info($"RenderToWic: before CreatTwoPassFigure(3) offset-10, index={index}, subindex={subindex}, k={k}, ActualStartNum={ActualStartNum}");
                     CreatTwoPassFigure((int)((gc_RysysParam.YJetOff - 10) / (25.4 / 600) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
-                    Log4Net.Info($"RenderToWic: after CreatTwoPassFigure(3) offset-10, index={index}, subindex={subindex}, k={k}, ActualStartNum={ActualStartNum}, outputSize={(outputImage != null ? $"{outputImage.Width}x{outputImage.Height}" : "null")}");
                 }
 #endif
 
@@ -1681,7 +1609,6 @@ namespace BinderJetting
                 outputImage.Save($"output1bpp-拼接-{{{k}}}.bmp", ImageFormat.Bmp);//保存到BMPFile  
 #endif
                 // 适配 Swath：流式分割，逐条发送并立即释放；扫描模式 STARTJOB / 每条 STARTSCAN+IMAGE+ENDDOC / ENDJOB
-                Log4Net.Info($"写入图层数据（SharpControl TwoPass）：开始Swath图形分割，层index={index}，整图尺寸={outputImage.Width}x{outputImage.Height}");
                 try
                 {
                     int stripIndexTwoPass = 0;
@@ -1719,7 +1646,6 @@ namespace BinderJetting
         public void CreatTwoPassFigure(/*PassHeight = 1280 bit*/ int initialOffset/*第2幅图像的偏移数据*/, int numPasses/*可以计算出来:为6PASS*/, System.Drawing.Bitmap clone, ref System.Drawing.Bitmap outputImage)//20230420新增：
         {
             int passHeight = 1280;
-            Log4Net.Info($"CreatTwoPassFigure: enter, initialOffset={initialOffset}, numPasses={numPasses}, input={clone.Width}x{clone.Height}");
             // Load the input images
             System.Drawing.Bitmap inputImage1 = clone;//new System.Drawing.Bitmap("image1.bmp");
             //System.Drawing.Bitmap inputImage2 = clone;//new System.Drawing.Bitmap("image2.bmp");
@@ -1739,8 +1665,6 @@ namespace BinderJetting
 
             // Calculate the number of bytes per row for each bitmap
             int inputStride1 = inputData1.Stride;
-            Log4Net.Info($"CreatTwoPassFigure: locked input, stride={inputStride1}, initialOffset={initialOffset}, numPasses={numPasses}");
-
             // 分配新图像数据的内存
             byte[] newData = new byte[inputStride1 * (inputHeight * 2 + initialOffset * 2)];
             // Split the input bitmaps into passes and copy them to the output bitmap
@@ -1868,7 +1792,6 @@ namespace BinderJetting
 
 #if SinglePassPrintMode
                 // 适配 Swath：流式分割，逐条发送并立即释放；扫描模式 STARTJOB / 每条 STARTSCAN+IMAGE+ENDDOC / ENDJOB
-                Log4Net.Info($"写入图层数据（SharpControl SinglePass 分支2）：开始Swath图形分割，层index={index}");
                 int stripIndexSp2 = 0;
                 MeteorPrintEngine.SendStartJob(0, (uint)clone.Width);
                 SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, strip => { MeteorPrintEngine.SendStartScan(stripIndexSp2 % 2 == 0); WriteImgLayerData(strip, index, subindex, RePrintTimes, true); MeteorPrintEngine.SendEndDoc(); stripIndexSp2++; }, 0, -1);
@@ -1878,10 +1801,7 @@ namespace BinderJetting
 #if TwoPassPrintMode
 #if TwoPassPrintPerSixTimes
                 System.Drawing.Bitmap outputImage = null;
-                Log4Net.Info($"TwoPass拼接：准备调用 CreatTwoPassFigure 6次模式，index={index}，subindex={subindex}");
                 CreatTwoPassFigure(0/*1280,*//*355*/, 6, clone, ref outputImage);
-                Log4Net.Info($"TwoPass拼接：CreatTwoPassFigure 6次模式完成，index={index}，subindex={subindex}");
-                Log4Net.Info($"写入图层数据（SharpControl TwoPass 6次）：开始Swath图形分割，层index={index}");
                 int stripIndex6 = 0;
                 MeteorPrintEngine.SendStartJob(0, (uint)outputImage.Width);
                 SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, strip => { MeteorPrintEngine.SendStartScan(stripIndex6 % 2 == 0); WriteImgLayerData(strip, index, subindex, RePrintTimes, false); MeteorPrintEngine.SendEndDoc(); stripIndex6++; }, 0, -1);
@@ -1891,10 +1811,7 @@ namespace BinderJetting
 
 #if TwoPassPrintPerThreeTimes
                 System.Drawing.Bitmap outputImage2 = null;
-                Log4Net.Info($"TwoPass拼接：准备调用 CreatTwoPassFigure 3次模式，index={index}，subindex={subindex}");
                 CreatTwoPassFigure(0/*1280,*//*355*/, 3, clone, ref outputImage2);
-                Log4Net.Info($"TwoPass拼接：CreatTwoPassFigure 3次模式完成，index={index}，subindex={subindex}");
-                Log4Net.Info($"写入图层数据（SharpControl TwoPass 3次）：开始Swath图形分割，层index={index}");
                 int stripIndex3 = 0;
                 MeteorPrintEngine.SendStartJob(0, (uint)outputImage2.Width);
                 SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage2, strip => { MeteorPrintEngine.SendStartScan(stripIndex3 % 2 == 0); WriteImgLayerData(strip, index, subindex, RePrintTimes, false); MeteorPrintEngine.SendEndDoc(); stripIndex3++; }, 0, -1);
@@ -2416,29 +2333,20 @@ namespace BinderJetting
 #if true//测试数据传输：20200613批注：
             string msg = null;
             int writeRetryCount = 0;
-            Log4Net.Info($"WriteImgLayerData：准备调用 WriteImageLayer，layer={index}，sub={subindex}，bpp={bpp}，bytesPerLine={royal.royal.g_prtimg_layer.nBytesPerLine}，height={clone.Height}");
-
             do
             {
                 writeRetryCount++;
-                Log4Net.Info($"WriteImgLayerData：第{writeRetryCount}次调用 WriteImageLayer 开始，layer={index}，sub={subindex}");
                 if (bpp == 1)
                 {
-                    Log4Net.Info($"WriteImgLayerData：调用 WriteImageLayer 前，layer={index}，sub={subindex}，bpp={bpp}，payload={BytePerLineForRgb1bppValues * clone.Height}");
                     nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, BytePerLineForRgb1bppValues * clone.Height/*bytes * bpp*/);
-                    Log4Net.Info($"WriteImgLayerData：调用 WriteImageLayer 后，layer={index}，sub={subindex}，bpp={bpp}，nRet={nRet}");
                 }
                 else if (bpp == 2)
                 {
-                    Log4Net.Info($"WriteImgLayerData：调用 WriteImageLayer 前，layer={index}，sub={subindex}，bpp={bpp}，payload={BytePerLineForRgb2bppValues * clone.Height}");
                     nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, BytePerLineForRgb2bppValues * clone.Height/* bytes * bpp*/);
-                    Log4Net.Info($"WriteImgLayerData：调用 WriteImageLayer 后，layer={index}，sub={subindex}，bpp={bpp}，nRet={nRet}");
                 }
                 else if (bpp == 3)
                 {
-                    Log4Net.Info($"WriteImgLayerData：调用 WriteImageLayer 前，layer={index}，sub={subindex}，bpp={bpp}，payload={BytePerLineForRgb3bppValues * clone.Height}");
                     nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, BytePerLineForRgb3bppValues * clone.Height /*bytes * bpp*/);
-                    Log4Net.Info($"WriteImgLayerData：调用 WriteImageLayer 后，layer={index}，sub={subindex}，bpp={bpp}，nRet={nRet}");
                 }
 
                 if (nRet > 0)//返回值是33，计算出来的PASS总数；只要在PCS里面进行修改，即可然返回的值发生变化
@@ -2451,72 +2359,24 @@ namespace BinderJetting
                     switch (nRet)
                     {
                         case -110000://没有按照顺序，增加索引号
-                            /*string*/
-                            msg = "作业写入成功：IDP_WriteImgLayerData：{-110000: 作业启动失败：指定图层打印的PASS总数}" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}" +
-                     $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}" +
-                     $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
-                     $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
-
-                     $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
-                     $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
-                     $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
-                     $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
-                     $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
-                     $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
-                            Log4Net.Info(msg);
+                            Log4Net.Info($"WriteImgLayerData失败：指定图层打印的PASS总数，layer={index}，sub={subindex}，bpp={bpp}，nRet={nRet}");
 
                             MessageBox.Show("作业启动失败：指定图层打印的PASS总数");
                             break;
                         case -110001:
-                            /*string*/
-                            msg = "作业写入成功：IDP_WriteImgLayerData：{-110001: 作业启动失败：PC内存不足}" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}" +
-                     $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}" +
-                     $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
-                     $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
-
-                     $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
-                     $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
-                     $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
-                     $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
-                     $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
-                     $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
-                            Log4Net.Info(msg);
+                            Log4Net.Info($"WriteImgLayerData失败：PC内存不足，layer={index}，sub={subindex}，bpp={bpp}，nRet={nRet}");
 
                             MessageBox.Show("作业启动失败：PC内存不足");
                             break;
                         case -110002:
-                            /*string*/
-                            msg = "作业写入成功：IDP_WriteImgLayerData：{-110002: 作业启动失败：PASS计算小于0}" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}" +
-                     $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}" +
-                     $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
-                     $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
-
-                     $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
-                     $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
-                     $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
-                     $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
-                     $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
-                     $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
-                            Log4Net.Info(msg);
+                            Log4Net.Info($"WriteImgLayerData失败：PASS计算小于0，layer={index}，sub={subindex}，bpp={bpp}，nRet={nRet}");
                             MessageBox.Show("作业启动失败：PASS计算小于0");
                             break;
                     }
                     break;
                 }
             } while (nRet <= 0);
-            /*string*/
-            msg = "作业写入成功：IDP_WriteImgLayerData：" + $"bpp:{{{bpp}bit}}灰阶:{{{GrayScale}阶}}" +
-     $"nLayerIndex{{{ royal.royal.g_prtimg_layer.nLayerIndex}}}LayerIndex{{{index}}}SubIndex{{{subindex}}}RePrintTimes{{{RePrintTimes}}}" +
-     $"nBytesPerLine{{{royal.royal.g_prtimg_layer.nBytesPerLine}}}" +
-     $"nWidth{{{royal.royal.g_prtimg_layer.nWidth}}}nHeight{{{royal.royal.g_prtimg_layer.nHeight}}}" +
-
-     $"nXEncOff{{{ royal.royal.g_prtimg_layer.nXEncOff}}}nYJetOff{{{ royal.royal.g_prtimg_layer.nYJetOff}}}" +
-     $"nImgStartJetIndex{{{ royal.royal.g_prtimg_layer.nImgStartJetIndex}}}" +
-     $"nXDPI{{{ royal.royal.g_prtimg_layer.nXDPI}}}nYDPI{{{ royal.royal.g_prtimg_layer.nYDPI}}}" +
-     $"nPrtDir{{{ royal.royal.g_prtimg_layer.nPrtDir}}} nPrtFlag{{{ royal.royal.g_prtimg_layer.nPrtFlag}}}" +
-     $"nColorCnts{{{ royal.royal.g_prtimg_layer.nColorCnts}}}" +
-     $"nReserved{{{ royal.royal.g_prtimg_layer.nReserved}}}";
-            Log4Net.Info(msg);
+            Log4Net.Info($"WriteImgLayerData成功：layer={index}，sub={subindex}，bpp={bpp}，gray={GrayScale}，nRet={nRet}，bytesPerLine={royal.royal.g_prtimg_layer.nBytesPerLine}，width={royal.royal.g_prtimg_layer.nWidth}，height={royal.royal.g_prtimg_layer.nHeight}");
 
 #endif
             /***********************20200423调试新增：************************/

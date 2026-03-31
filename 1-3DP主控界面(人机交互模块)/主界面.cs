@@ -319,7 +319,13 @@ namespace BinderJetting
         //20200223新增:多线程绘制图像数据~~~~~~~~
 
         //c表示为class：020104————放到对应的数据中即可，主界面和子界面都调用到即可
-        GoogolMotionMap m_cGoogolMotionMap = new GoogolMotionMap();
+        GoogolMotionMap m_cGoogolMotionMap;
+        private GoogolMotionMap CreateMotionMap()
+        {
+            var map = new GoogolMotionMap();
+            map.SetLogSink(msg => Log4Net.Info(msg), msg => Log4Net.Error(msg));
+            return map;
+        }
         public 主界面()
         {
             InitializeComponent();
@@ -339,6 +345,8 @@ namespace BinderJetting
 #endif
             rd = new Random();
             //（1）Googol的映射数据结构及其初始化：
+            m_cGoogolMotionMap = CreateMotionMap();
+            g_cMotionMap = CreateMotionMap();
             InitGoogolIO();
 
             ////（2）初始化Modbus通讯：
@@ -504,7 +512,7 @@ namespace BinderJetting
             }
         }
 
-        GoogolMotionMap g_cMotionMap = new GoogolMotionMap();//创建GoogolMotionMap对象，供本窗口调用                                                          
+        GoogolMotionMap g_cMotionMap;//创建GoogolMotionMap对象，供本窗口调用                                                          
         private Thread InitThread;//（1）开启初始化线程
         private System.Windows.Forms.Timer Timer = null;
         private void Timer_Tick(object sender, EventArgs e)
@@ -2184,7 +2192,7 @@ namespace BinderJetting
             return -2;//输入层存在问题。
         }
         //(1)运动模式动态挂载切换响应：
-        GoogolMotionMap motionMap = new GoogolMotionMap();//创建GoogolMotionMap对象，供本窗口调用
+        GoogolMotionMap motionMap = null;//创建GoogolMotionMap对象，供本窗口调用
         public int g_nCurrentLayer = 0;//20201021新增：当前打印的层数
         public int g_nCleanFrequency = 10;//20220915新增：清洗频率全局变量
         int m_nPauseMovedFlag = 0;//20230410新增：暂停打印时回手动清洗站工作位
@@ -2196,6 +2204,7 @@ namespace BinderJetting
             g_TaskThreadSTATE[4] = 2;//20201119新增：DataTaskThread恢复为运行状态（关机后）
             ReadLayerInfo();//更新指定的加工任务区间
             Log4Net.Info($"打印线程：ReadLayerInfo完成，g_bSelectedLayerRangeReady={g_bSelectedLayerRangeReady}，g_nLayerStart={g_nLayerStart}，g_nLayerEnd={g_nLayerEnd}，g_nRePrintTimes={g_nRePrintTimes}");
+            motionMap = CreateMotionMap();
             g_PrintSchedule = g_nLayerStart;//20201118新增：
             while ((g_PrintSchedule == -1) || g_PrintSchedule == g_nLayerStart)//20201118新增：处于初始态或者已经传输1层数据
             {
@@ -2391,44 +2400,12 @@ namespace BinderJetting
                                 PrintConrolFlag = "StopPrint";
                                 break;
                             }
-                            /*string*/
-                            msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
-                                $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
-                                $"nHwMemAdrMatchMask{{{pPrtPassDes.nHwMemAdrMatchMask}}}nLayerIndex{{{pPrtPassDes.nLayerIndex}}}" +
-                                $"nLayerPassCount{{{pPrtPassDes.nLayerPassCount}}}nLayerPassIndex{{{pPrtPassDes.nLayerPassIndex}}}" +
-                                $"nMinJet0ImgLinePos{{{pPrtPassDes.nMinJet0ImgLinePos}}}" +
-
-                                $"nPrtMemHwAddr{{{pPrtPassDes.nPrtMemHwAddr}}}nPrtDataOffset{{{pPrtPassDes.nPrtDataOffset}}}" +
-                                $"nSrcDataSize{{{pPrtPassDes.nSrcDataSize}}}nPrtColBytes{{{pPrtPassDes.nPrtColBytes}}}" +
-
-                                $"nPrtPrecession{{{pPrtPassDes.nPrtPrecession}}}nSrcEndCols{{{pPrtPassDes.nSrcEndCols}}}" +
-                                $"nSrcStartCols{{{pPrtPassDes.nSrcStartCols}}}nStartEncPos{{{pPrtPassDes.nStartEncPos}}}" +
-                                $"nValidPassJets{{{pPrtPassDes.nValidPassJets}}}nValidPrtCols{{{pPrtPassDes.nValidPrtCols}}}" +
-                                $"nValidPrtCtlCnts{{{pPrtPassDes.nValidPrtCtlCnts}}}pDataBuf{{{pPrtPassDes.pDataBuf}}}" +
-                                $"pNextItem{{{pPrtPassDes.pNextItem}}}";
-                            Log4Net.Info(msg);
-
                             while (pPrtPassDes.nProcState != 3)//20200624批注：不成功就重新读
                             {
                                 Log4Net.Info($"打印线程：准备重试 TryGetPassItem，nLayerIndex={k}，nPassID={nPassID}，当前ProcState={pPrtPassDes.nProcState}");
                                 Thread.Sleep(100);//等待1s时间，再次GetPassItem;
                                 ReturnFlag = TryGetPassItemWithTimeout((uint)k, nPassID, ref pPrtPassDes, PassItemTimeoutMs, "打印线程");
                                 Log4Net.Info($"打印线程：TryGetPassItem 重试返回确认，nLayerIndex={k}，nPassID={nPassID}，ReturnFlag={ReturnFlag}，nProcState={pPrtPassDes.nProcState}");
-                                msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
-                                    $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
-                                    $"nHwMemAdrMatchMask{{{pPrtPassDes.nHwMemAdrMatchMask}}}nLayerIndex{{{pPrtPassDes.nLayerIndex}}}" +
-                                    $"nLayerPassCount{{{pPrtPassDes.nLayerPassCount}}}nLayerPassIndex{{{pPrtPassDes.nLayerPassIndex}}}" +
-                                    $"nMinJet0ImgLinePos{{{pPrtPassDes.nMinJet0ImgLinePos}}}" +
-
-                                    $"nPrtMemHwAddr{{{pPrtPassDes.nPrtMemHwAddr}}}nPrtDataOffset{{{pPrtPassDes.nPrtDataOffset}}}" +
-                                    $"nSrcDataSize{{{pPrtPassDes.nSrcDataSize}}}nPrtColBytes{{{pPrtPassDes.nPrtColBytes}}}" +
-
-                                    $"nPrtPrecession{{{pPrtPassDes.nPrtPrecession}}}nSrcEndCols{{{pPrtPassDes.nSrcEndCols}}}" +
-                                    $"nSrcStartCols{{{pPrtPassDes.nSrcStartCols}}}nStartEncPos{{{pPrtPassDes.nStartEncPos}}}" +
-                                    $"nValidPassJets{{{pPrtPassDes.nValidPassJets}}}nValidPrtCols{{{pPrtPassDes.nValidPrtCols}}}" +
-                                    $"nValidPrtCtlCnts{{{pPrtPassDes.nValidPrtCtlCnts}}}pDataBuf{{{pPrtPassDes.pDataBuf}}}" +
-                                    $"pNextItem{{{pPrtPassDes.pNextItem}}}";
-                                Log4Net.Info(msg);
                             }
                             /*****************（2）20220524批注：执行打印PASS运动逻辑*********************/
                             if (ReturnFlag == true/*pPrtPassDes!=null*/)//20200411:读到的数据不为空//20200430开启运动：
@@ -3029,43 +3006,12 @@ namespace BinderJetting
                                 /*bool*/
                                 Log4Net.Info($"Meteor pass准备：开始获取PassItem，layer={k}, pass={nPassID}");
                                 bool ReturnFlag = MeteorPrintEngine.TryGetPassItem((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
-                                /*string*/
-                                msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
-                                    $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
-                                    $"nHwMemAdrMatchMask{{{pPrtPassDes.nHwMemAdrMatchMask}}}nLayerIndex{{{pPrtPassDes.nLayerIndex}}}" +
-                                    $"nLayerPassCount{{{pPrtPassDes.nLayerPassCount}}}nLayerPassIndex{{{pPrtPassDes.nLayerPassIndex}}}" +
-                                    $"nMinJet0ImgLinePos{{{pPrtPassDes.nMinJet0ImgLinePos}}}" +
-
-                                    $"nPrtMemHwAddr{{{pPrtPassDes.nPrtMemHwAddr}}}nPrtDataOffset{{{pPrtPassDes.nPrtDataOffset}}}" +
-                                    $"nSrcDataSize{{{pPrtPassDes.nSrcDataSize}}}nPrtColBytes{{{pPrtPassDes.nPrtColBytes}}}" +
-
-                                    $"nPrtPrecession{{{pPrtPassDes.nPrtPrecession}}}nSrcEndCols{{{pPrtPassDes.nSrcEndCols}}}" +
-                                    $"nSrcStartCols{{{pPrtPassDes.nSrcStartCols}}}nStartEncPos{{{pPrtPassDes.nStartEncPos}}}" +
-                                    $"nValidPassJets{{{pPrtPassDes.nValidPassJets}}}nValidPrtCols{{{pPrtPassDes.nValidPrtCols}}}" +
-                                    $"nValidPrtCtlCnts{{{pPrtPassDes.nValidPrtCtlCnts}}}pDataBuf{{{pPrtPassDes.pDataBuf}}}" +
-                                    $"pNextItem{{{pPrtPassDes.pNextItem}}}";
-                                Log4Net.Info(msg);
 
                                 while (pPrtPassDes.nProcState != 3)//20200624批注：不成功就重新读
                                 {
                                     Log4Net.Info($"Meteor pass等待：nProcState={pPrtPassDes.nProcState} 未到3，继续轮询，layer={k}, pass={nPassID}");
                                     Thread.Sleep(100);//等待1s时间，再次GetPassItem;
                                     ReturnFlag = MeteorPrintEngine.TryGetPassItem((uint)k, nPassID/*0*/, /*ImgPtr*/ref pPrtPassDes);
-                                    msg = $"获取打印Pass数据：IDP_GetPassItem2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}nProcState{{{pPrtPassDes.nProcState}}}" +
-                                        $"LPPassDataItemb:PrtDir{{{pPrtPassDes.bPrtDir}}}nDataTxCompleteCnt{{{pPrtPassDes.nDataTxCompleteCnt}}}" +
-                                        $"nHwMemAdrMatchMask{{{pPrtPassDes.nHwMemAdrMatchMask}}}nLayerIndex{{{pPrtPassDes.nLayerIndex}}}" +
-                                        $"nLayerPassCount{{{pPrtPassDes.nLayerPassCount}}}nLayerPassIndex{{{pPrtPassDes.nLayerPassIndex}}}" +
-                                        $"nMinJet0ImgLinePos{{{pPrtPassDes.nMinJet0ImgLinePos}}}" +
-
-                                        $"nPrtMemHwAddr{{{pPrtPassDes.nPrtMemHwAddr}}}nPrtDataOffset{{{pPrtPassDes.nPrtDataOffset}}}" +
-                                        $"nSrcDataSize{{{pPrtPassDes.nSrcDataSize}}}nPrtColBytes{{{pPrtPassDes.nPrtColBytes}}}" +
-
-                                        $"nPrtPrecession{{{pPrtPassDes.nPrtPrecession}}}nSrcEndCols{{{pPrtPassDes.nSrcEndCols}}}" +
-                                        $"nSrcStartCols{{{pPrtPassDes.nSrcStartCols}}}nStartEncPos{{{pPrtPassDes.nStartEncPos}}}" +
-                                        $"nValidPassJets{{{pPrtPassDes.nValidPassJets}}}nValidPrtCols{{{pPrtPassDes.nValidPrtCols}}}" +
-                                        $"nValidPrtCtlCnts{{{pPrtPassDes.nValidPrtCtlCnts}}}pDataBuf{{{pPrtPassDes.pDataBuf}}}" +
-                                        $"pNextItem{{{pPrtPassDes.pNextItem}}}";
-                                    Log4Net.Info(msg);
                                 }
                             /*****************（2）20220524批注：执行打印PASS运动逻辑*********************/
                             if (ReturnFlag == true/*pPrtPassDes!=null*/)//20200411:读到的数据不为空//20200430开启运动：
@@ -3746,7 +3692,7 @@ namespace BinderJetting
                             return;
                         }
 
-                        AutoPrintMotion3.RunSimpleTestMotionRuntimeStep(m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, NotGoCleanStationFlag);
+                        AutoPrintMotion3.RunSimpleTestMotionRuntimeStep(PassIndex);
                         Log4Net.Info($"EquipmentMotionLogic3: 简易测试运行时旁路完成，Command={Command}，PassIndex={PassIndex}");
                         return;
                     }
@@ -3802,12 +3748,14 @@ namespace BinderJetting
                     Log4Net.Info($"EquipmentMotionLogic3: 进入Command=4分支，准备调用AutoPrintThread2，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3.AutoPrintThread2(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag);//
                     Log4Net.Info($"EquipmentMotionLogic3: 完成调用AutoPrintThread2，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
+                    AutoPrintMotion3?.LogInkCarAxisSnapshot($"EquipmentMotionLogic3: Command=4, PassIndex={PassIndex} 执行后轴快照");
                 }
                 else if (Command == 5)//20230418新增：自动喷墨逻辑,采用双PASS方式进行打印，第2PASS打印逻辑
                 {
                     Log4Net.Info($"EquipmentMotionLogic3: 进入Command=5分支，准备调用AutoPrintThread3，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3.AutoPrintThread3(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag);//
                     Log4Net.Info($"EquipmentMotionLogic3: 完成调用AutoPrintThread3，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
+                    AutoPrintMotion3?.LogInkCarAxisSnapshot($"EquipmentMotionLogic3: Command=5, PassIndex={PassIndex} 执行后轴快照");
                 }
                 else if (Command == 6)//20230418新增：自动喷墨逻辑,采用双PASS方式进行打印，第2PASS打印逻辑
                 {
@@ -3816,11 +3764,13 @@ namespace BinderJetting
                     Log4Net.Info($"EquipmentMotionLogic3: 进入Command=6分支(6次)，准备调用AutoPrintThread4，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3.AutoPrintThread4(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag);//
                     Log4Net.Info($"EquipmentMotionLogic3: 完成调用AutoPrintThread4(6次)，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
+                    AutoPrintMotion3?.LogInkCarAxisSnapshot($"EquipmentMotionLogic3: Command=6(6次), PassIndex={PassIndex} 执行后轴快照");
 #endif
 #if TwoPassPrintPerThreeTimes
                     Log4Net.Info($"EquipmentMotionLogic3: 进入Command=6分支(3次)，准备调用AutoPrintThread5，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3.AutoPrintThread5(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag, YJetBaseOffWidth);//20230502新增：YJetBaseOffWidth
                     Log4Net.Info($"EquipmentMotionLogic3: 完成调用AutoPrintThread5(3次)，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
+                    AutoPrintMotion3?.LogInkCarAxisSnapshot($"EquipmentMotionLogic3: Command=6(3次), PassIndex={PassIndex} 执行后轴快照");
 #endif
 #endif
                 }
@@ -3829,6 +3779,7 @@ namespace BinderJetting
                     Log4Net.Info($"EquipmentMotionLogic3: 进入Command=7分支，准备调用AutoPrintThread4，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3.AutoPrintThread4(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag);//
                     Log4Net.Info($"EquipmentMotionLogic3: 完成调用AutoPrintThread4(命令7)，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
+                    AutoPrintMotion3?.LogInkCarAxisSnapshot($"EquipmentMotionLogic3: Command=7, PassIndex={PassIndex} 执行后轴快照");
                 }
                 else
                 {
