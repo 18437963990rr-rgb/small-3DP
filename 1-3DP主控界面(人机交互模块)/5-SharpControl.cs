@@ -1,4 +1,4 @@
-﻿#define DataProcessDebugMode
+#define DataProcessDebugMode
 //#define SinglePassPrintMode
 #define TwoPassPrintMode
 //#define TwoPassPrintPerSixTimes
@@ -1581,7 +1581,7 @@ namespace BinderJetting
 #if SinglePassPrintMode
                 int stripIndex = 0;
                 MeteorPrintEngine.SendStartJob(0, (uint)clone.Width);
-                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, strip => { MeteorPrintEngine.SendStartScan(stripIndex % 2 == 0); WriteImgLayerData(strip, index, subindex, RePrintTimes, true); MeteorPrintEngine.SendEndDoc(); stripIndex++; }, 0, -1);
+                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, strip => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, true); stripIndex++; }, 0, -1);
                 MeteorPrintEngine.SendEndJob();
 #endif
                 System.Drawing.Bitmap outputImage = null;
@@ -1613,7 +1613,7 @@ namespace BinderJetting
                 {
                     int stripIndexTwoPass = 0;
                     MeteorPrintEngine.SendStartJob(0, (uint)outputImage.Width);
-                    SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, strip => { MeteorPrintEngine.SendStartScan(stripIndexTwoPass % 2 == 0); WriteImgLayerData(strip, index, subindex, RePrintTimes, true); MeteorPrintEngine.SendEndDoc(); stripIndexTwoPass++; }, 0, -1);
+                    SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, strip => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndexTwoPass % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, true); stripIndexTwoPass++; }, 0, -1);
                     MeteorPrintEngine.SendEndJob();
                 }
                 catch (Exception e)
@@ -1794,7 +1794,7 @@ namespace BinderJetting
                 // 适配 Swath：流式分割，逐条发送并立即释放；扫描模式 STARTJOB / 每条 STARTSCAN+IMAGE+ENDDOC / ENDJOB
                 int stripIndexSp2 = 0;
                 MeteorPrintEngine.SendStartJob(0, (uint)clone.Width);
-                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, strip => { MeteorPrintEngine.SendStartScan(stripIndexSp2 % 2 == 0); WriteImgLayerData(strip, index, subindex, RePrintTimes, true); MeteorPrintEngine.SendEndDoc(); stripIndexSp2++; }, 0, -1);
+                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, strip => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndexSp2 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, true); stripIndexSp2++; }, 0, -1);
                 MeteorPrintEngine.SendEndJob();
 #endif
 
@@ -1804,7 +1804,7 @@ namespace BinderJetting
                 CreatTwoPassFigure(0/*1280,*//*355*/, 6, clone, ref outputImage);
                 int stripIndex6 = 0;
                 MeteorPrintEngine.SendStartJob(0, (uint)outputImage.Width);
-                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, strip => { MeteorPrintEngine.SendStartScan(stripIndex6 % 2 == 0); WriteImgLayerData(strip, index, subindex, RePrintTimes, false); MeteorPrintEngine.SendEndDoc(); stripIndex6++; }, 0, -1);
+                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, strip => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex6 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, false); stripIndex6++; }, 0, -1);
                 MeteorPrintEngine.SendEndJob();
                 outputImage.Dispose();
 #endif
@@ -1814,7 +1814,7 @@ namespace BinderJetting
                 CreatTwoPassFigure(0/*1280,*//*355*/, 3, clone, ref outputImage2);
                 int stripIndex3 = 0;
                 MeteorPrintEngine.SendStartJob(0, (uint)outputImage2.Width);
-                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage2, strip => { MeteorPrintEngine.SendStartScan(stripIndex3 % 2 == 0); WriteImgLayerData(strip, index, subindex, RePrintTimes, false); MeteorPrintEngine.SendEndDoc(); stripIndex3++; }, 0, -1);
+                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage2, strip => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex3 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, false); stripIndex3++; }, 0, -1);
                 MeteorPrintEngine.SendEndJob();
                 outputImage2.Dispose();
 #endif

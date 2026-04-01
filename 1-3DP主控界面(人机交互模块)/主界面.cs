@@ -1,4 +1,4 @@
-﻿//#define DataProcessDebugMode
+//#define DataProcessDebugMode
 //#define SinglePassPrintMode
 #define TwoPassPrintMode
 //#define TwoPassPrintPerSixTimes
@@ -3537,7 +3537,7 @@ namespace BinderJetting
             int stripIndex = 0;
             int nRet = SwathImageSplitter.SplitLayerToSwathStripsAndProcess(processedBitmap, strip =>
             {
-                MeteorPrintEngine.SendStartScan(stripIndex % 2 == 0); // 偶数为正向，奇数为反向
+                royal.royal.g_prtimg_layer.nPrtDir = (stripIndex % 2 == 0) ? 1 : 0; // 偶数为正向，奇数为反向
                 stripIndex++;
 
                 System.Drawing.Rectangle rectStrip = new System.Drawing.Rectangle(0, 0, strip.Width, strip.Height);
@@ -3569,7 +3569,7 @@ namespace BinderJetting
                         royal.royal.g_prtimg_layer.nHeight = strip.Height;
 
                         int ret = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, p_NewImgPtr, bytes);
-                        MeteorPrintEngine.SendEndDoc(); // 当前 swath 结束
+ // 当前 swath 结束
                         if (ret <= 0)
                         {
                             switch (ret)

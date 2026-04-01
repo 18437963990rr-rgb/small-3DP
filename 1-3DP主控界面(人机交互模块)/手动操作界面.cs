@@ -2721,6 +2721,12 @@ namespace BinderJetting
 
             //（伍） 完成数据的传输
             //（伍） 完成数据的传输
+            if (!MeteorPrintEngine.SendStartJob(0, (uint)processedBitmap.Width))
+            {
+                processedBitmap.UnlockBits(bmpData);
+                processedBitmap.Dispose();
+                return;
+            }
             int nRet = -1;//默认的数据为-1；
             do
             {
@@ -2750,6 +2756,7 @@ namespace BinderJetting
             //（陆） 释放对应的数据
             // （7）Unlock the bits.
             processedBitmap.UnlockBits(bmpData);
+            MeteorPrintEngine.SendEndJob();
 
             //反色测试：20200409新增
             processedBitmap.Save(@"C:\Users\SummerGhost\Documents\Visual Studio 2017\Projects\LaserAdd_3DP_Software\1-3DP主控界面(人机交互模块)\bin\x64\Debug\JOB输出文件\输出-反色-2.bmp", System.Drawing.Imaging.ImageFormat.Bmp);//————保存到BMP文件:20200408修改
