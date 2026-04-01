@@ -1,4 +1,4 @@
-﻿#define TwoPassPrintMode
+#define TwoPassPrintMode
 //#define SinglePassPrintMode
 //#define DataProcessDebugMode
 //#define UseP5PortForCleaning
@@ -39,11 +39,11 @@ namespace BinderJetting
         const int XMaxDistanceMM = 860;                 // X轴正负行程开关之间距离
         const int YMaxDistanceMM = 470;                 // Y轴正负行程开关之间距离
 
-        // 墨车 X/Y 轴固高编码器换算（编码器信号供 Meteor/伺服，定位由固高读编码器）
+        // 墨车 X/Y 轴固高编码器换算（回零/简单测试使用工作坐标系的计数/mm）
         // X 轴：4,194,304 / 10000 = 419.4304 counts/mm
-        // Y 轴：131,072 / 20000 = 6.5536 counts/um
+        // Y 轴：按当前工作坐标系统一为 1000 counts/mm，便于回零与简单测试沿用同一套读写口径
         const double InkCarXEncoderCountPerMM = 4194304.0 / 10000.0;
-        const double InkCarYEncoderCountPerMM = 131072.0 / 20000.0;
+        const double InkCarYEncoderCountPerMM = 1000.0;
         private const bool DisableRoyalStartupPolling = true;
 
         // 墨车的一些常用位置
@@ -5879,6 +5879,7 @@ namespace BinderJetting
 
         private double GetInkCarCountPerMM(int Axis)
         {
+            // 这里只给回零/简单测试/绝对坐标定位使用，点动保持自己的脉冲语义，不走这里。
             if (Axis == 1)
             {
                 return InkCarXEncoderCountPerMM;
@@ -6039,9 +6040,12 @@ namespace BinderJetting
                         {
                             Log4Net.Info($"BackToStation Y: before GetEncPos, AimPos={AimPos:F3}");
                             double[] encY = motionMap.GetEncPos();
+                            // 简单测试这里先读回工作坐标层的 Y 位置，再按同一层去算目标脉冲。
                             double currentMmY = encY[1] / InkCarYEncoderCountPerMM;
                             Log4Net.Info($"BackToStation Y: encoder raw={encY[1]}, currentMm={currentMmY:F3}");
+                            // 目标位与当前位的差值，换成工作坐标层的 Y 脉冲数。
                             int moveCountsY = (int)((AimPos - currentMmY) * InkCarYEncoderCountPerMM);
+                            // 速度也按同一层换算成 count/ms，别把点动的脉冲步长混进来。
                             double velCountPerMsY = m_MovSpeed * InkCarYEncoderCountPerMM / 1000.0;
 
                             string msg = $"Y 固高定位：当前{{{currentMmY:F3}}}mm 目标{{{AimPos}}}mm 相对{{{moveCountsY}}}count 速度{{{velCountPerMsY:F1}}}count/ms";
@@ -11050,51 +11054,127 @@ namespace BinderJetting
         /// Pass0~Pass3 按 X 560/810 交替运动，并在每次 X 到位后让 Y 正向步进 64.96mm。
         /// 该流程假定 X/Y 已通过专门的回零按钮完成初始位定位；额外 pass 不做动作，避免触发旧的清洗站逻辑。
         /// </summary>
-        private void RunSimpleTestMotionPass(int PassIndex)
+        private void BackToStationSimplePulse(double currentWorkMm, double AimPos, float m_MovSpeed, bool MoveDirectionFlag, bool WaitStopFlag, double CorrectionRatio)
         {
-            const double SimpleTestXHome = 810.0;
-            const double SimpleTestXWork = 560.0;
-            const double SimpleTestYHome = 50.0;
+            const double SimpleTestCountPerMm = 1000.0;
+
+            Log4Net.Info($"简易测试脉冲定位：enter, CurrentWorkMm={currentWorkMm:F3}, AimPos={AimPos:F3}, m_MovSpeed={m_MovSpeed:F3}, MoveDirectionFlag={(MoveDirectionFlag ? "Y" : "X")}, WaitStopFlag={WaitStopFlag}, CorrectionRatio={CorrectionRatio:F3}");
+
+            if (!MoveDirectionFlag)
+            {
+                Log4Net.Info($"简易测试X：软件工作坐标，当前={currentWorkMm:F3}mm，目标={AimPos:F3}mm");
+                int moveCountsX = (int)((AimPos - currentWorkMm) * SimpleTestCountPerMm * CorrectionRatio);
+                double velCountPerMsX = m_MovSpeed * SimpleTestCountPerMm / 1000.0;
+
+                Log4Net.Info($"简易测试X：当前{{{currentWorkMm:F3}}}mm 目标{{{AimPos:F3}}}mm 相对{{{moveCountsX}}}count 速度{{{velCountPerMsX:F3}}}count/ms");
+
+                gts.mc.TTrapPrm xTrapPrm = new gts.mc.TTrapPrm();
+                xTrapPrm.acc = 0.5; xTrapPrm.dec = 0.5; xTrapPrm.velStart = 5; xTrapPrm.smoothTime = 1;
+                Log4Net.Info($"简易测试X：before TrapMotion, moveCountsX={moveCountsX}, velCountPerMsX={velCountPerMsX:F3}, waitStop={WaitStopFlag}");
+                InkCarMotionMap.TrapMotion(1, ref xTrapPrm, moveCountsX, velCountPerMsX, 0, 0, WaitStopFlag);
+                Log4Net.Info("简易测试X：after TrapMotion");
+
+                if (WaitStopFlag)
+                {
+                    Log4Net.Info("简易测试X：before StopMotion");
+                    InkCarMotionMap.StopMotion(1, true);
+                    Log4Net.Info("简易测试X：after StopMotion");
+                }
+
+                Log4Net.Info("简易测试X：before encoder readback");
+                double afterPulseX = motionMap.GetEncPos()[0];
+                double afterMmX = afterPulseX / SimpleTestCountPerMm;
+                Log4Net.Info($"简易测试X：到位脉冲{{{afterPulseX:F0}}}，工作位置{{{afterMmX:F3}}}mm");
+                LogInkCarAxisSnapshot($"简易测试X：完成后轴快照，AimPos={AimPos:F3}");
+                return;
+            }
+
+            Log4Net.Info($"简易测试Y：软件工作坐标，当前={currentWorkMm:F3}mm，目标={AimPos:F3}mm");
+            int moveCountsY = (int)((AimPos - currentWorkMm) * SimpleTestCountPerMm * CorrectionRatio);
+            double velCountPerMsY = m_MovSpeed * SimpleTestCountPerMm / 1000.0;
+
+            Log4Net.Info($"简易测试Y：当前{{{currentWorkMm:F3}}}mm 目标{{{AimPos:F3}}}mm 相对{{{moveCountsY}}}count 速度{{{velCountPerMsY:F3}}}count/ms");
+
+            gts.mc.TTrapPrm yTrapPrm = new gts.mc.TTrapPrm();
+            yTrapPrm.acc = 0.5; yTrapPrm.dec = 0.5; yTrapPrm.velStart = 5; yTrapPrm.smoothTime = 1;
+            Log4Net.Info($"简易测试Y：before TrapMotion, moveCountsY={moveCountsY}, velCountPerMsY={velCountPerMsY:F3}, waitStop={WaitStopFlag}");
+            InkCarMotionMap.TrapMotion(2, ref yTrapPrm, moveCountsY, velCountPerMsY, 0, 0, WaitStopFlag);
+            Log4Net.Info("简易测试Y：after TrapMotion");
+
+            if (WaitStopFlag)
+            {
+                Log4Net.Info("简易测试Y：before StopMotion");
+                InkCarMotionMap.StopMotion(2, true);
+                Log4Net.Info("简易测试Y：after StopMotion");
+            }
+
+            Log4Net.Info("简易测试Y：before encoder readback");
+            double afterPulseY = motionMap.GetEncPos()[1];
+            double afterMmY = afterPulseY / SimpleTestCountPerMm;
+            Log4Net.Info($"简易测试Y：到位脉冲{{{afterPulseY:F0}}}，工作位置{{{afterMmY:F3}}}mm");
+            LogInkCarAxisSnapshot($"简易测试Y：完成后轴快照，AimPos={AimPos:F3}");
+        }
+
+        private void RunSimpleTestMotionPass(int PassIndex, ref double simpleWorkX, ref double simpleWorkY)
+        {
             const double SimpleTestYStep = 64.96;
             const float SimpleTestSpeed = 10.0f;
+            const double SimpleTestCountPerMm = 1000.0;
 
             Log4Net.Info($"简易测试：进入 RunSimpleTestMotionPass，PassIndex={PassIndex}");
+            Log4Net.Info($"简易测试：速度确认，设定={SimpleTestSpeed:F1}mm/s，工作坐标层换算={SimpleTestSpeed * SimpleTestCountPerMm / 1000.0:F3}count/ms（X/Y同层）");
 
             if (PassIndex == 0)
             {
-                Log4Net.Info($"简易测试：进入 Pass0，目标路径 X={SimpleTestXHome:0.###} -> {SimpleTestXWork:0.###}，Y={SimpleTestYHome:0.###} -> {(SimpleTestYHome + SimpleTestYStep):0.###}");
+                double targetX = 560.0;
+                double targetY = simpleWorkY + SimpleTestYStep;
+                Log4Net.Info($"简易测试：进入 Pass0，目标路径 X={simpleWorkX:0.###} -> {targetX:0.###}，Y={simpleWorkY:0.###} -> {targetY:0.###}");
                 bool nRetVal = MeteorPrintEngine.SetFlash(false);
                 Log4Net.Info($"简易测试：关闭闪喷 返回值={nRetVal}");
-                BackToStation(SimpleTestXWork, SimpleTestSpeed, false, false, 1);// pass0: X 810 -> 560
-                BackToStation(SimpleTestYHome + SimpleTestYStep, SimpleTestSpeed, true, false, 1);// pass0: Y +64.96
+                BackToStationSimplePulse(simpleWorkX, targetX, SimpleTestSpeed, false, false, 1);// pass0: X 810 -> 560
+                simpleWorkX = targetX;
+                BackToStationSimplePulse(simpleWorkY, targetY, SimpleTestSpeed, true, false, 1);// pass0: Y +64.96
+                simpleWorkY = targetY;
                 Log4Net.Info("简易测试：Pass0 完成");
                 LogInkCarAxisSnapshot("简易测试：Pass0 完成后轴快照");
                 return;
             }
             if (PassIndex == 1)
             {
-                Log4Net.Info($"简易测试：进入 Pass1，目标路径 X={SimpleTestXWork:0.###} -> {SimpleTestXHome:0.###}，Y={(SimpleTestYHome + SimpleTestYStep):0.###} -> {(SimpleTestYHome + 2 * SimpleTestYStep):0.###}");
-                BackToStation(SimpleTestXHome, SimpleTestSpeed, false, false, 1);// pass1: X 560 -> 810
-                BackToStation(SimpleTestYHome + 2 * SimpleTestYStep, SimpleTestSpeed, true, false, 1);// pass1: Y +64.96
+                double targetX = 810.0;
+                double targetY = simpleWorkY + SimpleTestYStep;
+                Log4Net.Info($"简易测试：进入 Pass1，目标路径 X={simpleWorkX:0.###} -> {targetX:0.###}，Y={simpleWorkY:0.###} -> {targetY:0.###}");
+                BackToStationSimplePulse(simpleWorkX, targetX, SimpleTestSpeed, false, false, 1);// pass1: X 560 -> 810
+                simpleWorkX = targetX;
+                BackToStationSimplePulse(simpleWorkY, targetY, SimpleTestSpeed, true, false, 1);// pass1: Y +64.96
+                simpleWorkY = targetY;
                 Log4Net.Info("简易测试：Pass1 完成");
                 LogInkCarAxisSnapshot("简易测试：Pass1 完成后轴快照");
                 return;
             }
             if (PassIndex == 2)
             {
-                Log4Net.Info($"简易测试：进入 Pass2，目标路径 X={SimpleTestXHome:0.###} -> {SimpleTestXWork:0.###}，Y={(SimpleTestYHome + 2 * SimpleTestYStep):0.###} -> {(SimpleTestYHome + 3 * SimpleTestYStep):0.###}");
-                BackToStation(SimpleTestXWork, SimpleTestSpeed, false, false, 1);// pass2: X 810 -> 560
-                BackToStation(SimpleTestYHome + 3 * SimpleTestYStep, SimpleTestSpeed, true, false, 1);// pass2: Y +64.96
+                double targetX = 560.0;
+                double targetY = simpleWorkY + SimpleTestYStep;
+                Log4Net.Info($"简易测试：进入 Pass2，目标路径 X={simpleWorkX:0.###} -> {targetX:0.###}，Y={simpleWorkY:0.###} -> {targetY:0.###}");
+                BackToStationSimplePulse(simpleWorkX, targetX, SimpleTestSpeed, false, false, 1);// pass2: X 810 -> 560
+                simpleWorkX = targetX;
+                BackToStationSimplePulse(simpleWorkY, targetY, SimpleTestSpeed, true, false, 1);// pass2: Y +64.96
+                simpleWorkY = targetY;
                 Log4Net.Info("简易测试：Pass2 完成");
                 LogInkCarAxisSnapshot("简易测试：Pass2 完成后轴快照");
                 return;
             }
             if (PassIndex == 3)
             {
-                Log4Net.Info($"简易测试：进入 Pass3，目标路径 X={SimpleTestXWork:0.###} -> {SimpleTestXHome:0.###}，Y={(SimpleTestYHome + 3 * SimpleTestYStep):0.###} -> {(SimpleTestYHome + 4 * SimpleTestYStep):0.###}，最后回到 Y={SimpleTestYHome:0.###}");
-                BackToStation(SimpleTestXHome, SimpleTestSpeed, false, false, 1);// pass3: X 560 -> 810
-                BackToStation(SimpleTestYHome + 4 * SimpleTestYStep, SimpleTestSpeed, true, false, 1);// pass3: Y +64.96
-                BackToStation(SimpleTestYHome, SimpleTestSpeed, true, false, 1);// 最后回到 Y=50mm
+                double targetX = 810.0;
+                double targetY = simpleWorkY + SimpleTestYStep;
+                Log4Net.Info($"简易测试：进入 Pass3，目标路径 X={simpleWorkX:0.###} -> {targetX:0.###}，Y={simpleWorkY:0.###} ->50");
+                BackToStationSimplePulse(simpleWorkX, targetX, SimpleTestSpeed, false, false, 1);// pass3: X 560 -> 810
+                simpleWorkX = targetX;
+
+                BackToStationSimplePulse(simpleWorkY, 50.0, SimpleTestSpeed, true, false, 1);// 最后回到 Y=50mm
+                simpleWorkY = 50.0;
                 Log4Net.Info("简易测试：Pass3 完成");
                 LogInkCarAxisSnapshot("简易测试：Pass3 完成后轴快照");
                 return;
@@ -11120,7 +11200,14 @@ namespace BinderJetting
                 Log4Net.Info($"简易测试：运行时序列步进，PassIndex={PassIndex}");
             }
 
-            RunSimpleTestMotionPass(normalizedPassIndex);
+            Log4Net.Info($"简易测试：运行时序列开始，PassIndex={normalizedPassIndex}，将顺序执行到 Pass3");
+            double simpleWorkX = 810.0;
+            double simpleWorkY = 50.0;
+            for (int pass = normalizedPassIndex; pass <= 3; pass++)
+            {
+                RunSimpleTestMotionPass(pass, ref simpleWorkX, ref simpleWorkY);
+            }
+            Log4Net.Info($"简易测试：运行时序列结束，最后执行 PassIndex=3");
         }
 
         /// <summary>
@@ -12725,6 +12812,7 @@ namespace BinderJetting
             {
                 Log4Net.Info($"墨车轴{Axis}限位回零：进入，方向={(SearchPositiveDirection ? "正" : "负")}, HomeMm={HomeMm:F3}");
                 double countPerMm = GetInkCarCountPerMM(Axis);
+                // 回零在这里使用工作坐标层的 mm/count 换算，和点动的脉冲步长语义分开。
                 int searchCounts = (int)(2000.0 * countPerMm);
                 double homeCounts = HomeMm * countPerMm;
                 double velocity = 20.0 * countPerMm / 1000.0;
