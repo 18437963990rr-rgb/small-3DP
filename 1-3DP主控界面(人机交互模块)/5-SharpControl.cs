@@ -1,4 +1,4 @@
-#define DataProcessDebugMode
+﻿#define DataProcessDebugMode
 //#define SinglePassPrintMode
 #define TwoPassPrintMode
 //#define TwoPassPrintPerSixTimes
@@ -1581,7 +1581,7 @@ namespace BinderJetting
 #if SinglePassPrintMode
                 int stripIndex = 0;
                 MeteorPrintEngine.SendStartJob(0, (uint)clone.Width);
-                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, strip => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, true); stripIndex++; }, 0, -1);
+                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, true, swathTop); stripIndex++; }, 0, -1);
                 MeteorPrintEngine.SendEndJob();
 #endif
                 System.Drawing.Bitmap outputImage = null;
@@ -1612,9 +1612,14 @@ namespace BinderJetting
                 try
                 {
                     int stripIndexTwoPass = 0;
+                    Log4Net.Info("RenderToWic: 准备发送 STARTJOB, outputImage=" + outputImage.Width + "x" + outputImage.Height + ", index=" + index + ", subindex=" + subindex + ", RePrintTimes=" + RePrintTimes + ", stripIndexTwoPass=" + stripIndexTwoPass);
                     MeteorPrintEngine.SendStartJob(0, (uint)outputImage.Width);
-                    SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, strip => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndexTwoPass % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, true); stripIndexTwoPass++; }, 0, -1);
+                    Log4Net.Info("RenderToWic: 开始条带处理, outputImage=" + outputImage.Width + "x" + outputImage.Height + ", index=" + index + ", subindex=" + subindex + ", RePrintTimes=" + RePrintTimes + ", stripIndexTwoPass=" + stripIndexTwoPass);
+                    SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndexTwoPass % 2 == 0) ? 1 : 0; int writeRet = WriteImgLayerData(strip, index, subindex, RePrintTimes, true, swathTop); Log4Net.Info("RenderToWic: stripProcessor 完成, stripIndexTwoPass=" + stripIndexTwoPass + ", writeRet=" + writeRet); stripIndexTwoPass++; }, 0, -1);
+                    Log4Net.Info("RenderToWic: 条带处理结束, outputImage=" + outputImage.Width + "x" + outputImage.Height + ", index=" + index + ", subindex=" + subindex + ", RePrintTimes=" + RePrintTimes + ", stripIndexTwoPass=" + stripIndexTwoPass);
+                    Log4Net.Info("RenderToWic: 准备发送 ENDJOB");
                     MeteorPrintEngine.SendEndJob();
+                    Log4Net.Info("RenderToWic: ENDJOB 已发送");
                 }
                 catch (Exception e)
                 {
@@ -1794,7 +1799,7 @@ namespace BinderJetting
                 // 适配 Swath：流式分割，逐条发送并立即释放；扫描模式 STARTJOB / 每条 STARTSCAN+IMAGE+ENDDOC / ENDJOB
                 int stripIndexSp2 = 0;
                 MeteorPrintEngine.SendStartJob(0, (uint)clone.Width);
-                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, strip => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndexSp2 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, true); stripIndexSp2++; }, 0, -1);
+                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndexSp2 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, true, swathTop); stripIndexSp2++; }, 0, -1);
                 MeteorPrintEngine.SendEndJob();
 #endif
 
@@ -1804,7 +1809,7 @@ namespace BinderJetting
                 CreatTwoPassFigure(0/*1280,*//*355*/, 6, clone, ref outputImage);
                 int stripIndex6 = 0;
                 MeteorPrintEngine.SendStartJob(0, (uint)outputImage.Width);
-                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, strip => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex6 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, false); stripIndex6++; }, 0, -1);
+                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex6 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, false, swathTop); stripIndex6++; }, 0, -1);
                 MeteorPrintEngine.SendEndJob();
                 outputImage.Dispose();
 #endif
@@ -1814,7 +1819,7 @@ namespace BinderJetting
                 CreatTwoPassFigure(0/*1280,*//*355*/, 3, clone, ref outputImage2);
                 int stripIndex3 = 0;
                 MeteorPrintEngine.SendStartJob(0, (uint)outputImage2.Width);
-                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage2, strip => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex3 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, false); stripIndex3++; }, 0, -1);
+                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage2, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex3 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, false, swathTop); stripIndex3++; }, 0, -1);
                 MeteorPrintEngine.SendEndJob();
                 outputImage2.Dispose();
 #endif
@@ -2034,13 +2039,15 @@ namespace BinderJetting
         /// <summary>
         /// 20200609：传输数据测试;传输BMP格式，载入1层的BMP数据//20200409批注：内存中的bmp文件的存储方式是从上到下，从左到右；BMP文件的存储方式是从下到上，从左到右；           
         /// </summary>
-        private int WriteImgLayerData(System.Drawing.Bitmap clone, int index, int subindex, int RePrintTimes, bool ReverseColor/*,int PrtDirFlag, bool SpreadPowerFlagDir*/)//201030修改：//必须放在1个独立的线程中//文件的本质就是保存在HD的字节流
+        private int WriteImgLayerData(System.Drawing.Bitmap clone, int index, int subindex, int RePrintTimes, bool ReverseColor, int swathYOffset = 0/*,int PrtDirFlag, bool SpreadPowerFlagDir*/)//201030修改：//必须放在1个独立的线程中//文件的本质就是保存在HD的字节流
         {
+            Log4Net.Info("WriteImgLayerData: enter, layer=" + index + ", sub=" + subindex + ", RePrintTimes=" + RePrintTimes + ", ReverseColor=" + ReverseColor + ", swathYOffset=" + swathYOffset + ", bitmap=" + clone.Width + "x" + clone.Height + ", pixelFormat=" + clone.PixelFormat + ", threadId=" + System.Threading.Thread.CurrentThread.ManagedThreadId);
             //(贰)校验传输的数据是否准确：20200409新增
             //(贰)校验传输的数据是否准确：20200409新增
             if (clone.PixelFormat != System.Drawing.Imaging.PixelFormat.Format1bppIndexed)//20230202新建:中间数据为1bpp数据，后续进一步处理为所需的2bpp或者3bpp数据
             {
                 MessageBox.Show("目前不支持非单点图像的打印");
+                Log4Net.Info("WriteImgLayerData: 不支持的像素格式, pixelFormat=" + clone.PixelFormat + ", layer=" + index + ", sub=" + subindex);
                 return -1;//退出程序//20200411批注：本部分有待验证是否合理，理论上是不太存在问题的
             }
             //(叁)图像取反处理：20200409新增
@@ -2049,6 +2056,7 @@ namespace BinderJetting
             // （1）processedBit// Lock the bitmap's bits.  map.LockBits();//锁定到内存
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, clone.Width, clone.Height);//像素宽度以及像素高度
             System.Drawing.Imaging.BitmapData bmpData = clone.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, clone.PixelFormat);
+            Log4Net.Info("WriteImgLayerData: LockBits 完成, layer=" + index + ", sub=" + subindex + ", bitmap=" + clone.Width + "x" + clone.Height + ", threadId=" + System.Threading.Thread.CurrentThread.ManagedThreadId);
             // （2）Get the address of the first line.
             IntPtr ptr = bmpData.Scan0;//像素地址的第一行
 
@@ -2057,6 +2065,7 @@ namespace BinderJetting
             byte[] rgbValues = new byte[bytes];
             // （4）Copy the RGB values into the array.
             Marshal.Copy(ptr, rgbValues, 0, bytes);/*System.Runtime.InteropServices.*/
+            Log4Net.Info("WriteImgLayerData: 源位图数据拷贝完成, bytes=" + bytes + ", layer=" + index + ", sub=" + subindex + ", threadId=" + System.Threading.Thread.CurrentThread.ManagedThreadId);
 #if true//20200610测试：本部分不必须：执行反色处理：20200703批注：//20210324新建：对于打印CAD数据，需要执行反色处理；对于打印校准图，不需要执行反色处理
             // （5）Set every third value to the opposite value
             if (ReverseColor == true)//20210324修改:对于CAD数据，需要执行反色处理；对于校准图数据，不需要执行反色处理
@@ -2189,11 +2198,12 @@ namespace BinderJetting
             int size3 = Marshal.SizeOf(NewImgPtr[0]) * NewImgPtr.Length;
             IntPtr p_NewImgPtr = Marshal.AllocHGlobal(size3);
             Marshal.Copy(NewImgPtr, 0, p_NewImgPtr, NewImgPtr.Length);//复制到非托管区内存
+            Log4Net.Info("WriteImgLayerData: 非托管指针准备完成, layer=" + index + ", sub=" + subindex + ", bpp=" + bpp + ", bytesPerLine=" + royal.royal.g_prtimg_layer.nBytesPerLine + ", threadId=" + System.Threading.Thread.CurrentThread.ManagedThreadId);
             /***************************20200423调试新增：*************************/
 
             //（肆） 保存附带的所有必要的BMP数据
             //（肆） 处理图层信息
-            royal.royal.g_prtimg_layer.nXEncOff = (int)(0/*gc_RysysParam.m_dXJetOff*200*/);//5um的精度//图像的XDPI，本质必须与光栅的DPI保持协调//20230321修订：X方向打印启打位置修订//20230327修正：此处存在潜在的问题//图层的整体偏移，可正可负
+            royal.royal.g_prtimg_layer.nXEncOff = 1;//Meteor 提示 X 起点不能小于 1，避免 Image X start ignored
             //royal.royal.g_prtimg_layer.nYJetOff =;//20210311修正：Y向的位置起始偏差。
             //royal.royal.g_prtimg_layer.nYJetOff = k_dYJetOff/*(int)(g_RYSYSParam.m_dYJetOff * 600)*/;//20210311修正：Y向的位置起始偏差。
             royal.royal.g_prtimg_layer.nXDPI = /*(int)*/XDpi/*635*//*XDpi*//*635*//*1270*2*//*635*/;//图像的XDPI，本质必须与光栅的DPI保持协调//20200802批注：修改原有的X向分辨率，本来应该是635DPI，提升到635*2DPI//20210324修改：打印校准图应该为635DPI//20230511修改：修改为浮点数
@@ -2222,13 +2232,15 @@ namespace BinderJetting
 
             //royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / 25.4 * 600);//20210311新增：Y向起打位置修订//20210330修改：
             //20230418完善：多PASS打印数据下发
+            int baseYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);
+            int swathJetOff = Math.Max(0, swathYOffset);
             int k = index * RePrintTimes + subindex;
 
 #if TwoPassPrintMode
             if (RePrintTimes == 1)//20230418批注：重喷次数取值范围为：1-4
             {
                 //自动喷墨打印数据，匹配运动逻辑
-                royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//喷嘴偏移值//15mm对应：354嘴
+                royal.royal.g_prtimg_layer.nYJetOff = swathJetOff + baseYJetOff;
                 royal.royal.g_prtimg_layer.nPrtFlag = 1;
             }
 #endif
@@ -2236,7 +2248,7 @@ namespace BinderJetting
             if (RePrintTimes == 1)//20230418批注：重喷次数取值范围为：1-4
             {
                 //自动喷墨打印数据，匹配运动逻辑
-                royal.royal.g_prtimg_layer.nYJetOff = 0;//喷嘴偏移值
+                royal.royal.g_prtimg_layer.nYJetOff = swathJetOff;
                 royal.royal.g_prtimg_layer.nPrtFlag = 1;
             }
             else if (RePrintTimes == 2)
@@ -2244,13 +2256,13 @@ namespace BinderJetting
                 if (k % RePrintTimes == 1) //20230418修改:第1PASS打印
                 {
                     //自动喷墨打印数据，匹配运动逻辑 
-                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff/(25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nYJetOff = swathJetOff + baseYJetOff;
                     royal.royal.g_prtimg_layer.nPrtFlag = 1;
                 }
                 else if (k % RePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                 {
                     //自动喷墨打印数据，匹配运动逻辑
-                    royal.royal.g_prtimg_layer.nYJetOff = 0/*(int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)*/;//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nYJetOff = swathJetOff;
                     royal.royal.g_prtimg_layer.nPrtFlag = 3;
                 }
             }
@@ -2259,19 +2271,19 @@ namespace BinderJetting
                 if (k % RePrintTimes == 1) //20230418修改:第1PASS打印
                 {
                     //自动喷墨打印数据，匹配运动逻辑
-                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nYJetOff = swathJetOff + baseYJetOff;
                     royal.royal.g_prtimg_layer.nPrtFlag = 1;
                 }
                 else if (k % RePrintTimes == 2)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                 {
                     //自动喷墨打印数据，匹配运动逻辑
-                    royal.royal.g_prtimg_layer.nYJetOff = 0/*(int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)*/;//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nYJetOff = swathJetOff;
                     royal.royal.g_prtimg_layer.nPrtFlag = 3;
                 }
                 else if (k % RePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                 {
                     //自动喷墨打印数据，匹配运动逻辑
-                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nYJetOff = swathJetOff + baseYJetOff;
                     royal.royal.g_prtimg_layer.nPrtFlag = 1;
                 }
             }
@@ -2280,25 +2292,25 @@ namespace BinderJetting
                 if (k % RePrintTimes == 1) //20230418修改:第1PASS打印
                 {
                     //自动喷墨打印数据，匹配运动逻辑
-                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nYJetOff = swathJetOff + baseYJetOff;
                     royal.royal.g_prtimg_layer.nPrtFlag = 1;
                 }
                 else if (k % RePrintTimes == 2)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                 {
                     //自动喷墨打印数据，匹配运动逻辑
-                    royal.royal.g_prtimg_layer.nYJetOff = 0/*(int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)*/;//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nYJetOff = swathJetOff;
                     royal.royal.g_prtimg_layer.nPrtFlag = 3;
                 }
                 else if (k % RePrintTimes == 3)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                 {
                     //自动喷墨打印数据，匹配运动逻辑
-                    royal.royal.g_prtimg_layer.nYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nYJetOff = swathJetOff + baseYJetOff;
                     royal.royal.g_prtimg_layer.nPrtFlag = 1;
                 }
                 else if (k % RePrintTimes == 0)//20230418修改:第2PASS打印//Y方向的偏差值为g_RYSYSParam.m_dYJetOff
                 {
                     //自动喷墨打印数据，匹配运动逻辑
-                    royal.royal.g_prtimg_layer.nYJetOff = 0/*(int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)*/;//15mm对应：354嘴
+                    royal.royal.g_prtimg_layer.nYJetOff = swathJetOff;
                     royal.royal.g_prtimg_layer.nPrtFlag = 3;
                 }
             }
@@ -2338,15 +2350,21 @@ namespace BinderJetting
                 writeRetryCount++;
                 if (bpp == 1)
                 {
-                    nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, BytePerLineForRgb1bppValues * clone.Height/*bytes * bpp*/);
+                    Log4Net.Info("WriteImgLayerData: 调用 WriteImageLayer, layer=" + index + ", sub=" + subindex + ", bpp=" + bpp + ", bytes=" + (BytePerLineForRgb1bppValues * clone.Height) + ", threadId=" + System.Threading.Thread.CurrentThread.ManagedThreadId);
+                    nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, ImgPtr, BytePerLineForRgb1bppValues * clone.Height/*bytes * bpp*/);
+                    Log4Net.Info("WriteImgLayerData: WriteImageLayer 返回, layer=" + index + ", sub=" + subindex + ", bpp=" + bpp + ", nRet=" + nRet + ", threadId=" + System.Threading.Thread.CurrentThread.ManagedThreadId);
                 }
                 else if (bpp == 2)
                 {
-                    nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, BytePerLineForRgb2bppValues * clone.Height/* bytes * bpp*/);
+                    Log4Net.Info("WriteImgLayerData: 调用 WriteImageLayer, layer=" + index + ", sub=" + subindex + ", bpp=" + bpp + ", bytes=" + (BytePerLineForRgb2bppValues * clone.Height) + ", threadId=" + System.Threading.Thread.CurrentThread.ManagedThreadId);
+                    nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, ImgPtr, BytePerLineForRgb2bppValues * clone.Height/* bytes * bpp*/);
+                    Log4Net.Info("WriteImgLayerData: WriteImageLayer 返回, layer=" + index + ", sub=" + subindex + ", bpp=" + bpp + ", nRet=" + nRet + ", threadId=" + System.Threading.Thread.CurrentThread.ManagedThreadId);
                 }
                 else if (bpp == 3)
                 {
-                    nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, p_NewImgPtr/*ImgPtr*/ /*ptr*/, BytePerLineForRgb3bppValues * clone.Height /*bytes * bpp*/);
+                    Log4Net.Info("WriteImgLayerData: 调用 WriteImageLayer, layer=" + index + ", sub=" + subindex + ", bpp=" + bpp + ", bytes=" + (BytePerLineForRgb3bppValues * clone.Height) + ", threadId=" + System.Threading.Thread.CurrentThread.ManagedThreadId);
+                    nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, ImgPtr, BytePerLineForRgb3bppValues * clone.Height /*bytes * bpp*/);
+                    Log4Net.Info("WriteImgLayerData: WriteImageLayer 返回, layer=" + index + ", sub=" + subindex + ", bpp=" + bpp + ", nRet=" + nRet + ", threadId=" + System.Threading.Thread.CurrentThread.ManagedThreadId);
                 }
 
                 if (nRet > 0)//返回值是33，计算出来的PASS总数；只要在PCS里面进行修改，即可然返回的值发生变化
@@ -2372,6 +2390,10 @@ namespace BinderJetting
                             Log4Net.Info($"WriteImgLayerData失败：PASS计算小于0，layer={index}，sub={subindex}，bpp={bpp}，nRet={nRet}");
                             MessageBox.Show("作业启动失败：PASS计算小于0");
                             break;
+                        case -200102:
+                            Log4Net.Info($"WriteImgLayerData失败：Meteor命令空间不足或等待超时，layer={index}，sub={subindex}，bpp={bpp}，nRet={nRet}");
+                            MessageBox.Show("作业启动失败：Meteor命令空间不足或等待超时");
+                            break;
                     }
                     break;
                 }
@@ -2395,6 +2417,7 @@ namespace BinderJetting
             //MessageBox.Show("生成完成");
             //SaveBMPBtn.BackColor = System.Drawing.Color.LightCyan;
 
+            Log4Net.Info("WriteImgLayerData: exit, layer=" + index + ", sub=" + subindex + ", RePrintTimes=" + RePrintTimes + ", nRet=" + nRet + ", threadId=" + System.Threading.Thread.CurrentThread.ManagedThreadId);
             return nRet;//返回核心代码——IDP_WriteImgLayerData——的执行结果
             //反色测试：20200409新增
             //processedBitmap.Save(@"C:\Users\SummerGhost\Documents\Visual Studio 2017\Projects\LaserAdd_3DP_Software\1-3DP主控界面(人机交互模块)\bin\x64\Debug\JOB输出文件\输出-反色-2.bmp", System.Drawing.Imaging.ImageFormat.Bmp);//————保存到BMP文件:20200408修改

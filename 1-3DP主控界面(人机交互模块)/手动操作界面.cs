@@ -14053,6 +14053,19 @@ namespace BinderJetting
         {
             Log4Net.Info($"简单测试按钮 MouseUp：button16, Button={e.Button}, Location=({e.X},{e.Y}), UseSimpleTestMotion={UseSimpleTestMotion}");
         }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            MeteorPrintEngine.HeadPowerOn = true;
+
+            if (MeteorPrintEngine.HeadPowerOn)
+            {
+                Log4Net.Info("手动操作界面 button17：喷头上电成功");
+            }
+            else
+            {
+                Log4Net.Info("手动操作界面 button17：喷头上电失败");
+            }
+        }
     }
 }
-

@@ -6407,8 +6407,9 @@ namespace BinderJetting
             this.button17.Name = "button17";
             this.button17.Size = new System.Drawing.Size(75, 23);
             this.button17.TabIndex = 244;
-            this.button17.Text = "button17";
+            this.button17.Text = "喷头上电";
             this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
             // button18
             // 

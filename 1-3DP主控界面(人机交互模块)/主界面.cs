@@ -1,4 +1,4 @@
-//#define DataProcessDebugMode
+﻿//#define DataProcessDebugMode
 //#define SinglePassPrintMode
 #define TwoPassPrintMode
 //#define TwoPassPrintPerSixTimes
@@ -3524,7 +3524,7 @@ namespace BinderJetting
             }
 
             // 图形分割：流式分割，逐条发送并立即释放条带，降低大图内存峰值
-            royal.royal.g_prtimg_layer.nXEncOff = 0;
+            royal.royal.g_prtimg_layer.nXEncOff = 1;
             royal.royal.g_prtimg_layer.nXDPI = 635;
             royal.royal.g_prtimg_layer.nYDPI = 600;
             royal.royal.g_prtimg_layer.nLayerIndex = index;
@@ -3535,10 +3535,11 @@ namespace BinderJetting
             // 扫描模式：整层发送前发 STARTJOB，每条带前 STARTSCAN、条带后 ENDDOC，整层后 ENDJOB
             MeteorPrintEngine.SendStartJob(0, (uint)processedBitmap.Width);
             int stripIndex = 0;
-            int nRet = SwathImageSplitter.SplitLayerToSwathStripsAndProcess(processedBitmap, strip =>
+            int nRet = SwathImageSplitter.SplitLayerToSwathStripsAndProcess(processedBitmap, (strip, swathTop) =>
             {
                 royal.royal.g_prtimg_layer.nPrtDir = (stripIndex % 2 == 0) ? 1 : 0; // 偶数为正向，奇数为反向
                 stripIndex++;
+                royal.royal.g_prtimg_layer.nYJetOff = swathTop;
 
                 System.Drawing.Rectangle rectStrip = new System.Drawing.Rectangle(0, 0, strip.Width, strip.Height);
                 System.Drawing.Imaging.BitmapData bmpData = strip.LockBits(rectStrip, System.Drawing.Imaging.ImageLockMode.ReadOnly, strip.PixelFormat);
@@ -3568,7 +3569,7 @@ namespace BinderJetting
                         royal.royal.g_prtimg_layer.nWidth = strip.Width;
                         royal.royal.g_prtimg_layer.nHeight = strip.Height;
 
-                        int ret = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, p_NewImgPtr, bytes);
+                        int ret = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, ImgPtr, bytes);
  // 当前 swath 结束
                         if (ret <= 0)
                         {
@@ -3582,6 +3583,9 @@ namespace BinderJetting
                                     break;
                                 case -110002:
                                     MessageBox.Show("作业启动失败：PASS计算小于0");
+                                    break;
+                                case -200102:
+                                    MessageBox.Show("作业启动失败：Meteor命令空间不足或等待超时");
                                     break;
                             }
                             return ret;
