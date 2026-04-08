@@ -1580,9 +1580,12 @@ namespace BinderJetting
 #endif
 #if SinglePassPrintMode
                 int stripIndex = 0;
-                MeteorPrintEngine.SendStartJob(0, (uint)clone.Width);
+                uint actualScanJobWidth = (uint)Math.Max(1, clone.Width);
+                MeteorPrintEngine.SetPendingScanJobWidth(actualScanJobWidth);
+                MeteorPrintEngine.SendStartJob(0, actualScanJobWidth);
+                Log4Net.Info($"RenderToWic: 复用外层已启动的 JOB，开始发送条带，clone={clone.Width}x{clone.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndex}");
                 SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, true, swathTop); stripIndex++; }, 0, -1);
-                MeteorPrintEngine.SendEndJob();
+                Log4Net.Info($"RenderToWic: 条带发送完成，外层 JOB 仍由调用方统一结束，index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndex}");
 #endif
                 System.Drawing.Bitmap outputImage = null;
 #if TwoPassPrintMode
@@ -1612,14 +1615,14 @@ namespace BinderJetting
                 try
                 {
                     int stripIndexTwoPass = 0;
-                    Log4Net.Info("RenderToWic: 准备发送 STARTJOB, outputImage=" + outputImage.Width + "x" + outputImage.Height + ", index=" + index + ", subindex=" + subindex + ", RePrintTimes=" + RePrintTimes + ", stripIndexTwoPass=" + stripIndexTwoPass);
-                    MeteorPrintEngine.SendStartJob(0, (uint)outputImage.Width);
+                    uint actualScanJobWidth = (uint)Math.Max(1, outputImage.Width);
+                    MeteorPrintEngine.SetPendingScanJobWidth(actualScanJobWidth);
+                    MeteorPrintEngine.SendStartJob(0, actualScanJobWidth);
+                    Log4Net.Info("RenderToWic: 复用外层已启动的 JOB, outputImage=" + outputImage.Width + "x" + outputImage.Height + ", index=" + index + ", subindex=" + subindex + ", RePrintTimes=" + RePrintTimes + ", stripIndexTwoPass=" + stripIndexTwoPass);
                     Log4Net.Info("RenderToWic: 开始条带处理, outputImage=" + outputImage.Width + "x" + outputImage.Height + ", index=" + index + ", subindex=" + subindex + ", RePrintTimes=" + RePrintTimes + ", stripIndexTwoPass=" + stripIndexTwoPass);
                     SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndexTwoPass % 2 == 0) ? 1 : 0; int writeRet = WriteImgLayerData(strip, index, subindex, RePrintTimes, true, swathTop); Log4Net.Info("RenderToWic: stripProcessor 完成, stripIndexTwoPass=" + stripIndexTwoPass + ", writeRet=" + writeRet); stripIndexTwoPass++; }, 0, -1);
                     Log4Net.Info("RenderToWic: 条带处理结束, outputImage=" + outputImage.Width + "x" + outputImage.Height + ", index=" + index + ", subindex=" + subindex + ", RePrintTimes=" + RePrintTimes + ", stripIndexTwoPass=" + stripIndexTwoPass);
-                    Log4Net.Info("RenderToWic: 准备发送 ENDJOB");
-                    MeteorPrintEngine.SendEndJob();
-                    Log4Net.Info("RenderToWic: ENDJOB 已发送");
+                    Log4Net.Info("RenderToWic: 两遍图条带发送完成，外层 JOB 仍由调用方统一结束");
                 }
                 catch (Exception e)
                 {
@@ -1798,9 +1801,9 @@ namespace BinderJetting
 #if SinglePassPrintMode
                 // 适配 Swath：流式分割，逐条发送并立即释放；扫描模式 STARTJOB / 每条 STARTSCAN+IMAGE+ENDDOC / ENDJOB
                 int stripIndexSp2 = 0;
-                MeteorPrintEngine.SendStartJob(0, (uint)clone.Width);
+                Log4Net.Info($"RenderToWic2: 复用外层已启动的 JOB，开始发送条带，clone={clone.Width}x{clone.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndexSp2}");
                 SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndexSp2 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, true, swathTop); stripIndexSp2++; }, 0, -1);
-                MeteorPrintEngine.SendEndJob();
+                Log4Net.Info($"RenderToWic2: 条带发送完成，外层 JOB 仍由调用方统一结束，index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndexSp2}");
 #endif
 
 #if TwoPassPrintMode
@@ -1808,9 +1811,9 @@ namespace BinderJetting
                 System.Drawing.Bitmap outputImage = null;
                 CreatTwoPassFigure(0/*1280,*//*355*/, 6, clone, ref outputImage);
                 int stripIndex6 = 0;
-                MeteorPrintEngine.SendStartJob(0, (uint)outputImage.Width);
+                Log4Net.Info($"RenderToWic2: 复用外层已启动的 JOB，outputImage={outputImage.Width}x{outputImage.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndex6}");
                 SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex6 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, false, swathTop); stripIndex6++; }, 0, -1);
-                MeteorPrintEngine.SendEndJob();
+                Log4Net.Info($"RenderToWic2: 条带发送完成，外层 JOB 仍由调用方统一结束，index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndex6}");
                 outputImage.Dispose();
 #endif
 
@@ -1818,9 +1821,9 @@ namespace BinderJetting
                 System.Drawing.Bitmap outputImage2 = null;
                 CreatTwoPassFigure(0/*1280,*//*355*/, 3, clone, ref outputImage2);
                 int stripIndex3 = 0;
-                MeteorPrintEngine.SendStartJob(0, (uint)outputImage2.Width);
+                Log4Net.Info($"RenderToWic2: 复用外层已启动的 JOB，outputImage={outputImage2.Width}x{outputImage2.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndex3}");
                 SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage2, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex3 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, false, swathTop); stripIndex3++; }, 0, -1);
-                MeteorPrintEngine.SendEndJob();
+                Log4Net.Info($"RenderToWic2: 条带发送完成，外层 JOB 仍由调用方统一结束，index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndex3}");
                 outputImage2.Dispose();
 #endif
 
@@ -2193,11 +2196,6 @@ namespace BinderJetting
 
             /***********************20200423调试新增：************************/
             /***************************20200423调试新增：*************************/
-            IntPtr[] NewImgPtr = new IntPtr[1/*3*/];//存放3种颜色的数组//20200423新增：//20230203修改：1种颜色
-            NewImgPtr[0] = ImgPtr; ////NewImgPtr[1] = ImgPtr;//20200428新增//20230203修改：非必要 ////NewImgPtr[2] = ImgPtr;//20200428新增//20230203修改：非必要
-            int size3 = Marshal.SizeOf(NewImgPtr[0]) * NewImgPtr.Length;
-            IntPtr p_NewImgPtr = Marshal.AllocHGlobal(size3);
-            Marshal.Copy(NewImgPtr, 0, p_NewImgPtr, NewImgPtr.Length);//复制到非托管区内存
             Log4Net.Info("WriteImgLayerData: 非托管指针准备完成, layer=" + index + ", sub=" + subindex + ", bpp=" + bpp + ", bytesPerLine=" + royal.royal.g_prtimg_layer.nBytesPerLine + ", threadId=" + System.Threading.Thread.CurrentThread.ManagedThreadId);
             /***************************20200423调试新增：*************************/
 
@@ -2228,7 +2226,6 @@ namespace BinderJetting
             royal.royal.g_prtimg_layer.nColorCnts = 1;//颜色个数，打印图形颜色为单色
             //不同的层需要进行不同的设置：20200429新增批注：单层需要正向打印，双层需要方向打印
             royal.royal.g_prtimg_layer.nPrtFlag = 1;//双向打印 bit[0] 控制单双向打印
-            royal.royal.g_prtimg_layer.nPrtDir = 0/*((index * RePrintTimes + subindex) % 2)*/ /*1*//*1*//*PrtDirFlag*/;//起始打印方向为增序：光栅计数增大的方向开始计数//201030修改：增加重喷控制参数   
 
             //royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / 25.4 * 600);//20210311新增：Y向起打位置修订//20210330修改：
             //20230418完善：多PASS打印数据下发
@@ -2407,7 +2404,6 @@ namespace BinderJetting
             //Marshal.Copy(rgbValues, 0, ImgPtr, rgbValues.Length);//复制到非托管区内存
 
             /***************************20200423调试新增：*************************/
-            Marshal.FreeHGlobal(p_NewImgPtr);//释放内存/***************************20200423调试新增：*************************/
             Marshal.FreeHGlobal(ImgPtr);//释放内存/***********************20200423调试新增：************************/           
 
             //（陆） 释放对应的数据

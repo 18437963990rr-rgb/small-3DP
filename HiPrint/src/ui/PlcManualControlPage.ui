@@ -1,0 +1,2207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlcManualControlPageClass</class>
+ <widget class="QWidget" name="PlcManualControlPageClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>910</width>
+    <height>652</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>PlcManualControlPage</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget_3">
+     <property name="tabPosition">
+      <enum>QTabWidget::South</enum>
+     </property>
+     <property name="currentIndex">
+      <number>3</number>
+     </property>
+     <widget class="QWidget" name="tab_9">
+      <attribute name="title">
+       <string>供料系统</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_22">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QGroupBox" name="groupBox_11">
+           <property name="title">
+            <string>新砂罐手动</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <layout class="QGridLayout" name="gridLayout_8">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_84">
+                <property name="text">
+                 <string>新砂罐风机：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QPushButton" name="btnNewSandTankBlower">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>120</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>启动</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_85">
+                <property name="text">
+                 <string>新砂罐下砂阀：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QPushButton" name="btnNewSandTankDischargeValue">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_86">
+                <property name="text">
+                 <string>新砂罐进气阀：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QPushButton" name="btnNewSandTankIntakeValue">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_87">
+                <property name="text">
+                 <string>新砂罐反吹电磁阀：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QPushButton" name="btnNewSandTankReversePulseSolenoidValve">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_88">
+                <property name="text">
+                 <string>新砂罐复位：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QPushButton" name="btnSolenoidValveReset">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_12">
+           <property name="title">
+            <string>旧砂罐手动</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_21">
+            <item>
+             <layout class="QGridLayout" name="gridLayout_13">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_89">
+                <property name="layoutDirection">
+                 <enum>Qt::RightToLeft</enum>
+                </property>
+                <property name="text">
+                 <string>旧砂罐风机：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QPushButton" name="btnOldSandTankBlower">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>启动</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_90">
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="text">
+                 <string>旧砂罐下砂阀：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QPushButton" name="btnOldSandTankDischargeValve">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_91">
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="text">
+                 <string>旧砂罐进气阀：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QPushButton" name="btnOldSandTankIntakeValue">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_92">
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="text">
+                 <string>旧砂罐气动锤：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QPushButton" name="btnOldSandTankPneumaticHammer">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_93">
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="text">
+                 <string>旧砂罐反吹阀：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QPushButton" name="btnOldSandTankReversePulseValve">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_94">
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="text">
+                 <string>旧砂库搅拌电机：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QPushButton" name="btnOldSandSiloAgitatorMotor">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>启动</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_95">
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="text">
+                 <string>旧砂罐复位：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1">
+               <widget class="QPushButton" name="btnOldSandTankReset">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_10">
+      <attribute name="title">
+       <string>混砂系统</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_27">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_16">
+         <item>
+          <widget class="QGroupBox" name="groupBox_21">
+           <property name="title">
+            <string>混砂器手动</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_24">
+            <item>
+             <layout class="QGridLayout" name="gridLayout_14">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_139">
+                <property name="text">
+                 <string>混砂仓搅拌电机正转：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QPushButton" name="btnMixingSandBinAgitatorMotorForward">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_140">
+                <property name="text">
+                 <string>混砂仓搅拌电机反转：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QPushButton" name="btnMixingSandBinAgitatorMotorReverse">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_141">
+                <property name="text">
+                 <string>催化剂泵：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QPushButton" name="btnCatalystPump">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_142">
+                <property name="text">
+                 <string>混砂仓下砂阀：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QPushButton" name="btnMixingSandBinDischargeValve">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_143">
+                <property name="text">
+                 <string>混砂斗振动阀：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QPushButton" name="btnMixingSandHopperVibratorValve">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_144">
+                <property name="text">
+                 <string>混砂斗搅拌电机：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QPushButton" name="btnMixingSandHopperAgitatorMotor">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_145">
+                <property name="text">
+                 <string>混砂仓复位：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1">
+               <widget class="QPushButton" name="btnMixingSandBinReset">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_26">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_25">
+             <item>
+              <widget class="QGroupBox" name="groupBox_22">
+               <property name="title">
+                <string>主机上砂罐手动</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_25">
+                <item row="0" column="0">
+                 <layout class="QGridLayout" name="gridLayout_15">
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_146">
+                    <property name="text">
+                     <string>混砂罐风机：</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QPushButton" name="btnMixingSandTankBlower">
+                    <property name="minimumSize">
+                     <size>
+                      <width>120</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>80</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>关闭</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_147">
+                    <property name="text">
+                     <string>混砂罐下砂阀：</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QPushButton" name="btnMixingSandTankDischargeValve">
+                    <property name="minimumSize">
+                     <size>
+                      <width>120</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>80</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>关闭</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_148">
+                    <property name="text">
+                     <string>混砂罐进气阀：</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QPushButton" name="btnMixingSandTankIntakeValve">
+                    <property name="minimumSize">
+                     <size>
+                      <width>120</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>80</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>关闭</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_149">
+                    <property name="text">
+                     <string>混砂罐反吹阀：</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QPushButton" name="btnMixingSandTankReversePulseValve">
+                    <property name="minimumSize">
+                     <size>
+                      <width>120</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>80</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>关闭</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="label_150">
+                    <property name="text">
+                     <string>混砂罐复位：</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QPushButton" name="btnMixingSandTankReset">
+                    <property name="minimumSize">
+                     <size>
+                      <width>120</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>80</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>关闭</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="groupBox_23">
+               <property name="title">
+                <string>催化剂泵手动</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_22">
+                <item row="0" column="0">
+                 <layout class="QHBoxLayout" name="horizontalLayout_15">
+                  <item>
+                   <widget class="QLabel" name="label_151">
+                    <property name="text">
+                     <string>催化剂校准：</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="btnCatalystCalibration">
+                    <property name="minimumSize">
+                     <size>
+                      <width>120</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>80</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>关闭</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_24">
+             <property name="title">
+              <string>喷头保温手动</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_24">
+              <item row="0" column="0">
+               <layout class="QGridLayout" name="gridLayout_23">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_152">
+                  <property name="text">
+                   <string>气缸伸出：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QPushButton" name="btnCylinderExtend">
+                  <property name="minimumSize">
+                   <size>
+                    <width>120</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_153">
+                  <property name="text">
+                   <string>气缸缩回：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QPushButton" name="btnCylinderRetract">
+                  <property name="minimumSize">
+                   <size>
+                    <width>120</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_12">
+      <attribute name="title">
+       <string>平台下料系统</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_29">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_17">
+         <item>
+          <widget class="QGroupBox" name="groupBox_19">
+           <property name="title">
+            <string>铺砂手动</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <layout class="QGridLayout" name="gridLayout_19">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_130">
+                <property name="text">
+                 <string>振实电机：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QPushButton" name="pushButton_57">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_131">
+                <property name="text">
+                 <string>铺砂定量轴：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QPushButton" name="pushButton_58">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_132">
+                <property name="text">
+                 <string>打散电机：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QPushButton" name="pushButton_59">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_133">
+                <property name="text">
+                 <string>清洁毛刷电机：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QPushButton" name="pushButton_60">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_134">
+                <property name="text">
+                 <string>余砂收集皮带：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QPushButton" name="pushButton_61">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_135">
+                <property name="text">
+                 <string>盛砂斗振动器：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QPushButton" name="pushButton_62">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_20">
+           <property name="title">
+            <string>下砂手动</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_28">
+            <item>
+             <layout class="QGridLayout" name="gridLayout_26">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_136">
+                <property name="text">
+                 <string>下砂定量轴：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QPushButton" name="pushButton_63">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="layoutDirection">
+                 <enum>Qt::RightToLeft</enum>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_137">
+                <property name="text">
+                 <string>下砂拔砂气缸：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QPushButton" name="pushButton_64">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="layoutDirection">
+                 <enum>Qt::RightToLeft</enum>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_138">
+                <property name="text">
+                 <string>下砂振动：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QPushButton" name="pushButton_65">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="layoutDirection">
+                 <enum>Qt::RightToLeft</enum>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_11">
+      <attribute name="title">
+       <string>砂箱系统</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_32">
+       <item>
+        <widget class="QGroupBox" name="groupBox_18">
+         <property name="title">
+          <string>砂箱手动</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_31">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_30">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_18">
+              <item>
+               <spacer name="horizontalSpacer_22">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>278</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <layout class="QGridLayout" name="gridLayout_27">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_126">
+                  <property name="text">
+                   <string>砂箱扎紧伸出：</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QPushButton" name="pushButton_53">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_127">
+                  <property name="text">
+                   <string>砂箱扎紧缩回：</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QPushButton" name="pushButton_54">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_128">
+                  <property name="text">
+                   <string>砂箱夹钳伸出：</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QPushButton" name="pushButton_55">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_129">
+                  <property name="text">
+                   <string>砂箱夹钳缩回：</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QPushButton" name="pushButton_56">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_13">
+      <attribute name="title">
+       <string>清砂系统</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_36">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_35">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_19">
+           <item>
+            <widget class="QGroupBox" name="groupBox_15">
+             <property name="title">
+              <string>左清砂罐手动</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_33">
+              <item>
+               <layout class="QGridLayout" name="gridLayout_28">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_110">
+                  <property name="text">
+                   <string>清砂罐风机：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QPushButton" name="btnSandCleaningTankBlower">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_111">
+                  <property name="text">
+                   <string>清砂罐下砂阀：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QPushButton" name="btnSandCleaningTankDischargeValve">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_112">
+                  <property name="text">
+                   <string>左清砂筛网振动器：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QPushButton" name="pushButton_39">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_113">
+                  <property name="text">
+                   <string>清砂罐反吹阀：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QPushButton" name="pushButton_40">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_114">
+                  <property name="text">
+                   <string>清砂罐复位：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QPushButton" name="pushButton_41">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_17">
+             <property name="title">
+              <string>余砂手动</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_18">
+              <item row="0" column="0">
+               <layout class="QGridLayout" name="gridLayout_17">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_120">
+                  <property name="text">
+                   <string>余砂罐风机：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QPushButton" name="pushButton_47">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_121">
+                  <property name="text">
+                   <string>余砂罐下砂阀：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QPushButton" name="pushButton_48">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_122">
+                  <property name="text">
+                   <string>余砂罐进气阀：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QPushButton" name="pushButton_49">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_123">
+                  <property name="text">
+                   <string>余砂筛网振动器：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QPushButton" name="pushButton_50">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_124">
+                  <property name="text">
+                   <string>余砂罐反吹阀：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QPushButton" name="pushButton_51">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="0">
+                 <widget class="QLabel" name="label_125">
+                  <property name="text">
+                   <string>余砂罐复位：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="1">
+                 <widget class="QPushButton" name="pushButton_52">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="1,2">
+           <item>
+            <widget class="QGroupBox" name="groupBox_16">
+             <property name="title">
+              <string>右清砂罐手动</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_34">
+              <item>
+               <layout class="QGridLayout" name="gridLayout_29">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_115">
+                  <property name="text">
+                   <string>清砂罐风机：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QPushButton" name="pushButton_42">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>100</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_116">
+                  <property name="text">
+                   <string>清砂罐下砂阀：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QPushButton" name="pushButton_43">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>100</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_117">
+                  <property name="text">
+                   <string>右清砂筛网振动器：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QPushButton" name="pushButton_44">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>100</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_118">
+                  <property name="text">
+                   <string>清砂罐反吹阀：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QPushButton" name="pushButton_45">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>100</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_119">
+                  <property name="text">
+                   <string>清砂罐复位：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QPushButton" name="pushButton_46">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>100</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>关闭</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_23">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_14">
+      <attribute name="title">
+       <string>墨路系统</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QGroupBox" name="groupBox_13">
+           <property name="title">
+            <string>墨路阀手动</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_10">
+            <item row="0" column="0">
+             <layout class="QGridLayout" name="gridLayout_9">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_96">
+                <property name="text">
+                 <string>供墨电磁阀MYV1:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QPushButton" name="pushButton_23">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_97">
+                <property name="text">
+                 <string>回墨电磁阀MYV2:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QPushButton" name="pushButton_24">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_98">
+                <property name="text">
+                 <string>供墨盒出气阀MYV3:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QPushButton" name="pushButton_25">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_99">
+                <property name="text">
+                 <string>供墨盒进气阀MYV4:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QPushButton" name="pushButton_26">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_100">
+                <property name="text">
+                 <string>回墨盒进气阀MYV5:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QPushButton" name="pushButton_27">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_101">
+                <property name="text">
+                 <string>回墨盒出气阀MYV6:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QPushButton" name="pushButton_28">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_102">
+                <property name="text">
+                 <string>供墨盒切换阀MYV7:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1">
+               <widget class="QPushButton" name="pushButton_29">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0">
+               <widget class="QLabel" name="label_103">
+                <property name="text">
+                 <string>回墨盒切换阀MYV8:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="1">
+               <widget class="QPushButton" name="pushButton_30">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_14">
+           <property name="title">
+            <string>墨路泵手动</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_12">
+            <item row="0" column="0">
+             <layout class="QGridLayout" name="gridLayout_11">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_104">
+                <property name="text">
+                 <string>供墨泵P1:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QPushButton" name="pushButton_31">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_105">
+                <property name="text">
+                 <string>回墨泵P2:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QPushButton" name="pushButton_32">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_106">
+                <property name="text">
+                 <string>供墨盒负压泵P3:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QPushButton" name="pushButton_33">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_107">
+                <property name="text">
+                 <string>回墨盒负压泵P4:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QPushButton" name="pushButton_34">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关闭</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_108">
+                <property name="text">
+                 <string>喷头清洗剂泵P9:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QPushButton" name="pushButton_35">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_109">
+                <property name="text">
+                 <string>喷头清洗气阀ZYV12:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QPushButton" name="pushButton_36">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>开</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

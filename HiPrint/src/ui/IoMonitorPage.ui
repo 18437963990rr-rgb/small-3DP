@@ -1,0 +1,22 @@
+<UI version="4.0" >
+ <class>IoMonitorPageClass</class>
+ <widget class="QWidget" name="IoMonitorPageClass" >
+  <property name="objectName" >
+   <string notr="true">IoMonitorPageClass</string>
+  </property>
+  <property name="geometry" >
+   <rect>
+	<x>0</x>
+	<y>0</y>
+	<width>600</width>
+	<height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>IoMonitorPage</string>
+  </property>$centralwidget$
+ </widget>
+ <layoutDefault spacing="6" margin="11" />
+ <pixmapfunction></pixmapfunction>
+ <connections/>
+</UI>

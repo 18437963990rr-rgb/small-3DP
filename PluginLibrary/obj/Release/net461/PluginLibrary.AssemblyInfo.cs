@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PluginLibrary")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8ae3cf2e785f77f8093b11de98491acd41649d2f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bbe9e45587aa298415f70fbb01d82404cbf2195b")]
 [assembly: System.Reflection.AssemblyProductAttribute("PluginLibrary")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PluginLibrary")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -3556,46 +3556,32 @@ namespace BinderJetting
                 try
                 {
                     Marshal.Copy(rgbValues, 0, ImgPtr, rgbValues.Length);
-                    IntPtr[] NewImgPtr = new IntPtr[3];
-                    NewImgPtr[0] = ImgPtr;
-                    NewImgPtr[1] = ImgPtr;
-                    NewImgPtr[2] = ImgPtr;
-                    int size3 = Marshal.SizeOf(NewImgPtr[0]) * NewImgPtr.Length;
-                    IntPtr p_NewImgPtr = Marshal.AllocHGlobal(size3);
-                    try
-                    {
-                        Marshal.Copy(NewImgPtr, 0, p_NewImgPtr, NewImgPtr.Length);
-                        royal.royal.g_prtimg_layer.nBytesPerLine = stride;
-                        royal.royal.g_prtimg_layer.nWidth = strip.Width;
-                        royal.royal.g_prtimg_layer.nHeight = strip.Height;
+                    royal.royal.g_prtimg_layer.nBytesPerLine = stride;
+                    royal.royal.g_prtimg_layer.nWidth = strip.Width;
+                    royal.royal.g_prtimg_layer.nHeight = strip.Height;
 
-                        int ret = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, ImgPtr, bytes);
+                    int ret = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, ImgPtr, bytes);
  // 当前 swath 结束
-                        if (ret <= 0)
-                        {
-                            switch (ret)
-                            {
-                                case -110000:
-                                    MessageBox.Show("作业启动失败：指定图层打印执行时的PASS总数");
-                                    break;
-                                case -110001:
-                                    MessageBox.Show("作业启动失败：PC内存不足");
-                                    break;
-                                case -110002:
-                                    MessageBox.Show("作业启动失败：PASS计算小于0");
-                                    break;
-                                case -200102:
-                                    MessageBox.Show("作业启动失败：Meteor命令空间不足或等待超时");
-                                    break;
-                            }
-                            return ret;
-                        }
-                        return 2;
-                    }
-                    finally
+                    if (ret <= 0)
                     {
-                        Marshal.FreeHGlobal(p_NewImgPtr);
+                        switch (ret)
+                        {
+                            case -110000:
+                                MessageBox.Show("作业启动失败：指定图层打印执行时的PASS总数");
+                                break;
+                            case -110001:
+                                MessageBox.Show("作业启动失败：PC内存不足");
+                                break;
+                            case -110002:
+                                MessageBox.Show("作业启动失败：PASS计算小于0");
+                                break;
+                            case -200102:
+                                MessageBox.Show("作业启动失败：Meteor命令空间不足或等待超时");
+                                break;
+                        }
+                        return ret;
                     }
+                    return 2;
                 }
                 finally
                 {
@@ -5638,6 +5624,8 @@ namespace BinderJetting
                 //royal.royal.g_PrtJobItem.nPrtXEncPos = 355*200;//20200923新增：从成形参数模块中获取并设置对应的参数值
                 royal.royal.g_PrtJobItem.nPrtXEncPos = (uint)(g_RYSYSParam.m_dPrtXEncPos / 0.001/*0.005*/);// 1um光栅，改为0.001，2024/04/12，Leon'//20200923新增：从成形参数模块中获取并设置对应的参数值//20220524修改：//20220531修改：1UM读数头光栅
                 royal.royal.g_PrtJobItem.szJobName = "金属3DP打印";//世彪新增0104
+                MeteorPrintEngine.SetPendingScanJobWidth(1);
+                Log4Net.Info("写入打印参数：扫描宽度将延后到渲染阶段使用实际图宽。");
                 ///(2)开启JOB使能 
                 int returnCode = MeteorPrintEngine.StartJob(ref royal.royal.g_PrtJobItem);//20230209：需要确认灰度数据位数，不需要传入灰度阶数
                 if (returnCode < 0)

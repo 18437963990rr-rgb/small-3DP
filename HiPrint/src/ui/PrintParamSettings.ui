@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PrintParamSettingsClass</class>
+ <widget class="QWidget" name="PrintParamSettingsClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>工艺参数设置</string>
+  </property>
+  <layout class="QHBoxLayout" name="mainLayout">
+   <item>
+    <widget class="QWidget" name="leftPanel" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>350</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <layout class="QVBoxLayout" name="leftLayout">
+      <item>
+       <widget class="QLabel" name="profileLabel">
+        <property name="styleSheet">
+         <string>font-weight: bold; font-size: 14px; padding: 5px;</string>
+        </property>
+        <property name="text">
+         <string>工艺参数配置</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="profileButtonLayout">
+        <item>
+         <widget class="QPushButton" name="addProfileButton">
+          <property name="text">
+           <string>添加配置</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>res/Add.png</normaloff>res/Add.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="deleteProfileButton">
+          <property name="text">
+           <string>删除配置</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="setDefaultButton">
+          <property name="text">
+           <string>设为默认</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QListWidget" name="profileListWidget">
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="currentProfileLabel">
+        <property name="styleSheet">
+         <string>color: blue; font-weight: bold;</string>
+        </property>
+        <property name="text">
+         <string>当前配置：无</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="rightPanel" native="true">
+     <layout class="QVBoxLayout" name="rightLayout">
+      <item>
+       <widget class="QLabel" name="paramLabel">
+        <property name="styleSheet">
+         <string>font-weight: bold; font-size: 14px; padding: 5px;</string>
+        </property>
+        <property name="text">
+         <string>参数设置</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTableWidget" name="paramTableWidget">
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>参数名称</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>参数值</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>单位</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>范围</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>描述</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="bottomButtonLayout">
+        <item>
+         <widget class="QPushButton" name="saveButton">
+          <property name="text">
+           <string>保存配置</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>res/Save.png</normaloff>res/Save.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="resetButton">
+          <property name="text">
+           <string>重置</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="importButton">
+          <property name="text">
+           <string>导入</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>res/Import.png</normaloff>res/Import.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="exportButton">
+          <property name="text">
+           <string>导出</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>res/Export.png</normaloff>res/Export.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="importDefaultButton">
+          <property name="text">
+           <string>导入默认设置</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
