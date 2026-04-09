@@ -3,6 +3,7 @@
 #define TwoPassPrintMode
 //#define TwoPassPrintPerSixTimes
 #define TwoPassPrintPerThreeTimes
+#define TEMP_METEOR_BITMAP_EXPORT
 
 
 using System;
@@ -1119,6 +1120,36 @@ namespace BinderJetting
                 DrawPointF[count].Y = (TempPointF[count].Y - 165/*175*/ + 0) * mm2Dip2;//20201112修改：
             }
         }
+
+#if TEMP_METEOR_BITMAP_EXPORT
+        private void ExportTemporaryBitmap(System.Drawing.Bitmap bitmap, string fileTag, int index, int subindex, int rePrintTimes)
+        {
+            if (bitmap == null)
+            {
+                return;
+            }
+
+            try
+            {
+                string exportRoot = Path.Combine(System.Windows.Forms.Application.StartupPath, "TEMP_METEOR_BITMAP_EXPORT");
+                Directory.CreateDirectory(exportRoot);
+                string safeTag = fileTag;
+                foreach (char invalidChar in Path.GetInvalidFileNameChars())
+                {
+                    safeTag = safeTag.Replace(invalidChar, '_');
+                }
+
+                string fileName = string.Format("{0:yyyyMMdd_HHmmss_fff}_{1}_i{2}_s{3}_r{4}_{5}x{6}.bmp", DateTime.Now, safeTag, index, subindex, rePrintTimes, bitmap.Width, bitmap.Height);
+                string filePath = Path.Combine(exportRoot, fileName);
+                bitmap.Save(filePath, ImageFormat.Bmp);
+                Log4Net.Info("TEMP_METEOR_BITMAP_EXPORT: 已导出 " + filePath);
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info("TEMP_METEOR_BITMAP_EXPORT: 导出失败, tag=" + fileTag + ", index=" + index + ", subindex=" + subindex + ", rePrintTimes=" + rePrintTimes + "\r\n" + ex);
+            }
+        }
+#endif
         PathGeometry geometry2;//20200610新增：
         /// <summary>
         /// 20200609：
@@ -1378,6 +1409,12 @@ namespace BinderJetting
             }
         }
         public float/*int*/ XDpi = 635 * 2;//20201017新增批注：X向打印分辨率
+        public float RenderDpiY = 400f;//20260409新增：Y向渲染/位图分辨率，现场默认按400DPI配置
+
+        private float GetRenderDpiY()
+        {
+            return RenderDpiY > 0 ? RenderDpiY : 400f;
+        }
         /// <summary>
         /// 20200609：生成1帧的加工数据//20220524新增:新设备 幅面330MM*330MM
         /// </summary>
@@ -1386,6 +1423,7 @@ namespace BinderJetting
         {
             if (action == true)
             {
+                float renderDpiY = GetRenderDpiY();
                 Log4Net.Info($"RenderToWic: enter, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, ActualStartNum={ActualStartNum}, XDpi={XDpi}");
                 try
                 {
@@ -1397,38 +1435,38 @@ namespace BinderJetting
                 /*const*/
                 int height = 0;
 #if SinglePassPrintMode
-                /*int*/ height = (int)(320/*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度
+                /*int*/ height = (int)(320/*330*//*350*/ * (renderDpiY / 25.4f)) + 1/*512*/;//设置图片的长度
 #endif
 #if TwoPassPrintMode
 #if TwoPassPrintPerSixTimes
-                int OffsetPixels = (int)(15 / 25.4 * 600 + 1);//355
-                double Yheight = (1280 * 6 - 355) / 600 * 25.4;//310.0916
+                int OffsetPixels = (int)(15 / 25.4 * renderDpiY + 1);//355
+                double Yheight = (1280 * 6 - OffsetPixels) / renderDpiY * 25.4;//310.0916
                 /*int*/
-                height = (int)(310.09/*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度//20230418修改：打印幅面高度修改为310mm，以允许多PASS打印
+                height = (int)(310.09/*330*//*350*/ * (renderDpiY / 25.4f)) + 1/*512*/;//设置图片的长度//20230418修改：打印幅面高度修改为310mm，以允许多PASS打印
 #endif
                 int k = 0;//默认k取值为0
 #if TwoPassPrintPerThreeTimes
                 /*int*/ k = index * RePrintTimes + subindex;
                 if (k % 3 == 1 || k == 0)//
                 {
-                    int OffsetPixels = (int)(15 / 25.4 * 600 + 1);//355
-                    double Yheight = (1280 * 3 - 355) / 600 * 25.4;//147.5316
+                    int OffsetPixels = (int)(15 / 25.4 * renderDpiY + 1);//355
+                    double Yheight = (1280 * 3 - OffsetPixels) / renderDpiY * 25.4;//147.5316
                     /*int*/
-                    height = (int)(147.52f/*147*//*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//设置图片的长度//20230418修改：打印幅面高度修改为310mm，以允许多PASS打印
+                    height = (int)(147.52f/*147*//*330*//*350*/ * (renderDpiY / 25.4f)) + 1/*512*/;//设置图片的长度//20230418修改：打印幅面高度修改为310mm，以允许多PASS打印
                 }
                 else if (k % 3 == 2)
                 {
-                    int OffsetPixels2 = (int)(10 / 25.4 * 600 + 1);//237
-                    double Yheight2 = (1280 * 3 - 237) / 600 * 25.4;//152.527
+                    int OffsetPixels2 = (int)(10 / 25.4 * renderDpiY + 1);//237
+                    double Yheight2 = (1280 * 3 - OffsetPixels2) / renderDpiY * 25.4;//152.527
                     /*int*/
-                    height = (int)(152.52f/*147*//*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//3603
+                    height = (int)(152.52f/*147*//*330*//*350*/ * (renderDpiY / 25.4f)) + 1/*512*/;//3603
                 }
                 else if (k % 3 == 0 && k != 0)
                 {
-                    int OffsetPixels3 = (int)(5 / 25.4 * 600 + 1);//119
-                    double Yheight3 = (1280 * 3 - 119) / 600 * 25.4;//157.522
+                    int OffsetPixels3 = (int)(5 / 25.4 * renderDpiY + 1);//119
+                    double Yheight3 = (1280 * 3 - OffsetPixels3) / renderDpiY * 25.4;//157.522
                     /*int*/
-                    height = (int)(157.52f/*147*//*330*//*350*/ * (600 / 25.4f)) + 1/*512*/;//3721
+                    height = (int)(157.52f/*147*//*330*//*350*/ * (renderDpiY / 25.4f)) + 1/*512*/;//3721
                 }              
 #endif
 #endif
@@ -1439,7 +1477,7 @@ namespace BinderJetting
                 //    wicBitmap.Dispose();//20201118新增：防止wicBitmap出现问题//在线程删除位置处，添加了保护
                 //}                
                 wicBitmap = new Bitmap(wicFactory, width, height, SharpDX.WIC.PixelFormat./*Format32bppPBGRA*//*Format1bppIndexed*/Format32bppBGR, BitmapCreateCacheOption.CacheOnLoad);
-                wicBitmap.SetResolution(XDpi/*635*//*1270*2*/, 600);//设置分辨率为600dpi*9600dpi
+                wicBitmap.SetResolution(XDpi/*635*//*1270*2*/, renderDpiY);//设置分辨率为当前Y向DPI
 
 
                 var renderTargetProperties = new RenderTargetProperties(RenderTargetType.Default, new PixelFormat(Format.Unknown, AlphaMode.Unknown), 0, 0, RenderTargetUsage.None, SharpDX.Direct2D1.FeatureLevel.Level_DEFAULT);
@@ -1454,7 +1492,7 @@ namespace BinderJetting
                 d2dRenderTarget.DotsPerInch = size2F;
                 //(1)Draw Base contoul and back: 绘制基板轮廓背景          
                 Matrix3x2 myMatrix = new Matrix3x2(1, 0, 0, 1, 0, 0);//Y向坐标系翻转://世界坐标系坐标系变换：单位像素，全局变换
-                Vector2 vector1 = new Vector2(XDpi/*635*//*1270*2*//*600*/ / 96f/*1*//*0.5f * m_zoomScale*/, -600 / 96f/*1*//*0.5f * m_zoomScale*/);//非常关键：20200524新增
+                Vector2 vector1 = new Vector2(XDpi/*635*//*1270*2*//*600*/ / 96f/*1*//*0.5f * m_zoomScale*/, -renderDpiY / 96f/*1*//*0.5f * m_zoomScale*/);//非常关键：20200524新增
                 myMatrix.ScaleVector = vector1;//本机电脑上显示比例与实际比例差别
                 Vector2 vector2 = new Vector2(width / 2/*viewportbase.X*/, height / 2/*viewportbase.Y*/);//非常关键：20200524新增
                 myMatrix.TranslationVector = vector2;//坐标系平移
@@ -1554,7 +1592,7 @@ namespace BinderJetting
                 string cloneSize = clone == null ? "null" : $"{clone.Width}x{clone.Height}";
                 try
                 {
-                    clone.SetResolution(600f, 600f);//Windows7的系统BUG
+                    clone.SetResolution(renderDpiY, renderDpiY);//Windows7的系统BUG
                 }
                 catch (Exception exSetResolution)
                 {
@@ -1578,6 +1616,9 @@ namespace BinderJetting
 #if DataProcessDebugMode//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
                 clone.Save("output1bpp.bmp", ImageFormat.Bmp);//保存到BMPFile
 #endif
+#if TEMP_METEOR_BITMAP_EXPORT
+                ExportTemporaryBitmap(clone, "RenderToWic-clone", index, subindex, RePrintTimes);
+#endif
 #if SinglePassPrintMode
                 int stripIndex = 0;
                 uint actualScanJobWidth = (uint)Math.Max(1, clone.Width);
@@ -1590,26 +1631,32 @@ namespace BinderJetting
                 System.Drawing.Bitmap outputImage = null;
 #if TwoPassPrintMode
 #if TwoPassPrintPerSixTimes
-                CreatTwoPassFigure((int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)/*0*//*1280,*//*355*/, 6, clone, ref outputImage);
+                CreatTwoPassFigure((int)(gc_RysysParam.YJetOff / (25.4 / renderDpiY) + 1)/*0*//*1280,*//*355*/, 6, clone, ref outputImage);
 #endif
 #if TwoPassPrintPerThreeTimes             
                 /*int*/ k = index * RePrintTimes + subindex;
                 if (k % 3 == 1 || k == 0)//15mm偏移量
                 {
-                    CreatTwoPassFigure((int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
+                    CreatTwoPassFigure((int)(gc_RysysParam.YJetOff / (25.4 / renderDpiY) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
                 }
                 else if (k % 3 == 2)//10mm偏移量
                 {
-                    CreatTwoPassFigure((int)((gc_RysysParam.YJetOff-5) / (25.4 / 600) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
+                    CreatTwoPassFigure((int)((gc_RysysParam.YJetOff-5) / (25.4 / renderDpiY) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
                 }
                 else if (k % 3 == 0 && k != 0)//5mm偏移量
                 {
-                    CreatTwoPassFigure((int)((gc_RysysParam.YJetOff - 10) / (25.4 / 600) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
+                    CreatTwoPassFigure((int)((gc_RysysParam.YJetOff - 10) / (25.4 / renderDpiY) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
                 }
 #endif
 
 #if DataProcessDebugMode
                 outputImage.Save($"output1bpp-拼接-{{{k}}}.bmp", ImageFormat.Bmp);//保存到BMPFile  
+                if (outputImage != null)
+                {
+                }
+#endif
+#if TEMP_METEOR_BITMAP_EXPORT
+                ExportTemporaryBitmap(outputImage, "RenderToWic-outputImage", index, subindex, RePrintTimes);
 #endif
                 // 适配 Swath：流式分割，逐条发送并立即释放；扫描模式 STARTJOB / 每条 STARTSCAN+IMAGE+ENDDOC / ENDJOB
                 try
@@ -1653,6 +1700,7 @@ namespace BinderJetting
         }
         public void CreatTwoPassFigure(/*PassHeight = 1280 bit*/ int initialOffset/*第2幅图像的偏移数据*/, int numPasses/*可以计算出来:为6PASS*/, System.Drawing.Bitmap clone, ref System.Drawing.Bitmap outputImage)//20230420新增：
         {
+            float renderDpiY = GetRenderDpiY();
             int passHeight = 1280;
             // Load the input images
             System.Drawing.Bitmap inputImage1 = clone;//new System.Drawing.Bitmap("image1.bmp");
@@ -1764,7 +1812,7 @@ namespace BinderJetting
                 int outputStride = inputStride1/*outputData.Stride*/;
                 // 将新图像的数据复制到 Inptr3 中
                 Marshal.Copy(newData, 0, outputPtr, outputStride * (inputHeight * 2 + initialOffset * 2));//将newData复制到目标文件中
-                outputImage.SetResolution(600f, 600f);//Windows7的系统BUG
+                outputImage.SetResolution(renderDpiY, renderDpiY);//Windows7的系统BUG
                 outputImage.UnlockBits(outputData);
                 //outputImage.Dispose();
             }
@@ -1779,6 +1827,7 @@ namespace BinderJetting
         {
             if (action == true)
             {
+                float renderDpiY = GetRenderDpiY();
                 ///(1-1)设置1帧打印数据的基本参数：20210319新增
                 ///(2-1)绘制1帧需要打印的数据：20210319新增
                 ///(3-1)输出绘制的1帧数据，发送到控制器的上位机端内存缓冲区，配合控制器完成信息的实时打印机分配：20210319新建             
@@ -1786,7 +1835,7 @@ namespace BinderJetting
                 string CalibrationFilePath = System.Windows.Forms.Application.StartupPath + @"\CalibrationChart" + importCorrectionFigurePath/*System.Windows.Forms.Application.StartupPath + @"\CalibrationChart"*/;//输入的CLI文件的存放目录。
                 FileStream fs = new System.IO.FileStream(CalibrationFilePath/*CalibrationFilePath + @"\喷头套色校准图-0.bmp"*/, FileMode.Open, FileAccess.Read/*Read*/, FileShare.ReadWrite);//PicBoxCorrect1.Image = System.Drawing.Image.FromStream(fs);//20210328修改：修改权限，否则报错
                 System.Drawing.Bitmap clone = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromStream(fs);
-                clone.SetResolution(600f, 600f);//Windows7的系统BUG
+                clone.SetResolution(renderDpiY, renderDpiY);//Windows7的系统BUG
 
                 ////// （2）processedBit// Lock the bitmap's bits.  map.LockBits();//锁定到内存
                 ////System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, 10496/*clone.Width*/, 8960/*clone.Height*/);
@@ -1796,6 +1845,9 @@ namespace BinderJetting
 
 #if DataProcessDebugMode//20200610测试：测试生成的图片是否正确//20201118新增：方便调试
                   clone.Save("output1bpp.bmp", ImageFormat.Bmp);//保存到bmpfile
+#if TEMP_METEOR_BITMAP_EXPORT
+                ExportTemporaryBitmap(clone, "RenderToWic2-clone", index, subindex, RePrintTimes);
+#endif
 #endif
 
 #if SinglePassPrintMode
@@ -1810,6 +1862,12 @@ namespace BinderJetting
 #if TwoPassPrintPerSixTimes
                 System.Drawing.Bitmap outputImage = null;
                 CreatTwoPassFigure(0/*1280,*//*355*/, 6, clone, ref outputImage);
+#if TEMP_METEOR_BITMAP_EXPORT
+                ExportTemporaryBitmap(outputImage, "RenderToWic2-outputImage-6pass", index, subindex, RePrintTimes);
+#endif
+                if (outputImage != null)
+                {
+                }
                 int stripIndex6 = 0;
                 Log4Net.Info($"RenderToWic2: 复用外层已启动的 JOB，outputImage={outputImage.Width}x{outputImage.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndex6}");
                 SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex6 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, false, swathTop); stripIndex6++; }, 0, -1);
@@ -1820,6 +1878,12 @@ namespace BinderJetting
 #if TwoPassPrintPerThreeTimes
                 System.Drawing.Bitmap outputImage2 = null;
                 CreatTwoPassFigure(0/*1280,*//*355*/, 3, clone, ref outputImage2);
+#if TEMP_METEOR_BITMAP_EXPORT
+                ExportTemporaryBitmap(outputImage2, "RenderToWic2-outputImage-3pass", index, subindex, RePrintTimes);
+#endif
+                if (outputImage2 != null)
+                {
+                }
                 int stripIndex3 = 0;
                 Log4Net.Info($"RenderToWic2: 复用外层已启动的 JOB，outputImage={outputImage2.Width}x{outputImage2.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndex3}");
                 SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage2, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex3 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, false, swathTop); stripIndex3++; }, 0, -1);
@@ -2079,8 +2143,10 @@ namespace BinderJetting
             else { }
 #endif
 #region//20230202新建：根据1bpp,2bpp,3bpp++以及GrayScale来重新编码为最新需要下发的数据
-            int bpp = gc_RysysParam.PixelGrayBits/*2*/;//打印数据格式
+            const int ForcePrintBpp = 1; // 临时测试：强制按 1bpp 下发，便于与 SimPrint 示例对比
+            int bpp = ForcePrintBpp;//打印数据格式
             int GrayScale = gc_RysysParam.PixelGrayValue/*2*/;//打印灰阶
+            Log4Net.Info($"WriteImgLayerData: 强制测试模式，原始PixelGrayBits={gc_RysysParam.PixelGrayBits}，实际下发bpp={bpp}，GrayScale={GrayScale}");
 
             int BytePerLineForRgb1bppValues = (clone.Width * 1 + 31) / 32 * 4;//4byte对齐修正版本
             int BytePerLineForRgb2bppValues = (clone.Width * 2 + 31) / 32 * 4;//4byte对齐修正版本
@@ -2205,7 +2271,7 @@ namespace BinderJetting
             //royal.royal.g_prtimg_layer.nYJetOff =;//20210311修正：Y向的位置起始偏差。
             //royal.royal.g_prtimg_layer.nYJetOff = k_dYJetOff/*(int)(g_RYSYSParam.m_dYJetOff * 600)*/;//20210311修正：Y向的位置起始偏差。
             royal.royal.g_prtimg_layer.nXDPI = /*(int)*/XDpi/*635*//*XDpi*//*635*//*1270*2*//*635*/;//图像的XDPI，本质必须与光栅的DPI保持协调//20200802批注：修改原有的X向分辨率，本来应该是635DPI，提升到635*2DPI//20210324修改：打印校准图应该为635DPI//20230511修改：修改为浮点数
-            royal.royal.g_prtimg_layer.nYDPI = 600;//图像的XDPI，本值必须与喷头的DPI保持一致
+            royal.royal.g_prtimg_layer.nYDPI = (int)GetRenderDpiY();//图像的YDPI，本值必须与喷头的DPI保持一致
             if (bpp == 1)
             {
                 royal.royal.g_prtimg_layer.nBytesPerLine = BytePerLineForRgb1bppValues; //bmpData.Stride * bpp;///*bmpData每行的数据字节数*/
@@ -2229,7 +2295,7 @@ namespace BinderJetting
 
             //royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / 25.4 * 600);//20210311新增：Y向起打位置修订//20210330修改：
             //20230418完善：多PASS打印数据下发
-            int baseYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / 600) + 1);
+            int baseYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / GetRenderDpiY()) + 1);
             int swathJetOff = Math.Max(0, swathYOffset);
             int k = index * RePrintTimes + subindex;
 

@@ -3525,8 +3525,8 @@ namespace BinderJetting
 
             // 图形分割：流式分割，逐条发送并立即释放条带，降低大图内存峰值
             royal.royal.g_prtimg_layer.nXEncOff = 1;
-            royal.royal.g_prtimg_layer.nXDPI = 635;
-            royal.royal.g_prtimg_layer.nYDPI = 600;
+            royal.royal.g_prtimg_layer.nXDPI = (int)g_SharpControl.XDpi;
+            royal.royal.g_prtimg_layer.nYDPI = (int)g_SharpControl.RenderDpiY;
             royal.royal.g_prtimg_layer.nLayerIndex = index;
             royal.royal.g_prtimg_layer.nColorCnts = 1;
             royal.royal.g_prtimg_layer.nPrtFlag = 1;
@@ -7669,7 +7669,7 @@ namespace BinderJetting
             if (returnFlag == true/*false*/)//20200801批注：修改为true//20210312修改：false状态为本地调试模式
             {
 #if false
-                royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / 25.4 * 600);//20210311新增：Y向起打位置修订//20210330修改：
+                royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / (25.4 / g_SharpControl.RenderDpiY) + 1);//20210311新增：Y向起打位置修订//20210330修改：
 #endif
                 DataTaskFlag = 2;//工作态标志//工作态不可强制暂停       
                 switch (TransferModifyFlag)//无论如何，应该等待1层执行完成，再做定夺。这比较合理
@@ -9700,7 +9700,7 @@ namespace BinderJetting
                     royal.royal.g_sys_param.szLogPath = g_RYSYSParam.m_sLogPath;
                     //royal.royal.g_sys_param.szWavePath = g_RYSYSParam.m_sWavePath;
 
-                    royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / 25.4 * 600);//20210311新增：Y向起打位置修订
+                    royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / (25.4 / g_SharpControl.RenderDpiY) + 1);//20210311新增：Y向起打位置修订
 
                     //royal.royal.g_prtimg_layer.nYJetOff=(int)(g_RYSYSParam.m_dYJetOff/25.4*600);//20210311新增：Y向起打位置修订
 
