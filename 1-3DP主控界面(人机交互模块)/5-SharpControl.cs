@@ -1410,6 +1410,8 @@ namespace BinderJetting
         }
         public float/*int*/ XDpi = 635 * 2;//20201017新增批注：X向打印分辨率
         public float RenderDpiY = 400f;//20260409新增：Y向渲染/位图分辨率，现场默认按400DPI配置
+        public bool ExportSlicesOnlyMode = false;//20260409新增：仅导出切片图，不启动Meteor发送
+        public bool SimplifiedMeteorAutoFlowMode = true;//20260410新增：自动流程临时简化为单向单PASS，便于定位双向/多PASS问题
 
         private float GetRenderDpiY()
         {
@@ -1425,6 +1427,11 @@ namespace BinderJetting
             {
                 float renderDpiY = GetRenderDpiY();
                 Log4Net.Info($"RenderToWic: enter, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, ActualStartNum={ActualStartNum}, XDpi={XDpi}");
+                if (SimplifiedMeteorAutoFlowMode && subindex > 0)
+                {
+                    Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 跳过重复重喷子层，index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}");
+                    return;
+                }
                 try
                 {
                 //wicFactory = new ImagingFactory();
@@ -1619,6 +1626,24 @@ namespace BinderJetting
 #if TEMP_METEOR_BITMAP_EXPORT
                 ExportTemporaryBitmap(clone, "RenderToWic-clone", index, subindex, RePrintTimes);
 #endif
+                if (SimplifiedMeteorAutoFlowMode)
+                {
+                    int stripIndexSimple = 0;
+                    uint actualScanJobWidth = (uint)Math.Max(1, clone.Width);
+                    MeteorPrintEngine.SetPendingScanJobWidth(actualScanJobWidth);
+                    MeteorPrintEngine.SendStartJob(0, actualScanJobWidth);
+                    Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 已启用，按 HiPrint 风格使用 clone 分swath发送且固定YTop，clone={clone.Width}x{clone.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}");
+                    SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, (strip, swathTop) =>
+                    {
+                        royal.royal.g_prtimg_layer.nPrtDir = 1;
+                        int writeRet = WriteImgLayerData(strip, index, 0, 1, true, 0);
+                        Log4Net.Info("RenderToWic: Simplified HiPrint-style stripProcessor 完成, stripIndexSimple=" + stripIndexSimple + ", swathTop=" + swathTop + ", writeRet=" + writeRet);
+                        stripIndexSimple++;
+                    }, 0, -1);
+                    Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 固定YTop分swath发送完成，index={index}, subindex={subindex}, stripIndexSimple={stripIndexSimple}");
+                    clone.Dispose();
+                    return;
+                }
 #if SinglePassPrintMode
                 int stripIndex = 0;
                 uint actualScanJobWidth = (uint)Math.Max(1, clone.Width);
@@ -1658,6 +1683,19 @@ namespace BinderJetting
 #if TEMP_METEOR_BITMAP_EXPORT
                 ExportTemporaryBitmap(outputImage, "RenderToWic-outputImage", index, subindex, RePrintTimes);
 #endif
+                if (ExportSlicesOnlyMode)
+                {
+                    Log4Net.Info("RenderToWic: ExportSlicesOnlyMode 已启用，本次仅导出切片图，不发送到Meteor。");
+                    if (outputImage != null)
+                    {
+                        outputImage.Dispose();
+                    }
+                    if (clone != null)
+                    {
+                        clone.Dispose();
+                    }
+                    return;
+                }
                 // 适配 Swath：流式分割，逐条发送并立即释放；扫描模式 STARTJOB / 每条 STARTSCAN+IMAGE+ENDDOC / ENDJOB
                 try
                 {
@@ -1881,6 +1919,17 @@ namespace BinderJetting
 #if TEMP_METEOR_BITMAP_EXPORT
                 ExportTemporaryBitmap(outputImage2, "RenderToWic2-outputImage-3pass", index, subindex, RePrintTimes);
 #endif
+                if (ExportSlicesOnlyMode)
+                {
+                    Log4Net.Info("RenderToWic2: ExportSlicesOnlyMode 已启用，本次仅导出切片图，不发送到Meteor。");
+                    if (outputImage2 != null)
+                    {
+                        outputImage2.Dispose();
+                    }
+                    clone.Dispose();
+                    fs.Dispose();
+                    return;
+                }
                 if (outputImage2 != null)
                 {
                 }

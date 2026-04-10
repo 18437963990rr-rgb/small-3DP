@@ -32,6 +32,9 @@ namespace BinderJetting
 {
     public partial class 手动操作 : Form
     {
+        // 手动界面的 Meteor 调试按钮会直接用到渲染接口，这里提供独立实例以避免引用主界面私有成员。
+        private readonly SharpControl g_SharpControl = new SharpControl();
+
         // 定义常量光栅尺分辨率为每毫米1000线，每英寸25400线（Royal/旧光栅用）
         const int EncoderLinePerMM = 1000;
         const int EncoderLinePerInch =  EncoderLinePerMM * 254 / 10;
@@ -14065,6 +14068,133 @@ namespace BinderJetting
             else
             {
                 Log4Net.Info("手动操作界面 button17：喷头上电失败");
+            }
+        }
+        private void button30_Click(object sender, EventArgs e)
+        {
+            string jobBitmapPath = System.IO.Path.Combine(System.Windows.Forms.Application.StartupPath, @"JOB输出文件\0.bmp");
+            Log4Net.Info($"button30_Click: 开始执行 Meteor 单向单PASS测试，bitmap={jobBitmapPath}");
+
+            if (!System.IO.File.Exists(jobBitmapPath))
+            {
+                string msg = $"Meteor 单向测试失败：未找到测试图 {jobBitmapPath}";
+                Log4Net.Info(msg);
+                MessageBox.Show(msg);
+                return;
+            }
+
+            System.Drawing.Bitmap processedBitmap = null;
+            System.Drawing.Imaging.BitmapData bmpData = null;
+            IntPtr imgPtr = IntPtr.Zero;
+
+            try
+            {
+                processedBitmap = new System.Drawing.Bitmap(jobBitmapPath);
+                if (processedBitmap.PixelFormat != System.Drawing.Imaging.PixelFormat.Format1bppIndexed)
+                {
+                    string msg = $"Meteor 单向测试失败：当前仅支持 1bpp 图像，实际像素格式={processedBitmap.PixelFormat}";
+                    Log4Net.Info(msg);
+                    MessageBox.Show(msg);
+                    return;
+                }
+
+                System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, processedBitmap.Width, processedBitmap.Height);
+                bmpData = processedBitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadOnly, processedBitmap.PixelFormat);
+
+                int bytes = Math.Abs(bmpData.Stride) * processedBitmap.Height;
+                byte[] rgbValues = new byte[bytes];
+                Marshal.Copy(bmpData.Scan0, rgbValues, 0, bytes);
+
+                for (int counter = 0; counter < bytes; counter++)
+                    rgbValues[counter] = (byte)~rgbValues[counter];
+
+                imgPtr = Marshal.AllocHGlobal(bytes);
+                Marshal.Copy(rgbValues, 0, imgPtr, bytes);
+
+                royal.royal.g_prtimg_layer = new royal.LPPRTIMG_LAYER();
+                royal.royal.g_prtimg_layer.nReserved = new int[8];
+                royal.royal.g_prtimg_layer.nLayerIndex = 1;
+                royal.royal.g_prtimg_layer.nImgStartJetIndex = 0;
+                royal.royal.g_prtimg_layer.nPrtDir = 1;
+                royal.royal.g_prtimg_layer.nXEncOff = 1;
+                royal.royal.g_prtimg_layer.nYJetOff = 0;
+                royal.royal.g_prtimg_layer.nColorCnts = 1;
+                royal.royal.g_prtimg_layer.nXDPI = 400;
+                royal.royal.g_prtimg_layer.nYDPI = 400;
+                royal.royal.g_prtimg_layer.nBytesPerLine = bmpData.Stride;
+                royal.royal.g_prtimg_layer.nWidth = processedBitmap.Width;
+                royal.royal.g_prtimg_layer.nHeight = processedBitmap.Height;
+                royal.royal.g_prtimg_layer.nPrtFlag = 0;
+
+                Log4Net.Info(
+                    $"button30_Click: 测试参数 width={processedBitmap.Width}, height={processedBitmap.Height}, " +
+                    $"stride={bmpData.Stride}, XDPI={royal.royal.g_prtimg_layer.nXDPI}, " +
+                    $"YDPI={royal.royal.g_prtimg_layer.nYDPI}, nPrtDir={royal.royal.g_prtimg_layer.nPrtDir}, " +
+                    $"nPrtFlag={royal.royal.g_prtimg_layer.nPrtFlag}, nXEncOff={royal.royal.g_prtimg_layer.nXEncOff}, " +
+                    $"nYJetOff={royal.royal.g_prtimg_layer.nYJetOff}, nImgStartJetIndex={royal.royal.g_prtimg_layer.nImgStartJetIndex}");
+
+                if (!MeteorPrintEngine.SendStartJob(0, (uint)processedBitmap.Width))
+                {
+                    Log4Net.Info("button30_Click: SendStartJob 失败。");
+                    MessageBox.Show("Meteor 单向测试失败：SendStartJob 失败。");
+                    return;
+                }
+
+                int nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, imgPtr, bytes);
+                Log4Net.Info($"button30_Click: WriteImageLayer 返回 nRet={nRet}");
+                if (nRet <= 0)
+                {
+                    MessageBox.Show($"Meteor 单向测试失败：WriteImageLayer 返回 {nRet}");
+                    return;
+                }
+
+                Log4Net.Info("button30_Click: Meteor 单向单PASS测试发送完成。");
+                MessageBox.Show("Meteor 单向单PASS测试发送完成。");
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"button30_Click exception: {ex}");
+                MessageBox.Show("Meteor 单向测试异常：" + ex.Message);
+            }
+            finally
+            {
+                try
+                {
+                    MeteorPrintEngine.SendEndJob();
+                }
+                catch (Exception ex)
+                {
+                    Log4Net.Info($"button30_Click: SendEndJob exception: {ex.Message}");
+                }
+
+                if (bmpData != null && processedBitmap != null)
+                    processedBitmap.UnlockBits(bmpData);
+                if (imgPtr != IntPtr.Zero)
+                    Marshal.FreeHGlobal(imgPtr);
+                if (processedBitmap != null)
+                    processedBitmap.Dispose();
+            }
+        }
+
+        private void button31_Click(object sender, EventArgs e)
+        {
+            Log4Net.Info("button31_Click: 开始执行仅导出切片图测试，不启动Meteor发送。");
+            try
+            {
+                g_SharpControl.ExportSlicesOnlyMode = true;
+                g_SharpControl.RenderToWic(true, 0, 0, 1, 0);
+                string exportRoot = System.IO.Path.Combine(System.Windows.Forms.Application.StartupPath, "TEMP_METEOR_BITMAP_EXPORT");
+                Log4Net.Info($"button31_Click: 切片图导出完成，目录={exportRoot}");
+                MessageBox.Show("切片图导出完成。");
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"button31_Click exception: {ex}");
+                MessageBox.Show("导出切片图异常：" + ex.Message);
+            }
+            finally
+            {
+                g_SharpControl.ExportSlicesOnlyMode = false;
             }
         }
     }
