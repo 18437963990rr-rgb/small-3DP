@@ -13,10 +13,10 @@ namespace BuildBMP
         public static void SetTiff(Layer layer, double LayerThickness, double x, double y, string FilePath)//————输出BMP图形
         {
             //定义图形长宽
-            int X = Convert.ToInt32(x * 600 / 25.4);
-            int Y = Convert.ToInt32(y * 600 / 25.4);
-            double X1 = x * 600 / 25.4;
-            double Y1 = y * 600 / 25.4;
+            int X = Convert.ToInt32(x * RipPlateConfig.RipDpi / 25.4);
+            int Y = Convert.ToInt32(y * RipPlateConfig.RipDpi / 25.4);
+            double X1 = x * RipPlateConfig.RipDpi / 25.4;
+            double Y1 = y * RipPlateConfig.RipDpi / 25.4;
             if (X < X1)//保证图像尺寸，X方向值不失真
             {
                 X += 1;
@@ -25,7 +25,7 @@ namespace BuildBMP
             { Y += 1; }
             Bitmap bmp = new Bitmap(X, Y);
             //设置分辨率
-            bmp.SetResolution(600, 600);
+            bmp.SetResolution(RipPlateConfig.RipDpi, RipPlateConfig.RipDpi);
             //GDI+，对象
             Graphics g = Graphics.FromImage(bmp);
             g.SmoothingMode = SmoothingMode.AntiAlias;  //使绘图质量最高，即消除锯齿
@@ -49,9 +49,9 @@ namespace BuildBMP
 
                 for (int k = 0; k < poly.Length; k++)
                 {
-                    poly[k].X = poly[k].X * Convert.ToInt32(600 / 25.4);
+                    poly[k].X = poly[k].X * Convert.ToInt32(RipPlateConfig.RipDpi / 25.4);
 
-                    poly[k].Y = poly[k].Y * Convert.ToInt32(600 / 25.4);
+                    poly[k].Y = poly[k].Y * Convert.ToInt32(RipPlateConfig.RipDpi / 25.4);
                 }
                 if (lines.dir == 1)//
                 {
@@ -173,8 +173,8 @@ namespace BuildBMP
         /// <param name="OneLine"></param>
         public static void InitBigTiff(int DPI, Graphics g, Pen OuterPen, Brush BrushOuter, Pen InterPen, Brush BrushInter, Pen OneLine)
         {
-            Bitmap outputBMP = new Bitmap(420 * DPI, 350 * DPI);//图片大小为                                                            
-            outputBMP.SetResolution(600, 600);//设置分辨率
+            Bitmap outputBMP = new Bitmap((int)(RipPlateConfig.PlateWidthMm * DPI / 25.4 + 1), (int)(RipPlateConfig.PlateHeightMm * DPI / 25.4 + 1));//图片大小为
+            outputBMP.SetResolution(DPI, DPI);//设置分辨率
             //outputBMP.SetPixel(420 * DPI, 350 * DPI, Color.FromArgb(0, 0, 0));//图片的像素大小，RGB完全透明
             g = Graphics.FromImage(outputBMP);//GDI+，对象
             g.SmoothingMode = SmoothingMode.AntiAlias;  //使绘图质量最高，即消除锯齿
@@ -218,9 +218,9 @@ namespace BuildBMP
 
                 for (int k = 0; k < poly.Length; k++)//位置偏移
                 {
-                    poly[k].X = (poly[k].X + x) * Convert.ToInt32(600 / 25.4);//进行了位置的偏移
+                    poly[k].X = (poly[k].X + x) * Convert.ToInt32(RipPlateConfig.RipDpi / 25.4);//进行了位置的偏移
 
-                    poly[k].Y = (poly[k].Y + y) * Convert.ToInt32(600 / 25.4);//进行了位置的偏移
+                    poly[k].Y = (poly[k].Y + y) * Convert.ToInt32(RipPlateConfig.RipDpi / 25.4);//进行了位置的偏移
                 }
                 if (lines.dir == 1)//外轮廓
                 {

@@ -49,6 +49,14 @@ namespace BinderJetting
 
     class SharpControl
     {
+        /// <summary>成型平台幅面（mm），与 RIP RipPlateConfig、排版 ComposationCLI 一致；零件位置为左下原点。</summary>
+        public const float PlateWidthMm = 465f;
+        public const float PlateHeightMm = 370f;
+        /// <summary>毫米坐标从「平台左下角」转到「平台中心为原点」时的 X 偏移（=半宽）。</summary>
+        public static readonly float PlateCenterOffsetXMm = PlateWidthMm * 0.5f;
+        /// <summary>毫米坐标从「平台左下角」转到「平台中心为原点」时的 Y 偏移（= 半高）。</summary>
+        public static readonly float PlateCenterOffsetYMm = PlateHeightMm * 0.5f;
+
         public RYSYSParam gc_RysysParam = new RYSYSParam();//20210113新增：用于修改大零件打印子区域处理算法的相关参数：
 
         public List<JobItem> tempJobItems = new List<JobItem>();//全部的job参数，包含了所有STL位置、参数//20200527框架移植：
@@ -435,27 +443,27 @@ namespace BinderJetting
             myMatrix.TranslationVector = vector2;//坐标系平移
             deviceContext.Transform = myMatrix;
 
-            RawRectangleF rectangleF = new RawRectangleF(-165f/*210f*/ * mm2Dip, -165f/*175f*/ * mm2Dip, 165f/*210f*/ * mm2Dip, 165f/*175f*/ * mm2Dip);//左上右下//Draw Base contoul and back: 绘制基板轮廓背景
+            RawRectangleF rectangleF = new RawRectangleF(-PlateCenterOffsetXMm * mm2Dip, -PlateCenterOffsetYMm * mm2Dip, PlateCenterOffsetXMm * mm2Dip, PlateCenterOffsetYMm * mm2Dip);//左上右下//Draw Base contoul and back: 绘制基板轮廓背景
             deviceContext.FillRectangle(rectangleF, BaseBrush);
             deviceContext.DrawRectangle(rectangleF, OutlineBrush, 1.25f / (0.5f * m_zoomScale));
 #if TwoPassPrintMode
 #if TwoPassPrintPerSixTimes
             //20230419新增：指定基板的Y方向区域，不超标
             /*RawRectangleF*/
-            rectangleF = new RawRectangleF(-165f/*210f*/ * mm2Dip, -165f/*175f*/ * mm2Dip, 165f/*210f*/ * mm2Dip, -155f/*155*//*175f*/ * mm2Dip);//左上右下//Draw Base contoul and back: 绘制基板轮廓背景
+            rectangleF = new RawRectangleF(-PlateCenterOffsetXMm * mm2Dip, -PlateCenterOffsetYMm * mm2Dip, PlateCenterOffsetXMm * mm2Dip, -(PlateCenterOffsetYMm - 10f) * mm2Dip);//左上右下//Draw Base contoul and back: 绘制基板轮廓背景
             deviceContext.FillRectangle(rectangleF, LocationHoleBrush/*BaseBrush*/);
             //deviceContext.DrawRectangle(rectangleF, OutlineBrush, 1.25f / (0.5f * m_zoomScale));
-            rectangleF = new RawRectangleF(-165f/*210f*/ * mm2Dip, 155f/*175f*/ * mm2Dip, 165f/*210f*/ * mm2Dip, 165f/*155*//*175f*/ * mm2Dip);//左上右下//
+            rectangleF = new RawRectangleF(-PlateCenterOffsetXMm * mm2Dip, (PlateCenterOffsetYMm - 10f) * mm2Dip, PlateCenterOffsetXMm * mm2Dip, PlateCenterOffsetYMm * mm2Dip);//左上右下//
             //deviceContext.DrawRectangle(rectangleF, OutlineBrush, 1.25f / (0.5f * m_zoomScale));
             deviceContext.FillRectangle(rectangleF, LocationHoleBrush/*BaseBrush*/);
 #endif
 #if TwoPassPrintPerThreeTimes
                         //20230419新增：指定基板的Y方向区域，不超标
             /*RawRectangleF*/
-            rectangleF = new RawRectangleF(-165f/*210f*/ * mm2Dip, -165f/*175f*/ * mm2Dip, 165f/*210f*/ * mm2Dip, -73.5f/*155*//*175f*/ * mm2Dip);//左上右下//Draw Base contoul and back: 绘制基板轮廓背景
+            rectangleF = new RawRectangleF(-PlateCenterOffsetXMm * mm2Dip, -PlateCenterOffsetYMm * mm2Dip, PlateCenterOffsetXMm * mm2Dip, -(PlateCenterOffsetYMm * (73.5f / 165f)) * mm2Dip);//左上右下//Draw Base contoul and back: 绘制基板轮廓背景
             deviceContext.FillRectangle(rectangleF, LocationHoleBrush/*BaseBrush*/);
             //deviceContext.DrawRectangle(rectangleF, OutlineBrush, 1.25f / (0.5f * m_zoomScale));
-            rectangleF = new RawRectangleF(-165f/*210f*/ * mm2Dip, 73.5f/*175f*/ * mm2Dip, 165f/*210f*/ * mm2Dip, 165f/*155*//*175f*/ * mm2Dip);//左上右下//
+            rectangleF = new RawRectangleF(-PlateCenterOffsetXMm * mm2Dip, (PlateCenterOffsetYMm * (73.5f / 165f)) * mm2Dip, PlateCenterOffsetXMm * mm2Dip, PlateCenterOffsetYMm * mm2Dip);//左上右下//
             //deviceContext.DrawRectangle(rectangleF, OutlineBrush, 1.25f / (0.5f * m_zoomScale));
             deviceContext.FillRectangle(rectangleF, LocationHoleBrush/*BaseBrush*/);
 #endif
@@ -487,13 +495,13 @@ namespace BinderJetting
             {
                 for (float i = 2.5f/*2*/; i < 17;/*i++*/ i = i + 2.5f/* 2*/)//绘制X轴坐标线//20200621优化：刻度值为50
                 {
-                    deviceContext.DrawLine(new Vector2(-10 * i * mm2Dip, 165/*175*/ * mm2Dip), new Vector2(-10 * i * mm2Dip, -165/*175*/ * mm2Dip), BaseLineBrush, 1f / (0.5f * m_zoomScale), strokeStyle2/*strokeStyle2*/);
-                    deviceContext.DrawLine(new Vector2(10 * i * mm2Dip, 165/*175*/ * mm2Dip), new Vector2(10 * i * mm2Dip, -165/*175*/ * mm2Dip), BaseLineBrush, 1f / (0.5f * m_zoomScale), strokeStyle2/*strokeStyle2*/);
+                    deviceContext.DrawLine(new Vector2(-10 * i * mm2Dip, PlateCenterOffsetYMm * mm2Dip), new Vector2(-10 * i * mm2Dip, -PlateCenterOffsetYMm * mm2Dip), BaseLineBrush, 1f / (0.5f * m_zoomScale), strokeStyle2/*strokeStyle2*/);
+                    deviceContext.DrawLine(new Vector2(10 * i * mm2Dip, PlateCenterOffsetYMm * mm2Dip), new Vector2(10 * i * mm2Dip, -PlateCenterOffsetYMm * mm2Dip), BaseLineBrush, 1f / (0.5f * m_zoomScale), strokeStyle2/*strokeStyle2*/);
                 }
                 for (float i = 2.5f/*2*/; i < 17/*18*/; /*i++*/ i = i + 2.5f/*2*/)//绘制Y轴坐标线//20200621优化：刻度值为50
                 {
-                    deviceContext.DrawLine(new Vector2(-165/*210*/ * mm2Dip, -10 * i * mm2Dip), new Vector2(165/*210*/ * mm2Dip, -10 * i * mm2Dip), BaseLineBrush, 1f / (0.5f * m_zoomScale), strokeStyle2 /*strokeStyle2*/);
-                    deviceContext.DrawLine(new Vector2(-165/*210*/ * mm2Dip, 10 * i * mm2Dip), new Vector2(165/*210*/ * mm2Dip, 10 * i * mm2Dip), BaseLineBrush, 1f / (0.5f * m_zoomScale), strokeStyle2 /*strokeStyle2*/);
+                    deviceContext.DrawLine(new Vector2(-PlateCenterOffsetXMm * mm2Dip, -10 * i * mm2Dip), new Vector2(PlateCenterOffsetXMm * mm2Dip, -10 * i * mm2Dip), BaseLineBrush, 1f / (0.5f * m_zoomScale), strokeStyle2 /*strokeStyle2*/);
+                    deviceContext.DrawLine(new Vector2(-PlateCenterOffsetXMm * mm2Dip, 10 * i * mm2Dip), new Vector2(PlateCenterOffsetXMm * mm2Dip, 10 * i * mm2Dip), BaseLineBrush, 1f / (0.5f * m_zoomScale), strokeStyle2 /*strokeStyle2*/);
                 }
             }
 
@@ -516,10 +524,10 @@ namespace BinderJetting
                 CornerCoverBrush.Color = rawColor4;
 
                 CornerCoverBrush.Opacity = 0.2f/*0.45f*/;//设置透明程度
-                RawRectangleF rectangleF5 = new RawRectangleF(-165/*210*/ * mm2Dip, -75 * mm2Dip, 165/*210*/ * mm2Dip, -125 * mm2Dip);//左上右下
+                RawRectangleF rectangleF5 = new RawRectangleF(-PlateCenterOffsetXMm * mm2Dip, -75 * mm2Dip, PlateCenterOffsetXMm * mm2Dip, -125 * mm2Dip);//左上右下
                 //deviceContext.FillRectangle(rectangleF5, CornerCoverBrush);
                 //deviceContext.DrawRectangle(rectangleF5, OutlineBrush, 1.2f, strokeStyle3);
-                rectangleF5 = new RawRectangleF(-165/*210*/ * mm2Dip, 75 * mm2Dip, 165/*210*/ * mm2Dip, 125 * mm2Dip);//左上右下
+                rectangleF5 = new RawRectangleF(-PlateCenterOffsetXMm * mm2Dip, 75 * mm2Dip, PlateCenterOffsetXMm * mm2Dip, 125 * mm2Dip);//左上右下
                 //deviceContext.FillRectangle(rectangleF5, CornerCoverBrush);
                 //deviceContext.DrawRectangle(rectangleF5, OutlineBrush, 1.2f, strokeStyle3);
                 rawColor4 = SharpDX.Color.Blue/*Green*//* new RawColor4(50, 50, 100, 255)*/;
@@ -527,7 +535,7 @@ namespace BinderJetting
                 CornerCoverBrush.Color = rawColor4;
 
                 CornerCoverBrush.Opacity = 0.2f/*0.45f*/;//设置透明程度
-                rectangleF5 = new RawRectangleF(-165/*210*/ * mm2Dip, -25 * mm2Dip, 165/*210*/ * mm2Dip, 25 * mm2Dip);//左上右下
+                rectangleF5 = new RawRectangleF(-PlateCenterOffsetXMm * mm2Dip, -25 * mm2Dip, PlateCenterOffsetXMm * mm2Dip, 25 * mm2Dip);//左上右下
                 //deviceContext.FillRectangle(rectangleF5, CornerCoverBrush);
                 //deviceContext.DrawRectangle(rectangleF5, OutlineBrush, 1.2f, strokeStyle3);
                 rawColor4 = SharpDX.Color.Green/*Yellow*//*Green*//* new RawColor4(50, 50, 100, 255)*/;
@@ -535,10 +543,10 @@ namespace BinderJetting
                 CornerCoverBrush.Color = rawColor4;
 
                 CornerCoverBrush.Opacity = 0.15f/*0.45f*/;//设置透明程度
-                rectangleF5 = new RawRectangleF(-165/*210*/ * mm2Dip, 25 * mm2Dip, 165/*210*/ * mm2Dip, 75 * mm2Dip);//左上右下
+                rectangleF5 = new RawRectangleF(-PlateCenterOffsetXMm * mm2Dip, 25 * mm2Dip, PlateCenterOffsetXMm * mm2Dip, 75 * mm2Dip);//左上右下
                 //deviceContext.FillRectangle(rectangleF5, CornerCoverBrush);
                 //deviceContext.DrawRectangle(rectangleF5, OutlineBrush, 1.2f, strokeStyle3);
-                rectangleF5 = new RawRectangleF(-165/*210*/ * mm2Dip, -25 * mm2Dip, 165/*210*/ * mm2Dip, -75 * mm2Dip);//左上右下
+                rectangleF5 = new RawRectangleF(-PlateCenterOffsetXMm * mm2Dip, -25 * mm2Dip, PlateCenterOffsetXMm * mm2Dip, -75 * mm2Dip);//左上右下
                 //deviceContext.FillRectangle(rectangleF5, CornerCoverBrush);
                 //deviceContext.DrawRectangle(rectangleF5, OutlineBrush, 1.2f, strokeStyle3);
                 //OutlineBrush = new SolidColorBrush(deviceContext, SharpDX.Color.Black);
@@ -571,7 +579,7 @@ namespace BinderJetting
             }
 
             //(3)绘制基板4个定位孔：
-            DrawPositionHole(150/*195*/, 135/*150*//*160*/, 10, OutlineBrush, LocationHoleBrush);//Y向向中心偏移
+            DrawPositionHole(150f * PlateCenterOffsetXMm / 210f, 135f * PlateCenterOffsetYMm / 175f, 10, OutlineBrush, LocationHoleBrush);//Y向向中心偏移（随幅面比例，相对原420×350示意）
             ////CoordinatLineBrush = new SolidColorBrush(deviceContext, SharpDX.Color./*Red*/CornflowerBlue);
 
 
@@ -1005,8 +1013,8 @@ namespace BinderJetting
                                     borderx2 = (k_pSelectArea[1].X - viewportbase.X) * mm2Dip / m_zoomScale * 0.25f/*0.25f */- 1;
                                     bordery2 = (k_pSelectArea[1].Y - viewportbase.Y) * mm2Dip / m_zoomScale * 0.25f/*0.25f*/ + 1;
                                 }
-                                float x1 = gc_RemoteCLIs[CLIlayerIndex].aLayerData[i].x - 165/*210*/;//201106新增：选中操作区域实际上是2点矩形
-                                float y1 = gc_RemoteCLIs[CLIlayerIndex].aLayerData[i].y - 165/*175*/;
+                                float x1 = gc_RemoteCLIs[CLIlayerIndex].aLayerData[i].x - PlateCenterOffsetXMm;//201106新增：选中操作区域实际上是2点矩形
+                                float y1 = gc_RemoteCLIs[CLIlayerIndex].aLayerData[i].y - PlateCenterOffsetYMm;
                                 float x2 = x1 + gc_RemoteCLIs[CLIlayerIndex].aLayerData[i].width;
                                 float y2 = y1 + gc_RemoteCLIs[CLIlayerIndex].aLayerData[i].height;
                                 if ((x1 > borderx1) && (x2 < borderx2) && (y1 > bordery1) && (y2 < bordery2))
@@ -1054,8 +1062,8 @@ namespace BinderJetting
                         float width = (float)tempJobItems[i].Width;//20201108新增
                         float height = (float)tempJobItems[i].Height;//20201108新增
 
-                        float x1 = x - 165/*210*/;
-                        float y1 = y - 165/*175*/;
+                        float x1 = x - PlateCenterOffsetXMm;
+                        float y1 = y - PlateCenterOffsetYMm;
                         float x2 = x1 + width;
                         float y2 = y1 + height;
                         if ((x1 > borderx1) && (x2 < borderx2) && (y1 > bordery1) && (y2 < bordery2))
@@ -1089,8 +1097,8 @@ namespace BinderJetting
             DrawPointF = new RawVector2[TempPointF.Length];
             for (int count = 0; count < TempPointF.Length; count++)
             {
-                DrawPointF[count].X = (TempPointF[count].X - 165/*210*/ + deltax) * mm2Dip2;//20201113修改：非常关键，实际打印应该问题不大
-                DrawPointF[count].Y = (TempPointF[count].Y - 165/*175*/ + deltay) * mm2Dip2;//20201113修改：非常关键，实际打印应该问题不大
+                DrawPointF[count].X = (TempPointF[count].X - PlateCenterOffsetXMm + deltax) * mm2Dip2;//20201113修改：非常关键，实际打印应该问题不大
+                DrawPointF[count].Y = (TempPointF[count].Y - PlateCenterOffsetYMm + deltay) * mm2Dip2;//20201113修改：非常关键，实际打印应该问题不大
             }
         }
         private void PointF2Vector(PointF[] TempPointF, ref RawVector2[] DrawPointF, float deltax, float deltay) //20200528新建测试：
@@ -1098,8 +1106,8 @@ namespace BinderJetting
             DrawPointF = new RawVector2[TempPointF.Length];
             for (int count = 0; count < TempPointF.Length; count++)
             {
-                DrawPointF[count].X = (TempPointF[count].X - 165/*210*/ + deltax) * mm2Dip;//20201112修改：
-                DrawPointF[count].Y = (TempPointF[count].Y - 165/*175*/ + deltay) * mm2Dip;//20201112修改：
+                DrawPointF[count].X = (TempPointF[count].X - PlateCenterOffsetXMm + deltax) * mm2Dip;//20201112修改：
+                DrawPointF[count].Y = (TempPointF[count].Y - PlateCenterOffsetYMm + deltay) * mm2Dip;//20201112修改：
             }
         }
         private void PointF2Vector3(PointF[] TempPointF, ref RawVector2[] DrawPointF, float deltax, float deltay) //20210113新建测试：
@@ -1107,8 +1115,8 @@ namespace BinderJetting
             DrawPointF = new RawVector2[TempPointF.Length];
             for (int count = 0; count < TempPointF.Length; count++)
             {
-                DrawPointF[count].X = (TempPointF[count].X - 165/*210*/ + 0) * mm2Dip;//20201112修改：
-                DrawPointF[count].Y = (TempPointF[count].Y - 165/*175*/ + 0) * mm2Dip;//20201112修改：
+                DrawPointF[count].X = (TempPointF[count].X - PlateCenterOffsetXMm + 0) * mm2Dip;//20201112修改：
+                DrawPointF[count].Y = (TempPointF[count].Y - PlateCenterOffsetYMm + 0) * mm2Dip;//20201112修改：
             }
         }
         private void PointF2Vector32(PointF[] TempPointF, ref RawVector2[] DrawPointF, float deltax, float deltay) //20210113新建测试：
@@ -1116,8 +1124,8 @@ namespace BinderJetting
             DrawPointF = new RawVector2[TempPointF.Length];
             for (int count = 0; count < TempPointF.Length; count++)
             {
-                DrawPointF[count].X = (TempPointF[count].X - 165/*210*/ + 0) * mm2Dip2;//20201112修改：
-                DrawPointF[count].Y = (TempPointF[count].Y - 165/*175*/ + 0) * mm2Dip2;//20201112修改：
+                DrawPointF[count].X = (TempPointF[count].X - PlateCenterOffsetXMm + 0) * mm2Dip2;//20201112修改：
+                DrawPointF[count].Y = (TempPointF[count].Y - PlateCenterOffsetYMm + 0) * mm2Dip2;//20201112修改：
             }
         }
 
@@ -1418,7 +1426,7 @@ namespace BinderJetting
             return RenderDpiY > 0 ? RenderDpiY : 400f;
         }
         /// <summary>
-        /// 20200609：生成1帧的加工数据//20220524新增:新设备 幅面330MM*330MM
+        /// 20200609：生成1帧的加工数据//幅面与 SharpControl.PlateWidthMm/PlateHeightMm 一致（当前465×370mm）
         /// </summary>
         /// <param name="action"></param>
         public void RenderToWic(bool action, int index, int subindex, int RePrintTimes, int ActualStartNum)//subindex:重喷索引，取值为0-1-2-3-....-n//201030新增：//20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
@@ -2140,7 +2148,7 @@ namespace BinderJetting
                 {
                     //(5)显示图片到二维GUI系统上
                     //heightwidthfactor = bitmap.Size.Width / bitmap.Size.Height;
-                    deviceContext.DrawBitmap(bitmap/*playerBitmap*/, new SharpDX.RectangleF(-330/*-420*/ * BMPscale * 0.5f, -330/*-350 */* BMPscale * 0.5f, 330/*420*/ * BMPscale, 330/*350*/ * BMPscale),
+                    deviceContext.DrawBitmap(bitmap/*playerBitmap*/, new SharpDX.RectangleF(-PlateWidthMm * BMPscale * 0.5f, -PlateHeightMm * BMPscale * 0.5f, PlateWidthMm * BMPscale, PlateHeightMm * BMPscale),
                         1f/*1.0f*/, SharpDX.Direct2D1.BitmapInterpolationMode.Linear);
                 }
                 else { }

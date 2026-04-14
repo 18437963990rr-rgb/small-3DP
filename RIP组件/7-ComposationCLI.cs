@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ReadFile;//Composation和BinderJetting命名空间均包含了此读取命名控件
+using BuildBMP;
 
 namespace Composation//统一修改为BinderJetting命名空间
 {
@@ -20,8 +21,8 @@ namespace Composation//统一修改为BinderJetting命名空间
             InitiateTIFF(ref CliStreams);//recordPath存了Paths, CliStreams
             SortTIFF(jobItems,ref CliStreams);//在生成新的jobItems序列的同时，CliStreams序列也必须得到维护
             //Initiate the tempX:
-            //double tempX = 420-2* borderSafeGap;//record the spare row length in BASE, and the iniatiate value is 420-2*borderSafeGap
-            //double tempY = 350-2* borderSafeGap;//record the spare colunm length in BASE , and the iniatiate value is 350-2*borderSafeGap
+            //double tempX = RipPlateConfig.PlateWidthMm-2* borderSafeGap;//record the spare row length in BASE, and the iniatiate value is 420-2*borderSafeGap
+            //double tempY = RipPlateConfig.PlateHeightMm-2* borderSafeGap;//record the spare colunm length in BASE , and the iniatiate value is 350-2*borderSafeGap
             //Initiate the position:
             jobItems[0].position.X = borderSafeGap;//the initianate value is bordersafeGap
             jobItems[0].position.Y = borderSafeGap;//the initianate value is bordersafeGap
@@ -30,12 +31,12 @@ namespace Composation//统一修改为BinderJetting命名空间
 
             for (int k=1;k<jobItems.Count;k++)//Go through all the TIFF path, the first ID is 1, not the 2
             {
-                if (jobItems[k-1].position.X+ jobItems[k-1].Width + jobItems[k].Width+innerSafeGap<420-borderSafeGap)//if a row is not arrange well yet.//Arrange a row:
+                if (jobItems[k-1].position.X+ jobItems[k-1].Width + jobItems[k].Width+innerSafeGap<RipPlateConfig.PlateWidthMm-borderSafeGap)//if a row is not arrange well yet.//Arrange a row:
                 {                 
                     //Calculate the new position:
                     jobItems[k].position.X = jobItems[k-1].position.X+ jobItems[k-1].Width+innerSafeGap;
                     jobItems[k].position.Y = jobItems[k - 1].position.Y;
-                    //jobItems[k].position.Y = 350- borderSafeGap- tempY;
+                    //jobItems[k].position.Y = RipPlateConfig.PlateHeightMm- borderSafeGap- tempY;
                     //Calculate the new tempX:
                     //tempX = tempX- jobItems[k].Width-innerSafeGap;//TEMPX - 占用的1个零件的宽度
                     tempColumnNum++;
@@ -48,8 +49,8 @@ namespace Composation//统一修改为BinderJetting命名空间
                     jobItems[k].position.X = borderSafeGap;
                     jobItems[k].position.Y = jobItems[k-1].position.Y+PreviousMaxRowHeight+innerSafeGap;
 
-                    //tempX= 420 - 2 * borderSafeGap- jobItems[k].Width - innerSafeGap;
-                    //tempY = 350 - borderSafeGap - tempY - PreviousMaxRowHeight;
+                    //tempX= RipPlateConfig.PlateWidthMm - 2 * borderSafeGap- jobItems[k].Width - innerSafeGap;
+                    //tempY = RipPlateConfig.PlateHeightMm - borderSafeGap - tempY - PreviousMaxRowHeight;
                     tempColumnNum = 1;//reset the tempColumnNum when a new row is already start
                 }
             }

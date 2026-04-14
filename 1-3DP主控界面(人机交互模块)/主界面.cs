@@ -6303,8 +6303,8 @@ namespace BinderJetting
                                     //tempSTL.Dimension[0].y = -tempSTL.Dimension[0].y + 175;//20221125新增：修复导入数据偏差
                                     //tempSTL.Dimension[1].y = -tempSTL.Dimension[1].y + 175;//20221125新增：修复导入数据偏差
 #else
-                                    double originalX = tempSTL.Dimension[0/*1*/].x - 165;//暂时先不设置，直接reset为0；之后支持在magics中进行完成的排版文件的导入————！！！！！//20200514xiugai
-                                    double originalY = tempSTL.Dimension[0/*1*/].y + 165;//20230320修改：修复坐标系不协调的问题                      
+                                    double originalX = tempSTL.Dimension[0/*1*/].x - SharpControl.PlateCenterOffsetXMm;//暂时先不设置，直接reset为0；之后支持在magics中进行完成的排版文件的导入————！！！！！//20200514xiugai
+                                    double originalY = tempSTL.Dimension[0/*1*/].y + SharpControl.PlateCenterOffsetYMm;//20230320修改：修复坐标系不协调的问题（与绘图/RIP 平台中心一致）                      
                                     OperationType.xTranslate = originalX;
                                     OperationType.yTranslate = -(originalY - Math.Abs(tempSTL.Dimension[1].y - tempSTL.Dimension[0].y)) - Math.Abs(tempSTL.Dimension[1].y - tempSTL.Dimension[0].y)/*+ Math.Abs(tempSTL.Dimension[1].y- tempSTL.Dimension[0].y)*/;
                                     OperationType.CadOperationCode = "3";
@@ -6636,10 +6636,10 @@ namespace BinderJetting
                     int tempindex = CliStreams.FindIndex(t => t.recordPathItem.Equals(tempSelectPaths[m]));
                     if (transferObject.translateMode == true)//绝对移动
                     {
-                        double xtemptranslate = (transferObject.xTranslate - minX) + 165/*210*/;//20220530修改：
+                        double xtemptranslate = (transferObject.xTranslate - minX) + SharpControl.PlateCenterOffsetXMm;//20220530修改：
                         //20230320修改：
-                        double ytemptranslate = (-transferObject.yTranslate + 330/*350*/ - maxY
-                            - Math.Abs(maxY - BorderCLIMinPos)) - 165/*175*/;//20220530修改：
+                        double ytemptranslate = (-transferObject.yTranslate + SharpControl.PlateHeightMm - maxY
+                            - Math.Abs(maxY - BorderCLIMinPos)) - SharpControl.PlateCenterOffsetYMm;//20220530修改：
                         CliStreams[tempindex].Dimension[2].x = CliStreams[tempindex].Dimension[2].x + xtemptranslate;//tempCLIs.Dimension[2].x为为偏移值δx
                         CliStreams[tempindex].Dimension[2].y = CliStreams[tempindex].Dimension[2].y + ytemptranslate;//tempCLIs.Dimension[2].x为为偏移值δy
                         CliStreams[tempindex].Dimension[1].x = CliStreams[tempindex].Dimension[1].x + xtemptranslate;//实际位置值

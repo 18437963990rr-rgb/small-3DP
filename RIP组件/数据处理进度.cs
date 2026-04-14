@@ -198,12 +198,12 @@ namespace RIP组件
         //    {
         //        if (FirstJOBFlag == true)//
         //        {
-        //            CreateFinalJOB(600, i, FilePath);//在指定的文件夹生成大TIFF
+        //            CreateFinalJOB(RipPlateConfig.RipDpi, i, FilePath);//在指定的文件夹生成大TIFF
         //            UpdateBarValueMethod(i + 1);//刷新进度条和label
         //        }
         //        else
         //        {
-        //            CreateFinalJOB(600, i, FilePath);//在指定的文件夹生成大TIFF
+        //            CreateFinalJOB(RipPlateConfig.RipDpi, i, FilePath);//在指定的文件夹生成大TIFF
         //            UpdateBarValueMethod(i + 1);//刷新进度条和label
         //            //_FinalJobEvent.Wait();//等待——非常关键，必须添加
         //        }
@@ -293,13 +293,13 @@ namespace RIP组件
                 {
                     if (FirstJOBFlag == true)//生成1层的数据：20200415新增：记得没错的话，应该是第一次手动排版的时候进入此环节
                     {
-                        CreateFinalJOB(600, i, FilePath);//在指定的文件夹生成大TIFF
+                        CreateFinalJOB(RipPlateConfig.RipDpi, i, FilePath);//在指定的文件夹生成大TIFF
                         //System.Threading.Thread.Sleep(500);//20200415新增：完全没有必要
                         UpdateBarValueMethod(i + 1);//刷新进度条和label//20200415取消掉：理论上是可以用的，但是现在没必要了，专门匹配后台辅助工作的新工作方式后
                     }
                     else//生成1层的数据：20200415新增：
                     {
-                        CreateFinalJOB(600, i, FilePath);//在指定的文件夹生成大TIFF
+                        CreateFinalJOB(RipPlateConfig.RipDpi, i, FilePath);//在指定的文件夹生成大TIFF
                         UpdateBarValueMethod(i + 1);//刷新进度条和label//20200506新增：
                         //_FinalJobEvent.Wait();//等待——非常关键，必须添加
                     }
@@ -323,8 +323,8 @@ namespace RIP组件
         /// <param name="FilePath"></param>
         private void CreateFinalJOB(int DPI, int layerIndex, string FilePath)//create final JOBS
         {
-            Bitmap outputBMP = new Bitmap((int)(420 * 600 / 25.4 + 1), (int)(350 * 600 / 25.4 + 1));//图片大小为
-            outputBMP.SetResolution(600, 600);//设置分辨率
+            Bitmap outputBMP = new Bitmap((int)(RipPlateConfig.PlateWidthMm * DPI / 25.4 + 1), (int)(RipPlateConfig.PlateHeightMm * DPI / 25.4 + 1));//图片大小为
+            outputBMP.SetResolution(DPI, DPI);//设置分辨率
             Graphics g = Graphics.FromImage(outputBMP);//GDI+，对象
             g.SmoothingMode = SmoothingMode.AntiAlias;  //使绘图质量最高，即消除锯齿
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
