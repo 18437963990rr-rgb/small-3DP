@@ -102,7 +102,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RipPlateConfig.cs" />
     <Compile Include="6-BuildBmp.cs" />
     <Compile Include="6-LineChange.cs" />
     <Compile Include="6-ReadFile.cs" />
@@ -155,6 +154,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\4-PrintRasterConfig\4-PrintRasterConfig.csproj">
+      <Project>{e7b3c4d5-8a2f-4e1b-9c0d-1a2b3c4d5e6f}</Project>
+      <Name>4-PrintRasterConfig</Name>
+    </ProjectReference>
     <ProjectReference Include="..\4-RemoteLayersDataStruct\4-RemoteLayersDataStruct.csproj">
       <Project>{26bb61c8-e39e-413b-a867-6cdba8a30c69}</Project>
       <Name>4-RemoteLayersDataStruct</Name>

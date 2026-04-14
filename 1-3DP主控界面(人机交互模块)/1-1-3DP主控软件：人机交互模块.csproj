@@ -505,6 +505,10 @@
       <Project>{D58326BF-22B5-463C-A961-9560BC83F504}</Project>
       <Name>1-2-3DP数据结构及组件接口</Name>
     </ProjectReference>
+    <ProjectReference Include="..\4-PrintRasterConfig\4-PrintRasterConfig.csproj">
+      <Project>{e7b3c4d5-8a2f-4e1b-9c0d-1a2b3c4d5e6f}</Project>
+      <Name>4-PrintRasterConfig</Name>
+    </ProjectReference>
     <ProjectReference Include="..\4-RemoteLayersDataStruct\4-RemoteLayersDataStruct.csproj">
       <Project>{26bb61c8-e39e-413b-a867-6cdba8a30c69}</Project>
       <Name>4-RemoteLayersDataStruct</Name>

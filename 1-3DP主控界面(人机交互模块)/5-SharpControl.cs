@@ -24,6 +24,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Composation;//20200527框架移植：
+using LaserAdd.PrintRaster;
 using SharpDX.WIC;//20200609新增：
 
 namespace BinderJetting
@@ -49,13 +50,11 @@ namespace BinderJetting
 
     class SharpControl
     {
-        /// <summary>成型平台幅面（mm），与 RIP RipPlateConfig、排版 ComposationCLI 一致；零件位置为左下原点。</summary>
-        public const float PlateWidthMm = 465f;
-        public const float PlateHeightMm = 370f;
-        /// <summary>毫米坐标从「平台左下角」转到「平台中心为原点」时的 X 偏移（=半宽）。</summary>
-        public static readonly float PlateCenterOffsetXMm = PlateWidthMm * 0.5f;
-        /// <summary>毫米坐标从「平台左下角」转到「平台中心为原点」时的 Y 偏移（= 半高）。</summary>
-        public static readonly float PlateCenterOffsetYMm = PlateHeightMm * 0.5f;
+        /// <summary>成型平台幅面（mm），与 <see cref="PrintRasterConfig"/>、RIP、排版一致；零件位置为左下原点。</summary>
+        public static float PlateWidthMm => PrintRasterConfig.PlateWidthMm;
+        public static float PlateHeightMm => PrintRasterConfig.PlateHeightMm;
+        public static float PlateCenterOffsetXMm => PrintRasterConfig.PlateCenterOffsetXMm;
+        public static float PlateCenterOffsetYMm => PrintRasterConfig.PlateCenterOffsetYMm;
 
         public RYSYSParam gc_RysysParam = new RYSYSParam();//20210113新增：用于修改大零件打印子区域处理算法的相关参数：
 
@@ -1416,14 +1415,22 @@ namespace BinderJetting
                 converter.Dispose();
             }
         }
+        /// <summary>喷头/协议侧 X 向 DPI历史字段；与单层光栅生成解耦，光栅请用 <see cref="RenderDpiX"/>。</summary>
         public float/*int*/ XDpi = 635 * 2;//20201017新增批注：X向打印分辨率
-        public float RenderDpiY = 400f;//20260409新增：Y向渲染/位图分辨率，现场默认按400DPI配置
+        /// <summary>单层 WIC/BMP 光栅 X 向 DPI，须与 <see cref="RenderToWic"/> 位图宽度及 Meteor nXDPI 一致（默认取自 <see cref="PrintRasterConfig.SliceDpi"/>）。</summary>
+        public float RenderDpiX = PrintRasterConfig.SliceDpi;
+        public float RenderDpiY = PrintRasterConfig.SliceDpi;//Y向渲染/位图分辨率
         public bool ExportSlicesOnlyMode = false;//20260409新增：仅导出切片图，不启动Meteor发送
         public bool SimplifiedMeteorAutoFlowMode = true;//20260410新增：自动流程临时简化为单向单PASS，便于定位双向/多PASS问题
 
+        private float GetRenderDpiX()
+        {
+            return RenderDpiX > 0 ? RenderDpiX : PrintRasterConfig.SliceDpi;
+        }
+
         private float GetRenderDpiY()
         {
-            return RenderDpiY > 0 ? RenderDpiY : 400f;
+            return RenderDpiY > 0 ? RenderDpiY : PrintRasterConfig.SliceDpi;
         }
         /// <summary>
         /// 20200609：生成1帧的加工数据//幅面与 SharpControl.PlateWidthMm/PlateHeightMm 一致（当前465×370mm）
@@ -1434,7 +1441,7 @@ namespace BinderJetting
             if (action == true)
             {
                 float renderDpiY = GetRenderDpiY();
-                Log4Net.Info($"RenderToWic: enter, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, ActualStartNum={ActualStartNum}, XDpi={XDpi}");
+                Log4Net.Info($"RenderToWic: enter, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, ActualStartNum={ActualStartNum}, RenderDpiX={GetRenderDpiX()}, XDpi(legacy)={XDpi}");
                 if (SimplifiedMeteorAutoFlowMode && subindex > 0)
                 {
                     Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 跳过重复重喷子层，index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}");
@@ -1446,45 +1453,9 @@ namespace BinderJetting
                 //d2dFactory = new SharpDX.Direct2D1.Factory();
 
                 /*const*/
-                int width = (int)(320/*330*//*420*/ * (/*600*//*635*//*1270*2*//*635*/XDpi / 25.4f)) + 1/*512*/;//设置图片的宽度//20200802批注：修改原有的X向分辨率，本来应该是635DPI，提升到635*2DPI。
-                /*const*/
-                int height = 0;
-#if SinglePassPrintMode
-                /*int*/ height = (int)(320/*330*//*350*/ * (renderDpiY / 25.4f)) + 1/*512*/;//设置图片的长度
-#endif
-#if TwoPassPrintMode
-#if TwoPassPrintPerSixTimes
-                int OffsetPixels = (int)(15 / 25.4 * renderDpiY + 1);//355
-                double Yheight = (1280 * 6 - OffsetPixels) / renderDpiY * 25.4;//310.0916
-                /*int*/
-                height = (int)(310.09/*330*//*350*/ * (renderDpiY / 25.4f)) + 1/*512*/;//设置图片的长度//20230418修改：打印幅面高度修改为310mm，以允许多PASS打印
-#endif
-                int k = 0;//默认k取值为0
-#if TwoPassPrintPerThreeTimes
-                /*int*/ k = index * RePrintTimes + subindex;
-                if (k % 3 == 1 || k == 0)//
-                {
-                    int OffsetPixels = (int)(15 / 25.4 * renderDpiY + 1);//355
-                    double Yheight = (1280 * 3 - OffsetPixels) / renderDpiY * 25.4;//147.5316
-                    /*int*/
-                    height = (int)(147.52f/*147*//*330*//*350*/ * (renderDpiY / 25.4f)) + 1/*512*/;//设置图片的长度//20230418修改：打印幅面高度修改为310mm，以允许多PASS打印
-                }
-                else if (k % 3 == 2)
-                {
-                    int OffsetPixels2 = (int)(10 / 25.4 * renderDpiY + 1);//237
-                    double Yheight2 = (1280 * 3 - OffsetPixels2) / renderDpiY * 25.4;//152.527
-                    /*int*/
-                    height = (int)(152.52f/*147*//*330*//*350*/ * (renderDpiY / 25.4f)) + 1/*512*/;//3603
-                }
-                else if (k % 3 == 0 && k != 0)
-                {
-                    int OffsetPixels3 = (int)(5 / 25.4 * renderDpiY + 1);//119
-                    double Yheight3 = (1280 * 3 - OffsetPixels3) / renderDpiY * 25.4;//157.522
-                    /*int*/
-                    height = (int)(157.52f/*147*//*330*//*350*/ * (renderDpiY / 25.4f)) + 1/*512*/;//3721
-                }              
-#endif
-#endif
+                float sliceDpiX = GetRenderDpiX();
+                int width = (int)(PlateWidthMm * (sliceDpiX / 25.4f)) + 1;//与 RIP 整板幅面 X 一致：465mm×DPI
+                int height = (int)(PlateHeightMm * (renderDpiY / 25.4f)) + 1;//整板 Y，与 PrintRasterConfig.PlateHeightMm 一致（不再使用历史147.52mm 等条带高度）
 
                 var rectangleGeometry = new RoundedRectangleGeometry(d2dFactory, new RoundedRectangle() { RadiusX = 32, RadiusY = 32, Rect = new SharpDX.RectangleF(128, 128, width - 128 * 2, height - 128 * 2) });
                 //if (wicBitmap != null)
@@ -1492,7 +1463,7 @@ namespace BinderJetting
                 //    wicBitmap.Dispose();//20201118新增：防止wicBitmap出现问题//在线程删除位置处，添加了保护
                 //}                
                 wicBitmap = new Bitmap(wicFactory, width, height, SharpDX.WIC.PixelFormat./*Format32bppPBGRA*//*Format1bppIndexed*/Format32bppBGR, BitmapCreateCacheOption.CacheOnLoad);
-                wicBitmap.SetResolution(XDpi/*635*//*1270*2*/, renderDpiY);//设置分辨率为当前Y向DPI
+                wicBitmap.SetResolution(sliceDpiX, renderDpiY);//光栅头 DPI须与像素/mm 及下发 nXDPI/nYDPI 一致
 
 
                 var renderTargetProperties = new RenderTargetProperties(RenderTargetType.Default, new PixelFormat(Format.Unknown, AlphaMode.Unknown), 0, 0, RenderTargetUsage.None, SharpDX.Direct2D1.FeatureLevel.Level_DEFAULT);
@@ -1507,7 +1478,7 @@ namespace BinderJetting
                 d2dRenderTarget.DotsPerInch = size2F;
                 //(1)Draw Base contoul and back: 绘制基板轮廓背景          
                 Matrix3x2 myMatrix = new Matrix3x2(1, 0, 0, 1, 0, 0);//Y向坐标系翻转://世界坐标系坐标系变换：单位像素，全局变换
-                Vector2 vector1 = new Vector2(XDpi/*635*//*1270*2*//*600*/ / 96f/*1*//*0.5f * m_zoomScale*/, -renderDpiY / 96f/*1*//*0.5f * m_zoomScale*/);//非常关键：20200524新增
+                Vector2 vector1 = new Vector2(sliceDpiX / 96f/*1*//*0.5f * m_zoomScale*/, -renderDpiY / 96f/*1*//*0.5f * m_zoomScale*/);//非常关键：与 RenderDpiX/Y 一致，mm→像素
                 myMatrix.ScaleVector = vector1;//本机电脑上显示比例与实际比例差别
                 Vector2 vector2 = new Vector2(width / 2/*viewportbase.X*/, height / 2/*viewportbase.Y*/);//非常关键：20200524新增
                 myMatrix.TranslationVector = vector2;//坐标系平移
@@ -1644,7 +1615,8 @@ namespace BinderJetting
                     SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, (strip, swathTop) =>
                     {
                         royal.royal.g_prtimg_layer.nPrtDir = 1;
-                        int writeRet = WriteImgLayerData(strip, index, 0, 1, true, 0);
+                        // 须传入 swathTop：与 TwoPass/SinglePass 一致，否则每条带 nYJetOff 相同，Meteor 会把各条 bitmap 叠在同一 Y 起点，造成错位/假「高度异常」。
+                        int writeRet = WriteImgLayerData(strip, index, 0, 1, true, swathTop);
                         Log4Net.Info("RenderToWic: Simplified HiPrint-style stripProcessor 完成, stripIndexSimple=" + stripIndexSimple + ", swathTop=" + swathTop + ", writeRet=" + writeRet);
                         stripIndexSimple++;
                     }, 0, -1);
@@ -1663,29 +1635,14 @@ namespace BinderJetting
 #endif
                 System.Drawing.Bitmap outputImage = null;
 #if TwoPassPrintMode
-#if TwoPassPrintPerSixTimes
-                CreatTwoPassFigure((int)(gc_RysysParam.YJetOff / (25.4 / renderDpiY) + 1)/*0*//*1280,*//*355*/, 6, clone, ref outputImage);
-#endif
-#if TwoPassPrintPerThreeTimes             
-                /*int*/ k = index * RePrintTimes + subindex;
-                if (k % 3 == 1 || k == 0)//15mm偏移量
-                {
-                    CreatTwoPassFigure((int)(gc_RysysParam.YJetOff / (25.4 / renderDpiY) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
-                }
-                else if (k % 3 == 2)//10mm偏移量
-                {
-                    CreatTwoPassFigure((int)((gc_RysysParam.YJetOff-5) / (25.4 / renderDpiY) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
-                }
-                else if (k % 3 == 0 && k != 0)//5mm偏移量
-                {
-                    CreatTwoPassFigure((int)((gc_RysysParam.YJetOff - 10) / (25.4 / renderDpiY) + 1)/*0*//*1280,*//*355*/, 3, clone, ref outputImage);
-                }
-#endif
+                // 整幅面已与 PlateHeightMm 一致：CreatTwoPassFigure 仅适用于历史「短条带拼接」输入，此处改为1bpp 拷贝后直接 swath。
+                outputImage = clone.Clone(new System.Drawing.Rectangle(0, 0, clone.Width, clone.Height), System.Drawing.Imaging.PixelFormat.Format1bppIndexed);
+                Log4Net.Info($"RenderToWic: 整板 Meteor 光栅（无 CreatTwoPassFigure拼接），outputImage={outputImage.Width}x{outputImage.Height}");
 
 #if DataProcessDebugMode
-                outputImage.Save($"output1bpp-拼接-{{{k}}}.bmp", ImageFormat.Bmp);//保存到BMPFile  
-                if (outputImage != null)
                 {
+                    int kDbg = index * RePrintTimes + subindex;
+                    outputImage.Save($"output1bpp-整板-{kDbg}.bmp", ImageFormat.Bmp);//保存到BMPFile
                 }
 #endif
 #if TEMP_METEOR_BITMAP_EXPORT
@@ -2327,7 +2284,7 @@ namespace BinderJetting
             royal.royal.g_prtimg_layer.nXEncOff = 1;//Meteor 提示 X 起点不能小于 1，避免 Image X start ignored
             //royal.royal.g_prtimg_layer.nYJetOff =;//20210311修正：Y向的位置起始偏差。
             //royal.royal.g_prtimg_layer.nYJetOff = k_dYJetOff/*(int)(g_RYSYSParam.m_dYJetOff * 600)*/;//20210311修正：Y向的位置起始偏差。
-            royal.royal.g_prtimg_layer.nXDPI = /*(int)*/XDpi/*635*//*XDpi*//*635*//*1270*2*//*635*/;//图像的XDPI，本质必须与光栅的DPI保持协调//20200802批注：修改原有的X向分辨率，本来应该是635DPI，提升到635*2DPI//20210324修改：打印校准图应该为635DPI//20230511修改：修改为浮点数
+            royal.royal.g_prtimg_layer.nXDPI = /*(int)*/GetRenderDpiX();//须与 RenderToWic 光栅 X DPI 一致；XDpi 仅作历史喷头参数保留
             royal.royal.g_prtimg_layer.nYDPI = (int)GetRenderDpiY();//图像的YDPI，本值必须与喷头的DPI保持一致
             if (bpp == 1)
             {
