@@ -463,8 +463,6 @@ namespace BinderJetting
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button31 = new System.Windows.Forms.Button();
             this.button30 = new System.Windows.Forms.Button();
-            this.button25 = new System.Windows.Forms.Button();
-            this.button18 = new System.Windows.Forms.Button();
             this.button17 = new System.Windows.Forms.Button();
             this.label134 = new System.Windows.Forms.Label();
             this.textBox40 = new System.Windows.Forms.TextBox();
@@ -6160,8 +6158,6 @@ namespace BinderJetting
             // 
             this.tabPage3.Controls.Add(this.button31);
             this.tabPage3.Controls.Add(this.button30);
-            this.tabPage3.Controls.Add(this.button25);
-            this.tabPage3.Controls.Add(this.button18);
             this.tabPage3.Controls.Add(this.button17);
             this.tabPage3.Controls.Add(this.label134);
             this.tabPage3.Controls.Add(this.textBox40);
@@ -6211,26 +6207,6 @@ namespace BinderJetting
             this.button30.Text = "Meteor";
             this.button30.UseVisualStyleBackColor = true;
             this.button30.Click += new System.EventHandler(this.button30_Click);
-            // 
-            // button25
-            // 
-            this.button25.Location = new System.Drawing.Point(666, 301);
-            this.button25.Name = "button25";
-            this.button25.Size = new System.Drawing.Size(75, 23);
-            this.button25.TabIndex = 246;
-            this.button25.Text = "测试Y回零";
-            this.button25.UseVisualStyleBackColor = true;
-            this.button25.Click += new System.EventHandler(this.button25_Click_1);
-            // 
-            // button18
-            // 
-            this.button18.Location = new System.Drawing.Point(666, 250);
-            this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(75, 23);
-            this.button18.TabIndex = 245;
-            this.button18.Text = "测试X回零";
-            this.button18.UseVisualStyleBackColor = true;
-            this.button18.Click += new System.EventHandler(this.button18_Click_1);
             // 
             // button17
             // 
@@ -6983,8 +6959,6 @@ namespace BinderJetting
         private System.Windows.Forms.Label label133;
         private System.Windows.Forms.Label label134;
         private System.Windows.Forms.Button button16;
-        private System.Windows.Forms.Button button25;
-        private System.Windows.Forms.Button button18;
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.Button button30;
         private System.Windows.Forms.Button button31;

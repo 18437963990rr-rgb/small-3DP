@@ -2685,13 +2685,7 @@ namespace BinderJetting
 
                                 //EquipmentMotionLogic3(0, 2);//自动进给预送粉
                                 //EquipmentMotionLogic3(0, 3);//自动进给正式铺粉
-                                // 简易测试平台：X/Y 接在固高轴1/2（整机为成型缸/铺粉轴），若仍执行铺粉会与喷墨共用轴1/2，造成冲突；故简易测试时强制跳过铺粉
-                                if (手动操作.UseSimpleTestMotion)
-                                {
-                                    msg = $"简易测试模式：跳过铺粉/成型缸运动，避免与墨车X/Y（固高轴1/2）冲突";
-                                    Log4Net.Info(msg);
-                                }
-                                else if (g_RYSYSParam.m_bApplyPowderSupplyMotion == 0)//0为采用
+                                if (g_RYSYSParam.m_bApplyPowderSupplyMotion == 0)//0为采用
                                 {
                                     EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, m_BackCleanMovSpeed2, ref sendMessageToCamera, renderIndex, 10, 0, 0, 0, 0);//自动铺粉逻辑//20230319调试修改此处
 
@@ -3234,7 +3228,7 @@ namespace BinderJetting
                                     float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增
 
                                     bool Directory = false; uint nRevPls = 0;
-                                    if (/*(PowderCarHomeFlag == false)&&*/ (InkCarHomeFlag == true))//确保：墨车系统回零成功；确保在指定区间，否则报错//临时关闭铺粉校准
+                                    if (InkCarHomeFlag == true && PowderCarHomeFlag == true)//确保：墨车和铺粉系统均已回零；确保在指定区间，否则报错
                                     {
                                         double[] g_dEncpos = new double[8];
                                         g_dEncpos = motionMap.GetEncPos();
@@ -3687,11 +3681,6 @@ namespace BinderJetting
                         return;
                     }
 
-                    if (Command == 1 || Command == 2 || Command == 3)
-                    {
-                        Log4Net.Info($"EquipmentMotionLogic3: 简易测试模式下跳过辅助运动，Command={Command}，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
-                        return;
-                    }
                 }
             }
             catch (Exception e)

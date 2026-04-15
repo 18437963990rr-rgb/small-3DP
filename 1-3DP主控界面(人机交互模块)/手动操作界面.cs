@@ -3585,7 +3585,7 @@ namespace BinderJetting
                 Log4Net.Info(msg);
 #if true
                 //开启墨车打印线程1:
-                string tempThreadName = "InkCarEncoderResetThread";
+                string tempThreadName = "InkCarGoogolHomeThread";
                 Thread tempThread = EncoderResetThreads.Where(x => x.Name == (tempThreadName)).FirstOrDefault();
                 if (tempThread != null)
                 {
@@ -3593,12 +3593,12 @@ namespace BinderJetting
                 }
                 else
                 {
-                    ThreadStart initThreadEntry = new ThreadStart(InkCarEncoderResetThread);//20200220:线程入口方法修改为联动线程
+                    ThreadStart initThreadEntry = new ThreadStart(InkCarGoogolHomeThread);//20200220:线程入口方法修改为联动线程
                     tempThread = new Thread(initThreadEntry) { IsBackground = true };
                     tempThread.Name = tempThreadName;
                     tempThread.Start();
 
-                    msg = $"开启墨车回零校准线程：InkCarEncoderResetThread";
+                    msg = $"开启墨车回零校准线程：InkCarGoogolHomeThread";
                     Log4Net.Info(msg);
 
                     EncoderResetThreads.Add(tempThread);//没有创建过的时候，才重新添加新的线程
@@ -3635,10 +3635,11 @@ namespace BinderJetting
             {
 #if true
                 //(1-1)关闭联调线程；（1-2）关闭多轴运动：保障运动安全
-                string tempThreadName = "InkCarEncoderResetThread";//(1)关闭联调线程
+                string tempThreadName = "InkCarGoogolHomeThread";//(1)关闭联调线程
                 DeleteThread(tempThreadName);
                 //(a)检测到正限位和负限位后紧急停止运动：
-                bool nRetVal = royal.royal.DEM_StopAxisRun(false, 0x1);//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108
+                InkCarMotionMap.StopMotion(1, true);
+                InkCarMotionMap.StopMotion(2, true);
 #endif
 
                 //(2-1)关闭粉车校准线程(2-2)关闭多轴运动：保证运动安全
@@ -3722,7 +3723,7 @@ namespace BinderJetting
                     Log4Net.Info(msg);
 #if true
                     //开启墨车打印线程1:
-                    string tempThreadName = "InkCarEncoderResetThread";
+                    string tempThreadName = "InkCarGoogolHomeThread";
                     Thread tempThread = EncoderResetThreads.Where(x => x.Name == (tempThreadName)).FirstOrDefault();
                     if (tempThread != null)
                     {
@@ -3730,12 +3731,12 @@ namespace BinderJetting
                     }
                     else
                     {
-                        ThreadStart initThreadEntry = new ThreadStart(InkCarEncoderResetThread);//20200220:线程入口方法修改为联动线程
+                        ThreadStart initThreadEntry = new ThreadStart(InkCarGoogolHomeThread);//20200220:线程入口方法修改为联动线程
                         tempThread = new Thread(initThreadEntry) { IsBackground = true };
                         tempThread.Name = tempThreadName;
                         tempThread.Start();
 
-                        msg = $"开启墨车回零校准线程：InkCarEncoderResetThread";
+                        msg = $"开启墨车回零校准线程：InkCarGoogolHomeThread";
                         Log4Net.Info(msg);
 
                         EncoderResetThreads.Add(tempThread);//没有创建过的时候，才重新添加新的线程
@@ -3761,10 +3762,11 @@ namespace BinderJetting
             {
 #if true
                 //(1-1)关闭联调线程；（1-2）关闭多轴运动：保障运动安全
-                string tempThreadName = "InkCarEncoderResetThread";//(1)关闭联调线程
+                string tempThreadName = "InkCarGoogolHomeThread";//(1)关闭联调线程
                 DeleteThread(tempThreadName);
                 //(a)检测到正限位和负限位后紧急停止运动：
-                bool nRetVal = royal.royal.DEM_StopAxisRun(false, 0x1);//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108
+                InkCarMotionMap.StopMotion(1, true);
+                InkCarMotionMap.StopMotion(2, true);
 #endif
 
                 //修改按钮状态为：启动打印
@@ -3836,16 +3838,12 @@ namespace BinderJetting
                             MessageBox.Show("粉车-Home失败！");
                         }
 
-                        if (InkCarHomeFlag == true && PowderCarHomeFlag == true)//20220521新建：粉车、墨车全部校准汇报
-                        {
-                            EncoderResetBtn.Text = "已校准";
-                            CorrectFlag = true;//20200919新建：校准完成标志位
-                        }
-                        else { EncoderResetBtn.Text = "未校准"; }
+                        RefreshSystemCorrectState();
                     }
                     ));
             }
             existCorrectProcessFlag2 = false;//20230419新建：校准完了，不存在校准任务了
+            FinalizeCombinedCalibrationIfIdle();
             DeleteThread("PowderCarHomeResetThread");//20200220：本线程结束，需要及时清理相关线程//20200313新增：
 
         }
@@ -3888,176 +3886,6 @@ namespace BinderJetting
         ///                     /\      |   +-----------+                          
         ///          450mm              |   |           |                         
         ///                     \/      |   |           |                   
-        ///            \/   DIR = true  |   +-----------+                 
-        ///  450.000mm --     YPosLim   +                                  
-        ///                             |                             
-        ///                             v                             
-        ///     Note: [H] = Home：墨车归零本位, [O] = Orig：墨车坐标原点
-        ///           1. X轴归零回退50mm后，需要用正负行程之间的距离-50mm来复位编码器
-        ///           2. Y轴归零回退50mm后，只需要将轴编码器复位为50mm
-        ///</note>           
-        private void InkCarEncoderResetThread()//20220521新建：墨车校准
-        {
-            existCorrectProcessFlag = true;//20230419:
-            bool ntempRetVal = royal.royal.DEV_EnableUVPosCtlOut(false, false);//20210623批注：（0）关闭UV使能 //20220512新建：通过低速撞零点方式校准//适用于第2代的设备逻辑
-#if (true)
-                  //（1）墨车X轴校准
-            bool nRetVal = royal.royal.DEV_ResetPrintEncoder(0x1000000);//20200801批注：关键BUG,最大计数值为83.88608M;
-            uint nIOState1 = royal.royal.DEM_GetAxisLmtZeroState(0);//(b)读取实时的轴限位状态//底层接口已经作了12 bit移位处理，对照Reg[12]定义//(c)读取实时的轴限位状态
-            uint EncoderPos1 = royal.royal.DEV_GetPrintEncoderValue(); uint EncoderPos2 = 0;//20200311新增：编码器位置设置
-
-            nSpeed = MM_TO_DOT(20f/*50f*/, EncoderLinePerInch, 0);//20220506修改：第1轴;校准速度应该控制在20mm/s//YINC_PERDOT扩展到48——20200108
-            while (/*(0 == (nIOState1 & 0x10)) &&*/ (0 == (nIOState1 & 0x2/*负限位*/)) && (0 == (nIOState1 & 0x1/*正限位*/)))//20200526批注：0x10/*零位*/；保证运动到零位,核心在于保证触发零位，正限位，负限位不重要
-            {
-                EncoderPos2 = royal.royal.DEV_GetPrintEncoderValue();//读取新的编码器位置值：20200311新增
-                if (EncoderPos1 != EncoderPos2)//判断是否停止
-                { EncoderPos1 = EncoderPos2;/*新的编码器值赋值给就的编码器值*/}
-                else
-                {
-                // 2026-02-02修改：墨车X轴切换到固高控制（4轴卡测试），注释Royal归零操作 
-                    //nRetVal = royal.royal.DEM_Run(0, true/*false*/, (UInt32)nSpeed/*1000*/, 800000/*100000*/, 2);//开启2000mm的运动量，消除运动过程中的抖动现象
-                // 2026-02-02新增：墨车X轴固高归零操作（4轴卡测试，轴号1）
-                    bool xHomeFlag = false;
-                    InkCarMotionMap.SetBackHome(1, 0, nSpeed, 2000, 5, ref xHomeFlag);
-                   
-                    Thread.Sleep(1/*10*/);//20220513新建批注：程序睡眠时间缩减为1ms//10ms检查一次：20200313新增：//20200623批注：借此消除潜在的偶发的喘振
-                }
-                nIOState1 = royal.royal.DEM_GetAxisLmtZeroState(0);//在新线程中刷新限位状态（读取）
-                Thread.Sleep(1);//10ms检查一次：20200313新增：//20200623批注：借此消除潜在的偶发的喘振
-            }
-            // 墨车到达X轴正限位，则停止墨车X轴运动
-            nRetVal = royal.royal.DEM_StopAxisRun(false /*false*/, 0x1);//20200623批注：修改成带减速停止//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108//其实必要性不必很高，FPGA上有硬限位停止
-
-            Thread.Sleep(250);      // 等待墨车停稳，2024/04/12
-
-            // 墨车X轴到达正向限位后回退50mm
-        // 2026-02-02修改：墨车X轴切换到固高控制（4轴卡测试），注释Royal限位脱离操作
-            //nRetVal = royal.royal.DEM_Run(0, false/*true*/, (UInt32)nSpeed, 50000 /*10000*//*40000*/, 3/*2*/);//20220513新建：运动到限位，反向运动5CM，脱离限位区域;50000pulse对应5CM距离//10000，对应5cm，确保退的时候不撞到右侧的铺粉车。脱离零位：执行正向运动，运动指定零位右侧某个位置：5cm      
-           // 2026-02-02新增：墨车X轴固高限位脱离操作（4轴卡测试，轴号1）
-            gts.mc.TTrapPrm xTrapPrm = new gts.mc.TTrapPrm();
-            xTrapPrm.acc = 0.5;
-            xTrapPrm.dec = 0.5;
-            xTrapPrm.velStart = 5;
-            xTrapPrm.smoothTime = 1;
-
-            int xPosition = 50; // 5cm单位mm
-            double xVel = nSpeed;
-            InkCarMotionMap.TrapMotion(1, ref xTrapPrm, xPosition, xVel, 0, 0, true);
-           
-            bool Directory = false; uint nRevPls = 0;
-            while (royal.royal.DEM_AxisIsRuning(0, ref Directory, ref nRevPls)) { Thread.Sleep(1); } //uint CorrectPos = royal.royal.DEV_GetPrintEncoderValue();
-
-            Thread.Sleep(500);      // 等待墨车停稳，2024/04/12
-            // 将X坐标复位为 (轴行程 - 50mm)
-            //bool nRetVal3 = royal.royal.DEV_ResetPrintEncoder((790 - 50) * 1000 / 5 /*CorrectPos - 0x10000 + 10000*//*4000*//*80000*//*80000*/);//20220513批注：墨车X轴的正负限位总长为790.165MM
-            //bool nRetVal3 = royal.royal.DEV_ResetPrintEncoder(50 * EncoderLinePerMM);   // 2024/04/11, Leon                                                                                                                                    //暂时不生效 //BackToStation(40/*22.715*/, 50);//InkCarHomeFlag = true;//20200627新增：墨车校准成功标志位
-            bool nRetVal3 = royal.royal.DEV_ResetPrintEncoder((XMaxDistanceMM - 50) * EncoderLinePerMM);   // 2024/04/11, Leon
-
-            //（2）墨车Y轴校准
-            nRetVal3 = royal.royal.DEM_SetAxisEncodeVal(1/*第2轴*/, 0x1000000);//20220513修改：更换API//20200801批注：关键BUG,最大计数值为83.88608M;
-            nIOState1 = royal.royal.DEM_GetAxisLmtZeroState(0/*第2轴也为0*/);//20220513批注：修改为1轴 //(b)读取实时的轴限位状态//底层接口已经作了12 bit移位处理，对照Reg[12]定义//(c)读取实时的轴限位状态
-            EncoderPos1 = royal.royal.DEM_GetAxisEncodeVal(1/*第2轴*/); EncoderPos2 = 0;//20200311新增：编码器位置设置
-
-            nSpeed = MM_TO_DOT(20f/*50f*/, EncoderLinePerInch, 0);//20220506修改：第1轴;校准速度应该控制在20mm/s//YINC_PERDOT扩展到48——20200108
-            while ((0 == (nIOState & 0x4 /*nIOState1 & 0x2*//*负限位*/)) && (0 == (nIOState & 0x8 /*nIOState1 & 0x1*//*正限位*/)))//20200526批注：0x10/*零位*/；保证运动到零位,核心在于保证触发零位，正限位，负限位不重要
-            {
-                EncoderPos2 = royal.royal.DEM_GetAxisEncodeVal(1/*第2轴*/);//读取新的编码器位置值：20200311新增
-                if (EncoderPos1 != EncoderPos2)//判断是否停止
-                { EncoderPos1 = EncoderPos2;/*新的编码器值赋值给就的编码器值*/}
-                else
-                {
-                    // 2026-02-02修改：墨车Y1轴切换到固高控制（4轴卡测试），注释Royal归零操作
-                    //nRetVal = royal.royal.DEM_Run(1/*第2轴*/, false, (UInt32)nSpeed, 800000, 0/*2*/);//开启2000mm的运动量，消除运动过程中的抖动现象//uint nCtlValue = 0; //20220511批注：第1位是否不等停；第2位是否双Y同步//_MC_CTL_SYNC_MASK扩展到2
-                    // 2026-02-02新增：墨车Y1轴固高归零操作（4轴卡测试，轴号2）
-                    bool y1HomeFlag = false;
-                    InkCarMotionMap.SetBackHome(2, 0, nSpeed, 2000, 5, ref y1HomeFlag);
-
-                    Thread.Sleep(1/*10*/);//20220513新建批注：程序睡眠时间缩减为1ms//10ms检查一次：20200313新增：//20200623批注：借此消除潜在的偶发的喘振
-                }
-                nIOState1 = royal.royal.DEM_GetAxisLmtZeroState(0/*第2轴也为0*/);//20220513批注：修改为1轴 //在新线程中刷新限位状态（读取）
-                Thread.Sleep(1);//10ms检查一次：20200313新增：//20200623批注：借此消除潜在的偶发的喘振
-            }
-            // 墨车Y轴到达负限位，停止Y轴墨车运动
-            nRetVal = royal.royal.DEM_StopAxisRun(false, 0x2/*第2轴*/);//20200623批注：修改成带减速停止//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108//其实必要性不必很高，FPGA上有硬限位停止
-
-            Thread.Sleep(250);      // 等待墨车停稳，
-
-            // 墨车Y轴到达负限位后回退50mm
-            // 2026-02-02修改：墨车Y1轴切换到固高控制（4轴卡测试），注释Royal限位脱离操作
-            //nRetVal = royal.royal.DEM_Run(1/*第2轴*/, true, (UInt32)nSpeed, 50000, 0/*3*//*2*/);//20220513新建：运动到限位，反向运动5CM，脱离限位区域;50000pulse对应5CM距离//10000，对应5cm，确保退的时候不撞到右侧的铺粉车。脱离零位：执行正向运动，运动指定零位右侧某个位置：5cm      
-           // 2026-02-02新增：墨车Y1轴固高限位脱离操作（4轴卡测试，轴号2）
-            gts.mc.TTrapPrm y1TrapPrm = new gts.mc.TTrapPrm();
-            y1TrapPrm.acc = 0.5;
-            y1TrapPrm.dec = 0.5;
-            y1TrapPrm.velStart = 5;
-            y1TrapPrm.smoothTime = 1;
-
-            int y1Position = 50; // 5cm单位mm
-            double y1Vel = nSpeed;
-            InkCarMotionMap.TrapMotion(2, ref y1TrapPrm, y1Position, y1Vel, 0, 0, true);
-           
-            Directory = false; nRevPls = 0;
-            while (royal.royal.DEM_AxisIsRuning(1/*第2轴*/, ref Directory, ref nRevPls)) { Thread.Sleep(1); } //uint CorrectPos = royal.royal.DEV_GetPrintEncoderValue();
-
-            Thread.Sleep(500);      // 等待墨车停稳，
-            // 将Y坐标复位为 50mm
-            //nRetVal3 = royal.royal.DEM_SetAxisEncodeVal(1/*第2轴*/, 50/* (298 - 50)*//*50*/ * 1000 / 5);//20220513批注：墨车X轴的正负限位总长为297.935MM//20220524修改：复位值为50MM:安全值：10MM以内距离不允许过去
-            //                                                       ^^^ 需考虑正负行程开关之间的距离
-            //nRetVal3 = royal.royal.DEM_SetAxisEncodeVal(1, (YMaxDistanceMM - 50) * EncoderLinePerMM);
-            nRetVal3 = royal.royal.DEM_SetAxisEncodeVal(1, 50 * EncoderLinePerMM);
-
-            //暂时不生效 //BackToStation(40/*22.715*/, 50);
-            InkCarXHomeFlag = true;
-            InkCarYHomeFlag = true;
-            RefreshInkCarHomeFlag();
-#endif
-            if (EncoderResetBtn.InvokeRequired == true)
-            {
-                EncoderResetBtn.BeginInvoke(
-                    new Action(() =>
-                    {
-                        if (InkCarHomeFlag == true)//20220521新建：墨车部分校准完成汇报
-                        {
-                            string msg = $"墨车回零校准线程成功：InkCarEncoderResetThread";
-                            Log4Net.Info(msg);
-
-                            //CorrectFlag = true;//20200919新建：校准完成标志位 
-                            PrintCarHomeBtn.Text = "已校准墨车";//20230330新增：
-                            InkCarHomeBtn.BackColor = Color.Lime; //已校标志//this.EncoderResetBtn.Text = "运动系统已校";//恢复控件操作 //this.EncoderResetBtn.BackColor = Color.Tomato;                   
-                            UpdateInkCarHomeButtonText();
-                            MessageBox.Show("墨车-Home成功！");
-                            //20200604新增：回复回零速度为界面选中速度
-                            nSpeed = MM_TO_DOT(m_szMovSpeed/*50f*/, EncoderLinePerInch, 0);//20220506修改：第1轴 //YINC_PERDOT扩展到48——20200108
-                        }
-                        else
-                        {
-                            PrintCarHomeBtn.Text = "校准墨车失败";//20230330新增：
-                            InkCarHomeBtn.BackColor = Color.Tomato;
-                            InkCarXHomeFlag = false;
-                            InkCarYHomeFlag = false;
-                            RefreshInkCarHomeFlag();
-                            UpdateInkCarHomeButtonText();
-                        }
-
-                        if (InkCarHomeFlag == true && PowderCarHomeFlag == true)//20220521新建：粉车、墨车全部校准汇报
-                        {
-                            EncoderResetBtn.Text = "已校准";
-                            CorrectFlag = true;//20200919新建：校准完成标志位
-                        }
-                        else
-                        {
-                            string msg = $"墨车回零校准线程失败：InkCarEncoderResetThread";
-                            Log4Net.Info(msg);
-
-                            EncoderResetBtn.Text = "未校准";
-                        }
-                    }
-                    ));
-            }
-            existCorrectProcessFlag = false;//20230419新建：校准完了，不存在校准任务了
-            DeleteThread("InkCarEncoderResetThread");//20200220：本线程结束，需要及时清理相关线程//20200313新增：
-        }
-
         public bool InkCarHomeFlag = false; public bool PowderCarHomeFlag = false;
         public bool InkCarXHomeFlag = false; public bool InkCarYHomeFlag = false;
 
@@ -12724,6 +12552,78 @@ namespace BinderJetting
 
             InkCarHomeBtn.Text = InkCarXHomeFlag ? "X已回零" : "X回零";
             PowderHomeBtn.Text = InkCarYHomeFlag ? "Y已回零" : "Y回零";
+        }
+
+        private void RefreshSystemCorrectState()
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new Action(RefreshSystemCorrectState));
+                return;
+            }
+
+            CorrectFlag = InkCarHomeFlag && PowderCarHomeFlag;
+            EncoderResetBtn.Text = CorrectFlag ? "已校准" : "未校准";
+        }
+
+        private void FinalizeInkCarGoogolHome(bool success)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new Action<bool>(FinalizeInkCarGoogolHome), success);
+                return;
+            }
+
+            PrintCarHomeBtn.Text = success ? "已校准墨车" : "校准墨车失败";
+            InkCarHomeBtn.BackColor = success ? Color.Lime : Color.Tomato;
+            UpdateInkCarHomeButtonText();
+            RefreshSystemCorrectState();
+            PrintCarEncoderResetFlag = false;
+        }
+
+        private void FinalizeCombinedCalibrationIfIdle()
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new Action(FinalizeCombinedCalibrationIfIdle));
+                return;
+            }
+
+            if (!existCorrectProcessFlag && !existCorrectProcessFlag2)
+            {
+                EncoderResetFlag = false;
+            }
+        }
+
+        private void InkCarGoogolHomeThread()
+        {
+            existCorrectProcessFlag = true;
+            try
+            {
+                InkCarXHomeFlag = false;
+                InkCarYHomeFlag = false;
+                RefreshInkCarHomeFlag();
+                UpdateInkCarHomeButtonText();
+
+                RunInkCarAxisHome(1, true, 860.0, "X");
+                RunInkCarAxisHome(2, false, 0.0, "Y");
+
+                FinalizeInkCarGoogolHome(InkCarHomeFlag);
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Error($"InkCarGoogolHomeThread exception: {ex}");
+                InkCarXHomeFlag = false;
+                InkCarYHomeFlag = false;
+                RefreshInkCarHomeFlag();
+                FinalizeInkCarGoogolHome(false);
+            }
+            finally
+            {
+                existCorrectProcessFlag = false;
+                FinalizeCombinedCalibrationIfIdle();
+                DeleteThread("InkCarGoogolHomeThread");
+            }
         }
 
         private bool WaitForInkCarLimitHit(short Axis, bool SearchPositiveDirection, TimeSpan timeout)

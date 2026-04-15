@@ -568,58 +568,11 @@ namespace Motion
         }
 
 
-        private static bool ShouldUseLegacyRollerAxis(short axis, double rollerParam)
-        {
-            return axis == 2 && Math.Abs(rollerParam) > double.Epsilon;
-        }
-
         //点位运动：执行点位动作
         //正反方向点位运动
         public void TrapMotion(short AXIS, ref mc.TTrapPrm p_trap, int position, double vel, double RollerParam, int RollerDirection, bool WaitStopFlag)//注意：位置的类型为int，不是double；
         {
             short sRtn;//第二部分——本部分是重点（1）准备运动（a）清除各轴的报警和限位，必须的
-
-            //20200917新增：开启铺粉辊旋转运动
-            if (ShouldUseLegacyRollerAxis(AXIS, RollerParam))//判断是否为铺粉轴：为铺粉轴；默认铺粉轴为4轴
-            {//（1）开启当前轴的JOG运动
-#if true//20220511修改：暂时注释，调试阶段暂不生效铺粉辊逻辑 //20220512:轴2上重新挂载铺粉辊轴6
-                AXIS = 6;//修改当前轴为辊子转动轴：铺粉辊电机是步进驱动，参数需要设置为步进参数
-                gts.mc.GT_Stop(cardNumber, 1 << (AXIS - 1), 1 << (AXIS - 1));//执行完，需要关闭、停止JOG运动
-                sRtn = mc.GT_ClrSts(cardNumber, AXIS, 8);
-                sRtn = mc.GT_AxisOn(cardNumber, AXIS);// 伺服使能           
-            LogMotionDebug($"JogMotion: after GT_AxisOn, axis={AXIS}, sRtn={sRtn}");
-                sRtn = mc.GT_PrfJog(cardNumber, AXIS);// 将AXIS轴设为Jog模式
-            LogMotionDebug($"JogMotion: after GT_PrfJog, axis={AXIS}, sRtn={sRtn}");
-
-                jogPrm2.acc = 0.5/*0.1*/;//20200917新增：步进铺粉辊子的JOG运动参数//待实现，从其他的图形窗口中读取对应的值
-                jogPrm2.dec = 0.5/*0.1*/;
-                jogPrm2.smooth = 0;
-                double vel2 = (Convert.ToDouble(RollerParam) / Perimeter[0]) * 1 * (SubDivideCoe[0] / 1000)/** RollerParam*/;//20220512：当前细分对应的脉冲输出速度//20200917批注：速度vel包含了方向
-                if (RollerDirection == 0)//20220527新增：初始同向
-                {
-                    if (position > 0) { vel2 = -Math.Abs(vel2); } else { vel2 = Math.Abs(vel2); }//20220527新建：反向辊子逻辑，待验证//点动运动的正反通过position或者vel的正负设置均可以生效
-                }
-                else//20220527新增：初始反向
-                {
-                    if (position > 0) { vel2 = Math.Abs(vel2); } else { vel2 = -Math.Abs(vel2); }//20220527新建：反向辊子逻辑，待验证
-                }
-                
-                sRtn = mc.GT_SetJogPrm(cardNumber, AXIS, ref jogPrm2);// 设置Jog运动参数//trap，为引用（等同于返回值），使用之前必须初始化，否则报错。总                      
-            LogMotionDebug($"JogMotion: after GT_SetJogPrm, axis={AXIS}, sRtn={sRtn}");
-                sRtn = mc.GT_SetVel(cardNumber, AXIS, vel2);// 设置AXIS轴的目标速度//vel单位为pulse/ms//20200111：速度调整为原来的10分之一，电机是10mm / 1000脉冲；固高是1mm / 1000脉冲            
-            LogMotionDebug($"JogMotion: after GT_SetVel, axis={AXIS}, sRtn={sRtn}, vel={vel2}");
-                sRtn = mc.GT_Update(cardNumber, 1 << (AXIS - 1));// 启动AXIS轴的运动
-            LogMotionDebug($"JogMotion: after GT_Update, axis={AXIS}, sRtn={sRtn}");
-                AXIS = 2;//复位当前轴为双驱铺粉轴；默认铺粉轴为4轴
-#endif
-            }
-            else if (AXIS == 2)
-            {
-                LogMotionDebug($"TrapMotion: skip legacy roller remap for axis=2 because RollerParam={RollerParam:F3}");
-            }
-            else//为普通轴。
-            {
-            }
 
             sRtn = mc.GT_ClrSts(cardNumber, AXIS, 8);
             LogMotionDebug($"TrapMotion: after GT_ClrSts, axis={AXIS}, sRtn={sRtn}");
@@ -664,14 +617,6 @@ namespace Motion
                     }
                     Thread.Sleep(1);
                 }
-#if true//20220512新建批注：如果是停止轴2，顺便停止轴6
-                if (AXIS == 2)//20200917新增：判断当前停止轴，是否为铺粉双驱轴：是铺粉双驱轴 //20200917新增：关闭铺粉辊旋转运动
-                {
-                    AXIS = 6;
-                    StopMotion(AXIS);//停止铺粉辊JOG转动
-                    AXIS = 2;
-                }
-#endif
             }
             else
             { }
@@ -695,41 +640,6 @@ namespace Motion
         public void JogMotion(short AXIS, ref mc.TJogPrm p_jog, double vel, double RollerParam)
         {
             short sRtn;//指令返回代码//回零之前，必要的保证工作://(1)先重新暂停一下所有的运动//（2）清楚所有的报警状态
-
-#if true//20220506修改：临时注释本段代码：不同于第一代设备的铺粉方案，不需要辊子的移动以及转动同时匹配
-            if (ShouldUseLegacyRollerAxis(AXIS, RollerParam))//判断是否为铺粉轴：为铺粉轴；默认铺粉轴为4轴//20230425修改：2轴
-            {
-                //（1）开启当前轴的JOG运动
-                AXIS = 6;//修改当前轴为辊子转动轴：铺粉辊电机是步进驱动，参数需要设置为步进参数
-                gts.mc.GT_Stop(cardNumber, 1 << (AXIS - 1), 1 << (AXIS - 1));//执行完，需要关闭、停止JOG运动
-                sRtn = mc.GT_ClrSts(cardNumber, AXIS, 8);
-                sRtn = mc.GT_AxisOn(cardNumber, AXIS);// 伺服使能           
-            LogMotionDebug($"JogMotion: after GT_AxisOn, axis={AXIS}, sRtn={sRtn}");
-                sRtn = mc.GT_PrfJog(cardNumber, AXIS);// 将AXIS轴设为Jog模式
-            LogMotionDebug($"JogMotion: after GT_PrfJog, axis={AXIS}, sRtn={sRtn}");
-                
-                jogPrm2.acc = 0.5/*0.1*/;//20200917新增：步进铺粉辊子的JOG运动参数//待实现，从其他的图形窗口中读取对应的值
-                jogPrm2.dec = 0.5/*0.1*/;
-                jogPrm2.smooth = 0;
-           
-                double vel2 = -(Convert.ToDouble(1/*m_sVel*/) / Perimeter[0]) * 1 * (SubDivideCoe[0] / 1000);//20200917批注：速度vel包含了方向
-                sRtn = mc.GT_SetJogPrm(cardNumber, AXIS, ref jogPrm2);// 设置Jog运动参数//trap，为引用（等同于返回值），使用之前必须初始化，否则报错。总                      
-            LogMotionDebug($"JogMotion: after GT_SetJogPrm, axis={AXIS}, sRtn={sRtn}");
-                sRtn = mc.GT_SetVel(cardNumber, AXIS, vel2);//20220506批注：此值乘以1000为1s发出的实际脉冲数// 设置AXIS轴的目标速度//vel单位为pulse/ms//20200111：速度调整为原来的10分之一，电机是10mm / 1000脉冲；固高是1mm / 1000脉冲            
-            LogMotionDebug($"JogMotion: after GT_SetVel, axis={AXIS}, sRtn={sRtn}, vel={vel2}");
-                sRtn = mc.GT_Update(cardNumber, 1 << (AXIS - 1));// 启动AXIS轴的运动
-            LogMotionDebug($"JogMotion: after GT_Update, axis={AXIS}, sRtn={sRtn}");
-                AXIS = 2;//复位当前轴为双驱铺粉轴；默认铺粉轴为4轴
-
-            }
-            else if (AXIS == 2)
-            {
-                LogMotionDebug($"JogMotion: skip legacy roller remap for axis=2 because RollerParam={RollerParam:F3}");
-            }
-            else//为普通轴。
-            {
-            }
-#endif
 
             //（2）开启当前轴的JOG运动
             gts.mc.GT_Stop(cardNumber, 1 << (AXIS - 1), 1 << (AXIS - 1));//执行完，需要关闭、停止JOG运动
