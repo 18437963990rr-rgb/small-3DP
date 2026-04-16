@@ -3352,14 +3352,14 @@ namespace BinderJetting
         /// <returns>需要运动的点数，即光栅尺的线数</returns>
         private UInt32 MM_TO_DOT(float X, int DPI, int AxisIndex)//20220506修改：新增AxisIndex为墨车轴的编号，3轴依次为0,1,2
         {
-            if (AxisIndex == 0)//第1轴
+            if (AxisIndex == 0)//墨车X（AxisIndex=0；固高轴1）
             {
                 //UInt32 dot = (UInt32)((((float)(X * DPI)) / 25.4 + 0.45f) * 2.50);//20210506修改：速度校准系数：1/20为计算值//20200803修改：2.50为墨车速度校准系数
                 UInt32 dot = (UInt32)((((float)(X * DPI)) / 25.4 + 0.45f) * 5);//20220511批注：1/25.4mm*5080=200dot//应该乘以5才对//20210506修改：速度校准系数//20200803修改：2.50为墨车速度校准系数
                 dot = (UInt32)(float)(X * 1000);//20220511修改：这样更加精确，实际是乘以驱动器每毫米发送脉冲数，2024/04/11，Leon
                 return dot;
             }
-            else if (AxisIndex == 1)//第2轴
+            else if (AxisIndex == 1)//墨车Y（AxisIndex=1；固高轴2，非铺粉车轴7）
             {
                 UInt32 dot = (UInt32)((((float)(X * DPI)) / 25.4 + 0.45f) * 5);//20220511批注：1/25.4mm*5080=200dot//应该乘以5才对//20210506修改：速度校准系数：1/200为计算值//20200803修改：2.50为墨车速度校准系数
                 dot = (UInt32)(float)(X * 1000);//20220511修改：这样更加精确
@@ -6116,6 +6116,8 @@ namespace BinderJetting
         public int k_nCurrentLayer = 0;//当前的打印进度
         public float k_fBackCleanMovSpeed = 100;
 
+        /// <summary>与自动打印 Command2 一致：监控关闭时用占位对象，避免 NewAutoSupplyPowderThread2* 对 toCamera 空引用。</summary>
+        private SendMessageToCamera _powderMonitorStub = new SendMessageToCamera(false);
 
         /// <summary>
         /// 自动清洗线程
@@ -6125,6 +6127,7 @@ namespace BinderJetting
         /// 
         ///     1. 修改清洗站位置坐标：(850.0,10.0) ✓ 2024/04/12
         ///     2. 修改回清洗站路径，先移动X轴，当X轴坐标到达安全区域后，同时移动Y轴 ✓ 2024/04/12
+        [Obsolete("与自动打印不一致：UI与主流程已统一为 AutoCleanThread2（EquipmentMotionLogic3 Command1 / UiThreadEntry_AutoCleanThread2）。工艺调试请只改 AutoCleanThread2。")]
         public void AutoCleanThread(/*float m_BackCleanMovSpeed*/)//20220520修改及注释：线程内容：自动清洗动作
         {
             string msg = $"进入自动清洗过程：AutoCleanThread";
@@ -7199,7 +7202,7 @@ namespace BinderJetting
         {
             if (k_RYSYSParamAutoPrintParamInTest.m_nRecoaterMode == 1)//20240103新增：手动测试铺粉固化逻辑，先铺粉再喷墨模式
             {
-                NewAutoSupplyPowderThreadCureFirst();//20240103新增：手动测试铺粉固化逻辑，先铺粉再喷墨模式
+                NewAutoSupplyPowderThread2CureFirst(ref _powderMonitorStub, 0, 10, k_fBackCleanMovSpeed);//20240103新增：与自动打印 Command2 同源；阶段C直调，避免命中 Obsolete 包装
             }
             else//20240103批注：手动测试铺粉固化逻辑，同步铺粉固化模式
             {
@@ -7215,7 +7218,7 @@ namespace BinderJetting
                 //(0000)//20220602修改：Z向进给量:下降一个固定高度
                 double vel = 1;//Z向运动速度为1mm/s
                 double TrapSpace = -/*k_RYSYSParamAutoPrintParamInTest.m_nLayerThick*/(double)200 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
-                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+                TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20260416修改：成型缸固高轴8；轴1为墨车X勿用
                 Thread.Sleep(800);//等待800 ms
 
 
@@ -7235,7 +7238,7 @@ namespace BinderJetting
                 do//检查X轴是否位于指定区域
                 {
                     /*double*/
-                    PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置
+                    PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置
                     if (PosValue >= (255 - LightSourceOffset/*70*/) && m_startFlag == false)//开启UV灯及IR灯：UV灯距离落粉中心位置70MM,IR灯距离落粉中心位置为110MM
                     {
                         if (UVIRLightFlag == true)
@@ -7257,14 +7260,14 @@ namespace BinderJetting
                 m_startFlag = false;
 
                 int AxiStatus = 0; double prfPos = 0;
-                while ((Math.Abs(PosValue) < Math.Abs(695)) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
+                while ((Math.Abs(PosValue) < Math.Abs(695)) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉车（固高轴7）停止；墨车Y为轴2勿混
                 {
                     PosValue = GetCurrentPos(7);//20260416修改：当前铺粉车运动轴改为轴7 //motionMap.GetPrfPos(7, out prfPos);
                     motionMap.GetAxisStatus(7, out AxiStatus); //20260416修改：当前铺粉车运动轴改为轴7
                 }
 
                 //B: 洒粉车回到落粉站位置（回站）：20220512批注
-                PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置
+                PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置
                 RollerParam = 0/*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed*/;//201029批注：更新辊子速度                                                                              /*double*/
                 AimPos = 1; MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed;//更新值到本地变量
                 BackToStation2(AimPos, MovSpeed, false/*true*/);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为等停//20220521设置为不等停
@@ -7273,7 +7276,7 @@ namespace BinderJetting
                 //B-2:开启回程固化
                 do//检查X轴是否位于指定区域
                 {
-                    PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置
+                    PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置
                     if (PosValue <= (620 - LightSourceOffset/*70*/) && m_startFlag == false)//开启UV灯及IR灯：UV灯距离落粉中心位置70MM,IR灯距离落粉中心位置为110MM
                     {
                         if (UVIRLightFlag == true)
@@ -7294,16 +7297,16 @@ namespace BinderJetting
 
                 //B-3:确保回到落粉站
                 AxiStatus = 0; prfPos = 0;
-                while ((Math.Abs(PosValue) > Math.Abs(AimPos)) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
+                while ((Math.Abs(PosValue) > Math.Abs(AimPos)) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉车（固高轴7）停止；墨车Y为轴2勿混
                 {
-                    PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(2, out prfPos);
-                    motionMap.GetAxisStatus(2, out AxiStatus); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
+                    PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(7, out prfPos);
+                    motionMap.GetAxisStatus(7, out AxiStatus); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
                 }
 
                 //(9999)//20220602修改：Z向进给量:上升一个固定高度
                 vel = 1;//Z向运动速度为1mm/s
                 TrapSpace = /*-*//*k_RYSYSParamAutoPrintParamInTest.m_nLayerThick*/(double)200 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
-                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
+                TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true/*!WaitStopFLag*//*true*/);//20260416修改：成型缸固高轴8；轴1为墨车X勿用
                 Thread.Sleep(800);//等待800 ms
 
                 msg = $"固化运动逻辑正常结束：AutoCureThread";
@@ -7410,6 +7413,7 @@ namespace BinderJetting
         /// 供粉线程，由手动调节对话框中的[手动铺粉]按钮触发工作
         /// </summary>
         /// DONE::修改铺粉行程，落粉开始位置，落粉结束位置等常数
+        [Obsolete("与自动打印不一致：UI 与主流程已统一为 NewAutoSupplyPowderThread2*（EquipmentMotionLogic3 Command2 / UiThreadEntry_NewAutoSupplyPowderThread2AlignedWithAutoPrint）。工艺调试请只改 NewAutoSupplyPowderThread2 系列。")]
         public void NewAutoSupplyPowderThread()//20220512新建：新的上送粉铺粉逻辑
         {
 #if false //20230308调试Z轴运动精度，临时使用
@@ -7611,7 +7615,7 @@ namespace BinderJetting
                         BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
 
                         double PosValue = 0;
-                        PosValue = GetCurrentPos(2);//20230425新建：实时铺粉车位置
+                        PosValue = GetCurrentPos(7);//20230425新建：实时铺粉车位置
                         msg = $"当前铺粉车位置：打印位置{PosValue}mm";
                         Log4Net.Info(msg);
 
@@ -7642,7 +7646,7 @@ namespace BinderJetting
                         do//检查X轴是否位于指定区域
                         {
                             /*double*/
-                            PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置
+                            PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置
 
                             //20220920新建：打开UV或者IR灯
                             // DONE::需要替换常数255
@@ -7749,12 +7753,12 @@ namespace BinderJetting
                          */
                         int AxiStatus = 0; double prfPos = 0;
                         // DONE::需要替换常数695
-                        //while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
-                        while ((Math.Abs(PosValue) < Math.Abs(POWDERCAR_TRAVEL_DIST)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
+                        //while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉车（固高轴7）停止；墨车Y为轴2勿混
+                        while ((Math.Abs(PosValue) < Math.Abs(POWDERCAR_TRAVEL_DIST)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉车（固高轴7）停止；墨车Y为轴2勿混
                         {
                             /*double*/
-                            PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(2, out prfPos);
-                            motionMap.GetAxisStatus(2, out AxiStatus); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
+                            PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(7, out prfPos);
+                            motionMap.GetAxisStatus(7, out AxiStatus); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
                             Thread.Sleep(10);
                         }
 
@@ -7792,7 +7796,7 @@ namespace BinderJetting
                          * 铺粉车回程
                          */
                         //(2)洒粉车回到落粉站位置（回站）：20220512批注
-                        PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置
+                        PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置
                         RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
                         double PowderStationCorrection = k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection;
                         AimPos = 1 - PowderStationCorrection;
@@ -7867,609 +7871,15 @@ namespace BinderJetting
         }
 
 
+
         /// <summary>
-        /// 自动送粉线程，固化优先，先完成固化，再进行铺粉
+        /// 自动送粉线程，固化优先（与自动打印 Command2、RecoaterMode!=0 同源实现）。
         /// </summary>
-        public void NewAutoSupplyPowderThreadCureFirst()//20220512新建：新的上送粉铺粉逻辑
+        /// <remarks>阶段C：无参入口已删除重复体，统一转调 <see cref="NewAutoSupplyPowderThread2CureFirst"/>。</remarks>
+        [Obsolete("请改调 NewAutoSupplyPowderThread2CureFirst(ref SendMessageToCamera, layer, process, backCleanSpeed)；本方法仅保留兼容。")]
+        public void NewAutoSupplyPowderThreadCureFirst()
         {
-            string msg = $"开启手动铺粉逻辑：NewAutoSupplyPowderThread";
-            Log4Net.Info(msg);
-
-            int nIOState = motionMap.MointoringAxis2(7);//铺粉车固高轴7限位状态         
-            if (/*false*/(0 != (nIOState & 0x20)) || (0 != (nIOState & 0x40)))//粉车位于负限位报警区
-            {
-                msg = $"中止手动铺粉逻辑，异常停靠区间退出：NewAutoSupplyPowderThread2：ReturnCode{{{nIOState}}}";
-                Log4Net.Info(msg);
-
-                MessageBox.Show("粉车不在正常停靠区间");
-            }
-            else//粉车位于正常停靠区
-            {
-#region 监控发送指令//20230113新建且批注：
-                SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
-#endregion
-
-                if (true/*(DirFlag == 1) || (DirFlag == 2)*/)//墨车在非安全区域++粉车在正常工作区间内==粉末在正负限位区间内
-                {
-                    if (true/*0 == k_RYSYSParamAutoPrintParamInTest.m_nRecoaterStrategy*/)//20220512新建批注：新设备只需要使用直接铺粉逻辑即可//(2)直接铺粉方式：20210125新增
-                    {
-#region 监控指令：铺粉拍摄位点1
-                        if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[7])
-                        {
-                            sendMessageToCamera.SendMessageFromSharedMemory(false, 0, 8);//20230113新建且批注：监控发送指令
-
-                            msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
-                            Log4Net.Info(msg);
-
-                        }
-#endregion
-
-                        //20220920新建：判断是UV固化还是红外固化
-                        if (k_RYSYSParamAutoPrintParamInTest.m_nCureLightStrategy == 0)//判断使用UV还是IR作为固化光源
-                        { UVIRLightFlag = true; }
-                        else if (k_RYSYSParamAutoPrintParamInTest.m_nCureLightStrategy == 1)
-                        { UVIRLightFlag = false; }
-                        else { }
-
-                        //A-2: 开启去程固化
-                        double LightSourceOffset = 70;//默认为UV灯：UV灯距离落粉中心位置70MM,IR灯距离落粉中心位置为110MM
-                        if (UVIRLightFlag == true) { LightSourceOffset = 70; }
-                        else { LightSourceOffset = 110; }
-
-/*****************************************↓↓↓↓↓↓↓↓↓↓***********************************/
-/*****************************************↓↓↓↓↓↓↓↓↓↓***********************************/
-#if true//铺粉逻辑，暂时注释掉//20220524新建：成型缸逻辑，一次下降1个层厚
-                        //(1)Z向进给：20210125新增//20220525修改：Z向进给量
-                        double vel = /*1*/2;//Z向运动速度为1mm/s
-                        double TrapSpace = -(double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
-#if OpenMagnetWhenUse
-                        GoogolDigtalOut(14, true);
-                        GoogolDigtalOut(15, true);
-#endif
-                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
-
-                        //Thread.Sleep(800/*800*/);//等待800 ms
-                        //#if OpenMagnetWhenUse
-                        //                GoogolDigtalOut(15,false);
-                        //#endif
-
-                        msg = $"成形面高度下降层厚 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
-                        Log4Net.Info(msg);
-
-                        //20230313新增：单独下降层厚，精度不够：继续下降1500um
-                        //20230313新增：单独下降层厚，精度不够：继续下降1500um
-                        //20230313新增：单独下降层厚，精度不够：继续下降1500um
-                        //20220915新增：铺粉完成 下降一段距离，避免回程压碎
-                        vel = /*1*/2;//Z向运动速度为1mm/s
-                        TrapSpace = -(double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
-                                                                 //#if OpenMagnetWhenUse
-                                                                 //                GoogolDigtalOut(15,true);
-                                                                 //#endif
-                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//不同于默认，为不等停
-                                                                                                                                              //#if OpenMagnetWhenUse
-                                                                                                                                              //                GoogolDigtalOut(15,false);
-                                                                                                                                              //#endif
-
-                        msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
-                        Log4Net.Info(msg);
-                        //Thread.Sleep(1000);//等待800 ms
-
-#if OpenMagnetWhenUse
-                        GoogolDigtalOut(15, false);
-                        GoogolDigtalOut(14, false);
-#endif
-
-//#if OpenMagnetWhenUse
-//                        GoogolDigtalOut(14, true);
-//                        GoogolDigtalOut(15, true);
-//#endif
-//                        //Thread.Sleep(800/*800*/);//等待800 ms
-//                        //#if OpenMagnetWhenUse
-//                        //                GoogolDigtalOut(15,false);
-//                        //#endif
-
-//                        msg = $"成形面高度下降层厚 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
-//                        Log4Net.Info(msg);
-
-//                        //20230313新增：单独下降层厚，精度不够：继续下降1500um
-//                        //20230313新增：单独下降层厚，精度不够：继续下降1500um
-//                        //20230313新增：单独下降层厚，精度不够：继续下降1500um
-//                        //20220915新增：铺粉完成 下降一段距离，避免回程压碎
-//                        vel = /*1*/2;//Z向运动速度为1mm/s
-//                        TrapSpace = -(double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
-//                                                                 //#if OpenMagnetWhenUse
-//                                                                 //                GoogolDigtalOut(15,true);
-//                                                                 //#endif
-//                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//不同于默认，为不等停
-//                                                                                                                                              //#if OpenMagnetWhenUse
-//                                                                                                                                              //                GoogolDigtalOut(15,false);
-//                                                                                                                                              //#endif
-
-//                        msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
-//                        Log4Net.Info(msg);
-//                        //Thread.Sleep(1000);//等待800 ms
-
-//                        //20230313新增：单独下降层厚，精度不够：回程1500um
-//                        //20230313新增：单独下降层厚，精度不够：回程1500um
-//                        //20230313新增：单独下降层厚，精度不够：回程1500um
-//                        //20220915新增：铺粉完成 下降一段距离，避免回程压碎
-//                        vel = /*1*/2;//Z向运动速度为1mm/s
-//                        TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
-//                                                                //#if OpenMagnetWhenUse
-//                                                                //                GoogolDigtalOut(15,true);
-//                                                                //#endif
-//                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
-//#if OpenMagnetWhenUse
-//                        GoogolDigtalOut(15, false);
-//                        GoogolDigtalOut(14, false);
-//#endif
-//                        msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
-//                        Log4Net.Info(msg);
-#endif
-                        //(1)落 粉站漏斗阀门转3圈-再停止（接粉）：20220512批注
-                        double rotateNuM = k_RYSYSParamAutoPrintParamInTest.m_dPowderSupplyRotateNum;
-                        TrapMoveUp(3, true, "2.5"/*"0.5"*/, rotateNuM.ToString()/* "2"*/, true, false);//20260416修改：初始落粉由轴8切换为轴3
-
-                        msg = $"初始落粉改由轴3执行，转{rotateNuM}圈落粉：TrapMoveUp(3, true, 2.5, rotateNuM.ToString(), true, false)";
-                        Log4Net.Info(msg);
-
-                        Thread.Sleep(1000);//20230411新增：等待1s保证接上粉
-
-/*****************************************=========>>>***************************************/
-/*****************************************=========>>>***************************************/
-                        //(2)洒粉车覆盖打印区域-过程中依次开铺粉辊及洒粉轴（移动-辊粉-撒粉）：20220512批注
-                        //(A-B: 移动-辊粉)//20220919测量：辊子直径 25MM,原来的40MM(记忆中)//20230403修改：快速移动到成型区域
-                        double AimPos = 255 - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply/*695*/-50; double MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*250*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/; //更新值到本地变量
-                        msg = $"开启铺粉车不等停运动至准备打印位置{AimPos}mm，速度{MovSpeed}mm/s：BackToStation2";
-                        Log4Net.Info(msg);
-                        BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
-
-                        double PosValue = 0;
-                        PosValue = GetCurrentPos(2);//20230425新建：实时铺粉车位置
-                        msg = $"当前铺粉车位置：打印位置{PosValue}mm";
-                        Log4Net.Info(msg);
-
-                        /*****************************************=========>>>***************************************/
-                        /*****************************************=========>>>***************************************/
-                        //C: 撒粉-指定区域内开启撒粉;具体策略1：先用迅速方式落粉 策略2：用插补模式落粉；暂时使用策略1
-                        bool m_startFlag = false;
-                        bool m_startFlag3 = false;//20230411新建:落粉轴预先运动标志位
-
-                        int n_AdapativeDryTimes = 1;//20240102新建：设置固化循环次数为指定值
-                        int n_AdapativeStartDryPosition = 0;
-                        int n_AdapativeCloseDryPosition = 365;
-                        int n_AdapativeDryMoveStopPosition = 620 + 5/*75*/;//20240102新建：固化过程中，墨车的终止运动位置
-                        if (k_RYSYSParamAutoPrintParamInTest.m_nAdapativeDryMode == 1)
-                        {
-                            n_AdapativeDryTimes = k_RYSYSParamAutoPrintParamInTest.m_nAdapativeDryTimes;//20240102新建：设置固化循环次数为指定值
-                            n_AdapativeStartDryPosition = k_RYSYSParamAutoPrintParamInTest.m_nAdapativeStartDryPosition;
-                            n_AdapativeCloseDryPosition = k_RYSYSParamAutoPrintParamInTest.m_nAdapativeCloseDryPosition;
-                            n_AdapativeDryMoveStopPosition = 255 + k_RYSYSParamAutoPrintParamInTest.m_nAdapativeCloseDryPosition + 5/*75*/;//20240102新建：默认就是一次性走到695位置
-                        }
-                        else 
-                        {
-                            n_AdapativeDryTimes = 1;//20240102新建：不进行固化循环
-                            n_AdapativeDryMoveStopPosition = 620 + 5/*75*/;//20240102新建：默认就是一次性走到695位置
-                        }
-
-                        for (int i = 0; i < n_AdapativeDryTimes; i++)
-                        {
-                            if (k_RYSYSParamAutoPrintParamInTest.m_nAdapativeDryMode == 1)
-                            {
-                                n_AdapativeDryTimes = k_RYSYSParamAutoPrintParamInTest.m_nAdapativeDryTimes;//20240102新建：设置固化循环次数为指定值
-                                n_AdapativeStartDryPosition = k_RYSYSParamAutoPrintParamInTest.m_nAdapativeStartDryPosition;
-                                n_AdapativeCloseDryPosition = k_RYSYSParamAutoPrintParamInTest.m_nAdapativeCloseDryPosition;
-                                n_AdapativeDryMoveStopPosition = 255 + k_RYSYSParamAutoPrintParamInTest.m_nAdapativeCloseDryPosition + 5/*75*/;//20240102新建：默认就是一次性走到695位置
-                            }
-                            else
-                            {
-                                n_AdapativeDryTimes = 1;//20240102新建：不进行固化循环
-                                n_AdapativeDryMoveStopPosition = 620 + 5/*75*/;//20240102新建：默认就是一次性走到695位置
-                            }
-
-                            //public int m_nAdapativeDryMode = 0;//自适应出光策略：默认0为非自适应固化方式，1为自适应出光区间和出光次数设置
-                            //public int m_nAdapativeDryTimes = 1;//固化循环次数（次）//20240102新增：默认1次
-                            //public double m_dAdapativeDryWaitTimes = 0;//固化等待时间//20240102新增：默认等待时间为0秒
-                            //public int m_nAdapativeStartDryPosition = 255;//自适应出光位置（mm）//20240102新增：默认自适应出光位置 255mm
-                            //public int m_nAdapativeCloseDryPosition = 620;//自适应闭光位置（mm）//20240102新增：默认自适应闭光位置 620mm
-
-
-                            /*****************************************=========>>>***************************************/
-                            /*****************************************=========>>>***************************************/
-                            //(A-B: 移动-辊粉)//20220919测量：辊子直径 25MM,原来的40MM(记忆中)
-                            RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
-                            /*double*/
-                            AimPos = n_AdapativeDryMoveStopPosition/*620+75*//*695*/; 
-                            /*double*/ MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarCureSpeed/*m_dPowderCarBackSpeed*/; //更新值到本地变量
-                            BackToStation2(AimPos, MovSpeed, false);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
-
-                            msg = $"开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2";
-                            Log4Net.Info(msg);
-
-                            bool m_startLightFlag = false;//开灯标志，确保开灯1次
-                            bool m_startLightFlag2 = false;//20220920新增：关灯标志，确保关灯1次
-                            //double PosValue = 0;
-                            do//检查X轴是否位于指定区域
-                            {
-                                /*double*/
-                                PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置
-
-                                //20220920新建：打开UV或者IR灯
-                                
-                                if (PosValue >= (n_AdapativeStartDryPosition + 255 - LightSourceOffset/*70*/) 
-                                    && m_startLightFlag == false)//开启UV灯及IR灯：UV灯距离落粉中心位置70MM,IR灯距离落粉中心位置为110MM
-                                {
-                                    if (UVIRLightFlag == true)
-                                    {
-                                        OpenUVLamp(true, 0, 1000, 0, 1000);/*开启UV灯*/
-
-                                        msg = $"打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)";
-                                        Log4Net.Info(msg);
-
-                                    }
-                                    else
-                                    {
-                                        OpenIRLamp(true);/*打开红外灯*/
-
-                                        msg = $"打开IR灯：OpenIRLamp(true)";
-                                        Log4Net.Info(msg);
-                                    }
-                                    m_startLightFlag = true;
-                                }
-                                else { }
-                                //20220920新建:关闭UV或者IR灯
-                                if (PosValue > (n_AdapativeCloseDryPosition +255/*+ 620*/ - LightSourceOffset/*-200*//*70*/)
-                                    && m_startLightFlag2 == false)//开启UV灯及IR灯：UV灯距离落粉中心位置70MM,IR灯距离落粉中心位置为110MM
-                                {
-                                    if (UVIRLightFlag == true)
-                                    {
-                                        OpenUVLamp(false, 0, 1000, 0, 1000);/*关闭UV灯*/
-
-                                        msg = $"关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)";
-                                        Log4Net.Info(msg);
-                                    }
-                                    else
-                                    {
-                                        OpenIRLamp(false);/*关闭红外灯*/
-
-                                        msg = $"关闭IR灯：OpenIRLamp(false)";
-                                        Log4Net.Info(msg);
-                                    }
-                                    m_startLightFlag2 = true;
-                                }
-#if false
-                                //(1)预先转30度的撒粉动作
-                                if (PosValue >= (255 - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply)/*220*/ && m_startFlag3 == false)//20230411新建开启扫粉轴：先匀速转半圈（策略1）：到达220的时候先转30度
-                                {
-                                    double PreAngleForPowderSupply = k_RYSYSParamAutoPrintParamInTest.m_dPreAngleForPowderSupply / 360;//20230411备注：单位为圈数
-                                    double DispenseRollerSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPreAngleRotateSpeedForPowderSupply;//20220512新建批注：有效区域宽度为460MM;起始打印位置：255MM;//此处存在问题//20230406修正：1.2未补偿系数//20230411:1r/s速度
-                                    TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed)/*"0.25"*/, Convert.ToString(PreAngleForPowderSupply), true, false/*true*/);//等停运动//20220512批注：此处不同于默认，为不等停/*(2)铺粉车移动到手动填粉位置;//30mm位置处*/
-
-                                    msg = $"在{{{k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply/*220*/}mm}}处，落粉轴运动{{{k_RYSYSParamAutoPrintParamInTest.m_dPreAngleForPowderSupply}度}}，落粉轴转速{{{DispenseRollerSpeed}rev/s}}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)";
-                                    Log4Net.Info(msg);
-
-                                    m_startFlag3 = true;
-                                }
-
-                                //(2)开启撒粉动作
-                                if (PosValue >= (255 - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply/*- 90 - 40*/) && m_startFlag == false)//开启扫粉轴：先匀速转半圈（策略1）//20230411:200mm/s补偿9CM
-                                {
-                                    double DispenseRollerSpeed = 0.5 / ((620 - 255)/*255*/ / k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed) * 1.1;//20220512新建批注：有效区域宽度为460MM;起始打印位置：255MM;//20230406修正：1.2未补偿系数
-                                    TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed)/*"0.25"*/, "0.5"/*Convert.ToString(TrapSpace)*/, true, true);//20220512批注：此处不同于默认，为不等停/*(2)铺粉车移动到手动填粉位置;//30mm位置处*/
-
-                                    msg = $"开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)";
-                                    Log4Net.Info(msg);
-
-                                    m_startFlag = true;
-                                }
-                                else { }
-#endif
-                            }
-                            while (PosValue <= n_AdapativeDryMoveStopPosition-5/*75*//*620*/);//20220512新建批注：有效区域宽度为360MM;起始打印位置：255MM;终止洒粉位置620MM
-
-                            ////TrapMoveUp(3, true, "2", "0.5"/*Convert.ToString(TrapSpace)*/, true, false);//20220512新建：转完剩余的圈数，回到其轴的零位
-                            ////msg = $"落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)";
-                            ////Log4Net.Info(msg);
-
-                            int AxiStatus = 0; /*double prfPos = 0;*/
-                            while ((Math.Abs(PosValue) < Math.Abs(n_AdapativeDryMoveStopPosition/*620 + 75*//*695*/)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
-                            {
-                                /*double*/
-                                PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(2, out prfPos);
-                                motionMap.GetAxisStatus(2, out AxiStatus); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
-                            }
-
-#region 监控指令：铺粉拍摄位点3
-                            if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9])
-                            {
-                                sendMessageToCamera.SendMessageFromSharedMemory(false, 0, 10);//20230113新建且批注：监控发送指令
-
-                                msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
-                                Log4Net.Info(msg);
-                            }
-                            #endregion
-
-                            /*****************************************<<<=========***************************************/
-                            /*****************************************<<<=========***************************************/
-                            //20240103新增：固化灯快速移动到成型区域左侧的出光区域，准备下次出光操作
-                            AimPos = k_RYSYSParamAutoPrintParamInTest.m_nAdapativeStartDryPosition + 255 - LightSourceOffset;//AimPos = 255 - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply; 
-                            MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*250*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/; //更新值到本地变量
-                            msg = $"开启铺粉车不等停运动至再次出光前位置{AimPos}mm，速度{MovSpeed}mm/s：BackToStation2";
-                            Log4Net.Info(msg);
-                            BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
-
-                            PosValue = 0;
-                            PosValue = GetCurrentPos(2);//20230425新建：实时铺粉车位置
-                            msg = $"当前铺粉车位置：打印位置{PosValue}mm";
-                            Log4Net.Info(msg);
-
-                            /*****************************************^^^^^^^^^^^^***************************************/
-                            /*****************************************^^^^^^^^^^^^***************************************/
-
-                            if (i < n_AdapativeDryTimes-1)
-                            {
-                                //20240102新建：执行固化等待时间
-                                Thread.Sleep((int)(k_RYSYSParamAutoPrintParamInTest.m_dAdapativeDryWaitTimes * 1000));//等待指定时间，最长60s
-                            }
-                        }
-                        /*****************************************<<<=========***************************************/
-                        /*****************************************<<<=========***************************************/
-                        //(2)洒粉车覆盖打印区域-过程中依次开铺粉辊及洒粉轴（移动-辊粉-撒粉）：20220512批注
-                        //(A-B: 移动-辊粉)//20220919测量：辊子直径 25MM,原来的40MM(记忆中)//20230403修改：快速移动到成型区域
-                        /*double*/
-                        AimPos = 255 - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply/*695*/; /*double*/ MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*250*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/; //更新值到本地变量
-                        msg = $"开启铺粉车不等停运动至准备打印位置{AimPos}mm，速度{MovSpeed}mm/s：BackToStation2";
-                        Log4Net.Info(msg);
-                        BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
-
-                        /*double*/ PosValue = 0;
-                        PosValue = GetCurrentPos(2);//20230425新建：实时铺粉车位置
-                        msg = $"当前铺粉车位置：打印位置{PosValue}mm";
-                        Log4Net.Info(msg);
-
-/*****************************************↑↑↑↑↑↑↑↑↑↑***********************************/
-/*****************************************↑↑↑↑↑↑↑↑↑↑***********************************/
-#if OpenMagnetWhenUse
-                        GoogolDigtalOut(14, true);
-                        GoogolDigtalOut(15, true);
-#endif
-
-                        //20230313新增：单独下降层厚，精度不够：回程1500um
-                        //20230313新增：单独下降层厚，精度不够：回程1500um
-                        //20230313新增：单独下降层厚，精度不够：回程1500um
-                        //20220915新增：铺粉完成 下降一段距离，避免回程压碎
-                        vel = /*1*/2;//Z向运动速度为1mm/s
-                        TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
-                                                                //#if OpenMagnetWhenUse
-                                                                //                GoogolDigtalOut(15,true);
-                                                                //#endif
-                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
-#if OpenMagnetWhenUse
-                        GoogolDigtalOut(15, false);
-                        GoogolDigtalOut(14, false);
-#endif
-                        msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
-                        Log4Net.Info(msg);
-/*****************************************=========>>>***************************************/
-/*****************************************=========>>>***************************************/
-                        //(A-B: 移动-辊粉)//20220919测量：辊子直径 25MM,原来的40MM(记忆中)
-                        RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
-                        /*double*/
-                        AimPos = 695; /*double*/ MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed; //更新值到本地变量
-                        BackToStation2(AimPos, MovSpeed, false);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
-
-                        msg = $"开启铺粉车不等停运动至站2，速度0.5rev/s：BackToStation2";
-                        Log4Net.Info(msg);
-
-
-                        //C: 撒粉-指定区域内开启撒粉;具体策略1：先用迅速方式落粉 策略2：用插补模式落粉；暂时使用策略1
-#if false
-                        bool m_startFlag = false;
-                        bool m_startFlag3 = false;//20230411新建:落粉轴预先运动标志位
-                        bool m_startLightFlag = false;//开灯标志，确保开灯1次
-                        bool m_startLightFlag2 = false;//20220920新增：关灯标志，确保关灯1次
-#endif
-                        //double PosValue = 0;
-                        do//检查X轴是否位于指定区域
-                        {
-                            /*double*/
-                            PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置
-#if false
-                            //20220920新建：打开UV或者IR灯
-                            if (PosValue >= (255 - LightSourceOffset/*70*/) && m_startLightFlag == false)//开启UV灯及IR灯：UV灯距离落粉中心位置70MM,IR灯距离落粉中心位置为110MM
-                            {
-                                if (UVIRLightFlag == true)
-                                {
-                                    OpenUVLamp(true, 0, 1000, 0, 1000);/*开启UV灯*/
-
-                                    msg = $"打开UV灯：OpenUVLamp(true, 0, 1000, 0, 1000)";
-                                    Log4Net.Info(msg);
-
-                                }
-                                else
-                                {
-                                    OpenIRLamp(true);/*打开红外灯*/
-
-                                    msg = $"打开IR灯：OpenIRLamp(true)";
-                                    Log4Net.Info(msg);
-                                }
-                                m_startLightFlag = true;
-                            }
-                            else { }
-
-                            //20220920新建:关闭UV或者IR灯
-                            if (PosValue > (620 - LightSourceOffset/*-200*//*70*/) && m_startLightFlag2 == false)//开启UV灯及IR灯：UV灯距离落粉中心位置70MM,IR灯距离落粉中心位置为110MM
-                            {
-                                if (UVIRLightFlag == true)
-                                {
-                                    OpenUVLamp(false, 0, 1000, 0, 1000);/*关闭UV灯*/
-
-                                    msg = $"关闭UV灯：OpenUVLamp(false, 0, 1000, 0, 1000)";
-                                    Log4Net.Info(msg);
-                                }
-                                else
-                                {
-                                    OpenIRLamp(false);/*关闭红外灯*/
-
-                                    msg = $"关闭IR灯：OpenIRLamp(false)";
-                                    Log4Net.Info(msg);
-                                }
-                                m_startLightFlag2 = true;
-                            }
-#endif
-#if true
-                            //(1)预先转30度的撒粉动作
-                            if (PosValue >= (255 - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply)/*220*/ && m_startFlag3 == false)//20230411新建开启扫粉轴：先匀速转半圈（策略1）：到达220的时候先转30度
-                            {
-                                double PreAngleForPowderSupply = k_RYSYSParamAutoPrintParamInTest.m_dPreAngleForPowderSupply / 360;//20230411备注：单位为圈数
-                                double DispenseRollerSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPreAngleRotateSpeedForPowderSupply;//20220512新建批注：有效区域宽度为460MM;起始打印位置：255MM;//此处存在问题//20230406修正：1.2未补偿系数//20230411:1r/s速度
-                                TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed)/*"0.25"*/, Convert.ToString(PreAngleForPowderSupply), true, false/*true*/);//等停运动//20220512批注：此处不同于默认，为不等停/*(2)铺粉车移动到手动填粉位置;//30mm位置处*/
-
-                                msg = $"在{{{k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply/*220*/}mm}}处，落粉轴运动{{{k_RYSYSParamAutoPrintParamInTest.m_dPreAngleForPowderSupply}度}}，落粉轴转速{{{DispenseRollerSpeed}rev/s}}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)";
-                                Log4Net.Info(msg);
-
-                                m_startFlag3 = true;
-                            }
-
-                            //(2)开启撒粉动作
-                            if (PosValue >= (255 - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply/*- 90 - 40*/) && m_startFlag == false)//开启扫粉轴：先匀速转半圈（策略1）//20230411:200mm/s补偿9CM
-                            {
-                                double DispenseRollerSpeed = 0.5 / ((620 - 255)/*255*/ / k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed) * 1.1;//20220512新建批注：有效区域宽度为460MM;起始打印位置：255MM;//20230406修正：1.2未补偿系数
-                                TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed)/*"0.25"*/, "0.5"/*Convert.ToString(TrapSpace)*/, true, true);//20220512批注：此处不同于默认，为不等停/*(2)铺粉车移动到手动填粉位置;//30mm位置处*/
-                                ControlUltrasonicViaGoogolIO(true);//20251210批注：行程开始时开启超声装置
-
-                                msg = $"开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true);开启超声装置： ControlUltrasonicViaGoogolIO(true)";
-                                Log4Net.Info(msg);
-
-                                m_startFlag = true;
-                            }
-                            else { }
-#endif
-                        }
-                        while (PosValue <= 620);//20220512新建批注：有效区域宽度为360MM;起始打印位置：255MM;终止洒粉位置620MM
-#if true
-                        TrapMoveUp(3, true, "2", "0.5"/*Convert.ToString(TrapSpace)*/, true, false);//20220512新建：转完剩余的圈数，回到其轴的零位
-                        ControlUltrasonicViaGoogolIO(false);//20251210批注：行程关闭时关闭超声装置
-
-                        msg = $"落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)；关闭超声装置：ControlUltrasonicViaGoogolIO(false)";
-                        Log4Net.Info(msg);
-#endif
-
-                        int AxiStatus2 = 0; /*double prfPos = 0;*/
-                        while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus2 & 0x20) == 0) && ((AxiStatus2 & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
-                        {
-                            /*double*/
-                            PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(2, out prfPos);
-                            motionMap.GetAxisStatus(2, out AxiStatus2); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
-                        }
-
-
-
-/*****************************************↓↓↓↓↓↓↓↓↓↓***********************************/
-/*****************************************↓↓↓↓↓↓↓↓↓↓***********************************/
-                        //20220915新增：铺粉完成 下降一段距离，避免回程压碎
-                        vel = /*1*/2;//Z向运动速度为1mm/s
-                        TrapSpace = -(double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
-#if OpenMagnetWhenUse
-                        GoogolDigtalOut(14, true);
-                        GoogolDigtalOut(15, true);
-#endif
-                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
-#if OpenMagnetWhenUse
-                        GoogolDigtalOut(15, false);
-                        GoogolDigtalOut(14, false);
-#endif
-                        msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
-                        Log4Net.Info(msg);
-
-                        //Thread.Sleep(1000);//等待800 ms
-
-//#region 监控指令：铺粉拍摄位点3
-//                        if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9])
-//                        {
-//                            sendMessageToCamera.SendMessageFromSharedMemory(false, 0, 10);//20230113新建且批注：监控发送指令
-
-//                            msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
-//                            Log4Net.Info(msg);
-//                        }
-//#endregion
-
-/*****************************************<<<=========***********************************/
-/*****************************************<<<=========***********************************/
-                        //(2)洒粉车回到落粉站位置（回站）：20220512批注
-                        PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置
-                        RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
-                        double PowderStationCorrection = k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection;
-                        AimPos = 1 - PowderStationCorrection;
-                        MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed /*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//更新值到本地变量
-                                                                                                                                                       //回程速度125mm/s//20230228修改：回程固化速度可以修改
-                        BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为等停
-                        msg = $"铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：{AimPos}mm，速度{MovSpeed}mm/s：BackToStation2";
-                        Log4Net.Info(msg);
-
-                        RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dRollerSpeed;//201029批注：复位辊子速度为回铺辊速 //进入下一打印环节；等待继续铺
-
-                        //20251206批注：更换铺粉解释，无需落粉轴
-                        //(3)撒粉轴找回零位：20220527新建：
-                        //double SinkPosition = k_RYSYSParamAutoPrintParamInTest.m_dPowderSpreaderHomeposition/*Convert.ToDouble(textBox22.Text)*/;
-                        //bool ReturnCode = motionMap.SetBackSpreaderAxis(3, 2.5/*0.5*/, 2, -SinkPosition);//旋转速度：0.5 圈/s
-                        //if (ReturnCode == true)//校准成功
-                        //{
-                        //    msg = $"落粉轴回零成功：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{{{ReturnCode}}}";
-                        //    Log4Net.Info(msg);
-
-                        //    //MessageBox.Show("回零成功");//成功执行不需要额外的反馈
-                        //}
-                        //else
-                        //{
-                        //    msg = $"落粉轴回零失败：motionMap.SetBackSpreaderAxis(3, 0.5, 2, -SinkPosition)：ReturnCode{{{ReturnCode}}}";
-                        //    Log4Net.Info(msg);
-
-                        //    MessageBox.Show("回零失败");
-                        //}
-
-                        /*****************************************↑↑↑↑↑↑↑↑↑↑***********************************/
-                        /*****************************************↑↑↑↑↑↑↑↑↑↑***********************************/
-                        //20220915新增：铺粉完成 下降一段距离，避免回程压碎
-                        vel = /*1*/2;//Z向运动速度为1mm/s
-                        TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
-#if OpenMagnetWhenUse
-                        GoogolDigtalOut(14, true);
-                        GoogolDigtalOut(15, true);
-#endif
-                        TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
-#if OpenMagnetWhenUse
-                        GoogolDigtalOut(15, false);
-                        GoogolDigtalOut(14, false);
-#endif
-                        msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
-                        Log4Net.Info(msg);
-
-                        //Thread.Sleep(1000);//等待800 ms
-
-                        msg = $"手动铺粉正常结束：NewAutoSupplyPowderThread";
-                        Log4Net.Info(msg);
-
-#region 监控指令：铺粉拍摄位点5
-                        if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
-                        {
-                            sendMessageToCamera.SendMessageFromSharedMemory(false, 0, 12);//20230113新建且批注：监控发送指令
-
-                            msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
-                            Log4Net.Info(msg);
-                        }
-#endregion
-                    }
-                    else { }
-
-                }
-                else
-                { MessageBox.Show("墨车不在正常停靠区间"); }
-
-#region 监控发送指令//20230113新建且批注：
-                sendMessageToCamera.Dispose(); //20230113新建且批注：监控发送指令
-#endregion
-            }
+            NewAutoSupplyPowderThread2CureFirst(ref _powderMonitorStub, 0, 10, k_fBackCleanMovSpeed);
         }
         //        public void NewAutoSupplyPowderThreadCureFirst20240102beifen()//20220512新建：新的上送粉铺粉逻辑//20240102修改之时备份
         //        {
@@ -8626,7 +8036,7 @@ namespace BinderJetting
         //                        BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
 
         //                        double PosValue = 0;
-        //                        PosValue = GetCurrentPos(2);//20230425新建：实时铺粉车位置
+        //                        PosValue = GetCurrentPos(7);//20230425新建：实时铺粉车位置
         //                        msg = $"当前铺粉车位置：打印位置{PosValue}mm";
         //                        Log4Net.Info(msg);
         //                        /*****************************************=========>>>***************************************/
@@ -8650,7 +8060,7 @@ namespace BinderJetting
         //                        do//检查X轴是否位于指定区域
         //                        {
         //                            /*double*/
-        //                            PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置
+        //                            PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置
 
         //                            //20220920新建：打开UV或者IR灯
         //                            if (PosValue >= (255 - LightSourceOffset/*70*/) && m_startLightFlag == false)//开启UV灯及IR灯：UV灯距离落粉中心位置70MM,IR灯距离落粉中心位置为110MM
@@ -8727,11 +8137,11 @@ namespace BinderJetting
         //                        ////Log4Net.Info(msg);
 
         //                        int AxiStatus = 0; double prfPos = 0;
-        //                        while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
+        //                        while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉车（固高轴7）停止；墨车Y为轴2勿混
         //                        {
         //                            /*double*/
-        //                            PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(2, out prfPos);
-        //                            motionMap.GetAxisStatus(2, out AxiStatus); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
+        //                            PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(7, out prfPos);
+        //                            motionMap.GetAxisStatus(7, out AxiStatus); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
         //                        }
 
         //                        #region 监控指令：铺粉拍摄位点3
@@ -8756,7 +8166,7 @@ namespace BinderJetting
 
         //                        /*double*/
         //                        PosValue = 0;
-        //                        PosValue = GetCurrentPos(2);//20230425新建：实时铺粉车位置
+        //                        PosValue = GetCurrentPos(7);//20230425新建：实时铺粉车位置
         //                        msg = $"当前铺粉车位置：打印位置{PosValue}mm";
         //                        Log4Net.Info(msg);
 
@@ -8806,7 +8216,7 @@ namespace BinderJetting
         //                        do//检查X轴是否位于指定区域
         //                        {
         //                            /*double*/
-        //                            PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置
+        //                            PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置
         //#if false
         //                            //20220920新建：打开UV或者IR灯
         //                            if (PosValue >= (255 - LightSourceOffset/*70*/) && m_startLightFlag == false)//开启UV灯及IR灯：UV灯距离落粉中心位置70MM,IR灯距离落粉中心位置为110MM
@@ -8887,11 +8297,11 @@ namespace BinderJetting
 
         //                        /*int*/
         //                        AxiStatus = 0; /*double*/ prfPos = 0;
-        //                        while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
+        //                        while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉车（固高轴7）停止；墨车Y为轴2勿混
         //                        {
         //                            /*double*/
-        //                            PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(2, out prfPos);
-        //                            motionMap.GetAxisStatus(2, out AxiStatus); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
+        //                            PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(7, out prfPos);
+        //                            motionMap.GetAxisStatus(7, out AxiStatus); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
         //                        }
         //                        /*****************************************↓↓↓↓↓↓↓↓↓↓***********************************/
         //                        /*****************************************↓↓↓↓↓↓↓↓↓↓***********************************/
@@ -8925,7 +8335,7 @@ namespace BinderJetting
         //                        /*****************************************<<<=========***********************************/
         //                        /*****************************************<<<=========***********************************/
         //                        //(2)洒粉车回到落粉站位置（回站）：20220512批注
-        //                        PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置
+        //                        PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置
         //                        RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
         //                        double PowderStationCorrection = k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection;
         //                        AimPos = 1 - PowderStationCorrection;
@@ -9160,7 +8570,7 @@ namespace BinderJetting
                 BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
 
                 double PosValue = 0;
-                PosValue = GetCurrentPos(2);//20230425新建：实时铺粉车位置
+                PosValue = GetCurrentPos(7);//20230425新建：实时铺粉车位置
                 msg = $"当前铺粉车位置：打印位置{PosValue}mm";
                 Log4Net.Info(msg);
 
@@ -9229,7 +8639,7 @@ namespace BinderJetting
                     do//检查X轴是否位于指定区域
                     {
                         /*double*/
-                        PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置
+                        PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置
 
                         //20220920新建：打开UV或者IR灯
 
@@ -9309,11 +8719,11 @@ namespace BinderJetting
                     ////Log4Net.Info(msg);
 
                     int AxiStatus2 = 0; /*double prfPos = 0;*/
-                    while ((Math.Abs(PosValue) < Math.Abs(n_AdapativeDryMoveStopPosition/*620 + 75*//*695*/)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus2 & 0x20) == 0) && ((AxiStatus2 & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
+                    while ((Math.Abs(PosValue) < Math.Abs(n_AdapativeDryMoveStopPosition/*620 + 75*//*695*/)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus2 & 0x20) == 0) && ((AxiStatus2 & 0x40) == 0))//20220512新建：等待铺粉车（固高轴7）停止；墨车Y为轴2勿混
                     {
                         /*double*/
-                        PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(2, out prfPos);
-                        motionMap.GetAxisStatus(2, out AxiStatus2); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
+                        PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(7, out prfPos);
+                        motionMap.GetAxisStatus(7, out AxiStatus2); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
                     }
 
                     #region 监控指令：铺粉拍摄位点3
@@ -9337,7 +8747,7 @@ namespace BinderJetting
                     BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
 
                     PosValue = 0;
-                    PosValue = GetCurrentPos(2);//20230425新建：实时铺粉车位置
+                    PosValue = GetCurrentPos(7);//20230425新建：实时铺粉车位置
                     msg = $"当前铺粉车位置：打印位置{PosValue}mm";
                     Log4Net.Info(msg);
 
@@ -9374,7 +8784,7 @@ namespace BinderJetting
 
                 /*double*/
                 PosValue = 0;
-                PosValue = GetCurrentPos(2);//20230425新建：实时铺粉车位置
+                PosValue = GetCurrentPos(7);//20230425新建：实时铺粉车位置
                 msg = $"当前铺粉车位置：打印位置{PosValue}mm";
                 Log4Net.Info(msg);
 
@@ -9530,8 +8940,8 @@ namespace BinderJetting
                 AxiStatus = 0; double prfPos = 0;
 
                 // DONE::需要替换常数695
-                //while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
-                while ((Math.Abs(PosValue) < Math.Abs(POWDERCAR_TRAVEL_DIST)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
+                //while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉车（固高轴7）停止；墨车Y为轴2勿混
+                while ((Math.Abs(PosValue) < Math.Abs(POWDERCAR_TRAVEL_DIST)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉车（固高轴7）停止；墨车Y为轴2勿混
                 {
                     /*double*/
                     PosValue = GetCurrentPos(7);//20260416修改：当前铺粉车运动轴改为轴7 //motionMap.GetPrfPos(7, out prfPos);
@@ -9776,7 +9186,7 @@ namespace BinderJetting
                 BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
 
                 double PosValue = 0;
-                PosValue = GetCurrentPos(2);//20230425新建：实时铺粉车位置
+                PosValue = GetCurrentPos(7);//20230425新建：实时铺粉车位置
                 msg = $"当前铺粉车位置：打印位置{PosValue}mm";
                 Log4Net.Info(msg);
 
@@ -9799,7 +9209,7 @@ namespace BinderJetting
                 do//检查X轴是否位于指定区域
                 {
                     /*double*/
-                    PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置
+                    PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置
 
                     //20220920新建：打开UV或者IR灯
                     if (PosValue >= (255 - LightSourceOffset/*70*/) && m_startLightFlag == false)//开启UV灯及IR灯：UV灯距离落粉中心位置70MM,IR灯距离落粉中心位置为110MM
@@ -9876,11 +9286,11 @@ namespace BinderJetting
 #endif
 
                 int AxiStatus = 0; double prfPos = 0;
-                while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
+                while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉车（固高轴7）停止；墨车Y为轴2勿混
                 {
                     /*double*/
-                    PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(2, out prfPos);
-                    motionMap.GetAxisStatus(2, out AxiStatus); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
+                    PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(7, out prfPos);
+                    motionMap.GetAxisStatus(7, out AxiStatus); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
                 }
 
 #region 监控指令：铺粉拍摄位点3
@@ -9905,7 +9315,7 @@ namespace BinderJetting
 
                 /*double*/
                 PosValue = 0;
-                PosValue = GetCurrentPos(2);//20230425新建：实时铺粉车位置
+                PosValue = GetCurrentPos(7);//20230425新建：实时铺粉车位置
                 msg = $"当前铺粉车位置：打印位置{PosValue}mm";
                 Log4Net.Info(msg);
 
@@ -10046,7 +9456,7 @@ namespace BinderJetting
                 Log4Net.Info(msg);
 
                 /*int*/ AxiStatus = 0; /*double*/ prfPos = 0;
-                while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
+                while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉车（固高轴7）停止；墨车Y为轴2勿混
                 {
                     /*double*/
                     PosValue = GetCurrentPos(7);//20260416修改：当前铺粉车运动轴改为轴7 //motionMap.GetPrfPos(7, out prfPos);
@@ -10459,12 +9869,12 @@ namespace BinderJetting
 
                 int AxiStatus = 0; double prfPos = 0;
                 // DONE::需要替换常数695
-                //while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
-                while ((Math.Abs(PosValue) < Math.Abs(POWDERCAR_TRAVEL_DIST)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉轴，第2轴的状态为停止
+                //while ((Math.Abs(PosValue) < Math.Abs(695)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉车（固高轴7）停止；墨车Y为轴2勿混
+                while ((Math.Abs(PosValue) < Math.Abs(POWDERCAR_TRAVEL_DIST)/*Math.Abs(prfPos) < Math.Abs(695*1000)*/) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20220512新建：等待铺粉车（固高轴7）停止；墨车Y为轴2勿混
                 {
                     /*double*/
-                    PosValue = GetCurrentPos(2);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(2, out prfPos);
-                    motionMap.GetAxisStatus(2, out AxiStatus); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
+                    PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置 //motionMap.GetPrfPos(7, out prfPos);
+                    motionMap.GetAxisStatus(7, out AxiStatus); //封装：mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
 
                     Thread.Sleep(10);
                 }
@@ -10569,6 +9979,7 @@ namespace BinderJetting
         /// <summary>
         /// 
         /// </summary>
+        [Obsolete("旧版进给铺粉入口：CreateAndDeleteThread 中线程名 AutoSupplyPowderThread 仅保留兼容；新逻辑请用 NewAutoSupplyPowderThread（内部已走 NewAutoSupplyPowderThread2*）。")]
         public void AutoSupplyPowderThread()//自动进给铺粉动作
         {
             int nIOState = motionMap.MointoringAxis2(7);//铺粉车固高轴7限位状态（原误用轴4）
@@ -11446,6 +10857,23 @@ namespace BinderJetting
             }
             else { }
         }
+
+        /// <summary>阶段A收敛：UI「自动清洗」与主界面 EquipmentMotionLogic3 Command1 相同，走 AutoCleanThread2。</summary>
+        private void UiThreadEntry_AutoCleanThread2()
+        {
+            AutoCleanThread2(k_fBackCleanMovSpeed);
+        }
+
+        /// <summary>阶段A收敛：UI「自动进给铺粉」与主界面 EquipmentMotionLogic3 Command2 相同，走 NewAutoSupplyPowderThread2*；层/工序号用 0,10 与自动打印占位一致。</summary>
+        /// <remarks>阶段B路由表（唯一主路径）：Command1→AutoCleanThread2；Command2→NewAutoSupplyPowderThread2*；Command3→AutoCureThread；Command4–7→AutoPrintThread2/3/4/5。已标记 [Obsolete] 的旧方法请勿再作工艺修改。</remarks>
+        private void UiThreadEntry_NewAutoSupplyPowderThread2AlignedWithAutoPrint()
+        {
+            if (k_RYSYSParamAutoPrintParamInTest.m_nRecoaterMode == 0)
+                NewAutoSupplyPowderThread2(ref _powderMonitorStub, 0, 10);
+            else
+                NewAutoSupplyPowderThread2CureFirst(ref _powderMonitorStub, 0, 10, k_fBackCleanMovSpeed);
+        }
+
         private bool CreateAndDeleteThread(string AimThreadName, List<Thread> AutoPrintThreadsPool, bool OpenCloseFlag)
         {
             if (OpenCloseFlag)//未在自动固化清洗//开启对应线程
@@ -11462,20 +10890,12 @@ namespace BinderJetting
                     ThreadStart initThreadEntry = null;//20220520修改：从你先弄按照新设备UI形式，进行修改
                                                        //if (tempThreadName == "AutoCleanThread") { initThreadEntry = new ThreadStart(AutoCleanThread); }//20200220:线程入口方法修改为联动线程
                     /*else */
-                    if (tempThreadName == "AutoSupplyPowderThread") { initThreadEntry = new ThreadStart(AutoSupplyPowderThread); }//20200220:线程入口方法修改为联动线程
-                    else if (tempThreadName == "NewAutoSupplyPowderThread") 
-                    {
-                        if (k_RYSYSParamAutoPrintParamInTest.m_nRecoaterMode == 0) 
-                        {
-                            initThreadEntry = new ThreadStart(NewAutoSupplyPowderThread);
-                        }
-                        else
-                        {
-                            initThreadEntry = new ThreadStart(NewAutoSupplyPowderThreadCureFirst);
-                        }
-                    }
+#pragma warning disable CS0618 // AutoSupplyPowderThread：Obsolete 旧入口，仅 #else 等分支可能仍用线程名 AutoSupplyPowderThread
+                    if (tempThreadName == "AutoSupplyPowderThread") { initThreadEntry = new ThreadStart(AutoSupplyPowderThread); }//20200220:线程入口方法修改为联动线程（旧逻辑保留）
+#pragma warning restore CS0618
+                    else if (tempThreadName == "NewAutoSupplyPowderThread") { initThreadEntry = new ThreadStart(UiThreadEntry_NewAutoSupplyPowderThread2AlignedWithAutoPrint); }//20260416：与自动打印 Command2 同路径
                     else if (tempThreadName == "AutoPrintThread") { initThreadEntry = new ThreadStart(AutoPrintThread); }
-                    else if (tempThreadName == "AutoCleanThread") { initThreadEntry = new ThreadStart(AutoCleanThread); }
+                    else if (tempThreadName == "AutoCleanThread") { initThreadEntry = new ThreadStart(UiThreadEntry_AutoCleanThread2); }//20260416：与自动打印 Command1 同路径（AutoCleanThread2）
                     else if (tempThreadName == "AutoCureThread") { initThreadEntry = new ThreadStart(AutoCureThread); }//20220520修改：新建的AutoCureThread线程内容
                     else { return false; }
 
@@ -11617,13 +11037,13 @@ namespace BinderJetting
             }
             else
             {
-                if (true == CreateAndDeleteThread("AutoSupplyPowderThread", AutoPrintThreads, false))
+                if (true == CreateAndDeleteThread("NewAutoSupplyPowderThread", AutoPrintThreads, false))
                 {
                     AutoPrintFlag[1] = false;
                     motionMap.StopMotion(7);//20260416修改：停止铺粉车轴运动         
-                    motionMap.StopMotion(8);//停止铺粉轴运动
-                    motionMap.StopMotion(3);//停止铺粉轴运动
-                    motionMap.StopMotion(6);//停止铺粉轴运动
+                    motionMap.StopMotion(8);//停止成型缸轴运动
+                    motionMap.StopMotion(3);//停止落粉轴运动
+                    motionMap.StopMotion(6);//停止粉辊等辅轴
                     this.AutoSupplyPowderBtn.Text = "自动进给铺粉";
                 }//关闭
                 else { AutoPrintFlag[1] = true; this.AutoSupplyPowderBtn.Text = "停止进给铺粉"; }
