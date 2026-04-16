@@ -19,25 +19,25 @@ namespace LaserADD_BinderJetter
         public bool[] m_bEnds = { false, false, false, false }/*new bool[4]*/;
         public bool[] m_bMoveModeFlag = { true, true, true, true }/*new bool[4]*/;//20200618批注;四周运动全部为点动
     
-        [DefaultValue(20.0), Category("轴1：成形缸/μm")]
+        [DefaultValue(20.0), Category("固高轴8：成型缸/μm")]
         public double 速度1
         {
             get { return m_Svel[0]; }
             set { m_Svel[0] = value; }
         }
-        [DefaultValue(0.03), Category("轴1：成形缸/μm")]
+        [DefaultValue(0.03), Category("固高轴8：成型缸/μm")]
         public double 层厚1
         {
             get { return m_Step[0]; }
             set { m_Step[0] = value; }
         }
-        [DefaultValue(true), Category("轴1：成形缸/μm")]
+        [DefaultValue(true), Category("固高轴8：成型缸/μm")]
         public bool 正负端
         {
             get { return m_bEnds[0]; }
             set { m_bEnds[0] = value; }
         }
-        [DefaultValue(true), Category("轴1：成形缸/μm")]
+        [DefaultValue(true), Category("固高轴8：成型缸/μm")]
         public bool 运动模式
         {
             get { return m_bMoveModeFlag[0]; }
@@ -45,75 +45,75 @@ namespace LaserADD_BinderJetter
         }
 
 
-        [DefaultValue(20.0), Category("轴2：送粉缸1/μm")]
+        [DefaultValue(20.0), Category("固高轴6：粉辊1/μm")]
         public double 速度2
         {
             get { return m_Svel[1]; }
             set { m_Svel[1] = value; }
         }
-        [DefaultValue(0.03), Category("轴2：送粉缸1/μm")]
+        [DefaultValue(0.03), Category("固高轴6：粉辊1/μm")]
         public double 供粉量1
         {
             get { return m_Step[1]; }
             set { m_Step[1] = value; }
         }
-        [DefaultValue(true), Category("轴2：送粉缸1/μm")]
+        [DefaultValue(true), Category("固高轴6：粉辊1/μm")]
         public bool 正负端2
         {
             get { return m_bEnds[1]; }
             set { m_bEnds[1] = value; }
         }
-        [DefaultValue(true), Category("轴2：送粉缸1/μm")]
+        [DefaultValue(true), Category("固高轴6：粉辊1/μm")]
         public bool 运动模式2
         {
             get { return m_bMoveModeFlag[1]; }
             set { m_bMoveModeFlag[1] = value; }
         }
 
-        [DefaultValue(20.0), Category("轴3：送粉缸2/μm")]
+        [DefaultValue(20.0), Category("固高轴5：粉辊2/μm")]
         public double 速度3
         {
             get { return m_Svel[2]; }
             set { m_Svel[2] = value; }
         }
-        [DefaultValue(0.03), Category("轴3：送粉缸2/μm")]
+        [DefaultValue(0.03), Category("固高轴5：粉辊2/μm")]
         public double 供粉量2
         {
             get { return m_Step[2]; }
             set { m_Step[2] = value; }
         }
-        [DefaultValue(true), Category("轴3：送粉缸2/μm")]
+        [DefaultValue(true), Category("固高轴5：粉辊2/μm")]
         public bool 正负端3
         {
             get { return m_bEnds[2]; }
             set { m_bEnds[2] = value; }
         }
-        [DefaultValue(true), Category("轴3：送粉缸2/μm")]
+        [DefaultValue(true), Category("固高轴5：粉辊2/μm")]
         public bool 运动模式3
         {
             get { return m_bMoveModeFlag[2]; }
             set { m_bMoveModeFlag[2] = value; }
         }
 
-        [DefaultValue(20.0), Category("轴4：铺粉车/mm")]
+        [DefaultValue(20.0), Category("固高轴7：铺粉车/mm")]
         public double 速度4
         {
             get { return m_Svel[3]; }
             set { m_Svel[3] = value; }
         }
-        [DefaultValue(0.03), Category("轴4：铺粉车/mm")]
+        [DefaultValue(0.03), Category("固高轴7：铺粉车/mm")]
         public double 平移量
         {
             get { return m_Step[3]; }
             set { m_Step[3] = value; }
         }
-        [DefaultValue(true), Category("轴4：铺粉车/mm")]
+        [DefaultValue(true), Category("固高轴7：铺粉车/mm")]
         public bool 正负端4
         {
             get { return m_bEnds[3]; }
             set { m_bEnds[3] = value; }
         }
-        [DefaultValue(false), Category("轴4：铺粉车/mm")]
+        [DefaultValue(false), Category("固高轴7：铺粉车/mm")]
         public bool 运动模式4
         {
             get { return m_bMoveModeFlag[3]; }

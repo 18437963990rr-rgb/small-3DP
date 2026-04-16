@@ -545,7 +545,7 @@ namespace BinderJetting
             this.groupBox1.Size = new System.Drawing.Size(292, 190);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "成型缸运动（伺服-1）";
+            this.groupBox1.Text = "墨车X运动（伺服-1）";
             // 
             // button16
             // 
@@ -621,7 +621,7 @@ namespace BinderJetting
             this.MoveUpBtn1.Size = new System.Drawing.Size(85, 50);
             this.MoveUpBtn1.TabIndex = 2;
             this.MoveUpBtn1.Tag = "1";
-            this.MoveUpBtn1.Text = "上升";
+            this.MoveUpBtn1.Text = "正向";
             this.MoveUpBtn1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.MoveUpBtn1.UseVisualStyleBackColor = false;
             // 
@@ -694,7 +694,7 @@ namespace BinderJetting
             this.MoveDownBtn1.Size = new System.Drawing.Size(85, 50);
             this.MoveDownBtn1.TabIndex = 20;
             this.MoveDownBtn1.Tag = "2";
-            this.MoveDownBtn1.Text = "下降";
+            this.MoveDownBtn1.Text = "反向";
             this.MoveDownBtn1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.MoveDownBtn1.UseVisualStyleBackColor = false;
             // 
@@ -1377,7 +1377,7 @@ namespace BinderJetting
             this.groupBox25.Size = new System.Drawing.Size(296, 200);
             this.groupBox25.TabIndex = 140;
             this.groupBox25.TabStop = false;
-            this.groupBox25.Text = "落粉轴运动（步进-8）";
+            this.groupBox25.Text = "成型缸运动（伺服-8）";
             // 
             // HomeEndsLabel7
             // 
@@ -1441,7 +1441,7 @@ namespace BinderJetting
             this.MoveUpBtn8.Size = new System.Drawing.Size(85, 50);
             this.MoveUpBtn8.TabIndex = 2;
             this.MoveUpBtn8.Tag = "15";
-            this.MoveUpBtn8.Text = "正转";
+            this.MoveUpBtn8.Text = "上升";
             this.MoveUpBtn8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.MoveUpBtn8.UseVisualStyleBackColor = false;
             // 
@@ -1514,7 +1514,7 @@ namespace BinderJetting
             this.MoveDownBtn8.Size = new System.Drawing.Size(85, 50);
             this.MoveDownBtn8.TabIndex = 20;
             this.MoveDownBtn8.Tag = "16";
-            this.MoveDownBtn8.Text = "反转";
+            this.MoveDownBtn8.Text = "下降";
             this.MoveDownBtn8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.MoveDownBtn8.UseVisualStyleBackColor = false;
             // 
@@ -1584,7 +1584,7 @@ namespace BinderJetting
             this.groupBox24.Size = new System.Drawing.Size(296, 191);
             this.groupBox24.TabIndex = 139;
             this.groupBox24.TabStop = false;
-            this.groupBox24.Text = "喷头调高（步进-7）";
+            this.groupBox24.Text = "铺粉车运动（伺服-7）";
             // 
             // HomeEndsLabel6
             // 
@@ -1648,7 +1648,7 @@ namespace BinderJetting
             this.MoveUpBtn7.Size = new System.Drawing.Size(85, 50);
             this.MoveUpBtn7.TabIndex = 2;
             this.MoveUpBtn7.Tag = "14";
-            this.MoveUpBtn7.Text = "上升";
+            this.MoveUpBtn7.Text = "前进";
             this.MoveUpBtn7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.MoveUpBtn7.UseVisualStyleBackColor = false;
             // 
@@ -1721,7 +1721,7 @@ namespace BinderJetting
             this.MoveDownBtn7.Size = new System.Drawing.Size(85, 50);
             this.MoveDownBtn7.TabIndex = 20;
             this.MoveDownBtn7.Tag = "13";
-            this.MoveDownBtn7.Text = "下降";
+            this.MoveDownBtn7.Text = "后退";
             this.MoveDownBtn7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.MoveDownBtn7.UseVisualStyleBackColor = false;
             // 
@@ -2095,7 +2095,7 @@ namespace BinderJetting
             this.groupBox20.Size = new System.Drawing.Size(300, 197);
             this.groupBox20.TabIndex = 104;
             this.groupBox20.TabStop = false;
-            this.groupBox20.Text = "辊粉轴运动（步进-6）";
+            this.groupBox20.Text = "粉辊1运动（步进-6）";
             // 
             // textBox14
             // 
@@ -2321,7 +2321,7 @@ namespace BinderJetting
             this.groupBox5.Size = new System.Drawing.Size(285, 202);
             this.groupBox5.TabIndex = 103;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "空置运动（步进-5）";
+            this.groupBox5.Text = "粉辊2运动（步进-5）";
             // 
             // stepLabel4
             // 
@@ -2534,7 +2534,7 @@ namespace BinderJetting
             this.groupBox4.Size = new System.Drawing.Size(296, 202);
             this.groupBox4.TabIndex = 103;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "刮墨转动（步进-4）";
+            this.groupBox4.Text = "刮墨轴运动（步进-4）";
             // 
             // RollerFlag
             // 
@@ -2786,7 +2786,7 @@ namespace BinderJetting
             this.groupBox3.Size = new System.Drawing.Size(296, 200);
             this.groupBox3.TabIndex = 102;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "接粉轴运动（步进-3）";
+            this.groupBox3.Text = "落粉轴运动（步进-3）";
             // 
             // HomeEndsLabel2
             // 
@@ -2993,7 +2993,7 @@ namespace BinderJetting
             this.groupBox2.Size = new System.Drawing.Size(296, 190);
             this.groupBox2.TabIndex = 51;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "铺粉运动（伺服-2）";
+            this.groupBox2.Text = "墨车Y运动（伺服-2）";
             // 
             // HomeEndsLabel1
             // 
@@ -3056,7 +3056,7 @@ namespace BinderJetting
             this.MoveUpBtn2.Size = new System.Drawing.Size(85, 50);
             this.MoveUpBtn2.TabIndex = 2;
             this.MoveUpBtn2.Tag = "3";
-            this.MoveUpBtn2.Text = "前进";
+            this.MoveUpBtn2.Text = "正向";
             this.MoveUpBtn2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.MoveUpBtn2.UseVisualStyleBackColor = false;
             // 
@@ -3129,7 +3129,7 @@ namespace BinderJetting
             this.MoveDownBtn2.Size = new System.Drawing.Size(85, 50);
             this.MoveDownBtn2.TabIndex = 20;
             this.MoveDownBtn2.Tag = "4";
-            this.MoveDownBtn2.Text = "后退";
+            this.MoveDownBtn2.Text = "反向";
             this.MoveDownBtn2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.MoveDownBtn2.UseVisualStyleBackColor = false;
             // 

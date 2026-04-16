@@ -19,7 +19,6 @@ namespace Motion
 
         public gts.mc.TTrapPrm trapPrm;//点动运动参数——对外开放访问
         public gts.mc.TJogPrm jogPrm;//JOG运动参数——对外开放访问
-        private gts.mc.TJogPrm jogPrm2;//JOG运动参数——铺粉辊子转动参数：20200917新增
 
         //世彪20104新增
         public bool[] m_bIoEnable = new bool[20];//20个按钮的值——固高的值为16个EXO——20200109备注
@@ -710,59 +709,27 @@ namespace Motion
             jog.dec = 1000;//单位，每毫秒1个脉冲的加速度
             jog.smooth = 0;//单位，平滑系数，[0,1),越大，加减速过程越平滑
 
-            //20200917新增：开启铺粉辊旋转运动
-            if (AXIS == 4)//判断是否为铺粉轴：为铺粉轴；默认铺粉轴为4轴
-            {//（1）开启当前轴的JOG运动
-#if false//20220512新建批注：注释掉
-                AXIS = 6;//修改当前轴为辊子转动轴：铺粉辊电机是步进驱动，参数需要设置为步进参数
-                gts.mc.GT_Stop(cardNumber, 1 << (AXIS - 1), 1 << (AXIS - 1));//执行完，需要关闭、停止JOG运动
-                sRtn = mc.GT_ClrSts(cardNumber, AXIS, 8);
-                sRtn = mc.GT_AxisOn(cardNumber, AXIS);// 伺服使能           
-            LogMotionDebug($"JogMotion: after GT_AxisOn, axis={AXIS}, sRtn={sRtn}");
-                sRtn = mc.GT_PrfJog(cardNumber, AXIS);// 将AXIS轴设为Jog模式
-            LogMotionDebug($"JogMotion: after GT_PrfJog, axis={AXIS}, sRtn={sRtn}");
-
-                jogPrm2.acc = 0.5/*0.1*/;//20200917新增：步进铺粉辊子的JOG运动参数//待实现，从其他的图形窗口中读取对应的值
-                jogPrm2.dec = 0.5/*0.1*/;
-                jogPrm2.smooth = 0;
-                double vel2 = -(Convert.ToDouble(RollerParam) / Perimeter[0]) * 1 * (SubDivideCoe[0] / 1000) /** RollerParam*/;//20200917批注：速度vel包含了方向;符号是修正gohome中的转向逆转问题
-
-                sRtn = mc.GT_SetJogPrm(cardNumber, AXIS, ref jogPrm2);// 设置Jog运动参数//trap，为引用（等同于返回值），使用之前必须初始化，否则报错。总                      
-            LogMotionDebug($"JogMotion: after GT_SetJogPrm, axis={AXIS}, sRtn={sRtn}");
-                sRtn = mc.GT_SetVel(cardNumber, AXIS, vel2);// 设置AXIS轴的目标速度//vel单位为pulse/ms//20200111：速度调整为原来的10分之一，电机是10mm / 1000脉冲；固高是1mm / 1000脉冲            
-            LogMotionDebug($"JogMotion: after GT_SetVel, axis={AXIS}, sRtn={sRtn}, vel={vel2}");
-                sRtn = mc.GT_Update(cardNumber, 1 << (AXIS - 1));// 启动AXIS轴的运动
-            LogMotionDebug($"JogMotion: after GT_Update, axis={AXIS}, sRtn={sRtn}");
-                AXIS = 4;//复位当前轴为双驱铺粉轴；默认铺粉轴为4轴
-#endif
-            }
-            else if (AXIS == 6)//20200918新增：修复刮墨主运动回零速度
+            // 固高轴号（20260416）：1 墨车X 2 墨车Y 3 落粉 4 刮墨 5 粉辊2 6 粉辊1 7 铺粉车 8 成型缸
+            // 成型缸(8)为伺服，老程序中对应轴1的 GoHome 方式：默认 acc/dec、速度不做 Perimeter 换算（与轴1、2 同分支）。
+            // 落粉(3)、刮墨(4)、粉辊2(5)、粉辊1(6)：步进类，沿用原「轴6」周长/细分 Perimeter[0]/SubDivideCoe[0]。
+            if (AXIS == 3 || AXIS == 4 || AXIS == 5 || AXIS == 6)
             {
-                //执行JOG运动
-                jog.acc = 0.5;//————————————————————待实现，从其他的图形窗口中读取对应的值
+                jog.acc = 0.5;
                 jog.dec = 0.5;
                 jog.smooth = 0;
-                vel = (Convert.ToDouble(vel) / Perimeter[0]) * 1 * (SubDivideCoe[0] / 1000);//20200917批注：速度vel包含了方向;符号是修正gohome中的转向逆转问题
+                vel = (Convert.ToDouble(vel) / Perimeter[0]) * 1 * (SubDivideCoe[0] / 1000);
             }
-            else if (AXIS == 7)//20200918新增：修复刮墨主运动回零速度
+            else if (AXIS == 7)//铺粉车：伺服
             {
-                jog.acc = 1000/*0.5*/;//————————————————————待实现，从其他的图形窗口中读取对应的值
-                jog.dec = 1000/*0.5*/;
+                jog.acc = 1000;
+                jog.dec = 1000;
                 jog.smooth = 0;
-                vel = (Convert.ToDouble(vel) / Perimeter[1]) * 1 * (SubDivideCoe[1] / 1000);//20200917批注：速度vel包含了方向;符号是修正gohome中的转向逆转问题
+                vel = (Convert.ToDouble(vel) / Perimeter[1]) * 1 * (SubDivideCoe[1] / 1000);
             }
-            else if (AXIS == 8)//20200918新增：修复刮墨副运动回零速度
-            {
-                jog.acc = 0.5;//————————————————————待实现，从其他的图形窗口中读取对应的值
-                jog.dec = 0.5;
-                jog.smooth = 0;
-                vel = (Convert.ToDouble(vel) / Perimeter[2]) * 1 * (SubDivideCoe[2] / 1000);//20200917批注：速度vel包含了方向;符号是修正gohome中的转向逆转问题
-            }
-            else//为普通轴。
+            else//轴1、2（墨车 X/Y）、轴8（成型缸，伺服，老代码对应轴1）：保持方法开头默认 jog 参数，vel 不做 Perimeter 换算
             {
             }
 
-            //20200917新增：开启铺粉辊旋转运动        
             gts.mc.GT_Stop(cardNumber, 1 << (AXIS - 1), 1 << (AXIS - 1));//执行完，还是要关闭一下的：停止JOG运动//回零之前，必要的保证工作//(1)先重新暂停一下所有的运动（2）清楚所有的报警状态
             sRtn = mc.GT_ClrSts(cardNumber, AXIS, 8);
             mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);////首先检测该轴状态字，检查是否存在报警和限位                    
@@ -798,16 +765,6 @@ namespace Motion
                     Commandhandler("GT_GetSts", sRtn);//返回指令判断                   
                     //Thread.Sleep(1);//20200110:延时1ms测试//添加延时1ms————定时1ms检查一次正限位状态，//释放主任的占有权限
                 }
-            }
-
-            //20200917新增：关闭铺粉辊旋转运动
-            if (AXIS == 4)//20200917新增：判断当前停止轴，是否为铺粉双驱轴：是铺粉双驱轴
-            {
-#if false//临时注释掉此处代码
-                AXIS = 6;
-                StopMotion(AXIS);//停止铺粉辊JOG转动
-#endif
-                AXIS = 4;
             }
 
             gts.mc.GT_Stop(cardNumber, 1 << (AXIS - 1), 1 << (AXIS - 1));//执行完，还是要关闭一下的：停止JOG运动

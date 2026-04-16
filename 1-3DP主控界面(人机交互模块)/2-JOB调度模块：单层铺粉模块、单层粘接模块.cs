@@ -338,7 +338,7 @@ namespace JOB管理_调度类库_JOB管理模块_JOB调度模块
         private void RunThread()
         {
             //返回到原点
-            motionMap.GoHome(1, 40, true, 2 /*RollerParam*/);//20200917新增：
+            motionMap.GoHome(7, 40, true, 2 /*RollerParam*/);//20200917新增：铺粉车固高轴7
         }
         private Thread GohomeThread;
 
@@ -385,7 +385,7 @@ namespace JOB管理_调度类库_JOB管理模块_JOB调度模块
             motionMap.FlagGoHome = true;//——————————————————————————标志位在调用出使用才可以
             GohomeThread.Start();
             ///*****************************************************************************************
-            motionMap.StopMotion(1);
+            motionMap.StopMotion(7);//铺粉车固高轴7
             //执行JOG运动
             motionMap.jogPrm.acc = 1000;//————————————————————待实现，从其他的图形窗口中读取对应的值
             motionMap.jogPrm.dec = 1000;

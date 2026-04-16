@@ -104,14 +104,11 @@ namespace JOB管理_调度类库_JOB管理模块_JOB调度模块
 
 
         GoogolMotionMap motionMap = new GoogolMotionMap();//创建GoogolMotionMap对象，供本窗口调用
-        GoogolMotionMap motionMap = new GoogolMotionMap();//创建GoogolMotionMap对象，供本窗口调用
-        GoogolMotionMap motionMap = new GoogolMotionMap();//创建GoogolMotionMap对象，供本窗口调用
 
         private void RunThread()
         {
-            aa
-            //返回到原点
-            motionMap.GoHome(1, 40, true);
+            //返回到原点（铺粉车固高轴7）
+            motionMap.GoHome(7, 40, true, 0);
         }
         private Thread GohomeThread;
 
@@ -130,7 +127,7 @@ namespace JOB管理_调度类库_JOB管理模块_JOB调度模块
                                                                                             //Dimetal-100（109）设备的驱动器比例是1000脉冲/MM
                                                                                             //double vel = 35;//————————————————————待实现，从其他的图形窗口中读取对应的值
             double vel = Convert.ToDouble(this.velTextBox1.Text);//千脉冲对应的mm数，这个要尽可能的统一
-            motionMap.TrapMotion(1, ref motionMap.trapPrm, position, vel);
+            motionMap.TrapMotion(8, ref motionMap.trapPrm, position, vel, 0, 0, false);//成型缸固高轴8
 
 
             //点动上升动作：执行粉料缸上升动作（自动）
@@ -139,9 +136,9 @@ namespace JOB管理_调度类库_JOB管理模块_JOB调度模块
             motionMap.trapPrm.dec = 1000;//（1）确定：参数的acc和dec含义需要确认清楚————这个参数意义不是很大
             motionMap.trapPrm.velStart = 5;
             motionMap.trapPrm.smoothTime = 1;
-            int position = Convert.ToInt32(Convert.ToDouble(this.stepTextBox1.Text) * 1000);//千脉冲对应的mm数，这个要尽可能的统一//Dimetal-100（109）设备的驱动器比例是1000脉冲/MM
-            double vel = Convert.ToDouble(this.velTextBox1.Text);//千脉冲对应的mm数，这个要尽可能的统一
-            motionMap.TrapMotion(1, ref motionMap.trapPrm, position, vel);
+            position = Convert.ToInt32(Convert.ToDouble(this.stepTextBox1.Text) * 1000);//千脉冲对应的mm数，这个要尽可能的统一//Dimetal-100（109）设备的驱动器比例是1000脉冲/MM
+            vel = Convert.ToDouble(this.velTextBox1.Text);//千脉冲对应的mm数，这个要尽可能的统一
+            motionMap.TrapMotion(3, ref motionMap.trapPrm, position, vel, 0, 0, false);//落粉/送粉固高轴3
 
 
             //JOG水平动作：执行铺粉动作（自动）
