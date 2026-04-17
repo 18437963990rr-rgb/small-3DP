@@ -3781,7 +3781,7 @@ namespace BinderJetting
             // 
             this.InkCarHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.InkCarHomeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.InkCarHomeBtn.Location = new System.Drawing.Point(181, 278);
+            this.InkCarHomeBtn.Location = new System.Drawing.Point(177, 278);
             this.InkCarHomeBtn.Name = "InkCarHomeBtn";
             this.InkCarHomeBtn.Size = new System.Drawing.Size(60, 29);
             this.InkCarHomeBtn.TabIndex = 170;
@@ -4233,7 +4233,7 @@ namespace BinderJetting
             // 
             this.PowderHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.PowderHomeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PowderHomeBtn.Location = new System.Drawing.Point(125, 278);
+            this.PowderHomeBtn.Location = new System.Drawing.Point(121, 278);
             this.PowderHomeBtn.Name = "PowderHomeBtn";
             this.PowderHomeBtn.Size = new System.Drawing.Size(60, 29);
             this.PowderHomeBtn.TabIndex = 61;

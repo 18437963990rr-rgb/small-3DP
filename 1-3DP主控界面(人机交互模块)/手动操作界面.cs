@@ -8550,9 +8550,7 @@ namespace BinderJetting
 
                 //(1)落粉站漏斗阀门转指定圈数后停止（接粉）
                 double rotateNuM = k_RYSYSParamAutoPrintParamInTest.m_dPowderSupplyRotateNum;
-                TrapMoveUp(3, true, "2.5"/*"0.5"*/, rotateNuM.ToString()/* "2"*/, true, false);//20260416修改：初始落粉由轴8切换为轴3
-
-                msg = $"初始落粉改由轴3执行，转{rotateNuM}圈落粉：TrapMoveUp(3, true, 2.5, rotateNuM.ToString(), true, false)";
+                msg = $"当前版本停用轴3初始落粉动作，保留原工艺参数参考：轴3原计划转{rotateNuM}圈";
                 Log4Net.Info(msg);
 
                 Thread.Sleep(1000);//20230411新增：等待1s保证接上粉
@@ -8902,11 +8900,7 @@ namespace BinderJetting
                     //if (PosValue >= (255 - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply)/*220*/ && m_startFlag2 == false)//20230411新建开启扫粉轴：先匀速转半圈（策略1）：到达220的时候先转30度
                     if (PosValue >= (POWDERCAR_DROP_BEGIN - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply)/*220*/ && m_startFlag2 == false)//20230411新建开启扫粉轴：先匀速转半圈（策略1）：到达220的时候先转30度
                     {
-                        double PreAngleForPowderSupply = k_RYSYSParamAutoPrintParamInTest.m_dPreAngleForPowderSupply / 360;//20230411备注：单位为圈数
-                        double DispenseRollerSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPreAngleRotateSpeedForPowderSupply;//20220512新建批注：有效区域宽度为460MM;起始打印位置：255MM;//此处存在问题//20230406修正：1.2未补偿系数//20230411:1r/s速度
-                        TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed)/*"0.25"*/, Convert.ToString(PreAngleForPowderSupply), true, false/*true*/);//等停运动//20220512批注：此处不同于默认，为不等停/*(2)铺粉车移动到手动填粉位置;//30mm位置处*/
-
-                        msg = $"在{{{k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply/*220*/}mm}}处，落粉轴运动{{{k_RYSYSParamAutoPrintParamInTest.m_dPreAngleForPowderSupply}度}}，落粉轴转速{{{DispenseRollerSpeed}rev/s}}：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true)";
+                        msg = $"到达轴3原预落粉触发位置{{{k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply}mm}}，当前版本停用轴3预落粉动作；超声暂不启动，等待进入正式工作区";
                         Log4Net.Info(msg);
 
                         m_startFlag2 = true;
@@ -8917,11 +8911,8 @@ namespace BinderJetting
                     //if (PosValue >= (255 - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply /*90 - 40*/) && m_startFlag == false)//开启扫粉轴：先匀速转半圈（策略1）//20230411:200mm/s补偿9CM
                     if (PosValue >= (POWDERCAR_DROP_BEGIN - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply /*90 - 40*/) && m_startFlag == false)//开启扫粉轴：先匀速转半圈（策略1）//20230411:200mm/s补偿9CM
                     {
-                        double DispenseRollerSpeed = 0.5 / ((620 - 255)/*255*/ / k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed) * 1.1;//20220512新建批注：有效区域宽度为460MM;起始打印位置：255MM;//此处存在问题//20230406修正：1.2未补偿系数
-                        TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed)/*"0.25"*/, "0.5"/*Convert.ToString(TrapSpace)*/, true, true);//20220512批注：此处不同于默认，为不等停/*(2)铺粉车移动到手动填粉位置;//30mm位置处*/
-                        ControlUltrasonicViaGoogolIO(true);//20251210批注：行程开始时开启超声装置
-
-                        msg = $"开启均匀落粉及辊子铺平运动：TrapMoveUp(3, true, Convert.ToString(DispenseRollerSpeed), 0.5, true, true);开启超声装置： ControlUltrasonicViaGoogolIO(true)";
+                        ControlUltrasonicViaGoogolIO(true);//20260417调整：超声仅在正式工作区开启
+                        msg = $"到达正式铺粉区，当前版本停用轴3均匀落粉/铺平动作；开启超声装置：ControlUltrasonicViaGoogolIO(true)";
                         Log4Net.Info(msg);
 
                         m_startFlag = true;
@@ -8930,10 +8921,9 @@ namespace BinderJetting
                 } while (PosValue <= POWDERCAR_DROP_END);// DONE::需要替换常数620
                 //while (PosValue <= 620);//20220512新建批注：有效区域宽度为360MM;起始打印位置：255MM;终止洒粉位置620MM
 
-                TrapMoveUp(3, true, "2", "0.5"/*Convert.ToString(TrapSpace)*/, true, false);//20220512新建：转完剩余的圈数，回到其轴的零位
                 ControlUltrasonicViaGoogolIO(false);//20251210批注：行程关闭时关闭超声装置
 
-                msg = $"落粉轴继续转动以倒掉余粉：TrapMoveUp(3, true, 2, 0.5, true, false)；关闭超声装置：ControlUltrasonicViaGoogolIO(false)";
+                msg = $"粉辊去程结束，联动关闭超声装置：ControlUltrasonicViaGoogolIO(false)；当前版本停用轴3尾部倒余粉动作";
                 Log4Net.Info(msg);
 
                 int
@@ -9169,9 +9159,7 @@ namespace BinderJetting
 
                 //(1)落粉站漏斗阀门转指定圈数后停止（接粉）
                 double rotateNuM = k_RYSYSParamAutoPrintParamInTest.m_dPowderSupplyRotateNum;
-                TrapMoveUp(3, true, "2.5"/*"0.5"*/, rotateNuM.ToString()/* "2"*/, true, false);//20260416修改：初始落粉由轴8切换为轴3
-
-                msg = $"初始落粉改由轴3执行，转{rotateNuM}圈落粉：TrapMoveUp(3, true, 2.5, rotateNuM.ToString(), true, false)";
+                msg = $"当前版本停用轴3初始落粉动作，保留原工艺参数参考：轴3原计划转{rotateNuM}圈";
                 Log4Net.Info(msg);
 
                 Thread.Sleep(1000);//20230411新增：等待1s保证接上粉
@@ -9711,9 +9699,7 @@ namespace BinderJetting
                  */
                 //(1)落粉站漏斗阀门转指定圈数后停止（初始落粉）：20220512批注
                 double rotateNuM = k_RYSYSParamAutoPrintParamInTest.m_dPowderSupplyRotateNum;
-                TrapMoveUp(3, true, "2.5"/*"0.5"*/, rotateNuM.ToString()/* "2"*/, true, false);//20260416修改：初始落粉由轴8切换为轴3
-
-                msg = $"初始落粉改由轴3执行，转{rotateNuM}圈落粉：TrapMoveUp(3, true, 2.5, rotateNuM.ToString(), true, false)";
+                msg = $"当前版本停用轴3初始落粉动作，保留原工艺参数参考：轴3原计划转{rotateNuM}圈";
                 Log4Net.Info(msg);
 
                 Thread.Sleep(1000);//20230411新增：等待1s保证接上粉
@@ -9831,7 +9817,7 @@ namespace BinderJetting
                     //if (PosValue >= (255 - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply)/*220*/ && m_startFlag2 == false)//20230411新建开启扫粉轴：先匀速转半圈（策略1）：到达220的时候先转30度
                     if (PosValue >= (POWDERCAR_DROP_BEGIN - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply)/*220*/ && m_startFlag2 == false)//20230411新建开启扫粉轴：先匀速转半圈（策略1）：到达220的时候先转30度
                     {
-                        msg = $"到达轴3原预落粉触发位置{{{k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply}mm}}，当前版本停用轴3预落粉动作，改由超声工艺替代";
+                        msg = $"到达轴3原预落粉触发位置{{{k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply}mm}}，当前版本停用轴3预落粉动作；超声暂不启动，等待进入正式工作区";
                         Log4Net.Info(msg);
 
                         m_startFlag2 = true;
@@ -9847,9 +9833,8 @@ namespace BinderJetting
                     //if (PosValue >= (255 - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply /*90 - 40*/) && m_startFlag == false)//开启扫粉轴：先匀速转半圈（策略1）//20230411:200mm/s补偿9CM
                     if (PosValue >= (POWDERCAR_DROP_BEGIN - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply /*90 - 40*/) && m_startFlag == false)//开启扫粉轴：先匀速转半圈（策略1）//20230411:200mm/s补偿9CM
                     {
-                        ControlUltrasonicViaGoogolIO(true);//20251210批注：行程开始时开启超声装置
-
-                        msg = $"到达正式铺粉区，当前版本停用轴3均匀落粉/铺平动作，开启超声装置：ControlUltrasonicViaGoogolIO(true)";
+                        ControlUltrasonicViaGoogolIO(true);//20260417调整：超声仅在正式工作区开启
+                        msg = $"到达正式铺粉区，当前版本停用轴3均匀落粉/铺平动作；开启超声装置：ControlUltrasonicViaGoogolIO(true)";
                         Log4Net.Info(msg);
 
                         m_startFlag = true;
@@ -9864,7 +9849,7 @@ namespace BinderJetting
 
                 ControlUltrasonicViaGoogolIO(false);//20251210批注：行程关闭时关闭超声装置
 
-                msg = $"铺粉区结束，当前版本停用轴3尾部倒余粉动作；关闭超声装置：ControlUltrasonicViaGoogolIO(false)";
+                msg = $"粉辊去程结束，联动关闭超声装置：ControlUltrasonicViaGoogolIO(false)；当前版本停用轴3尾部倒余粉动作";
                 Log4Net.Info(msg);
 
                 int AxiStatus = 0; double prfPos = 0;
