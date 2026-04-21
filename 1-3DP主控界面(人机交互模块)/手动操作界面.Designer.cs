@@ -267,6 +267,9 @@ namespace BinderJetting
             this.label95 = new System.Windows.Forms.Label();
             this.PrintCarHomeBtn = new System.Windows.Forms.Button();
             this.textBox23 = new System.Windows.Forms.TextBox();
+            this.label135 = new System.Windows.Forms.Label();
+            this.textBox43 = new System.Windows.Forms.TextBox();
+            this.button32 = new System.Windows.Forms.Button();
             this.PowderCarHomeBtn = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.textBox22 = new System.Windows.Forms.TextBox();
@@ -3673,6 +3676,9 @@ namespace BinderJetting
             // 
             this.groupBox6.Controls.Add(this.label95);
             this.groupBox6.Controls.Add(this.PrintCarHomeBtn);
+            this.groupBox6.Controls.Add(this.label135);
+            this.groupBox6.Controls.Add(this.textBox43);
+            this.groupBox6.Controls.Add(this.button32);
             this.groupBox6.Controls.Add(this.textBox23);
             this.groupBox6.Controls.Add(this.PowderCarHomeBtn);
             this.groupBox6.Controls.Add(this.button8);
@@ -3731,6 +3737,37 @@ namespace BinderJetting
             this.textBox23.Size = new System.Drawing.Size(52, 22);
             this.textBox23.TabIndex = 175;
             this.textBox23.Text = "90";
+            // 
+            // label135
+            // 
+            this.label135.AutoSize = true;
+            this.label135.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold);
+            this.label135.Location = new System.Drawing.Point(186, 364);
+            this.label135.Name = "label135";
+            this.label135.Size = new System.Drawing.Size(16, 17);
+            this.label135.TabIndex = 181;
+            this.label135.Text = "°";
+            // 
+            // textBox43
+            // 
+            this.textBox43.Font = new System.Drawing.Font("微软雅黑", 8.5F);
+            this.textBox43.Location = new System.Drawing.Point(129, 360);
+            this.textBox43.Name = "textBox43";
+            this.textBox43.Size = new System.Drawing.Size(52, 22);
+            this.textBox43.TabIndex = 180;
+            this.textBox43.Text = "150";
+            // 
+            // button32
+            // 
+            this.button32.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.button32.Location = new System.Drawing.Point(17, 360);
+            this.button32.Name = "button32";
+            this.button32.Size = new System.Drawing.Size(101, 22);
+            this.button32.TabIndex = 179;
+            this.button32.Tag = "1";
+            this.button32.Text = "轴4转到调角";
+            this.button32.UseVisualStyleBackColor = true;
+            this.button32.Click += new System.EventHandler(this.button32_Click);
             // 
             // PowderCarHomeBtn
             // 
@@ -6862,6 +6899,9 @@ namespace BinderJetting
         private System.Windows.Forms.TextBox textBox22;
         private System.Windows.Forms.Label label84;
         private System.Windows.Forms.TextBox textBox23;
+        private System.Windows.Forms.Label label135;
+        private System.Windows.Forms.TextBox textBox43;
+        private System.Windows.Forms.Button button32;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Label label85;

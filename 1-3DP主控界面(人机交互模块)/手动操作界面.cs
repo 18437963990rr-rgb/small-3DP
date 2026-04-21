@@ -11176,6 +11176,7 @@ namespace BinderJetting
             textBox22.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PowderSpreaderHomeposition", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20220526新建：粉末Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置
             textBox23.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "InkSpreaderHomeposition", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20220526新建：墨车Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置
             textBox34.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "SraperAngleOffHome", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20220526新建：墨车Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置
+            textBox43.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "InkScraperDebugAngle", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20260420新增：刮墨轴独立调角目标角度
 
             //清洗参数：20230331新增：
             textBox20.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "CleanCarSpeed", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//20230331新增：清洗时墨车运动速度（清洗时用）
@@ -11675,26 +11676,63 @@ namespace BinderJetting
             }
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private bool HomeInkScraperAxis(double homeSpeed, string operationName, bool showMessage)
         {
-            string msg = $"开启刮墨轴回零校准：SpreaderHomeBtn_Click";
+            string msg = $"开启刮墨轴回零校准：{operationName}";
             Log4Net.Info(msg);
 
-            double SinkPosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;//刮墨轴的HOME位置
-            bool ReturnCode = motionMap.SetBackSpreaderAxis(4, 1/*0.5*/, 2, -SinkPosition);//旋转速度：0.5 圈/s////20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
-            if (ReturnCode == true)//校准成功
+            double sinkPosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;//刮墨轴的HOME位置
+            bool returnCode = motionMap.SetBackSpreaderAxis(4, homeSpeed, 2, -sinkPosition);//旋转速度：0.5 圈/s////20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
+            if (returnCode == true)//校准成功
             {
-                msg = $"刮墨轴回零成功：SpreaderHomeBtn_Click：{{AXIS{{4}},Vel{{1圈/s}},开槽位置{{{-SinkPosition}°}}}}";
+                msg = $"刮墨轴回零成功：{operationName}：{{AXIS{{4}},Vel{{{homeSpeed}圈/s}},开槽位置{{{-sinkPosition}°}}}}";
                 Log4Net.Info(msg);
 
-                MessageBox.Show("回零成功");
+                if (showMessage) { MessageBox.Show("回零成功"); }
             }
             else
             {
-                msg = $"刮墨轴回零失败：SpreaderHomeBtn_Click：{{AXIS{{4}}, Vel{{1圈/s}},开槽位置{{{-SinkPosition}°}}}}";
+                msg = $"刮墨轴回零失败：{operationName}：{{AXIS{{4}}, Vel{{{homeSpeed}圈/s}},开槽位置{{{-sinkPosition}°}}}}";
                 Log4Net.Info(msg);
 
-                MessageBox.Show("回零失败");
+                if (showMessage) { MessageBox.Show("回零失败"); }
+            }
+
+            return returnCode;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            HomeInkScraperAxis(1, "SpreaderHomeBtn_Click", true);
+        }
+
+        private void button32_Click(object sender, EventArgs e)
+        {
+            string msg = "开启刮墨轴调试角度动作：InkScraperDebugAngleBtn_Click";
+            Log4Net.Info(msg);
+
+            if (!HomeInkScraperAxis(1, "InkScraperDebugAngleBtn_Home", false))
+            {
+                MessageBox.Show("刮墨轴回零失败，无法转到调试角度");
+                return;
+            }
+
+            double debugAngle = k_RYSYSParamAutoPrintParamInTest.m_dInkScraperDebugAngle;
+            double axisSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed;
+            if (axisSpeed <= 0) { axisSpeed = 1; }
+
+            bool returnCode = motionMap.TrapMoveSpreaderAxis(4, axisSpeed, -debugAngle);
+            if (returnCode)
+            {
+                msg = $"刮墨轴调试角度到位：InkScraperDebugAngleBtn_Click：{{AXIS{{4}},Vel{{{axisSpeed}圈/s}},目标角度{{{debugAngle}°}}}}";
+                Log4Net.Info(msg);
+                MessageBox.Show($"已转到调试角度：{debugAngle}°");
+            }
+            else
+            {
+                msg = $"刮墨轴调试角度失败：InkScraperDebugAngleBtn_Click：{{AXIS{{4}},Vel{{{axisSpeed}圈/s}},目标角度{{{debugAngle}°}}}}";
+                Log4Net.Info(msg);
+                MessageBox.Show("转到调试角度失败");
             }
         }
 
@@ -11778,7 +11816,7 @@ namespace BinderJetting
                 RefreshInkCarHomeFlag();
                 UpdateInkCarHomeButtonText();
 
-                RunInkCarAxisHome(1, true, 860.0, "X");
+                RunInkCarAxisHome(1, true, XMaxDistanceMM - 50.0, "X");
                 RunInkCarAxisHome(2, false, 0.0, "Y");
 
                 FinalizeInkCarGoogolHome(InkCarHomeFlag);
@@ -11859,6 +11897,38 @@ namespace BinderJetting
             return false;
         }
 
+        private bool WaitForInkCarLimitRelease(short Axis, bool WasPositiveLimit, TimeSpan timeout)
+        {
+            Log4Net.Info($"墨车轴{Axis}限位释放等待：开始轮询，方向={(WasPositiveLimit ? "正限位" : "负限位")}，timeoutMs={timeout.TotalMilliseconds:F0}");
+            DateTime startTime = DateTime.Now;
+            DateTime lastHeartbeat = startTime;
+            while ((DateTime.Now - startTime) < timeout)
+            {
+                int axisStatus = 0;
+                motionMap.GetAxisStatus(Axis, out axisStatus);
+                motionMap.ReadAxisSate(Axis);
+                bool limitStillActive = WasPositiveLimit
+                    ? motionMap.axisSateMonitor.FlagPosLimit1
+                    : motionMap.axisSateMonitor.FlagNegLimit1;
+                if (!limitStillActive)
+                {
+                    Log4Net.Info($"墨车轴{Axis}限位释放等待：限位已释放，状态=0x{axisStatus:X}");
+                    return true;
+                }
+
+                if ((DateTime.Now - lastHeartbeat) >= TimeSpan.FromSeconds(3))
+                {
+                    Log4Net.Info($"墨车轴{Axis}限位释放等待：等待中，elapsedMs={(DateTime.Now - startTime).TotalMilliseconds:F0}, 状态=0x{axisStatus:X}, PosLimit={motionMap.axisSateMonitor.FlagPosLimit1}, NegLimit={motionMap.axisSateMonitor.FlagNegLimit1}");
+                    lastHeartbeat = DateTime.Now;
+                }
+
+                Thread.Sleep(100);
+            }
+
+            Log4Net.Info($"墨车轴{Axis}限位释放等待：等待超时，方向={(WasPositiveLimit ? "正限位" : "负限位")}");
+            return false;
+        }
+
         private bool RunInkCarAxisLimitHome(short Axis, bool SearchPositiveDirection, double HomeMm)
         {
             try
@@ -11897,8 +11967,36 @@ namespace BinderJetting
                 Thread.Sleep(250);
                 motionMap.ClrLimitAndAbrupt(Axis);
 
-                int homeEncPos = Axis == 2 ? -(int)Math.Round(homeCounts) : (int)Math.Round(homeCounts);
-                Log4Net.Info($"墨车轴{Axis}限位回零：触发限位后直接设定坐标，目标编码器={homeEncPos}，显示位置={homeCounts:F2}mm");
+                int homeEncPos;
+                if (Axis == 1 && SearchPositiveDirection)
+                {
+                    const double rollbackMm = 50.0;
+                    double rollbackCounts = rollbackMm * countPerMm;
+                    double rollbackTargetMm = XMaxDistanceMM - rollbackMm;
+                    gts.mc.TTrapPrm retreatTrapPrm = new gts.mc.TTrapPrm
+                    {
+                        acc = trapPrm.acc,
+                        dec = trapPrm.dec,
+                        velStart = trapPrm.velStart,
+                        smoothTime = trapPrm.smoothTime
+                    };
+
+                    Log4Net.Info($"墨车轴{Axis}限位回零：开始执行脱离限位回退，rollbackMm={rollbackMm:F3}, targetMm={rollbackTargetMm:F3}");
+                    InkCarMotionMap.TrapMotion(Axis, ref retreatTrapPrm, -(int)Math.Round(rollbackCounts), velocity, 0, 0, false);
+                    Thread.Sleep(500);
+                    motionMap.ClrLimitAndAbrupt(Axis);
+                    WaitForInkCarLimitRelease(Axis, true, TimeSpan.FromSeconds(5));
+
+                    homeEncPos = (int)Math.Round(rollbackTargetMm * countPerMm);
+                    Log4Net.Info($"墨车轴{Axis}限位回零：回退完成后设定坐标，targetMm={rollbackTargetMm:F3}, targetEnc={homeEncPos}");
+                }
+                else
+                {
+                    homeEncPos = Axis == 2 ? -(int)Math.Round(homeCounts) : (int)Math.Round(homeCounts);
+                }
+
+                double finalHomeMm = Axis == 2 ? -homeEncPos / countPerMm : homeEncPos / countPerMm;
+                Log4Net.Info($"墨车轴{Axis}限位回零：触发限位后设定坐标，目标编码器={homeEncPos}，显示位置={finalHomeMm:F2}mm");
                 motionMap.SetEncPos(Axis, homeEncPos);
                 motionMap.ReadAxisSate(Axis);
                 double homeReadBackMm = GetCurrentPos(Axis);
@@ -12313,6 +12411,7 @@ namespace BinderJetting
             public double m_dPowderSpreaderHomeposition = 40/*5*/;//20220526新建：粉末Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）
             public double m_dInkSpreaderHomeposition = 90/*40*//*5*/;//20220526新建：墨车Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）//20230407修改：修正后的复位值为106°
             public double m_dSraperAngleOffHome = 75;//20230417新建：墨车Spreader距离HOME的角度位置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）//20230407修改
+            public double m_dInkScraperDebugAngle = 150;//20260420新增：刮墨轴独立调角的目标角度，单位度（°）
 
             public string m_zCurrectLoadWaveName = "null";//20230419新增：当前加载的波形名称
 
@@ -12729,6 +12828,25 @@ namespace BinderJetting
                     else if (value < 0)
                     {
                         this.m_dSraperAngleOffHome = 0; NotifyPropertyChanged();
+                    }
+                }
+            }
+            public double InkScraperDebugAngle//20260420新增：刮墨轴独立调角功能，允许现场调试更大角度范围
+            {
+                get { return this.m_dInkScraperDebugAngle; }
+                set
+                {
+                    if (value != this.m_dInkScraperDebugAngle && (0 <= value && value <= 180))
+                    {
+                        this.m_dInkScraperDebugAngle = value; NotifyPropertyChanged();
+                    }
+                    else if (value > 180)
+                    {
+                        this.m_dInkScraperDebugAngle = 180; NotifyPropertyChanged();
+                    }
+                    else if (value < 0)
+                    {
+                        this.m_dInkScraperDebugAngle = 0; NotifyPropertyChanged();
                     }
                 }
             }
