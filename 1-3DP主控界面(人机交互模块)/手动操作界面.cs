@@ -5427,25 +5427,23 @@ namespace BinderJetting
             }
         }
 
-        private const short VALVE_SWITCH_DO = 15;   // 切阀输出口，映射为固高 DO15
-        private const short INK_PUSH_DO = 14;       // 压墨输出口，映射为固高 DO14
-
         /// <summary>
         ///（1）开煤气阀门： 打开对应的泵源。类似于供煤气、供水阀门。如此分析，一切就都顺利成章。
-        /// 20260413修改：Royal阀门输出已废弃，切换为固高DO控制。
         /// </summary>
         /// <param name="index"></param>
         private void OpenCloseVALVE(int index, bool action)//index是对应的阀门编号：20200605新增批注
         {
-            if (0 <= index && index < RoyalMap.m_bEnable.Length)
+            //(a)设置对应编号阀门的标志位
+            RoyalMap.m_bEnable[index] = action;//20200605新增批注：
+            //(b)设置对应的编码
+            int nInkMask = 0; //(c)计算掩码
+            for (int i = 0; i < 10; i++)
             {
-                RoyalMap.m_bEnable[index] = action;
+                if (RoyalMap.m_bEnable[i])//变量在这里。
+                    nInkMask |= (1 << i);
             }
-
-            motionMap.SetDo(VALVE_SWITCH_DO, action);
-
-            string msg = $"切换阀门：OpenCloseVALVE(index={index}, action={action}) => motionMap.SetDo({VALVE_SWITCH_DO}, {action})";
-            Log4Net.Info(msg);
+            //(c)设置生效、特定阀门执行动作
+            royal.royal.DEV_SetMcbOutPut(0, (UInt32)nInkMask);//暂时用不了
         }
         bool m_bCleanFlag = true;//20200605修改：动作指示
         private void CleanBtn_Click(object sender, EventArgs e)
@@ -5514,28 +5512,45 @@ namespace BinderJetting
 
         private void EnableInkPush(bool EnableFlag)//20230506新增：
         {
-            string msg;
+            bool nRetVal = false;
             if (EnableFlag == true)//开启
             {
+                //（1）开清洗阀门（==等效：关墨水阀门）。开煤气阀门： 打开对应的泵源。类似于供煤气、供水阀门。
                 OpenCloseVALVE(2 - 1, true);//20200605批注：Tag-1
-                motionMap.SetDo(INK_PUSH_DO, true);
-                msg = $"开启清洗/压墨输出：motionMap.SetDo({INK_PUSH_DO}, true)";
-                Log4Net.Info(msg);
+                float fPushingCleanInkCycleTime = (float)k_RYSYSParamAutoPrintParamInTest.PushingCleanInkCycleTime;//20230423：清洗控制周期
+                float fPushingCleanDutyCycleTime = (float)k_RYSYSParamAutoPrintParamInTest.PushingCleanDutyCycleTime;//20230423：清洗控制占空比
+#if UseP11PortForCleaning
+                //（2-2）开泵源：
+                nRetVal = royal.royal.DEV_SetTimer(0, fPushingCleanInkCycleTime, fPushingCleanDutyCycleTime/*1f,0.5f*/);//设置清洗泵的开启频率
+                nRetVal = royal.royal.DEV_EnableTimer(0, true);//设置清洗泵是否开启
+                string msg1 = $"开启手动清洗挤墨喷头，DEV_EnableTimer: 端口{{{11 + 0}}}，清洗控制周期：{{{fPushingCleanInkCycleTime}}}S,{{{fPushingCleanDutyCycleTime}}}S";
+                Log4Net.Info(msg1);
+#endif
             }
-            else
+            else 
             {
-                motionMap.SetDo(INK_PUSH_DO, false);
-                msg = $"关闭清洗/压墨输出：motionMap.SetDo({INK_PUSH_DO}, false)";
+#if false //20230713新建批注：关闭阀门
+                //（1）关清洗阀门（==等效：开墨水阀门）。开煤气阀门： 打开对应的泵源。类似于供煤气、供水阀门。
+                OpenCloseVALVE(2 - 1, true);//20200605批注：Tag-1
+#endif
+
+#if UseP11PortForCleaning
+                //（2-2）关闭泵源：            
+                nRetVal = royal.royal.DEV_EnableTimer(0, false);//设置清洗泵是否开启
+                string msg = $"关闭手动清洗挤墨喷头：DEV_EnableTimer";
                 Log4Net.Info(msg);
+#endif
 
                 Thread.Sleep((int)(k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime * 1000));//压墨等待一段时间
                 msg = $"压墨等待结束,等待：{{{k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime}S}}";
                 Log4Net.Info(msg);
 
+#if true //20230713新建批注：切换阀门
+                //（1）关清洗阀门（==等效：开墨水阀门）。开煤气阀门： 打开对应的泵源。类似于供煤气、供水阀门。
                 OpenCloseVALVE(2 - 1, false);//20200605批注：Tag-1
                 Thread.Sleep((int)(k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime2 * 1000));//压墨等待一段时间
-                msg = $"切换完成，继续等待：{{{k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime2}S}}";
-                Log4Net.Info(msg);
+                msg = $"切换完成，继续等待：{{k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime2}} S}}";
+#endif
             }
         }
 
