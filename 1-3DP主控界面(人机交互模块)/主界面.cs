@@ -43,6 +43,47 @@ namespace BinderJetting
     {
         const int EncoderLinePerMM = 1000;
         const int EncoderLinePerInch = EncoderLinePerMM * 254 / 10;
+        /*
+         * 当前固高轴映射总表（2026-04 维护整理）
+         * 1 = 墨车X
+         * 2 = 墨车Y
+         * 3 = 落粉
+         * 4 = 刮墨
+         * 5 = 前粉料缸 / 粉辊2
+         * 6 = 后粉料缸 / 粉辊1
+         * 7 = 铺粉车
+         * 8 = 成型缸
+         *
+         * 维护约定：
+         * 1. 当前设备中“成型缸”统一按轴8理解，不再按历史轴1理解。
+         * 2. 当前设备中“铺粉车”统一按轴7理解。
+         * 3. 若注释中出现 PP(1,-,X1) 等写法，默认视为第一代设备的历史流程说明，不能直接等同于当前轴号。
+         * 4. 主界面位置显示、断电恢复位置回写等逻辑，均应以本映射表为准。
+         */
+        private const short GoogolAxisPowderDrop = 3;
+        private const short GoogolAxisScraper = 4;
+        private const short GoogolAxisFrontPowderCylinder = 5;
+        private const short GoogolAxisRearPowderCylinder = 6;
+        private const short GoogolAxisPowderCar = 7;
+        private const short GoogolAxisBuildCylinder = 8;
+        private static readonly short[] GoogolPositionAxes =
+        {
+            GoogolAxisBuildCylinder,
+            GoogolAxisRearPowderCylinder,
+            GoogolAxisFrontPowderCylinder,
+            GoogolAxisPowderCar,
+            GoogolAxisPowderDrop,
+            GoogolAxisScraper,
+        };
+        private static readonly string[] GoogolPositionLabels =
+        {
+            "主成型缸位置",
+            "后粉料缸位置",
+            "前粉料缸位置",
+            "铺粉小车位置",
+            "落粉电机位置",
+            "刮墨电机位置",
+        };
 
         private _3DP_GUI组件 _3DP_GUI = new _3DP_GUI组件();
         //20200223新增:多线程绘制图像数据
@@ -60,6 +101,49 @@ namespace BinderJetting
         private int SR_IO_F = 0;//选中+右键+输入标志位
         private int SR_F = 0;//选中+右键标志位
         private int SP_num = 0;//选中图片个数
+
+        private double GetGoogolAxisDisplayPosMm(double[] encPos, short axis)
+        {
+            if (encPos == null || axis < 1 || axis > encPos.Length)
+            {
+                return 0;
+            }
+
+            double rawMm = encPos[axis - 1] / EncoderLinePerMM;
+            if (axis == GoogolAxisScraper)
+            {
+                return rawMm * 125;
+            }
+
+            return rawMm;
+        }
+
+        private int ConvertDisplayPosMmToAxisCounts(double displayPosMm, short axis)
+        {
+            if (axis == GoogolAxisScraper)
+            {
+                return (int)((displayPosMm / 125.0) * EncoderLinePerMM);
+            }
+
+            return (int)(displayPosMm * EncoderLinePerMM);
+        }
+
+        private void RestorePersistedGoogolPositions()
+        {
+            if (g_cPrinterSysParam == null || g_cPrinterSysParam.g_dPositon == null || g_cMotionMap == null)
+            {
+                return;
+            }
+
+            int slotCount = Math.Min(GoogolPositionAxes.Length, g_cPrinterSysParam.g_dPositon.Length);
+            for (int slot = 0; slot < slotCount; slot++)
+            {
+                short axis = GoogolPositionAxes[slot];
+                int axisCounts = ConvertDisplayPosMmToAxisCounts(g_cPrinterSysParam.g_dPositon[slot], axis);
+                g_cMotionMap.SetEncPos(axis, axisCounts);
+            }
+        }
+
         private void TestFun()//20200223:判断什么时候可以绘制，判断队列中的数据
         {
             //20200223新增:多线程绘制图像数据
@@ -872,10 +956,7 @@ namespace BinderJetting
                             //(2)刷新到系统
                             //g_cPrinterSysParam.g_dJourney[0] = 300 * 1000; g_cPrinterSysParam.g_dJourney[1] = 300 * 1000; g_cPrinterSysParam.g_dJourney[2] = 300 * 1000;//20200222：初始化行程//测试使用,移动到InitSystem
                             //g_cPrinterSysParam.g_dJourney[3] = 500 * 1000; g_cPrinterSysParam.g_dJourney[4] = 10 * 1000; g_cPrinterSysParam.g_dJourney[5] = 350 * 1000;//20200222：初始化行程//测试使用,移动到InitSystem                      
-                            for (short i = 0; i < 6; i++)//设置编码器的位置值
-                            {
-                                g_cMotionMap.SetEncPos((short)(i + 1), (int)(g_cPrinterSysParam.g_dPositon[i] * 1000));//在正限位值，设置0位的编码值。单位：脉冲
-                            }
+                            RestorePersistedGoogolPositions();
                         }
                     }
                 }
@@ -894,10 +975,7 @@ namespace BinderJetting
                             {
                                 //g_cPrinterSysParam.g_dJourney[0] = 300 * 1000; g_cPrinterSysParam.g_dJourney[1] = 300 * 1000; g_cPrinterSysParam.g_dJourney[2] = 300 * 1000;//20200222：初始化行程//测试使用,移动到InitSystem
                                 //g_cPrinterSysParam.g_dJourney[3] = 500 * 1000; g_cPrinterSysParam.g_dJourney[4] = 10 * 1000; g_cPrinterSysParam.g_dJourney[5] = 350 * 1000;//20200222：初始化行程//测试使用,移动到InitSystem                      
-                                for (short i = 0; i < 6; i++)//设置编码器的位置值
-                                {
-                                    g_cMotionMap.SetEncPos((short)(i + 1), (int)(g_cPrinterSysParam.g_dPositon[i] * 1000));//在正限位值，设置0位的编码值。单位：脉冲
-                                }
+                                RestorePersistedGoogolPositions();
                             }
                             catch (Exception)
                             {
@@ -1115,49 +1193,29 @@ namespace BinderJetting
             XPosValue = ((double)ny1pos) / EncoderLinePerMM;
             //textBox4.AppendText(" " + "墨车当前位置：" + ny1pos0 + "mm\r\n");
             PositonText = " " + "墨车当前位置：" + ny1pos0 + " MM\r\n";
-            //（5-2）刷新6轴的位置
+            //（5-2）刷新当前启用机构的位置显示，避免沿用老轴序导致显示错位
             string PosString;
-            for (short i = 0; i < 6; i++)
+            for (int slot = 0; slot < GoogolPositionAxes.Length; slot++)
             {
-                double PosValue = g_dEncpos[i] / 1000;
-                //PosString = (PosValue/*(double)(g_dEncpos[i] / 1000)*/).ToString("F3");//20200227：显示两位小数点位置，即精确到10um
+                short axis = GoogolPositionAxes[slot];
+                double PosValue = GetGoogolAxisDisplayPosMm(g_dEncpos, axis);
                 PosString = String.Format("{0,9:#0000.000,}", PosValue);
-                switch (i)
+                PositonText += " " + GoogolPositionLabels[slot] + "：" + PosString + " MM\r\n";
+                g_cPrinterSysParam.g_dPositon[slot] = PosValue;
+
+                switch (slot)
                 {
                     case 0:
-                        //textBox4.AppendText(" " + "主成型缸位置：" + PosString + "mm\r\n");
-                        PositonText += " " + "主成型缸位置：" + PosString + " MM\r\n";
-                        g_cPrinterSysParam.g_dPositon[0] = PosValue;
                         Z1PosValue = PosValue;
                         break;
                     case 1:
-                        //textBox4.AppendText(" " + "后粉料缸位置：" + PosString + "mm\r\n");
-                        PositonText += " " + "后粉料缸位置：" + PosString + " MM\r\n";
-                        g_cPrinterSysParam.g_dPositon[1] = PosValue;
                         Z2PosValue = PosValue;
                         break;
                     case 2:
-                        //textBox4.AppendText(" " + "前粉料缸位置：" + PosString + "mm\r\n");
-                        PositonText += " " + "前粉料缸位置：" + PosString + " MM\r\n";
-                        g_cPrinterSysParam.g_dPositon[2] = PosValue;
                         Z3PosValue = PosValue;
                         break;
                     case 3:
-                        //textBox4.AppendText(" " + "铺粉小车位置：" + PosString + "mm\r\n");
-                        PositonText += " " + "铺粉小车位置：" + PosString + " MM\r\n";
-                        g_cPrinterSysParam.g_dPositon[3] = PosValue;
                         YPosValue = PosValue;
-                        break;
-                    case 4:
-                        //textBox4.AppendText(" " + "卡紧电机位置：" + PosString + "mm\r\n");
-                        PositonText += " " + "卡紧电机位置：" + PosString + " MM\r\n";
-                        g_cPrinterSysParam.g_dPositon[4] = PosValue;
-                        break;
-                    case 5:
-                        //textBox4.AppendText(" " + "刮墨电机位置：" + PosString + "mm");
-                        PosString = String.Format("{0,9:#0000.000,}", PosValue * 125);
-                        PositonText += " " + "刮墨电机位置：" + PosString + " MM";
-                        g_cPrinterSysParam.g_dPositon[5] = PosValue * 125;//20200623批注：修正步进电机的参数：1000pulse/125mm
                         break;
                 }
             }
@@ -2121,10 +2179,10 @@ namespace BinderJetting
         /*****************************************主控软件的属性设置及统一刷新*********************************************/
         /*****************************************主控软件的属性设置及统一刷新*********************************************/
         /********************************************
-        4个轴————6个动作
-        打印预运动处理：4轴电机的逻辑控制，
-        成型缸电机下降x1mm（PP-）,1号送粉缸电机上升y1mm(PP+),铺粉电机正向回原点运动1次(JOG+)，
-        成型缸电机下降x1mm（PP-）, 2号送粉缸电机上升y1mm(PP+),铺粉电机逆向回原点运动1次(JOG-).
+        历史流程说明（第一代轴序）：
+        早期代码中，轴1/2/3/4分别承载成型缸、送粉缸、送粉缸/铺粉相关机构，
+        这里的 PP(1,-,X1) 等注释仅用于说明旧流程语义，不再代表当前设备的实际轴号。
+        当前设备轴映射已调整，成型缸实际使用轴8，铺粉车实际使用轴7。
         **********************************************/
         bool InkCarHomeFlag = false; bool PowderCarHomeFlag = false;
         /// <summary>
@@ -3789,9 +3847,9 @@ namespace BinderJetting
             LaserADD_BinderJetter.MoveComponent AutomoveComponent = new LaserADD_BinderJetter.MoveComponent();
             if (PrtDirFlag == true)//（a）正向打印情形
             {
-                //(A) 逻辑判断：（1）防止缸体之间相互碰到；（2）防止缸体与喷墨小车之间相互碰到//（1-1）PP (1,-,X1);//成型缸电机下降x1mm（PP-）//逻辑判断：也需要：判断是送粉缸粉料不足，即将触碰到限位                                          
-                //(B) 逻辑判断：也需要：判断是送粉缸粉料不足，即将触碰到限位//（1-2）PP(2, +, X1);//1号送粉缸电机上升y1mm(PP+)
-                //(C) 逻辑判断：也需要：判断是送粉缸粉料不足，即将触碰到限位//（3-2）PP(3, +, X1);//2号送粉缸电机上升y1mm(PP+)
+                //(A) 逻辑判断：（1）防止缸体之间相互碰到；（2）防止缸体与喷墨小车之间相互碰到。
+                //以下 PP(1,-,X1) / PP(2,+,X1) / PP(3,+,X1) 为第一代轴序的历史说明，
+                //用于描述“成型缸下降 + 送粉缸上升”的旧流程语义，不代表当前设备的实际轴号定义。
                 //(D) Y方向铺粉车运动  
 
                 AutomoveComponent.TrapMoveDown(1, p.m_bMoveModeFlag[0], p.m_Svel[0], p.m_Step[0] / 1000, RollerParam);
@@ -3823,8 +3881,10 @@ namespace BinderJetting
             }
             else if (PrtDirFlag == false)//（b）负向打印情形
             {
-                //(A) 逻辑判断：也需要：判断是成型缸深度不足，即将触碰到限位//（3-1）PP(1, -, X1); //成型缸电机下降x1mm（PP -）
-                //(B) 逻辑判断：也需要：判断是送粉缸粉料不足，即将触碰到限位//（3-2）PP(3, +, X1);//2号送粉缸电机上升y1mm(PP+)
+                //(A) 逻辑判断：也需要判断成型缸深度是否不足、是否即将触碰限位。
+                //这里的 PP(1,-,X1) 为第一代轴序的历史说明，当前设备不再使用轴1表示成型缸。
+                //(B) 逻辑判断：也需要判断送粉缸粉料是否不足、是否即将触碰限位。
+                //这里的 PP(3,+,X1) 同样仅表示历史流程语义。
                 //(C) Y方向铺粉车运动   逻辑判断//20200220：逻辑判断，必须有，主要是是否到触碰到限位，和双X轴是否存在冲突
                 //(D) Y方向铺粉车运动  
 
@@ -3875,10 +3935,12 @@ namespace BinderJetting
             LaserADD_BinderJetter.MoveComponent AutomoveComponent = new LaserADD_BinderJetter.MoveComponent();
             for (int i = g_nLayerStart/*0*/; i <= g_nLayerEnd/*m_nlayer*//*100*/; i++)
             {
-                //逻辑判断：（1）防止缸体之间相互碰到；（2）防止缸体与喷墨小车之间相互碰到//（1-1）PP (1,-,X1);//成型缸电机下降x1mm（PP-）//逻辑判断：也需要：判断是送粉缸粉料不足，即将触碰到限位                                          
+                //逻辑判断：（1）防止缸体之间相互碰到；（2）防止缸体与喷墨小车之间相互碰到。
+                //此处注释中的 PP(1,-,X1) 属于第一代轴序说明，当前设备已不再用轴1表示成型缸。                                          
                 AutomoveComponent.TrapMoveDown(1, p.m_bMoveModeFlag[0], p.m_Svel[0], p.m_Step[0], RollerParam);
                 Thread.Sleep(100);
-                //逻辑判断：也需要：判断是送粉缸粉料不足，即将触碰到限位//（1-2）PP(2, +, X1);//1号送粉缸电机上升y1mm(PP+)
+                //逻辑判断：也需要判断送粉缸粉料是否不足、是否即将触碰限位。
+                //这里的 PP(2,+,X1) 同样仅表示历史流程语义。
                 AutomoveComponent.TrapMoveUp(2, p.m_bMoveModeFlag[1], p.m_Svel[1], p.m_Step[1], RollerParam);
                 Thread.Sleep(100);
                 if (true)//Y方向铺粉车运动：//添加逻辑：
@@ -3902,10 +3964,12 @@ namespace BinderJetting
                     }
                 }
 
-                //逻辑判断：也需要：判断是成型缸深度不足，即将触碰到限位//（3-1）PP(1, -, X1); //成型缸电机下降x1mm（PP -）
+                //逻辑判断：也需要判断成型缸深度是否不足、是否即将触碰限位。
+                //这里的 PP(1,-,X1) 为第一代轴序说明，当前设备已改用轴8表示成型缸。
                 AutomoveComponent.TrapMoveDown(1, p.m_bMoveModeFlag[0], p.m_Svel[0], p.m_Step[0], RollerParam);
                 Thread.Sleep(100);
-                //逻辑判断：也需要：判断是送粉缸粉料不足，即将触碰到限位//（3-2）PP(3, +, X1);//2号送粉缸电机上升y1mm(PP+)
+                //逻辑判断：也需要判断送粉缸粉料是否不足、是否即将触碰限位。
+                //这里的 PP(3,+,X1) 同样仅表示历史流程语义。
                 AutomoveComponent.TrapMoveUp(3, p.m_bMoveModeFlag[2], p.m_Svel[2], p.m_Step[2], RollerParam);
                 Thread.Sleep(100);
 

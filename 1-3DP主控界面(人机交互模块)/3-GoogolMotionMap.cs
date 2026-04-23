@@ -710,7 +710,8 @@ namespace Motion
             jog.smooth = 0;//单位，平滑系数，[0,1),越大，加减速过程越平滑
 
             // 固高轴号（20260416）：1 墨车X 2 墨车Y 3 落粉 4 刮墨 5 粉辊2 6 粉辊1 7 铺粉车 8 成型缸
-            // 成型缸(8)为伺服，老程序中对应轴1的 GoHome 方式：默认 acc/dec、速度不做 Perimeter 换算（与轴1、2 同分支）。
+            // 成型缸(8)为伺服。这里沿用“第一代设备中成型缸所在伺服轴”的 GoHome 参数策略，
+            // 即默认 acc/dec、速度不做 Perimeter 换算（与当前轴1、2 的伺服分支保持一致）。
             // 落粉(3)、刮墨(4)、粉辊2(5)、粉辊1(6)：步进类，沿用原「轴6」周长/细分 Perimeter[0]/SubDivideCoe[0]。
             if (AXIS == 3 || AXIS == 4 || AXIS == 5 || AXIS == 6)
             {
@@ -726,7 +727,7 @@ namespace Motion
                 jog.smooth = 0;
                 vel = (Convert.ToDouble(vel) / Perimeter[1]) * 1 * (SubDivideCoe[1] / 1000);
             }
-            else//轴1、2（墨车 X/Y）、轴8（成型缸，伺服，老代码对应轴1）：保持方法开头默认 jog 参数，vel 不做 Perimeter 换算
+            else//轴1、2（墨车 X/Y）与轴8（成型缸，伺服）：保持方法开头默认 jog 参数，vel 不做 Perimeter 换算
             {
             }
 

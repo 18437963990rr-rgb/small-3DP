@@ -57,6 +57,8 @@ namespace BinderJetting
             this.label117 = new System.Windows.Forms.Label();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.UVCureEnergycomboBox = new System.Windows.Forms.ComboBox();
+            this.textBoxIrProbeTemp = new System.Windows.Forms.TextBox();
+            this.labelIrProbeTemp = new System.Windows.Forms.Label();
             this.label62 = new System.Windows.Forms.Label();
             this.label73 = new System.Windows.Forms.Label();
             this.textBox30 = new System.Windows.Forms.TextBox();
@@ -266,10 +268,10 @@ namespace BinderJetting
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label95 = new System.Windows.Forms.Label();
             this.PrintCarHomeBtn = new System.Windows.Forms.Button();
-            this.textBox23 = new System.Windows.Forms.TextBox();
             this.label135 = new System.Windows.Forms.Label();
             this.textBox43 = new System.Windows.Forms.TextBox();
             this.button32 = new System.Windows.Forms.Button();
+            this.textBox23 = new System.Windows.Forms.TextBox();
             this.PowderCarHomeBtn = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.textBox22 = new System.Windows.Forms.TextBox();
@@ -769,6 +771,8 @@ namespace BinderJetting
             this.tabPage1.Controls.Add(this.label117);
             this.tabPage1.Controls.Add(this.textBox10);
             this.tabPage1.Controls.Add(this.UVCureEnergycomboBox);
+            this.tabPage1.Controls.Add(this.textBoxIrProbeTemp);
+            this.tabPage1.Controls.Add(this.labelIrProbeTemp);
             this.tabPage1.Controls.Add(this.label62);
             this.tabPage1.Controls.Add(this.label73);
             this.tabPage1.Controls.Add(this.textBox30);
@@ -937,6 +941,28 @@ namespace BinderJetting
             this.UVCureEnergycomboBox.Size = new System.Drawing.Size(45, 20);
             this.UVCureEnergycomboBox.TabIndex = 191;
             this.UVCureEnergycomboBox.Text = "0";
+            // 
+            // textBoxIrProbeTemp
+            // 
+            this.textBoxIrProbeTemp.Font = new System.Drawing.Font("微软雅黑", 8.5F);
+            this.textBoxIrProbeTemp.Location = new System.Drawing.Point(224, 647);
+            this.textBoxIrProbeTemp.Name = "textBoxIrProbeTemp";
+            this.textBoxIrProbeTemp.ReadOnly = true;
+            this.textBoxIrProbeTemp.Size = new System.Drawing.Size(55, 22);
+            this.textBoxIrProbeTemp.TabIndex = 213;
+            this.textBoxIrProbeTemp.Text = "--";
+            this.textBoxIrProbeTemp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // labelIrProbeTemp
+            // 
+            this.labelIrProbeTemp.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.labelIrProbeTemp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.labelIrProbeTemp.Location = new System.Drawing.Point(199, 624);
+            this.labelIrProbeTemp.Name = "labelIrProbeTemp";
+            this.labelIrProbeTemp.Size = new System.Drawing.Size(127, 20);
+            this.labelIrProbeTemp.TabIndex = 214;
+            this.labelIrProbeTemp.Text = "红外测温(℃)";
+            this.labelIrProbeTemp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label62
             // 
@@ -3729,22 +3755,13 @@ namespace BinderJetting
             this.PrintCarHomeBtn.UseVisualStyleBackColor = true;
             this.PrintCarHomeBtn.Click += new System.EventHandler(this.PrintCarHomeBtn_Click);
             // 
-            // textBox23
-            // 
-            this.textBox23.Font = new System.Drawing.Font("微软雅黑", 8.5F);
-            this.textBox23.Location = new System.Drawing.Point(129, 339);
-            this.textBox23.Name = "textBox23";
-            this.textBox23.Size = new System.Drawing.Size(52, 22);
-            this.textBox23.TabIndex = 175;
-            this.textBox23.Text = "90";
-            // 
             // label135
             // 
             this.label135.AutoSize = true;
             this.label135.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold);
             this.label135.Location = new System.Drawing.Point(186, 364);
             this.label135.Name = "label135";
-            this.label135.Size = new System.Drawing.Size(16, 17);
+            this.label135.Size = new System.Drawing.Size(13, 17);
             this.label135.TabIndex = 181;
             this.label135.Text = "°";
             // 
@@ -3768,6 +3785,15 @@ namespace BinderJetting
             this.button32.Text = "轴4转到调角";
             this.button32.UseVisualStyleBackColor = true;
             this.button32.Click += new System.EventHandler(this.button32_Click);
+            // 
+            // textBox23
+            // 
+            this.textBox23.Font = new System.Drawing.Font("微软雅黑", 8.5F);
+            this.textBox23.Location = new System.Drawing.Point(129, 339);
+            this.textBox23.Name = "textBox23";
+            this.textBox23.Size = new System.Drawing.Size(52, 22);
+            this.textBox23.TabIndex = 175;
+            this.textBox23.Text = "90";
             // 
             // PowderCarHomeBtn
             // 
@@ -6866,6 +6892,8 @@ namespace BinderJetting
         private System.Windows.Forms.Button CalibrateUVRangeBtn;
         private System.Windows.Forms.Label label73;
         private System.Windows.Forms.ComboBox UVCureEnergycomboBox;
+        private System.Windows.Forms.TextBox textBoxIrProbeTemp;
+        private System.Windows.Forms.Label labelIrProbeTemp;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button ModbusBtn;
         private System.Windows.Forms.Label label74;

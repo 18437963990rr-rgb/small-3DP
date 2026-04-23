@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3-附属控件：UserContro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3-UserControl3", "3-附属控件：UserControl3\3-UserControl3.csproj", "{AE7AF8AD-5C42-4DDB-A599-602EF4A99D21}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "3DPrintControl Setup（LaserADD）", "3DPrintControlSetup（LaserADD）\3DPrintControlSetup（LaserADD）.vdproj", "{6D84041A-69DE-4634-A33B-0F7151EB1347}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4-服务端：RIP组件进程", "RIP组件\4-服务端：RIP组件进程.csproj", "{B1D4C4DB-E34F-42E3-B929-555E6161855E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4-RemoteLayersDataStruct", "4-RemoteLayersDataStruct\4-RemoteLayersDataStruct.csproj", "{26BB61C8-E39E-413B-A867-6CDBA8A30C69}"
@@ -113,13 +111,6 @@ Global
 		{AE7AF8AD-5C42-4DDB-A599-602EF4A99D21}.Release|x64.Build.0 = Release|Any CPU
 		{AE7AF8AD-5C42-4DDB-A599-602EF4A99D21}.Release|x86.ActiveCfg = Release|Any CPU
 		{AE7AF8AD-5C42-4DDB-A599-602EF4A99D21}.Release|x86.Build.0 = Release|Any CPU
-		{6D84041A-69DE-4634-A33B-0F7151EB1347}.Debug|Any CPU.ActiveCfg = Debug
-		{6D84041A-69DE-4634-A33B-0F7151EB1347}.Debug|x64.ActiveCfg = Debug
-		{6D84041A-69DE-4634-A33B-0F7151EB1347}.Debug|x64.Build.0 = Debug
-		{6D84041A-69DE-4634-A33B-0F7151EB1347}.Debug|x86.ActiveCfg = Debug
-		{6D84041A-69DE-4634-A33B-0F7151EB1347}.Release|Any CPU.ActiveCfg = Release
-		{6D84041A-69DE-4634-A33B-0F7151EB1347}.Release|x64.ActiveCfg = Release
-		{6D84041A-69DE-4634-A33B-0F7151EB1347}.Release|x86.ActiveCfg = Release
 		{B1D4C4DB-E34F-42E3-B929-555E6161855E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B1D4C4DB-E34F-42E3-B929-555E6161855E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1D4C4DB-E34F-42E3-B929-555E6161855E}.Debug|x64.ActiveCfg = Debug|x64

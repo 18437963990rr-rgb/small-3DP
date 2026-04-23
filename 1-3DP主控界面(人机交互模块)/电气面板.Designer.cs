@@ -1,4 +1,4 @@
-﻿namespace BinderJetting
+namespace BinderJetting
 {
     partial class 电气面板
     {
@@ -73,7 +73,7 @@
             this.DigtalOut3.Size = new System.Drawing.Size(99, 64);
             this.DigtalOut3.TabIndex = 22;
             this.DigtalOut3.Tag = "3";
-            this.DigtalOut3.Text = "双驱伺服";
+            this.DigtalOut3.Text = "步进电源";
             this.DigtalOut3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut3.UseVisualStyleBackColor = false;
             this.DigtalOut3.Click += new System.EventHandler(this.GoogolDigtalOut_Click);
@@ -91,7 +91,7 @@
             this.DigtalOut4.Size = new System.Drawing.Size(99, 64);
             this.DigtalOut4.TabIndex = 23;
             this.DigtalOut4.Tag = "4";
-            this.DigtalOut4.Text = "LED照明";
+            this.DigtalOut4.Text = "红外电源";
             this.DigtalOut4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut4.UseVisualStyleBackColor = false;
             this.DigtalOut4.Click += new System.EventHandler(this.GoogolDigtalOut_Click);
@@ -109,7 +109,7 @@
             this.DigtalOut5.Size = new System.Drawing.Size(99, 64);
             this.DigtalOut5.TabIndex = 24;
             this.DigtalOut5.Tag = "5";
-            this.DigtalOut5.Text = "UV灯";
+            this.DigtalOut5.Text = "超声装置";
             this.DigtalOut5.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut5.UseVisualStyleBackColor = false;
             this.DigtalOut5.Click += new System.EventHandler(this.GoogolDigtalOut_Click);
@@ -127,7 +127,7 @@
             this.DigtalOut6.Size = new System.Drawing.Size(99, 64);
             this.DigtalOut6.TabIndex = 25;
             this.DigtalOut6.Tag = "6";
-            this.DigtalOut6.Text = "抱闸";
+            this.DigtalOut6.Text = "照明";
             this.DigtalOut6.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut6.UseVisualStyleBackColor = false;
             this.DigtalOut6.Click += new System.EventHandler(this.GoogolDigtalOut_Click);
@@ -145,7 +145,7 @@
             this.DigtalOut8.Size = new System.Drawing.Size(99, 65);
             this.DigtalOut8.TabIndex = 29;
             this.DigtalOut8.Tag = "8";
-            this.DigtalOut8.Text = "抱闸";
+            this.DigtalOut8.Text = "meteor电源";
             this.DigtalOut8.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut8.UseVisualStyleBackColor = false;
             this.DigtalOut8.Click += new System.EventHandler(this.GoogolDigtalOut_Click);
@@ -163,7 +163,7 @@
             this.DigtalOut7.Size = new System.Drawing.Size(99, 64);
             this.DigtalOut7.TabIndex = 28;
             this.DigtalOut7.Tag = "7";
-            this.DigtalOut7.Text = "抱闸";
+            this.DigtalOut7.Text = "刮粉抱闸";
             this.DigtalOut7.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut7.UseVisualStyleBackColor = false;
             this.DigtalOut7.Click += new System.EventHandler(this.GoogolDigtalOut_Click);
@@ -181,7 +181,7 @@
             this.DigtalOut2.Size = new System.Drawing.Size(99, 65);
             this.DigtalOut2.TabIndex = 27;
             this.DigtalOut2.Tag = "2";
-            this.DigtalOut2.Text = "推车伺服";
+            this.DigtalOut2.Text = "墨车电源";
             this.DigtalOut2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut2.UseVisualStyleBackColor = false;
             this.DigtalOut2.Click += new System.EventHandler(this.GoogolDigtalOut_Click);
@@ -199,7 +199,7 @@
             this.DigtalOut1.Size = new System.Drawing.Size(99, 64);
             this.DigtalOut1.TabIndex = 26;
             this.DigtalOut1.Tag = "1";
-            this.DigtalOut1.Text = "缸体伺服";
+            this.DigtalOut1.Text = "成型铺粉";
             this.DigtalOut1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut1.UseVisualStyleBackColor = false;
             this.DigtalOut1.Click += new System.EventHandler(this.GoogolDigtalOut_Click);
@@ -218,7 +218,7 @@
             this.DigtalOut12.Size = new System.Drawing.Size(99, 68);
             this.DigtalOut12.TabIndex = 33;
             this.DigtalOut12.Tag = "12";
-            this.DigtalOut12.Text = "备用";
+            this.DigtalOut12.Text = "鸣叫";
             this.DigtalOut12.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut12.UseVisualStyleBackColor = false;
             this.DigtalOut12.Click += new System.EventHandler(this.GoogolDigtalOut_Click);
@@ -237,7 +237,7 @@
             this.DigtalOut11.Size = new System.Drawing.Size(99, 68);
             this.DigtalOut11.TabIndex = 32;
             this.DigtalOut11.Tag = "11";
-            this.DigtalOut11.Text = "备用";
+            this.DigtalOut11.Text = "绿灯指示";
             this.DigtalOut11.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut11.UseVisualStyleBackColor = false;
             this.DigtalOut11.Click += new System.EventHandler(this.GoogolDigtalOut_Click);
@@ -256,7 +256,7 @@
             this.DigtalOut10.Size = new System.Drawing.Size(99, 68);
             this.DigtalOut10.TabIndex = 31;
             this.DigtalOut10.Tag = "10";
-            this.DigtalOut10.Text = "备用";
+            this.DigtalOut10.Text = "黄灯指示";
             this.DigtalOut10.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut10.UseVisualStyleBackColor = false;
             this.DigtalOut10.Click += new System.EventHandler(this.GoogolDigtalOut_Click);
@@ -274,7 +274,7 @@
             this.DigtalOut9.Size = new System.Drawing.Size(99, 68);
             this.DigtalOut9.TabIndex = 30;
             this.DigtalOut9.Tag = "9";
-            this.DigtalOut9.Text = "抱闸";
+            this.DigtalOut9.Text = "红灯指示";
             this.DigtalOut9.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut9.UseVisualStyleBackColor = false;
             this.DigtalOut9.Click += new System.EventHandler(this.GoogolDigtalOut_Click);
@@ -312,7 +312,7 @@
             this.DigtalOut15.Size = new System.Drawing.Size(99, 68);
             this.DigtalOut15.TabIndex = 36;
             this.DigtalOut15.Tag = "15";
-            this.DigtalOut15.Text = "备用";
+            this.DigtalOut15.Text = "中间磁铁";
             this.DigtalOut15.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut15.UseVisualStyleBackColor = false;
             this.DigtalOut15.Click += new System.EventHandler(this.GoogolDigtalOut_Click);
@@ -331,7 +331,7 @@
             this.DigtalOut14.Size = new System.Drawing.Size(99, 68);
             this.DigtalOut14.TabIndex = 35;
             this.DigtalOut14.Tag = "14";
-            this.DigtalOut14.Text = "备用";
+            this.DigtalOut14.Text = "周边磁铁";
             this.DigtalOut14.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut14.UseVisualStyleBackColor = false;
             this.DigtalOut14.Click += new System.EventHandler(this.GoogolDigtalOut_Click);
@@ -350,7 +350,7 @@
             this.DigtalOut13.Size = new System.Drawing.Size(99, 68);
             this.DigtalOut13.TabIndex = 34;
             this.DigtalOut13.Tag = "13";
-            this.DigtalOut13.Text = "备用";
+            this.DigtalOut13.Text = "压墨";
             this.DigtalOut13.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut13.UseVisualStyleBackColor = false;
             this.DigtalOut13.Click += new System.EventHandler(this.GoogolDigtalOut_Click);

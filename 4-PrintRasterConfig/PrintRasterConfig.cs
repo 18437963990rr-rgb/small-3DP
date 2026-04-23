@@ -22,6 +22,13 @@ namespace LaserAdd.PrintRaster
         public static int FullPlateBitmapWidthPixels => MmToPixelsPlusOne(PlateWidthMm, SliceDpi);
         public static int FullPlateBitmapHeightPixels => MmToPixelsPlusOne(PlateHeightMm, SliceDpi);
 
+        /// <summary>Meteor 分条用：每颗喷头在 Y 上对应的行数基（与常见译码/HiPrint 约定一致）。</summary>
+        public const int SwathBaseRowsPerPrintHead = 1024;
+        /// <summary>1=单喷头条带 1024 行；2=双喷头条带 2048 行。与 Meteor/喷头 cfg 需一致。切回单喷改为 1 并重新生成。</summary>
+        public const int PrintHeadCount = 2;
+        /// <summary>Y 向 swath 条带高度（像素行）= <see cref="SwathBaseRowsPerPrintHead"/> * <see cref="PrintHeadCount"/>。</summary>
+        public static int SwathStripHeightPixels => SwathBaseRowsPerPrintHead * PrintHeadCount;
+
         /// <summary>与现有 CLI 多边形缩放 <c>Convert.ToInt32(dpi / 25.4)</c> 一致。</summary>
         public static int PixelsPerMmTrunc(int dpi)
         {

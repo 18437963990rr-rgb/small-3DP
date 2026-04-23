@@ -236,6 +236,10 @@ namespace BinderJetting
             base.Opacity = 0;
             Timer.Start();
 
+            _timerIrProbeTemp = new System.Windows.Forms.Timer { Interval = 300 };
+            _timerIrProbeTemp.Tick += TimerIrProbeTemp_Tick;
+            _timerIrProbeTemp.Start();
+
             if (RollerDirectionFlag == true)
             {
                 this.RollerFlag.SelectedIndex = 0;//正转
@@ -667,6 +671,15 @@ namespace BinderJetting
             map.SetLogSink(msg => Log4Net.Info(msg), msg => Log4Net.Error(msg));
             return map;
         }
+
+        /// <summary>红外探头接入固高 AI 的通道下标（<see cref="GoogolMotionMap.GetAi"/> 返回数组索引，0 表示第 1 路）。</summary>
+        private const int IrProbeAdcChannelIndex = 0;
+        /// <summary>探头约定：0~10V 线性对应 0~100℃。</summary>
+        private const double IrProbeVoltageFullScale = 10.0;
+        private const double IrProbeTempFullScale = 100.0;
+
+        private System.Windows.Forms.Timer _timerIrProbeTemp;
+
         /// 互斥配置多轴的点动和JOG运动配置：动态挂载初始化：20200110
         private void InitDynamicConfigureMotionMode()
         {
@@ -2934,15 +2947,7 @@ namespace BinderJetting
         /*******************************挤墨控件集体控制初始化***************************/
         private royal.RoyalPrintingMap _RoyalMap;
         private royal.RoyalPrintingMap RoyalMap => _RoyalMap ?? (_RoyalMap = new royal.RoyalPrintingMap());//创建GoogolMotionMap对象，供本窗口调用
-        
-        private Motion.GoogolMotionMap _InkCarMotionMap;
-        private Motion.GoogolMotionMap InkCarMotionMap => _InkCarMotionMap ?? (_InkCarMotionMap = CreateInkCarMotionMap());// 2026-02-02新增：墨车轴切换到固高控制（4轴卡测试），创建固高运动控制对象
-        private Motion.GoogolMotionMap CreateInkCarMotionMap()
-        {
-            var map = new Motion.GoogolMotionMap();
-            map.SetLogSink(msg => Log4Net.Info(msg), msg => Log4Net.Error(msg));
-            return map;
-        }
+        // 墨车 X/Y（固高轴1/2）与八轴点动共用同一套 motionMap（见 InitCardConfiguration 下发的 cfg），勿再使用第二套 GoogolMotionMap 实例发脉冲。
         ///// InitShoveInk控件初始化：————修改为static使用
         public void InitShoveInk(UInt32 nValveStateMask)/*private void InitShoveInk()*///20200718新建：初始化挤墨控件
         {
@@ -3060,6 +3065,39 @@ namespace BinderJetting
                 bool nReturn = GetCurVoltageTemp(false);
             }
 #endif
+        }
+
+        private void TimerIrProbeTemp_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                double[] ai = motionMap.GetAi();
+                if (ai == null || IrProbeAdcChannelIndex < 0 || IrProbeAdcChannelIndex >= ai.Length)
+                {
+                    textBoxIrProbeTemp.Text = "--";
+                    return;
+                }
+                double v = ai[IrProbeAdcChannelIndex];
+                double temp = v * (IrProbeTempFullScale / IrProbeVoltageFullScale);
+                if (temp < 0.0) temp = 0.0;
+                if (temp > IrProbeTempFullScale) temp = IrProbeTempFullScale;
+                textBoxIrProbeTemp.Text = temp.ToString("F1");
+            }
+            catch
+            {
+                textBoxIrProbeTemp.Text = "--";
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            if (_timerIrProbeTemp != null)
+            {
+                _timerIrProbeTemp.Stop();
+                _timerIrProbeTemp.Dispose();
+                _timerIrProbeTemp = null;
+            }
+            base.OnFormClosed(e);
         }
 
 
@@ -3194,9 +3232,10 @@ namespace BinderJetting
                         xTrapPrm.smoothTime = 1;
                         int xPosition = 750000 / 1000;
                         double xVel = nSpeed;
-                        InkCarMotionMap.TrapMotion(1, ref xTrapPrm, xPosition, xVel, 0, 0, true);
+                        // 与 MoveUpBtn1/TrapMoveUp 使用同一套 motionMap，避免第二套 GoogolMotionMap 与卡/配置未协同导致无动作
+                        motionMap.TrapMotion(1, ref xTrapPrm, xPosition, xVel, 0, 0, true);
                     }
-                    InkCarMotionMap.m_bXmove = true; // X轴正在运动标志位
+                    motionMap.m_bXmove = true; // X轴正在运动标志位
 
                     string msg = $"手动控制墨车运动开启，沿X轴右侧方向运动 ====》：nAxis{{0}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}";
                     Log4Net.Info(msg);
@@ -3235,9 +3274,9 @@ namespace BinderJetting
                         xTrapPrm.smoothTime = 1;
                         int xPosition = -750000 / 1000;
                         double xVel = nSpeed;
-                        InkCarMotionMap.TrapMotion(1, ref xTrapPrm, xPosition, xVel, 0, 0, true);
+                        motionMap.TrapMotion(1, ref xTrapPrm, xPosition, xVel, 0, 0, true);
                     }
-                    InkCarMotionMap.m_bXmove = true; // X轴正在运动标志位
+                    motionMap.m_bXmove = true; // X轴正在运动标志位
 
                     string msg = "手动控制墨车运动开启：沿X轴左侧方向运动 《====：nAxis{{0}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}";
                     Log4Net.Info(msg);
@@ -3276,9 +3315,9 @@ namespace BinderJetting
                             y1TrapPrm.smoothTime = 1;
                             int y1Position = 750000 / 1000;
                             double y1Vel = nSpeed;
-                            InkCarMotionMap.TrapMotion(2, ref y1TrapPrm, y1Position, y1Vel, 0, 0, true);
+                            motionMap.TrapMotion(2, ref y1TrapPrm, y1Position, y1Vel, 0, 0, true);
                         }
-                        InkCarMotionMap.m_bYmove1 = true; // Y1轴正在运动标志位
+                        motionMap.m_bYmove1 = true; // Y1轴正在运动标志位
 
                         string msg = "手动控制墨车运动开启：沿Y轴后侧方向运动 ↓↓↓：nAxis{{1}},Dir{{true}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}";
                         Log4Net.Info(msg);
@@ -3312,9 +3351,9 @@ namespace BinderJetting
                             y1TrapPrm.smoothTime = 1;
                             int y1Position = -750000 / 1000;
                             double y1Vel = nSpeed;
-                            InkCarMotionMap.TrapMotion(2, ref y1TrapPrm, y1Position, y1Vel, 0, 0, true);
+                            motionMap.TrapMotion(2, ref y1TrapPrm, y1Position, y1Vel, 0, 0, true);
                         }
-                        InkCarMotionMap.m_bYmove1 = true; // Y1轴正在运动标志位
+                        motionMap.m_bYmove1 = true; // Y1轴正在运动标志位
 
                         string msg = "手动控制墨车运动开启：沿Y轴前侧方向运动 ↑↑↑：nAxis{{1}},Dir{{false}},nPlsSpeed{{{nSpeed}}},nPlsCount{{750000}},cControlFlag{{{nCtlValue}}}";
                         Log4Net.Info(msg);
@@ -3414,48 +3453,25 @@ namespace BinderJetting
             //    string msg = "手动控制墨车运动带减速停止：沿Y2轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x4}}";
             //    Log4Net.Info(msg);
             //}
-            // 2024/04/10修改，Leon
-      // 2026-02-02修改：墨车轴切换到固高控制（4轴卡测试），注释Royal停止操作
-            //nRetVal = royal.royal.DEM_StopAxisRun(false, 0x07);     // 停止所有电机的运动
-      // 2026-02-02新增：墨车轴固高停止操作（4轴卡测试）
-            InkCarMotionMap.StopMotion(1, true); // 停止墨车X轴
-            InkCarMotionMap.StopMotion(2, true); // 停止墨车Y1轴
-
-      // 2026-02-02新增：重置运动标志位
-            InkCarMotionMap.m_bXmove = false;
-            InkCarMotionMap.m_bYmove1 = false;
-            InkCarMotionMap.m_bYmove2 = false;
-
+            // 2024/04/10修改，Leon；与 MoveUpBtn 共用 motionMap 停止墨车 X/Y（轴1/2）
+            motionMap.StopMotion(1, true);
+            motionMap.StopMotion(2, true);
+            motionMap.m_bXmove = false;
+            motionMap.m_bYmove1 = false;
+            motionMap.m_bYmove2 = false;
 
             if (RoyalMap.m_bXmove)
             {
-                //nRetVal = royal.royal.DEM_StopAxisRun(false, 0x1);//停止轴运动
-
-                RoyalMap.m_bXmove = false;//是否该代码才是真正的X轴停止运动？
-
-                // 2026-02-02新增：墨车X轴固高停止操作（4轴卡测试，轴号1）
-                if (InkCarMotionMap.m_bXmove)
-                {
-                    InkCarMotionMap.StopMotion(1, true); // 停止墨车X轴
-                    InkCarMotionMap.m_bXmove = false; // 重置X轴正在运动标志位
-                }
+                RoyalMap.m_bXmove = false;
                 this.XStateLabel.Text = "X轴运动停止";
                 string msg = "手动控制墨车运动带减速停止：沿X轴方向运动 ====》《=== ====: bImmeStop{{false}},nAxisMask{{0x1}}";
                 Log4Net.Info(msg);
             }
             if (RoyalMap.m_bYmove1)
             {
-                //nRetVal = royal.royal.DEM_StopAxisRun(false, 0x2);//停止轴运动
-// 2026-02-02新增：墨车Y1轴固高停止操作（4轴卡测试，轴号2）
-                if (InkCarMotionMap.m_bYmove1)
-                {
-                    InkCarMotionMap.StopMotion(2, true); // 停止墨车Y1轴
-                    InkCarMotionMap.m_bYmove1 = false; // 重置Y1轴正在运动标志位
-                }
-
-                RoyalMap.m_bYmove1 = false; //是否该代码才是真正的Y轴停止运动？
+                RoyalMap.m_bYmove1 = false;
                 this.YStateLabel.Text = "Y轴运动停止";
-                string msg = "手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}"; 
+                string msg = "手动控制墨车运动带减速停止：沿Y轴方向运动 ↑↑↑↓↓↓ ====: bImmeStop{{false}},nAxisMask{{0x2}}";
                 Log4Net.Info(msg);
             }
             if (RoyalMap.m_bYmove2)
@@ -3525,7 +3541,8 @@ namespace BinderJetting
         bool EncoderResetFlag = false;//墨车回零校准：20200326
         bool PowderCarEncoderResetFlag = false;//粉车回零校准：20230330
         bool PrintCarEncoderResetFlag = false;//墨车回零校准：20230330
-        private const bool RetrofitAxisMappingEnabled = false;//20260416新增：设备轴改造完成前保持false，防止新轴定义误动作
+        // true：不拦截点动/JOG/回零等（与 EnsureRetrofitReady 配合）；轴序或 cfg 未对齐时误动作风险高，确认现场后再改回 false。
+        private const bool RetrofitAxisMappingEnabled = true;// 原为 false 用于改造期锁定；现放开便于 MoveUpBtn1 等与墨车/固高调试
 
         private bool IsRetrofitProtectedTag(int tag)
         {
@@ -3633,9 +3650,9 @@ namespace BinderJetting
                 //(1-1)关闭联调线程；（1-2）关闭多轴运动：保障运动安全
                 string tempThreadName = "InkCarGoogolHomeThread";//(1)关闭联调线程
                 DeleteThread(tempThreadName);
-                //(a)检测到正限位和负限位后紧急停止运动：
-                InkCarMotionMap.StopMotion(1, true);
-                InkCarMotionMap.StopMotion(2, true);
+                //(a)检测到正限位和负限位后紧急停止运动（与点动/墨车 Jog 同用 motionMap 轴1/2）
+                motionMap.StopMotion(1, true);
+                motionMap.StopMotion(2, true);
 #endif
 
                 //(2-1)关闭铺粉车校准线程(2-2)关闭多轴运动：保证运动安全
@@ -3764,9 +3781,9 @@ namespace BinderJetting
                 //(1-1)关闭联调线程；（1-2）关闭多轴运动：保障运动安全
                 string tempThreadName = "InkCarGoogolHomeThread";//(1)关闭联调线程
                 DeleteThread(tempThreadName);
-                //(a)检测到正限位和负限位后紧急停止运动：
-                InkCarMotionMap.StopMotion(1, true);
-                InkCarMotionMap.StopMotion(2, true);
+                //(a)检测到正限位和负限位后紧急停止运动（与点动/墨车 Jog 同用 motionMap 轴1/2）
+                motionMap.StopMotion(1, true);
+                motionMap.StopMotion(2, true);
 #endif
 
                 //修改按钮状态为：启动打印
@@ -5628,8 +5645,8 @@ namespace BinderJetting
 
             gts.mc.TTrapPrm xTrapPrm = new gts.mc.TTrapPrm();
             xTrapPrm.acc = 0.5; xTrapPrm.dec = 0.5; xTrapPrm.velStart = 5; xTrapPrm.smoothTime = 1;
-            InkCarMotionMap.TrapMotion(1, ref xTrapPrm, moveCounts, velCountPerMs, 0, 0, true);
-            InkCarMotionMap.StopMotion(1, true);
+            motionMap.TrapMotion(1, ref xTrapPrm, moveCounts, velCountPerMs, 0, 0, true);
+            motionMap.StopMotion(1, true);
         }
 
 
@@ -5807,13 +5824,13 @@ namespace BinderJetting
                                 gts.mc.TTrapPrm xTrapPrm = new gts.mc.TTrapPrm();
                                 xTrapPrm.acc = 0.5; xTrapPrm.dec = 0.5; xTrapPrm.velStart = 5; xTrapPrm.smoothTime = 1;
                                 Log4Net.Info($"BackToStation X: before TrapMotion, moveCountsX={moveCountsX}, velCountPerMsX={velCountPerMsX:F3}, waitStop={WaitStopFLag}");
-                                InkCarMotionMap.TrapMotion(1, ref xTrapPrm, moveCountsX, velCountPerMsX, 0, 0, WaitStopFLag);
+                                motionMap.TrapMotion(1, ref xTrapPrm, moveCountsX, velCountPerMsX, 0, 0, WaitStopFLag);
                                 Log4Net.Info("BackToStation X: after TrapMotion");
 
                                 if (WaitStopFLag)
                                 {
                                     Log4Net.Info("BackToStation X: before StopMotion");
-                                    InkCarMotionMap.StopMotion(1, true);
+                                    motionMap.StopMotion(1, true);
                                     Log4Net.Info("BackToStation X: after StopMotion");
                                 }
                                 Log4Net.Info("BackToStation X: before encoder readback");
@@ -5839,7 +5856,7 @@ namespace BinderJetting
                                 gts.mc.TTrapPrm y1TrapPrm = new gts.mc.TTrapPrm();
                                 y1TrapPrm.acc = 0.5; y1TrapPrm.dec = 0.5; y1TrapPrm.velStart = 5; y1TrapPrm.smoothTime = 1;
                                 Log4Net.Info($"BackToStation Y: before TrapMotion, moveCountsY={moveCountsY}, velCountPerMsY={velCountPerMsY:F3}, waitStop={WaitStopFLag}");
-                                InkCarMotionMap.TrapMotion(2, ref y1TrapPrm, moveCountsY, velCountPerMsY, 0, 0, WaitStopFLag);
+                                motionMap.TrapMotion(2, ref y1TrapPrm, moveCountsY, velCountPerMsY, 0, 0, WaitStopFLag);
                                 Log4Net.Info("BackToStation Y: after TrapMotion");
 
                                 try { YAxisMoveStarted?.Invoke(); } catch (Exception ex) { Log4Net.Info($"YAxisMoveStarted 回调异常：{ex.Message}"); }
@@ -5847,7 +5864,7 @@ namespace BinderJetting
                                 if (WaitStopFLag)
                                 {
                                     Log4Net.Info("BackToStation Y: before StopMotion");
-                                    InkCarMotionMap.StopMotion(2, true);
+                                    motionMap.StopMotion(2, true);
                                     Log4Net.Info("BackToStation Y: after StopMotion");
                                 }
                                 Log4Net.Info("BackToStation Y: before encoder readback");
@@ -11962,11 +11979,11 @@ namespace BinderJetting
                 trapPrm.smoothTime = 1;
 
                 motionMap.ClrLimitAndAbrupt(Axis);
-                InkCarMotionMap.StopMotion(Axis, true);
+                motionMap.StopMotion(Axis, true);
 
                 int searchPosition = SearchPositiveDirection ? searchCounts : -searchCounts;
                 Log4Net.Info($"墨车轴{Axis}限位回零：开始搜索限位，方向={(SearchPositiveDirection ? "正" : "负")}，目标脉冲={searchPosition}");
-                InkCarMotionMap.TrapMotion(Axis, ref trapPrm, searchPosition, velocity, 0, 0, true);
+                motionMap.TrapMotion(Axis, ref trapPrm, searchPosition, velocity, 0, 0, true);
                 Log4Net.Info($"墨车轴{Axis}限位回零：搜索阶段完成");
 
                 Log4Net.Info($"墨车轴{Axis}限位回零：进入限位轮询");
@@ -11974,11 +11991,11 @@ namespace BinderJetting
                 {
                     Log4Net.Info($"墨车轴{Axis}限位回零：未检测到预期限位，终止");
                     motionMap.ClrLimitAndAbrupt(Axis);
-                    InkCarMotionMap.StopMotion(Axis, true);
+                    motionMap.StopMotion(Axis, true);
                     return false;
                 }
 
-                InkCarMotionMap.StopMotion(Axis, true);
+                motionMap.StopMotion(Axis, true);
                 Thread.Sleep(250);
                 motionMap.ClrLimitAndAbrupt(Axis);
 
@@ -11997,7 +12014,7 @@ namespace BinderJetting
                     };
 
                     Log4Net.Info($"墨车轴{Axis}限位回零：开始执行脱离限位回退，rollbackMm={rollbackMm:F3}, targetMm={rollbackTargetMm:F3}");
-                    InkCarMotionMap.TrapMotion(Axis, ref retreatTrapPrm, -(int)Math.Round(rollbackCounts), velocity, 0, 0, false);
+                    motionMap.TrapMotion(Axis, ref retreatTrapPrm, -(int)Math.Round(rollbackCounts), velocity, 0, 0, false);
                     Thread.Sleep(500);
                     motionMap.ClrLimitAndAbrupt(Axis);
                     WaitForInkCarLimitRelease(Axis, true, TimeSpan.FromSeconds(5));
@@ -12028,7 +12045,7 @@ namespace BinderJetting
                 try
                 {
                     motionMap.ClrLimitAndAbrupt(Axis);
-                    InkCarMotionMap.StopMotion(Axis, true);
+                    motionMap.StopMotion(Axis, true);
                 }
                 catch { }
                 return false;

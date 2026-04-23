@@ -36,6 +36,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <!-- 5-SharpControl 等含 unsafe；AnyCPU 与 x64 均需允许 -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -47,6 +49,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <IntermediateOutputPath>obj\Debug\</IntermediateOutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -57,6 +60,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <IntermediateOutputPath>obj\Release\</IntermediateOutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>BinderJetting.Program</StartupObject>
@@ -122,16 +126,13 @@
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MonitoringMessage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x64\$(Configuration)\MonitoringMessage.dll</HintPath>
+      <HintPath>..\MonitoringMessage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NModbus4, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NModbus4.2.1.0\lib\net40\NModbus4.dll</HintPath>
-    </Reference>
-    <Reference Include="PluginInterface">
-      <HintPath>..\PluginInterface\bin\Release\netstandard2.0\PluginInterface.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -508,6 +509,10 @@
     <ProjectReference Include="..\4-PrintRasterConfig\4-PrintRasterConfig.csproj">
       <Project>{e7b3c4d5-8a2f-4e1b-9c0d-1a2b3c4d5e6f}</Project>
       <Name>4-PrintRasterConfig</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginInterface\PluginInterface.csproj">
+      <Project>{77225df4-18c8-47ad-aa9a-dc6fbe4c42f5}</Project>
+      <Name>PluginInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\4-RemoteLayersDataStruct\4-RemoteLayersDataStruct.csproj">
       <Project>{26bb61c8-e39e-413b-a867-6cdba8a30c69}</Project>

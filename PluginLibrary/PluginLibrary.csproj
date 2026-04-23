@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <Reference Include="MonitoringMessage">
-      <HintPath>..\1-3DP主控界面(人机交互模块)\bin\x64\$(Configuration)\MonitoringMessage.dll</HintPath>
+      <HintPath>..\MonitoringMessage.dll</HintPath>
     </Reference>
     <ProjectReference Include="..\PluginInterface\PluginInterface.csproj" />
     <Reference Include="System.Windows.Forms">

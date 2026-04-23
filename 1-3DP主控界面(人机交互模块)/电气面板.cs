@@ -224,7 +224,7 @@ namespace BinderJetting
                     
                 }
             }
-            for (int i = 16; i < 20; i++)//20200719新增：备用的4个输出控件
+            for (int i = 15; i < 20; i++)//20200719新增：备用的5个输出控件
             {
                 string name = "DigtalOut" + Convert.ToString(i + 1);//20200719修改：修改了控件名称
                 Button OutputBtnSelected = (Button)GetControl(name);
