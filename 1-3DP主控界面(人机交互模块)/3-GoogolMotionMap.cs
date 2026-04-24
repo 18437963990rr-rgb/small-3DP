@@ -17,6 +17,15 @@ namespace Motion
     {
         private readonly short cardNumber = 0;//私有变量——默认选择为运动控制卡1
 
+        /// <summary>
+        /// 在 <see cref="InitCardConfiguration"/> 里，<see cref="EncOff"/> 会对 1~8 路编码器切到「内部脉冲计数」。
+        /// 若 MCT/电气上轴2为「外接编码器进卡 + 卡上闭环/模拟量」，必须对轴2再 <see cref="gts.mc.GT_EncOn"/>，否则闭环反馈不对，常表现为不动作；若轴2实际为开环脉冲到驱动、不进外编，请改为 <c>false</c>。
+        /// </summary>
+        public bool EnableAxis2ExternalEncoderAfterInit = true;
+
+        /// <summary>成型缸（固高 8 轴，与 cfg 中 control8 对应）在闭环且外编进卡时，<see cref="InitCardConfiguration"/> 内需 <see cref="gts.mc.GT_EncOn"/>(8)。若现场为开环脉冲无此外编，请置 <c>false</c>。</summary>
+        public bool EnableAxis8ExternalEncoderAfterInit = true;
+
         public gts.mc.TTrapPrm trapPrm;//点动运动参数——对外开放访问
         public gts.mc.TJogPrm jogPrm;//JOG运动参数——对外开放访问
 
@@ -502,6 +511,69 @@ namespace Motion
             EncOff();//20200226新建：使用内部脉冲计数器
 
             //gts.mc.GT_EncSns(cardNumber,2);//20220512新建批注：固高的2轴外部编码器输入相反
+
+            if (EnableAxis2ExternalEncoderAfterInit)
+            {
+                short sEnc2 = gts.mc.GT_EncOn(cardNumber, 2);
+                if (sEnc2 != 0)
+                {
+                    LogError($"GT_EncOn 轴2(外接编码器) 失败: {sEnc2}");
+                }
+                else
+                {
+                    LogInfo("GT_EncOn 轴2: 已切回外接编码器，供闭环/与 EncOff 全轴缺省策略对齐");
+                }
+            }
+
+            if (EnableAxis8ExternalEncoderAfterInit)
+            {
+                short sEnc8 = gts.mc.GT_EncOn(cardNumber, 8);
+                if (sEnc8 != 0)
+                {
+                    LogError($"GT_EncOn 轴8(成型缸-外接编码器) 失败: {sEnc8}");
+                }
+                else
+                {
+                    LogInfo("GT_EncOn 轴8(成型缸): 已切回外接编码器，供闭环/与 EncOff 全轴缺省策略对齐");
+                }
+            }
+
+            ApplyClosedLoopPidDefaults(2, "轴2(墨车Y)", 1, 32767);
+            ApplyClosedLoopPidDefaults(8, "轴8(成型缸)", 1, 32767);
+        }
+
+        /// <summary>
+        /// 对指定 <paramref name="control"/> 下发改闭环 PID 初值（与 cfg 中 control 号一致）。见固高 11.8；<paramref name="pidSetIndex"/> 一般为 1~3；limit 为模拟量限幅，±5V 驱动常用 16384。
+        /// </summary>
+        private void ApplyClosedLoopPidDefaults(short control, string logLabel, short pidSetIndex, short controlOutputLimit)
+        {
+            short sFlt = mc.GT_SetControlFilter(cardNumber, control, pidSetIndex);
+            if (sFlt != 0)
+            {
+                LogError($"GT_SetControlFilter {logLabel} control={control} pidSet={pidSetIndex} 失败: {sFlt}");
+            }
+
+            mc.TPid pid = new mc.TPid
+            {
+                kp = 1.0,
+                ki = 0,
+                kd = 0,
+                kvff = 0,
+                kaff = 0,
+                integralLimit = 0,
+                derivativeLimit = 0,
+                limit = controlOutputLimit
+            };
+
+            short sRtn = mc.GT_SetPid(cardNumber, control, pidSetIndex, ref pid);
+            if (sRtn != 0)
+            {
+                LogError($"GT_SetPid {logLabel} control={control} index={pidSetIndex} 失败: {sRtn}");
+            }
+            else
+            {
+                LogInfo($"GT_SetPid {logLabel} control={control} index={pidSetIndex}: Kp=1 Ki=Kd=0 limit={controlOutputLimit}");
+            }
         }
 
         //（四）关闭控制器
