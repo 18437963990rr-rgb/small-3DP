@@ -60,6 +60,10 @@ namespace BinderJetting
          * 3. 若注释中出现 PP(1,-,X1) 等写法，默认视为第一代设备的历史流程说明，不能直接等同于当前轴号。
          * 4. 主界面位置显示、断电恢复位置回写等逻辑，均应以本映射表为准。
          */
+        /// <summary>固高轴1：墨车 X（伺服编码器反馈）</summary>
+        private const short GoogolAxisInkCarX = 1;
+        /// <summary>固高轴2：墨车 Y（光栅尺）</summary>
+        private const short GoogolAxisInkCarY = 2;
         private const short GoogolAxisPowderDrop = 3;
         private const short GoogolAxisScraper = 4;
         private const short GoogolAxisFrontPowderCylinder = 5;
@@ -1182,17 +1186,15 @@ namespace BinderJetting
             //    this.TemperatureLabel.Text = "报警：温控仪关闭!";//return;
             //}
 
-            //(5-1)刷新墨车的位置信号//20200327新增：
-            UInt32 ny1pos = royal.royal.DEV_GetPrintEncoderValue();//20200306新增：编码器位置设置
-                                                                   //string ny1pos0 = ((double)(ny1pos / 5080)).ToString("F2");
-                                                                   //string ny1pos0 = (((double)ny1pos) / 5080).ToString("F3");
-                                                                   //string szTxt = ny1pos.ToString("X");//16进制显示——20200108
-            double XPosValue = 0, YPosValue = 0, Z1PosValue = 0, Z2PosValue = 0, Z3PosValue = 0;
+            //(5-1)墨车 X/Y：已由固高读编码器/光栅尺（Royal 打印编码器板卡已移除，不再调用 DEV_GetPrintEncoderValue）
+            double XPosValue = GetGoogolAxisDisplayPosMm(g_dEncpos, GoogolAxisInkCarX);
+            double YPosValue = GetGoogolAxisDisplayPosMm(g_dEncpos, GoogolAxisInkCarY);
+            double Z1PosValue = 0, Z2PosValue = 0, Z3PosValue = 0;
             string PositonText = null;
-            string ny1pos0 = String.Format("{0,9:#0000.000}", ((double)ny1pos) / EncoderLinePerMM);
-            XPosValue = ((double)ny1pos) / EncoderLinePerMM;
-            //textBox4.AppendText(" " + "墨车当前位置：" + ny1pos0 + "mm\r\n");
-            PositonText = " " + "墨车当前位置：" + ny1pos0 + " MM\r\n";
+            string inkCarXStr = String.Format("{0,9:#0000.000}", XPosValue);
+            string inkCarYStr = String.Format("{0,9:#0000.000}", YPosValue);
+            PositonText = " " + "墨车X(固高轴1)：" + inkCarXStr + " MM\r\n" +
+                          " " + "墨车Y(固高轴2)：" + inkCarYStr + " MM\r\n";
             //（5-2）刷新当前启用机构的位置显示，避免沿用老轴序导致显示错位
             string PosString;
             for (int slot = 0; slot < GoogolPositionAxes.Length; slot++)
@@ -1213,9 +1215,6 @@ namespace BinderJetting
                         break;
                     case 2:
                         Z3PosValue = PosValue;
-                        break;
-                    case 3:
-                        YPosValue = PosValue;
                         break;
                 }
             }
@@ -2206,7 +2205,9 @@ namespace BinderJetting
 
             do
             {
-                positonX = (double)royal.royal.DEV_GetPrintEncoderValue() / EncoderLinePerMM; //墨车位置
+                // 墨车 X：固高轴1（Royal 打印编码器已移除）
+                double[] encCheck = g_cMotionMap != null ? g_cMotionMap.GetEncPos() : null;
+                positonX = GetGoogolAxisDisplayPosMm(encCheck, GoogolAxisInkCarX);
                 k_dJourney1 = AutomoveComponent.GetEncPos();//运动到正限，读取行程值。单位：脉冲//临时注释掉：
                 positionY = k_dJourney1[3] / 1000;//铺粉车位置
                 if (positonX > InkCarPosition || positionY > PowderCarPosition)
@@ -3488,22 +3489,23 @@ namespace BinderJetting
 
         private void BackToStation(double AimPos, float m_MovSpeed)//运动至初始区域：AimPos位置单位为MM：精华
         {
+            // 注意：墨车 X 已改由固高控制；下列 DEM_Run 仍依赖 Royal/RYPrtCtler，无板卡时无效，需改为 motionMap 点位/ Jog。
             //royal.LPPrtRunInfo RTinfo = new LPPrtRunInfo();////（2-2）20200411新增（精华）：正式的打印处理框架：
 
-            UInt32 nCtlValue = /*2*/2; UInt32 CurrentPos = 0; bool DirFlag = false;
+            UInt32 nCtlValue = /*2*/2; bool DirFlag = false;
             //float m_MovSpeed = 50;//50mm/s速度进行移动；到站延时运动精度0.5mm//20201020新增：
             //bool Directory = false;uint nRevPls = 0; 
             double nSpeed = MM_TO_DOT(m_MovSpeed, EncoderLinePerInch);//20200803修改：已包含运动修正系统//double nSpeed = 68016;
 
-            CurrentPos = royal.royal.DEV_GetPrintEncoderValue();//初始编码器位置：
-            if ((double)CurrentPos / EncoderLinePerMM >= AimPos)//墨车在清洗站台右侧
+            double currentMm = GetGoogolAxisDisplayPosMm(g_cMotionMap != null ? g_cMotionMap.GetEncPos() : null, GoogolAxisInkCarX);
+            if (currentMm >= AimPos)//墨车在清洗站台右侧
             { DirFlag = false; }
             else//墨车在清洗站台左侧
             { DirFlag = true; }
 
             if (AimPos >= 0 && AimPos <= 1230)//是否AimPos在工作流程内:在流程内，即可打印:确认在安全工作区内
             {
-                double MoveStep = (AimPos - (double)CurrentPos / EncoderLinePerMM) * 500;//
+                double MoveStep = (AimPos - currentMm) * 500;//
                 bool nRetVal = royal.royal.DEM_Run(0, DirFlag, (UInt32)nSpeed, (int)System.Math.Abs(MoveStep), nCtlValue);//三菱驱动器的千脉冲MM数：按照之前代码，应该是500;运行100MM;单pulse-2um                                                              
                 //do//20200628新增：确保主运动到打印结束区域：不停运动监控，until打印结束，才执行下次打印
                 //{
@@ -8420,6 +8422,7 @@ namespace BinderJetting
         }
         private void EncoderResetThread()//墨车回零校准线程内容：20200326
         {
+            // 无 Royal 板卡时：DEM_Run / DEM_Stop / DEM_GetAxisLmtZeroState / DEV_ResetPrintEncoder 均无效，本线程应整体改为固高 Jog+限位+SetEncPos(轴1)。
             float m_szMovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增
             uint m_unCarMoveSpeed = MM_TO_DOT(m_szMovSpeed, EncoderLinePerInch);//20200328新增
 
@@ -8428,15 +8431,16 @@ namespace BinderJetting
             //速度的设置非常关键
             //20200422新增：消除运动过程中的抖动现象
             bool nRetVal = royal.royal.DEM_Run(0, false, m_unCarMoveSpeed /*(UInt32)g_RYSYSParam.CarMoveSpeed*//*1000*/, 650000, 2);//100，000/200=50mm的运动距离//最好的状态是，1次运动50mm，到达负限位
-            uint EncoderPos1 = royal.royal.DEV_GetPrintEncoderValue();//20200311新增：编码器位置设置
-            uint EncoderPos2 = 0;
+            double EncoderPos1 = GetGoogolAxisDisplayPosMm(g_cMotionMap != null ? g_cMotionMap.GetEncPos() : null, GoogolAxisInkCarX);
+            double EncoderPos2 = 0;
+            const double inkCarEncMoveEpsilonMm = 0.01;
             //位于同一线程汇中，不必要担心冲突访问的问题
             //(c)读取实时的轴限位状态
             nIOState1 = royal.royal.DEM_GetAxisLmtZeroState(0);//底层接口已经作了12 bit移位处理，对照Reg[12]定义//(c)读取实时的轴限位状态
             while ((0 == (nIOState1 & 0x2)) &&/*||*/ (0 == (nIOState1 & 0x1)))//保证运动到负限位或者正限位//20200313新增：
             {
-                EncoderPos2 = royal.royal.DEV_GetPrintEncoderValue();//读取新的编码器位置值：20200311新增
-                if (EncoderPos1 != EncoderPos2)//判断是否停止
+                EncoderPos2 = GetGoogolAxisDisplayPosMm(g_cMotionMap != null ? g_cMotionMap.GetEncPos() : null, GoogolAxisInkCarX);
+                if (Math.Abs(EncoderPos2 - EncoderPos1) > inkCarEncMoveEpsilonMm)//判断是否停止
                 {
                     EncoderPos1 = EncoderPos2;//新的编码器值赋值给就的编码器值
                 }
@@ -8449,7 +8453,7 @@ namespace BinderJetting
             }
             //(a)检测到正限位和负限位后紧急停止运动：//其实必要性不必很高，FPGA上有硬限位停止:20200313
             nRetVal = royal.royal.DEM_StopAxisRun(false, 0x1);//停止轴运动20200107//_MC_Y_MASKBIT扩展到0x2——20200108//其实必要性不必很高，FPGA上有硬限位停止
-            //(b)回到负限位后，重置光栅编码值为
+            //(b)回到负限位后，重置光栅编码值为（Royal 已移除时应改为 g_cMotionMap.SetEncPos(GoogolAxisInkCarX, counts)）
             bool nRetVal2 = royal.royal.DEV_ResetPrintEncoder(2000);//相对光栅尺的话，需要设置，不能设置为0;2000为10mm位置值                                                                  
 
             //this.EncoderResetBtn.Text = "光栅校准好";//修改按钮状态为：正在校准//20200313存在bug

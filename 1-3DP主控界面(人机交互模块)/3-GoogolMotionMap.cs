@@ -18,6 +18,13 @@ namespace Motion
         private readonly short cardNumber = 0;//私有变量——默认选择为运动控制卡1
 
         /// <summary>
+        /// 轴4 在 <see cref="SetBackSpreaderAxis"/> / <see cref="TrapMoveSpreaderAxis"/> 中「度→脉冲」的每转脉冲数。
+        /// 历史现场多按 12800/转标定本路径；手动态为 6400/转 时二者可能不闭合，需以后统一驱动细分或本常量后重标定。
+        /// 在统一为 6400 并上机重调各角度前，保持 12800 可避免标定点位整体缩放与方向感错乱。
+        /// </summary>
+        private const int ScraperAxis4PulsePerRev = 12800;
+
+        /// <summary>
         /// 在 <see cref="InitCardConfiguration"/> 里，<see cref="EncOff"/> 会对 1~8 路编码器切到「内部脉冲计数」。
         /// 若 MCT/电气上轴2为「外接编码器进卡 + 卡上闭环/模拟量」，必须对轴2再 <see cref="gts.mc.GT_EncOn"/>，否则闭环反馈不对，常表现为不动作；若轴2实际为开环脉冲到驱动、不进外编，请改为 <c>false</c>。
         /// </summary>
@@ -196,7 +203,7 @@ namespace Motion
             if (AXIS == 3)
             { subdivided = (int)(1600*2.1); }
             else if (AXIS == 4)
-            { subdivided = 12800/*25600*/; }//刮墨轴的步进的细分参数：12800；电流：2.2 A
+            { subdivided = ScraperAxis4PulsePerRev; }// 与手动态 6400 脉冲/转 一致
             else { }
             int position = (int)(search_home * /*2.1 * */subdivided/*1600*/);//20201011修正：在固高控制器中，每mm对应1000个脉冲//千脉冲 1000 Pulse/MM
             double vel = homeVel /** 2.1 *// 1 * 1 * (subdivided/*1600*/ / 1000);//电机转动速度
@@ -282,11 +289,16 @@ namespace Motion
             trapPrm.acc = 0.5; trapPrm.dec = 0.5/*1000*/; trapPrm.velStart = 0; trapPrm.smoothTime = 0;//（1）确定：参数的acc和dec含义需要确认清楚————这个参数意义不是很大//(3)执行点动运动
 
             sRtn = gts.mc.GT_SetTrapPrm(cardNumber, AXIS, ref trapPrm);// (3-1)设置点位模式运动参数 
-            int subdivided = 1600;//20220527新增：适配细分值
-            subdivided = 12800/*25600*/; 
+            int subdivided;
+            if (AXIS == 3)
+            { subdivided = (int)(1600 * 2.1); }
+            else if (AXIS == 4)
+            { subdivided = ScraperAxis4PulsePerRev; }
+            else
+            { subdivided = ScraperAxis4PulsePerRev; }
             uint pClock; int status = 0;
             double vel = homeVel /** 2.1 *// 1 * 1 * (subdivided/*1600*/ / 1000);//电机转动速度 
-            int position = (int)(SinkPostion / 360 */* 2.1 **/ subdivided/*1600*//*1000*/);//20220511批注：下一步点动的偏移量，可正可负//20201011修正：在固高控制器中，每mm对应1000个脉冲    
+            int position = (int)(SinkPostion / 360 */* 2.1 **/ subdivided/*1600*//*1000*/);//度→脉冲：/360*每转脉冲    
             sRtn = gts.mc.GT_SetVel(cardNumber, AXIS, vel/*10*/);// (3-2)设置点位模式目标速度，即回原点速度 
             gts.mc.GT_SetPos(cardNumber, AXIS, position); Commandhandler("GT_SetPos", sRtn);//(9)// 设定目标位置为捕获位置+偏移量
 
@@ -699,10 +711,11 @@ namespace Motion
         private double[] Perimeter = new double[3] { 40 * Pi * 0.95, 20 * 5/*40 * Pi*/, 2 };//20200916新增：3项步进电机细分设置参数//20200916修正：铺粉辊电机功率偏小，运行不准确，40圈转38圈，修正系数为0.95
         private double[] SubDivideCoe = new double[3] { 800, 800, 800 };//20200916新增：3项步进电机细分设置参数
 #else
+        // 与「手动操作界面.cs」#else 步进当量一致；轴4/5/6 每转 6400 脉冲。旧值见该文件注释。
         double[] Perimeter = new double[3] { 1, 5, 1 };//20220509新增：7轴的螺距修改为5mm //20200916新增：3项步进电机细分设置参数//20200916修正：铺粉辊电机功率偏小，运行不准确，40圈转38圈，修正系数为0.95
-        double[] SubDivideCoe = new double[3] { 25600, 25000, 1600 };//20200916新增：3项步进电机细分设置参数
+        double[] SubDivideCoe = new double[3] { 6400, 25000, 1600 };// 索引0 轴6：旧 25600/转
         double[] Perimeter2 = new double[3] { 1, 1, 1 };//20210505新增3个步进轴：特地用于3-4-5此3轴-1圈的周长//20200916新增：3项步进电机细分设置参数//20200916修正：铺粉辊电机功率偏小，运行不准确，40圈转38圈，修正系数为0.95
-        double[] SubDivideCoe2 = new double[3] { 1600/*1600*/, 25600, 1600 };//20210505新增3个步进轴：特地用于3-4-5此3轴-具体的细分值//20200916新增//第3步进轴加有2：1的减速比
+        double[] SubDivideCoe2 = new double[3] { 1600, 6400, 6400 };// 轴3 索引0=1600；轴4 索引1=6400(旧12800)；轴5 索引2=6400(旧1600)
 #endif
 
 

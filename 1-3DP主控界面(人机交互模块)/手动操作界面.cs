@@ -942,10 +942,14 @@ namespace BinderJetting
         double[] Perimeter2 = new double[3] { 40 * Pi * 0.95, 20 * 5, 2 };//20210505新增3个步进轴：特地用于3-4-5此3轴-1圈的周长//20200916新增：3项步进电机细分设置参数//20200916修正：铺粉辊电机功率偏小，运行不准确，40圈转38圈，修正系数为0.95
         double[] SubDivideCoe2 = new double[3] { 800, 800, 800 };//20210505新增3个步进轴：特地用于3-4-5此3轴-具体的细分值//20200916新增：3项步进电机细分设置参数
 #else
+        // 步进 JOG：vel=(m_sVel/Perimeter*)*(每转脉冲/1000) → motionMap 内 GT_SetVel 为 pulse/ms（约 ×1000=脉冲/秒）
+        // 轴4(刮墨)、轴5(粉辊2)、轴6(粉辊1)：均按硬件 6400 脉冲/转；下式「每转脉冲」与固高+驱动当量需一致
         double[] Perimeter = new double[3] { 1, 5, 1 };//20220509新增：7轴的螺距修改为5mm //20200916新增：3项步进电机细分设置参数//20200916修正：铺粉辊电机功率偏小，运行不准确，40圈转38圈，修正系数为0.95
-        double[] SubDivideCoe = new double[3] { 25600, 25000, 1600 };//20200916新增：3项步进电机细分设置参数
+        // 索引0 给轴6：旧 25600/转，与现场驱动说明 6400/转 差 4 倍，已改为 6400
+        double[] SubDivideCoe = new double[3] { 6400, 25000, 1600 };//20200916新增：3项步进电机细分设置参数
         double[] Perimeter2 = new double[3] { 1, 1, 1 };//20210505新增3个步进轴：特地用于3-4-5此3轴-1圈的周长//20200916新增：3项步进电机细分设置参数//20200916修正：铺粉辊电机功率偏小，运行不准确，40圈转38圈，修正系数为0.95
-        double[] SubDivideCoe2 = new double[3] { 1600/*1600*/, 12800/*25600*/, 1600 };//20220527修改：本轴细分12800，电流2.2A//20210505新增3个步进轴：特地用于3-4-5此3轴-具体的细分值//20200916新增//第3步进轴加有2：1的减速比
+        // 索引1 轴4、索引2 轴5；轴4 旧 12800/转；轴5 旧 1600/转，均与 6400/转 现场说明对齐后见下行
+        double[] SubDivideCoe2 = new double[3] { 1600, 6400, 6400 };// 轴3(索引0)落粉/2:1 减速仍 1600；轴4/轴5/轴6(另见 SubDivideCoe[0])=6400/转
 #endif
 
         public bool RollerDirectionFlag = true;//20200925新增：默认辊子方向为与运动方向反向。false为counter，true为NoCounter;
@@ -978,7 +982,8 @@ namespace BinderJetting
                     motionMap.jogPrm.acc = 0.5/*0.1*/;//————————————————————待实现，从其他的图形窗口中读取对应的值
                     motionMap.jogPrm.dec = 0.5/*0.1*/;
                     motionMap.jogPrm.smooth = 0;
-                    vel = (Convert.ToDouble(m_sVel) / Perimeter2[1]) * 1 * (SubDivideCoe2[1] / 1000);//单位：rev//1000pulse/1mm,当前细分
+                    // 旧换算（每转 12800 脉冲，与驱动 6400/转 不一时圈速会偏 2 倍）：vel=(m_sVel/Perimeter2[1])*(12800/1000)
+                    vel = (Convert.ToDouble(m_sVel) / Perimeter2[1]) * 1 * (SubDivideCoe2[1] / 1000);// 与 SubDivideCoe2[1] 一致，现 6400/转
                 }
                 else if (AXIS == 5)//为步进电机：20260416修改：粉辊2
                 {
@@ -987,7 +992,8 @@ namespace BinderJetting
                     motionMap.jogPrm.acc = 0.5/*0.1*/;//————————————————————待实现，从其他的图形窗口中读取对应的值
                     motionMap.jogPrm.dec = 0.5/*0.1*/;
                     motionMap.jogPrm.smooth = 0;
-                    vel = (Convert.ToDouble(m_sVel) / Perimeter2[2]) * 1 * (SubDivideCoe2[2] / 1000);//单位：rev//1000pulse/1mm,当前细分
+                    // 旧换算：每转 1600 脉冲、与 6400/转 不一时与目标圈速差约 4 倍：vel=(m_sVel/Perimeter2[2])*(1600/1000)
+                    vel = (Convert.ToDouble(m_sVel) / Perimeter2[2]) * 1 * (SubDivideCoe2[2] / 1000);// 与 SubDivideCoe2[2] 一致，现 6400/转
                 }
 
 
@@ -999,7 +1005,8 @@ namespace BinderJetting
                     motionMap.jogPrm.dec = 0.5/*0.1*/;
                     motionMap.jogPrm.smooth = 0;
                     //vel = Convert.ToDouble(m_sVel) / 125;//1000pulse/1mm,当前细分
-                    vel = (Convert.ToDouble(m_sVel) / Perimeter[0]) * 1 * (SubDivideCoe[0] / 1000);
+                    // 旧换算（每转 25600 脉冲，与驱动 6400/转 不一时圈速会偏 4 倍）：vel=(m_sVel/Perimeter[0])*(25600/1000)
+                    vel = (Convert.ToDouble(m_sVel) / Perimeter[0]) * 1 * (SubDivideCoe[0] / 1000);// 与 SubDivideCoe[0] 一致，现 6400/转
                 }
                 else if (AXIS == 7 || AXIS == 8)//20260416修改：轴7铺粉车、轴8成型缸，按伺服轴处理
                 {
@@ -1063,7 +1070,8 @@ namespace BinderJetting
                     motionMap.jogPrm.acc = 0.5/*0.1*/;//————————————————————待实现，从其他的图形窗口中读取对应的值
                     motionMap.jogPrm.dec = 0.5/*0.1*/;
                     motionMap.jogPrm.smooth = 0;
-                    vel = (Convert.ToDouble(m_sVel) / Perimeter2[1]) * 1 * (SubDivideCoe2[1] / 1000);//1000pulse/1mm,当前细分
+                    // 旧换算：每转 12800 脉冲时 vel=(m_sVel/Perimeter2[1])*(12800/1000)
+                    vel = (Convert.ToDouble(m_sVel) / Perimeter2[1]) * 1 * (SubDivideCoe2[1] / 1000);// 与 JogMoveUp 轴4 一致
                 }
                 else if (AXIS == 5)//为步进电机：20260416修改：粉辊2
                 {
@@ -1072,7 +1080,8 @@ namespace BinderJetting
                     motionMap.jogPrm.acc = 0.5/*0.1*/;//————————————————————待实现，从其他的图形窗口中读取对应的值
                     motionMap.jogPrm.dec = 0.5/*0.1*/;
                     motionMap.jogPrm.smooth = 0;
-                    vel = (Convert.ToDouble(m_sVel) / Perimeter2[2]) * 1 * (SubDivideCoe2[2] / 1000);//1000pulse/1mm,当前细分
+                    // 旧换算：每转 1600 时 vel=(m_sVel/Perimeter2[2])*(1600/1000)
+                    vel = (Convert.ToDouble(m_sVel) / Perimeter2[2]) * 1 * (SubDivideCoe2[2] / 1000);// 与 JogMoveUp 轴5 一致
                 }
 
                 else if (AXIS == 6 /*|| AXIS == 7 || AXIS == 8*/)//为步进电机：20200622新增:铺粉辊电机//20220511修复bug:此处应该为else if
@@ -1083,7 +1092,8 @@ namespace BinderJetting
                     motionMap.jogPrm.dec = 0.5/*0.1*/;
                     motionMap.jogPrm.smooth = 0;
                     //vel = Convert.ToDouble(m_sVel) / 125;//1000pulse/1mm,当前细分
-                    vel = (Convert.ToDouble(m_sVel) / Perimeter[0]) * 1 * (SubDivideCoe[0] / 1000);
+                    // 旧换算：每转 25600 脉冲时 vel=(m_sVel/Perimeter[0])*(25600/1000)
+                    vel = (Convert.ToDouble(m_sVel) / Perimeter[0]) * 1 * (SubDivideCoe[0] / 1000);// 与 JogMoveUp 轴6 一致
                 }
                 else if (AXIS == 7 || AXIS == 8)//20260416修改：轴7铺粉车、轴8成型缸，按伺服轴处理
                 {
@@ -11749,20 +11759,24 @@ namespace BinderJetting
                 return;
             }
 
+            // 与 textBox23（回零标定角）统一坐标：第二步相对机台量 = 调试角 − 回零标定角；Trap 在回零后内部清零，再发「相对转」
+            double homeAngle = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;
             double debugAngle = k_RYSYSParamAutoPrintParamInTest.m_dInkScraperDebugAngle;
+            double relativeDeg = debugAngle - homeAngle;
             double axisSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed;
             if (axisSpeed <= 0) { axisSpeed = 1; }
 
-            bool returnCode = motionMap.TrapMoveSpreaderAxis(4, axisSpeed, -debugAngle);
+            // 若第二步转向与机台/习惯相反，将「-relativeDeg」改为「+relativeDeg」再试
+            bool returnCode = motionMap.TrapMoveSpreaderAxis(4, axisSpeed, -relativeDeg);
             if (returnCode)
             {
-                msg = $"刮墨轴调试角度到位：InkScraperDebugAngleBtn_Click：{{AXIS{{4}},Vel{{{axisSpeed}圈/s}},目标角度{{{debugAngle}°}}}}";
+                msg = $"刮墨轴调试角度到位：Vel{{{axisSpeed}圈/s}}，回零标定{{{homeAngle}°}}，目标角{{{debugAngle}°}}，相对转动{{{relativeDeg}°}}";
                 Log4Net.Info(msg);
-                MessageBox.Show($"已转到调试角度：{debugAngle}°");
+                MessageBox.Show($"已转到调试角度：{debugAngle}°（相对回零{homeAngle}° 的增量 {relativeDeg:F1}°）");
             }
             else
             {
-                msg = $"刮墨轴调试角度失败：InkScraperDebugAngleBtn_Click：{{AXIS{{4}},Vel{{{axisSpeed}圈/s}},目标角度{{{debugAngle}°}}}}";
+                msg = $"刮墨轴调试角度失败：Vel{{{axisSpeed}圈/s}}，回零标定{{{homeAngle}°}}，目标角{{{debugAngle}°}}，相对{{{relativeDeg}°}}";
                 Log4Net.Info(msg);
                 MessageBox.Show("转到调试角度失败");
             }
