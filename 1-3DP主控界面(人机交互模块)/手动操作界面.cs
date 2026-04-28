@@ -54,16 +54,23 @@ namespace BinderJetting
         const double INKCAR_SOA_MAX_X = 660.0;          // 墨车安全区左下角坐标，（X，Y)
         const double INKCAR_SOA_MAX_Y = 335.0;
 
-        const double INKCAR_DEFAULT_X = 680.0;          // 墨车开始打印前默认位置
-        const double INKCAR_DEFAULT_Y = 116.0;
-
         /*
-         * 刮墨位置坐标: (850, 10)
-         * 压墨位置坐标: (750,10)
+         * 刮墨位置坐标: (855, 245)
+         * 压墨位置坐标: (750, 245)
          */
+        const double INKCAR_CLEAN_PRESTOP_X = 700.0;    // 进入压墨位前的预停靠位，给刮片预转留安全空间
         const double INKCAR_CLEAN_STATION_X = 750.0;    // 墨车清洗站位置坐标，压墨位置
-        const double INKCAR_CLEAN_STATION_Y =  10.0;
+        const double INKCAR_CLEAN_STATION_Y = 245.0;
         const double INKCAR_CLEAN_SCRAPE_POS_REL = 105.0;    // 墨车清洗站刮墨位置, mm
+        const double INKCAR_DEFAULT_X = INKCAR_CLEAN_STATION_X;   // 默认待打位与清洗/临停位统一
+        const double INKCAR_DEFAULT_Y = INKCAR_CLEAN_STATION_Y;
+        const double INKCAR_REVISION_X = INKCAR_DEFAULT_X;        // 观察/临停位暂时与默认位重合
+        const double INKCAR_REVISION_Y = INKCAR_DEFAULT_Y;
+
+        /// <summary>墨车相邻 meteor PASS 之间 Y 向步距（mm），硬件：64.96×2。</summary>
+        private const double InkCarPassPitchYMm = 64.96 * 2.0;
+        /// <summary>单层打印墨车走位对应的 PASS 数（与 Meteor 层内 Pass 数量一致）。</summary>
+        private const int InkCarPassCountPerLayer = 3;
 
         /// <summary>
         /// Y 轴开始运动时触发（在 BackToStation 的 Y 分支内、运动已启动后发出）。
@@ -5598,6 +5605,8 @@ namespace BinderJetting
         //double RollerParam = 1;//20200918新增：铺粉辊子同双驱速度之比:对于铺粉运动很关键
         public double[] m_dScrapervel = new double[2] { 150, 150 };//历史刮墨双运动速度参数；20260416起不再驱动轴7/8
         public bool[] m_bScraperEnds = new bool[2] { false, false };//历史刮墨双运动AB端定义；20260416起不再驱动轴7/8
+        private bool m_bManualAutoCleanEntry = false;
+        private bool m_bScraperPreparedForClean = false;
         public bool CorrectFlag = false;//20200919新增：系统校准标志位
         //public double[] m_Step = new double[2]{ 150, 450};//20200918新增：刮墨主运动、刮墨副步进距离
         //public bool[] m_bMoveModeFlag = new bool[2]{ true, true};//20200918新增：刮墨主运动、刮墨副运动类型
@@ -5891,6 +5900,53 @@ namespace BinderJetting
                 Log4Net.Info(msg);//20230315新建：解决20230314打印94层中途停止的潜在问题
                 MessageBox.Show(msg);
             }
+        }
+
+        private void MoveInkCarToCleanPreStop(float returnVelocity, bool firstCycle)
+        {
+            double pos_x;
+            if (firstCycle)
+            {
+                // 先将 X 拉到压墨位前 50mm 的安全区，等待越过 SOA 后再下 Y。
+                BackToStation(INKCAR_CLEAN_PRESTOP_X, returnVelocity, false, false, 1.0);
+                do
+                {
+                    Thread.Sleep(100);
+                    pos_x = GetCurrentPos(1);
+                } while (pos_x < INKCAR_SOA_MAX_X);
+
+                BackToStation(INKCAR_CLEAN_STATION_Y, returnVelocity, true, true, 1);
+            }
+            else
+            {
+                BackToStation(INKCAR_CLEAN_STATION_Y, returnVelocity, true, true, 1);
+            }
+
+            BackToStation(INKCAR_CLEAN_PRESTOP_X, returnVelocity, false, true, 1);
+        }
+
+        private bool PrepareScraperForClean(double sinkHomePosition, double axisVel, double trapSign, double ang1, int cycleIndex, int cleanTimes)
+        {
+            string msg;
+            bool returnCode = motionMap.SetBackSpreaderAxis(4, axisVel, 2, -sinkHomePosition);
+            if (returnCode)
+            {
+                msg = $"刮墨轴回零成功：SetBackSpreaderAxis，第{cycleIndex + 1}/{cleanTimes}遍";
+                Log4Net.Info(msg);
+            }
+            else
+            {
+                msg = $"刮墨轴回零失败：SetBackSpreaderAxis，第{cycleIndex + 1}/{cleanTimes}遍";
+                Log4Net.Info(msg);
+                MessageBox.Show("回零失败");
+            }
+
+            bool trapOk = motionMap.TrapMoveSpreaderAxis(4, axisVel, trapSign * ang1);
+            msg = $"清洗预备：刮片在预停靠位转至第一角 {ang1}°（trapSign={trapSign}），第{cycleIndex + 1}/{cleanTimes}遍，ReturnCode{{{trapOk}}}";
+            Log4Net.Info(msg);
+
+            m_bScraperPreparedForClean = returnCode && trapOk;
+            return m_bScraperPreparedForClean;
         }
         private void ShoveCommand(bool OpenFlag, double HoldTime)//20200922新增：连续喷墨HoldTime,单位为秒
         {
@@ -6445,8 +6501,8 @@ namespace BinderJetting
              */
             if (k_RYSYSParamAutoPrintParamInTest.m_nBackToRevisionStationAfterClean == 1)//是否回观察站
             {
-                BackToStation(758/*734.275*//*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1.0);//到达刮墨位置
-                BackToStation(317/*321.455*//*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1.0);//到达刮墨位置
+                BackToStation(INKCAR_REVISION_X, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1.0);//到达观察/临停位置
+                BackToStation(INKCAR_REVISION_Y, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1.0);//到达观察/临停位置
             }
             else    // 增加墨车移动回到默认位置, Leon, 2024/04/15
             {
@@ -6690,6 +6746,8 @@ namespace BinderJetting
         /// <summary>
         /// 自动清洗函数，由自动打印函数调用，在打印过程中按序调用自动清洗功能
         /// !!!=========== 这个是一个函数 ===========!!! 
+        /// 2026-04-27：生效逻辑为「压墨区→刮片回零→同步压墨+第一角→墨车横移刮拭→第二角→释压→墨车离区→刮片反向回 home」；
+        /// 原 20230401 之后多遍 Trap/压墨流程已整段放入 #if false 保留备查。
         /// </summary>
         /// <param name="m_BackCleanMovSpeed"></param>
         /// DONE::修改墨车回清洗站移动方式：先X轴，当X轴在安全区域后，同时移动Y轴
@@ -6701,7 +6759,7 @@ namespace BinderJetting
             string msg = $"进入自动清洗过程：AutoCleanThread";
             Log4Net.Info(msg);
 
-#if true//20220518新建：新设备使用的自动清洗逻辑//20230401之后逻辑
+#if false // 2026-04-27 注释备用：原「20230401 之后」联动清洗（AutoCleanThread2 上一版完整工艺，保留备查）
             //（1）撒粉轴找回零位：20220527新建：
             double SinkHomePosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;//刮墨轴的HOME位置
             double AimScraperPosition = k_RYSYSParamAutoPrintParamInTest.m_dSraperAngleOffHome+15;//刮墨片限位片位置有15度的偏差，进行补偿
@@ -7003,6 +7061,115 @@ namespace BinderJetting
              */
             msg = $"结束自动清洗过程：AutoCleanThread";
             Log4Net.Info(msg);
+
+#elif true // 2026-04-27 新版：压墨区 → 刮片回零 → (同步压墨+)擦拭角 → 墨车横移刮拭 → 二次转角 → 释压 → 墨车离区 → 刮片反向回 home
+            {
+                double SinkHomePosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;
+                float ReturnVelocity2 = m_BackCleanMovSpeed;
+                double axisVel = k_RYSYSParamAutoPrintParamInTest.m_dCleanAxisSpeed;
+                double cleanCarSpd = k_RYSYSParamAutoPrintParamInTest.m_dCleanCarSpeed;
+                double ang1 = k_RYSYSParamAutoPrintParamInTest.m_dCleanWipeStage1AngleDeg;
+                double ang2 = k_RYSYSParamAutoPrintParamInTest.m_dCleanWipeStage2AngleDeg;
+                double wipeMm = k_RYSYSParamAutoPrintParamInTest.m_dCleanWipeTravelMm;
+                int cleanTimes = Math.Max(1, k_RYSYSParamAutoPrintParamInTest.m_nCleanTimes);
+                double trapSign = k_RYSYSParamAutoPrintParamInTest.m_nCleanTrapAngleSign;
+                if (trapSign == 0) { trapSign = -1; }
+
+                bool nRetFlashOff = MeteorPrintEngine.SetFlash(false);
+                msg = $"关闭闪喷：IDP_FlashPrtCtl(false)：ReturnCode{{{nRetFlashOff}}}";
+                Log4Net.Info(msg);
+
+                for (int ci = 0; ci < cleanTimes; ci++)
+                {
+                    MoveInkCarToCleanPreStop(ReturnVelocity2, ci == 0);
+                    PrepareScraperForClean(SinkHomePosition, axisVel, trapSign, ang1, ci, cleanTimes);
+                    msg = $"新版清洗：预停靠位完成刮片预备，准备进入压墨位，第{ci + 1}/{cleanTimes}遍，ManualEntry={m_bManualAutoCleanEntry}";
+                    Log4Net.Info(msg);
+
+                    BackToStation(INKCAR_CLEAN_STATION_X, ReturnVelocity2, false, true, 1);
+
+                    if (k_RYSYSParamAutoPrintParamInTest.m_nUseDirectPushInkModeEnabled == 1)
+                    {
+                        EnableInkPush(true);
+                    }
+                    else
+                    {
+                        motionMap.SetDo(13, true);
+                        msg = $"开启压墨：motionMap.SetDo(13, true)；刮片已在预停靠位转至第一擦拭角";
+                        Log4Net.Info(msg);
+                    }
+                    msg = $"新版清洗：进入压墨位时刮片已处于第一角 {ang1}°（trapSign={trapSign}），第{ci + 1}/{cleanTimes}遍";
+                    Log4Net.Info(msg);
+
+                    int wipeDir = k_RYSYSParamAutoPrintParamInTest.m_nCleanWipeInkXPositive >= 0 ? 1 : -1;
+                    if (k_RYSYSParamAutoPrintParamInTest.m_nCleanWipeInkXPositive == 0) { wipeDir = 1; }
+                    double currentX = GetCurrentPos(1);
+                    double targetX = currentX + wipeDir * wipeMm;
+                    if (targetX < 5) { targetX = 5; }
+                    if (targetX > XMaxDistanceMM - 5) { targetX = XMaxDistanceMM - 5; }
+                    BackToStation(targetX, (float)cleanCarSpd, false, true, 1);
+                    msg = $"新版清洗：墨车刮拭横移完成，目标X≈{targetX:F2}mm";
+                    Log4Net.Info(msg);
+
+                    double dAng = ang2 - ang1;
+                    if (Math.Abs(dAng) > 0.01)
+                    {
+                        motionMap.TrapMoveSpreaderAxis(4, axisVel, trapSign * dAng);
+                        msg = $"新版清洗：刮片第二转角 Δ={dAng:F2}°（工艺目标累计 {ang2}°），第{ci + 1}/{cleanTimes}遍";
+                        Log4Net.Info(msg);
+                    }
+
+                    if (k_RYSYSParamAutoPrintParamInTest.m_nUseDirectPushInkModeEnabled == 1)
+                    {
+                        EnableInkPush(false);
+                    }
+                    else
+                    {
+                        motionMap.SetDo(13, false);
+                        msg = $"关闭压墨： motionMap.SetDo(13, false)";
+                        Log4Net.Info(msg);
+                        msg = $"压墨等待：{{{k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime}S}}";
+                        Log4Net.Info(msg);
+                        Thread.Sleep((int)(k_RYSYSParamAutoPrintParamInTest.m_dPressInkWaitTime * 1000));
+                        msg = $"压墨等待完成";
+                        Log4Net.Info(msg);
+                    }
+
+                    if (ci < cleanTimes - 1)
+                    {
+                        motionMap.TrapMoveSpreaderAxis(4, axisVel, -trapSign * ang2);
+                        if (k_RYSYSParamAutoPrintParamInTest.m_nCleanFinishWithPhysicalHome == 1)
+                        {
+                            bool midHome = motionMap.SetBackSpreaderAxis(4, axisVel, 2, -SinkHomePosition);
+                            msg = $"新版清洗：多遍清洗中间刮片反向/寻零：ReturnCode{{{midHome}}}";
+                            Log4Net.Info(msg);
+                        }
+                        m_bScraperPreparedForClean = false;
+                    }
+                }
+
+                BackToStation(INKCAR_DEFAULT_Y, ReturnVelocity2, true, false, 1.0);
+                Thread.Sleep(100);
+                BackToStation(INKCAR_DEFAULT_X, ReturnVelocity2, false, true, 1.0);
+                msg = $"新版清洗：墨车已离压墨区；刮片按与擦拭同向相反做 Trap(-trapSign×{ang2}°) 再视配置寻零";
+                Log4Net.Info(msg);
+
+                motionMap.TrapMoveSpreaderAxis(4, axisVel, -trapSign * ang2);
+                if (k_RYSYSParamAutoPrintParamInTest.m_nCleanFinishWithPhysicalHome == 1)
+                {
+                    bool homeAgain = motionMap.SetBackSpreaderAxis(4, axisVel, 2, -SinkHomePosition);
+                    msg = $"新版清洗：反向回转后物理寻零 SetBackSpreaderAxis：ReturnCode{{{homeAgain}}}";
+                    Log4Net.Info(msg);
+                    if (!homeAgain)
+                    {
+                        MessageBox.Show("刮片清洗结束寻零失败");
+                    }
+                }
+                m_bScraperPreparedForClean = false;
+
+                msg = $"结束自动清洗过程：AutoCleanThread2（2026-04-27 新版）";
+                Log4Net.Info(msg);
+            }
 
 #elif false//20220518新建：新设备使用的自动清洗逻辑//20230401之前逻辑
             //（1）撒粉轴找回零位：20220527新建：
@@ -10115,8 +10282,10 @@ namespace BinderJetting
             SendMessageToCamera sendMessageToCamera = new SendMessageToCamera(false);//20200202修改
 #endregion
 
-            double PrintWidth = 350;/*宽度值设为350MM*/ double PrintHeadWidth = 54;/*宽度值设为5MM*/ double ReturnVelocity1 = m_szMovSpeed/*20*/;//喷墨移动速度
-            for (int i = 0; i < 6; i++)//i为PASS序号；PASS宽度为喷头宽度
+            double PrintWidth = 350;/*宽度值设为350MM*/
+            double passPitchY = InkCarPassPitchYMm;/*每PASS墨车Y步距（mm），与InkCarPassPitchYMm一致*/
+            double ReturnVelocity1 = m_szMovSpeed/*20*/;//喷墨移动速度
+            for (int i = 0; i < InkCarPassCountPerLayer; i++)//i为PASS序号；Y向步距为 passPitchY
             {
                 switch (i)
                 {
@@ -10134,7 +10303,7 @@ namespace BinderJetting
 
                         BackToStation(10, (float)ReturnVelocity1, true, false/*true*/, 1);//停靠在里侧，向外侧步进喷头幅面
                         BackToStation(25, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
-                        BackToStation(10 + PrintHeadWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
+                        BackToStation(10 + passPitchY, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
 #region 监控指令：喷墨拍摄位点2
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
@@ -10149,7 +10318,7 @@ namespace BinderJetting
                         break;
                     case 1:
                         BackToStation(425, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面--------------->
-                        BackToStation(10 + 2 * PrintHeadWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
+                        BackToStation(10 + 2 * passPitchY, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
 #region 监控指令：喷墨拍摄位点3
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
@@ -10161,9 +10330,8 @@ namespace BinderJetting
                         }
 #endregion
                         break;
-                    case 2:
+                    case 2://第3Pass：在 case1 结束的 Y（10+2*步距）上完成末道 X 向打印，再收至 425mm（与历史末 Pass 一致）
                         BackToStation(25, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
-                        BackToStation(10 + 3 * PrintHeadWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
 #region 监控指令：喷墨拍摄位点4
                         if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
@@ -10174,50 +10342,14 @@ namespace BinderJetting
                             Log4Net.Info(msg);
                         }
 #endregion
+                        BackToStation(425, (float)ReturnVelocity1, false, true, 1);//末道后与历史第6 Pass 一致：X 收口到 425mm
                         break;
-                    case 3:
-                        BackToStation(425, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面--------------->
-                        BackToStation(10 + 4 * PrintHeadWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点5
-                        if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[4])
-                        {
-                            sendMessageToCamera.SendMessageFromSharedMemory(false, 0, 5);//20230113新建且批注：监控发送指令
-
-                            msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
-                            Log4Net.Info(msg);
-                        }
-#endregion
-
-                        break;
-                    //case 4:
-                    //    BackToStation(25, (float)ReturnVelocity1, false, true);//停靠在右侧，向左侧运动打印幅面<---------------                        
-                    //                                                           //BackToStation(25 + 5 *PrintHeadWidth, (float)ReturnVelocity1,true);//停靠在里侧，向外侧步进喷头幅面
-
-                    case 4:
-                        BackToStation(25, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
-                        BackToStation(15 + 5 * PrintHeadWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点6
-                        if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
-                        {
-                            sendMessageToCamera.SendMessageFromSharedMemory(false, 0, 6);//20230113新建且批注：监控发送指令
-
-                            msg = $"发送监控指令，拍照记录1条：SendMessageFromSharedMemory";
-                            Log4Net.Info(msg);
-                        }
-#endregion
-
-                        break;
-                    case 5://第6Pass
-                        BackToStation(425, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面--------------->
-                        //BackToStation(25 + 5 *PrintHeadWidth, (float)ReturnVelocity1,true);//停靠在里侧，向外侧步进喷头幅面
-
+                    default:
                         break;
                 }
             }
-            BackToStation(710/*735*/, (float)ReturnVelocity1, false, false, 1);//回到原点：X=50MM处<---------------//20220520新建：位置修改为780MM处，清洗工作位
-            BackToStation(96 + 25/*25*/, (float)ReturnVelocity1, true, false, 1);//回到原点：Y=50MM处//20220520新建：位置修改为96MM处，清洗工作位//20220525修改：补偿25
+            BackToStation(INKCAR_CLEAN_STATION_X, (float)ReturnVelocity1, false, false, 1);//回到清洗/待机工作位 X
+            BackToStation(INKCAR_CLEAN_STATION_Y, (float)ReturnVelocity1, true, false, 1);//回到清洗/待机工作位 Y
             WaitStop(1);//20220520新建：等停墨车第1轴：X方向//外部等停
             WaitStop(2);//20220520新建：//等停墨车第2轴：Y方向//外部等停
 
@@ -10256,9 +10388,10 @@ namespace BinderJetting
             Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 
             if (Command == 0) { }
-            else if (Command == 1)//第2代设备的打印PASS总数为6
+            else if (Command == 1)//墨车单层走位 PASS 总数见 InkCarPassCountPerLayer（与 Meteor 层内 PASS 一致）
             {
-                double PrintWidth = 350;/*宽度值设为350MM*/ double PrintHeadWidth = 54;/*宽度值设为5MM*/
+                double PrintWidth = 350;/*宽度值设为350MM*/
+                double passPitchY = InkCarPassPitchYMm;/*每 PASS Y 步距 mm*/
                 double ReturnVelocity1 = m_szMovSpeed/*20*/;//喷墨移动速度
                 ReturnVelocity1 = m_MovSpeed;
                 double ReturnVelocity2 = m_BackCleanMovSpeed;//20230404新增：
@@ -10282,7 +10415,7 @@ namespace BinderJetting
                             BackToStation(15 - YJetOffWidth, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false/*true*/, 1);//停靠在里侧，向外侧步进喷头幅面
                             BackToStation(425, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
                             BackToStation(25, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
+                            BackToStation(15 + passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
 #region 监控指令：喷墨拍摄位点2
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
@@ -10294,7 +10427,7 @@ namespace BinderJetting
                             break;
                         case 1:
                             BackToStation(425, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面--------------->
-                            BackToStation(15 + 2 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
+                            BackToStation(15 + 2 * passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
 #region 监控指令：喷墨拍摄位点3
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
@@ -10304,45 +10437,16 @@ namespace BinderJetting
 #endregion
 
                             break;
-                        case 2:
+                        case 2://第3 PASS：末道 X 向扫描后收口并回清洗/观察（历史末 Pass 语义）
                             BackToStation(25, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 3 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
-
-#region 监控指令：喷墨拍摄位点4
+#region 监控指令：喷墨拍摄位点4（末道占位，沿用索引 4）
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 4);//20230113新建且批注：监控发送指令
                             }
 #endregion
-                            break;
-                        case 3:
-                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面--------------->
-                            BackToStation(15 + 4 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点5
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[4])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 5);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-
-                            break;
-                        case 4:
-                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 5 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点6
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 6);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-
-                            break;
-                        case 5://第6Pass
-                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
-                            //BackToStation(25 + 5 *PrintHeadWidth, (float)ReturnVelocity1,true);//停靠在里侧，向外侧步进喷头幅面
+                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//与历史 case5 一致：先收 X 至 425
 
                             if (NotGoCleanStationFlag == 1) //不回清洗站
                             { }
@@ -10350,15 +10454,15 @@ namespace BinderJetting
                             {
                                 if (PauseFlag != 1)
                                 {
-                                    BackToStation(780/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, false, 1);//回到原点：X=50MM处<---------------//20220520新建：位置修改为780MM处，清洗工作位
-                                    BackToStation(96 + 25/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false, 1);//回到原点：Y=50MM处//20220520新建：位置修改为96MM处，清洗工作位//20220525修改：补偿25
+                                    BackToStation(INKCAR_CLEAN_STATION_X, (float)ReturnVelocity2/*ReturnVelocity1*/, false, false, 1);//回到清洗/待机工作位 X
+                                    BackToStation(INKCAR_CLEAN_STATION_Y, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false, 1);//回到清洗/待机工作位 Y
                                     WaitStop(1);//20220520新建：等停墨车第1轴：X方向//外部等停
                                     WaitStop(2);//20220520新建：//等停墨车第2轴：Y方向//外部等停
                                 }
                                 else if (PauseFlag == 1)//20230410新增：
                                 {
-                                    BackToStation(734.275/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
-                                    BackToStation(321.455/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
+                                    BackToStation(INKCAR_REVISION_X, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达观察/临停位置
+                                    BackToStation(INKCAR_REVISION_Y, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达观察/临停位置
                                 }
 #region 监控指令：喷墨拍摄位点7
                                 if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
@@ -10367,19 +10471,18 @@ namespace BinderJetting
                                 }
 #endregion
 
-                                //20220920新增：在第5PASS打印运动之后，需要开启闪喷：否则会因为胶水的流动性问题，导致打印不连续
+                                //20220920新增：在最后一道 PASS 运动后开启闪喷
                                 bool nRetVal2 = MeteorPrintEngine.SetFlash(true);//打开闪喷
                                 msg = $"开启闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal2}}}";
                                 Log4Net.Info(msg);
                             }
-                            
 
                             break;
-                        case 6://20230410修改：附加一次运动，确保墨车运动到清洗站工作位，以提供手动操作
+                        case 3://20230410修改：可选附加运动（Pause 路径），PassIndex 仅在未与 Meteor PASS 对齐时触发
                             if (PauseFlag == 1)//20230410新增：
                             {
-                                BackToStation(758/*734.275*//*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
-                                BackToStation(317/*321.455*//*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
+                                BackToStation(INKCAR_REVISION_X, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达观察/临停位置
+                                BackToStation(INKCAR_REVISION_Y, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达观察/临停位置
                             }
 
                             break;
@@ -10395,36 +10498,30 @@ namespace BinderJetting
             Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 
             if (Command == 0) { }
-            else if (Command == 1)//第2代设备的打印PASS总数为6
+            else if (Command == 1)//反向排版：单层仍为 InkCarPassCountPerLayer（3）PASS
             {
-                double PrintWidth = 350;/*宽度值设为350MM*/ double PrintHeadWidth = 54;/*宽度值设为5MM*/
+                double PrintWidth = 350;/*宽度值设为350MM*/
+                double passPitchY = InkCarPassPitchYMm;/*与正向 AutoPrintThread2 相同步距*/
                 double ReturnVelocity1 = m_szMovSpeed/*20*/;//喷墨移动速度
                 ReturnVelocity1 = m_MovSpeed;
                 double ReturnVelocity2 = m_BackCleanMovSpeed;//20230404新增：
                 {
                     switch (PassIndex)
                     {
-                        case 0://第1PASS
+                        case 0://从最外侧重入（历史 15+最高阶 * 步距）
 #region 监控指令：喷墨拍摄位点1
-                            //toCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 1);//20230113新建且批注：监控发送指令
                             }
 #endregion
-                            //20220920新增：在第1PASS打印运动之前，需要关闭闪喷：否则会导致打印乱码
                             bool nRetVal = MeteorPrintEngine.SetFlash(false);//关闭闪喷
-                            /*string*/
                             msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal}}}";
                             Log4Net.Info(msg);
-#if false
-                            BackToStation(15, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false/*true*/, 1);//准备Y向进给到位：停靠在里侧，向外侧步进喷头幅面
-                            BackToStation(425, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true, 1);//准备移动打印到位：停靠在右侧，向左侧运动打印幅面<---------------
-#else
-                            BackToStation(15 + 5 * PrintHeadWidth + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-#endif
-                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 4 * PrintHeadWidth + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
+
+                            BackToStation(15 + 2 * passPitchY + YJetOffWidth, (float)ReturnVelocity2, true, false, 1);//自高向低：先定位第 3 条带一端
+                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印//
+                            BackToStation(15 + 1 * passPitchY + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//回落至第 2 条带对齐
 
 #region 监控指令：喷墨拍摄位点2
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
@@ -10434,9 +10531,9 @@ namespace BinderJetting
 #endregion
 
                             break;
-                        case 1://第2PASS
+                        case 1:
                             BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面--------------->
-                            BackToStation(15 + 3 * PrintHeadWidth + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
+                            BackToStation(15 + 0 * passPitchY + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给至最内侧条带
 
 #region 监控指令：喷墨拍摄位点3
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
@@ -10446,10 +10543,8 @@ namespace BinderJetting
 #endregion
 
                             break;
-                        case 2://第3PASS
-                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 2 * PrintHeadWidth + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
+                        case 2://末道：打印后收口 + 回站
+                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次
 
 #region 监控指令：喷墨拍摄位点4
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
@@ -10457,71 +10552,39 @@ namespace BinderJetting
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 4);//20230113新建且批注：监控发送指令
                             }
 #endregion
-                            break;
-                        case 3://第4PASS
-                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面--------------->
-                            BackToStation(15 + 1 * PrintHeadWidth + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
+                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//收口
 
-#region 监控指令：喷墨拍摄位点5
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[4])
+                            if (NotGoCleanStationFlag == 1) { }
+                            else
                             {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 5);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-
-                            break;
-                        case 4://第5Pass
-                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 0 * PrintHeadWidth + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点6
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 6);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-
-                            break;
-                        case 5://第6Pass
-                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-
-                            if (NotGoCleanStationFlag == 1) //不回清洗站
-                            { }
-                            else//回清洗站
-                            {
-                                if (PauseFlag != 1)//回原点
+                                if (PauseFlag != 1)
                                 {
-                                    BackToStation(780/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, false, 1);//回到原点：X=50MM处<---------------//20220520新建：位置修改为780MM处，清洗工作位
-                                    BackToStation(96 + 25/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false, 1);//回到原点：Y=50MM处//20220520新建：位置修改为96MM处，清洗工作位//20220525修改：补偿25
-                                    WaitStop(1);//20220520新建：等停墨车第1轴：X方向//外部等停
-                                    WaitStop(2);//20220520新建：//等停墨车第2轴：Y方向//外部等停
+                                    BackToStation(INKCAR_CLEAN_STATION_X, (float)ReturnVelocity2, false, false, 1);
+                                    BackToStation(INKCAR_CLEAN_STATION_Y, (float)ReturnVelocity2, true, false, 1);
+                                    WaitStop(1);
+                                    WaitStop(2);
                                 }
-                                else if (PauseFlag == 1)//20230410新增：
+                                else if (PauseFlag == 1)
                                 {
-                                    BackToStation(734.275/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
-                                    BackToStation(321.455/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
+                                    BackToStation(INKCAR_REVISION_X, (float)ReturnVelocity2, false, true, 1);
+                                    BackToStation(INKCAR_REVISION_Y, (float)ReturnVelocity2, true, true, 1);
                                 }
-#region 监控指令：喷墨拍摄位点7
                                 if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
                                 {
                                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 7);//20230113新建且批注：监控发送指令
                                 }
-#endregion
-
-                                //20220920新增：在第5PASS打印运动之后，需要开启闪喷：否则会因为胶水的流动性问题，导致打印不连续
                                 bool nRetVal2 = MeteorPrintEngine.SetFlash(true);//打开闪喷
                                 msg = $"开启闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal2}}}";
                                 Log4Net.Info(msg);
                             }
 
                             break;
-                        case 6://20230410修改：附加一次运动，确保墨车运动到清洗站工作位，以提供手动操作
-                            if (PauseFlag == 1)//20230410新增：
+                        case 3://可选：Pause 附加
+                            if (PauseFlag == 1)
                             {
-                                BackToStation(758/*734.275*//*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
-                                BackToStation(317/*321.455*//*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
+                                BackToStation(INKCAR_REVISION_X, (float)ReturnVelocity2, false, true, 1);
+                                BackToStation(INKCAR_REVISION_Y, (float)ReturnVelocity2, true, true, 1);
                             }
-
                             break;
                     }
                 }
@@ -10531,209 +10594,97 @@ namespace BinderJetting
         //20230420新增：自动喷墨逻辑,采用双PASS方式进行打印
         public void AutoPrintThread4(int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth, int NotGoCleanStationFlag)//20220513新建:自动喷墨运动动作
         {
-            string msg = $"进入：AutoPrintThread3！";
+            string msg = $"进入：AutoPrintThread4！";
             Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 
             if (Command == 0) { }
-            else if (Command == 1)//第2代设备的打印PASS总数为6
+            // TwoPassPrintPerSixTimes：单层 6 个 PASS（两组各 3 道），末道仅 case5 收口去清洗；case3～5 用 +3×步距与第一组衔接。
+            else if (Command == 1)
             {
-                double PrintWidth = 350;/*宽度值设为350MM*/ double PrintHeadWidth = 54;/*宽度值设为5MM*/
-                double ReturnVelocity1 = m_szMovSpeed/*20*/;//喷墨移动速度
-                ReturnVelocity1 = m_MovSpeed;
-                double ReturnVelocity2 = m_BackCleanMovSpeed;//20230404新增：
+                double passPitchY = InkCarPassPitchYMm;
+                double ReturnVelocity1 = m_MovSpeed;
+                double ReturnVelocity2 = m_BackCleanMovSpeed;
+                double yTierShift = PassIndex >= 3 ? 3 * passPitchY : 0.0;
+
+                switch (PassIndex)
                 {
-                    switch (PassIndex)
-                    {
-                        case 0://第1PASS
+                    case 0:
 #region 监控指令：喷墨拍摄位点1
-                            //toCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 1);//20230113新建且批注：监控发送指令
-                            }
+                        if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
+                            toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 1);
 #endregion
-                            //20220920新增：在第1PASS打印运动之前，需要关闭闪喷：否则会导致打印乱码
-                            bool nRetVal = MeteorPrintEngine.SetFlash(false);//关闭闪喷
-                            /*string*/
-                            msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal}}}";
-                            Log4Net.Info(msg);
+                        bool nRetFlash0 = MeteorPrintEngine.SetFlash(false);
+                        Log4Net.Info($"关闭闪喷：{{{nRetFlash0}}}");
+                        BackToStation(15 + yTierShift - YJetOffWidth, (float)ReturnVelocity2, true, false, 1);
+                        BackToStation(425, (float)ReturnVelocity2, false, true, 1);
+                        BackToStation(25, (float)ReturnVelocity1, false, true, 1);
+                        BackToStation(15 + yTierShift + passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);
+                        if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
+                            toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 2);
+                        break;
+                    case 1:
+                        BackToStation(425, (float)ReturnVelocity1, false, true, 1);
+                        BackToStation(15 + yTierShift + 2 * passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);
+                        if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
+                            toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 3);
+                        break;
+                    case 2://第一组末道：第三道扫描后 Y 进给至第二组起点（不接清洗、不去 425，与 Thread2 case2 整层收口区分）
+                        BackToStation(25, (float)ReturnVelocity1, false, true, 1);
+                        if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
+                            toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 4);
+                        BackToStation(15 + 3 * passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//与 case3 首条 Y 对齐（yTierShift=3W）
+                        break;
+                    case 3:
+                        if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
+                            toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 1);
+                        bool nRetFlash3 = MeteorPrintEngine.SetFlash(false);//第二组起手仍关闪喷
+                        Log4Net.Info($"关闭闪喷（第2组首道）：{{{nRetFlash3}}}");
+                        BackToStation(15 + yTierShift - YJetOffWidth, (float)ReturnVelocity2, true, false, 1);
+                        BackToStation(425, (float)ReturnVelocity2, false, true, 1);
+                        BackToStation(25, (float)ReturnVelocity1, false, true, 1);
+                        BackToStation(15 + yTierShift + passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);
+                        if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
+                            toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 2);
+                        break;
+                    case 4:
+                        BackToStation(425, (float)ReturnVelocity1, false, true, 1);
+                        BackToStation(15 + yTierShift + 2 * passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);
+                        if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
+                            toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 3);
+                        break;
+                    case 5://整层收口：等价 AutoPrintThread2 末 Pass
+                        BackToStation(25, (float)ReturnVelocity1, false, true, 1);
+                        if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
+                            toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 4);
+                        BackToStation(425, (float)ReturnVelocity1, false, true, 1);
 
-                            BackToStation(15 - YJetOffWidth, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false/*true*/, 1);//准备Y向进给到位：停靠在里侧，向外侧步进喷头幅面
-                            BackToStation(425, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true, 1);//准备移动打印到位：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + YJetOffWidth + (25.4 / 1200), (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点2
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
+                        if (NotGoCleanStationFlag != 1)
+                        {
+                            if (PauseFlag != 1)
                             {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 2);//20230113新建且批注：监控发送指令
+                                BackToStation(INKCAR_CLEAN_STATION_X, (float)ReturnVelocity2, false, false, 1);
+                                BackToStation(INKCAR_CLEAN_STATION_Y, (float)ReturnVelocity2, true, false, 1);
+                                WaitStop(1);
+                                WaitStop(2);
                             }
-#endregion
-
-                            break;
-                        case 1://第2PASS
-                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面--------------->
-                            BackToStation(15 + 1 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点3
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
+                            else if (PauseFlag == 1)
                             {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 3);//20230113新建且批注：监控发送指令
+                                BackToStation(INKCAR_REVISION_X, (float)ReturnVelocity2, false, true, 1);
+                                BackToStation(INKCAR_REVISION_Y, (float)ReturnVelocity2, true, true, 1);
                             }
-#endregion
-
-                            break;
-                        case 2://第3PASS
-                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 1 * PrintHeadWidth + YJetOffWidth + (25.4 / 1200), (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
-
-#region 监控指令：喷墨拍摄位点4
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 4);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-                            break;
-                        case 3://第4PASS
-                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面--------------->
-                            BackToStation(15 + 2 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点5
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[4])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 5);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-
-                            break;
-                        case 4://第5Pass
-                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 2 * PrintHeadWidth + YJetOffWidth + (25.4 / 1200), (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点6
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 6);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-
-                            break;
-                        case 5://第6Pass
-                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 3 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点6
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 6);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-
-                            break;
-                        case 6://第7Pass
-                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 3 * PrintHeadWidth + YJetOffWidth + (25.4 / 1200), (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点6
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 6);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-
-                            break;
-                        case 7://第8Pass
-                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 4 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点6
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 6);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-
-                            break;
-                        case 8://第9Pass
-                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 4 * PrintHeadWidth + YJetOffWidth + (25.4 / 1200), (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点6
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 6);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-
-                            break;
-                        case 9://第10Pass
-                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 5 * PrintHeadWidth - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点6
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 6);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-
-                            break;
-                        case 10://第11Pass
-                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 5 * PrintHeadWidth + YJetOffWidth + (25.4 / 1200), (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点6
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 6);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-
-                            break;
-
-                        case 11://第12Pass
-                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-
-                            if (NotGoCleanStationFlag == 1) //不回清洗站
-                            { }
-                            else//回清洗站
-                            {
-                                if (PauseFlag != 1)//回原点
-                                {
-                                    BackToStation(780/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, false, 1);//回到原点：X=50MM处<---------------//20220520新建：位置修改为780MM处，清洗工作位
-                                    BackToStation(96 + 25/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false, 1);//回到原点：Y=50MM处//20220520新建：位置修改为96MM处，清洗工作位//20220525修改：补偿25
-                                    WaitStop(1);//20220520新建：等停墨车第1轴：X方向//外部等停
-                                    WaitStop(2);//20220520新建：//等停墨车第2轴：Y方向//外部等停
-                                }
-                                else if (PauseFlag == 1)//20230410新增：
-                                {
-                                    BackToStation(734.275/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
-                                    BackToStation(321.455/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
-                                }
-#region 监控指令：喷墨拍摄位点7
-                                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
-                                {
-                                    toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 7);//20230113新建且批注：监控发送指令
-                                }
-#endregion
-
-                                //20220920新增：在第5PASS打印运动之后，需要开启闪喷：否则会因为胶水的流动性问题，导致打印不连续
-                                bool nRetVal2 = MeteorPrintEngine.SetFlash(true);//打开闪喷
-                                msg = $"开启闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal2}}}";
-                                Log4Net.Info(msg);
-                            }
-
-                            break;
-                        case 12://20230410修改：附加一次运动，确保墨车运动到清洗站工作位，以提供手动操作
-                            if (PauseFlag == 1)//20230410新增：
-                            {
-                                BackToStation(758/*734.275*//*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
-                                BackToStation(317/*321.455*//*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
-                            }
-
-                            break;
-                    }
+                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
+                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 7);
+                            bool nRetFlash5 = MeteorPrintEngine.SetFlash(true);//打开闪喷
+                            Log4Net.Info($"开启闪喷（Thread4末道）：{{{nRetFlash5}}}");
+                        }
+                        break;
+                    case 6://原 12-PASS 之 case12：层后或暂停附加，仅 Revision 路径（与 Thread2 case3 / Thread5 case3 同语义）
+                        if (PauseFlag == 1)
+                        {
+                            BackToStation(INKCAR_REVISION_X, (float)ReturnVelocity2, false, true, 1);
+                            BackToStation(INKCAR_REVISION_Y, (float)ReturnVelocity2, true, true, 1);
+                        }
+                        break;
                 }
             }
             else { }
@@ -10744,9 +10695,10 @@ namespace BinderJetting
             Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 
             if (Command == 0) { }
-            else if (Command == 1)//第2代设备的打印PASS总数为6
+            else if (Command == 1)//小幅面偏移：单层 InkCarPassCountPerLayer PASS，Y 步距 InkCarPassPitchYMm
             {
-                double PrintWidth = 147;/*宽度值设为350MM*/ double PrintHeadWidth = 54;/*宽度值设为5MM*/
+                double PrintWidth = 147;/*兼容旧局部参数*/
+                double passPitchY = InkCarPassPitchYMm;/*每 PASS Y 向步距 mm*/
                 double OffWidth = (310-147)/ 2/* + YJetBaseOffWidth*/;//20230424新增：小幅面打印时，中心偏移距离
                 double ReturnVelocity1 = m_szMovSpeed/*20*/;//喷墨移动速度
                 ReturnVelocity1 = m_MovSpeed;
@@ -10754,24 +10706,21 @@ namespace BinderJetting
                 {
                     switch (PassIndex)
                     {
-                        case 0://第1PASS
+                        case 0://第1 PASS
 #region 监控指令：喷墨拍摄位点1
-                            //toCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 1);//20230113新建且批注：监控发送指令
                             }
 #endregion
-                            //20220920新增：在第1PASS打印运动之前，需要关闭闪喷：否则会导致打印乱码
                             bool nRetVal = MeteorPrintEngine.SetFlash(false);//关闭闪喷
-                            /*string*/
                             msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal}}}";
                             Log4Net.Info(msg);
 
-                            BackToStation(15 - YJetOffWidth + OffWidth, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false/*true*/, 1);//准备Y向进给到位：停靠在里侧，向外侧步进喷头幅面
-                            BackToStation(425, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true, 1);//准备移动打印到位：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + YJetOffWidth + (25.4 / 1200 + OffWidth), (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
+                            BackToStation(15 - YJetOffWidth + OffWidth, (float)ReturnVelocity2, true, false, 1);//准备 Y
+                            BackToStation(425, (float)ReturnVelocity2, false, true, 1);//准备 X
+                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印//
+                            BackToStation(15 + passPitchY - YJetOffWidth + OffWidth, (float)ReturnVelocity1, true, true, 1);//与 AutoPrintThread2 首条对齐：末位 Y≈15+passPitchY
 
 #region 监控指令：喷墨拍摄位点2
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
@@ -10781,9 +10730,9 @@ namespace BinderJetting
 #endregion
 
                             break;
-                        case 1://第2PASS
-                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面--------------->
-                            BackToStation(15 + 1 * PrintHeadWidth - YJetOffWidth + OffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
+                        case 1://第2 PASS
+                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印//
+                            BackToStation(15 + 2 * passPitchY - YJetOffWidth + OffWidth, (float)ReturnVelocity1, true, true, 1);//第 2 条带 Y：与 AutoPrintThread2.case1 一致
 
 #region 监控指令：喷墨拍摄位点3
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
@@ -10793,10 +10742,8 @@ namespace BinderJetting
 #endregion
 
                             break;
-                        case 2://第3PASS
-                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 1 * PrintHeadWidth + YJetOffWidth + (25.4 / 1200) + OffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
+                        case 2://第3 PASS：末道 + 收口 + 回站
+                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//末道扫描
 
 #region 监控指令：喷墨拍摄位点4
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
@@ -10804,34 +10751,7 @@ namespace BinderJetting
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 4);//20230113新建且批注：监控发送指令
                             }
 #endregion
-                            break;
-                        case 3://第4PASS
-                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面--------------->
-                            BackToStation(15 + 2 * PrintHeadWidth - YJetOffWidth + OffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点5
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[4])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 5);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-
-                            break;
-                        case 4://第5Pass
-                            BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
-                            BackToStation(15 + 2 * PrintHeadWidth + YJetOffWidth + (25.4 / 1200) + OffWidth, (float)ReturnVelocity1, true, true, 1);//进给一次：停靠在里侧，向外侧步进喷头幅面
-
-#region 监控指令：喷墨拍摄位点6
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[5])
-                            {
-                                toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 6);//20230113新建且批注：监控发送指令
-                            }
-#endregion
-
-                            break;
-
-                        case 5://第12Pass
-                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印一次：停靠在右侧，向左侧运动打印幅面<---------------
+                            BackToStation(425, (float)ReturnVelocity1, false, true, 1);//收口
 
                             if (NotGoCleanStationFlag == 1) //不回清洗站
                             { }
@@ -10839,15 +10759,15 @@ namespace BinderJetting
                             {
                                 if (PauseFlag != 1)//回原点
                                 {
-                                    BackToStation(780/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, false, 1);//回到原点：X=50MM处<---------------//20220520新建：位置修改为780MM处，清洗工作位
-                                    BackToStation(96 + 25/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false, 1);//回到原点：Y=50MM处//20220520新建：位置修改为96MM处，清洗工作位//20220525修改：补偿25
+                                    BackToStation(INKCAR_CLEAN_STATION_X, (float)ReturnVelocity2, false, false, 1);//回到清洗/待机工作位 X
+                                    BackToStation(INKCAR_CLEAN_STATION_Y, (float)ReturnVelocity2, true, false, 1);//回到清洗/待机工作位 Y
                                     WaitStop(1);//20220520新建：等停墨车第1轴：X方向//外部等停
                                     WaitStop(2);//20220520新建：//等停墨车第2轴：Y方向//外部等停
                                 }
                                 else if (PauseFlag == 1)//20230410新增：
                                 {
-                                    BackToStation(734.275/*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
-                                    BackToStation(321.455/*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
+                                    BackToStation(INKCAR_REVISION_X, (float)ReturnVelocity2, false, true /*false*/, 1);//到达观察/临停位置
+                                    BackToStation(INKCAR_REVISION_Y, (float)ReturnVelocity2, true, true, 1);//到达观察/临停位置
                                 }
 #region 监控指令：喷墨拍摄位点7
                                 if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
@@ -10856,25 +10776,24 @@ namespace BinderJetting
                                 }
 #endregion
 
-                                //20220920新增：在第5PASS打印运动之后，需要开启闪喷：否则会因为胶水的流动性问题，导致打印不连续
                                 bool nRetVal2 = MeteorPrintEngine.SetFlash(true);//打开闪喷
                                 msg = $"开启闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal2}}}";
                                 Log4Net.Info(msg);
                             }
 
                             break;
-                        case 6://20230410修改：附加一次运动，确保墨车运动到观察站（手动清洗站）工作位，以提供手动操作
+                        case 3://20230410修改：Pause / 可选回观察站（原 case6）
                             if (PauseFlag == 1)//20230410新增：暂停指定下，要回观察站
                             {
-                                BackToStation(758/*734.275*//*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
-                                BackToStation(317/*321.455*//*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
+                                BackToStation(INKCAR_REVISION_X, (float)ReturnVelocity2, false, true /*false*/, 1);//到达观察/临停位置
+                                BackToStation(INKCAR_REVISION_Y, (float)ReturnVelocity2, true, true, 1);//到达观察/临停位置
                             }
                             else //20240105新增：在非暂停时在执行的时候，也执行会观察站操作
                             {
                                 if (k_RYSYSParamAutoPrintParamInTest.m_nBackToRevisionStationAfterClean == 1)//是否回观察站
                                 {
-                                    BackToStation(758/*734.275*//*710*//*710*//*735*/, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true /*false*/, 1);//到达刮墨位置
-                                    BackToStation(317/*321.455*//*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达刮墨位置
+                                    BackToStation(INKCAR_REVISION_X, (float)ReturnVelocity2, false, true /*false*/, 1);//到达观察/临停位置
+                                    BackToStation(INKCAR_REVISION_Y, (float)ReturnVelocity2, true, true, 1);//到达观察/临停位置
                                 }
                             }
 
@@ -10888,7 +10807,15 @@ namespace BinderJetting
         /// <summary>阶段A收敛：UI「自动清洗」与主界面 EquipmentMotionLogic3 Command1 相同，走 AutoCleanThread2。</summary>
         private void UiThreadEntry_AutoCleanThread2()
         {
-            AutoCleanThread2(k_fBackCleanMovSpeed);
+            m_bManualAutoCleanEntry = true;
+            try
+            {
+                AutoCleanThread2(k_fBackCleanMovSpeed);
+            }
+            finally
+            {
+                m_bManualAutoCleanEntry = false;
+            }
         }
 
         /// <summary>阶段A收敛：UI「自动进给铺粉」与主界面 EquipmentMotionLogic3 Command2 相同，走 NewAutoSupplyPowderThread2*；层/工序号用 0,10 与自动打印占位一致。</summary>
@@ -12458,6 +12385,19 @@ namespace BinderJetting
             public double m_dInkSpreaderHomeposition = 90/*40*//*5*/;//20220526新建：墨车Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）//20230407修改：修正后的复位值为106°
             public double m_dSraperAngleOffHome = 75;//20230417新建：墨车Spreader距离HOME的角度位置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）//20230407修改
             public double m_dInkScraperDebugAngle = 150;//20260420新增：刮墨轴独立调角的目标角度，单位度（°）
+
+            /// <summary>2026-04-27 新版清洗：刮片在压墨区第一目标角（°），与 TrapMoveSpreaderAxis 配合 m_nCleanTrapAngleSign。</summary>
+            public double m_dCleanWipeStage1AngleDeg = 170;
+            /// <summary>2026-04-27 新版清洗：墨车停稳后刮片第二目标角（°，相对机械 home 的累计角位）。</summary>
+            public double m_dCleanWipeStage2AngleDeg = 200;
+            /// <summary>2026-04-27 新版清洗：带角刮拭时墨车沿 X 移动量（mm）。</summary>
+            public double m_dCleanWipeTravelMm = 200;
+            /// <summary>2026-04-27 新版清洗：刮拭时墨车 X 向；1=X 增大方向（与原 750→855 一致），-1=X 减小。</summary>
+            public int m_nCleanWipeInkXPositive = 1;
+            /// <summary>2026-04-27 新版清洗：TrapMoveSpreaderAxis 角度符号；取 ±1，默认 -1 与历史调用习惯一致，现场可改为 +1。</summary>
+            public int m_nCleanTrapAngleSign = -1;
+            /// <summary>2026-04-27 新版清洗：反向回转后是否再执行 SetBackSpreaderAxis 物理寻零（1=是）。</summary>
+            public int m_nCleanFinishWithPhysicalHome = 1;
 
             public string m_zCurrectLoadWaveName = "null";//20230419新增：当前加载的波形名称
 

@@ -1,8 +1,8 @@
 ﻿#define DataProcessDebugMode
 //#define SinglePassPrintMode
 #define TwoPassPrintMode
-//#define TwoPassPrintPerSixTimes
-#define TwoPassPrintPerThreeTimes
+//#define TwoPassPrintPerSixTimes  // 已停用：6 PASS 大图分条渲染
+#define TwoPassPrintPerThreeTimes  // 当前：单层 3 PASS（CreatTwoPassFigure(..., 3, ...)）
 #define TEMP_METEOR_BITMAP_EXPORT
 
 
@@ -446,7 +446,7 @@ namespace BinderJetting
             deviceContext.FillRectangle(rectangleF, BaseBrush);
             deviceContext.DrawRectangle(rectangleF, OutlineBrush, 1.25f / (0.5f * m_zoomScale));
 #if TwoPassPrintMode
-#if TwoPassPrintPerSixTimes
+#if false // 原 TwoPassPrintPerSixTimes：6 PASS 停用
             //20230419新增：指定基板的Y方向区域，不超标
             /*RawRectangleF*/
             rectangleF = new RawRectangleF(-PlateCenterOffsetXMm * mm2Dip, -PlateCenterOffsetYMm * mm2Dip, PlateCenterOffsetXMm * mm2Dip, -(PlateCenterOffsetYMm - 10f) * mm2Dip);//左上右下//Draw Base contoul and back: 绘制基板轮廓背景
@@ -1701,10 +1701,11 @@ namespace BinderJetting
                 Log4Net.Info($"RenderToWic: action=false, skip, index={index}, subindex={subindex}, ActualStartNum={ActualStartNum}");
             }
         }
-        public void CreatTwoPassFigure(/*PassHeight = 1280 bit*/ int initialOffset/*第2幅图像的偏移数据*/, int numPasses/*可以计算出来:为6PASS*/, System.Drawing.Bitmap clone, ref System.Drawing.Bitmap outputImage)//20230420新增：
+        public void CreatTwoPassFigure(int initialOffset/*第2幅图像的偏移数据*/, int numPasses, System.Drawing.Bitmap clone, ref System.Drawing.Bitmap outputImage)//20230420新增：
         {
             float renderDpiY = GetRenderDpiY();
-            int passHeight = 1280;
+            // 与老喷头 1280 行/块不同：新农头 64.96mm≈SwathBaseRowsPerPrintHead(1024)，与 Meteor/Swath 行基一致。
+            int passHeight = PrintRasterConfig.SwathBaseRowsPerPrintHead;
             // Load the input images
             System.Drawing.Bitmap inputImage1 = clone;//new System.Drawing.Bitmap("image1.bmp");
             //System.Drawing.Bitmap inputImage2 = clone;//new System.Drawing.Bitmap("image2.bmp");
@@ -1862,7 +1863,7 @@ namespace BinderJetting
 #endif
 
 #if TwoPassPrintMode
-#if TwoPassPrintPerSixTimes
+#if false // 原 TwoPassPrintPerSixTimes：6 PASS 停用
                 System.Drawing.Bitmap outputImage = null;
                 CreatTwoPassFigure(0/*1280,*//*355*/, 6, clone, ref outputImage);
 #if TEMP_METEOR_BITMAP_EXPORT

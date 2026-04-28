@@ -1,8 +1,8 @@
 ﻿//#define DataProcessDebugMode
 //#define SinglePassPrintMode
 #define TwoPassPrintMode
-//#define TwoPassPrintPerSixTimes
-#define TwoPassPrintPerThreeTimes
+//#define TwoPassPrintPerSixTimes  // 已停用：原 6 PASS（AutoPrintThread4 / CreatTwoPassFigure 6 道），只保留下方 3 PASS
+#define TwoPassPrintPerThreeTimes  // 当前：单层 3 PASS，Command 6 → AutoPrintThread5
 
 
 using Composation;
@@ -2432,16 +2432,16 @@ namespace BinderJetting
                         }
                         #endregion
                         
-                        int PassNum = 6;
+                        int PassNum = 3;//与 Meteor 单层 PASS 数一致（墨车每道步距见手动操作 InkCarPassPitchYMm）
 #if SinglePassPrintMode
-                        PassNum = 6;
+                        PassNum = 3;
 #endif
 #if TwoPassPrintMode
-#if TwoPassPrintPerSixTimes
-                        PassNum = 12;
+#if false // 原 TwoPassPrintPerSixTimes：6 PASS 已停用
+                        PassNum = 6;//两组各 3 道
 #endif
 #if TwoPassPrintPerThreeTimes
-                        PassNum = 6;
+                        PassNum = 3;
 #endif
 #endif
 
@@ -2668,7 +2668,7 @@ namespace BinderJetting
                                     }
 #endif
 #if TwoPassPrintMode
-#if TwoPassPrintPerSixTimes
+#if false // 原 TwoPassPrintPerSixTimes：6 PASS 已停用
                                     if (g_nRePrintTimes == 1)//20230418批注：重喷次数取值范围为：1-4
                                     {
                                         Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=6(6次)，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
@@ -2676,25 +2676,27 @@ namespace BinderJetting
                                     }
 #endif
 #if TwoPassPrintPerThreeTimes
-                                    if (g_nRePrintTimes == 1)//20230418批注：重喷次数取值范围为：1-4
+                                    // 单层 3 PASS：nPassID 与 Meteor Pass 0..2 对齐；YJet 半宽三道对应原「offset-15/10/5」逻辑（按 PASS 固定，不再按层号 k%3 轮转）
+                                    if (g_nRePrintTimes == 1)
                                     {
-                                        ///*int*/k = index * RePrintTimes + subindex;
-                                        if (k % 3 == 1 || k == 0)//15mm偏移量
+                                        double yHalf0 = g_RYSYSParam.m_dYJetOff / 2;
+                                        double yHalf1 = (g_RYSYSParam.m_dYJetOff - 5) / 2;
+                                        double yHalf2 = (g_RYSYSParam.m_dYJetOff - 10) / 2;
+                                        if (nPassID == 0)
                                         {
-                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=6(3次/offset-15)，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
-                                            EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0, 0);//自动喷墨运动逻辑
+                                            Log4Net.Info($"打印主循环：Command=6(3PASS/P0)，k={k}，nPassID={nPassID}，YHalf={yHalf0}，PauseFlag={m_nPauseMovedFlag}");
+                                            EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, yHalf0, 0, 0);
                                         }
-                                        else if (k % 3 == 2)//10mm偏移量
+                                        else if (nPassID == 1)
                                         {
-                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=6(3次/offset-10)，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
-                                            EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, (g_RYSYSParam.m_dYJetOff - 5) / 2, 0, 0/*2.5*/);//自动喷墨运动逻辑
+                                            Log4Net.Info($"打印主循环：Command=6(3PASS/P1)，k={k}，nPassID={nPassID}，YHalf={yHalf1}，PauseFlag={m_nPauseMovedFlag}");
+                                            EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, yHalf1, 0, 0);
                                         }
-                                        else if (k % 3 == 0 && k != 0)//5mm偏移量
+                                        else
                                         {
-                                            Log4Net.Info($"打印主循环：准备发起喷墨运动，Command=6(3次/offset-5)，k={k}，nPassID={nPassID}，g_nRePrintTimes={g_nRePrintTimes}，PauseFlag={m_nPauseMovedFlag}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
-                                            EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, (g_RYSYSParam.m_dYJetOff - 10) / 2, 0, 0/*5.0*/);//自动喷墨运动逻辑
+                                            Log4Net.Info($"打印主循环：Command=6(3PASS/P2)，k={k}，nPassID={nPassID}，YHalf={yHalf2}，PauseFlag={m_nPauseMovedFlag}");
+                                            EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, yHalf2, 0, 0);
                                         }
-                                        //EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0);//自动喷墨运动逻辑
                                     }
 #endif
 #endif
@@ -2714,11 +2716,11 @@ namespace BinderJetting
 
                             float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
                             float m_BackCleanMovSpeed = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
-#if TwoPassPrintPerSixTimes
-                            EquipmentMotionLogic3(0, 6, 12/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0);//自动喷墨运动逻辑
+#if false // 原 TwoPassPrintPerSixTimes：6 PASS 已停用
+                            EquipmentMotionLogic3(0, 6, 6/*PassIndex：Thread4 附加观察位*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0);//自动喷墨运动逻辑
 #endif
 #if TwoPassPrintPerThreeTimes
-                            EquipmentMotionLogic3(0, 6, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0, 0);//自动喷墨运动逻辑
+                            EquipmentMotionLogic3(0, 6, 3/*PassIndex：Thread5 可选观察*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0, 0);//自动喷墨运动逻辑
 #endif
                         }
 
@@ -2816,14 +2818,14 @@ namespace BinderJetting
                             m_nPauseMovedFlag = 0;
                             if (PrintConrolFlag == "PausePrint") { m_nPauseMovedFlag = 1; }
 #if SinglePassPrintMode
-                            EquipmentMotionLogic3(0, 4, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0,0);//自动喷墨运动逻辑
+                            EquipmentMotionLogic3(0, 4, 3/*PassIndex：Thread2 可选观察*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0,0);//自动喷墨运动逻辑
 #endif
 #if TwoPassPrintMode //true
-#if TwoPassPrintPerSixTimes
-                            EquipmentMotionLogic3(0, 6, 12/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0);//自动喷墨运动逻辑
+#if false // 原 TwoPassPrintPerSixTimes：6 PASS 已停用
+                            EquipmentMotionLogic3(0, 6, 6/*PassIndex：Thread4 附加观察*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0);//自动喷墨运动逻辑
 #endif
 #if TwoPassPrintPerThreeTimes
-                            EquipmentMotionLogic3(0, 6, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0, 0);//自动喷墨运动逻辑
+                            EquipmentMotionLogic3(0, 6, 3/*PassIndex：Thread5 可选观察*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0, 0);//自动喷墨运动逻辑
 #endif
 #endif
                             m_nPauseMovedFlag = 2;//已经运动过额标志位
@@ -3040,16 +3042,16 @@ namespace BinderJetting
                                                                //{
                                                                //    sendMessageToCamera.SendMessageFromSharedMemory(false, renderIndex, PassItems + 1);//20230113新建且批注：监控发送指令
                                                                //}
-                            int PassNum = 6;
+                            int PassNum = 3;
 #if SinglePassPrintMode
-                            PassNum = 6;
+                            PassNum = 3;
 #endif
 #if TwoPassPrintMode
-#if TwoPassPrintPerSixTimes
-                            PassNum = 12;
+#if false // 原 TwoPassPrintPerSixTimes：6 PASS 已停用
+                            PassNum = 6;
 #endif
 #if TwoPassPrintPerThreeTimes
-                            PassNum = 6;
+                            PassNum = 3;
 #endif
 #endif
                             for (PassItems = 0; PassItems < PassNum/*6*//*7*/; PassItems++)//20220531修改：总共数量为6 PASS
@@ -3239,11 +3241,21 @@ namespace BinderJetting
                                         }
 #endif
 #if TwoPassPrintMode
-#if TwoPassPrintPerSixTimes
+#if false // 原 TwoPassPrintPerSixTimes：6 PASS 已停用
                                         EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0);//自动喷墨运动逻辑
 #endif
 #if TwoPassPrintPerThreeTimes
-                                        EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, g_RYSYSParam.m_dYJetOff / 2, 0, 0);//自动喷墨运动逻辑
+                                        {// 与 PrintTaskTHREAD 主循环一致：3 PASS 按 nPassID 分档 YJet 偏置，Command 6→AutoPrintThread5
+                                            double yHalf0 = g_RYSYSParam.m_dYJetOff / 2;
+                                            double yHalf1 = (g_RYSYSParam.m_dYJetOff - 5) / 2;
+                                            double yHalf2 = (g_RYSYSParam.m_dYJetOff - 10) / 2;
+                                            if (nPassID == 0)
+                                                EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, yHalf0, 0, 0);
+                                            else if (nPassID == 1)
+                                                EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, yHalf1, 0, 0);
+                                            else
+                                                EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, yHalf2, 0, 0);
+                                        }
 #endif
 #endif
                                         CurrentStartPrintLayer = k;
@@ -3336,14 +3348,14 @@ namespace BinderJetting
                             m_nPauseMovedFlag = 0;
                             if (PrintConrolFlag == "PausePrint") { m_nPauseMovedFlag = 1; }
 #if SinglePassPrintMode
-                            EquipmentMotionLogic3(0, 4, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0,1);//自动喷墨运动逻辑
+                            EquipmentMotionLogic3(0, 4, 3/*PassIndex：Thread2 可选观察*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0,1);//自动喷墨运动逻辑
 #endif
 #if TwoPassPrintMode
-#if TwoPassPrintPerSixTimes
-                            EquipmentMotionLogic3(0, 6, 12/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 1);//自动喷墨运动逻辑
+#if false // 原 TwoPassPrintPerSixTimes：6 PASS 已停用
+                            EquipmentMotionLogic3(0, 6, 6/*PassIndex：Thread4 附加观察*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 1);//自动喷墨运动逻辑
 #endif
 #if TwoPassPrintPerThreeTimes
-                            EquipmentMotionLogic3(0, 6, 6/*nPassID*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 1, 0);//自动喷墨运动逻辑
+                            EquipmentMotionLogic3(0, 6, 3/*PassIndex：Thread5 可选观察*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 1, 0);//自动喷墨运动逻辑
 #endif
 #endif
                             m_nPauseMovedFlag = 2;//已经运动过额标志位
@@ -3799,7 +3811,7 @@ namespace BinderJetting
                 else if (Command == 6)//20230418新增：自动喷墨逻辑,采用双PASS方式进行打印，第2PASS打印逻辑
                 {
 #if TwoPassPrintMode
-#if TwoPassPrintPerSixTimes
+#if false // 原 TwoPassPrintPerSixTimes：6 PASS 已停用
                     Log4Net.Info($"EquipmentMotionLogic3: 进入Command=6分支(6次)，准备调用AutoPrintThread4，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3.AutoPrintThread4(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag);//
                     Log4Net.Info($"EquipmentMotionLogic3: 完成调用AutoPrintThread4(6次)，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
@@ -3813,12 +3825,14 @@ namespace BinderJetting
 #endif
 #endif
                 }
-                else if (Command == 7)//20230418新增：自动喷墨逻辑,采用双PASS方式进行打印，第2PASS打印逻辑
+                else if (Command == 7)//原为 AutoPrintThread4（6 PASS 链路）；已与 6 PASS 一并停用，避免误切入 Thread4
                 {
+#if false
                     Log4Net.Info($"EquipmentMotionLogic3: 进入Command=7分支，准备调用AutoPrintThread4，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3.AutoPrintThread4(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag);//
                     Log4Net.Info($"EquipmentMotionLogic3: 完成调用AutoPrintThread4(命令7)，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3?.LogInkCarAxisSnapshot($"EquipmentMotionLogic3: Command=7, PassIndex={PassIndex} 执行后轴快照");
+#endif
                 }
                 else
                 {

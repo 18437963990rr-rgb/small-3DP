@@ -22,7 +22,13 @@ namespace LaserAdd.PrintRaster
         public static int FullPlateBitmapWidthPixels => MmToPixelsPlusOne(PlateWidthMm, SliceDpi);
         public static int FullPlateBitmapHeightPixels => MmToPixelsPlusOne(PlateHeightMm, SliceDpi);
 
-        /// <summary>Meteor 分条用：每颗喷头在 Y 上对应的行数基（与常见译码/HiPrint 约定一致）。</summary>
+        /// <summary>
+        /// 喷头在<strong>副扫描（走纸）</strong>方向上，单次成像块对应的<strong>喷嘴可寻址行数</strong>：
+        /// 新农头约为 <b>1024 行 / 64.96mm</b>（与 Meteor 译码一包数据行对齐）；
+        /// 老款喷头在 RIP 多 PASS（<c>CreatTwoPassFigure</c>）层内曾对应 <b>1280</b> 行、约五十多毫米幅宽的工艺。
+        /// 更换喷头时请将本常量与喷头/METEOR 配置保持一致；多 PASS 拼图条高应优先使用本值而非按 DPI×mm 重算，
+        /// 除非已确认 Raster DPI 等同于喷嘴寻址 DPI。
+        /// </summary>
         public const int SwathBaseRowsPerPrintHead = 1024;
         /// <summary>1=单喷头条带 1024 行；2=双喷头条带 2048 行。与 Meteor/喷头 cfg 需一致。切回单喷改为 1 并重新生成。</summary>
         public const int PrintHeadCount = 2;
