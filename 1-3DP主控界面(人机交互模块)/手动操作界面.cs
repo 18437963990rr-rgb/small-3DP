@@ -44,6 +44,12 @@ namespace BinderJetting
         const int DriverPulsePerMM = 1000;              // 伺服驱动器每毫米发送脉冲数（它轴沿用）
         const int XMaxDistanceMM = 860;                 // X轴正负行程开关之间距离
         const int YMaxDistanceMM = 470;                 // Y轴正负行程开关之间距离
+        // 墨车 X/Y 的硬件方向、硬件正负限位均与软件坐标系相反；
+        // 软件层统一做镜像：坐标显示、定位目标、JOG/点动、回零都按同一组映射处理。
+        const int InkCarXCmdSign = -1;
+        const int InkCarYCmdSign = -1;
+        const int InkCarXDisplaySign = -1;
+        const int InkCarYDisplaySign = -1;
 
         private const bool DisableRoyalStartupPolling = true;
 
@@ -1043,7 +1049,10 @@ namespace BinderJetting
                 {
                     RollerParam = System.Math.Abs(RollerParam);
                 }
-                motionMap.JogMotion(AXIS, ref motionMap.jogPrm, vel, RollerParam);
+                double jogVel = vel;
+                if (AXIS == 1 || AXIS == 2)
+                    jogVel *= GetInkCarCmdSign(AXIS);
+                motionMap.JogMotion(AXIS, ref motionMap.jogPrm, jogVel, RollerParam);
 
                 string msg = $"手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{{第{AXIS}轴}},运动速度{{{m_sVel}MM/s}}";
                 Log4Net.Info(msg);
@@ -1131,7 +1140,10 @@ namespace BinderJetting
                 {
                     RollerParam = -System.Math.Abs(RollerParam);
                 }
-                motionMap.JogMotion(AXIS, ref motionMap.jogPrm, -vel, RollerParam);//这一行代码应该没有问题
+                double jogVel = -vel;
+                if (AXIS == 1 || AXIS == 2)
+                    jogVel *= GetInkCarCmdSign(AXIS);
+                motionMap.JogMotion(AXIS, ref motionMap.jogPrm, jogVel, RollerParam);//这一行代码应该没有问题
                 //motionMap.JogMotion(1, ref motionMap.jogPrm, vel);
 
                 string msg = $"手动负向JOG指令（8轴运控板卡系统） ====》：输出AXIS{{第{AXIS}轴}},运动速度{{{m_sVel}MM/s}}";
@@ -1910,7 +1922,12 @@ namespace BinderJetting
                         RollerParam = System.Math.Abs(RollerParam);
                     }
                     int RollerDirection = k_RYSYSParamAutoPrintParamInTest.m_nRollerRotateDirection;//20220527新增：
-                    motionMap.TrapMotion(AXIS, ref motionMap.trapPrm, position, vel, RollerParam, RollerDirection, WaitStopFlag);//20220512修改：默认点动运动等停为false，特殊情况下不等停
+                    int cmdPosition = position;
+                    if (AXIS == 1 || AXIS == 2)
+                    {
+                        cmdPosition = cmdPosition * GetInkCarCmdSign(AXIS);
+                    }
+                    motionMap.TrapMotion(AXIS, ref motionMap.trapPrm, cmdPosition, vel, RollerParam, RollerDirection, WaitStopFlag);//20220512修改：默认点动运动等停为false，特殊情况下不等停
 
                     string msg = $"手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{{第{AXIS}轴}},点动量{{{m_sStep}MM}},运动速度{{{m_sVel}MM/s}}";
                     Log4Net.Info(msg);
@@ -2095,7 +2112,12 @@ namespace BinderJetting
                         RollerParam = -System.Math.Abs(RollerParam);
                     }
                     int RollerDirection = k_RYSYSParamAutoPrintParamInTest.m_nRollerRotateDirection;//20220527新增：
-                    motionMap.TrapMotion(AXIS, ref motionMap.trapPrm, -position, vel, RollerParam, RollerDirection, WaitStopFlag);
+                    int cmdPosition = -position;
+                    if (AXIS == 1 || AXIS == 2)
+                    {
+                        cmdPosition = cmdPosition * GetInkCarCmdSign(AXIS);
+                    }
+                    motionMap.TrapMotion(AXIS, ref motionMap.trapPrm, cmdPosition, vel, RollerParam, RollerDirection, WaitStopFlag);
 
                     string msg = $"手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{{第{AXIS}轴}},点动量{{{m_sStep}MM}},运动速度{{{m_sVel}MM/s}}";
                     Log4Net.Info(msg);
@@ -3558,6 +3580,7 @@ namespace BinderJetting
         bool EncoderResetFlag = false;//墨车回零校准：20200326
         bool PowderCarEncoderResetFlag = false;//粉车回零校准：20230330
         bool PrintCarEncoderResetFlag = false;//墨车回零校准：20230330
+        volatile bool stopInkCarHomeRequested = false;
         // true：不拦截点动/JOG/回零等（与 EnsureRetrofitReady 配合）；轴序或 cfg 未对齐时误动作风险高，确认现场后再改回 false。
         private const bool RetrofitAxisMappingEnabled = true;// 原为 false 用于改造期锁定；现放开便于 MoveUpBtn1 等与墨车/固高调试
 
@@ -3623,6 +3646,7 @@ namespace BinderJetting
                 }
                 else
                 {
+                    stopInkCarHomeRequested = false;
                     ThreadStart initThreadEntry = new ThreadStart(InkCarGoogolHomeThread);//20200220:线程入口方法修改为联动线程
                     tempThread = new Thread(initThreadEntry) { IsBackground = true };
                     tempThread.Name = tempThreadName;
@@ -3666,7 +3690,7 @@ namespace BinderJetting
 #if true
                 //(1-1)关闭联调线程；（1-2）关闭多轴运动：保障运动安全
                 string tempThreadName = "InkCarGoogolHomeThread";//(1)关闭联调线程
-                DeleteThread(tempThreadName);
+                stopInkCarHomeRequested = true;
                 //(a)检测到正限位和负限位后紧急停止运动（与点动/墨车 Jog 同用 motionMap 轴1/2）
                 motionMap.StopMotion(1, true);
                 motionMap.StopMotion(2, true);
@@ -3765,6 +3789,7 @@ namespace BinderJetting
                     }
                     else
                     {
+                        stopInkCarHomeRequested = false;
                         ThreadStart initThreadEntry = new ThreadStart(InkCarGoogolHomeThread);//20200220:线程入口方法修改为联动线程
                         tempThread = new Thread(initThreadEntry) { IsBackground = true };
                         tempThread.Name = tempThreadName;
@@ -3797,7 +3822,7 @@ namespace BinderJetting
 #if true
                 //(1-1)关闭联调线程；（1-2）关闭多轴运动：保障运动安全
                 string tempThreadName = "InkCarGoogolHomeThread";//(1)关闭联调线程
-                DeleteThread(tempThreadName);
+                stopInkCarHomeRequested = true;
                 //(a)检测到正限位和负限位后紧急停止运动（与点动/墨车 Jog 同用 motionMap 轴1/2）
                 motionMap.StopMotion(1, true);
                 motionMap.StopMotion(2, true);
@@ -3819,9 +3844,20 @@ namespace BinderJetting
             Thread tempThread = EncoderResetThreads.Where(x => x.Name == tempThreadName).FirstOrDefault();
             if (tempThread != null)
             {
-                tempThread.Abort();//20200221修改:当调用非托管线程时，有时会抛出异常但不一定及时停止
-                while (tempThread.ThreadState != ThreadState.Aborted)
-                { Thread.Sleep(2); }
+                if (tempThread == Thread.CurrentThread)
+                {
+                    // 当前线程自然退出时，只移除登记，不能再对自己 Abort，
+                    // 否则会把正常结束过程打成 ThreadAbortException。
+                    EncoderResetThreads.Remove(tempThread);
+                    return;
+                }
+
+                if (tempThread.IsAlive)
+                {
+                    tempThread.Abort();//20200221修改:当调用非托管线程时，有时会抛出异常但不一定及时停止
+                    while (tempThread.ThreadState != ThreadState.Aborted)
+                    { Thread.Sleep(2); }
+                }
                 EncoderResetThreads.Remove(tempThread);//20200111添加：解决Gohome无法重新执行的BUG
             }
         }
@@ -5658,13 +5694,13 @@ namespace BinderJetting
         {
             float m_MovSpeed = 50f;
             double[] enc = motionMap.GetEncPos();
-            double currentMm = enc[0] / EncoderLinePerMM;
+            double currentMm = ToDisplayMm(1, enc[0] / EncoderLinePerMM);
             int moveCounts = (int)((AimPos - currentMm) * EncoderLinePerMM);
             double velCountPerMs = m_MovSpeed * DriverPulsePerMM / 1000.0;
 
             gts.mc.TTrapPrm xTrapPrm = new gts.mc.TTrapPrm();
             xTrapPrm.acc = 0.5; xTrapPrm.dec = 0.5; xTrapPrm.velStart = 5; xTrapPrm.smoothTime = 1;
-            motionMap.TrapMotion(1, ref xTrapPrm, moveCounts, velCountPerMs, 0, 0, true);
+            motionMap.TrapMotion(1, ref xTrapPrm, moveCounts * InkCarXCmdSign, velCountPerMs, 0, 0, true);
             motionMap.StopMotion(1, true);
         }
 
@@ -5712,7 +5748,9 @@ namespace BinderJetting
                 double countPerMM = GetInkCarCountPerMM(Axis);
                 double rawCount = g_dEncpos[Axis - 1];
                 double currentMm2 = rawCount / countPerMM;
-                Log4Net.Info($"GetCurrentPos: exit, Axis={Axis}, rawCount={rawCount}, countPerMM={countPerMM}, currentMm={currentMm2:F3}");
+                if (Axis == 1 || Axis == 2)
+                    currentMm2 = ToDisplayMm(Axis, currentMm2);
+                Log4Net.Info($"GetCurrentPos: exit, Axis={Axis}, rawCount={rawCount}, countPerMM={countPerMM}, currentMm(display)={currentMm2:F3}");
                 return currentMm2;
             }
             catch (Exception ex)
@@ -5728,6 +5766,45 @@ namespace BinderJetting
             if (Axis == 1 || Axis == 2)
                 return EncoderLinePerMM;
             return 1000.0;
+        }
+
+        private int GetInkCarCmdSign(int axis)
+        {
+            if (axis == 1) return InkCarXCmdSign;
+            if (axis == 2) return InkCarYCmdSign;
+            return 1;
+        }
+
+        private double ToDisplayMm(int axis, double mm)
+        {
+            if (axis == 1)
+                return mm * InkCarXDisplaySign;
+            if (axis == 2)
+                return mm * InkCarYDisplaySign;
+            return mm;
+        }
+
+        private double FromDisplayMm(int axis, double displayMm)
+        {
+            if (axis == 1)
+                return displayMm * InkCarXDisplaySign;
+            if (axis == 2)
+                return displayMm * InkCarYDisplaySign;
+            return displayMm;
+        }
+
+        private bool IsPositiveDirectionLimitActive(int axis)
+        {
+            if (axis == 1 || axis == 2)
+                return motionMap.axisSateMonitor.FlagNegLimit1;
+            return motionMap.axisSateMonitor.FlagPosLimit1;
+        }
+
+        private bool IsNegativeDirectionLimitActive(int axis)
+        {
+            if (axis == 1 || axis == 2)
+                return motionMap.axisSateMonitor.FlagPosLimit1;
+            return motionMap.axisSateMonitor.FlagNegLimit1;
         }
 
         public void LogInkCarAxisSnapshot(string context)
@@ -5774,7 +5851,8 @@ namespace BinderJetting
                 bool posLimit = motionMap.axisSateMonitor.FlagPosLimit1;
                 bool negLimit = motionMap.axisSateMonitor.FlagNegLimit1;
                 string rawCountText = double.IsNaN(rawCount) ? "NaN" : rawCount.ToString("F0");
-                string currentMmText = double.IsNaN(currentMm) ? "NaN" : currentMm.ToString("F3");
+                double displayMm = double.IsNaN(currentMm) ? double.NaN : ToDisplayMm(axis, currentMm);
+                string currentMmText = double.IsNaN(displayMm) ? "NaN" : displayMm.ToString("F3");
                 Log4Net.Info($"{context}: Axis={axis}, rawCount={rawCountText}, currentMm={currentMmText}, axisStatus=0x{axisStatus:X}, PosLimit={posLimit}, NegLimit={negLimit}");
             }
             catch (Exception ex)
@@ -5832,18 +5910,18 @@ namespace BinderJetting
                             {
                                 Log4Net.Info($"BackToStation X: before GetEncPos, AimPos={AimPos:F3}");
                                 double[] encX = motionMap.GetEncPos();
-                                double currentMmX = encX[0] / EncoderLinePerMM;
-                                Log4Net.Info($"BackToStation X: encoder raw={encX[0]}, currentMm={currentMmX:F3}");
+                                double currentMmX = ToDisplayMm(1, encX[0] / EncoderLinePerMM);
+                                Log4Net.Info($"BackToStation X: encoder raw={encX[0]}, currentMm(display)={currentMmX:F3}");
                                 int moveCountsX = (int)((AimPos - currentMmX) * EncoderLinePerMM);
                                 double velCountPerMsX = m_MovSpeed * DriverPulsePerMM / 1000.0;
 
-                                string msg = $"X 固高定位：当前{{{currentMmX:F3}}}mm 目标{{{AimPos}}}mm 相对{{{moveCountsX}}}count 速度{{{velCountPerMsX:F1}}}count/ms";
+                                string msg = $"X 固高定位：当前{{{currentMmX:F3}}}mm 目标{{{AimPos}}}mm 相对{{{moveCountsX * InkCarXCmdSign}}}count 速度{{{velCountPerMsX:F1}}}count/ms";
                                 Log4Net.Info(msg);
 
                                 gts.mc.TTrapPrm xTrapPrm = new gts.mc.TTrapPrm();
                                 xTrapPrm.acc = 0.5; xTrapPrm.dec = 0.5; xTrapPrm.velStart = 5; xTrapPrm.smoothTime = 1;
                                 Log4Net.Info($"BackToStation X: before TrapMotion, moveCountsX={moveCountsX}, velCountPerMsX={velCountPerMsX:F3}, waitStop={WaitStopFLag}");
-                                motionMap.TrapMotion(1, ref xTrapPrm, moveCountsX, velCountPerMsX, 0, 0, WaitStopFLag);
+                                motionMap.TrapMotion(1, ref xTrapPrm, moveCountsX * InkCarXCmdSign, velCountPerMsX, 0, 0, WaitStopFLag);
                                 Log4Net.Info("BackToStation X: after TrapMotion");
 
                                 if (WaitStopFLag)
@@ -5853,8 +5931,8 @@ namespace BinderJetting
                                     Log4Net.Info("BackToStation X: after StopMotion");
                                 }
                                 Log4Net.Info("BackToStation X: before encoder readback");
-                                double afterMm = motionMap.GetEncPos()[0] / EncoderLinePerMM;
-                                Log4Net.Info($"X 到位：编码器位置{{{afterMm:F3}}}mm");
+                                double afterMmRaw = motionMap.GetEncPos()[0] / EncoderLinePerMM;
+                                Log4Net.Info($"X 到位：编码器(raw){{{afterMmRaw:F3}}}mm，display{{{ToDisplayMm(1, afterMmRaw):F3}}}mm");
                                 LogInkCarAxisSnapshot($"BackToStation X 结束后轴快照，AimPos={AimPos:F3}");
                             }
                             break;
@@ -5864,18 +5942,19 @@ namespace BinderJetting
                             {
                                 Log4Net.Info($"BackToStation Y: before GetEncPos, AimPos={AimPos:F3}");
                                 double[] encY = motionMap.GetEncPos();
-                                double currentMmY = encY[1] / EncoderLinePerMM;
-                                Log4Net.Info($"BackToStation Y: encoder raw={encY[1]}, currentMm={currentMmY:F3}");
-                                int moveCountsY = (int)((AimPos - currentMmY) * EncoderLinePerMM);
+                                double currentMmYRaw = encY[1] / EncoderLinePerMM;
+                                double currentMmYDisplay = ToDisplayMm(2, currentMmYRaw);
+                                Log4Net.Info($"BackToStation Y: encoder raw={encY[1]}, currentMm(raw)={currentMmYRaw:F3}, currentMm(display)={currentMmYDisplay:F3}");
+                                int moveCountsY = (int)((AimPos - currentMmYDisplay) * EncoderLinePerMM);
                                 double velCountPerMsY = m_MovSpeed * DriverPulsePerMM / 1000.0;
 
-                                string msg = $"Y 固高定位：当前{{{currentMmY:F3}}}mm 目标{{{AimPos}}}mm 相对{{{moveCountsY}}}count 速度{{{velCountPerMsY:F1}}}count/ms";
+                                string msg = $"Y 固高定位：当前{{{currentMmYDisplay:F3}}}mm 目标{{{AimPos:F3}}}mm 相对{{{moveCountsY * GetInkCarCmdSign(2)}}}count 速度{{{velCountPerMsY:F1}}}count/ms";
                                 Log4Net.Info(msg);
 
                                 gts.mc.TTrapPrm y1TrapPrm = new gts.mc.TTrapPrm();
                                 y1TrapPrm.acc = 0.5; y1TrapPrm.dec = 0.5; y1TrapPrm.velStart = 5; y1TrapPrm.smoothTime = 1;
                                 Log4Net.Info($"BackToStation Y: before TrapMotion, moveCountsY={moveCountsY}, velCountPerMsY={velCountPerMsY:F3}, waitStop={WaitStopFLag}");
-                                motionMap.TrapMotion(2, ref y1TrapPrm, moveCountsY, velCountPerMsY, 0, 0, WaitStopFLag);
+                                motionMap.TrapMotion(2, ref y1TrapPrm, moveCountsY * GetInkCarCmdSign(2), velCountPerMsY, 0, 0, WaitStopFLag);
                                 Log4Net.Info("BackToStation Y: after TrapMotion");
 
                                 try { YAxisMoveStarted?.Invoke(); } catch (Exception ex) { Log4Net.Info($"YAxisMoveStarted 回调异常：{ex.Message}"); }
@@ -5888,7 +5967,7 @@ namespace BinderJetting
                                 }
                                 Log4Net.Info("BackToStation Y: before encoder readback");
                                 double afterMmY = motionMap.GetEncPos()[1] / EncoderLinePerMM;
-                                Log4Net.Info($"Y 到位：编码器位置{{{afterMmY:F3}}}mm");
+                                Log4Net.Info($"Y 到位：编码器位置(raw){{{afterMmY:F3}}}mm，display{{{ToDisplayMm(2, afterMmY):F3}}}mm");
                                 LogInkCarAxisSnapshot($"BackToStation Y 结束后轴快照，AimPos={AimPos:F3}");
                             }
                             break;
@@ -11784,13 +11863,14 @@ namespace BinderJetting
             existCorrectProcessFlag = true;
             try
             {
+                stopInkCarHomeRequested = false;
                 InkCarXHomeFlag = false;
                 InkCarYHomeFlag = false;
                 RefreshInkCarHomeFlag();
                 UpdateInkCarHomeButtonText();
 
                 RunInkCarAxisHome(1, true, XMaxDistanceMM - 50.0, "X");
-                RunInkCarAxisHome(2, false, 0.0, "Y");
+                RunInkCarAxisHome(2, false, 50.0, "Y");
 
                 FinalizeInkCarGoogolHome(InkCarHomeFlag);
             }
@@ -11817,12 +11897,17 @@ namespace BinderJetting
             DateTime lastHeartbeat = startTime;
             while ((DateTime.Now - startTime) < timeout)
             {
+                if (stopInkCarHomeRequested)
+                {
+                    Log4Net.Info($"墨车轴{Axis}限位回零：收到停止请求，结束限位等待");
+                    return false;
+                }
                 int axisStatus = 0;
                 motionMap.GetAxisStatus(Axis, out axisStatus);
                 motionMap.ReadAxisSate(Axis);
                 bool hitLimit = SearchPositiveDirection
-                    ? motionMap.axisSateMonitor.FlagPosLimit1
-                    : motionMap.axisSateMonitor.FlagNegLimit1;
+                    ? IsPositiveDirectionLimitActive(Axis)
+                    : IsNegativeDirectionLimitActive(Axis);
                 if (hitLimit)
                 {
                     Log4Net.Info($"墨车轴{Axis}限位回零：检测到限位触发，状态=0x{axisStatus:X}");
@@ -11877,12 +11962,17 @@ namespace BinderJetting
             DateTime lastHeartbeat = startTime;
             while ((DateTime.Now - startTime) < timeout)
             {
+                if (stopInkCarHomeRequested)
+                {
+                    Log4Net.Info($"墨车轴{Axis}限位释放等待：收到停止请求，结束释放等待");
+                    return false;
+                }
                 int axisStatus = 0;
                 motionMap.GetAxisStatus(Axis, out axisStatus);
                 motionMap.ReadAxisSate(Axis);
                 bool limitStillActive = WasPositiveLimit
-                    ? motionMap.axisSateMonitor.FlagPosLimit1
-                    : motionMap.axisSateMonitor.FlagNegLimit1;
+                    ? IsPositiveDirectionLimitActive(Axis)
+                    : IsNegativeDirectionLimitActive(Axis);
                 if (!limitStillActive)
                 {
                     Log4Net.Info($"墨车轴{Axis}限位释放等待：限位已释放，状态=0x{axisStatus:X}");
@@ -11923,7 +12013,9 @@ namespace BinderJetting
                 motionMap.StopMotion(Axis, true);
 
                 int searchPosition = SearchPositiveDirection ? searchCounts : -searchCounts;
-                Log4Net.Info($"墨车轴{Axis}限位回零：开始搜索限位，方向={(SearchPositiveDirection ? "正" : "负")}，目标脉冲={searchPosition}");
+                if (Axis == 1 || Axis == 2)
+                    searchPosition *= GetInkCarCmdSign(Axis);
+                Log4Net.Info($"墨车轴{Axis}限位回零：开始搜索限位，方向={(SearchPositiveDirection ? "正" : "负")}（按软件坐标系镜像到硬件方向），目标脉冲={searchPosition}");
                 motionMap.TrapMotion(Axis, ref trapPrm, searchPosition, velocity, 0, 0, true);
                 Log4Net.Info($"墨车轴{Axis}限位回零：搜索阶段完成");
 
@@ -11936,8 +12028,9 @@ namespace BinderJetting
                     return false;
                 }
 
-                motionMap.StopMotion(Axis, true);
-                Thread.Sleep(250);
+                // 命中硬限位后，轴通常已被控制器拦停；这里不再额外急停，
+                // 直接清状态并执行反向脱离限位，避免急停状态残留导致回退命令不生效。
+                Thread.Sleep(100);
                 motionMap.ClrLimitAndAbrupt(Axis);
 
                 int homeEncPos;
@@ -11954,21 +12047,59 @@ namespace BinderJetting
                         smoothTime = trapPrm.smoothTime
                     };
 
-                    Log4Net.Info($"墨车轴{Axis}限位回零：开始执行脱离限位回退，rollbackMm={rollbackMm:F3}, targetMm={rollbackTargetMm:F3}");
-                    motionMap.TrapMotion(Axis, ref retreatTrapPrm, -(int)Math.Round(rollbackCounts), velocity, 0, 0, false);
-                    Thread.Sleep(500);
+                    int retreatPulse = (int)Math.Round(-rollbackCounts * GetInkCarCmdSign(Axis));
+                    Log4Net.Info($"墨车轴{Axis}限位回零：开始执行脱离限位回退，rollbackMm={rollbackMm:F3}, targetMm={rollbackTargetMm:F3}, retreatPulse={retreatPulse}");
                     motionMap.ClrLimitAndAbrupt(Axis);
-                    WaitForInkCarLimitRelease(Axis, true, TimeSpan.FromSeconds(5));
+                    motionMap.TrapMotion(Axis, ref retreatTrapPrm, retreatPulse, velocity, 0, 0, false);
+                    if (!WaitForInkCarLimitRelease(Axis, true, TimeSpan.FromSeconds(5)))
+                    {
+                        Log4Net.Info($"墨车轴{Axis}限位回零：X轴脱离正限位失败，终止设零");
+                        motionMap.StopMotion(Axis, true);
+                        motionMap.ClrLimitAndAbrupt(Axis);
+                        return false;
+                    }
+                    motionMap.StopMotion(Axis, true);
+                    motionMap.ClrLimitAndAbrupt(Axis);
 
-                    homeEncPos = (int)Math.Round(rollbackTargetMm * countPerMm);
+                    homeEncPos = (int)Math.Round(FromDisplayMm(Axis, rollbackTargetMm) * countPerMm);
+                    Log4Net.Info($"墨车轴{Axis}限位回零：回退完成后设定坐标，targetMm={rollbackTargetMm:F3}, targetEnc={homeEncPos}");
+                }
+                else if (Axis == 2 && !SearchPositiveDirection)
+                {
+                    const double rollbackMm = 50.0;
+                    double rollbackCounts = rollbackMm * countPerMm;
+                    double rollbackTargetMm = rollbackMm;
+                    gts.mc.TTrapPrm retreatTrapPrm = new gts.mc.TTrapPrm
+                    {
+                        acc = trapPrm.acc,
+                        dec = trapPrm.dec,
+                        velStart = trapPrm.velStart,
+                        smoothTime = trapPrm.smoothTime
+                    };
+
+                    int retreatPulse = (int)Math.Round(rollbackCounts * GetInkCarCmdSign(Axis));
+                    Log4Net.Info($"墨车轴{Axis}限位回零：开始执行脱离限位回退，rollbackMm={rollbackMm:F3}, targetMm={rollbackTargetMm:F3}, retreatPulse={retreatPulse}");
+                    motionMap.ClrLimitAndAbrupt(Axis);
+                    motionMap.TrapMotion(Axis, ref retreatTrapPrm, retreatPulse, velocity, 0, 0, false);
+                    if (!WaitForInkCarLimitRelease(Axis, false, TimeSpan.FromSeconds(5)))
+                    {
+                        Log4Net.Info($"墨车轴{Axis}限位回零：Y轴脱离负限位失败，终止设零");
+                        motionMap.StopMotion(Axis, true);
+                        motionMap.ClrLimitAndAbrupt(Axis);
+                        return false;
+                    }
+                    motionMap.StopMotion(Axis, true);
+                    motionMap.ClrLimitAndAbrupt(Axis);
+
+                    homeEncPos = (int)Math.Round(FromDisplayMm(Axis, rollbackTargetMm) * countPerMm);
                     Log4Net.Info($"墨车轴{Axis}限位回零：回退完成后设定坐标，targetMm={rollbackTargetMm:F3}, targetEnc={homeEncPos}");
                 }
                 else
                 {
-                    homeEncPos = Axis == 2 ? -(int)Math.Round(homeCounts) : (int)Math.Round(homeCounts);
+                    homeEncPos = (int)Math.Round(FromDisplayMm(Axis, HomeMm) * countPerMm);
                 }
 
-                double finalHomeMm = Axis == 2 ? -homeEncPos / countPerMm : homeEncPos / countPerMm;
+                double finalHomeMm = ToDisplayMm(Axis, homeEncPos / countPerMm);
                 Log4Net.Info($"墨车轴{Axis}限位回零：触发限位后设定坐标，目标编码器={homeEncPos}，显示位置={finalHomeMm:F2}mm");
                 motionMap.SetEncPos(Axis, homeEncPos);
                 motionMap.ReadAxisSate(Axis);
@@ -12044,7 +12175,7 @@ namespace BinderJetting
 
         private void button18_Click(object sender, EventArgs e)
         {
-            Thread xHomeThread = new Thread(() => RunInkCarAxisHome(1, true, 860.0, "X"))
+            Thread xHomeThread = new Thread(() => RunInkCarAxisHome(1, true, XMaxDistanceMM - 50.0, "X"))
             {
                 IsBackground = true
             };
@@ -12058,7 +12189,7 @@ namespace BinderJetting
 
         private void button25_Click(object sender, EventArgs e)
         {
-            Thread yHomeThread = new Thread(() => RunInkCarAxisHome(2, false, 0.0, "Y"))
+            Thread yHomeThread = new Thread(() => RunInkCarAxisHome(2, false, 50.0, "Y"))
             {
                 IsBackground = true
             };
