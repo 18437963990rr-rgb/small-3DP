@@ -1,4 +1,4 @@
-﻿#define TwoPassPrintMode
+#define TwoPassPrintMode
 //#define SinglePassPrintMode
 //#define DataProcessDebugMode
 //#define UseP5PortForCleaning
@@ -44,12 +44,21 @@ namespace BinderJetting
         const int DriverPulsePerMM = 1000;              // 伺服驱动器每毫米发送脉冲数（它轴沿用）
         const int XMaxDistanceMM = 860;                 // X轴正负行程开关之间距离
         const int YMaxDistanceMM = 470;                 // Y轴正负行程开关之间距离
-        // 墨车 X/Y 的硬件方向、硬件正负限位均与软件坐标系相反；
-        // 软件层统一做镜像：坐标显示、定位目标、JOG/点动、回零都按同一组映射处理。
-        const int InkCarXCmdSign = -1;
+        // ---------- 墨车 X：电机/光栅/限位接线变更后，优先只改下面常数 ----------
+        // InkCarXCmdSign：命令脉冲总符号。影响 BackToStation(X)、回零搜索/回退（RunInkCarAxisLimitHome 轴1），与 InkCarXCmdSign 相乘处一致。
+        //                  电机“正反”对调后，若点动/定位/回零是同向一起反了，将此量在 +1 与 -1 之间切换。
+        // InkCarXDisplaySign：仅影响 GetCurrentPos(1)、界面/日志里“显示毫米”与 ToDisplayMm(1,…)。
+        //                  若编码器计数方向随电机变了、画面坐标与真机左右对调，再改此项（与命令脉冲独立）。
+        // X 回零“寻哪一端限位”：button18 → RunInkCarAxisHome(1, SearchPositiveDirection, …)。true=轮询正限位 FlagPosLimit1；false=负限位 FlagNegLimit1。
+        //                  限位线对调后若仍用原逻辑，会出现找错限位或超时；需与接线一致后改 true/false，并核对回零分支里 rollbackTargetMm / homeEncPos。
+        // 注意：XMoveBtn case3/4（点动）当前 TrapMotion 未乘 InkCarXCmdSign；若只改了常数而点动仍反，请给点动脉冲补上 * InkCarXCmdSign，或与 case3/4 的正负对调一致。
+        // X：命令层取反（Trap/JOG/回零 一致）；显示层符号仅用于监视窗与 GetCurrentPos 一致（与硬件脉冲方向独立）
+        // Y：仅依赖 GoogolMotionMap.GetEncPos 对轴2 的取反；勿与 X 镜像混用额外显示取反，否则 BackToStation 位移会与界面坐标不一致
+        const int InkCarXCmdSign = 1;
+        const int InkCarXDisplaySign = 1;
+        const int InkCarYDisplaySign = 1;
+        /// <summary>墨车 Y：仅用于点动/BackToStation 的 Trap 脉冲方向，与 <see cref="InkCarXCmdSign"/> 并列；回零流程不使用本符号。</summary>
         const int InkCarYCmdSign = -1;
-        const int InkCarXDisplaySign = -1;
-        const int InkCarYDisplaySign = -1;
 
         private const bool DisableRoyalStartupPolling = true;
 
@@ -85,9 +94,28 @@ namespace BinderJetting
         public static event Action YAxisMoveStarted;
 
         // 铺粉车的一些常数
-        const double POWDERCAR_TRAVEL_DIST = /*918.0*/900;     // 铺粉车行程距离，mm //20251206修改，硬件更换
-        const double POWDERCAR_DROP_BEGIN  = /*400.0*/325;     // 铺粉车开始落粉位置，mm //20251206修改，硬件更换
-        const double POWDERCAR_DROP_END    = 825.0;     // 铺粉车停止落粉位置，mm
+        const double POWDERCAR_TRAVEL_DIST = /*918.0*/1017;     // 铺粉车行程距离，mm //20251206修改，硬件更换
+        const double POWDERCAR_DROP_BEGIN  = /*400.0*/355;     // 铺粉车开始落粉位置，mm //20251206修改，硬件更换
+        const double POWDERCAR_DROP_END    = 925.0;     // 铺粉车停止落粉位置，mm
+
+        // ---------- 铺粉车：固高轴 7（成型缸为轴 8，勿混用）----------
+        // PowderCarCmdSign：仅乘在 TrapMoveUp/Down 发给固高的相对脉冲上（轴7）。BackToStation2 的 TrapSpace = AimPos - GetCurrentPos(7) 已为「显示 mm」下的位移；
+        // 回零后显示常为负（如 -112）而 POWDERCAR_* 目标仍为正值时，TrapSpace 为大正；若此处为 -1 会把正 Δ 打成负脉冲撞负限位。与当前 SetEncPos/显示约定一致时用 +1。
+        // PowderCarHomeSearchSign：仅 SetBackHome 第一段 search_home（去找 CAPTURE_HOME）的符号，与 PowderCarCmdSign 分开：
+        //   若点动/计数器已正确，但按 PowderCarHomeBtn 校准却「先朝负向」搜 Home，是因为曾把 search 也乘了 PowderCarCmdSign。
+        //   寻 Home 应先朝能触发 Home 开关的一侧跑：该侧在规划坐标里为正则置 +1，为负则置 -1（与 1000mm 搜索行程相乘）。
+        // PowderCarHomeRetractMm：SetBackHome 第二段，targetPulse = 捕获脉冲 + (本值×1000)。即原固高例程里「捕获后的增量 mm」（有符号）。
+        //   曾用 -116 表示相对捕获点再移 -116mm（回退约 116mm）；与 m_dPowderCarHomeposition（回零后写入的逻辑坐标）无关。
+        //   若实测需在 116mm 基础上少退 15mm：-116+15 = -101。
+        // PowderCarProcessSign：仅用于 BackToStation2（自动进给铺粉流程）的位移符号；默认 +1 与 AimPos-CurrentPos 同向。
+        // PowderCarDisplaySign：仅 GetCurrentPos(7)；命令方向对但数显反了再改。
+        // 限位语义：PowderCarHomeResetThread 开头 0x20/0x40 仍按固高「正/负限位」位；若仅调换限位接线未改脉冲，可能需对调判断或改 captures。
+        // 其它工程：JOB调度「单层铺粉模块」里 GoHome(7,…) 若自动铺粉方向反了，需改该处 Ends 或本库与之一致的符号策略。
+        const int PowderCarCmdSign = 1;
+        const int PowderCarProcessSign = 1;
+        const int PowderCarHomeSearchSign = 1;
+        const double PowderCarHomeRetractMm = -106.0;//-116+10：在原先 -116mm 回退量上缩短 10mm
+        const int PowderCarDisplaySign = 1;
 
         int m_PowerBackBtnFlag = 0;//默认状态为0；20200411批注：
         public 手动操作(int PowerBackBtnFlag, UInt32 nValveStateMask, bool PrintJobExistedFlag)//20200718修改：
@@ -1050,8 +1078,10 @@ namespace BinderJetting
                     RollerParam = System.Math.Abs(RollerParam);
                 }
                 double jogVel = vel;
-                if (AXIS == 1 || AXIS == 2)
-                    jogVel *= GetInkCarCmdSign(AXIS);
+                if (AXIS == 1)
+                    jogVel *= InkCarXCmdSign;
+                else if (AXIS == 7)
+                    jogVel *= PowderCarCmdSign;
                 motionMap.JogMotion(AXIS, ref motionMap.jogPrm, jogVel, RollerParam);
 
                 string msg = $"手动正向JOG指令（8轴运控板卡系统） ====》：输出AXIS{{第{AXIS}轴}},运动速度{{{m_sVel}MM/s}}";
@@ -1141,8 +1171,10 @@ namespace BinderJetting
                     RollerParam = -System.Math.Abs(RollerParam);
                 }
                 double jogVel = -vel;
-                if (AXIS == 1 || AXIS == 2)
-                    jogVel *= GetInkCarCmdSign(AXIS);
+                if (AXIS == 1)
+                    jogVel *= InkCarXCmdSign;
+                else if (AXIS == 7)
+                    jogVel *= PowderCarCmdSign;
                 motionMap.JogMotion(AXIS, ref motionMap.jogPrm, jogVel, RollerParam);//这一行代码应该没有问题
                 //motionMap.JogMotion(1, ref motionMap.jogPrm, vel);
 
@@ -1252,14 +1284,14 @@ namespace BinderJetting
                     else {/*不执行任何操作*/}
                     break;
 
-                case 13://20200903批注:轴数由6轴提升到8轴
-                    if (m_bMoveModeFlag[6] == false)
-                    { JogMoveUp(7, m_bMoveModeFlag[6], m_sVel[6]); }
-                    else {/*不执行任何操作*/}
-                    break;
-                case 14://20200903批注:轴数由6轴提升到8轴
+                case 13://20200903批注:轴数由6轴提升到8轴（按钮文案：后退）
                     if (m_bMoveModeFlag[6] == false)
                     { JogMoveDown(7, m_bMoveModeFlag[6], m_sVel[6]); }
+                    else {/*不执行任何操作*/}
+                    break;
+                case 14://20200903批注:轴数由6轴提升到8轴（按钮文案：前进）
+                    if (m_bMoveModeFlag[6] == false)
+                    { JogMoveUp(7, m_bMoveModeFlag[6], m_sVel[6]); }
                     else {/*不执行任何操作*/}
                     break;
 
@@ -1923,10 +1955,13 @@ namespace BinderJetting
                     }
                     int RollerDirection = k_RYSYSParamAutoPrintParamInTest.m_nRollerRotateDirection;//20220527新增：
                     int cmdPosition = position;
-                    if (AXIS == 1 || AXIS == 2)
+                    if (AXIS == 1)
                     {
-                        cmdPosition = cmdPosition * GetInkCarCmdSign(AXIS);
+                        // X 轴命令层方向修正：正向按钮输出反向脉冲
+                        cmdPosition = cmdPosition * InkCarXCmdSign;
                     }
+                    else if (AXIS == 7)
+                        cmdPosition *= PowderCarCmdSign;
                     motionMap.TrapMotion(AXIS, ref motionMap.trapPrm, cmdPosition, vel, RollerParam, RollerDirection, WaitStopFlag);//20220512修改：默认点动运动等停为false，特殊情况下不等停
 
                     string msg = $"手动正向点动指令（8轴运控板卡系统） ====》：输出AXIS{{第{AXIS}轴}},点动量{{{m_sStep}MM}},运动速度{{{m_sVel}MM/s}}";
@@ -2113,10 +2148,13 @@ namespace BinderJetting
                     }
                     int RollerDirection = k_RYSYSParamAutoPrintParamInTest.m_nRollerRotateDirection;//20220527新增：
                     int cmdPosition = -position;
-                    if (AXIS == 1 || AXIS == 2)
+                    if (AXIS == 1)
                     {
-                        cmdPosition = cmdPosition * GetInkCarCmdSign(AXIS);
+                        // X 轴命令层方向修正：反向按钮输出反向脉冲
+                        cmdPosition = cmdPosition * InkCarXCmdSign;
                     }
+                    else if (AXIS == 7)
+                        cmdPosition *= PowderCarCmdSign;
                     motionMap.TrapMotion(AXIS, ref motionMap.trapPrm, cmdPosition, vel, RollerParam, RollerDirection, WaitStopFlag);
 
                     string msg = $"手动负向点动指令（8轴运控板卡系统） ====》：输出AXIS{{第{AXIS}轴}},点动量{{{m_sStep}MM}},运动速度{{{m_sVel}MM/s}}";
@@ -2242,14 +2280,14 @@ namespace BinderJetting
                     else {/*不执行任何操作*/}
                     break;
 
-                case 13://20200903批注:轴数由6轴提升到8轴
-                    if (m_bMoveModeFlag[6] == true)
-                    { TrapMoveUp(7, m_bMoveModeFlag[6], m_sVel[6], m_sStep[6], false, false); }
-                    else {/*不执行任何操作*/}
-                    break;
-                case 14://20200903批注:轴数由6轴提升到8轴
+                case 13://20200903批注:轴数由6轴提升到8轴（按钮文案：后退）
                     if (m_bMoveModeFlag[6] == true)
                     { TrapMoveDown(7, m_bMoveModeFlag[6], m_sVel[6], m_sStep[6], false, false); }
+                    else {/*不执行任何操作*/}
+                    break;
+                case 14://20200903批注:轴数由6轴提升到8轴（按钮文案：前进）
+                    if (m_bMoveModeFlag[6] == true)
+                    { TrapMoveUp(7, m_bMoveModeFlag[6], m_sVel[6], m_sStep[6], false, false); }
                     else {/*不执行任何操作*/}
                     break;
 
@@ -3352,7 +3390,7 @@ namespace BinderJetting
                             y1TrapPrm.dec = 0.5;
                             y1TrapPrm.velStart = 5;
                             y1TrapPrm.smoothTime = 1;
-                            int y1Position = 750000 / 1000;
+                            int y1Position = (750000 / 1000) * InkCarYCmdSign;
                             double y1Vel = nSpeed;
                             motionMap.TrapMotion(2, ref y1TrapPrm, y1Position, y1Vel, 0, 0, true);
                         }
@@ -3388,7 +3426,7 @@ namespace BinderJetting
                             y1TrapPrm.dec = 0.5;
                             y1TrapPrm.velStart = 5;
                             y1TrapPrm.smoothTime = 1;
-                            int y1Position = -750000 / 1000;
+                            int y1Position = (-750000 / 1000) * InkCarYCmdSign;
                             double y1Vel = nSpeed;
                             motionMap.TrapMotion(2, ref y1TrapPrm, y1Position, y1Vel, 0, 0, true);
                         }
@@ -3580,7 +3618,6 @@ namespace BinderJetting
         bool EncoderResetFlag = false;//墨车回零校准：20200326
         bool PowderCarEncoderResetFlag = false;//粉车回零校准：20230330
         bool PrintCarEncoderResetFlag = false;//墨车回零校准：20230330
-        volatile bool stopInkCarHomeRequested = false;
         // true：不拦截点动/JOG/回零等（与 EnsureRetrofitReady 配合）；轴序或 cfg 未对齐时误动作风险高，确认现场后再改回 false。
         private const bool RetrofitAxisMappingEnabled = true;// 原为 false 用于改造期锁定；现放开便于 MoveUpBtn1 等与墨车/固高调试
 
@@ -3646,7 +3683,6 @@ namespace BinderJetting
                 }
                 else
                 {
-                    stopInkCarHomeRequested = false;
                     ThreadStart initThreadEntry = new ThreadStart(InkCarGoogolHomeThread);//20200220:线程入口方法修改为联动线程
                     tempThread = new Thread(initThreadEntry) { IsBackground = true };
                     tempThread.Name = tempThreadName;
@@ -3690,7 +3726,7 @@ namespace BinderJetting
 #if true
                 //(1-1)关闭联调线程；（1-2）关闭多轴运动：保障运动安全
                 string tempThreadName = "InkCarGoogolHomeThread";//(1)关闭联调线程
-                stopInkCarHomeRequested = true;
+                DeleteThread(tempThreadName);
                 //(a)检测到正限位和负限位后紧急停止运动（与点动/墨车 Jog 同用 motionMap 轴1/2）
                 motionMap.StopMotion(1, true);
                 motionMap.StopMotion(2, true);
@@ -3789,7 +3825,6 @@ namespace BinderJetting
                     }
                     else
                     {
-                        stopInkCarHomeRequested = false;
                         ThreadStart initThreadEntry = new ThreadStart(InkCarGoogolHomeThread);//20200220:线程入口方法修改为联动线程
                         tempThread = new Thread(initThreadEntry) { IsBackground = true };
                         tempThread.Name = tempThreadName;
@@ -3822,7 +3857,7 @@ namespace BinderJetting
 #if true
                 //(1-1)关闭联调线程；（1-2）关闭多轴运动：保障运动安全
                 string tempThreadName = "InkCarGoogolHomeThread";//(1)关闭联调线程
-                stopInkCarHomeRequested = true;
+                DeleteThread(tempThreadName);
                 //(a)检测到正限位和负限位后紧急停止运动（与点动/墨车 Jog 同用 motionMap 轴1/2）
                 motionMap.StopMotion(1, true);
                 motionMap.StopMotion(2, true);
@@ -3844,20 +3879,9 @@ namespace BinderJetting
             Thread tempThread = EncoderResetThreads.Where(x => x.Name == tempThreadName).FirstOrDefault();
             if (tempThread != null)
             {
-                if (tempThread == Thread.CurrentThread)
-                {
-                    // 当前线程自然退出时，只移除登记，不能再对自己 Abort，
-                    // 否则会把正常结束过程打成 ThreadAbortException。
-                    EncoderResetThreads.Remove(tempThread);
-                    return;
-                }
-
-                if (tempThread.IsAlive)
-                {
-                    tempThread.Abort();//20200221修改:当调用非托管线程时，有时会抛出异常但不一定及时停止
-                    while (tempThread.ThreadState != ThreadState.Aborted)
-                    { Thread.Sleep(2); }
-                }
+                tempThread.Abort();//20200221修改:当调用非托管线程时，有时会抛出异常但不一定及时停止
+                while (tempThread.ThreadState != ThreadState.Aborted)
+                { Thread.Sleep(2); }
                 EncoderResetThreads.Remove(tempThread);//20200111添加：解决Gohome无法重新执行的BUG
             }
         }
@@ -3873,12 +3897,32 @@ namespace BinderJetting
             }
             else//铺粉车位于正常停靠区
             {
-                bool ReturnCode = motionMap.SetBackHome(7/*轴*/, k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition /*0*//*105*//*原点复位值，单位MM*/, 20/*校准速度，单位MM/S*/, 1000/*搜索距离,单位MM*/, 5/*脱离距离，单位MM*/, ref PowderCarHomeFlag/*校准完成标志*/);//20260416修改：铺粉轴改为轴7
+                bool ReturnCode = motionMap.SetBackHome(7/*轴*/, k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition /*0*//*105*//*原点复位值，单位MM*/, 20/*校准速度，单位MM/S*/, 1000 * PowderCarHomeSearchSign/*搜索距离(mm)：符号只决定寻 Home 第一段方向*/, PowderCarHomeRetractMm/*第二段：捕获脉冲 + mm×1000，见 PowderCarHomeRetractMm 注释*/, ref PowderCarHomeFlag/*校准完成标志*/);//20260416修改：铺粉轴改为轴7
                 if (ReturnCode == true)//校准成功
                 {
                     RollerParam = 0/*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed*/;//201029批注：更新辊子速度
-                    double AimPos = 1; double MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed; //更新值到本地变量
-                    BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停        
+                    // SetBackHome 末尾 SetEncPos 为 -(home_value×1000) 脉冲；GetCurrentPos(7) 再乘 PowderCarDisplaySign。
+                    // 配置里 m_dPowderCarHomeposition 多为正（如 112），数显可能为 -112，若 BackToStation2 仍用 AimPos=+112，
+                    // 则 TrapSpace=112-(-112)=224mm → targetPulse 约 ±224000，必顶限位。此处选用与当前显示最接近的 ±cfgHome。
+                    double cfgHome = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition;
+                    double cur = GetCurrentPos(7);
+                    double AimPos = cfgHome;
+                    if (Math.Abs(cur - cfgHome) > Math.Abs(cur + cfgHome))
+                    {
+                        AimPos = -cfgHome;
+                    }
+
+                    double MovSpeed = 20.0;//与 SetBackHome 校准速度一致
+                    double trapMm = AimPos - cur;
+                    Log4Net.Info($"PowderCarHomeResetThread: SetBackHome 后 BackToStation2, cur={cur:F3}mm, cfgHome={cfgHome:F3}mm, AimPos={AimPos:F3}mm, TrapSpace≈{trapMm:F3}mm, MovSpeed={MovSpeed}mm/s");
+                    if (Math.Abs(trapMm) > 0.05)
+                    {
+                        BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
+                    }
+                    else
+                    {
+                        Log4Net.Info("PowderCarHomeResetThread: |TrapSpace|≤0.05mm，跳过 BackToStation2");
+                    }
                 }
             }
 
@@ -5714,7 +5758,8 @@ namespace BinderJetting
         private void BackToStation2(double AimPos, double m_MovSpeed, bool WaitStopFLag)//20220520新建：铺粉轴运动至指定区域：AimPos位置单位为MM
         {
             double CurrentPos = GetCurrentPos(7);//20260416修改：当前铺粉车运动轴改为轴7
-            double TrapSpace = AimPos - CurrentPos;
+            // 铺粉流程位移按目标与当前差值计算；默认同向（PowderCarProcessSign=+1）。
+            double TrapSpace = (AimPos - CurrentPos) * PowderCarProcessSign;
             TrapMoveUp(7, true, Convert.ToString(m_MovSpeed), Convert.ToString(TrapSpace), true, !WaitStopFLag/*true*/);//20260416修改：当前铺粉车运动轴改为轴7
         }
         private void BackToStation3(double AimPos, double m_MovSpeed, bool WaitStopFLag)//20220528新建：刮墨轴运动到指定为位置：AimPos位置单位为MM
@@ -5750,6 +5795,8 @@ namespace BinderJetting
                 double currentMm2 = rawCount / countPerMM;
                 if (Axis == 1 || Axis == 2)
                     currentMm2 = ToDisplayMm(Axis, currentMm2);
+                else if (Axis == 7)
+                    currentMm2 *= PowderCarDisplaySign;
                 Log4Net.Info($"GetCurrentPos: exit, Axis={Axis}, rawCount={rawCount}, countPerMM={countPerMM}, currentMm(display)={currentMm2:F3}");
                 return currentMm2;
             }
@@ -5768,13 +5815,6 @@ namespace BinderJetting
             return 1000.0;
         }
 
-        private int GetInkCarCmdSign(int axis)
-        {
-            if (axis == 1) return InkCarXCmdSign;
-            if (axis == 2) return InkCarYCmdSign;
-            return 1;
-        }
-
         private double ToDisplayMm(int axis, double mm)
         {
             if (axis == 1)
@@ -5782,29 +5822,6 @@ namespace BinderJetting
             if (axis == 2)
                 return mm * InkCarYDisplaySign;
             return mm;
-        }
-
-        private double FromDisplayMm(int axis, double displayMm)
-        {
-            if (axis == 1)
-                return displayMm * InkCarXDisplaySign;
-            if (axis == 2)
-                return displayMm * InkCarYDisplaySign;
-            return displayMm;
-        }
-
-        private bool IsPositiveDirectionLimitActive(int axis)
-        {
-            if (axis == 1 || axis == 2)
-                return motionMap.axisSateMonitor.FlagNegLimit1;
-            return motionMap.axisSateMonitor.FlagPosLimit1;
-        }
-
-        private bool IsNegativeDirectionLimitActive(int axis)
-        {
-            if (axis == 1 || axis == 2)
-                return motionMap.axisSateMonitor.FlagPosLimit1;
-            return motionMap.axisSateMonitor.FlagNegLimit1;
         }
 
         public void LogInkCarAxisSnapshot(string context)
@@ -5942,19 +5959,21 @@ namespace BinderJetting
                             {
                                 Log4Net.Info($"BackToStation Y: before GetEncPos, AimPos={AimPos:F3}");
                                 double[] encY = motionMap.GetEncPos();
-                                double currentMmYRaw = encY[1] / EncoderLinePerMM;
-                                double currentMmYDisplay = ToDisplayMm(2, currentMmYRaw);
-                                Log4Net.Info($"BackToStation Y: encoder raw={encY[1]}, currentMm(raw)={currentMmYRaw:F3}, currentMm(display)={currentMmYDisplay:F3}");
+                                double currentMmY = encY[1] / EncoderLinePerMM;
+                                double currentMmYDisplay = ToDisplayMm(2, currentMmY);
+                                Log4Net.Info($"BackToStation Y: encoder raw={encY[1]}, currentMm(raw)={currentMmY:F3}, currentMm(display)={currentMmYDisplay:F3}");
+                                // 与 X 分支一致：位移必须用显示/界面同一套坐标（曾用 raw 而 InkCarYDisplaySign=-1 时会导致 Y 向运动反向）
                                 int moveCountsY = (int)((AimPos - currentMmYDisplay) * EncoderLinePerMM);
                                 double velCountPerMsY = m_MovSpeed * DriverPulsePerMM / 1000.0;
 
-                                string msg = $"Y 固高定位：当前{{{currentMmYDisplay:F3}}}mm 目标{{{AimPos:F3}}}mm 相对{{{moveCountsY * GetInkCarCmdSign(2)}}}count 速度{{{velCountPerMsY:F1}}}count/ms";
+                                string msg = $"Y 固高定位：当前{{{currentMmYDisplay:F3}}}mm 目标{{{ToDisplayMm(2, AimPos):F3}}}mm 相对{{{moveCountsY}}}count 速度{{{velCountPerMsY:F1}}}count/ms";
                                 Log4Net.Info(msg);
 
                                 gts.mc.TTrapPrm y1TrapPrm = new gts.mc.TTrapPrm();
                                 y1TrapPrm.acc = 0.5; y1TrapPrm.dec = 0.5; y1TrapPrm.velStart = 5; y1TrapPrm.smoothTime = 1;
-                                Log4Net.Info($"BackToStation Y: before TrapMotion, moveCountsY={moveCountsY}, velCountPerMsY={velCountPerMsY:F3}, waitStop={WaitStopFLag}");
-                                motionMap.TrapMotion(2, ref y1TrapPrm, moveCountsY * GetInkCarCmdSign(2), velCountPerMsY, 0, 0, WaitStopFLag);
+                                int moveYCmd = moveCountsY * InkCarYCmdSign;
+                                Log4Net.Info($"BackToStation Y: before TrapMotion, moveCountsY={moveCountsY}, moveYCmd={moveYCmd} (InkCarYCmdSign={InkCarYCmdSign}), velCountPerMsY={velCountPerMsY:F3}, waitStop={WaitStopFLag}");
+                                motionMap.TrapMotion(2, ref y1TrapPrm, moveYCmd, velCountPerMsY, 0, 0, WaitStopFLag);
                                 Log4Net.Info("BackToStation Y: after TrapMotion");
 
                                 try { YAxisMoveStarted?.Invoke(); } catch (Exception ex) { Log4Net.Info($"YAxisMoveStarted 回调异常：{ex.Message}"); }
@@ -8087,7 +8106,8 @@ namespace BinderJetting
                         PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置
                         RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
                         double PowderStationCorrection = k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection;
-                        AimPos = 1 - PowderStationCorrection;
+                        // 回程目标使用“铺粉车 home 绝对坐标 - 微调量”，避免旧版 1-correction 导致跨零过大行程。
+                        AimPos = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition - PowderStationCorrection;
                         MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed /*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//更新值到本地变量
                                                                                                                                                        //回程速度125mm/s//20230228修改：回程固化速度可以修改
                         BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为等停
@@ -9251,7 +9271,13 @@ namespace BinderJetting
                 PosValue = GetCurrentPos(7);//20260416修改：当前铺粉车运动轴改为轴7
                 RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
                 double PowderStationCorrection = k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection;
-                AimPos = 1 - PowderStationCorrection;
+                // 回程站1目标改为“就近的 ±Home 一侧”，避免从行程端跨零过冲到负限位。
+                double cfgHome = Math.Abs(k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition);
+                double aimPosPosHome = cfgHome - PowderStationCorrection;
+                double aimPosNegHome = -cfgHome - PowderStationCorrection;
+                AimPos = (Math.Abs(PosValue - aimPosPosHome) <= Math.Abs(PosValue - aimPosNegHome))
+                    ? aimPosPosHome
+                    : aimPosNegHome;
                 MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//更新值到本地变量//回程速度125mm/s
                 BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为等停
                 msg = $"铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：{AimPos}mm，速度{MovSpeed}mm/s：BackToStation2";
@@ -9764,7 +9790,8 @@ namespace BinderJetting
                 PosValue = GetCurrentPos(7);//20260416修改：当前铺粉车运动轴改为轴7
                 RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
                 double PowderStationCorrection = k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection;
-                AimPos = 1 - PowderStationCorrection;
+                // 回程目标使用“铺粉车 home 绝对坐标 - 微调量”，避免旧版 1-correction 导致跨零过大行程。
+                AimPos = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition - PowderStationCorrection;
                 MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//更新值到本地变量//回程速度125mm/s
                 BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为等停
                 msg = $"铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：{AimPos}mm，速度{MovSpeed}mm/s：BackToStation2";
@@ -10189,7 +10216,8 @@ namespace BinderJetting
                 PosValue = GetCurrentPos(7);//20260416修改：当前铺粉车运动轴改为轴7
                 RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
                 double PowderStationCorrection = k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection;
-                AimPos = 1 - PowderStationCorrection;
+                // 回程目标使用“铺粉车 home 绝对坐标 - 微调量”，避免旧版 1-correction 导致跨零过大行程。
+                AimPos = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition - PowderStationCorrection;
                 MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//更新值到本地变量//回程速度125mm/s
                 BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为等停
                 msg = $"铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：{AimPos}mm，速度{MovSpeed}mm/s：BackToStation2";
@@ -11863,7 +11891,6 @@ namespace BinderJetting
             existCorrectProcessFlag = true;
             try
             {
-                stopInkCarHomeRequested = false;
                 InkCarXHomeFlag = false;
                 InkCarYHomeFlag = false;
                 RefreshInkCarHomeFlag();
@@ -11897,17 +11924,12 @@ namespace BinderJetting
             DateTime lastHeartbeat = startTime;
             while ((DateTime.Now - startTime) < timeout)
             {
-                if (stopInkCarHomeRequested)
-                {
-                    Log4Net.Info($"墨车轴{Axis}限位回零：收到停止请求，结束限位等待");
-                    return false;
-                }
                 int axisStatus = 0;
                 motionMap.GetAxisStatus(Axis, out axisStatus);
                 motionMap.ReadAxisSate(Axis);
                 bool hitLimit = SearchPositiveDirection
-                    ? IsPositiveDirectionLimitActive(Axis)
-                    : IsNegativeDirectionLimitActive(Axis);
+                    ? motionMap.axisSateMonitor.FlagPosLimit1
+                    : motionMap.axisSateMonitor.FlagNegLimit1;
                 if (hitLimit)
                 {
                     Log4Net.Info($"墨车轴{Axis}限位回零：检测到限位触发，状态=0x{axisStatus:X}");
@@ -11962,17 +11984,12 @@ namespace BinderJetting
             DateTime lastHeartbeat = startTime;
             while ((DateTime.Now - startTime) < timeout)
             {
-                if (stopInkCarHomeRequested)
-                {
-                    Log4Net.Info($"墨车轴{Axis}限位释放等待：收到停止请求，结束释放等待");
-                    return false;
-                }
                 int axisStatus = 0;
                 motionMap.GetAxisStatus(Axis, out axisStatus);
                 motionMap.ReadAxisSate(Axis);
                 bool limitStillActive = WasPositiveLimit
-                    ? IsPositiveDirectionLimitActive(Axis)
-                    : IsNegativeDirectionLimitActive(Axis);
+                    ? motionMap.axisSateMonitor.FlagPosLimit1
+                    : motionMap.axisSateMonitor.FlagNegLimit1;
                 if (!limitStillActive)
                 {
                     Log4Net.Info($"墨车轴{Axis}限位释放等待：限位已释放，状态=0x{axisStatus:X}");
@@ -12013,9 +12030,9 @@ namespace BinderJetting
                 motionMap.StopMotion(Axis, true);
 
                 int searchPosition = SearchPositiveDirection ? searchCounts : -searchCounts;
-                if (Axis == 1 || Axis == 2)
-                    searchPosition *= GetInkCarCmdSign(Axis);
-                Log4Net.Info($"墨车轴{Axis}限位回零：开始搜索限位，方向={(SearchPositiveDirection ? "正" : "负")}（按软件坐标系镜像到硬件方向），目标脉冲={searchPosition}");
+                if (Axis == 1)
+                    searchPosition *= InkCarXCmdSign;
+                Log4Net.Info($"墨车轴{Axis}限位回零：开始搜索限位，方向={(SearchPositiveDirection ? "正" : "负")}（已按 InkCarXCmdSign 与点动一致），目标脉冲={searchPosition}");
                 motionMap.TrapMotion(Axis, ref trapPrm, searchPosition, velocity, 0, 0, true);
                 Log4Net.Info($"墨车轴{Axis}限位回零：搜索阶段完成");
 
@@ -12028,9 +12045,8 @@ namespace BinderJetting
                     return false;
                 }
 
-                // 命中硬限位后，轴通常已被控制器拦停；这里不再额外急停，
-                // 直接清状态并执行反向脱离限位，避免急停状态残留导致回退命令不生效。
-                Thread.Sleep(100);
+                motionMap.StopMotion(Axis, true);
+                Thread.Sleep(250);
                 motionMap.ClrLimitAndAbrupt(Axis);
 
                 int homeEncPos;
@@ -12047,21 +12063,17 @@ namespace BinderJetting
                         smoothTime = trapPrm.smoothTime
                     };
 
-                    int retreatPulse = (int)Math.Round(-rollbackCounts * GetInkCarCmdSign(Axis));
+                    int retreatPulse = -(int)Math.Round(rollbackCounts);
+                    retreatPulse *= InkCarXCmdSign;
                     Log4Net.Info($"墨车轴{Axis}限位回零：开始执行脱离限位回退，rollbackMm={rollbackMm:F3}, targetMm={rollbackTargetMm:F3}, retreatPulse={retreatPulse}");
+                    // 必须 WaitStopFlag=true：false 时 TrapMotion 内 while 要求限位位为 0；碰正限位后尚未脱离瞬间仍压开关，循环立刻结束，等效于“未等高回退”，现场表现为停限位处不动。
+                    motionMap.TrapMotion(Axis, ref retreatTrapPrm, retreatPulse, velocity, 0, 0, true);
+                    Thread.Sleep(50);
                     motionMap.ClrLimitAndAbrupt(Axis);
-                    motionMap.TrapMotion(Axis, ref retreatTrapPrm, retreatPulse, velocity, 0, 0, false);
-                    if (!WaitForInkCarLimitRelease(Axis, true, TimeSpan.FromSeconds(5)))
-                    {
-                        Log4Net.Info($"墨车轴{Axis}限位回零：X轴脱离正限位失败，终止设零");
-                        motionMap.StopMotion(Axis, true);
-                        motionMap.ClrLimitAndAbrupt(Axis);
-                        return false;
-                    }
-                    motionMap.StopMotion(Axis, true);
-                    motionMap.ClrLimitAndAbrupt(Axis);
+                    if (!WaitForInkCarLimitRelease(Axis, true, TimeSpan.FromSeconds(15)))
+                        Log4Net.Info($"墨车轴{Axis}限位回零：回退后正限位等待释放超时（将仍按目标坐标设定编码器，请核对机械）");
 
-                    homeEncPos = (int)Math.Round(FromDisplayMm(Axis, rollbackTargetMm) * countPerMm);
+                    homeEncPos = (int)Math.Round(rollbackTargetMm * countPerMm);
                     Log4Net.Info($"墨车轴{Axis}限位回零：回退完成后设定坐标，targetMm={rollbackTargetMm:F3}, targetEnc={homeEncPos}");
                 }
                 else if (Axis == 2 && !SearchPositiveDirection)
@@ -12077,29 +12089,24 @@ namespace BinderJetting
                         smoothTime = trapPrm.smoothTime
                     };
 
-                    int retreatPulse = (int)Math.Round(rollbackCounts * GetInkCarCmdSign(Axis));
+                    int retreatPulse = (int)Math.Round(rollbackCounts);
                     Log4Net.Info($"墨车轴{Axis}限位回零：开始执行脱离限位回退，rollbackMm={rollbackMm:F3}, targetMm={rollbackTargetMm:F3}, retreatPulse={retreatPulse}");
+                    // 同 X：回退段勿用 TrapMotion(...,false)，否则起始仍压负限时内部等待立即退出。
+                    motionMap.TrapMotion(Axis, ref retreatTrapPrm, retreatPulse, velocity, 0, 0, true);
+                    Thread.Sleep(50);
                     motionMap.ClrLimitAndAbrupt(Axis);
-                    motionMap.TrapMotion(Axis, ref retreatTrapPrm, retreatPulse, velocity, 0, 0, false);
-                    if (!WaitForInkCarLimitRelease(Axis, false, TimeSpan.FromSeconds(5)))
-                    {
-                        Log4Net.Info($"墨车轴{Axis}限位回零：Y轴脱离负限位失败，终止设零");
-                        motionMap.StopMotion(Axis, true);
-                        motionMap.ClrLimitAndAbrupt(Axis);
-                        return false;
-                    }
-                    motionMap.StopMotion(Axis, true);
-                    motionMap.ClrLimitAndAbrupt(Axis);
+                    if (!WaitForInkCarLimitRelease(Axis, false, TimeSpan.FromSeconds(15)))
+                        Log4Net.Info($"墨车轴{Axis}限位回零：回退后负限位等待释放超时（将仍按目标坐标设定编码器，请核对机械）");
 
-                    homeEncPos = (int)Math.Round(FromDisplayMm(Axis, rollbackTargetMm) * countPerMm);
+                    homeEncPos = -(int)Math.Round(rollbackTargetMm * countPerMm);
                     Log4Net.Info($"墨车轴{Axis}限位回零：回退完成后设定坐标，targetMm={rollbackTargetMm:F3}, targetEnc={homeEncPos}");
                 }
                 else
                 {
-                    homeEncPos = (int)Math.Round(FromDisplayMm(Axis, HomeMm) * countPerMm);
+                    homeEncPos = Axis == 2 ? -(int)Math.Round(homeCounts) : (int)Math.Round(homeCounts);
                 }
 
-                double finalHomeMm = ToDisplayMm(Axis, homeEncPos / countPerMm);
+                double finalHomeMm = Axis == 2 ? -homeEncPos / countPerMm : homeEncPos / countPerMm;
                 Log4Net.Info($"墨车轴{Axis}限位回零：触发限位后设定坐标，目标编码器={homeEncPos}，显示位置={finalHomeMm:F2}mm");
                 motionMap.SetEncPos(Axis, homeEncPos);
                 motionMap.ReadAxisSate(Axis);

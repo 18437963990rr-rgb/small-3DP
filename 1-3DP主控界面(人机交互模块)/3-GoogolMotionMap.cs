@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -319,12 +319,10 @@ namespace Motion
 
 
         /// <summary>
-        /// search_home:为搜索距离;reset_home为复位校准距离;home_value，为原点校准之后的复位值//20220512修改：修改函数名称为SetBackHome,更容易理解
+        /// Home 捕获后第二段：按固高例程 <c>GT_SetPos(axis, 捕获脉冲 + offset脉冲)</c>，其中 offset脉冲=(int)(home_offset×1000)，<paramref name="home_offset"/> 为有符号 mm。
+        /// 成功后对本轴 <c>GT_ZeroPos</c> 再 <c>GT_SetEncPos</c> 写入 <paramref name="home_value"/> 对应逻辑坐标（不再把 home_offset 加进 SetEncPos）。
         /// </summary>
-        /// <param name="AXIS"></param>
-        /// <param name="search_home"></param>
-        /// <param name="reset_home"></param>
-        public bool SetBackHome(short AXIS, double/*int*/ home_value /*原点复位值*/, double homeVel, int search_home/*搜索距离*/, double/*int*/ home_offset/*默认复位位置：脱离距离*/, ref bool PowderCarHomeFlag)
+        public bool SetBackHome(short AXIS, double/*int*/ home_value /*原点复位值*/, double homeVel, int search_home/*搜索距离(mm)×内部再×1000 为脉冲*/, double/*int*/ home_offset/*第二段增量(mm，有符号)*/, ref bool PowderCarHomeFlag)
         {
             //(0-1)清除指定轴的报警和限位
             short sRtn = gts.mc.GT_ClrSts(cardNumber, AXIS, 8);
@@ -404,7 +402,7 @@ namespace Motion
                 //gts.mc.GT_GetEncPos(cardNumber, AXIS, out encPos1, 1, out pClock);//encPos: 读取编码器位置
 
                 k_dJourney1 = GetEncPos();//20220511批注：读取所有8轴的编码器位置 //运动到正限，读取行程值。单位：脉冲//临时注释掉：
-                encPos1 = k_dJourney1[1/*3*/];//20220511批注：获取第2轴的编码器位置//20220512批注：编码器输出值反转，软件修补：取反
+                encPos1 = k_dJourney1[AXIS - 1];// 必须用当前回零轴；原硬编码 [1] 为墨车Y，铺粉车用轴7时会误用轴2读值
 #endif
                 //运动停止，返回出错信息
                 if (0 == (status & 0x400))//返回出错信息
@@ -415,8 +413,12 @@ namespace Motion
             while (capture == 0);//20220511批注：当捕获标志位置位后，退出捕获阶段
             //MessageBox.Show("零位此刻触发！");
 
-            //20220511批注：脱离捕获位置区域//找到问题在哪里了：编码器的位置接反了：原因应该再次；明天和宏鸣确认
-            position = -pos + (int)(home_offset * 1000);//20220511批注：下一步点动的偏移量，可正可负//20201011修正：在固高控制器中，每mm对应1000个脉冲
+            // 第二段与固高例程 8-3「Home 回零」一致：targetPulse = 捕获位置脉冲 + 偏移脉冲（见 Form1.cs GT_SetPos(axis, pos + home_offset)）。
+            // home_offset 形参：有符号 mm，换算 offsetPulse = (int)(home_offset*1000)；例 -116mm → 相对捕获点再向负向 116mm（原软件观察值）。
+            // 已废弃的旧式 -pos+offset、以及仅按 searchSign*脱离量 的写法，与例程及「捕获+增量」物理含义不一致。
+            int offsetPulse = (int)(home_offset * 1000);
+            position = pos + offsetPulse;
+            LogInfo($"SetBackHome: AXIS={AXIS} Home捕获后第二段(例程 pos+offset), pos(捕获脉冲)={pos}, home_offset(mm)={home_offset:F3}, offsetPulse={offsetPulse}, targetPulse={position}");
             //(9)
             gts.mc.GT_SetPos(cardNumber, AXIS, position);// 设定目标位置为捕获位置+偏移量
             Commandhandler("GT_SetPos", sRtn);
@@ -442,23 +444,25 @@ namespace Motion
             //(14)
             gts.mc.GT_GetPrfPos(cardNumber, AXIS, out prfPos/*终止时刻规划期位置*/, 1, out pClock);//20220511新建：返回，终止时刻规划期位置
             k_dJourney = GetEncPos();//运动到正限，读取行程值。单位：脉冲//临时注释掉：
-            encPos = k_dJourney[1/*3*/];//20220511批注：获取第2轴的编码器位置//20220511批注：修改为第2轴的值//20220512批注：编码器输出值反转，软件修补：取反
+            encPos = k_dJourney[AXIS - 1];// 与第二段 GT_SetPos 目标比对：须为当前轴编码器，不可写死轴2
 
-            //校验：是否运动准确
-            if (encPos != position)//20220511批注：编码器计数方向，TMD恰好和规划器方向相反，恶心死了//进一步简化代码
+            // 校验：浮点脉冲与跟随误差，勿用 encPos!=position 硬相等（易误判失败）。
+            const double homeVerifyTolPulse = 30.0;
+            double encErr = Math.Abs(encPos - position);
+            if (encErr > homeVerifyTolPulse)
             {
-#if false
-                MessageBox.Show("Home出错！！" + ",捕获规划器数值：" + prfPos1 + "，捕获编码器数值：" + encPos1 + "；" +
-                    "终止规划器数值：" + prfPos + "终止编码器数值：" + encPos + "。目标设置数值：" + position);
-#endif
+                LogInfo($"SetBackHome: AXIS={AXIS} 第二段到位校验失败 encPos={encPos:F1} target={position} |enc-target|={encErr:F1} tol={homeVerifyTolPulse}");
                 PowderCarHomeFlag = false;//20200627批注：墨车回零成功标志位
                 return false;//20200602：回零失败
             }
-            else//重置编码器位置//20200602修改：home_value设置为0比较合适
+            else//回退完成：清零当前机械点并写入逻辑原点（勿再把第二段 home_offset 加进坐标，否则会与「脱离行程」二次叠加）。
             {
-                position = (int)((home_value + home_offset) * 1000);//20201011修正：在固高控制器中，每mm对应1000个脉冲
-                sRtn = gts.mc.GT_SetEncPos(cardNumber, AXIS, -position);//设置单轴的编码器位置//20220512修正：修正编码器值与规划期值相反问题
+                sRtn = mc.GT_ZeroPos(cardNumber, AXIS, 8);
+                Commandhandler("GT_ZeroPos post-retract", sRtn);
+                int setPulse = (int)(home_value * 1000);//仅参数中的停靠/逻辑坐标（mm→脉冲）
+                sRtn = mc.GT_SetEncPos(cardNumber, AXIS, setPulse);//沿用本轴历史约定：显示与规划极性需与 Trap/Jog 一致时再整体改号
                 Commandhandler("GT_SetEncPos", sRtn);
+                LogInfo($"SetBackHome: AXIS={AXIS} 回退后 ZeroPos+SetEncPos, 逻辑坐标写入 pulse={setPulse} (home_value={home_value:F3} mm)");
 #if false
                 MessageBox.Show("Home成功！！" + ",捕获规划器数值:" + prfPos1 + "，捕获编码器数值：" + encPos1 + "；" +
                     "终止规划器数值：" + prfPos + "终止编码器数值：" + encPos + "。目标设置数值：" + (int)(home_value * 1000));
