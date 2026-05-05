@@ -685,7 +685,7 @@ namespace Motion
             sRtn = mc.GT_GetPrfPos(0, AXIS, out pos, 1, out pClock);
             mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
             LogMotionDebug($"TrapMotion: after start state readback, axis={AXIS}, sRtn={sRtn}, pos={pos}, AxiStatus=0x{AxiStatus:X}");
-            if (WaitStopFlag == false)
+            if (WaitStopFlag)
             {
                 DateTime waitHeartbeat = DateTime.MinValue;
                 while ((Math.Abs(pos) < Math.Abs(position)) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20200220:调试时暂时去掉下方的循环检测（1）没到位置了（2）没到正限位了（3）没到负限，所有的均没发生，继续读取//或者是没有限位的时候
@@ -706,7 +706,9 @@ namespace Motion
                 }
             }
             else
-            { }
+            {
+                LogMotionDebug($"TrapMotion: no wait requested, axis={AXIS}, target={position}");
+            }
         }
 
         static double Pi = 3.14159265359;//精确到小数点后11位
@@ -867,7 +869,6 @@ namespace Motion
             uint clk;//20200221:读取时钟————————————没卵用
             double[] encpos = new double[8];
             gts.mc.GT_GetEncPos(cardNumber, 1, out encpos[0], 8, out clk);
-            encpos[1] = -encpos[1];//20220512修改：修复第2轴的编码器方向与轴运动方向方向问题
             return encpos;
         }
         public void GetAxisStatus(short AXIS,out int AxiStatus)//20220512新建：获取各轴的状态：正负限位是否发生信息等

@@ -58,7 +58,7 @@ namespace BinderJetting
         const int InkCarXDisplaySign = 1;
         const int InkCarYDisplaySign = 1;
         /// <summary>墨车 Y：仅用于点动/BackToStation 的 Trap 脉冲方向，与 <see cref="InkCarXCmdSign"/> 并列；回零流程不使用本符号。</summary>
-        const int InkCarYCmdSign = -1;
+        const int InkCarYCmdSign = 1;
 
         private const bool DisableRoyalStartupPolling = true;
 
@@ -1080,6 +1080,8 @@ namespace BinderJetting
                 double jogVel = vel;
                 if (AXIS == 1)
                     jogVel *= InkCarXCmdSign;
+                else if (AXIS == 2)
+                    jogVel *= InkCarYCmdSign;
                 else if (AXIS == 7)
                     jogVel *= PowderCarCmdSign;
                 motionMap.JogMotion(AXIS, ref motionMap.jogPrm, jogVel, RollerParam);
@@ -1173,6 +1175,8 @@ namespace BinderJetting
                 double jogVel = -vel;
                 if (AXIS == 1)
                     jogVel *= InkCarXCmdSign;
+                else if (AXIS == 2)
+                    jogVel *= InkCarYCmdSign;
                 else if (AXIS == 7)
                     jogVel *= PowderCarCmdSign;
                 motionMap.JogMotion(AXIS, ref motionMap.jogPrm, jogVel, RollerParam);//这一行代码应该没有问题
@@ -1960,6 +1964,8 @@ namespace BinderJetting
                         // X 轴命令层方向修正：正向按钮输出反向脉冲
                         cmdPosition = cmdPosition * InkCarXCmdSign;
                     }
+                    else if (AXIS == 2)
+                        cmdPosition *= InkCarYCmdSign;
                     else if (AXIS == 7)
                         cmdPosition *= PowderCarCmdSign;
                     motionMap.TrapMotion(AXIS, ref motionMap.trapPrm, cmdPosition, vel, RollerParam, RollerDirection, WaitStopFlag);//20220512修改：默认点动运动等停为false，特殊情况下不等停
@@ -2153,6 +2159,8 @@ namespace BinderJetting
                         // X 轴命令层方向修正：反向按钮输出反向脉冲
                         cmdPosition = cmdPosition * InkCarXCmdSign;
                     }
+                    else if (AXIS == 2)
+                        cmdPosition *= InkCarYCmdSign;
                     else if (AXIS == 7)
                         cmdPosition *= PowderCarCmdSign;
                     motionMap.TrapMotion(AXIS, ref motionMap.trapPrm, cmdPosition, vel, RollerParam, RollerDirection, WaitStopFlag);
@@ -4125,7 +4133,7 @@ namespace BinderJetting
         }
 
 
-        float m_szMovSpeed = 50/*0*/;//20210618修改：修改默认值到50  mm/s
+        float m_szMovSpeed = 20/*0*/;//20210618修改：修改默认值到50  mm/s
         float m_szCleanSpeed = 50;//20220520新建：默认刮喷头速度为50 mm/s
         int m_nCleanTime = 1;//20220520新建：默认刮喷头次数为3次//20220915修改：修改为2次清洗
         private void SpeedBox_SelectedIndexChanged(object sender, EventArgs e)//更新速度
@@ -5943,9 +5951,7 @@ namespace BinderJetting
 
                                 if (WaitStopFLag)
                                 {
-                                    Log4Net.Info("BackToStation X: before StopMotion");
-                                    motionMap.StopMotion(1, true);
-                                    Log4Net.Info("BackToStation X: after StopMotion");
+                                    Log4Net.Info("BackToStation X: TrapMotion 已按 waitStop=true 等待到位，不再额外 StopMotion");
                                 }
                                 Log4Net.Info("BackToStation X: before encoder readback");
                                 double afterMmRaw = motionMap.GetEncPos()[0] / EncoderLinePerMM;
@@ -5964,7 +5970,7 @@ namespace BinderJetting
                                 Log4Net.Info($"BackToStation Y: encoder raw={encY[1]}, currentMm(raw)={currentMmY:F3}, currentMm(display)={currentMmYDisplay:F3}");
                                 // 与 X 分支一致：位移必须用显示/界面同一套坐标（曾用 raw 而 InkCarYDisplaySign=-1 时会导致 Y 向运动反向）
                                 int moveCountsY = (int)((AimPos - currentMmYDisplay) * EncoderLinePerMM);
-                                double velCountPerMsY = m_MovSpeed * DriverPulsePerMM / 1000.0;
+                                double velCountPerMsY = 20/*m_MovSpeed * DriverPulsePerMM / 1000.0*/;
 
                                 string msg = $"Y 固高定位：当前{{{currentMmYDisplay:F3}}}mm 目标{{{ToDisplayMm(2, AimPos):F3}}}mm 相对{{{moveCountsY}}}count 速度{{{velCountPerMsY:F1}}}count/ms";
                                 Log4Net.Info(msg);
@@ -5980,9 +5986,7 @@ namespace BinderJetting
 
                                 if (WaitStopFLag)
                                 {
-                                    Log4Net.Info("BackToStation Y: before StopMotion");
-                                    motionMap.StopMotion(2, true);
-                                    Log4Net.Info("BackToStation Y: after StopMotion");
+                                    Log4Net.Info("BackToStation Y: TrapMotion 已按 waitStop=true 等待到位，不再额外 StopMotion");
                                 }
                                 Log4Net.Info("BackToStation Y: before encoder readback");
                                 double afterMmY = motionMap.GetEncPos()[1] / EncoderLinePerMM;
@@ -6310,10 +6314,12 @@ namespace BinderJetting
             }
         }
         public int k_nCurrentLayer = 0;//当前的打印进度
-        public float k_fBackCleanMovSpeed = 100;
+        public float k_fBackCleanMovSpeed = 20;
 
         /// <summary>与自动打印 Command2 一致：监控关闭时用占位对象，避免 NewAutoSupplyPowderThread2* 对 toCamera 空引用。</summary>
         private SendMessageToCamera _powderMonitorStub = new SendMessageToCamera(false);
+        /// <summary>与自动打印喷墨链路一致：手动 UI 触发喷墨扫描时使用占位监控对象。</summary>
+        private SendMessageToCamera _printMonitorStub = new SendMessageToCamera(false);
 
         /// <summary>
         /// 自动清洗线程
@@ -10502,6 +10508,8 @@ namespace BinderJetting
                 double ReturnVelocity1 = m_szMovSpeed/*20*/;//喷墨移动速度
                 ReturnVelocity1 = m_MovSpeed;
                 double ReturnVelocity2 = m_BackCleanMovSpeed;//20230404新增：
+                // 20260430：对齐主流程后，整板中的绝对图形位置由 DrawLayerBMP/RenderToWic/Meteor swathTop 决定；
+                // 本处仅保留 YJetOffWidth 作为喷射中心/多 PASS 的机械微调量，不再叠加历史 OffWidth 居中量。
                 {
                     switch (PassIndex)
                     {
@@ -10806,7 +10814,7 @@ namespace BinderJetting
             {
                 double PrintWidth = 147;/*兼容旧局部参数*/
                 double passPitchY = InkCarPassPitchYMm;/*每 PASS Y 向步距 mm*/
-                double OffWidth = (310-147)/ 2/* + YJetBaseOffWidth*/;//20230424新增：小幅面打印时，中心偏移距离
+                const double passStartBaseY = 50.0;/*临时安全基准：回零后显示 50mm 时首条带先不向负限位找 15mm */
                 double ReturnVelocity1 = m_szMovSpeed/*20*/;//喷墨移动速度
                 ReturnVelocity1 = m_MovSpeed;
                 double ReturnVelocity2 = m_BackCleanMovSpeed;//20230404新增：
@@ -10824,10 +10832,10 @@ namespace BinderJetting
                             msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal}}}";
                             Log4Net.Info(msg);
 
-                            BackToStation(15 - YJetOffWidth + OffWidth, (float)ReturnVelocity2, true, false, 1);//准备 Y
+                            BackToStation(passStartBaseY - YJetOffWidth, (float)ReturnVelocity2, true, false, 1);//准备 Y
                             BackToStation(425, (float)ReturnVelocity2, false, true, 1);//准备 X
                             BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印//
-                            BackToStation(15 + passPitchY - YJetOffWidth + OffWidth, (float)ReturnVelocity1, true, true, 1);//与 AutoPrintThread2 首条对齐：末位 Y≈15+passPitchY
+                            BackToStation(passStartBaseY + passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//与 AutoPrintThread2 首条对齐：末位 Y≈50+passPitchY
 
 #region 监控指令：喷墨拍摄位点2
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
@@ -10839,7 +10847,7 @@ namespace BinderJetting
                             break;
                         case 1://第2 PASS
                             BackToStation(425, (float)ReturnVelocity1, false, true, 1);//打印//
-                            BackToStation(15 + 2 * passPitchY - YJetOffWidth + OffWidth, (float)ReturnVelocity1, true, true, 1);//第 2 条带 Y：与 AutoPrintThread2.case1 一致
+                            BackToStation(passStartBaseY + 2 * passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//第 2 条带 Y：与首条带基准 50mm 一致
 
 #region 监控指令：喷墨拍摄位点3
                             if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
@@ -10935,6 +10943,41 @@ namespace BinderJetting
                 NewAutoSupplyPowderThread2CureFirst(ref _powderMonitorStub, 0, 10, k_fBackCleanMovSpeed);
         }
 
+        /// <summary>
+        /// 阶段A收敛：UI“自动喷墨运动”与主流程当前打印扫描链路保持一致。
+        /// 当前手动界面编译配置为 TwoPassPrintMode，因此这里按主流程的 3 PASS 路径依次执行 AutoPrintThread5(0..2)，
+        /// 并补执行一次 PassIndex=3 的层后/观察站收尾动作。
+        /// </summary>
+        private void UiThreadEntry_AutoPrintThreadAlignedWithAutoPrint()
+        {
+            float movSpeed = m_szMovSpeed;
+            float backCleanMovSpeed = k_fBackCleanMovSpeed;
+            const int recordLayerIndex = 0;
+            const int recordProcessIndex = 0;
+            const int pauseFlag = 0;
+            const int notGoCleanStationFlag = 0;
+            const double yJetOffWidth = 0;
+            const double yJetBaseOffWidth = 0;
+
+            Log4Net.Info($"UI自动喷墨入口：开始按主流程同款扫描链路执行，Mode=TwoPassPrintMode(3PASS)，movSpeed={movSpeed}，backCleanMovSpeed={backCleanMovSpeed}");
+
+#if TwoPassPrintMode
+            for (int passIndex = 0; passIndex < InkCarPassCountPerLayer; passIndex++)
+            {
+                AutoPrintThread5(1, passIndex, movSpeed, backCleanMovSpeed, ref _printMonitorStub,
+                    recordLayerIndex, recordProcessIndex, pauseFlag, yJetOffWidth, notGoCleanStationFlag, yJetBaseOffWidth);
+            }
+
+            // 与主流程层后补充动作保持一致：执行一次观察站/层后收尾分支。
+            AutoPrintThread5(1, 3, movSpeed, backCleanMovSpeed, ref _printMonitorStub,
+                recordLayerIndex, recordProcessIndex, pauseFlag, yJetOffWidth, notGoCleanStationFlag, yJetBaseOffWidth);
+#else
+            AutoPrintThread();
+#endif
+
+            Log4Net.Info("UI自动喷墨入口：主流程同款扫描链路执行完成。");
+        }
+
         private bool CreateAndDeleteThread(string AimThreadName, List<Thread> AutoPrintThreadsPool, bool OpenCloseFlag)
         {
             if (OpenCloseFlag)//未在自动固化清洗//开启对应线程
@@ -10955,7 +10998,7 @@ namespace BinderJetting
                     if (tempThreadName == "AutoSupplyPowderThread") { initThreadEntry = new ThreadStart(AutoSupplyPowderThread); }//20200220:线程入口方法修改为联动线程（旧逻辑保留）
 #pragma warning restore CS0618
                     else if (tempThreadName == "NewAutoSupplyPowderThread") { initThreadEntry = new ThreadStart(UiThreadEntry_NewAutoSupplyPowderThread2AlignedWithAutoPrint); }//20260416：与自动打印 Command2 同路径
-                    else if (tempThreadName == "AutoPrintThread") { initThreadEntry = new ThreadStart(AutoPrintThread); }
+                    else if (tempThreadName == "AutoPrintThread") { initThreadEntry = new ThreadStart(UiThreadEntry_AutoPrintThreadAlignedWithAutoPrint); }//20260430：与自动打印喷墨主流程同路径
                     else if (tempThreadName == "AutoCleanThread") { initThreadEntry = new ThreadStart(UiThreadEntry_AutoCleanThread2); }//20260416：与自动打印 Command1 同路径（AutoCleanThread2）
                     else if (tempThreadName == "AutoCureThread") { initThreadEntry = new ThreadStart(AutoCureThread); }//20220520修改：新建的AutoCureThread线程内容
                     else { return false; }
@@ -12098,15 +12141,15 @@ namespace BinderJetting
                     if (!WaitForInkCarLimitRelease(Axis, false, TimeSpan.FromSeconds(15)))
                         Log4Net.Info($"墨车轴{Axis}限位回零：回退后负限位等待释放超时（将仍按目标坐标设定编码器，请核对机械）");
 
-                    homeEncPos = -(int)Math.Round(rollbackTargetMm * countPerMm);
+                    homeEncPos = (int)Math.Round(rollbackTargetMm * countPerMm);
                     Log4Net.Info($"墨车轴{Axis}限位回零：回退完成后设定坐标，targetMm={rollbackTargetMm:F3}, targetEnc={homeEncPos}");
                 }
                 else
                 {
-                    homeEncPos = Axis == 2 ? -(int)Math.Round(homeCounts) : (int)Math.Round(homeCounts);
+                    homeEncPos = (int)Math.Round(homeCounts);
                 }
 
-                double finalHomeMm = Axis == 2 ? -homeEncPos / countPerMm : homeEncPos / countPerMm;
+                double finalHomeMm = homeEncPos / countPerMm;
                 Log4Net.Info($"墨车轴{Axis}限位回零：触发限位后设定坐标，目标编码器={homeEncPos}，显示位置={finalHomeMm:F2}mm");
                 motionMap.SetEncPos(Axis, homeEncPos);
                 motionMap.ReadAxisSate(Axis);
