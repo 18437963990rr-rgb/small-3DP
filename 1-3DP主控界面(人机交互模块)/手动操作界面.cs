@@ -7183,6 +7183,93 @@ namespace BinderJetting
                 msg = $"关闭闪喷：IDP_FlashPrtCtl(false)：ReturnCode{{{nRetFlashOff}}}";
                 Log4Net.Info(msg);
 
+                {
+                    const double requestedCleanX = 860.0;
+                    double cleanStationY = INKCAR_CLEAN_STATION_Y;
+                    double pressInkX = INKCAR_CLEAN_STATION_X;
+                    double cleanX = Math.Min(requestedCleanX, XMaxDistanceMM - 5);
+                    const double scraperCleanAngleDeg = 135.0;
+                    const float wipeBackSpeed = 20.0f;
+                    const int pressInkHoldMs = 2000;
+
+                    msg = $"关闭闪喷：IDP_FlashPrtCtl(false)，ReturnCode{{{nRetFlashOff}}}";
+                    Log4Net.Info(msg);
+
+                    if (cleanX < requestedCleanX)
+                    {
+                        msg = $"自动清洗：新清洗位 X 请求值 {requestedCleanX:F1}mm 超出软件保护上限，实际使用 {cleanX:F1}mm";
+                        Log4Net.Info(msg);
+                    }
+
+                    for (int ci = 0; ci < cleanTimes; ci++)
+                    {
+                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍开始，墨车直接进入压墨区";
+                        Log4Net.Info(msg);
+
+                        BackToStation(cleanStationY, ReturnVelocity2, true, true, 1);
+                        BackToStation(pressInkX, ReturnVelocity2, false, true, 1);
+
+                        if (k_RYSYSParamAutoPrintParamInTest.m_nUseDirectPushInkModeEnabled == 1)
+                        {
+                            EnableInkPush(true);
+                            msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍开启直接压墨，保持 {pressInkHoldMs / 1000.0:F1}s";
+                            Log4Net.Info(msg);
+                            Thread.Sleep(pressInkHoldMs);
+                            EnableInkPush(false);
+                            msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍关闭直接压墨";
+                            Log4Net.Info(msg);
+                        }
+                        else
+                        {
+                            motionMap.SetDo(13, true);
+                            msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍开启压墨泵，保持 {pressInkHoldMs / 1000.0:F1}s";
+                            Log4Net.Info(msg);
+                            Thread.Sleep(pressInkHoldMs);
+                            motionMap.SetDo(13, false);
+                            msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍关闭压墨泵";
+                            Log4Net.Info(msg);
+                        }
+
+                        BackToStation(cleanX, ReturnVelocity2, false, true, 1);
+                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍已到新清洗位 X={cleanX:F1}mm，准备升刮板到 {scraperCleanAngleDeg:F1}°";
+                        Log4Net.Info(msg);
+
+                        if (!HomeInkScraperAxis(axisVel, $"AutoCleanThread2_Cycle{ci + 1}_BeforeScrape", false))
+                        {
+                            MessageBox.Show($"自动清洗第{ci + 1}遍：刮板回等待位失败");
+                            break;
+                        }
+
+                        double relativeCleanAngleDeg = scraperCleanAngleDeg - SinkHomePosition;
+                        bool scraperToCleanPos = motionMap.TrapMoveSpreaderAxis(4, axisVel, -relativeCleanAngleDeg);
+                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍刮板升至 {scraperCleanAngleDeg:F1}°，ReturnCode{{{scraperToCleanPos}}}";
+                        Log4Net.Info(msg);
+                        if (!scraperToCleanPos)
+                        {
+                            MessageBox.Show($"自动清洗第{ci + 1}遍：刮板升至清洗角失败");
+                            break;
+                        }
+
+                        BackToStation(pressInkX, wipeBackSpeed, false, true, 1);
+                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍墨车以 {wipeBackSpeed:F1}mm/s 从清洗位回刮至压墨位";
+                        Log4Net.Info(msg);
+
+                        if (!HomeInkScraperAxis(axisVel, $"AutoCleanThread2_Cycle{ci + 1}_Finish", false))
+                        {
+                            MessageBox.Show($"自动清洗第{ci + 1}遍：刮板收回等待位失败");
+                            break;
+                        }
+
+                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍完成，刮板已回等待位";
+                        Log4Net.Info(msg);
+                    }
+
+                    m_bScraperPreparedForClean = false;
+                    msg = $"结束自动清洗过程：AutoCleanThread2（压墨区 -> 压墨2秒 -> 新清洗位 -> 135度刮墨 -> 回刮至压墨位 -> 刮板回等待位）";
+                    Log4Net.Info(msg);
+                    return;
+                }
+
                 for (int ci = 0; ci < cleanTimes; ci++)
                 {
                     MoveInkCarToCleanPreStop(ReturnVelocity2, ci == 0);
@@ -11929,6 +12016,48 @@ namespace BinderJetting
             }
         }
 
+        private void LogInkCarXHomeDiagnostic(string stage)
+        {
+            try
+            {
+                double[] encPos = motionMap != null ? motionMap.GetEncPos() : null;
+                double rawCountX = (encPos != null && encPos.Length >= 1) ? encPos[0] : double.NaN;
+                double currentMmX = GetCurrentPos(1);
+                double prfPosX;
+                motionMap.GetPrfPos(1, out prfPosX);
+                double prfMmX = prfPosX / EncoderLinePerMM;
+                Log4Net.Info($"X回零诊断[{stage}]：rawCountX={rawCountX:F0}, currentMmX={currentMmX:F3}, prfPosX={prfPosX:F0}, prfMmX={prfMmX:F3}");
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Error($"X回零诊断[{stage}]异常：{ex}");
+            }
+        }
+
+        private void LogInkCarAxisEncPrfDiagnostic(short axis, string stage)
+        {
+            try
+            {
+                double[] encPos = motionMap != null ? motionMap.GetEncPos() : null;
+                double rawCount = (encPos != null && encPos.Length >= axis) ? encPos[axis - 1] : double.NaN;
+                double currentMm = GetCurrentPos(axis);
+                double prfPos;
+                motionMap.GetPrfPos(axis, out prfPos);
+                double prfMm = prfPos / GetInkCarCountPerMM(axis);
+                Log4Net.Info($"墨车轴{axis}回零诊断[{stage}]：rawCount={rawCount:F0}, currentMm={currentMm:F3}, prfPos={prfPos:F0}, prfMm={prfMm:F3}");
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Error($"墨车轴{axis}回零诊断[{stage}]异常：{ex}");
+            }
+        }
+
+        private void LogInkCarXYEncPrfDiagnostic(string stage)
+        {
+            LogInkCarAxisEncPrfDiagnostic(1, stage);
+            LogInkCarAxisEncPrfDiagnostic(2, stage);
+        }
+
         private void InkCarGoogolHomeThread()
         {
             existCorrectProcessFlag = true;
@@ -11940,7 +12069,10 @@ namespace BinderJetting
                 UpdateInkCarHomeButtonText();
 
                 RunInkCarAxisHome(1, true, XMaxDistanceMM - 50.0, "X");
+                LogInkCarXHomeDiagnostic("X回零完成后");
+                LogInkCarXHomeDiagnostic("Y回零开始前");
                 RunInkCarAxisHome(2, false, 50.0, "Y");
+                LogInkCarXHomeDiagnostic("Y回零完成后");
 
                 FinalizeInkCarGoogolHome(InkCarHomeFlag);
             }
@@ -11962,6 +12094,7 @@ namespace BinderJetting
 
         private bool WaitForInkCarLimitHit(short Axis, bool SearchPositiveDirection, TimeSpan timeout)
         {
+            const int pollSleepMs = 100;
             Log4Net.Info($"墨车轴{Axis}限位回零：开始轮询限位，方向={(SearchPositiveDirection ? "正" : "负")}，timeoutMs={timeout.TotalMilliseconds:F0}");
             DateTime startTime = DateTime.Now;
             DateTime lastHeartbeat = startTime;
@@ -11985,7 +12118,7 @@ namespace BinderJetting
                         lastHeartbeat = DateTime.Now;
                     }
 
-                Thread.Sleep(3000);
+                Thread.Sleep(pollSleepMs);
             }
 
             Log4Net.Info($"墨车轴{Axis}限位回零：等待超时，方向={(SearchPositiveDirection ? "正" : "负")}，timeoutMs={timeout.TotalMilliseconds:F0}");
@@ -11994,6 +12127,7 @@ namespace BinderJetting
 
         private bool WaitForInkCarPosition(short Axis, double targetMm, double toleranceMm, TimeSpan timeout)
         {
+            const int pollSleepMs = 100;
             Log4Net.Info($"墨车轴{Axis}位置等待：开始轮询，targetMm={targetMm:F3}, toleranceMm={toleranceMm:F3}, timeoutMs={timeout.TotalMilliseconds:F0}");
             DateTime startTime = DateTime.Now;
             DateTime lastHeartbeat = startTime;
@@ -12013,10 +12147,39 @@ namespace BinderJetting
                         lastHeartbeat = DateTime.Now;
                     }
 
-                Thread.Sleep(3000);
+                Thread.Sleep(pollSleepMs);
             }
 
             Log4Net.Info($"墨车轴{Axis}位置等待：等待超时，currentMm={currentMm:F3}, targetMm={targetMm:F3}, toleranceMm={toleranceMm:F3}");
+            return false;
+        }
+
+        private bool WaitForInkCarPrfPosition(short Axis, double targetPrfPos, double toleranceCount, TimeSpan timeout)
+        {
+            const int pollSleepMs = 100;
+            Log4Net.Info($"墨车轴{Axis}规划位置等待：开始轮询，targetPrfPos={targetPrfPos:F0}, toleranceCount={toleranceCount:F0}, timeoutMs={timeout.TotalMilliseconds:F0}");
+            DateTime startTime = DateTime.Now;
+            DateTime lastHeartbeat = startTime;
+            double currentPrfPos = double.NaN;
+            while ((DateTime.Now - startTime) < timeout)
+            {
+                motionMap.GetPrfPos(Axis, out currentPrfPos);
+                if (Math.Abs(currentPrfPos - targetPrfPos) <= toleranceCount)
+                {
+                    Log4Net.Info($"墨车轴{Axis}规划位置等待：达到目标，currentPrfPos={currentPrfPos:F0}, targetPrfPos={targetPrfPos:F0}, toleranceCount={toleranceCount:F0}");
+                    return true;
+                }
+
+                if ((DateTime.Now - lastHeartbeat) >= TimeSpan.FromSeconds(3))
+                {
+                    Log4Net.Info($"墨车轴{Axis}规划位置等待：等待中，elapsedMs={(DateTime.Now - startTime).TotalMilliseconds:F0}, currentPrfPos={currentPrfPos:F0}, targetPrfPos={targetPrfPos:F0}, toleranceCount={toleranceCount:F0}");
+                    lastHeartbeat = DateTime.Now;
+                }
+
+                Thread.Sleep(pollSleepMs);
+            }
+
+            Log4Net.Info($"墨车轴{Axis}规划位置等待：等待超时，currentPrfPos={currentPrfPos:F0}, targetPrfPos={targetPrfPos:F0}, toleranceCount={toleranceCount:F0}");
             return false;
         }
 
@@ -12057,6 +12220,8 @@ namespace BinderJetting
             try
             {
                 Log4Net.Info($"墨车轴{Axis}限位回零：进入，方向={(SearchPositiveDirection ? "正" : "负")}, HomeMm={HomeMm:F3}");
+                if (Axis == 2)
+                    LogInkCarXYEncPrfDiagnostic("Y回零开始搜索前");
                 double countPerMm = GetInkCarCountPerMM(Axis);
                 // 搜索行程按编码器计数/mm；TrapMotion 速度按命令脉冲/mm（与 BackToStation 固高分支一致）。
                 int searchCounts = (int)(2000.0 * countPerMm);
@@ -12078,6 +12243,8 @@ namespace BinderJetting
                 Log4Net.Info($"墨车轴{Axis}限位回零：开始搜索限位，方向={(SearchPositiveDirection ? "正" : "负")}（已按 InkCarXCmdSign 与点动一致），目标脉冲={searchPosition}");
                 motionMap.TrapMotion(Axis, ref trapPrm, searchPosition, velocity, 0, 0, true);
                 Log4Net.Info($"墨车轴{Axis}限位回零：搜索阶段完成");
+                if (Axis == 2)
+                    LogInkCarXYEncPrfDiagnostic("Y触发限位后回退前");
 
                 Log4Net.Info($"墨车轴{Axis}限位回零：进入限位轮询");
                 if (!WaitForInkCarLimitHit(Axis, SearchPositiveDirection, TimeSpan.FromSeconds(30)))
@@ -12112,8 +12279,10 @@ namespace BinderJetting
                     // 必须 WaitStopFlag=true：false 时 TrapMotion 内 while 要求限位位为 0；碰正限位后尚未脱离瞬间仍压开关，循环立刻结束，等效于“未等高回退”，现场表现为停限位处不动。
                     motionMap.TrapMotion(Axis, ref retreatTrapPrm, retreatPulse, velocity, 0, 0, true);
                     Thread.Sleep(50);
+                    if (!WaitForInkCarPrfPosition(Axis, retreatPulse, 500, TimeSpan.FromSeconds(10)))
+                        Log4Net.Info($"墨车轴{Axis}限位回零：正限位回退后规划位置等待超时（将继续尝试清状态并设定编码器）");
                     motionMap.ClrLimitAndAbrupt(Axis);
-                    if (!WaitForInkCarLimitRelease(Axis, true, TimeSpan.FromSeconds(15)))
+                    if (!WaitForInkCarLimitRelease(Axis, true, TimeSpan.FromSeconds(2)))
                         Log4Net.Info($"墨车轴{Axis}限位回零：回退后正限位等待释放超时（将仍按目标坐标设定编码器，请核对机械）");
 
                     homeEncPos = (int)Math.Round(rollbackTargetMm * countPerMm);
@@ -12137,9 +12306,12 @@ namespace BinderJetting
                     // 同 X：回退段勿用 TrapMotion(...,false)，否则起始仍压负限时内部等待立即退出。
                     motionMap.TrapMotion(Axis, ref retreatTrapPrm, retreatPulse, velocity, 0, 0, true);
                     Thread.Sleep(50);
+                    if (!WaitForInkCarPrfPosition(Axis, retreatPulse, 500, TimeSpan.FromSeconds(10)))
+                        Log4Net.Info($"墨车轴{Axis}限位回零：正限位回退后规划位置等待超时（将继续尝试清状态并设定编码器）");
                     motionMap.ClrLimitAndAbrupt(Axis);
-                    if (!WaitForInkCarLimitRelease(Axis, false, TimeSpan.FromSeconds(15)))
+                    if (!WaitForInkCarLimitRelease(Axis, false, TimeSpan.FromSeconds(2)))
                         Log4Net.Info($"墨车轴{Axis}限位回零：回退后负限位等待释放超时（将仍按目标坐标设定编码器，请核对机械）");
+                    LogInkCarXYEncPrfDiagnostic("Y回退完成后SetEncPos前");
 
                     homeEncPos = (int)Math.Round(rollbackTargetMm * countPerMm);
                     Log4Net.Info($"墨车轴{Axis}限位回零：回退完成后设定坐标，targetMm={rollbackTargetMm:F3}, targetEnc={homeEncPos}");
@@ -12153,6 +12325,9 @@ namespace BinderJetting
                 Log4Net.Info($"墨车轴{Axis}限位回零：触发限位后设定坐标，目标编码器={homeEncPos}，显示位置={finalHomeMm:F2}mm");
                 motionMap.SetEncPos(Axis, homeEncPos);
                 motionMap.ReadAxisSate(Axis);
+                LogInkCarAxisEncPrfDiagnostic(Axis, "SetEncPos后");
+                if (Axis == 2)
+                    LogInkCarXYEncPrfDiagnostic("Y的SetEncPos后");
                 double homeReadBackMm = GetCurrentPos(Axis);
                 bool homeMatch = Math.Abs(homeReadBackMm - HomeMm) <= 0.5;
                 Log4Net.Info($"墨车轴{Axis}限位回零：初始位设置完成，当前显示位置={homeReadBackMm:F3}mm");
@@ -12166,6 +12341,8 @@ namespace BinderJetting
                 Log4Net.Error($"墨车轴{Axis}限位回零异常：{ex}");
                 try
                 {
+                    if (!WaitForInkCarPrfPosition(Axis, retreatPulse, 500, TimeSpan.FromSeconds(10)))
+                        Log4Net.Info($"墨车轴{Axis}限位回零：负限位回退后规划位置等待超时（将继续尝试清状态并设定编码器）");
                     motionMap.ClrLimitAndAbrupt(Axis);
                     motionMap.StopMotion(Axis, true);
                 }
@@ -12205,9 +12382,14 @@ namespace BinderJetting
             bool axisMatch = Math.Abs(axisReadBackMm - HomeMm) <= 0.5;
             Log4Net.Info($"墨车{AxisName}轴回零完成判定：目标位置={HomeMm:F3}mm，实际位置={axisReadBackMm:F3}mm，结果={(axisMatch ? "OK" : "NG")}");
             LogInkCarAxisSnapshot($"墨车{AxisName}轴回零后轴快照");
-            if (InkCarHomeFlag)
+            if (Axis == 2)
             {
-                Log4Net.Info($"墨车XY轴回零完成判定：X={currentX:F3}mm，Y={currentY:F3}mm，结果=OK");
+                bool xyMatch = Math.Abs(currentX - (XMaxDistanceMM - 50.0)) <= 0.5 && Math.Abs(currentY - 50.0) <= 0.5;
+                Log4Net.Info($"墨车XY轴回零完成判定：X={currentX:F3}mm，Y={currentY:F3}mm，参考X={XMaxDistanceMM - 50.0:F3}mm，参考Y={50.0:F3}mm，结果={(xyMatch ? "OK" : "NG")}");
+                InkCarXHomeFlag = Math.Abs(currentX - (XMaxDistanceMM - 50.0)) <= 0.5;
+                InkCarYHomeFlag = Math.Abs(currentY - 50.0) <= 0.5;
+                InkCarHomeFlag = InkCarXHomeFlag && InkCarYHomeFlag;
+                RefreshInkCarHomeFlag();
             }
 
             if (returnCode == true)
@@ -13290,6 +13472,8 @@ namespace BinderJetting
 
 
         bool openValueFlag = true;
+        private double retreatPulse;
+
         private void button9_Click(object sender, EventArgs e)
         {
             if (openValueFlag == true)//开启

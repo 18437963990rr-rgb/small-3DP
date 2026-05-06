@@ -661,30 +661,107 @@ namespace Motion
         {
             short sRtn;//第二部分——本部分是重点（1）准备运动（a）清除各轴的报警和限位，必须的
 
+            if (AXIS == 2)
+            {
+                double[] encDiag = GetEncPos();
+                double prfXDiag;
+                double prfYDiag;
+                GetPrfPos(1, out prfXDiag);
+                GetPrfPos(2, out prfYDiag);
+                double encXDiag = (encDiag != null && encDiag.Length >= 1) ? encDiag[0] : double.NaN;
+                double encYDiag = (encDiag != null && encDiag.Length >= 2) ? encDiag[1] : double.NaN;
+                LogMotionDebug($"TrapMotionDiag[before GT_ClrSts]: activeAxis={AXIS}, encX={encXDiag:F0}, prfX={prfXDiag:F0}, encY={encYDiag:F0}, prfY={prfYDiag:F0}");
+            }
             sRtn = mc.GT_ClrSts(cardNumber, AXIS, 8);
             LogMotionDebug($"TrapMotion: after GT_ClrSts, axis={AXIS}, sRtn={sRtn}");
+            if (AXIS == 2)
+            {
+                double[] encDiag = GetEncPos();
+                double prfXDiag;
+                double prfYDiag;
+                GetPrfPos(1, out prfXDiag);
+                GetPrfPos(2, out prfYDiag);
+                double encXDiag = (encDiag != null && encDiag.Length >= 1) ? encDiag[0] : double.NaN;
+                double encYDiag = (encDiag != null && encDiag.Length >= 2) ? encDiag[1] : double.NaN;
+                LogMotionDebug($"TrapMotionDiag[after GT_ClrSts]: activeAxis={AXIS}, encX={encXDiag:F0}, prfX={prfXDiag:F0}, encY={encYDiag:F0}, prfY={prfYDiag:F0}");
+            }
             sRtn = mc.GT_AxisOn(0, AXIS);//（b）伺服使能，必须的(此使能非彼使能)，需要独立出来，硬件相关（过程中，不需要好反复的开启）
             LogMotionDebug($"TrapMotion: after GT_AxisOn, axis={AXIS}, sRtn={sRtn}");
+            if (AXIS == 2)
+            {
+                double[] encDiag = GetEncPos();
+                double prfXDiag;
+                double prfYDiag;
+                GetPrfPos(1, out prfXDiag);
+                GetPrfPos(2, out prfYDiag);
+                double encXDiag = (encDiag != null && encDiag.Length >= 1) ? encDiag[0] : double.NaN;
+                double encYDiag = (encDiag != null && encDiag.Length >= 2) ? encDiag[1] : double.NaN;
+                LogMotionDebug($"TrapMotionDiag[after GT_AxisOn]: activeAxis={AXIS}, encX={encXDiag:F0}, prfX={prfXDiag:F0}, encY={encYDiag:F0}, prfY={prfYDiag:F0}");
+            }
 #if false//20200515新建：此处应该关闭，不然，位置会不准确            
             sRtn = mc.GT_ZeroPos(0, AXIS, 1);//（c）实际位置清零，必须的———非必要
 #endif
             sRtn = mc.GT_SetPrfPos(0, AXIS, 0); //（d）AXIS轴规划位置清零，必须的———非必要            
             LogMotionDebug($"TrapMotion: after GT_SetPrfPos, axis={AXIS}, sRtn={sRtn}");
+            if (AXIS == 2)
+            {
+                double[] encDiag = GetEncPos();
+                double prfXDiag;
+                double prfYDiag;
+                GetPrfPos(1, out prfXDiag);
+                GetPrfPos(2, out prfYDiag);
+                double encXDiag = (encDiag != null && encDiag.Length >= 1) ? encDiag[0] : double.NaN;
+                double encYDiag = (encDiag != null && encDiag.Length >= 2) ? encDiag[1] : double.NaN;
+                LogMotionDebug($"TrapMotionDiag[after GT_SetPrfPos]: activeAxis={AXIS}, encX={encXDiag:F0}, prfX={prfXDiag:F0}, encY={encYDiag:F0}, prfY={prfYDiag:F0}");
+            }
             sRtn = mc.GT_PrfTrap(0, AXIS);//（1）设置运动模式// 将AXIS轴设为点位模式       
             LogMotionDebug($"TrapMotion: after GT_PrfTrap, axis={AXIS}, sRtn={sRtn}");
             sRtn = mc.GT_SetTrapPrm(0, AXIS, ref p_trap);//（2）设置参数并开始运动，必须的// 设置点位运动参数，必须的//trap，为引用（等同于返回值），使用之前必须初始化，否则报错。总          
             LogMotionDebug($"TrapMotion: after GT_SetTrapPrm, axis={AXIS}, sRtn={sRtn}");
             sRtn = mc.GT_SetPos(0, AXIS, position);// 设置AXIS轴的目标位置，必须的
             LogMotionDebug($"TrapMotion: after GT_SetPos, axis={AXIS}, sRtn={sRtn}, target={position}");
+            if (AXIS == 2)
+            {
+                double[] encDiag = GetEncPos();
+                double prfXDiag;
+                double prfYDiag;
+                GetPrfPos(1, out prfXDiag);
+                GetPrfPos(2, out prfYDiag);
+                double encXDiag = (encDiag != null && encDiag.Length >= 1) ? encDiag[0] : double.NaN;
+                double encYDiag = (encDiag != null && encDiag.Length >= 2) ? encDiag[1] : double.NaN;
+                LogMotionDebug($"TrapMotionDiag[after GT_SetPos]: activeAxis={AXIS}, encX={encXDiag:F0}, prfX={prfXDiag:F0}, encY={encYDiag:F0}, prfY={prfYDiag:F0}");
+            }
             sRtn = mc.GT_SetVel(0, AXIS, vel);// 设置AXIS轴的目标速度，必须的//20100111修正————已经移到调用接口中修改          
             LogMotionDebug($"TrapMotion: after GT_SetVel, axis={AXIS}, sRtn={sRtn}, vel={vel}");
             sRtn = gts.mc.GT_Update(0, 1 << (AXIS - 1));// 启动AXIS轴的运动，必须的//更新轴运动
             LogMotionDebug($"TrapMotion: after GT_Update, axis={AXIS}, sRtn={sRtn}");
+            if (AXIS == 2)
+            {
+                double[] encDiag = GetEncPos();
+                double prfXDiag;
+                double prfYDiag;
+                GetPrfPos(1, out prfXDiag);
+                GetPrfPos(2, out prfYDiag);
+                double encXDiag = (encDiag != null && encDiag.Length >= 1) ? encDiag[0] : double.NaN;
+                double encYDiag = (encDiag != null && encDiag.Length >= 2) ? encDiag[1] : double.NaN;
+                LogMotionDebug($"TrapMotionDiag[after GT_Update]: activeAxis={AXIS}, encX={encXDiag:F0}, prfX={prfXDiag:F0}, encY={encYDiag:F0}, prfY={prfYDiag:F0}");
+            }
 
             uint pClock; double pos; int AxiStatus;//轴状态//确保到位检测：//可能此处要添加读取规划位置进行检测——可以解决问题。
             sRtn = mc.GT_GetPrfPos(0, AXIS, out pos, 1, out pClock);
             mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
             LogMotionDebug($"TrapMotion: after start state readback, axis={AXIS}, sRtn={sRtn}, pos={pos}, AxiStatus=0x{AxiStatus:X}");
+            if (AXIS == 2)
+            {
+                double[] encDiag = GetEncPos();
+                double prfXDiag;
+                double prfYDiag;
+                GetPrfPos(1, out prfXDiag);
+                GetPrfPos(2, out prfYDiag);
+                double encXDiag = (encDiag != null && encDiag.Length >= 1) ? encDiag[0] : double.NaN;
+                double encYDiag = (encDiag != null && encDiag.Length >= 2) ? encDiag[1] : double.NaN;
+                LogMotionDebug($"TrapMotionDiag[after start state readback]: activeAxis={AXIS}, encX={encXDiag:F0}, prfX={prfXDiag:F0}, encY={encYDiag:F0}, prfY={prfYDiag:F0}");
+            }
             if (WaitStopFlag)
             {
                 DateTime waitHeartbeat = DateTime.MinValue;
@@ -696,6 +773,17 @@ namespace Motion
                     if (waitHeartbeat == DateTime.MinValue || (now - waitHeartbeat) >= TimeSpan.FromSeconds(3))
                     {
                         LogMotionDebug($"TrapMotion: waiting, axis={AXIS}, sRtn={sRtn}, pos={pos}, AxiStatus=0x{AxiStatus:X}, target={position}");
+                        if (AXIS == 2)
+                        {
+                            double[] encDiag = GetEncPos();
+                            double prfXDiag;
+                            double prfYDiag;
+                            GetPrfPos(1, out prfXDiag);
+                            GetPrfPos(2, out prfYDiag);
+                            double encXDiag = (encDiag != null && encDiag.Length >= 1) ? encDiag[0] : double.NaN;
+                            double encYDiag = (encDiag != null && encDiag.Length >= 2) ? encDiag[1] : double.NaN;
+                            LogMotionDebug($"TrapMotionDiag[waiting heartbeat]: activeAxis={AXIS}, encX={encXDiag:F0}, prfX={prfXDiag:F0}, encY={encYDiag:F0}, prfY={prfYDiag:F0}");
+                        }
                         waitHeartbeat = now;
                     }
                     if (sRtn != 0)
@@ -708,6 +796,17 @@ namespace Motion
             else
             {
                 LogMotionDebug($"TrapMotion: no wait requested, axis={AXIS}, target={position}");
+            }
+            if (AXIS == 2)
+            {
+                double[] encDiag = GetEncPos();
+                double prfXDiag;
+                double prfYDiag;
+                GetPrfPos(1, out prfXDiag);
+                GetPrfPos(2, out prfYDiag);
+                double encXDiag = (encDiag != null && encDiag.Length >= 1) ? encDiag[0] : double.NaN;
+                double encYDiag = (encDiag != null && encDiag.Length >= 2) ? encDiag[1] : double.NaN;
+                LogMotionDebug($"TrapMotionDiag[exit]: activeAxis={AXIS}, encX={encXDiag:F0}, prfX={prfXDiag:F0}, encY={encYDiag:F0}, prfY={prfYDiag:F0}");
             }
         }
 
