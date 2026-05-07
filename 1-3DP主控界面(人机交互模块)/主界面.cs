@@ -1030,6 +1030,11 @@ namespace BinderJetting
         double[] g_dEncpos = new double[8];
         double[] g_dEncvel = new double[8];
 
+        /// <summary>主界面 <see cref="timer2_Monitor"/>：墨车轴1/2 编码器与规划位置对比日志间隔（ms）。≤0 表示关闭。</summary>
+        // 位置监视诊断日志默认关闭；仅在需要对比 enc/prf 时临时设为正数间隔。
+        private int _inkCarEncPrfDiagLogIntervalMs = 0;
+        private DateTime _lastInkCarEncPrfDiagTimeUtc = DateTime.MinValue;
+
         double[] g_dVoltageValue = new double[4];//20200417新增：总计是8路的值，读取4路的值足够用了
         UInt32 nValveStateMask = 0b0;//20200718新增：所有的电磁阀状态信息：
         private Communication.ModbusCommunicateMap modbusCommunicateMap/* = new Communication.ModbusCommunicateMap()*/;//实例化Modbus通讯接口对象;//20220515新建：Modbus通讯映射
@@ -1220,6 +1225,29 @@ namespace BinderJetting
             }
             //textBox4.AppendText(PositonText);//PositonText += "\r\n";
             PositionLable.Text = PositonText;
+
+            //（5-1b）PositionLable 仅 enc→mm；prf 为当前段规划位置。TrapMotion 内曾对 prf 清零故 prfMm 多为本段相对位移、encMm 多为绝对光栅，Δ(enc−prf) 在运动中出现近似常偏差不等于故障；应看 Δ 是否持续恶化或 sts 报警。
+            if (g_cMotionMap != null && _inkCarEncPrfDiagLogIntervalMs > 0)
+            {
+                DateTime nowUtc = DateTime.UtcNow;
+                if (_lastInkCarEncPrfDiagTimeUtc == DateTime.MinValue
+                    || (nowUtc - _lastInkCarEncPrfDiagTimeUtc).TotalMilliseconds >= _inkCarEncPrfDiagLogIntervalMs)
+                {
+                    _lastInkCarEncPrfDiagTimeUtc = nowUtc;
+                    double prfP1 = 0, prfP2 = 0;
+                    g_cMotionMap.GetPrfPos(1, out prfP1);
+                    g_cMotionMap.GetPrfPos(2, out prfP2);
+                    double prfXmm = prfP1 / EncoderLinePerMM;
+                    double prfYmm = prfP2 / EncoderLinePerMM;
+                    double dXm = XPosValue - prfXmm;
+                    double dYm = YPosValue - prfYmm;
+                    int st1 = 0, st2 = 0;
+                    g_cMotionMap.GetAxisStatus(1, out st1);
+                    g_cMotionMap.GetAxisStatus(2, out st2);
+                    Log4Net.Info($"[PositionLable/监视] enc脉冲 A1={g_dEncpos[0]:F0} A2={g_dEncpos[1]:F0} | prf脉冲 A1={prfP1:F0} A2={prfP2:F0} | encMm(同窗体) X={XPosValue:F3} Y={YPosValue:F3} | prfMm X={prfXmm:F3} Y={prfYmm:F3} | Δ(enc-prf)mm X={dXm:F3} Y={dYm:F3} | sts A1=0x{st1:X} A2=0x{st2:X}");
+                }
+            }
+
             string PositonText2 = String.Format("|| X-{0,5:000.0,} MM; Y-{1,5:000.0,} MM; Z1-{2,5:000.0,} MM; Z2-" +
                 "{3,5:000.0,} MM; Z3-{4,5:000.0,} MM",
                 XPosValue, YPosValue, Z1PosValue, Z2PosValue, Z3PosValue);
@@ -2679,9 +2707,9 @@ namespace BinderJetting
                                     // 单层 3 PASS：nPassID 与 Meteor Pass 0..2 对齐；YJet 半宽三道对应原「offset-15/10/5」逻辑（按 PASS 固定，不再按层号 k%3 轮转）
                                     if (g_nRePrintTimes == 1)
                                     {
-                                        double yHalf0 = g_RYSYSParam.m_dYJetOff / 2;
-                                        double yHalf1 = (g_RYSYSParam.m_dYJetOff - 5) / 2;
-                                        double yHalf2 = (g_RYSYSParam.m_dYJetOff - 10) / 2;
+                                        double yHalf0 = 0; // 2026-05-07：为切换纯 Meteor 软件补偿临时统一置0；修改前=g_RYSYSParam.m_dYJetOff / 2，默认15mm时为7.5mm
+                                        double yHalf1 = 0; // 2026-05-07：为切换纯 Meteor 软件补偿临时统一置0；修改前=(g_RYSYSParam.m_dYJetOff - 5) / 2，默认15mm时为5.0mm
+                                        double yHalf2 = 0; // 2026-05-07：为切换纯 Meteor 软件补偿临时统一置0；修改前=(g_RYSYSParam.m_dYJetOff - 10) / 2，默认15mm时为2.5mm
                                         if (nPassID == 0)
                                         {
                                             Log4Net.Info($"打印主循环：Command=6(3PASS/P0)，k={k}，nPassID={nPassID}，YHalf={yHalf0}，PauseFlag={m_nPauseMovedFlag}");
@@ -3246,9 +3274,9 @@ namespace BinderJetting
 #endif
 #if TwoPassPrintPerThreeTimes
                                         {// 与 PrintTaskTHREAD 主循环一致：3 PASS 按 nPassID 分档 YJet 偏置，Command 6→AutoPrintThread5
-                                            double yHalf0 = g_RYSYSParam.m_dYJetOff / 2;
-                                            double yHalf1 = (g_RYSYSParam.m_dYJetOff - 5) / 2;
-                                            double yHalf2 = (g_RYSYSParam.m_dYJetOff - 10) / 2;
+                                            double yHalf0 = 0; // 2026-05-07：为切换纯 Meteor 软件补偿临时统一置0；修改前=g_RYSYSParam.m_dYJetOff / 2，默认15mm时为7.5mm
+                                            double yHalf1 = 0; // 2026-05-07：为切换纯 Meteor 软件补偿临时统一置0；修改前=(g_RYSYSParam.m_dYJetOff - 5) / 2，默认15mm时为5.0mm
+                                            double yHalf2 = 0; // 2026-05-07：为切换纯 Meteor 软件补偿临时统一置0；修改前=(g_RYSYSParam.m_dYJetOff - 10) / 2，默认15mm时为2.5mm
                                             if (nPassID == 0)
                                                 EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, yHalf0, 0, 0);
                                             else if (nPassID == 1)

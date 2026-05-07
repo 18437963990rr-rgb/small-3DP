@@ -75,7 +75,15 @@ namespace Motion
 
         private System.Action<string> _infoLogSink;
         private System.Action<string> _errorLogSink;
-        public bool MotionDebugEnabled = true;
+        // 默认关闭底层运动逐步调试日志；需要深度排障时再临时打开。
+        public bool MotionDebugEnabled = false;
+
+        /// <summary>
+        /// 现场诊断：刮墨/回零路径中 <see cref="EncOff"/> 会关闭 1~8 轴外接编码器；若墨车 Y（轴2）依赖外编闭环且未再 <c>GT_EncOn(2)</c>，对比规划/编码器计数有助判断。
+        /// 设为 false 可减少日志量。
+        /// </summary>
+        // 默认关闭闭环诊断采样日志；仅在编码器/闭环类问题排查时启用。
+        public bool MotionEncClosedLoopDiagEnabled = false;
 
         public void SetLogSink(System.Action<string> infoSink, System.Action<string> errorSink = null)
         {
@@ -113,6 +121,39 @@ namespace Motion
             }
 
             LogInfo(message);
+        }
+
+        /// <summary>
+        /// 读取轴1/2 状态字、规划位置、编码器位置及 Δ(prf−enc)；配合线程 tid 与 <see cref="EnableAxis2ExternalEncoderAfterInit"/> 判断是否可能在 EncOff 后丢失轴2外编闭环。
+        /// </summary>
+        public void LogInkCarAxisEncClosedLoopDiag(string context)
+        {
+            if (!MotionEncClosedLoopDiagEnabled)
+            {
+                return;
+            }
+
+            try
+            {
+                uint pClock = 0;
+                int st1 = 0, st2 = 0;
+                short rSts1 = mc.GT_GetSts(cardNumber, 1, out st1, 1, out pClock);
+                short rSts2 = mc.GT_GetSts(cardNumber, 2, out st2, 1, out pClock);
+                double prf1 = 0, prf2 = 0;
+                short rPrf1 = mc.GT_GetPrfPos(cardNumber, 1, out prf1, 1, out pClock);
+                short rPrf2 = mc.GT_GetPrfPos(cardNumber, 2, out prf2, 1, out pClock);
+                double[] enc = GetEncPos();
+                double enc1 = (enc != null && enc.Length >= 1) ? enc[0] : double.NaN;
+                double enc2 = (enc != null && enc.Length >= 2) ? enc[1] : double.NaN;
+                double d1 = double.IsNaN(enc1) ? double.NaN : prf1 - enc1;
+                double d2 = double.IsNaN(enc2) ? double.NaN : prf2 - enc2;
+                int tid = System.Threading.Thread.CurrentThread.ManagedThreadId;
+                LogInfo($"[EncClosedLoopDiag] {context} tid={tid} Axis2ExtEncCfg={EnableAxis2ExternalEncoderAfterInit} GT_GetSts_rtn A1={rSts1} A2={rSts2} | A1 sts=0x{st1:X} prf={prf1:F2} enc={enc1:F2} d(prf-enc)={d1:F2} | A2 sts=0x{st2:X} prf={prf2:F2} enc={enc2:F2} d(prf-enc)={d2:F2}");
+            }
+            catch (Exception ex)
+            {
+                LogError($"[EncClosedLoopDiag] {context} 读取异常: {ex.Message}");
+            }
         }
 
         //PART1:指令检测
@@ -178,6 +219,39 @@ namespace Motion
             }
         }
         public bool SreaderAxisHomeFlag = false;//20220526新建：撒粉轴回零标志位
+
+        /// <summary>
+        /// 与 <see cref="InitCardConfiguration"/> 对称：<see cref="EncOff"/> 会对 1~8 轴执行 <c>GT_EncOff</c>，墨车 Y(2)、成型缸(8) 等若依赖外接编码器闭环，须在子流程结束时 <c>GT_EncOn</c> 恢复，否则易出现「刮墨校准后 Y 失效」。
+        /// </summary>
+        private void RestoreExternalEncodersAfterGlobalEncOff(string context)
+        {
+            if (EnableAxis2ExternalEncoderAfterInit)
+            {
+                short s2 = gts.mc.GT_EncOn(cardNumber, 2);
+                if (s2 != 0)
+                {
+                    LogError($"{context} GT_EncOn(2) 墨车Y外编 失败: {s2}");
+                }
+                else
+                {
+                    LogInfo($"{context} 已 GT_EncOn(2) 恢复墨车Y外接编码器");
+                }
+            }
+
+            if (EnableAxis8ExternalEncoderAfterInit)
+            {
+                short s8 = gts.mc.GT_EncOn(cardNumber, 8);
+                if (s8 != 0)
+                {
+                    LogError($"{context} GT_EncOn(8) 成型缸外编 失败: {s8}");
+                }
+                else
+                {
+                    LogInfo($"{context} 已 GT_EncOn(8) 恢复成型缸外接编码器");
+                }
+            }
+        }
+
         /// <summary>
         /// 寻开槽位置并找正位置：20220526新建并批注
         /// </summary>
@@ -187,10 +261,13 @@ namespace Motion
         /// <param name="SinkPostion"></param>
         public bool SetBackSpreaderAxis(short AXIS, double homeVel/*单位 圈/s*/, int search_home/*原点搜索值：2圈，一定可搜索到原点，单位圈数*/, double SinkPostion/*开槽位置：确保开槽位置的运动准确，单位度数*/)
         {
+            try
+            {
             short sRtn = gts.mc.GT_ClrSts(cardNumber, AXIS, 8); Commandhandler("GT_ClrSts", sRtn);//(0-1)清除指定轴的报警和限位 
             sRtn = gts.mc.GT_AxisOn(0, AXIS); Commandhandler("GT_AxisOn", sRtn);//(0-2)驱动器使能
 
-            EncOff();//20200226新建：使用内部脉冲计数器                     
+            EncOffSingleAxis(AXIS);//20260507：仅关本回零轴，勿 EncOff 全轴伤及墨车Y(2)外编
+            LogInkCarAxisEncClosedLoopDiag($"SetBackSpreaderAxis AXIS={AXIS} GT_EncOff(仅此轴)后立即");
             sRtn = gts.mc.GT_SetCaptureMode(cardNumber, AXIS, gts.mc.CAPTURE_HOME); Commandhandler("GT_SetCaptureMode", sRtn);// (1)启动Home捕获
             sRtn = gts.mc.GT_PrfTrap(cardNumber, AXIS); Commandhandler("GT_PrfTrap", sRtn);// (2)切换到点位运动模式
             sRtn = gts.mc.GT_ZeroPos(cardNumber, AXIS, 8); Commandhandler("GT_ZeroPos", sRtn);//清零规划位置和实际位置，并进行零飘补偿。
@@ -231,6 +308,7 @@ namespace Motion
                 //运动停止，返回出错信息
                 if (0 == (status & 0x400))//返回出错信息//运动结束标志位
                 {
+                    LogInkCarAxisEncClosedLoopDiag($"SetBackSpreaderAxis AXIS={AXIS} 捕获阶段失败 return false");
                     return false;
                 }
             }
@@ -264,6 +342,7 @@ namespace Motion
             {
                 SreaderAxisHomeFlag = false;//20200627批注：墨车回零成功标志位
                 //MessageBox.Show("捕获编码器位置=" + pos +"继续运动后，新的编码器位置="+encPos);//20220526新增：暂时注释
+                LogInkCarAxisEncClosedLoopDiag($"SetBackSpreaderAxis AXIS={AXIS} 校验失败 encPos={encPos} targetEnc=-position");
                 return false;//20200602：回零失败
             }
             else//重置编码器位置//20200602修改：home_value设置为0比较合适
@@ -273,14 +352,23 @@ namespace Motion
                 Commandhandler("GT_SetEncPos", sRtn);
                 SreaderAxisHomeFlag = true;//20200627批注：墨车回零成功标志位
             }
+            LogInkCarAxisEncClosedLoopDiag($"SetBackSpreaderAxis AXIS={AXIS} return true 出口(随后 finally 恢复轴2/8外编)");
             return true;
+            }
+            finally
+            {
+                RestoreExternalEncodersAfterGlobalEncOff($"SetBackSpreaderAxis AXIS={AXIS} finally");
+            }
         }
         public bool TrapMoveSpreaderAxis(short AXIS, double homeVel/*单位 圈/s*/, double SinkPostion/*开槽位置：确保开槽位置的运动准确，单位度数*/)
         {
+            try
+            {
             short sRtn = gts.mc.GT_ClrSts(cardNumber, AXIS, 8); Commandhandler("GT_ClrSts", sRtn);//(0-1)清除指定轴的报警和限位 
             sRtn = gts.mc.GT_AxisOn(0, AXIS); Commandhandler("GT_AxisOn", sRtn);//(0-2)驱动器使能
 
-            EncOff();//20200226新建：使用内部脉冲计数器                     
+            EncOffSingleAxis(AXIS);//20260507：仅关本轴，勿 EncOff 全轴伤及墨车Y(2)外编
+            LogInkCarAxisEncClosedLoopDiag($"TrapMoveSpreaderAxis AXIS={AXIS} GT_EncOff(仅此轴)后立即");
             sRtn = gts.mc.GT_SetCaptureMode(cardNumber, AXIS, gts.mc.CAPTURE_HOME); Commandhandler("GT_SetCaptureMode", sRtn);// (1)启动Home捕获
             sRtn = gts.mc.GT_PrfTrap(cardNumber, AXIS); Commandhandler("GT_PrfTrap", sRtn);// (2)切换到点位运动模式
             sRtn = gts.mc.GT_ZeroPos(cardNumber, AXIS, 8); Commandhandler("GT_ZeroPos", sRtn);//清零规划位置和实际位置，并进行零飘补偿。
@@ -314,7 +402,13 @@ namespace Motion
             while ((status & 0x400) != 0);//运动停止
             Thread.Sleep(200);//确保停稳20200616新增：
 
+            LogInkCarAxisEncClosedLoopDiag($"TrapMoveSpreaderAxis AXIS={AXIS} return true 出口");
             return true;
+            }
+            finally
+            {
+                RestoreExternalEncodersAfterGlobalEncOff($"TrapMoveSpreaderAxis AXIS={AXIS} finally");
+            }
         }
 
 
@@ -556,6 +650,7 @@ namespace Motion
 
             ApplyClosedLoopPidDefaults(2, "轴2(墨车Y)", 1, 32767);
             ApplyClosedLoopPidDefaults(8, "轴8(成型缸)", 1, 32767);
+            LogInkCarAxisEncClosedLoopDiag("InitCardConfiguration 完成(含按配置的 GT_EncOn 轴2/8 后) 基线");
         }
 
         /// <summary>
@@ -1002,6 +1097,17 @@ namespace Motion
                 gts.mc.GT_EncOff(cardNumber, i);//encoder计数值为正整数
             }
         }
+
+        /// <summary>
+        /// 仅对指定轴执行 <c>GT_EncOff</c>。刮墨回零/刮墨点位请用本方法，
+        /// 避免 <see cref="EncOff"/> 对 1~8 全轴关闭导致墨车 Y(2) 等外接光栅/闭环被误关。
+        /// </summary>
+        public void EncOffSingleAxis(short axis)
+        {
+            short sRtn = gts.mc.GT_EncOff(cardNumber, axis);
+            Commandhandler($"GT_EncOff axis={axis}", sRtn);
+        }
+
         public void EncOn()//设置为脉冲计数器形式//20200226新建：
         {
             for (short i = 1; i <= 8; i++)//20200226新建：

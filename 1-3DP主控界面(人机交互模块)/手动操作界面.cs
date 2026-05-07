@@ -1,4 +1,4 @@
-#define TwoPassPrintMode
+﻿#define TwoPassPrintMode
 //#define SinglePassPrintMode
 //#define DataProcessDebugMode
 //#define UseP5PortForCleaning
@@ -3887,9 +3887,12 @@ namespace BinderJetting
             Thread tempThread = EncoderResetThreads.Where(x => x.Name == tempThreadName).FirstOrDefault();
             if (tempThread != null)
             {
+                Log4Net.Info($"DeleteThread: 即将 Thread.Abort，线程名={tempThreadName}, ManagedThreadId={tempThread.ManagedThreadId}（硬停后运动/EncOn 状态可能不一致，见 EncClosedLoopDiag 日志）");
+                motionMap?.LogInkCarAxisEncClosedLoopDiag($"DeleteThread BeforeAbort {tempThreadName}");
                 tempThread.Abort();//20200221修改:当调用非托管线程时，有时会抛出异常但不一定及时停止
                 while (tempThread.ThreadState != ThreadState.Aborted)
                 { Thread.Sleep(2); }
+                motionMap?.LogInkCarAxisEncClosedLoopDiag($"DeleteThread AfterAbort {tempThreadName}");
                 EncoderResetThreads.Remove(tempThread);//20200111添加：解决Gohome无法重新执行的BUG
             }
         }
@@ -5779,12 +5782,11 @@ namespace BinderJetting
             TrapMoveUp(4, true, Convert.ToString(m_MovSpeed), Convert.ToString(AimPos), true, !WaitStopFLag/*true*/);//20200528批注：TrapSpace量为转数，m_MovSpeed为转/秒
         }
 
-        /// <summary>璇诲彇鎸囧畾杞村綋鍓嶇紪鐮佸櫒浣嶇疆锛坢m锛夈€?X/Y 杞寸敤鍚勮嚜鐨勭數瀛愰娇杞︽瘮杩涜鎹㈢畻銆?/summary>
-        private double GetCurrentPos(int Axis)//20220520鏂板缓锛氳鍙栨寚瀹氳酱鐨勫綋鍓嶇紪鐮佸櫒浣嶇疆
+        /// <summary>读取指定轴当前编码器位置（mm）。X/Y 轴用各自的电子齿轮比进行换算。</summary>
+        private double GetCurrentPos(int Axis)//20220520新建：读取指定轴的当前编码器位置
         {
             try
             {
-                Log4Net.Info($"GetCurrentPos: enter, Axis={Axis}");
                 double[] g_dEncpos = motionMap.GetEncPos();
                 if (g_dEncpos == null)
                 {
@@ -5805,7 +5807,6 @@ namespace BinderJetting
                     currentMm2 = ToDisplayMm(Axis, currentMm2);
                 else if (Axis == 7)
                     currentMm2 *= PowderCarDisplaySign;
-                Log4Net.Info($"GetCurrentPos: exit, Axis={Axis}, rawCount={rawCount}, countPerMM={countPerMM}, currentMm(display)={currentMm2:F3}");
                 return currentMm2;
             }
             catch (Exception ex)
@@ -5886,7 +5887,7 @@ namespace BinderJetting
             }
         }
 
-        private void WaitStop(int Axis)//20220520鏂板缓锛氬疄鐜板ⅷ杞︾浉鍏崇殑绛夊仠閫昏緫
+        private void WaitStop(int Axis)//20220520新建：实现墨车相关的等停逻辑
         {
             Log4Net.Info($"WaitStop: enter, Axis={Axis}");
             if (Axis == 1 || Axis == 2)
@@ -6862,6 +6863,7 @@ namespace BinderJetting
             //开发需求：（1）清洗过程中，可以指定刮板来回挂的次数；（2）也可以指定压墨的时间，不能限制5S-10S;(3)压墨的时间要延长，清洗的
             string msg = $"进入自动清洗过程：AutoCleanThread";
             Log4Net.Info(msg);
+            motionMap.LogInkCarAxisEncClosedLoopDiag("AutoCleanThread2 进入（短时流程开始前基线）");
 
 #if false // 2026-04-27 注释备用：原「20230401 之后」联动清洗（AutoCleanThread2 上一版完整工艺，保留备查）
             //（1）撒粉轴找回零位：20220527新建：
@@ -7265,6 +7267,7 @@ namespace BinderJetting
                     }
 
                     m_bScraperPreparedForClean = false;
+                    motionMap.LogInkCarAxisEncClosedLoopDiag("AutoCleanThread2 短流程 return 前（若此后 Y 异常而本行 A2 的 d(prf-enc) 已偏大，多因 EncOff 后未 EncOn 轴2）");
                     msg = $"结束自动清洗过程：AutoCleanThread2（压墨区 -> 压墨2秒 -> 新清洗位 -> 135度刮墨 -> 回刮至压墨位 -> 刮板回等待位）";
                     Log4Net.Info(msg);
                     return;

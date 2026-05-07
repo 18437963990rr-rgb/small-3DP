@@ -2310,7 +2310,7 @@ namespace BinderJetting
 
             //royal.royal.g_prtimg_layer.nImgStartJetIndex = (int)(g_RYSYSParam.m_dYJetOff / 25.4 * 600);//20210311新增：Y向起打位置修订//20210330修改：
             //20230418完善：多PASS打印数据下发
-            int baseYJetOff = (int)(gc_RysysParam.YJetOff / (25.4 / GetRenderDpiY()) + 1);
+            int baseYJetOff = 0; // 2026-05-07：为切换纯 Meteor 软件补偿临时统一置0；修改前=(int)(gc_RysysParam.YJetOff / (25.4 / GetRenderDpiY()) + 1)
             int swathJetOff = Math.Max(0, swathYOffset);
             int k = index * RePrintTimes + subindex;
 
