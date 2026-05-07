@@ -3887,6 +3887,12 @@ namespace BinderJetting
             Thread tempThread = EncoderResetThreads.Where(x => x.Name == tempThreadName).FirstOrDefault();
             if (tempThread != null)
             {
+                if (Thread.CurrentThread.ManagedThreadId == tempThread.ManagedThreadId)
+                {
+                    Log4Net.Info($"DeleteThread: 当前线程自删除，跳过 Thread.Abort，线程名={tempThreadName}, ManagedThreadId={tempThread.ManagedThreadId}");
+                    EncoderResetThreads.Remove(tempThread);
+                    return;
+                }
                 Log4Net.Info($"DeleteThread: 即将 Thread.Abort，线程名={tempThreadName}, ManagedThreadId={tempThread.ManagedThreadId}（硬停后运动/EncOn 状态可能不一致，见 EncClosedLoopDiag 日志）");
                 motionMap?.LogInkCarAxisEncClosedLoopDiag($"DeleteThread BeforeAbort {tempThreadName}");
                 tempThread.Abort();//20200221修改:当调用非托管线程时，有时会抛出异常但不一定及时停止
@@ -3908,7 +3914,19 @@ namespace BinderJetting
             }
             else//铺粉车位于正常停靠区
             {
+                int axis8StatusBeforeHome = 0;
+                motionMap.GetAxisStatus(8, out axis8StatusBeforeHome);
+                double[] axisEncBeforeHome = motionMap.GetEncPos();
+                double axis8EncBeforeHome = (axisEncBeforeHome != null && axisEncBeforeHome.Length >= 8) ? axisEncBeforeHome[7] : double.NaN;
+                double axis8MmBeforeHome = GetCurrentPos(8);
+                Log4Net.Info($"PowderCarHomeResetThread: before SetBackHome, Axis8ExtEncCfg={motionMap.EnableAxis8ExternalEncoderAfterInit}, axis8Sts=0x{axis8StatusBeforeHome:X}, axis8Enc={axis8EncBeforeHome:F1}, axis8Mm={axis8MmBeforeHome:F3}");
                 bool ReturnCode = motionMap.SetBackHome(7/*轴*/, k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition /*0*//*105*//*原点复位值，单位MM*/, 20/*校准速度，单位MM/S*/, 1000 * PowderCarHomeSearchSign/*搜索距离(mm)：符号只决定寻 Home 第一段方向*/, PowderCarHomeRetractMm/*第二段：捕获脉冲 + mm×1000，见 PowderCarHomeRetractMm 注释*/, ref PowderCarHomeFlag/*校准完成标志*/);//20260416修改：铺粉轴改为轴7
+                int axis8StatusAfterHome = 0;
+                motionMap.GetAxisStatus(8, out axis8StatusAfterHome);
+                double[] axisEncAfterHome = motionMap.GetEncPos();
+                double axis8EncAfterHome = (axisEncAfterHome != null && axisEncAfterHome.Length >= 8) ? axisEncAfterHome[7] : double.NaN;
+                double axis8MmAfterHome = GetCurrentPos(8);
+                Log4Net.Info($"PowderCarHomeResetThread: after SetBackHome, ReturnCode={ReturnCode}, PowderCarHomeFlag={PowderCarHomeFlag}, Axis8ExtEncCfg={motionMap.EnableAxis8ExternalEncoderAfterInit}, axis8Sts=0x{axis8StatusAfterHome:X}, axis8Enc={axis8EncAfterHome:F1}, axis8Mm={axis8MmAfterHome:F3}");
                 if (ReturnCode == true)//校准成功
                 {
                     RollerParam = 0/*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed*/;//201029批注：更新辊子速度
@@ -5771,7 +5789,8 @@ namespace BinderJetting
             double CurrentPos = GetCurrentPos(7);//20260416修改：当前铺粉车运动轴改为轴7
             // 铺粉流程位移按目标与当前差值计算；默认同向（PowderCarProcessSign=+1）。
             double TrapSpace = (AimPos - CurrentPos) * PowderCarProcessSign;
-            TrapMoveUp(7, true, Convert.ToString(m_MovSpeed), Convert.ToString(TrapSpace), true, !WaitStopFLag/*true*/);//20260416修改：当前铺粉车运动轴改为轴7
+            // WaitStopFLag 语义与 TrapMoveUp/TrapMotion 保持一致：true=等停，false=不等停。
+            TrapMoveUp(7, true, Convert.ToString(m_MovSpeed), Convert.ToString(TrapSpace), true, WaitStopFLag);
         }
         private void BackToStation3(double AimPos, double m_MovSpeed, bool WaitStopFLag)//20220528新建：刮墨轴运动到指定为位置：AimPos位置单位为MM
         {
@@ -5779,7 +5798,7 @@ namespace BinderJetting
             //double TrapSpace = AimPos - CurrentPos;
             //TrapSpace = TrapSpace / 12800;//转数
             //m_MovSpeed = m_MovSpeed / 12800;//转每秒
-            TrapMoveUp(4, true, Convert.ToString(m_MovSpeed), Convert.ToString(AimPos), true, !WaitStopFLag/*true*/);//20200528批注：TrapSpace量为转数，m_MovSpeed为转/秒
+            TrapMoveUp(4, true, Convert.ToString(m_MovSpeed), Convert.ToString(AimPos), true, WaitStopFLag);//20200528批注：TrapSpace量为转数，m_MovSpeed为转/秒
         }
 
         /// <summary>读取指定轴当前编码器位置（mm）。X/Y 轴用各自的电子齿轮比进行换算。</summary>
@@ -5971,7 +5990,7 @@ namespace BinderJetting
                                 Log4Net.Info($"BackToStation Y: encoder raw={encY[1]}, currentMm(raw)={currentMmY:F3}, currentMm(display)={currentMmYDisplay:F3}");
                                 // 与 X 分支一致：位移必须用显示/界面同一套坐标（曾用 raw 而 InkCarYDisplaySign=-1 时会导致 Y 向运动反向）
                                 int moveCountsY = (int)((AimPos - currentMmYDisplay) * EncoderLinePerMM);
-                                double velCountPerMsY = 20/*m_MovSpeed * DriverPulsePerMM / 1000.0*/;
+                                double velCountPerMsY = m_MovSpeed * DriverPulsePerMM / 1000.0;
 
                                 string msg = $"Y 固高定位：当前{{{currentMmYDisplay:F3}}}mm 目标{{{ToDisplayMm(2, AimPos):F3}}}mm 相对{{{moveCountsY}}}count 速度{{{velCountPerMsY:F1}}}count/ms";
                                 Log4Net.Info(msg);
@@ -8831,6 +8850,12 @@ namespace BinderJetting
             Log4Net.Info(msg);
 
             int nIOState = motionMap.MointoringAxis2(7);//铺粉车固高轴7限位状态         
+            int axis8StatusEntry = 0;
+            motionMap.GetAxisStatus(8, out axis8StatusEntry);
+            double[] axisEncEntry = motionMap.GetEncPos();
+            double axis8EncEntry = (axisEncEntry != null && axisEncEntry.Length >= 8) ? axisEncEntry[7] : double.NaN;
+            double axis8MmEntry = GetCurrentPos(8);
+            Log4Net.Info($"NewAutoSupplyPowderThread2: entry Axis8ExtEncCfg={motionMap.EnableAxis8ExternalEncoderAfterInit}, axis8Sts=0x{axis8StatusEntry:X}, axis8Enc={axis8EncEntry:F1}, axis8Mm={axis8MmEntry:F3}");
             if ((0 != (nIOState & 0x20)) || (0 != (nIOState & 0x40)))//粉车位于负限位报警区
             {
                 msg = $"中止自动铺粉逻辑，异常停靠区间退出：NewAutoSupplyPowderThread2：ReturnCode{{{nIOState}}}";
@@ -9215,6 +9240,12 @@ namespace BinderJetting
 #endif
                 msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
                 Log4Net.Info(msg);
+                int axis8StatusAfterPrep = 0;
+                motionMap.GetAxisStatus(8, out axis8StatusAfterPrep);
+                double[] axisEncAfterPrep = motionMap.GetEncPos();
+                double axis8EncAfterPrep = (axisEncAfterPrep != null && axisEncAfterPrep.Length >= 8) ? axisEncAfterPrep[7] : double.NaN;
+                double axis8MmAfterPrep = GetCurrentPos(8);
+                Log4Net.Info($"NewAutoSupplyPowderThread2: after Z prep Axis8ExtEncCfg={motionMap.EnableAxis8ExternalEncoderAfterInit}, axis8Sts=0x{axis8StatusAfterPrep:X}, axis8Enc={axis8EncAfterPrep:F1}, axis8Mm={axis8MmAfterPrep:F3}");
                 //Thread.Sleep(1000);//等待800 ms
 
 #endif
@@ -9416,6 +9447,12 @@ namespace BinderJetting
 #endif
                 msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
                 Log4Net.Info(msg);
+                int axis8StatusExit = 0;
+                motionMap.GetAxisStatus(8, out axis8StatusExit);
+                double[] axisEncExit = motionMap.GetEncPos();
+                double axis8EncExit = (axisEncExit != null && axisEncExit.Length >= 8) ? axisEncExit[7] : double.NaN;
+                double axis8MmExit = GetCurrentPos(8);
+                Log4Net.Info($"NewAutoSupplyPowderThread2: exit Axis8ExtEncCfg={motionMap.EnableAxis8ExternalEncoderAfterInit}, axis8Sts=0x{axis8StatusExit:X}, axis8Enc={axis8EncExit:F1}, axis8Mm={axis8MmExit:F3}");
                 //Thread.Sleep(1000);//等待800 ms
 
                 msg = $"自动铺粉正常结束：NewAutoSupplyPowderThread2";
@@ -10904,7 +10941,7 @@ namespace BinderJetting
             {
                 double PrintWidth = 147;/*兼容旧局部参数*/
                 double passPitchY = InkCarPassPitchYMm;/*每 PASS Y 向步距 mm*/
-                const double passStartBaseY = 50.0;/*临时安全基准：回零后显示 50mm 时首条带先不向负限位找 15mm */
+                const double passStartBaseY = 55.0;/*临时安全基准：回零后显示 50mm 时首条带先不向负限位找 15mm */
                 double ReturnVelocity1 = m_szMovSpeed/*20*/;//喷墨移动速度
                 ReturnVelocity1 = m_MovSpeed;
                 double ReturnVelocity2 = m_BackCleanMovSpeed;//20230404新增：

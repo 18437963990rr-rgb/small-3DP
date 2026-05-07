@@ -419,12 +419,21 @@ namespace Motion
         public bool SetBackHome(short AXIS, double/*int*/ home_value /*原点复位值*/, double homeVel, int search_home/*搜索距离(mm)×内部再×1000 为脉冲*/, double/*int*/ home_offset/*第二段增量(mm，有符号)*/, ref bool PowderCarHomeFlag)
         {
             //(0-1)清除指定轴的报警和限位
+            try
+            {
             short sRtn = gts.mc.GT_ClrSts(cardNumber, AXIS, 8);
             Commandhandler("GT_ClrSts", sRtn);
 
             //(0-2)驱动器使能
             sRtn = gts.mc.GT_AxisOn(0, AXIS);
             Commandhandler("GT_AxisOn", sRtn);
+            LogInfo($"SetBackHome: AXIS={AXIS} 即将全轴 EncOff；若轴2/8依赖外接编码器闭环，将在 finally 中恢复 GT_EncOn");
+            uint axis8ClockBefore = 0;
+            int axis8StatusBefore = 0;
+            mc.GT_GetSts(cardNumber, 8, out axis8StatusBefore, 1, out axis8ClockBefore);
+            double[] axisEncBefore = GetEncPos();
+            double axis8EncBefore = (axisEncBefore != null && axisEncBefore.Length >= 8) ? axisEncBefore[7] : double.NaN;
+            LogInfo($"SetBackHome: before EncOff, Axis8ExtEncCfg={EnableAxis8ExternalEncoderAfterInit}, axis8Sts=0x{axis8StatusBefore:X}, axis8Enc={axis8EncBefore:F1}");
             EncOff();//20200226新建：使用内部脉冲计数器          
 
             // (1)启动Home捕获
@@ -564,6 +573,17 @@ namespace Motion
                 PowderCarHomeFlag = true;//20200627批注：墨车回零成功标志位
             }
             return true;
+            }
+            finally
+            {
+                RestoreExternalEncodersAfterGlobalEncOff($"SetBackHome AXIS={AXIS} finally");
+                uint axis8ClockAfter = 0;
+                int axis8StatusAfter = 0;
+                mc.GT_GetSts(cardNumber, 8, out axis8StatusAfter, 1, out axis8ClockAfter);
+                double[] axisEncAfter = GetEncPos();
+                double axis8EncAfter = (axisEncAfter != null && axisEncAfter.Length >= 8) ? axisEncAfter[7] : double.NaN;
+                LogInfo($"SetBackHome: after restore, Axis8ExtEncCfg={EnableAxis8ExternalEncoderAfterInit}, axis8Sts=0x{axis8StatusAfter:X}, axis8Enc={axis8EncAfter:F1}");
+            }
         }
 
 
