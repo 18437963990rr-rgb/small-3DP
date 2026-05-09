@@ -1034,6 +1034,7 @@ namespace BinderJetting
         // 位置监视诊断日志默认关闭；仅在需要对比 enc/prf 时临时设为正数间隔。
         private int _inkCarEncPrfDiagLogIntervalMs = 0;
         private DateTime _lastInkCarEncPrfDiagTimeUtc = DateTime.MinValue;
+        private DateTime _lastMainAxis8MonitorLogUtc = DateTime.MinValue;
 
         double[] g_dVoltageValue = new double[4];//20200417新增：总计是8路的值，读取4路的值足够用了
         UInt32 nValveStateMask = 0b0;//20200718新增：所有的电磁阀状态信息：
@@ -1225,6 +1226,14 @@ namespace BinderJetting
             }
             //textBox4.AppendText(PositonText);//PositonText += "\r\n";
             PositionLable.Text = PositonText;
+            if (g_dEncpos != null && g_dEncpos.Length >= GoogolAxisBuildCylinder
+                && (_lastMainAxis8MonitorLogUtc == DateTime.MinValue || (DateTime.UtcNow - _lastMainAxis8MonitorLogUtc).TotalSeconds >= 1))
+            {
+                _lastMainAxis8MonitorLogUtc = DateTime.UtcNow;
+                double axis8EncRaw = g_dEncpos[GoogolAxisBuildCylinder - 1];
+                double axis8DisplayMm = GetGoogolAxisDisplayPosMm(g_dEncpos, GoogolAxisBuildCylinder);
+                Log4Net.Info($"MainAxis8Monitor: axis8Enc={axis8EncRaw:F1}, axis8DisplayMm={axis8DisplayMm:F3}, z1DisplayMm={Z1PosValue:F3}");
+            }
 
             //（5-1b）PositionLable 仅 enc→mm；prf 为当前段规划位置。TrapMotion 内曾对 prf 清零故 prfMm 多为本段相对位移、encMm 多为绝对光栅，Δ(enc−prf) 在运动中出现近似常偏差不等于故障；应看 Δ 是否持续恶化或 sts 报警。
             if (g_cMotionMap != null && _inkCarEncPrfDiagLogIntervalMs > 0)
