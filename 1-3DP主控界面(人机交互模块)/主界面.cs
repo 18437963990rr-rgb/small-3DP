@@ -148,6 +148,50 @@ namespace BinderJetting
             }
         }
 
+        private void SyncPowderCarBaselineFromManualControl(手动操作 manualControl, string sourceTag)
+        {
+            if (manualControl == null || !manualControl.PowderCarHomeFlag || g_cPrinterSysParam == null || g_cPrinterSysParam.g_dPositon == null)
+            {
+                return;
+            }
+
+            double powderCarMm = manualControl.GetPowderCarCurrentPosForSync();
+            if (double.IsNaN(powderCarMm))
+            {
+                Log4Net.Info($"粉车坐标同步[{sourceTag}]：读取手动子界面当前坐标失败，跳过同步。");
+                return;
+            }
+
+            double cfgHome = manualControl.k_RYSYSParamAutoPrintParamInTest != null ? manualControl.k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition : double.NaN;
+            double stationCorrection = manualControl.k_RYSYSParamAutoPrintParamInTest != null ? manualControl.k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection : double.NaN;
+            double expectedHome = cfgHome;
+            double expectedStation = cfgHome - stationCorrection;
+            const double toleranceMm = 10.0;
+            bool nearExpectedHome = !double.IsNaN(expectedHome) && Math.Abs(powderCarMm - expectedHome) <= toleranceMm;
+            bool nearExpectedStation = !double.IsNaN(expectedStation) && Math.Abs(powderCarMm - expectedStation) <= toleranceMm;
+            if (!nearExpectedHome && !nearExpectedStation)
+            {
+                Log4Net.Info($"粉车坐标同步[{sourceTag}]：当前axis7Mm={powderCarMm:F3}mm 未接近 expectedHome≈{expectedHome:F3}mm 或 expectedStation≈{expectedStation:F3}mm，跳过同步，避免将异常基准写回主界面。");
+                return;
+            }
+
+            if (g_cPrinterSysParam.g_dPositon.Length >= 4)
+            {
+                g_cPrinterSysParam.g_dPositon[3] = powderCarMm;
+            }
+
+            if (g_cMotionMap != null)
+            {
+                int axisCounts = ConvertDisplayPosMmToAxisCounts(powderCarMm, GoogolAxisPowderCar);
+                g_cMotionMap.SetEncPos(GoogolAxisPowderCar, axisCounts);
+                Log4Net.Info($"粉车坐标同步[{sourceTag}]：PowderCarHomeFlag=True，axis7Mm={powderCarMm:F3}mm，已同步主界面槽位g_dPositon[3]并重写主界面轴7编码器。");
+            }
+            else
+            {
+                Log4Net.Info($"粉车坐标同步[{sourceTag}]：PowderCarHomeFlag=True，axis7Mm={powderCarMm:F3}mm，已同步主界面槽位g_dPositon[3]。");
+            }
+        }
+
         private void TestFun()//20200223:判断什么时候可以绘制，判断队列中的数据
         {
             //20200223新增:多线程绘制图像数据
@@ -4359,6 +4403,7 @@ namespace BinderJetting
                 g_bSystemCorrectFlag = ManualControl.CorrectFlag;//20201014新增：系统校准标志位
 
                 g_bAutoSupplyInkFlag = ManualControl.m_bInkSuppy;
+                SyncPowderCarBaselineFromManualControl(ManualControl, "ManualControl.OK");
                 //g_RYSYSParamAutoPrintParamInTest = f.k_RYSYSParamAutoPrintParamInTest;//20201020新增：
 
                 msg = "退出手动调试子模块,已执行修改\r\n" +
@@ -4373,6 +4418,7 @@ namespace BinderJetting
                 g_bSystemCorrectFlag = ManualControl.CorrectFlag;//20201014新增：系统校准标志位
 
                 g_bAutoSupplyInkFlag = ManualControl.m_bInkSuppy;
+                SyncPowderCarBaselineFromManualControl(ManualControl, "ManualControl.Cancel");
                 //g_RYSYSParamAutoPrintParamInTest = f.k_RYSYSParamAutoPrintParamInTest;//20201020新增：
 
                 msg = "退出手动调试子模块，未执行修改\r\n" +

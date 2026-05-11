@@ -4050,6 +4050,18 @@ namespace BinderJetting
             }
         }
 
+        public double GetPowderCarCurrentPosForSync()
+        {
+            try
+            {
+                return GetCurrentPos(7);
+            }
+            catch
+            {
+                return double.NaN;
+            }
+        }
+
         public bool IsPowderCarCoordinateReadyForAuto(out string reason)
         {
             try
