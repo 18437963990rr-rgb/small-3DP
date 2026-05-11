@@ -4032,6 +4032,67 @@ namespace BinderJetting
         public bool InkCarHomeFlag = false; public bool PowderCarHomeFlag = false;
         public bool InkCarXHomeFlag = false; public bool InkCarYHomeFlag = false;
 
+        public string GetPowderCarEntryDiag(string sourceTag)
+        {
+            try
+            {
+                double[] encPos = motionMap != null ? motionMap.GetEncPos() : null;
+                double axis7Raw = (encPos != null && encPos.Length >= 7) ? encPos[6] : double.NaN;
+                double axis7Mm = GetCurrentPos(7);
+                double cfgHome = k_RYSYSParamAutoPrintParamInTest != null ? k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition : double.NaN;
+                double stationCorrection = k_RYSYSParamAutoPrintParamInTest != null ? k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection : double.NaN;
+                double preAngle = k_RYSYSParamAutoPrintParamInTest != null ? k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply : double.NaN;
+                return $"PowderCarEntryDiag[{sourceTag}]: PowderCarHomeFlag={PowderCarHomeFlag}, axis7Raw={axis7Raw:F1}, axis7Mm={axis7Mm:F3}, cfgHome={cfgHome:F3}, stationCorrection={stationCorrection:F3}, preAngle={preAngle:F3}, dropBegin={POWDERCAR_DROP_BEGIN:F3}, dropEnd={POWDERCAR_DROP_END:F3}, travel={POWDERCAR_TRAVEL_DIST:F3}";
+            }
+            catch (Exception ex)
+            {
+                return $"PowderCarEntryDiag[{sourceTag}]: exception={ex.GetType().FullName}, msg={ex.Message}";
+            }
+        }
+
+        public bool IsPowderCarCoordinateReadyForAuto(out string reason)
+        {
+            try
+            {
+                double axis7Mm = GetCurrentPos(7);
+                double cfgHome = k_RYSYSParamAutoPrintParamInTest != null ? k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition : double.NaN;
+                double stationCorrection = k_RYSYSParamAutoPrintParamInTest != null ? k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection : double.NaN;
+                double expectedHome = cfgHome;
+                double expectedStation = cfgHome - stationCorrection;
+                const double toleranceMm = 10.0;
+
+                if (!PowderCarHomeFlag)
+                {
+                    reason = $"粉车坐标基准未就绪：PowderCarHomeFlag=False，axis7Mm={axis7Mm:F3}mm，expectedHome≈{expectedHome:F3}mm，expectedStation≈{expectedStation:F3}mm。请先执行粉车回零。";
+                    return false;
+                }
+
+                if (!double.IsNaN(axis7Mm) && Math.Abs(axis7Mm) <= toleranceMm && Math.Abs(expectedHome) > toleranceMm)
+                {
+                    int homeEncPos = (int)(expectedHome * 1000.0);
+                    Log4Net.Info($"粉车坐标基准软对齐：检测到 PowderCarHomeFlag=True 但 axis7Mm={axis7Mm:F3}mm 接近0，按 cfgHome={expectedHome:F3}mm 重写轴7编码器。");
+                    motionMap.SetEncPos(7, homeEncPos);
+                    Thread.Sleep(50);
+                    axis7Mm = GetCurrentPos(7);
+                    Log4Net.Info($"粉车坐标基准软对齐：轴7编码器重写后 axis7Mm={axis7Mm:F3}mm，targetHome={expectedHome:F3}mm。");
+                }
+
+                if (double.IsNaN(axis7Mm) || (Math.Abs(axis7Mm - expectedHome) > toleranceMm && Math.Abs(axis7Mm - expectedStation) > toleranceMm))
+                {
+                    reason = $"粉车坐标基准异常：PowderCarHomeFlag=True，但 axis7Mm={axis7Mm:F3}mm，expectedHome≈{expectedHome:F3}mm，expectedStation≈{expectedStation:F3}mm。请先执行粉车回零后再启动自动打印。";
+                    return false;
+                }
+
+                reason = $"粉车坐标基准校验通过：axis7Mm={axis7Mm:F3}mm，expectedHome≈{expectedHome:F3}mm，expectedStation≈{expectedStation:F3}mm。";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                reason = $"粉车坐标基准校验异常：{ex.GetType().FullName}，{ex.Message}";
+                return false;
+            }
+        }
+
         //刷新虚拟打印编码器状态显示定时器
         public/*private*/ System.Windows.Forms.Timer Timer4 = null;//刷新虚拟打印编码器状态显示定时器
         private void StartUpadateDYMoveStatus()//开启双Y轴MOVE限位信号
@@ -9173,7 +9234,7 @@ namespace BinderJetting
 
                     #region 监控指令：铺粉拍摄位点3
 
-                    if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9])
+                    if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9])
                     {
                         toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 10/*RecordProcessIndex*/);//20230113新建且批注：监控发送指令
 
@@ -9597,7 +9658,7 @@ namespace BinderJetting
                 Log4Net.Info(msg);
 
                 #region 监控指令：铺粉拍摄位点5
-                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
+                if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
                 {
                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 12/*RecordProcessIndex*/);//20230113新建且批注：监控发送指令
 
@@ -9867,7 +9928,7 @@ namespace BinderJetting
                 }
 
 #region 监控指令：铺粉拍摄位点3
-                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9])
+                if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9])
                 {
                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 10/*RecordProcessIndex*/);//20230113新建且批注：监控发送指令
 
@@ -10113,7 +10174,7 @@ namespace BinderJetting
                 Log4Net.Info(msg);
 
 #region 监控指令：铺粉拍摄位点5
-                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
+                if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
                 {
                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 12/*RecordProcessIndex*/);//20230113新建且批注：监控发送指令
 
@@ -10548,7 +10609,7 @@ namespace BinderJetting
                 //Thread.Sleep(1000);//等待800 ms
 
 #region 监控指令：铺粉拍摄位点3
-                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9])
+                if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9])
                 {
                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 10/*RecordProcessIndex*/);//20230113新建且批注：监控发送指令
 
@@ -10661,7 +10722,7 @@ namespace BinderJetting
                 Log4Net.Info(msg);
 
 #region 监控指令：铺粉拍摄位点5
-                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
+                if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
                 {
                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 12/*RecordProcessIndex*/);//20230113新建且批注：监控发送指令
 
@@ -10907,7 +10968,7 @@ namespace BinderJetting
                         case 0:
 #region 监控指令：喷墨拍摄位点1
                             //toCamera.LoadJsonFile();//20230113新建且批注：更新监控情况
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
+                            if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 1);//20230113新建且批注：监控发送指令
                             }
@@ -10924,7 +10985,7 @@ namespace BinderJetting
                             BackToStation(15 + passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
 #region 监控指令：喷墨拍摄位点2
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
+                            if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 2);//20230113新建且批注：监控发送指令
                             }
@@ -10936,7 +10997,7 @@ namespace BinderJetting
                             BackToStation(15 + 2 * passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
 #region 监控指令：喷墨拍摄位点3
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
+                            if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 3);//20230113新建且批注：监控发送指令
                             }
@@ -10947,7 +11008,7 @@ namespace BinderJetting
                             BackToStation(25, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
 
 #region 监控指令：喷墨拍摄位点4（末道占位，沿用索引 4）
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
+                            if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 4);//20230113新建且批注：监控发送指令
                             }
@@ -10971,7 +11032,7 @@ namespace BinderJetting
                                     BackToStation(INKCAR_REVISION_Y, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//到达观察/临停位置
                                 }
 #region 监控指令：喷墨拍摄位点7
-                                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
+                                if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
                                 {
                                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 7);//20230113新建且批注：监控发送指令
                                 }
@@ -11016,7 +11077,7 @@ namespace BinderJetting
                     {
                         case 0://从最外侧重入（历史 15+最高阶 * 步距）
 #region 监控指令：喷墨拍摄位点1
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
+                            if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 1);//20230113新建且批注：监控发送指令
                             }
@@ -11030,7 +11091,7 @@ namespace BinderJetting
                             BackToStation(15 + 1 * passPitchY + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//回落至第 2 条带对齐
 
 #region 监控指令：喷墨拍摄位点2
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
+                            if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 2);//20230113新建且批注：监控发送指令
                             }
@@ -11042,7 +11103,7 @@ namespace BinderJetting
                             BackToStation(15 + 0 * passPitchY + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//进给至最内侧条带
 
 #region 监控指令：喷墨拍摄位点3
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
+                            if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 3);//20230113新建且批注：监控发送指令
                             }
@@ -11053,7 +11114,7 @@ namespace BinderJetting
                             BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印一次
 
 #region 监控指令：喷墨拍摄位点4
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
+                            if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 4);//20230113新建且批注：监控发送指令
                             }
@@ -11075,7 +11136,7 @@ namespace BinderJetting
                                     BackToStation(INKCAR_REVISION_X, (float)ReturnVelocity2, false, true, 1);
                                     BackToStation(INKCAR_REVISION_Y, (float)ReturnVelocity2, true, true, 1);
                                 }
-                                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
+                                if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
                                 {
                                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 7);//20230113新建且批注：监控发送指令
                                 }
@@ -11214,7 +11275,7 @@ namespace BinderJetting
                     {
                         case 0://第1 PASS
 #region 监控指令：喷墨拍摄位点1
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
+                            if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 1);//20230113新建且批注：监控发送指令
                             }
@@ -11229,7 +11290,7 @@ namespace BinderJetting
                             BackToStation(passStartBaseY + passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//与 AutoPrintThread2 首条对齐：末位 Y≈50+passPitchY
 
 #region 监控指令：喷墨拍摄位点2
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
+                            if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 2);//20230113新建且批注：监控发送指令
                             }
@@ -11241,7 +11302,7 @@ namespace BinderJetting
                             BackToStation(passStartBaseY + 2 * passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//第 2 条带 Y：与首条带基准 50mm 一致
 
 #region 监控指令：喷墨拍摄位点3
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
+                            if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 3);//20230113新建且批注：监控发送指令
                             }
@@ -11252,7 +11313,7 @@ namespace BinderJetting
                             BackToStation(25, (float)ReturnVelocity1, false, true, 1);//末道扫描
 
 #region 监控指令：喷墨拍摄位点4
-                            if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
+                            if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
                             {
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 4);//20230113新建且批注：监控发送指令
                             }
@@ -11276,7 +11337,7 @@ namespace BinderJetting
                                     BackToStation(INKCAR_REVISION_Y, (float)ReturnVelocity2, true, true, 1);//到达观察/临停位置
                                 }
 #region 监控指令：喷墨拍摄位点7
-                                if (toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
+                                if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[6])
                                 {
                                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 7);//20230113新建且批注：监控发送指令
                                 }
@@ -11503,6 +11564,7 @@ namespace BinderJetting
             {
                 string msg = $"手动开启自动进给铺粉过程：AutoSupplyPowderBtn_Click";
                 Log4Net.Info(msg);
+                Log4Net.Info(GetPowderCarEntryDiag("ManualAutoSupplyPowderBtn"));
 
                 if (PowderCarHomeFlag == true/*true*//*InkCarHomeFlag == true*/)//确保：墨车系统回零成功；确保在指定区间，否则报错//20230330修改：
                 {

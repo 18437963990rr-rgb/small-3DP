@@ -1955,6 +1955,7 @@ namespace BinderJetting
 
         string PrintConrolFlag = "StartPrint";//20200618新增：打印标志位
         private const int PassItemTimeoutMs = 5000;//20260327新增：防止TryGetPassItem长时间阻塞导致打印线程无法收尾
+        private const bool EnablePureMeteorPassScheduling = true;//20260509新增：第一阶段先旁路旧 Royal PASS 状态机，按本地 3 PASS 节拍推进
 
         private bool TryGetPassItemWithTimeout(uint layerIndex, int passId, ref LPPassDataItem passDes, int timeoutMs, string sourceTag)
         {
@@ -2486,31 +2487,48 @@ namespace BinderJetting
                         {
                             /*****************（1）20220524批注：确保获取打印PASS信息*********************/
                             int nPassID = PassItems/*0*//*1*//*0*/;//20200424新增：测试结果表明1是错误的，无法顺利执行//20220524新增：修改为多PASS打印
-                            /*bool*/
-                            Log4Net.Info($"打印线程：准备调用 TryGetPassItem，nLayerIndex={k}，nPassID={nPassID}，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={PrintConrolFlag}");
-                            ReturnFlag = TryGetPassItemWithTimeout((uint)k, nPassID, ref pPrtPassDes, PassItemTimeoutMs, "打印线程");
-                            Log4Net.Info($"打印线程：TryGetPassItem 返回确认，nLayerIndex={k}，nPassID={nPassID}，ReturnFlag={ReturnFlag}，nProcState={pPrtPassDes.nProcState}");
-                            if (ReturnFlag == false)
+                            if (EnablePureMeteorPassScheduling)
                             {
-                                Log4Net.Info($"打印线程：TryGetPassItem 未返回有效数据，准备中止当前打印任务，nLayerIndex={k}，nPassID={nPassID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={PrintConrolFlag}");
-                                PrintConrolFlag = "StopPrint";
-                                break;
+                                ReturnFlag = true;
+                                pPrtPassDes.nProcState = 3;
+                                Log4Net.Info($"打印线程：PureMeteor推进已启用，跳过 TryGetPassItem，直接按本地3PASS调度，nLayerIndex={k}，nPassID={nPassID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={PrintConrolFlag}");
                             }
-                            while (pPrtPassDes.nProcState != 3)//20200624批注：不成功就重新读
+                            else
                             {
-                                Log4Net.Info($"打印线程：准备重试 TryGetPassItem，nLayerIndex={k}，nPassID={nPassID}，当前ProcState={pPrtPassDes.nProcState}");
-                                Thread.Sleep(100);//等待1s时间，再次GetPassItem;
+                                /*bool*/
+                                Log4Net.Info($"打印线程：准备调用 TryGetPassItem，nLayerIndex={k}，nPassID={nPassID}，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={PrintConrolFlag}");
                                 ReturnFlag = TryGetPassItemWithTimeout((uint)k, nPassID, ref pPrtPassDes, PassItemTimeoutMs, "打印线程");
-                                Log4Net.Info($"打印线程：TryGetPassItem 重试返回确认，nLayerIndex={k}，nPassID={nPassID}，ReturnFlag={ReturnFlag}，nProcState={pPrtPassDes.nProcState}");
+                                Log4Net.Info($"打印线程：TryGetPassItem 返回确认，nLayerIndex={k}，nPassID={nPassID}，ReturnFlag={ReturnFlag}，nProcState={pPrtPassDes.nProcState}");
+                                if (ReturnFlag == false)
+                                {
+                                    Log4Net.Info($"打印线程：TryGetPassItem 未返回有效数据，准备中止当前打印任务，nLayerIndex={k}，nPassID={nPassID}，g_PrintSchedule={g_PrintSchedule}，TransferModifyFlag={PrintConrolFlag}");
+                                    PrintConrolFlag = "StopPrint";
+                                    break;
+                                }
+                                while (pPrtPassDes.nProcState != 3)//20200624批注：不成功就重新读
+                                {
+                                    Log4Net.Info($"打印线程：准备重试 TryGetPassItem，nLayerIndex={k}，nPassID={nPassID}，当前ProcState={pPrtPassDes.nProcState}");
+                                    Thread.Sleep(100);//等待1s时间，再次GetPassItem;
+                                    ReturnFlag = TryGetPassItemWithTimeout((uint)k, nPassID, ref pPrtPassDes, PassItemTimeoutMs, "打印线程");
+                                    Log4Net.Info($"打印线程：TryGetPassItem 重试返回确认，nLayerIndex={k}，nPassID={nPassID}，ReturnFlag={ReturnFlag}，nProcState={pPrtPassDes.nProcState}");
+                                }
                             }
                             /*****************（2）20220524批注：执行打印PASS运动逻辑*********************/
                             if (ReturnFlag == true/*pPrtPassDes!=null*/)//20200411:读到的数据不为空//20200430开启运动：
                             {
-                                Log4Net.Info($"打印线程：准备调用 TriggerPass，nLayerIndex={k}，nPassID={nPassID}，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}");
-                                var triggerWatch = System.Diagnostics.Stopwatch.StartNew();
-                                bool returnCode2 = MeteorPrintEngine.TriggerPass((uint)k, nPassID /*-1*/);
-                                triggerWatch.Stop();
-                                Log4Net.Info($"打印线程：TriggerPass 返回，nLayerIndex={k}，nPassID={nPassID}，returnCode2={returnCode2}，elapsedMs={triggerWatch.ElapsedMilliseconds}");
+                                bool returnCode2 = true;
+                                if (EnablePureMeteorPassScheduling)
+                                {
+                                    Log4Net.Info($"打印线程：PureMeteor推进已启用，跳过 TriggerPass，直接进入本地PASS运动，nLayerIndex={k}，nPassID={nPassID}，g_PrintSchedule={g_PrintSchedule}");
+                                }
+                                else
+                                {
+                                    Log4Net.Info($"打印线程：准备调用 TriggerPass，nLayerIndex={k}，nPassID={nPassID}，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}");
+                                    var triggerWatch = System.Diagnostics.Stopwatch.StartNew();
+                                    returnCode2 = MeteorPrintEngine.TriggerPass((uint)k, nPassID /*-1*/);
+                                    triggerWatch.Stop();
+                                    Log4Net.Info($"打印线程：TriggerPass 返回，nLayerIndex={k}，nPassID={nPassID}，returnCode2={returnCode2}，elapsedMs={triggerWatch.ElapsedMilliseconds}");
+                                }
                                 if (returnCode2 == false)
                                 {
                                     msg = $"使能Pass打印失败：IDP_DoPassPrint2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}";
@@ -2520,50 +2538,53 @@ namespace BinderJetting
                                 }
                                 else
                                 {
-                                    msg = $"使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}";
-                                    Log4Net.Info(msg);
+                                    if (!EnablePureMeteorPassScheduling)
+                                    {
+                                        msg = $"使能Pass打印成功：IDP_DoPassPrint2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}";
+                                        Log4Net.Info(msg);
 
-                                    ////royal.LPPRINTER_INFO pSysInfo = new royal.LPPRINTER_INFO();//20230213新增：
-                                    ////bool nRetVal2 = royal.royal.DEV_GetDeviceInfo2(ref pSysInfo);//20230213新增：
-                                    ////msg = $"PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
-                                    ////    $"LPPRINTER_INFO:nXSysEncDPI{{{pSysInfo.nXSysEncDPI}}}nStatus{{{pSysInfo.nStatus}}}nPrintStatus{{{pSysInfo.nPrintStatus}}}bSuperDevice{{{pSysInfo.bSuperDevice}}}\r\n" +
+                                        ////royal.LPPRINTER_INFO pSysInfo = new royal.LPPRINTER_INFO();//20230213新增：
+                                        ////bool nRetVal2 = royal.royal.DEV_GetDeviceInfo2(ref pSysInfo);//20230213新增：
+                                        ////msg = $"PASS打印前关键状态：DEV_GetDeviceInfo2：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
+                                        ////    $"LPPRINTER_INFO:nXSysEncDPI{{{pSysInfo.nXSysEncDPI}}}nStatus{{{pSysInfo.nStatus}}}nPrintStatus{{{pSysInfo.nPrintStatus}}}bSuperDevice{{{pSysInfo.bSuperDevice}}}\r\n" +
 
-                                    ////    $"LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{{{pSysInfo.prt_rtinfo.bJobPrtRuning}}}bLayerPrtIsOver{{{pSysInfo.prt_rtinfo.bLayerPrtIsOver}}}" +
-                                    ////    $"nContReqMemErr{{{pSysInfo.prt_rtinfo.nContReqMemErr}}}nContWDErr{{{pSysInfo.prt_rtinfo.nContWDErr}}}" +
-                                    ////    $"nCurPrtDir{{{pSysInfo.prt_rtinfo.nCurPrtDir}}}nDTLayerIndex{{{pSysInfo.prt_rtinfo.nDTLayerIndex}}}" +
-                                    ////    $"nDTLayerPassIndex{{{pSysInfo.prt_rtinfo.nDTLayerPassIndex}}}nDTPtrCtlIndex{{{pSysInfo.prt_rtinfo.nDTPtrCtlIndex}}}" +
-                                    ////    $"nLayerPassCount{{{pSysInfo.prt_rtinfo.nLayerPassCount}}}nPrintLayerIndex{{{pSysInfo.prt_rtinfo.nPrintLayerIndex}}}" +
-                                    ////    $"nPrintPassIndex{{{pSysInfo.prt_rtinfo.nPrintPassIndex}}}nProcLayerIndex{{{pSysInfo.prt_rtinfo.nProcLayerIndex}}}" +
-                                    ////    $"nPrtDataMemAddr{{{pSysInfo.prt_rtinfo.nPrtDataMemAddr}}}nPrtState{{{pSysInfo.prt_rtinfo.nPrtState}}}" +
-                                    ////    $"nReverse{{{pSysInfo.prt_rtinfo.nReverse}}}nRevPrtCols{{{pSysInfo.prt_rtinfo.nRevPrtCols}}}\r\n" +
+                                        ////    $"LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{{{pSysInfo.prt_rtinfo.bJobPrtRuning}}}bLayerPrtIsOver{{{pSysInfo.prt_rtinfo.bLayerPrtIsOver}}}" +
+                                        ////    $"nContReqMemErr{{{pSysInfo.prt_rtinfo.nContReqMemErr}}}nContWDErr{{{pSysInfo.prt_rtinfo.nContWDErr}}}" +
+                                        ////    $"nCurPrtDir{{{pSysInfo.prt_rtinfo.nCurPrtDir}}}nDTLayerIndex{{{pSysInfo.prt_rtinfo.nDTLayerIndex}}}" +
+                                        ////    $"nDTLayerPassIndex{{{pSysInfo.prt_rtinfo.nDTLayerPassIndex}}}nDTPtrCtlIndex{{{pSysInfo.prt_rtinfo.nDTPtrCtlIndex}}}" +
+                                        ////    $"nLayerPassCount{{{pSysInfo.prt_rtinfo.nLayerPassCount}}}nPrintLayerIndex{{{pSysInfo.prt_rtinfo.nPrintLayerIndex}}}" +
+                                        ////    $"nPrintPassIndex{{{pSysInfo.prt_rtinfo.nPrintPassIndex}}}nProcLayerIndex{{{pSysInfo.prt_rtinfo.nProcLayerIndex}}}" +
+                                        ////    $"nPrtDataMemAddr{{{pSysInfo.prt_rtinfo.nPrtDataMemAddr}}}nPrtState{{{pSysInfo.prt_rtinfo.nPrtState}}}" +
+                                        ////    $"nReverse{{{pSysInfo.prt_rtinfo.nReverse}}}nRevPrtCols{{{pSysInfo.prt_rtinfo.nRevPrtCols}}}\r\n" +
 
-                                    ////    $"LPPRINTER_INFO-LPDRVINFO:nFMVersion{{{pSysInfo.sysDrvInfo[0].nFMVersion}}}nFpgaVersion{{{pSysInfo.sysDrvInfo[0].nFpgaVersion}}}" +
-                                    ////    $"nPCBVersion{{{pSysInfo.sysDrvInfo[0].nPCBVersion}}}" +
-                                    ////    $"nState{{{pSysInfo.sysDrvInfo[0].nState}}}nNextState{{{pSysInfo.sysDrvInfo[0].nNextState}}}" +
-                                    ////    $"nPtvwarnState{{{pSysInfo.sysDrvInfo[0].nPtvwarnState}}}nCrc32{{{pSysInfo.sysDrvInfo[0].nCrc32}}}" +
-                                    ////    $"nRevInfo{{{pSysInfo.sysDrvInfo[0].nRevInfo}}}nSignature{{{pSysInfo.sysDrvInfo[0].nSignature}}}";
-                                    ////Log4Net.Info(msg);
+                                        ////    $"LPPRINTER_INFO-LPDRVINFO:nFMVersion{{{pSysInfo.sysDrvInfo[0].nFMVersion}}}nFpgaVersion{{{pSysInfo.sysDrvInfo[0].nFpgaVersion}}}" +
+                                        ////    $"nPCBVersion{{{pSysInfo.sysDrvInfo[0].nPCBVersion}}}" +
+                                        ////    $"nState{{{pSysInfo.sysDrvInfo[0].nState}}}nNextState{{{pSysInfo.sysDrvInfo[0].nNextState}}}" +
+                                        ////    $"nPtvwarnState{{{pSysInfo.sysDrvInfo[0].nPtvwarnState}}}nCrc32{{{pSysInfo.sysDrvInfo[0].nCrc32}}}" +
+                                        ////    $"nRevInfo{{{pSysInfo.sysDrvInfo[0].nRevInfo}}}nSignature{{{pSysInfo.sysDrvInfo[0].nSignature}}}";
+                                        ////Log4Net.Info(msg);
 
-                                    royal.LPPRINTER_INFO g_printerInfoLocal = new royal.LPPRINTER_INFO();//20230213新增：
-                                    IntPtr info = royal.royal.DEV_GetDeviceInfo();//——————调用API1(修改后的API1)
-                                    g_printerInfoLocal = (LPPRINTER_INFO)Marshal.PtrToStructure(info, typeof(LPPRINTER_INFO));//调用API1获取的指针
-                                    string msg3 = $"PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
-                                         $"LPPRINTER_INFO:nXSysEncDPI{{{g_printerInfoLocal.nXSysEncDPI}}}nStatus{{{g_printerInfoLocal.nStatus}}}nPrintStatus{{{g_printerInfoLocal.nPrintStatus}}}bSuperDevice{{{g_printerInfoLocal.bSuperDevice}}}\r\n" +
-                                         $"LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{{{g_printerInfoLocal.prt_rtinfo.bJobPrtRuning}}}bLayerPrtIsOver{{{g_printerInfoLocal.prt_rtinfo.bLayerPrtIsOver}}}" +
-                                         $"nContReqMemErr{{{g_printerInfoLocal.prt_rtinfo.nContReqMemErr}}}nContWDErr{{{g_printerInfoLocal.prt_rtinfo.nContWDErr}}}" +
-                                         $"nCurPrtDir{{{g_printerInfoLocal.prt_rtinfo.nCurPrtDir}}}nDTLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nDTLayerIndex}}}" +
-                                         $"nDTLayerPassIndex{{{g_printerInfoLocal.prt_rtinfo.nDTLayerPassIndex}}}nDTPtrCtlIndex{{{g_printerInfoLocal.prt_rtinfo.nDTPtrCtlIndex}}}" +
-                                         $"nLayerPassCount{{{g_printerInfoLocal.prt_rtinfo.nLayerPassCount}}}nPrintLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nPrintLayerIndex}}}" +
-                                         $"nPrintPassIndex{{{g_printerInfoLocal.prt_rtinfo.nPrintPassIndex}}}nProcLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nProcLayerIndex}}}" +
-                                         $"nPrtDataMemAddr{{{g_printerInfoLocal.prt_rtinfo.nPrtDataMemAddr}}}nPrtState{{{g_printerInfoLocal.prt_rtinfo.nPrtState}}}" +
-                                         $"nReverse{{{g_printerInfoLocal.prt_rtinfo.nReverse}}}nRevPrtCols{{{g_printerInfoLocal.prt_rtinfo.nRevPrtCols}}}\r\n" +
+                                        royal.LPPRINTER_INFO g_printerInfoLocal = new royal.LPPRINTER_INFO();//20230213新增：
+                                        IntPtr info = royal.royal.DEV_GetDeviceInfo();//——————调用API1(修改后的API1)
+                                        g_printerInfoLocal = (LPPRINTER_INFO)Marshal.PtrToStructure(info, typeof(LPPRINTER_INFO));//调用API1获取的指针
+                                        string msg3 = $"PASS打印前关键状态：DEV_GetDeviceInfo：nLayerIndex{{{k}}}nPassID{{{nPassID}}}" +
+                                             $"LPPRINTER_INFO:nXSysEncDPI{{{g_printerInfoLocal.nXSysEncDPI}}}nStatus{{{g_printerInfoLocal.nStatus}}}nPrintStatus{{{g_printerInfoLocal.nPrintStatus}}}bSuperDevice{{{g_printerInfoLocal.bSuperDevice}}}\r\n" +
+                                             $"LPPRINTER_INFO-LPPrtRunInfo:bJobPrtRuning{{{g_printerInfoLocal.prt_rtinfo.bJobPrtRuning}}}bLayerPrtIsOver{{{g_printerInfoLocal.prt_rtinfo.bLayerPrtIsOver}}}" +
+                                             $"nContReqMemErr{{{g_printerInfoLocal.prt_rtinfo.nContReqMemErr}}}nContWDErr{{{g_printerInfoLocal.prt_rtinfo.nContWDErr}}}" +
+                                             $"nCurPrtDir{{{g_printerInfoLocal.prt_rtinfo.nCurPrtDir}}}nDTLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nDTLayerIndex}}}" +
+                                             $"nDTLayerPassIndex{{{g_printerInfoLocal.prt_rtinfo.nDTLayerPassIndex}}}nDTPtrCtlIndex{{{g_printerInfoLocal.prt_rtinfo.nDTPtrCtlIndex}}}" +
+                                             $"nLayerPassCount{{{g_printerInfoLocal.prt_rtinfo.nLayerPassCount}}}nPrintLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nPrintLayerIndex}}}" +
+                                             $"nPrintPassIndex{{{g_printerInfoLocal.prt_rtinfo.nPrintPassIndex}}}nProcLayerIndex{{{g_printerInfoLocal.prt_rtinfo.nProcLayerIndex}}}" +
+                                             $"nPrtDataMemAddr{{{g_printerInfoLocal.prt_rtinfo.nPrtDataMemAddr}}}nPrtState{{{g_printerInfoLocal.prt_rtinfo.nPrtState}}}" +
+                                             $"nReverse{{{g_printerInfoLocal.prt_rtinfo.nReverse}}}nRevPrtCols{{{g_printerInfoLocal.prt_rtinfo.nRevPrtCols}}}\r\n" +
 
-                                         $"LPPRINTER_INFO-LPDRVINFO:nFMVersion{{{g_printerInfoLocal.sysDrvInfo[0].nFMVersion}}}nFpgaVersion{{{g_printerInfoLocal.sysDrvInfo[0].nFpgaVersion}}}" +
-                                         $"nPCBVersion{{{g_printerInfoLocal.sysDrvInfo[0].nPCBVersion}}}" +
-                                         $"nState{{{g_printerInfoLocal.sysDrvInfo[0].nState}}}nNextState{{{g_printerInfoLocal.sysDrvInfo[0].nNextState}}}" +
-                                         $"nPtvwarnState{{{g_printerInfoLocal.sysDrvInfo[0].nPtvwarnState}}}nCrc32{{{g_printerInfoLocal.sysDrvInfo[0].nCrc32}}}" +
-                                         $"nRevInfo{{{g_printerInfoLocal.sysDrvInfo[0].nRevInfo}}}nSignature{{{g_printerInfoLocal.sysDrvInfo[0].nSignature}}}";
-                                    Log4Net.Info(msg3);
+                                             $"LPPRINTER_INFO-LPDRVINFO:nFMVersion{{{g_printerInfoLocal.sysDrvInfo[0].nFMVersion}}}nFpgaVersion{{{g_printerInfoLocal.sysDrvInfo[0].nFpgaVersion}}}" +
+                                             $"nPCBVersion{{{g_printerInfoLocal.sysDrvInfo[0].nPCBVersion}}}" +
+                                             $"nState{{{g_printerInfoLocal.sysDrvInfo[0].nState}}}nNextState{{{g_printerInfoLocal.sysDrvInfo[0].nNextState}}}" +
+                                             $"nPtvwarnState{{{g_printerInfoLocal.sysDrvInfo[0].nPtvwarnState}}}nCrc32{{{g_printerInfoLocal.sysDrvInfo[0].nCrc32}}}" +
+                                             $"nRevInfo{{{g_printerInfoLocal.sysDrvInfo[0].nRevInfo}}}nSignature{{{g_printerInfoLocal.sysDrvInfo[0].nSignature}}}";
+                                        Log4Net.Info(msg3);
+                                    }
 
 #if false//20220524批注：刷新进度控件
                                     double rate = (double)g_nLayerCurrent / (double)g_nLayerEnd * 100;//20200617批注
@@ -3811,6 +3832,25 @@ namespace BinderJetting
                 AutoPrintMotion.AutoSupplyPowderThread();//20201029:自动进给预送粉
 #else//上送粉逻辑
                     //AutoPrintMotion3.NewAutoSupplyPowderThread2/*NewAutoSupplyPowderThread*/(ref toCamera, RecordLayerIndex, RecordProcessIndex);//20201029:自动上送粉//20230114修改：添加新的参数NewAutoSupplyPowderThread2
+                    Log4Net.Info(AutoPrintMotion3.GetPowderCarEntryDiag("AutoPrint_Command2"));
+                    string powderCarReadyReason = null;
+                    if (!AutoPrintMotion3.IsPowderCarCoordinateReadyForAuto(out powderCarReadyReason))
+                    {
+                        Log4Net.Info($"自动铺粉拦截：{powderCarReadyReason}");
+                        PrintConrolFlag = "StopPrint";
+                        if (this.IsHandleCreated)
+                        {
+                            if (this.InvokeRequired)
+                            {
+                                this.BeginInvoke(new Action(() => MessageBox.Show(powderCarReadyReason)));
+                            }
+                            else
+                            {
+                                MessageBox.Show(powderCarReadyReason);
+                            }
+                        }
+                        return;
+                    }
 
                     if (AutoPrintMotion3.k_RYSYSParamAutoPrintParamInTest.m_nRecoaterMode == 0)//20230519新增：
                     {
