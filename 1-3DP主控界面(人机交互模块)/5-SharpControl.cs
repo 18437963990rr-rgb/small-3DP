@@ -1609,6 +1609,8 @@ namespace BinderJetting
                 {
                     int stripIndexSimple = 0;
                     uint actualScanJobWidth = (uint)Math.Max(1, clone.Width);
+                    Log4Net.Info($"[RenderPhase] marker=RasterReady_BeforeMeteorSubmit path=SimplifiedMeteorAutoFlowMode clone={clone.Width}x{clone.Height} index={index} subindex={subindex} managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
+                    MeteorPrintEngine.WaitPass0GateBeforeMeteorSubmitIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode", index, ActualStartNum);
                     MeteorPrintEngine.SetPendingScanJobWidth(actualScanJobWidth);
                     MeteorPrintEngine.SendStartJob(0, actualScanJobWidth);
                     Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 已启用，按 HiPrint 风格使用 clone 分swath发送且固定YTop，clone={clone.Width}x{clone.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}");
@@ -1627,6 +1629,8 @@ namespace BinderJetting
 #if SinglePassPrintMode
                 int stripIndex = 0;
                 uint actualScanJobWidth = (uint)Math.Max(1, clone.Width);
+                Log4Net.Info($"[RenderPhase] marker=RasterReady_BeforeMeteorSubmit path=SinglePassPrintMode clone={clone.Width}x{clone.Height} index={index} subindex={subindex} managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
+                MeteorPrintEngine.WaitPass0GateBeforeMeteorSubmitIfEnabled("RenderToWic:SinglePassPrintMode", index, ActualStartNum);
                 MeteorPrintEngine.SetPendingScanJobWidth(actualScanJobWidth);
                 MeteorPrintEngine.SendStartJob(0, actualScanJobWidth);
                 Log4Net.Info($"RenderToWic: 复用外层已启动的 JOB，开始发送条带，clone={clone.Width}x{clone.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndex}");
@@ -1666,6 +1670,8 @@ namespace BinderJetting
                 {
                     int stripIndexTwoPass = 0;
                     uint actualScanJobWidth = (uint)Math.Max(1, outputImage.Width);
+                    Log4Net.Info($"[RenderPhase] marker=RasterReady_BeforeMeteorSubmit path=TwoPassPrintMode outputImage={outputImage.Width}x{outputImage.Height} index={index} subindex={subindex} managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
+                    MeteorPrintEngine.WaitPass0GateBeforeMeteorSubmitIfEnabled("RenderToWic:TwoPassPrintMode", index, ActualStartNum);
                     MeteorPrintEngine.SetPendingScanJobWidth(actualScanJobWidth);
                     MeteorPrintEngine.SendStartJob(0, actualScanJobWidth);
                     Log4Net.Info("RenderToWic: 复用外层已启动的 JOB, outputImage=" + outputImage.Width + "x" + outputImage.Height + ", index=" + index + ", subindex=" + subindex + ", RePrintTimes=" + RePrintTimes + ", stripIndexTwoPass=" + stripIndexTwoPass);

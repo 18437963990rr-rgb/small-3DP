@@ -2787,6 +2787,7 @@ namespace BinderJetting
 
             //（伍） 完成数据的传输
             //（伍） 完成数据的传输
+            MeteorPrintEngine.WaitPass0GateBeforeMeteorSubmitIfEnabled("手动操作_BMP单色测试路径", i, i);
             if (!MeteorPrintEngine.SendStartJob(0, (uint)processedBitmap.Width))
             {
                 processedBitmap.UnlockBits(bmpData);
@@ -7368,6 +7369,7 @@ namespace BinderJetting
                     motionMap.LogInkCarAxisEncClosedLoopDiag("AutoCleanThread2 短流程 return 前（若此后 Y 异常而本行 A2 的 d(prf-enc) 已偏大，多因 EncOff 后未 EncOn 轴2）");
                     msg = $"结束自动清洗过程：AutoCleanThread2（压墨区 -> 压墨2秒 -> 新清洗位 -> 135度刮墨 -> 回刮至压墨位 -> 刮板回等待位）";
                     Log4Net.Info(msg);
+                    Log4Net.Info($"[PrintPhase] marker=AutoCleanCycleEnd variant=shortCleanPath k_nCurrentLayer={k_nCurrentLayer} managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O} gateHint=notForSendStartJobBind reason=非每层清洗");
                     return;
                 }
 
@@ -7461,6 +7463,7 @@ namespace BinderJetting
 
                 msg = $"结束自动清洗过程：AutoCleanThread2（2026-04-27 新版）";
                 Log4Net.Info(msg);
+                Log4Net.Info($"[PrintPhase] marker=AutoCleanCycleEnd variant=fullCleanPath20260427 k_nCurrentLayer={k_nCurrentLayer} managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O} gateHint=notForSendStartJobBind reason=非每层清洗");
             }
 
 #elif false//20220518新建：新设备使用的自动清洗逻辑//20230401之前逻辑
@@ -10993,6 +10996,7 @@ namespace BinderJetting
 
                             BackToStation(15 - YJetOffWidth, (float)ReturnVelocity2/*ReturnVelocity1*/, true, false/*true*/, 1);//停靠在里侧，向外侧步进喷头幅面
                             BackToStation(425, (float)ReturnVelocity2/*ReturnVelocity1*/, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
+                            Log4Net.Info($"[PrintPhase] marker=FirstScanAccelStart motionPath=AutoPrintThread2 passIndex=0 step=BackToStation(25@printSpeed) printSpeedMmS={ReturnVelocity1:F3} k_nCurrentLayer={k_nCurrentLayer} managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
                             BackToStation(25, (float)ReturnVelocity1, false, true, 1);//停靠在右侧，向左侧运动打印幅面<---------------
                             BackToStation(15 + passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//停靠在里侧，向外侧步进喷头幅面
 
@@ -11099,6 +11103,7 @@ namespace BinderJetting
                             Log4Net.Info(msg);
 
                             BackToStation(15 + 2 * passPitchY + YJetOffWidth, (float)ReturnVelocity2, true, false, 1);//自高向低：先定位第 3 条带一端
+                            Log4Net.Info($"[PrintPhase] marker=FirstScanAccelStart motionPath=AutoPrintThread3 passIndex=0 step=BackToStation(25@printSpeed) printSpeedMmS={ReturnVelocity1:F3} k_nCurrentLayer={k_nCurrentLayer} managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
                             BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印//
                             BackToStation(15 + 1 * passPitchY + YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//回落至第 2 条带对齐
 
@@ -11270,7 +11275,7 @@ namespace BinderJetting
         }
         public void AutoPrintThread5(int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth, int NotGoCleanStationFlag,double YJetBaseOffWidth)//20220513新建:自动喷墨运动动作
         {
-            string msg = $"进入：AutoPrintThread3！";
+            string msg = $"进入：AutoPrintThread5！Command={Command}, PassIndex={PassIndex}, m_MovSpeed={m_MovSpeed}, m_BackCleanMovSpeed={m_BackCleanMovSpeed}";
             Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 
             if (Command == 0) { }
@@ -11286,6 +11291,7 @@ namespace BinderJetting
                     switch (PassIndex)
                     {
                         case 0://第1 PASS
+                            Log4Net.Info($"[PrintPhase] marker=Pass0Entered motionPath=AutoPrintThread5 k_nCurrentLayer={k_nCurrentLayer} RecordLayerIndex={RecordLayerIndex} managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O} note=beforeSlowApproachMoves");
 #region 监控指令：喷墨拍摄位点1
                             if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[0])
                             {
@@ -11296,8 +11302,11 @@ namespace BinderJetting
                             msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal}}}";
                             Log4Net.Info(msg);
 
+                            Log4Net.Info($"[PrintPhase] marker=Pass0AfterFlashOff motionPath=AutoPrintThread5 k_nCurrentLayer={k_nCurrentLayer} note=nextTwoBackToStation_use_ReturnVelocity2_slow");
+
                             BackToStation(passStartBaseY - YJetOffWidth, (float)ReturnVelocity2, true, false, 1);//准备 Y
                             BackToStation(425, (float)ReturnVelocity2, false, true, 1);//准备 X
+                            Log4Net.Info($"[PrintPhase] marker=FirstScanAccelStart motionPath=AutoPrintThread5 passIndex=0 step=BackToStation(25@printSpeed) printSpeedMmS={ReturnVelocity1:F3} k_nCurrentLayer={k_nCurrentLayer} managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
                             BackToStation(25, (float)ReturnVelocity1, false, true, 1);//打印//
                             BackToStation(passStartBaseY + passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//与 AutoPrintThread2 首条对齐：末位 Y≈50+passPitchY
 
@@ -14009,6 +14018,8 @@ namespace BinderJetting
                     $"YDPI={royal.royal.g_prtimg_layer.nYDPI}, nPrtDir={royal.royal.g_prtimg_layer.nPrtDir}, " +
                     $"nPrtFlag={royal.royal.g_prtimg_layer.nPrtFlag}, nXEncOff={royal.royal.g_prtimg_layer.nXEncOff}, " +
                     $"nYJetOff={royal.royal.g_prtimg_layer.nYJetOff}, nImgStartJetIndex={royal.royal.g_prtimg_layer.nImgStartJetIndex}");
+
+                MeteorPrintEngine.WaitPass0GateBeforeMeteorSubmitIfEnabled("手动操作_button30_单向PASS", royal.royal.g_prtimg_layer.nLayerIndex, royal.royal.g_prtimg_layer.nLayerIndex);
 
                 if (!MeteorPrintEngine.SendStartJob(0, (uint)processedBitmap.Width))
                 {

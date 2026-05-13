@@ -146,6 +146,8 @@ namespace BinderJetting
                 int axisCounts = ConvertDisplayPosMmToAxisCounts(g_cPrinterSysParam.g_dPositon[slot], axis);
                 g_cMotionMap.SetEncPos(axis, axisCounts);
             }
+
+            LogMainPowderCarBaseline("RestorePersistedGoogolPositions");
         }
 
         private void SyncPowderCarBaselineFromManualControl(手动操作 manualControl, string sourceTag)
@@ -189,6 +191,24 @@ namespace BinderJetting
             else
             {
                 Log4Net.Info($"粉车坐标同步[{sourceTag}]：PowderCarHomeFlag=True，axis7Mm={powderCarMm:F3}mm，已同步主界面槽位g_dPositon[3]。");
+            }
+        }
+
+        private void LogMainPowderCarBaseline(string sourceTag)
+        {
+            try
+            {
+                double[] encPos = g_cMotionMap != null ? g_cMotionMap.GetEncPos() : null;
+                double axis7Raw = (encPos != null && encPos.Length >= GoogolAxisPowderCar) ? encPos[GoogolAxisPowderCar - 1] : double.NaN;
+                double axis7Mm = GetGoogolAxisDisplayPosMm(encPos, GoogolAxisPowderCar);
+                double persistedMm = (g_cPrinterSysParam != null && g_cPrinterSysParam.g_dPositon != null && g_cPrinterSysParam.g_dPositon.Length >= 4)
+                    ? g_cPrinterSysParam.g_dPositon[3]
+                    : double.NaN;
+                Log4Net.Info($"MainPowderCarBaseline[{sourceTag}]: PowderCarHomeFlag={PowderCarHomeFlag}, CorrectFlag={g_bSystemCorrectFlag}, axis7Raw={axis7Raw:F1}, axis7Mm={axis7Mm:F3}, persistedSlot3={persistedMm:F3}");
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"MainPowderCarBaseline[{sourceTag}]: exception={ex.GetType().FullName}, msg={ex.Message}");
             }
         }
 
@@ -1414,6 +1434,7 @@ namespace BinderJetting
                             if (tempThread != null)
                             {
                                 PrinterLogicThreads.Remove(tempThread);
+                                MeteorPrintEngine.ConfigurePass0GateForAutoPrint(true, false);
                                 ThreadStart initThreadEntry = new ThreadStart(DataTaskTHREAD);
                                 tempThread = new Thread(initThreadEntry) { IsBackground = true };
                                 tempThread.Name = tempThreadName;
@@ -1424,6 +1445,7 @@ namespace BinderJetting
                             {
                                 bool returnFlag = StartCloseJOB(false);//20201124新增：开启只执行1次，JOB并赋值关键打印参数；架构上本人
                                 ModifyJobAeraFLag = true;//20201124新增：
+                                MeteorPrintEngine.ConfigurePass0GateForAutoPrint(true, false);
                                 ThreadStart initThreadEntry = new ThreadStart(DataTaskTHREAD);
                                 tempThread = new Thread(initThreadEntry) { IsBackground = true };
                                 tempThread.Name = tempThreadName;
@@ -2347,10 +2369,19 @@ namespace BinderJetting
             Log4Net.Info($"打印线程：ReadLayerInfo完成，g_bSelectedLayerRangeReady={g_bSelectedLayerRangeReady}，g_nLayerStart={g_nLayerStart}，g_nLayerEnd={g_nLayerEnd}，g_nRePrintTimes={g_nRePrintTimes}");
             motionMap = CreateMotionMap();
             g_PrintSchedule = g_nLayerStart;//20201118新增：
-            while ((g_PrintSchedule == -1) || g_PrintSchedule == g_nLayerStart)//20201118新增：处于初始态或者已经传输1层数据
+            bool bypassInitialScheduleWaitForMeteorPass0Gate = MeteorPrintEngine.ShouldBypassInitialPrintScheduleWaitForPass0Gate();
+            if (bypassInitialScheduleWaitForMeteorPass0Gate)
             {
-                Thread.Sleep(100);//数据传送进度需要领先起始打印层至少2层
+                Log4Net.Info($"[MeteorScanGate] marker=BypassInitialPrintScheduleWait reason=首层STARTJOB改为绑定LayerPass0BeforeCarMotion g_PrintSchedule={g_PrintSchedule} g_nLayerStart={g_nLayerStart} managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
             }
+            else
+            {
+                while ((g_PrintSchedule == -1) || g_PrintSchedule == g_nLayerStart)//20201118新增：处于初始态或者已经传输1层数据
+                {
+                    Thread.Sleep(100);//数据传送进度需要领先起始打印层至少2层
+                }
+            }
+            Log4Net.Info($"[PrintPhase] marker=PrintScheduleGatePassed g_PrintSchedule={g_PrintSchedule} g_nLayerStart={g_nLayerStart} g_nCurrentPrintLayerID={g_nCurrentPrintLayerID} thread=PrintTaskTHREAD managedId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
             PrintFlag = true;//20200716新增：关闭打印机维护的间歇闪喷使能
             ConfigureJetEnvironmentControlMode();//20200602修改:初始化喷墨系统环境控制，具体包括：下发自动供墨指令、下发设置自动负压指令、下发二级墨盒的温度设置指令、设置墨水搅拌周期指令                                           
             InitCarMotor();//20200327新增：//（1）初始化被控对象及加工任务区间
@@ -2564,9 +2595,12 @@ namespace BinderJetting
                                 if (EnablePureMeteorPassScheduling)
                                 {
                                     Log4Net.Info($"打印线程：PureMeteor推进已启用，跳过 TriggerPass，直接进入本地PASS运动，nLayerIndex={k}，nPassID={nPassID}，g_PrintSchedule={g_PrintSchedule}");
+                                    if (nPassID == 0)
+                                        Log4Net.Info($"[MeteorScanGate] marker=PureMeteorPass0Scheduled nLayerIndex={k} nPassID=0 note=无TriggerPass层首PASS0将走本地Command6；若门控SendStartJob应对齐层PASS0机械入口而非清洗结束");
                                 }
                                 else
                                 {
+                                    Log4Net.Info($"[MeteorScanGate] marker=BeforeTriggerPass nLayerIndex={k} nPassID={nPassID} note=扫描推进接口TriggerPass即将调用");
                                     Log4Net.Info($"打印线程：准备调用 TriggerPass，nLayerIndex={k}，nPassID={nPassID}，g_nCurrentPrintLayerID={g_nCurrentPrintLayerID}，g_PrintSchedule={g_PrintSchedule}");
                                     var triggerWatch = System.Diagnostics.Stopwatch.StartNew();
                                     returnCode2 = MeteorPrintEngine.TriggerPass((uint)k, nPassID /*-1*/);
@@ -2700,6 +2734,12 @@ namespace BinderJetting
                                                 }
                                             }
                                         }
+                                    }
+
+                                    if (nPassID == 0)
+                                    {
+                                        Log4Net.Info($"[MeteorScanGate] marker=LayerPass0BeforeCarMotion nLayerIndex={k} g_nCurrentPrintLayerID={g_nCurrentPrintLayerID} pureMeteor={EnablePureMeteorPassScheduling} note=可选Command1清洗已在上文按频率执行或跳过；门控SendStartJob应与此层PASS0墨车运动入口对齐勿绑AutoCleanCycleEnd managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
+                                        MeteorPrintEngine.SignalPrintThreadLayerPass0ReadyForMeteorSubmit(k);
                                     }
 
                                     bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
@@ -3284,6 +3324,11 @@ namespace BinderJetting
                                         ////    float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
                                         ////    EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0);//20220915新增：加入自动清洗逻辑
                                         ////}
+                                        if (nPassID == 0)
+                                        {
+                                            Log4Net.Info($"[MeteorScanGate] marker=LayerPass0BeforeCarMotion thread=PrintTaskTHREAD2 nLayerIndex={k} g_nCurrentPrintLayerID={g_nCurrentPrintLayerID} managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
+                                            MeteorPrintEngine.SignalPrintThreadLayerPass0ReadyForMeteorSubmit(k);
+                                        }
                                         bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
                                         float m_MovSpeed = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);//20200328新增：打印速度
                                         float m_BackCleanMovSpeed = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度
@@ -3701,6 +3746,7 @@ namespace BinderJetting
             royal.royal.g_prtimg_layer.nPrtDir = 0;
 
             // 扫描模式：整层发送前发 STARTJOB，每条带前 STARTSCAN、条带后 ENDDOC，整层后 ENDJOB
+            MeteorPrintEngine.WaitPass0GateBeforeMeteorSubmitIfEnabled("主界面_WriteImgLayerData", index, g_nLayerStart);
             MeteorPrintEngine.SendStartJob(0, (uint)processedBitmap.Width);
             int stripIndex = 0;
             int nRet = SwathImageSplitter.SplitLayerToSwathStripsAndProcess(processedBitmap, (strip, swathTop) =>
@@ -3876,6 +3922,7 @@ namespace BinderJetting
                 AutoPrintMotion.AutoSupplyPowderThread();//20201029:自动进给预送粉
 #else//上送粉逻辑
                     //AutoPrintMotion3.NewAutoSupplyPowderThread2/*NewAutoSupplyPowderThread*/(ref toCamera, RecordLayerIndex, RecordProcessIndex);//20201029:自动上送粉//20230114修改：添加新的参数NewAutoSupplyPowderThread2
+                    LogMainPowderCarBaseline("AutoPrint_Command2_Main");
                     Log4Net.Info(AutoPrintMotion3.GetPowderCarEntryDiag("AutoPrint_Command2"));
                     string powderCarReadyReason = null;
                     if (!AutoPrintMotion3.IsPowderCarCoordinateReadyForAuto(out powderCarReadyReason))
@@ -4390,6 +4437,7 @@ namespace BinderJetting
             ManualControl.k_nCurrentLayer = g_nCurrentLayer;//20201021新增：同步打印进度
 
             ManualControl.k_fBackCleanMovSpeed = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);//20230404新增：回清洗站速度;
+            LogMainPowderCarBaseline("BeforeOpenManualControl");
 
             DialogResult result = ManualControl.ShowDialog();
             if (result == DialogResult.OK)//OK时，执行对应操作

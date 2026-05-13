@@ -1179,18 +1179,18 @@ namespace BinderJetting
             get { return this.m_dPrtXEncPos; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set 
             { 
-                if (value != this.m_dPrtXEncPos) { this.m_dPrtXEncPos = value; NotifyPropertyChanged(); }
-                if ((value != this.m_dPrtXEncPos) && (35 <= value && value <= 60))
+                // 旧 Royal 时代这里被限制在 35~60mm，已不适合当前 Meteor 基线联机排查。
+                // 目前放宽到 0~1000mm，保留基础防呆，但允许按实际工作区验证 355/700mm 等候选值。
+                double clamped = value;
+                if (clamped < 0)
+                    clamped = 0;
+                else if (clamped > 1000)
+                    clamped = 1000;
+
+                if (clamped != this.m_dPrtXEncPos)
                 {
-                    this.m_dPrtXEncPos = value; NotifyPropertyChanged();
-                }
-                else if (value > 60)
-                {
-                    this.m_dPrtXEncPos = 60; NotifyPropertyChanged();
-                }
-                else if (value < 35)
-                {
-                    this.m_dPrtXEncPos = 35; NotifyPropertyChanged();
+                    this.m_dPrtXEncPos = clamped;
+                    NotifyPropertyChanged();
                 }
             }
         }
