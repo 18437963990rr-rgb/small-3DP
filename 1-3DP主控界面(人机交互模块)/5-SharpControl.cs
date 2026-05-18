@@ -1613,16 +1613,15 @@ namespace BinderJetting
                     MeteorPrintEngine.WaitPass0GateBeforeMeteorSubmitIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode", index, ActualStartNum);
                     MeteorPrintEngine.SetPendingScanJobWidth(actualScanJobWidth);
                     MeteorPrintEngine.SendStartJob(0, actualScanJobWidth);
-                    Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 已启用，按 HiPrint 风格使用 clone 分swath发送且固定YTop，clone={clone.Width}x{clone.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}");
+                    Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 已去除 *2 拼图步骤，直接按原始切片并固定同址发送，clone={clone.Width}x{clone.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}");
                     SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, (strip, swathTop) =>
                     {
                         royal.royal.g_prtimg_layer.nPrtDir = 1;
-                        // 须传入 swathTop：与 TwoPass/SinglePass 一致，否则每条带 nYJetOff 相同，Meteor 会把各条 bitmap 叠在同一 Y 起点，造成错位/假「高度异常」。
-                        int writeRet = WriteImgLayerData(strip, index, 0, 1, true, swathTop);
-                        Log4Net.Info("RenderToWic: Simplified HiPrint-style stripProcessor 完成, stripIndexSimple=" + stripIndexSimple + ", swathTop=" + swathTop + ", writeRet=" + writeRet);
+                        int writeRet = WriteImgLayerData(strip, index, 0, 1, true, 0);
+                        Log4Net.Info("RenderToWic: Simplified 3PASS stripProcessor 完成, stripIndexSimple=" + stripIndexSimple + ", swathTop=" + swathTop + ", fixedYOffset=0, writeRet=" + writeRet);
                         stripIndexSimple++;
                     }, 0, -1);
-                    Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 固定YTop分swath发送完成，index={index}, subindex={subindex}, stripIndexSimple={stripIndexSimple}");
+                    Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 同址3PASS发送完成，index={index}, subindex={subindex}, stripIndexSimple={stripIndexSimple}");
                     clone.Dispose();
                     return;
                 }
@@ -1639,9 +1638,8 @@ namespace BinderJetting
 #endif
                 System.Drawing.Bitmap outputImage = null;
 #if TwoPassPrintMode
-                // 整幅面已与 PlateHeightMm 一致：CreatTwoPassFigure 仅适用于历史「短条带拼接」输入，此处改为1bpp 拷贝后直接 swath。
                 outputImage = clone.Clone(new System.Drawing.Rectangle(0, 0, clone.Width, clone.Height), System.Drawing.Imaging.PixelFormat.Format1bppIndexed);
-                Log4Net.Info($"RenderToWic: 整板 Meteor 光栅（无 CreatTwoPassFigure拼接），outputImage={outputImage.Width}x{outputImage.Height}");
+                Log4Net.Info($"RenderToWic: 自动打印入口已去除 *2 拼图步骤，并采用同址发送，outputImage={outputImage.Width}x{outputImage.Height}");
 
 #if DataProcessDebugMode
                 {
@@ -1676,7 +1674,7 @@ namespace BinderJetting
                     MeteorPrintEngine.SendStartJob(0, actualScanJobWidth);
                     Log4Net.Info("RenderToWic: 复用外层已启动的 JOB, outputImage=" + outputImage.Width + "x" + outputImage.Height + ", index=" + index + ", subindex=" + subindex + ", RePrintTimes=" + RePrintTimes + ", stripIndexTwoPass=" + stripIndexTwoPass);
                     Log4Net.Info("RenderToWic: 开始条带处理, outputImage=" + outputImage.Width + "x" + outputImage.Height + ", index=" + index + ", subindex=" + subindex + ", RePrintTimes=" + RePrintTimes + ", stripIndexTwoPass=" + stripIndexTwoPass);
-                    SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndexTwoPass % 2 == 0) ? 1 : 0; int writeRet = WriteImgLayerData(strip, index, subindex, RePrintTimes, true, swathTop); Log4Net.Info("RenderToWic: stripProcessor 完成, stripIndexTwoPass=" + stripIndexTwoPass + ", writeRet=" + writeRet); stripIndexTwoPass++; }, 0, -1);
+                    SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndexTwoPass % 2 == 0) ? 1 : 0; int writeRet = WriteImgLayerData(strip, index, subindex, RePrintTimes, true, 0); Log4Net.Info("RenderToWic: stripProcessor 完成, stripIndexTwoPass=" + stripIndexTwoPass + ", swathTop=" + swathTop + ", fixedYOffset=0, writeRet=" + writeRet); stripIndexTwoPass++; }, 0, -1);
                     Log4Net.Info("RenderToWic: 条带处理结束, outputImage=" + outputImage.Width + "x" + outputImage.Height + ", index=" + index + ", subindex=" + subindex + ", RePrintTimes=" + RePrintTimes + ", stripIndexTwoPass=" + stripIndexTwoPass);
                     Log4Net.Info("RenderToWic: 两遍图条带发送完成，外层 JOB 仍由调用方统一结束");
                 }
@@ -1887,7 +1885,7 @@ namespace BinderJetting
 
 #if TwoPassPrintPerThreeTimes
                 System.Drawing.Bitmap outputImage2 = null;
-                CreatTwoPassFigure(0/*1280,*//*355*/, 3, clone, ref outputImage2);
+                outputImage2 = clone.Clone(new System.Drawing.Rectangle(0, 0, clone.Width, clone.Height), System.Drawing.Imaging.PixelFormat.Format1bppIndexed);
 #if TEMP_METEOR_BITMAP_EXPORT
                 ExportTemporaryBitmap(outputImage2, "RenderToWic2-outputImage-3pass", index, subindex, RePrintTimes);
 #endif
@@ -1907,7 +1905,7 @@ namespace BinderJetting
                 }
                 int stripIndex3 = 0;
                 Log4Net.Info($"RenderToWic2: 复用外层已启动的 JOB，outputImage={outputImage2.Width}x{outputImage2.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndex3}");
-                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage2, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex3 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, false, swathTop); stripIndex3++; }, 0, -1);
+                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage2, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex3 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, false, 0); stripIndex3++; }, 0, -1);
                 Log4Net.Info($"RenderToWic2: 条带发送完成，外层 JOB 仍由调用方统一结束，index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndex3}");
                 outputImage2.Dispose();
 #endif
@@ -2124,6 +2122,35 @@ namespace BinderJetting
         }
 
         public int k_dYJetOff = 0;//20210311修正：Y向的位置起始偏差。
+        private static int CountNonZeroBytes(byte[] data)
+        {
+            if (data == null) return 0;
+            int count = 0;
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (data[i] != 0) count++;
+            }
+            return count;
+        }
+
+        private static int CountSetPixels1Bpp(byte[] data, int width, int height, int bytesPerLine)
+        {
+            if (data == null || width <= 0 || height <= 0 || bytesPerLine <= 0) return 0;
+            int count = 0;
+            for (int y = 0; y < height; y++)
+            {
+                int rowBase = y * bytesPerLine;
+                for (int x = 0; x < width; x++)
+                {
+                    int byteIndex = rowBase + (x >> 3);
+                    int bitMask = 0x80 >> (x & 7);
+                    if ((data[byteIndex] & bitMask) != 0)
+                        count++;
+                }
+            }
+            return count;
+        }
+
         /// <summary>
         /// 20200609：传输数据测试;传输BMP格式，载入1层的BMP数据//20200409批注：内存中的bmp文件的存储方式是从上到下，从左到右；BMP文件的存储方式是从下到上，从左到右；           
         /// </summary>
@@ -2154,6 +2181,9 @@ namespace BinderJetting
             // （4）Copy the RGB values into the array.
             Marshal.Copy(ptr, rgbValues, 0, bytes);/*System.Runtime.InteropServices.*/
             Log4Net.Info("WriteImgLayerData: 源位图数据拷贝完成, bytes=" + bytes + ", layer=" + index + ", sub=" + subindex + ", threadId=" + System.Threading.Thread.CurrentThread.ManagedThreadId);
+            int sourceNonZeroBytes = CountNonZeroBytes(rgbValues);
+            int sourceSetPixels = CountSetPixels1Bpp(rgbValues, clone.Width, clone.Height, Math.Abs(bmpData.Stride));
+            Log4Net.Info($"[MeteorSwathDiag] stage=SourceBitmap layer={index} sub={subindex} swathYOffset={swathYOffset} width={clone.Width} height={clone.Height} stride={Math.Abs(bmpData.Stride)} reverseColor={ReverseColor} nonZeroBytes={sourceNonZeroBytes}/{bytes} setPixels={sourceSetPixels}");
 #if true//20200610测试：本部分不必须：执行反色处理：20200703批注：//20210324新建：对于打印CAD数据，需要执行反色处理；对于打印校准图，不需要执行反色处理
             // （5）Set every third value to the opposite value
             if (ReverseColor == true)//20210324修改:对于CAD数据，需要执行反色处理；对于校准图数据，不需要执行反色处理
@@ -2163,13 +2193,16 @@ namespace BinderJetting
             }
             else { }
 #endif
+            int postReverseNonZeroBytes = CountNonZeroBytes(rgbValues);
+            int BytePerLineForRgb1bppValues = (clone.Width * 1 + 31) / 32 * 4;//4byte对齐修正版本
+            int postReverseSetPixels = CountSetPixels1Bpp(rgbValues, clone.Width, clone.Height, BytePerLineForRgb1bppValues);
+            Log4Net.Info($"[MeteorSwathDiag] stage=PostReverseBitmap layer={index} sub={subindex} swathYOffset={swathYOffset} width={clone.Width} height={clone.Height} bytesPerLine1bpp={BytePerLineForRgb1bppValues} nonZeroBytes={postReverseNonZeroBytes}/{bytes} setPixels={postReverseSetPixels}");
 #region//20230202新建：根据1bpp,2bpp,3bpp++以及GrayScale来重新编码为最新需要下发的数据
             const int ForcePrintBpp = 1; // 临时测试：强制按 1bpp 下发，便于与 SimPrint 示例对比
             int bpp = ForcePrintBpp;//打印数据格式
             int GrayScale = gc_RysysParam.PixelGrayValue/*2*/;//打印灰阶
             Log4Net.Info($"WriteImgLayerData: 强制测试模式，原始PixelGrayBits={gc_RysysParam.PixelGrayBits}，实际下发bpp={bpp}，GrayScale={GrayScale}");
 
-            int BytePerLineForRgb1bppValues = (clone.Width * 1 + 31) / 32 * 4;//4byte对齐修正版本
             int BytePerLineForRgb2bppValues = (clone.Width * 2 + 31) / 32 * 4;//4byte对齐修正版本
             int BytePerLineForRgb3bppValues = (clone.Width * 3 + 31) / 32 * 4;//4byte对齐修正版本
             byte[] Rgb2bppValues = new byte[BytePerLineForRgb2bppValues * clone.Height];//new byte[2 * bytes];//2bpp打印数据//需要考虑4byte对齐:2bpp打印数据//需要考虑4byte对齐:
@@ -2280,6 +2313,14 @@ namespace BinderJetting
                 Rgb3bppBits.CopyTo(Rgb3bppValues, 0);//20230203新建批注：此处不存在BUG //Rgb3bppValues = ConvertToByteArray(Rgb3bppBits);
                 Marshal.Copy(Rgb3bppValues, 0, ImgPtr, Rgb3bppValues.Length);//复制到非托管区内存
             }
+
+            byte[] finalPayload = bpp == 1 ? rgbValues : (bpp == 2 ? Rgb2bppValues : Rgb3bppValues);
+            int finalPayloadBytes = finalPayload?.Length ?? 0;
+            int finalPayloadNonZeroBytes = CountNonZeroBytes(finalPayload);
+            int finalPayloadSetPixels = bpp == 1
+                ? CountSetPixels1Bpp(finalPayload, clone.Width, clone.Height, BytePerLineForRgb1bppValues)
+                : -1;
+            Log4Net.Info($"[MeteorSwathDiag] stage=FinalPayload layer={index} sub={subindex} swathYOffset={swathYOffset} bpp={bpp} width={clone.Width} height={clone.Height} payloadBytes={finalPayloadBytes} nonZeroBytes={finalPayloadNonZeroBytes} setPixels={(bpp == 1 ? finalPayloadSetPixels.ToString() : "NA")}");
 
             /***********************20200423调试新增：************************/
             /***************************20200423调试新增：*************************/
