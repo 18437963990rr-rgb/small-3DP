@@ -6130,17 +6130,27 @@ namespace BinderJetting
         private bool PrepareScraperForClean(double sinkHomePosition, double axisVel, double trapSign, double ang1, int cycleIndex, int cleanTimes)
         {
             string msg;
-            bool returnCode = motionMap.SetBackSpreaderAxis(4, axisVel, 2, -sinkHomePosition);
-            if (returnCode)
+            bool returnCode;
+            if (motionMap.SreaderAxisHomeFlag)
             {
-                msg = $"刮墨轴回零成功：SetBackSpreaderAxis，第{cycleIndex + 1}/{cleanTimes}遍";
+                returnCode = true;
+                msg = $"刮墨轴已回零，跳过清洗预备物理寻零，第{cycleIndex + 1}/{cleanTimes}遍";
                 Log4Net.Info(msg);
             }
             else
             {
-                msg = $"刮墨轴回零失败：SetBackSpreaderAxis，第{cycleIndex + 1}/{cleanTimes}遍";
-                Log4Net.Info(msg);
-                MessageBox.Show("回零失败");
+                returnCode = motionMap.SetBackSpreaderAxis(4, axisVel, 2, -sinkHomePosition);
+                if (returnCode)
+                {
+                    msg = $"刮墨轴回零成功：SetBackSpreaderAxis，第{cycleIndex + 1}/{cleanTimes}遍";
+                    Log4Net.Info(msg);
+                }
+                else
+                {
+                    msg = $"刮墨轴回零失败：SetBackSpreaderAxis，第{cycleIndex + 1}/{cleanTimes}遍";
+                    Log4Net.Info(msg);
+                    MessageBox.Show("回零失败");
+                }
             }
 
             bool trapOk = motionMap.TrapMoveSpreaderAxis(4, axisVel, trapSign * ang1);
@@ -7355,7 +7365,10 @@ namespace BinderJetting
                         msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍墨车以 {wipeBackSpeed:F1}mm/s 从清洗位回刮至压墨位";
                         Log4Net.Info(msg);
 
-                        if (!HomeInkScraperAxis(axisVel, $"AutoCleanThread2_Cycle{ci + 1}_Finish", false))
+                        bool scraperBackOk = motionMap.TrapMoveSpreaderAxisRelative(4, axisVel, relativeCleanAngleDeg);
+                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍刮板相对回等待位 Δ={relativeCleanAngleDeg:F1}°，ReturnCode{{{scraperBackOk}}}";
+                        Log4Net.Info(msg);
+                        if (!scraperBackOk)
                         {
                             MessageBox.Show($"自动清洗第{ci + 1}遍：刮板收回等待位失败");
                             break;
@@ -12269,10 +12282,17 @@ namespace BinderJetting
             }
         }
 
-        private bool HomeInkScraperAxis(double homeSpeed, string operationName, bool showMessage)
+        private bool HomeInkScraperAxis(double homeSpeed, string operationName, bool showMessage, bool forcePhysicalHome = false)
         {
             string msg = $"开启刮墨轴回零校准：{operationName}";
             Log4Net.Info(msg);
+
+            if (!forcePhysicalHome && motionMap.SreaderAxisHomeFlag)
+            {
+                msg = $"刮墨轴已回零，跳过物理寻零：{operationName}";
+                Log4Net.Info(msg);
+                return true;
+            }
 
             double sinkPosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;//刮墨轴的HOME位置
             bool returnCode = motionMap.SetBackSpreaderAxis(4, homeSpeed, 2, -sinkPosition);//旋转速度：0.5 圈/s////20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
@@ -12296,7 +12316,7 @@ namespace BinderJetting
 
         private void button8_Click(object sender, EventArgs e)
         {
-            HomeInkScraperAxis(1, "SpreaderHomeBtn_Click", true);
+            HomeInkScraperAxis(1, "SpreaderHomeBtn_Click", true, true);
         }
 
         private void button32_Click(object sender, EventArgs e)
@@ -12304,7 +12324,7 @@ namespace BinderJetting
             string msg = "开启刮墨轴调试角度动作：InkScraperDebugAngleBtn_Click";
             Log4Net.Info(msg);
 
-            if (!HomeInkScraperAxis(1, "InkScraperDebugAngleBtn_Home", false))
+            if (!HomeInkScraperAxis(1, "InkScraperDebugAngleBtn_Home", false, true))
             {
                 MessageBox.Show("刮墨轴回零失败，无法转到调试角度");
                 return;

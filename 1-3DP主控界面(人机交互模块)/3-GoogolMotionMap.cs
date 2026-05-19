@@ -411,6 +411,40 @@ namespace Motion
             }
         }
 
+        /// <summary>相对当前编码器转角增量转动（不清零），用于清洗后回到等待位，避免重复物理寻零。</summary>
+        public bool TrapMoveSpreaderAxisRelative(short AXIS, double homeVel, double deltaDeg)
+        {
+            try
+            {
+                short sRtn = gts.mc.GT_ClrSts(cardNumber, AXIS, 8); Commandhandler("GT_ClrSts", sRtn);
+                sRtn = gts.mc.GT_AxisOn(0, AXIS); Commandhandler("GT_AxisOn", sRtn);
+                EncOffSingleAxis(AXIS);
+                sRtn = gts.mc.GT_PrfTrap(cardNumber, AXIS); Commandhandler("GT_PrfTrap", sRtn);
+                trapPrm.acc = 0.5; trapPrm.dec = 0.5; trapPrm.velStart = 0; trapPrm.smoothTime = 0;
+                sRtn = gts.mc.GT_SetTrapPrm(cardNumber, AXIS, ref trapPrm);
+                int subdivided = (AXIS == 3) ? (int)(1600 * 2.1) : ScraperAxis4PulsePerRev;
+                uint pClock; int status = 0;
+                double vel = homeVel * (subdivided / 1000.0);
+                double encNow = GetEncPos()[AXIS - 1];
+                int position = (int)(encNow + deltaDeg / 360.0 * subdivided);
+                sRtn = gts.mc.GT_SetVel(cardNumber, AXIS, vel);
+                gts.mc.GT_SetPos(cardNumber, AXIS, position); Commandhandler("GT_SetPos", sRtn);
+                sRtn = gts.mc.GT_Update(cardNumber, 1 << (AXIS - 1)); Commandhandler("GT_Update", sRtn);
+                do
+                {
+                    Thread.Sleep(50);
+                    gts.mc.GT_GetSts(cardNumber, AXIS, out status, 1, out pClock);
+                }
+                while ((status & 0x400) != 0);
+                Thread.Sleep(200);
+                return true;
+            }
+            finally
+            {
+                RestoreExternalEncodersAfterGlobalEncOff($"TrapMoveSpreaderAxisRelative AXIS={AXIS} finally");
+            }
+        }
+
 
         /// <summary>
         /// Home 捕获后第二段：按固高例程 <c>GT_SetPos(axis, 捕获脉冲 + offset脉冲)</c>，其中 offset脉冲=(int)(home_offset×1000)，<paramref name="home_offset"/> 为有符号 mm。
