@@ -2738,8 +2738,7 @@ namespace BinderJetting
 
                                     if (nPassID == 0)
                                     {
-                                        Log4Net.Info($"[MeteorScanGate] marker=LayerPass0BeforeCarMotion nLayerIndex={k} g_nCurrentPrintLayerID={g_nCurrentPrintLayerID} pureMeteor={EnablePureMeteorPassScheduling} note=可选Command1清洗已在上文按频率执行或跳过；门控SendStartJob应与此层PASS0墨车运动入口对齐勿绑AutoCleanCycleEnd managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
-                                        MeteorPrintEngine.SignalPrintThreadLayerPass0ReadyForMeteorSubmit(k);
+                                        Log4Net.Info($"[MeteorScanGate] marker=LayerPass0BeforeCarMotion nLayerIndex={k} g_nCurrentPrintLayerID={g_nCurrentPrintLayerID} pureMeteor={EnablePureMeteorPassScheduling} note=本轮改为等待490mm等停位后再一次性放行整层发送，此处仅记录入口不再直接Signal managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
                                     }
 
                                     bool DirFlag = pPrtPassDes.bPrtDir;//102023修改：打印方向
