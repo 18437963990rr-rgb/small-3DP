@@ -1421,7 +1421,7 @@ namespace BinderJetting
         public float RenderDpiX = PrintRasterConfig.SliceDpi;
         public float RenderDpiY = PrintRasterConfig.SliceDpi;//Y向渲染/位图分辨率
         public bool ExportSlicesOnlyMode = false;//20260409新增：仅导出切片图，不启动Meteor发送
-        public bool SimplifiedMeteorAutoFlowMode = true;//20260410新增：自动流程临时简化为单向单PASS，便于定位双向/多PASS问题
+        public bool SimplifiedMeteorAutoFlowMode = true;//20260410新增：自动流程去除*2拼图，同址 batch 发送 3PASS swath
 
         private float GetRenderDpiX()
         {
@@ -1608,7 +1608,7 @@ namespace BinderJetting
                 if (SimplifiedMeteorAutoFlowMode)
                 {
                     int stripIndexSimple = 0;
-                    bool firstSwathSentForValidation = false;
+                    bool anySwathSent = false;
                     uint actualScanJobWidth = (uint)Math.Max(1, clone.Width);
                     Log4Net.Info($"[RenderPhase] marker=RasterReady_BeforeMeteorSubmit path=SimplifiedMeteorAutoFlowMode clone={clone.Width}x{clone.Height} index={index} subindex={subindex} managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
                     MeteorPrintEngine.WaitPass0PreheatGateBeforeStartJobIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode:PreStartJob", index, ActualStartNum);
@@ -1620,27 +1620,18 @@ namespace BinderJetting
                     Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 已去除 *2 拼图步骤，直接按原始切片并固定同址发送，clone={clone.Width}x{clone.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}");
                     SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, (strip, swathTop) =>
                     {
-                        if (stripIndexSimple > 0)
-                        {
-                            Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode 单变量验证，仅发送第1个swath，跳过后续swath。"
-                                + " stripIndexSimple=" + stripIndexSimple
-                                + ", swathTop=" + swathTop
-                                + ", strip=" + strip.Width + "x" + strip.Height);
-                            stripIndexSimple++;
-                            return;
-                        }
                         MeteorPrintEngine.SetPendingSwathPassIndex(stripIndexSimple);
                         royal.royal.g_prtimg_layer.nPrtDir = (stripIndexSimple % 2 == 0) ? 1 : 0;
-                        royal.royal.g_prtimg_layer.nYJetOff = 0;
-                        int writeRet = WriteImgLayerData(strip, index, 0, 1, true, 0);
-                        firstSwathSentForValidation = true;
-                        Log4Net.Info("RenderToWic: Simplified 3PASS stripProcessor 完成, stripIndexSimple=" + stripIndexSimple + ", swathTop=" + swathTop + ", fixedYOffset=0, nPrtDir=" + royal.royal.g_prtimg_layer.nPrtDir + ", nYJetOff=" + royal.royal.g_prtimg_layer.nYJetOff + ", writeRet=" + writeRet);
+                        royal.royal.g_prtimg_layer.nYJetOff = Math.Max(0, swathTop);
+                        int writeRet = WriteImgLayerData(strip, index, subindex, RePrintTimes, true, swathTop);
+                        anySwathSent = true;
+                        Log4Net.Info("RenderToWic: Simplified 3PASS stripProcessor 完成, stripIndexSimple=" + stripIndexSimple + ", swathTop=" + swathTop + ", nPrtDir=" + royal.royal.g_prtimg_layer.nPrtDir + ", nYJetOff=" + royal.royal.g_prtimg_layer.nYJetOff + ", writeRet=" + writeRet);
                         stripIndexSimple++;
                     }, 0, -1);
-                    if (firstSwathSentForValidation)
+                    if (anySwathSent)
                     {
                         bool endJobRet = MeteorPrintEngine.SendEndJob();
-                        Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 单变量验证，第1个swath发送后立即ENDJOB，endJobRet={endJobRet}");
+                        Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 3PASS swath 全部发送完成，已 SendEndJob，endJobRet={endJobRet}, stripCount={stripIndexSimple}");
                     }
                     Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 同址3PASS发送完成，index={index}, subindex={subindex}, stripIndexSimple={stripIndexSimple}");
                     clone.Dispose();
