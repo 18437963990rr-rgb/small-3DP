@@ -1,0 +1,3643 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Threading;
+
+namespace BinderJetting
+{
+    public static class MeteorPrintEngine
+    {
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern bool SetDllDirectory(string lpPathName);
+
+        private const int MeteorRuntimeNotReadyCode = -200100;
+        private const int MeteorApiInvokeFailedCode = -200101;
+        private const int RVAL_OK = 0;
+        private const int RVAL_BUSY = 0x0E;
+        private const int RVAL_NO_PRINTER = 0x12;
+        private const int RVAL_FULL = 0x10; // PiSendCommand 队列满时返回，需重试
+
+        // SampleScanPrint 使用??PCMD 命令（值与 PrinterInterface.h 一致，若不符请??SDK 头文件核对）
+        private const uint PCMD_STARTJOB = 0x7A5535A1;
+        private const uint PCMD_STARTSCAN = 0x7A5535A9;
+        private const uint PCMD_IMAGE = 0x7A5535A4;
+        private const uint PCMD_ENDDOC = 0x7A5535A6;
+        private const uint PCMD_ENDJOB = 0x7A5535A7;
+        private const uint JT_SCAN = 0x00000004;
+        private const uint RES_HIGH = 1;
+        private const uint SD_FWD = 0;
+        private const uint SD_REV = 1;
+        private const uint CCP_BIDI_XADJUST = 0x00000002;
+        private const uint SIG_FORCEPD = 0x0000000E; // 强制 Product Detect，扫描打印时用于推进
+        private const int BM_SCANNING = 0x00000200;
+
+        private static readonly object SyncRoot = new object();
+        private static bool _assemblyLoadAttempted;
+        private static bool _runtimeReady;
+        private static Type _printerInterfaceType;
+        private static object _printerInterfaceInstance;
+        private static bool _printerOpened;
+        private static string _nativePrinterInterfaceDir;
+        private static uint _pendingScanJobWidth = 1;
+        private static bool _scanJobStarted;
+        private static bool _homeCommandIssued;
+        private static uint _scanJobStartXEncPosUm;
+        /// <summary>最近一次成功下??PCMD_STARTJOB ??UTC 时间，用于首??PiSetHome 前补足与 STARTJOB 的间隔??/summary>
+        private static DateTime? _startJobUtc;
+        /// <summary>多 PASS 在扫程开始前 batch 下发 swath 时置 true，跳过 STARTSCAN 后等 X 增量（否则会阻塞至超时）。</summary>
+        public static bool SuppressScanMotionGateForNextWrite;
+
+        /// <summary>
+        /// 一次 STARTJOB 内 Pass0 门控后连续发送全部 strip（历史 batch 模式）。
+        /// 默认 true（当前调试）；METEOR_BATCH_SWATH_MODE=0/false 恢复逐 pass 门控。
+        /// </summary>
+        public static bool IsBatchSwathModeEnabled()
+        {
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_BATCH_SWATH_MODE");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "0", StringComparison.Ordinal) || string.Equals(t, "false", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "off", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "no", StringComparison.OrdinalIgnoreCase))
+                        return false;
+                    if (string.Equals(t, "1", StringComparison.Ordinal) || string.Equals(t, "true", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "on", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "yes", StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+            }
+            catch { }
+            return true;
+        }
+
+        /// <summary>诊断用：返回 METEOR_BATCH_SWATH_MODE 原始 env 与解析结果。</summary>
+        public static string DescribeBatchSwathModeConfig()
+        {
+            string env = null;
+            try { env = Environment.GetEnvironmentVariable("METEOR_BATCH_SWATH_MODE"); } catch { }
+            string raw = string.IsNullOrWhiteSpace(env) ? "unset" : env.Trim();
+            return $"METEOR_BATCH_SWATH_MODE={raw} => batchSwathMode={IsBatchSwathModeEnabled()}, batchEndJobImmediate={IsBatchEndJobImmediateEnabled()}";
+        }
+
+        /// <summary>
+        /// Batch 模式下是否在 3 条 swath 连续下发后立即 ENDJOB，更接近 HiPrint 先灌完整 job 再等物理触发的形态。
+        /// 默认 false，避免影响逐 pass 调试；METEOR_BATCH_ENDJOB_IMMEDIATE=1/true/on/yes 开启。
+        /// </summary>
+        public static bool IsBatchEndJobImmediateEnabled()
+        {
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_BATCH_ENDJOB_IMMEDIATE");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "1", StringComparison.Ordinal) || string.Equals(t, "true", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "on", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "yes", StringComparison.OrdinalIgnoreCase))
+                        return true;
+                    if (string.Equals(t, "0", StringComparison.Ordinal) || string.Equals(t, "false", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "off", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "no", StringComparison.OrdinalIgnoreCase))
+                        return false;
+                }
+            }
+            catch { }
+            return false;
+        }
+
+        /// <summary>在每次下??PCMD_STARTJOB 之前的调用侧等待：与打印线程层首 PASS0（见 <see cref="SignalPrintThreadLayerPass0ReadyForMeteorSubmit"/>）对齐；不得??Raster/传输线程早于 <c>g_PrintSchedule</c> 推进的路径上 Wait??br/>
+        /// <c>METEOR_GATE_SENDSTARTJOB_ON_PASS0</c>=1/true/on/yes<br/>
+        /// <c>METEOR_PASS0_GATE_WAIT_MS</c>：正??毫秒上限（最??3600000），-1=无限等待?? 或未设置=默认 600000??br/>
+        /// <c>METEOR_PASS0_GATE_SKIP_FIRST_LAYER_WAIT</c>=0/false/off：首帧也 Wait（慎用，易与首轮 schedule 交互死锁）；默认 1/true=??raster 层不??PASS0 Gate 阻塞??/summary>
+        private static readonly Lazy<(bool Enabled, int WaitMs, bool SkipFirstLayerWait)> _pass0GateConfig = new Lazy<(bool, int, bool)>(LoadPass0GateConfig, LazyThreadSafetyMode.ExecutionAndPublication);
+        private static readonly ManualResetEventSlim _pass0GateSendStartJob = new ManualResetEventSlim(false);
+        private static readonly ManualResetEventSlim _pass0GatePreheatStartJob = new ManualResetEventSlim(false);
+        private static readonly ManualResetEventSlim[] _passScanGateEvents = new ManualResetEventSlim[]
+        {
+            new ManualResetEventSlim(false),
+            new ManualResetEventSlim(false),
+            new ManualResetEventSlim(false)
+        };
+        private static bool? _pass0GateEnabledOverride;
+        private static bool? _pass0GateSkipFirstLayerWaitOverride;
+        /// <summary>本 JOB 内是否已在 SendStartJob 之前完成过 PASS0 门控 Wait（避免 RenderToWic 与 WriteImageLayer:FirstStartScan 重复 Wait 死锁）??/summary>
+        private static bool _pass0SubmitGateConsumedForCurrentJob;
+        /// <summary>PASS0 首条 swath 的 STARTSCAN+IMAGE+ENDDOC 已下发完成，供打印线程在 425→25 扫程前等待??/summary>
+        private static readonly ManualResetEventSlim _pass0FirstSwathMeteorReady = new ManualResetEventSlim(false);
+        private static bool _pass0FirstSwathMeteorSignaled;
+        /// <summary>PASS1/2：数据线程 swath 下发完成后再启动扫程（与 PASS0 WaitPass0FirstSwathMeteorReady 对称）。</summary>
+        private static readonly ManualResetEventSlim[] _passSwathMeteorReady = new ManualResetEventSlim[]
+        {
+            new ManualResetEventSlim(false),
+            new ManualResetEventSlim(false),
+            new ManualResetEventSlim(false)
+        };
+        private static readonly bool[] _passSwathMeteorSignaled = new bool[3];
+        /// <summary>打印线程在扫程起点 Signal 时锁定的 AbsX，供 PASS1/2 的 PCMD_IMAGE xStart（避免扫程中 live 采样错位）。</summary>
+        private static readonly int[] _passImageXStartAbsXAnchor = new int[3];
+        private static readonly bool[] _passImageXStartAbsXAnchorValid = new bool[3];
+        private static int _pendingSwathPassIndex;
+        /// <summary>供应商对齐模式：PASS0 首条 swath 锁定的 Xleft，PASS1/2 复用同一值（≈5115@425mm 侧）。</summary>
+        private static int _jobUnifiedImageXStartAbsX;
+        private static bool _jobUnifiedImageXStartValid;
+        /// <summary>各 pass 扫程结束时的 PCC AbsX（由 <see cref="LogScanPassMotionCheck"/> 写入），供 Pass2 FWD live 对齐。</summary>
+        private static readonly int[] _passScanEndAbsX = new int[3];
+        private static readonly bool[] _passScanEndAbsXValid = new bool[3];
+        /// <summary>同址 3PASS：strip 发完后由打印线程 Pass2 扫程结束再 EndJob（避免数据线程过早 EndJob 导致 Pass1/2 不喷）。</summary>
+        private static bool _deferEndJobPending;
+
+        public static void MarkDeferredEndJobAfterPassSwaths(string stage)
+        {
+            _deferEndJobPending = true;
+            Log4Net.Info($"[MeteorJob] DeferredEndJobPending stage={stage} note=EndJob deferred until Pass2 physical scan completes utc={DateTime.UtcNow:O}");
+        }
+
+        /// <summary>打印线程 Pass2 收口到 485mm 后调用，发送延后的 PCMD_ENDJOB。</summary>
+        public static bool TryCompleteDeferredEndJob(string stage)
+        {
+            if (!_deferEndJobPending)
+                return false;
+            _deferEndJobPending = false;
+            bool endJobRet = SendEndJob();
+            Log4Net.Info($"[MeteorJob] DeferredEndJobCompleted stage={stage} endJobRet={endJobRet} utc={DateTime.UtcNow:O}");
+            return endJobRet;
+        }
+
+        private static void ResetDeferredEndJobState()
+        {
+            _deferEndJobPending = false;
+        }
+
+        private static (bool Enabled, int WaitMs, bool SkipFirstLayerWait) LoadPass0GateConfig()
+        {
+            try
+            {
+                string en = Environment.GetEnvironmentVariable("METEOR_GATE_SENDSTARTJOB_ON_PASS0");
+                bool enabled = string.Equals(en?.Trim(), "1", StringComparison.Ordinal)
+                               || string.Equals(en?.Trim(), "true", StringComparison.OrdinalIgnoreCase)
+                               || string.Equals(en?.Trim(), "yes", StringComparison.OrdinalIgnoreCase)
+                               || string.Equals(en?.Trim(), "on", StringComparison.OrdinalIgnoreCase);
+
+                string w = Environment.GetEnvironmentVariable("METEOR_PASS0_GATE_WAIT_MS");
+                int waitMs = 600000;
+                if (!string.IsNullOrWhiteSpace(w) && int.TryParse(w.Trim(), out int parsed))
+                {
+                    if (parsed == -1)
+                        waitMs = Timeout.Infinite;
+                    else if (parsed > 0)
+                        waitMs = Math.Min(parsed, 3600000);
+                }
+
+                bool skipFirst = true;
+                string sk = Environment.GetEnvironmentVariable("METEOR_PASS0_GATE_SKIP_FIRST_LAYER_WAIT");
+                if (!string.IsNullOrWhiteSpace(sk))
+                {
+                    string t = sk.Trim();
+                    if (string.Equals(t, "0", StringComparison.Ordinal) || string.Equals(t, "false", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "off", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "no", StringComparison.OrdinalIgnoreCase))
+                        skipFirst = false;
+                    else if (string.Equals(t, "1", StringComparison.Ordinal) || string.Equals(t, "true", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "on", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "yes", StringComparison.OrdinalIgnoreCase))
+                        skipFirst = true;
+                }
+
+                return (enabled, waitMs, skipFirst);
+            }
+            catch { return (false, 600000, true); }
+        }
+
+        private static bool IsPass0GateEnabled() => _pass0GateEnabledOverride ?? _pass0GateConfig.Value.Enabled;
+
+        private static bool ShouldSkipFirstLayerWait() => _pass0GateSkipFirstLayerWaitOverride ?? _pass0GateConfig.Value.SkipFirstLayerWait;
+
+        /// <summary>
+        /// 自动打印主流程显式配??PASS0 门控，避免依赖进程环境变量??
+        /// enabled=true ??skipFirstLayerWait=false 时，首层 STARTJOB 必须等到打印线程层首 PASS0 机械入口信号??
+        /// </summary>
+        public static void ConfigurePass0GateForAutoPrint(bool enabled, bool skipFirstLayerWait = false)
+        {
+            _pass0GateEnabledOverride = enabled;
+            _pass0GateSkipFirstLayerWaitOverride = enabled ? (bool?)skipFirstLayerWait : null;
+            if (!enabled)
+            {
+                try { _pass0GateSendStartJob.Reset(); } catch { }
+                try { _pass0GatePreheatStartJob.Reset(); } catch { }
+                foreach (var gate in _passScanGateEvents)
+                {
+                    try { gate.Reset(); } catch { }
+                }
+            }
+            Log4Net.Info($"[MeteorScanGate] RuntimeConfig enabled={enabled} skipFirstLayerWait={skipFirstLayerWait} source=AutoPrintFlow utc={DateTime.UtcNow:O}");
+        }
+
+        /// <summary>
+        /// 当首??STARTJOB 绑定??PASS0 机械入口时，打印线程不能再等待旧??g_PrintSchedule 预热，否则首层会互等死锁??
+        /// </summary>
+        public static bool ShouldBypassInitialPrintScheduleWaitForPass0Gate()
+        {
+            return IsPass0GateEnabled() && !ShouldSkipFirstLayerWait();
+        }
+
+        /// <summary>
+        /// HiPrint 对齐模式：
+        /// 1. 跳过本软件额外的 PASS0 提交门控等待；
+        /// 2. IMAGE 的 XStart 采用更接近 HiPrint 的固定正反向规则。
+        /// 默认开启，便于先把链路退回到更直接的基线。
+        /// </summary>
+        private static bool IsHiPrintChainCompatModeEnabled()
+        {
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_HIPRINT_CHAIN_COMPAT");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "0", StringComparison.Ordinal) || string.Equals(t, "false", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "off", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "no", StringComparison.OrdinalIgnoreCase))
+                        return false;
+                    if (string.Equals(t, "1", StringComparison.Ordinal) || string.Equals(t, "true", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "on", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "yes", StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+            }
+            catch { }
+            return true;
+        }
+
+        /// <summary>
+        /// pass0 是否翻转 STARTSCAN 方向。默认 false（AbsX 累加时与固高 485→15 反向，不应强行 REV）；
+        /// METEOR_PASS0_FLIP_STARTSCAN=1/true 恢复旧验证行为。
+        /// </summary>
+        private static bool ShouldFlipPass0StartScanDir()
+        {
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_PASS0_FLIP_STARTSCAN");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "1", StringComparison.Ordinal) || string.Equals(t, "true", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "on", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "yes", StringComparison.OrdinalIgnoreCase))
+                        return true;
+                    if (string.Equals(t, "0", StringComparison.Ordinal) || string.Equals(t, "false", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "off", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "no", StringComparison.OrdinalIgnoreCase))
+                        return false;
+                }
+            }
+            catch { }
+            return false;
+        }
+
+        /// <summary>pass0 扫程端实测 AbsX24（由 <see cref="LogDualCoordSnapshot"/> 写入，非固高 mm 换算）。</summary>
+        private static int _pass0ScanAbsXAtApproach;
+        private static int _pass0ScanAbsXAtLowEnd;
+        private static int _pass0EncoderAtApproach;
+        private static int _pass0EncoderAtLowEnd;
+        private static bool _pass0ScanAbsXApproachValid;
+        private static bool _pass0ScanAbsXLowEndValid;
+
+        public static void ResetPass0DualCoordScanAnchors()
+        {
+            _pass0ScanAbsXApproachValid = false;
+            _pass0ScanAbsXLowEndValid = false;
+            _pass0ScanAbsXAtApproach = 0;
+            _pass0ScanAbsXAtLowEnd = 0;
+            _pass0EncoderAtApproach = 0;
+            _pass0EncoderAtLowEnd = 0;
+        }
+
+        private static bool TryGetPass0MeasuredAbsXScanRange(out int lowPx, out int highPx)
+        {
+            lowPx = 0;
+            highPx = 0;
+            if (!_pass0ScanAbsXApproachValid && !_pass0ScanAbsXLowEndValid)
+                return false;
+            if (_pass0ScanAbsXApproachValid && _pass0ScanAbsXLowEndValid)
+            {
+                lowPx = Math.Min(_pass0ScanAbsXAtApproach, _pass0ScanAbsXAtLowEnd);
+                highPx = Math.Max(_pass0ScanAbsXAtApproach, _pass0ScanAbsXAtLowEnd);
+                return true;
+            }
+            int only = _pass0ScanAbsXApproachValid ? _pass0ScanAbsXAtApproach : _pass0ScanAbsXAtLowEnd;
+            lowPx = only;
+            highPx = only;
+            return true;
+        }
+
+        /// <summary>打印线程：记录固高 mm 与 PCC AbsX/Encoder 对照（两套坐标系无同步，仅诊断/标定）。</summary>
+        public static void LogDualCoordSnapshot(string stage, double googolXmm)
+        {
+            bool valid = TryGetPccMotionSnapshot(1, out PccMotionSnapshot snap) && snap.Valid;
+            int absX24 = valid ? GetAbsXCount24Signed(snap.AbsXCount) : 0;
+            int encoder = valid ? snap.EncoderCount : 0;
+            Log4Net.Info($"[MeteorDualCoord] stage={stage} googolXmm={googolXmm:F3} absX24={absX24} pccAbsX={(valid ? snap.AbsXCount.ToString() : "n/a")} encoder={(valid ? encoder.ToString() : "n/a")} note=GoogolMm_and_PccAbsX_not_synchronized utc={DateTime.UtcNow:O}");
+
+            if (string.Equals(stage, "Pass0AtApproachHold", StringComparison.OrdinalIgnoreCase)
+                || stage.IndexOf("ApproachHold", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                if (valid)
+                {
+                    _pass0ScanAbsXAtApproach = absX24;
+                    _pass0EncoderAtApproach = encoder;
+                    _pass0ScanAbsXApproachValid = true;
+                }
+            }
+            else if (string.Equals(stage, "Pass0AtScanLowEnd", StringComparison.OrdinalIgnoreCase))
+            {
+                if (valid)
+                {
+                    _pass0ScanAbsXAtLowEnd = absX24;
+                    _pass0EncoderAtLowEnd = encoder;
+                    _pass0ScanAbsXLowEndValid = true;
+                }
+            }
+        }
+
+        public static void ResetPass0FirstSwathMeteorReady()
+        {
+            try { _pass0FirstSwathMeteorReady.Reset(); } catch { }
+            _pass0FirstSwathMeteorSignaled = false;
+        }
+
+        private static void SignalPass0FirstSwathMeteorReadyIfNeeded(string stage)
+        {
+            if (_pass0FirstSwathMeteorSignaled)
+                return;
+            _pass0FirstSwathMeteorSignaled = true;
+            try { _pass0FirstSwathMeteorReady.Set(); } catch { }
+            Log4Net.Info($"[MeteorScanGate] Pass0FirstSwathMeteorReady stage={stage} utc={DateTime.UtcNow:O}");
+        }
+
+        /// <summary>打印线程在 425mm 放行数据线程后调用：等待首条 PASS0 swath 进 PCC，再启动 425→25 扫程。</summary>
+        public static bool WaitPass0FirstSwathMeteorReady(int timeoutMs = 8000)
+        {
+            if (timeoutMs <= 0)
+                timeoutMs = 8000;
+            bool got = _pass0FirstSwathMeteorReady.Wait(timeoutMs);
+            if (!got)
+                Log4Net.Info($"[MeteorScanGate] Pass0FirstSwathWaitTimeout timeoutMs={timeoutMs} utc={DateTime.UtcNow:O}");
+            return got;
+        }
+
+        /// <summary>打印线程在每??PASS0（墨车队列入口，??LayerPass0BeforeCarMotion 一致）调用，放行数据线程发包??/summary>
+        public static void SignalPrintThreadLayerPass0ReadyForMeteorSubmit(int printLoopLayerK)
+        {
+            SignalPrintThreadPassReadyForMeteorSubmit(printLoopLayerK, 0, "pass0");
+        }
+
+        public static void SignalPrintThreadPassReadyForMeteorSubmit(int printLoopLayerK, int passIndex, string motionPath)
+        {
+            if (!IsPass0GateEnabled())
+                return;
+            int safePassIndex = Math.Max(0, Math.Min(passIndex, _passScanGateEvents.Length - 1));
+            CapturePassScanOriginAbsXAnchor(safePassIndex);
+            if (safePassIndex > 0)
+                ResetPassSwathMeteorReady(safePassIndex);
+            if (safePassIndex == 0)
+                _pass0GateSendStartJob.Set();
+            _passScanGateEvents[safePassIndex].Set();
+            Log4Net.Info($"[MeteorScanGate] SignalPrintThreadPass Ready printLoopK={printLoopLayerK} passIndex={safePassIndex} motionPath={motionPath} managedThreadId={Thread.CurrentThread.ManagedThreadId} utc={DateTime.UtcNow:O}");
+        }
+
+        public static void SignalPrintThreadLayerPass0PreheatReady(int printLoopLayerK, string motionPath)
+        {
+            if (!IsPass0GateEnabled())
+                return;
+            _pass0GatePreheatStartJob.Set();
+            Log4Net.Info($"[MeteorScanGate] SignalPrintThreadLayerPass0 PreheatReady printLoopK={printLoopLayerK} motionPath={motionPath} managedThreadId={Thread.CurrentThread.ManagedThreadId} utc={DateTime.UtcNow:O}");
+        }
+
+        /// <summary>??SendStartJob 紧前调用??paramref name="rasterLayerIndex"/> 为排版层索引 j??paramref name="jobLayerStart"/> 为任务起始层 g_nLayerStart（首 raster 默认跳过 Gate 以避免与 g_PrintSchedule 死锁）??/summary>
+        public static void WaitPass0GateBeforeMeteorSubmitIfEnabled(string stage, int rasterLayerIndex, int jobLayerStart = 0)
+        {
+            if (!IsPass0GateEnabled())
+                return;
+
+            bool skipCfg = ShouldSkipFirstLayerWait();
+            bool isFirstRaster = rasterLayerIndex <= jobLayerStart;
+            if (skipCfg && isFirstRaster)
+            {
+                Log4Net.Info($"[MeteorScanGate] SkipWaitFirstRaster stage={stage} rasterLayerIndex={rasterLayerIndex} jobLayerStart={jobLayerStart} METEOR_PASS0_GATE_SKIP_FIRST_LAYER_WAIT=1 avoidPrintScheduleDeadlock");
+                return;
+            }
+
+            int wm = _pass0GateConfig.Value.WaitMs;
+            string wmLog = wm == Timeout.Infinite ? "Infinite" : wm.ToString();
+
+            bool got = wm == Timeout.Infinite ? _pass0GateSendStartJob.Wait(Timeout.Infinite) : _pass0GateSendStartJob.Wait(wm);
+
+            if (!got)
+                Log4Net.Info($"[MeteorScanGate] WaitTimeout stage={stage} rasterLayerIndex={rasterLayerIndex} waitMs={wmLog} ??继续发包，请排查打印线程??Signal 或与 schedule 互相等待");
+            else
+                _pass0SubmitGateConsumedForCurrentJob = true;
+
+            try { _pass0GateSendStartJob.Reset(); } catch { /* 准备下一层下一??Wait */ }
+        }
+
+        public static void WaitPass0PreheatGateBeforeStartJobIfEnabled(string stage, int rasterLayerIndex, int jobLayerStart = 0)
+        {
+            if (!IsPass0GateEnabled())
+                return;
+
+            bool skipCfg = ShouldSkipFirstLayerWait();
+            bool isFirstRaster = rasterLayerIndex <= jobLayerStart;
+            if (skipCfg && isFirstRaster)
+            {
+                Log4Net.Info($"[MeteorScanGate] SkipPreheatWaitFirstRaster stage={stage} rasterLayerIndex={rasterLayerIndex} jobLayerStart={jobLayerStart} METEOR_PASS0_GATE_SKIP_FIRST_LAYER_WAIT=1");
+                return;
+            }
+
+            int wm = _pass0GateConfig.Value.WaitMs;
+            string wmLog = wm == Timeout.Infinite ? "Infinite" : wm.ToString();
+
+            bool got = wm == Timeout.Infinite ? _pass0GatePreheatStartJob.Wait(Timeout.Infinite) : _pass0GatePreheatStartJob.Wait(wm);
+
+            if (!got)
+                Log4Net.Info($"[MeteorScanGate] PreheatWaitTimeout stage={stage} rasterLayerIndex={rasterLayerIndex} waitMs={wmLog} 继续发??STARTJOB，请检??PASS0 预热信号是否缺失");
+
+            try { _pass0GatePreheatStartJob.Reset(); } catch { }
+        }
+
+        public static void WaitPassGateBeforeMeteorSubmitIfEnabled(string stage, int rasterLayerIndex, int passIndex, int jobLayerStart = 0)
+        {
+            if (passIndex == 0)
+            {
+                WaitPass0GateBeforeMeteorSubmitIfEnabled(stage, rasterLayerIndex, jobLayerStart);
+                return;
+            }
+
+            if (!IsPass0GateEnabled())
+                return;
+
+            int safePassIndex = Math.Max(0, Math.Min(passIndex, _passScanGateEvents.Length - 1));
+            int wm = _pass0GateConfig.Value.WaitMs;
+            string wmLog = wm == Timeout.Infinite ? "Infinite" : wm.ToString();
+
+            ManualResetEventSlim gate = _passScanGateEvents[safePassIndex];
+            bool got = wm == Timeout.Infinite ? gate.Wait(Timeout.Infinite) : gate.Wait(wm);
+
+            if (!got)
+                Log4Net.Info($"[MeteorScanGate] WaitTimeout stage={stage} rasterLayerIndex={rasterLayerIndex} passIndex={safePassIndex} waitMs={wmLog} continueWithoutSignal");
+
+            try { gate.Reset(); } catch { }
+        }
+
+        private static void ResetPass0GateAfterMeteorJobEnd()
+        {
+            try
+            {
+                _pass0GateSendStartJob.Reset();
+                _pass0GatePreheatStartJob.Reset();
+                foreach (var gate in _passScanGateEvents)
+                {
+                    try { gate.Reset(); } catch { }
+                }
+                _pass0SubmitGateConsumedForCurrentJob = false;
+                ResetPass0FirstSwathMeteorReady();
+                ResetPass0DualCoordScanAnchors();
+                ResetPassImageXStartAnchors();
+                for (int i = 1; i < _passSwathMeteorReady.Length; i++)
+                    ResetPassSwathMeteorReady(i);
+                _pass0GateEnabledOverride = null;
+                _pass0GateSkipFirstLayerWaitOverride = null;
+                ResetDeferredEndJobState();
+                Log4Net.Info($"[MeteorScanGate] gate reset after job end/stop utc={DateTime.UtcNow:O}");
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// 是否在 SendStartJob 发 PCMD_STARTJOB 前再调 PiSetHome。
+        /// 默认 false（改由打印线程在 PASS0 入口暂停位调用 <see cref="TryAlignAbsXAtHome"/>）；
+        /// METEOR_PISET_HOME_AT_JOB_START=1/true/on 可恢复 HiPrint 式在 STARTJOB 前 Home。
+        /// </summary>
+        private static bool IsPiSetHomeAtJobStartEnabled()
+        {
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_PISET_HOME_AT_JOB_START");
+                if (string.IsNullOrWhiteSpace(env))
+                    return false;
+                string t = env.Trim();
+                if (string.Equals(t, "0", StringComparison.Ordinal) || string.Equals(t, "false", StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(t, "off", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "no", StringComparison.OrdinalIgnoreCase))
+                    return false;
+                return string.Equals(t, "1", StringComparison.Ordinal) || string.Equals(t, "true", StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(t, "on", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "yes", StringComparison.OrdinalIgnoreCase);
+            }
+            catch { return true; }
+        }
+
+        /// <summary>
+        /// PrintEngine 在 Rx:StartJob 后仍异步执行 HALT/波形等；首条 STARTSCAN 不宜过早。
+        /// 默认要求自 STARTJOB 成功起至少间隔本毫秒数后再发首条 STARTSCAN（非 PiSetHome 时机）。
+        /// 环境变量 METEOR_MIN_MS_AFTER_STARTJOB_FOR_SETHOME 可覆盖（0–15000）。
+        /// </summary>
+        private static int GetMinMsAfterStartJobForPiSetHome()
+        {
+            // 实测 StartJob ??HALT/CLEAR_HALT+HDC ST_RUNNING 常需??1.2??.4s??00ms 时首??STARTSCAN 早于 CLEAR_HALT 会导??PASS0 无图??
+            const int defaultMs = 1400;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_MIN_MS_AFTER_STARTJOB_FOR_SETHOME");
+                if (!string.IsNullOrWhiteSpace(env) && int.TryParse(env.Trim(), out int ms) && ms >= 0 && ms <= 15000)
+                    return ms;
+            }
+            catch { }
+            return defaultMs;
+        }
+
+        /// <summary>
+        /// HiPrint 兼容模式是否跳过 STARTJOB 后首条 STARTSCAN 的最小等待。
+        /// 默认 false（等待 METEOR_MIN_MS_AFTER_STARTJOB_FOR_SETHOME，避免 CLEAR_HALT 前发图导致无喷）；
+        /// METEOR_HIPRINT_SKIP_STARTJOB_DELAY=1/true 可恢复旧行为。
+        /// </summary>
+        private static bool ShouldSkipStartJobDelayForHiPrintCompat()
+        {
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_HIPRINT_SKIP_STARTJOB_DELAY");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "1", StringComparison.Ordinal) || string.Equals(t, "true", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "on", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "yes", StringComparison.OrdinalIgnoreCase))
+                        return true;
+                    if (string.Equals(t, "0", StringComparison.Ordinal) || string.Equals(t, "false", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "off", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "no", StringComparison.OrdinalIgnoreCase))
+                        return false;
+                }
+            }
+            catch { }
+            return false;
+        }
+
+        /// <summary>true 表示使用原生 PrinterInterface.dll P/Invoke 路径??NET 无可用实例时启用）??/summary>
+        private static bool _useNativePath;
+
+        [DllImport("PrinterInterface.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "PiOpenPrinter")]
+        private static extern int NativePiOpenPrinter();
+        [DllImport("PrinterInterface.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "PiClosePrinter")]
+        private static extern int NativePiClosePrinter();
+        [DllImport("PrinterInterface.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "PiSetHome")]
+        private static extern int NativePiSetHome();
+        [DllImport("PrinterInterface.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "PiSetHeadPower")]
+        private static extern int NativePiSetHeadPower(uint state);
+        [DllImport("PrinterInterface.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "PiSetSignal")]
+        private static extern int NativePiSetSignal(uint signalId, uint state);
+        /// <summary>在本进程内启??PrintEngine（无需先启动厂商程序）。pConfigFile 为配置文件路径，可传 null/空使用默认??/summary>
+        [DllImport("PrinterInterface.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "PiStartPrintEngine", CharSet = CharSet.Ansi)]
+        private static extern int NativePiStartPrintEngine([MarshalAs(UnmanagedType.LPStr)] string pConfigFile);
+        [DllImport("PrinterInterface.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "PiStopPrintEngine")]
+        private static extern int NativePiStopPrintEngine(uint dwForce);
+        [DllImport("PrinterInterface.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "PiSendCommand")]
+        private static extern int NativePiSendCommand(IntPtr pCmd);
+
+        [DllImport("PrinterInterface.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "PiSetParam")]
+        private static extern int NativePiSetParam(uint paramId, uint value);
+        [DllImport("PrinterInterface.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "PiGetCommandSpaceDwords")]
+        private static extern uint NativePiGetCommandSpaceDwords(uint lane);
+        [DllImport("PrinterInterface.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "PiAbort")]
+        private static extern int NativePiAbort();
+        [DllImport("PrinterInterface.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "PiGetPrnStatus")]
+        private static extern IntPtr NativePiGetPrnStatus();
+        [DllImport("PrinterInterface.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "PiGetPccStatus")]
+        private static extern IntPtr NativePiGetPccStatus(uint pccnum);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct NativeAppStatus
+        {
+            public int StructVersion;
+            public int PeVersion;
+            public int HeadType;
+            public int Control;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct NativePccStatus
+        {
+            public int StructVersion;
+            public int IoSignals;
+            public int bmStatusBits;
+            public int JobStatus_obsolete;
+            public int FpgaVersion;
+            public int FwVersion;
+            public int PdCount;
+            public int PrintCount;
+            public int FaultRegister_obsolete;
+            public int AbsXCount;
+            public int EncoderCount;
+            public int bmStatusBits2;
+        }
+
+        private struct PccMotionSnapshot
+        {
+            public bool Valid;
+            public int PccNum;
+            public int BmStatusBits;
+            public int BmStatusBits2;
+            public int AbsXCount;
+            public int EncoderCount;
+        }
+
+        /// <summary>查询命令空间是否足够??/summary>
+        private static bool WaitForCommandSpace(uint requiredDwords, string stage, int timeoutMs = 3000, uint lane = 0)
+        {
+            int waited = 0;
+            while (true)
+            {
+                uint available = 0;
+                try
+                {
+                    available = NativePiGetCommandSpaceDwords(lane);
+                }
+                catch (Exception ex)
+                {
+                    Log4Net.Info($"Meteor {stage}: PiGetCommandSpaceDwords 异常: {ex.Message}");
+                    return false;
+                }
+
+                if (available >= requiredDwords)
+                {
+                    Log4Net.Info($"Meteor {stage}: 命令空间足够 required={requiredDwords} available={available} lane={lane}");
+                    return true;
+                }
+
+                if (waited == 0 || waited % 500 == 0)
+                    Log4Net.Info($"Meteor {stage}: 命令空间不足 required={requiredDwords} available={available} lane={lane} waitedMs={waited}");
+
+                if (waited >= timeoutMs)
+                {
+                    Log4Net.Info($"Meteor {stage}: 命令空间等待超时 required={requiredDwords} lane={lane} timeoutMs={timeoutMs}");
+                    return false;
+                }
+
+                System.Threading.Thread.Sleep(50);
+                waited += 50;
+            }
+        }
+
+        private static int GetScanMotionWaitTimeoutMs()
+        {
+            const int defaultMs = 2500;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_SCAN_MOTION_WAIT_MS");
+                if (!string.IsNullOrWhiteSpace(env) && int.TryParse(env.Trim(), out int ms) && ms >= 0 && ms <= 15000)
+                    return ms;
+            }
+            catch { }
+            return defaultMs;
+        }
+
+        private static int GetScanMotionThresholdCounts()
+        {
+            const int defaultCounts = 256;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_SCAN_MOTION_THRESHOLD_COUNTS");
+                if (!string.IsNullOrWhiteSpace(env) && int.TryParse(env.Trim(), out int counts) && counts >= 1 && counts <= 100000)
+                    return counts;
+            }
+            catch { }
+            return defaultCounts;
+        }
+
+        private static int GetScanMotionConsecutivePollsRequired()
+        {
+            const int defaultPolls = 2;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_SCAN_MOTION_CONSECUTIVE_POLLS");
+                if (!string.IsNullOrWhiteSpace(env) && int.TryParse(env.Trim(), out int polls) && polls >= 1 && polls <= 20)
+                    return polls;
+            }
+            catch { }
+            return defaultPolls;
+        }
+
+        private static int GetSafeImageXStartMin()
+        {
+            const int defaultMin = 8;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_IMAGE_XSTART_MIN");
+                if (!string.IsNullOrWhiteSpace(env) && int.TryParse(env.Trim(), out int value) && value >= 1 && value <= 4096)
+                    return value;
+            }
+            catch { }
+            return defaultMin;
+        }
+
+        /// <summary>
+        /// 现场对照 Meteor 自带软件：RightToLeft=0 时，按扫向强制 PCMD_IMAGE Xleft。
+        /// METEOR_IMAGE_XSTART_FIXED_FWD_PX / _REV_PX 可分别覆盖；METEOR_IMAGE_XSTART_FIXED_PX 兼容旧的统一覆盖；
+        /// 任一值设为负数可关闭本实验覆盖。默认仅保留 REV=7323，FWD 使用原 live/original 规则。
+        /// </summary>
+        private static bool TryGetForcedImageXStartPixels(uint startScanDir, out int forcedXStartPx)
+        {
+            const int defaultForcedFwdXStartPx = -1;
+            const int defaultForcedRevXStartPx = -1;
+            forcedXStartPx = startScanDir == SD_REV ? defaultForcedRevXStartPx : defaultForcedFwdXStartPx;
+            if (forcedXStartPx < 0)
+                return false;
+            try
+            {
+                string legacyEnv = Environment.GetEnvironmentVariable("METEOR_IMAGE_XSTART_FIXED_PX");
+                if (!string.IsNullOrWhiteSpace(legacyEnv) && int.TryParse(legacyEnv.Trim(), out int legacyValue))
+                {
+                    if (legacyValue < 0)
+                        return false;
+                    forcedXStartPx = legacyValue;
+                }
+
+                string directionalEnv = Environment.GetEnvironmentVariable(
+                    startScanDir == SD_REV ? "METEOR_IMAGE_XSTART_FIXED_REV_PX" : "METEOR_IMAGE_XSTART_FIXED_FWD_PX");
+                if (!string.IsNullOrWhiteSpace(directionalEnv) && int.TryParse(directionalEnv.Trim(), out int directionalValue))
+                {
+                    if (directionalValue < 0)
+                        return false;
+                    forcedXStartPx = directionalValue;
+                    return true;
+                }
+            }
+            catch { }
+            return true;
+        }
+
+        /// <summary>AbsX/XCOUNT（400dpi 像素计数）换算为 mm：mm = absX * 25.4 / dpi。</summary>
+        private static double AbsXCountToMm(int absXCount, int xDpi)
+        {
+            int safeDpi = xDpi > 0 ? xDpi : 400;
+            return GetAbsXCount24Signed(absXCount) * 25.4 / safeDpi;
+        }
+
+        /// <summary>默认用 STARTSCAN 前 PCC 实时 AbsX 作为 PCMD_IMAGE xStart，与现场 XCOUNT 对齐。</summary>
+        private static bool ShouldUseLiveAbsXForImageXStart()
+        {
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_IMAGE_XSTART_FROM_LIVE_ABS");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "0", StringComparison.Ordinal) || string.Equals(t, "false", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "off", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "no", StringComparison.OrdinalIgnoreCase))
+                        return false;
+                }
+            }
+            catch { }
+            return true;
+        }
+
+        /// <summary>PASS1/2 FWD 合并扫程起点锚点与 live AbsX（默认开；METEOR_IMAGE_XSTART_USE_PASS_ANCHOR=0 可关）。</summary>
+        private static bool ShouldUsePassAnchoredAbsXForImageXStart()
+        {
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_IMAGE_XSTART_USE_PASS_ANCHOR");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "0", StringComparison.Ordinal) || string.Equals(t, "false", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "off", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "no", StringComparison.OrdinalIgnoreCase))
+                        return false;
+                    if (string.Equals(t, "1", StringComparison.Ordinal) || string.Equals(t, "true", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "on", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "yes", StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+            }
+            catch { }
+            return true;
+        }
+
+        /// <summary>
+        /// 对齐模式：PASS0 首条 swath 锁定 FWD fwdBase；Pass1 REV 用 HiPrint 式 fwdBase+图宽；Pass2 FWD 复用 fwdBase。
+        /// batch 模式默认开；METEOR_IMAGE_XSTART_UNIFIED_ALIGN=0 可关。
+        /// </summary>
+        private static bool ShouldUseUnifiedAlignImageXStart()
+        {
+            if (IsBatchSwathModeEnabled())
+                return true;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_IMAGE_XSTART_UNIFIED_ALIGN");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "0", StringComparison.Ordinal) || string.Equals(t, "false", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "off", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "no", StringComparison.OrdinalIgnoreCase))
+                        return false;
+                }
+            }
+            catch { }
+            return false;
+        }
+
+        /// <summary>与 stripIndexSimple / passIndex 对齐，WriteImageLayer 据此选取 xStart 锚点。</summary>
+        public static void SetPendingSwathPassIndex(int passIndex)
+        {
+            _pendingSwathPassIndex = Math.Max(0, Math.Min(passIndex, _passImageXStartAbsXAnchor.Length - 1));
+        }
+
+        private static void CapturePassScanOriginAbsXAnchor(int passIndex)
+        {
+            int idx = Math.Max(0, Math.Min(passIndex, _passImageXStartAbsXAnchor.Length - 1));
+            if (TryGetPccMotionSnapshot(1, out PccMotionSnapshot snap) && snap.Valid)
+            {
+                int absX24 = GetAbsXCount24Signed(snap.AbsXCount);
+                _passImageXStartAbsXAnchor[idx] = Math.Max(0, absX24);
+                _passImageXStartAbsXAnchorValid[idx] = true;
+                Log4Net.Info($"[MeteorXStart] PassScanOriginAnchor passIndex={idx} pccAbsX={snap.AbsXCount} absX24={absX24} utc={DateTime.UtcNow:O}");
+            }
+            else
+            {
+                _passImageXStartAbsXAnchorValid[idx] = false;
+                Log4Net.Info($"[MeteorXStart] PassScanOriginAnchorMissing passIndex={idx} utc={DateTime.UtcNow:O}");
+            }
+        }
+
+        private static void ResetPassSwathMeteorReady(int passIndex)
+        {
+            int idx = Math.Max(0, Math.Min(passIndex, _passSwathMeteorReady.Length - 1));
+            _passSwathMeteorSignaled[idx] = false;
+            try { _passSwathMeteorReady[idx].Reset(); } catch { }
+        }
+
+        private static void SignalPassSwathMeteorReadyIfNeeded(int passIndex, string stage)
+        {
+            if (passIndex <= 0)
+                return;
+            int idx = Math.Max(0, Math.Min(passIndex, _passSwathMeteorReady.Length - 1));
+            if (_passSwathMeteorSignaled[idx])
+                return;
+            _passSwathMeteorSignaled[idx] = true;
+            try { _passSwathMeteorReady[idx].Set(); } catch { }
+            Log4Net.Info($"[MeteorScanGate] PassSwathMeteorReady passIndex={idx} stage={stage} utc={DateTime.UtcNow:O}");
+        }
+
+        /// <summary>打印线程：PASS1/2 在扫程起点 Signal 后，等待对应 swath 进 PCC 再启动 X 扫程；batch 模式直接放行。</summary>
+        public static bool WaitPassSwathMeteorReady(int passIndex, int timeoutMs = 10000)
+        {
+            if (IsBatchSwathModeEnabled())
+            {
+                Log4Net.Info($"[MeteorScanGate] PassSwathWaitSkipped batchMode passIndex={passIndex} utc={DateTime.UtcNow:O}");
+                return true;
+            }
+            if (passIndex <= 0)
+                return true;
+            int idx = Math.Max(0, Math.Min(passIndex, _passSwathMeteorReady.Length - 1));
+            if (timeoutMs <= 0)
+                timeoutMs = 10000;
+            bool got = _passSwathMeteorReady[idx].Wait(timeoutMs);
+            if (!got)
+                Log4Net.Info($"[MeteorScanGate] PassSwathWaitTimeout passIndex={idx} timeoutMs={timeoutMs} utc={DateTime.UtcNow:O}");
+            return got;
+        }
+
+        private static void ResetPassImageXStartAnchors()
+        {
+            for (int i = 0; i < _passImageXStartAbsXAnchorValid.Length; i++)
+                _passImageXStartAbsXAnchorValid[i] = false;
+            for (int i = 0; i < _passScanEndAbsXValid.Length; i++)
+                _passScanEndAbsXValid[i] = false;
+            _pendingSwathPassIndex = 0;
+            _jobUnifiedImageXStartValid = false;
+            _jobUnifiedImageXStartAbsX = 0;
+        }
+
+        private static void RecordPassScanEndAbsXFromStage(string stage, int absX24)
+        {
+            if (string.IsNullOrEmpty(stage))
+                return;
+            int passIndex = -1;
+            if (stage.IndexOf("Pass0AfterScan", StringComparison.OrdinalIgnoreCase) >= 0)
+                passIndex = 0;
+            else if (stage.IndexOf("Pass1AfterScan", StringComparison.OrdinalIgnoreCase) >= 0)
+                passIndex = 1;
+            else if (stage.IndexOf("Pass2AfterScan", StringComparison.OrdinalIgnoreCase) >= 0)
+                passIndex = 2;
+            if (passIndex < 0)
+                return;
+            _passScanEndAbsX[passIndex] = Math.Max(0, absX24);
+            _passScanEndAbsXValid[passIndex] = true;
+            Log4Net.Info($"[MeteorXStart] PassScanEndAbsX passIndex={passIndex} absX24={absX24} stage={stage} utc={DateTime.UtcNow:O}");
+        }
+
+        /// <summary>FWD pass&gt;0：live AbsX 与扫程起点锚点、上一 pass 结束 AbsX、Pass0 fwdBase 取 max。</summary>
+        private static int ResolveLiveFwdImageXStartBasePixels(int pendingPass, int absXAtSwath)
+        {
+            int basePx = Math.Max(0, absXAtSwath);
+            if (pendingPass > 0 && ShouldUsePassAnchoredAbsXForImageXStart()
+                && _passImageXStartAbsXAnchorValid[pendingPass])
+            {
+                basePx = Math.Max(basePx, _passImageXStartAbsXAnchor[pendingPass]);
+            }
+            if (pendingPass >= 2 && _passScanEndAbsXValid[1])
+                basePx = Math.Max(basePx, _passScanEndAbsX[1]);
+            if (basePx <= 0 && _jobUnifiedImageXStartValid)
+                basePx = _jobUnifiedImageXStartAbsX;
+            if (pendingPass >= 2 && _jobUnifiedImageXStartValid)
+                basePx = Math.Max(basePx, _jobUnifiedImageXStartAbsX);
+            return basePx;
+        }
+
+        private static int GetImageXStartBasePixels(int xDpi)
+        {
+            int safeDpi = xDpi > 0 ? xDpi : 400;
+            if (_scanJobStartXEncPosUm == 0)
+                return 0;
+
+            double pixels = (_scanJobStartXEncPosUm / 25400.0) * safeDpi;
+            return Math.Max(0, (int)Math.Round(pixels, MidpointRounding.AwayFromZero));
+        }
+
+        private static int GetImageXStartBasePixels(float xDpi)
+        {
+            int roundedDpi = (int)Math.Round(xDpi > 0 ? xDpi : 400f, MidpointRounding.AwayFromZero);
+            return GetImageXStartBasePixels(roundedDpi);
+        }
+
+        private static int GetImageXReverseStartDelta(int paddedWidth)
+        {
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_IMAGE_XSTART_REV_DELTA");
+                if (!string.IsNullOrWhiteSpace(env) && int.TryParse(env.Trim(), out int value))
+                    return Math.Max(0, value);
+            }
+            catch { }
+            // 3PASS 交替扫：REV 的 Xleft = FWD base + 图宽（HiPrint）；统一对齐模式走 useUnifiedRevXStart 分支
+            return Math.Max(0, paddedWidth);
+        }
+
+        /// <summary>3PASS 单程扫程 mm（默认 450）。METEOR_SCAN_TRAVEL_MM 可覆盖（旧 400 写 400）。</summary>
+        public static double GetInkCarScanTravelMm() => GetScanTravelMm();
+
+        /// <summary>Pass0 提交 swath 前墨车停靠高端 mm，默认 485。</summary>
+        public static double GetInkCarScanApproachHighEndMm()
+        {
+            const double defaultMm = 485.0;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_INKCAR_SCAN_APPROACH_HIGH_MM");
+                if (!string.IsNullOrWhiteSpace(env) && double.TryParse(env.Trim(), out double mm) && mm > 1 && mm < 2000)
+                    return mm;
+            }
+            catch { }
+            return defaultMm;
+        }
+
+        /// <summary>
+        /// 墨车 X 扫程高端 mm（Pass1/2 扫程端 / 收口）。默认 485。
+        /// METEOR_INKCAR_SCAN_HIGH_END_MM 可覆盖。
+        /// </summary>
+        public static double GetInkCarScanHighEndMm()
+        {
+            const double defaultHighMm = 485.0;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_INKCAR_SCAN_HIGH_END_MM");
+                if (!string.IsNullOrWhiteSpace(env) && double.TryParse(env.Trim(), out double mm) && mm > 1 && mm < 2000)
+                    return mm;
+            }
+            catch { }
+            return defaultHighMm;
+        }
+
+        /// <summary>墨车 X 扫程低端 mm，默认 15（485−15=470mm 单程）。METEOR_INKCAR_SCAN_LOW_END_MM 可覆盖。</summary>
+        public static double GetInkCarScanLowEndMm()
+        {
+            const double defaultLowMm = 15.0;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_INKCAR_SCAN_LOW_END_MM");
+                if (!string.IsNullOrWhiteSpace(env) && double.TryParse(env.Trim(), out double mm) && mm > -200 && mm < 2000)
+                    return mm;
+            }
+            catch { }
+            return defaultLowMm;
+        }
+
+        /// <summary>3PASS 单程扫程 mm（默认 470，对齐 7323px≈465mm 整板宽 + 余量；旧 450/400 可用 METEOR_SCAN_TRAVEL_MM 覆盖）。</summary>
+        private static double GetScanTravelMm()
+        {
+            const double defaultMm = 470.0;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_SCAN_TRAVEL_MM");
+                if (!string.IsNullOrWhiteSpace(env) && double.TryParse(env.Trim(), out double mm) && mm > 1 && mm < 2000)
+                    return mm;
+            }
+            catch { }
+            return defaultMm;
+        }
+
+        private static int GetScanTravelWidthPixels(int xDpi)
+        {
+            int safeDpi = xDpi > 0 ? xDpi : 400;
+            return Math.Max(1, (int)Math.Round(GetScanTravelMm() * safeDpi / 25.4, MidpointRounding.AwayFromZero));
+        }
+
+        private static int MmToAbsXPixels(double mm, int xDpi)
+        {
+            int safeDpi = xDpi > 0 ? xDpi : 400;
+            return Math.Max(0, (int)Math.Round(mm * safeDpi / 25.4, MidpointRounding.AwayFromZero));
+        }
+
+        /// <summary>
+        /// HiPrint 兼容：xStart 以 PCC live AbsX / pass0 实测 AbsX 扫程为准，不用固高 mm×DPI 冒充 AbsX。
+        /// </summary>
+        private static int ResolveHiPrintCompatImageCmdXStart(
+            int xDpi,
+            int printWidthPx,
+            int safeMin,
+            uint startScanDir,
+            bool flipPass0,
+            int pendingPass,
+            int absXAtSwath,
+            bool hasAbsXAtSwath,
+            out int scanLowPx,
+            out int scanHighPx,
+            out int hiPrintBaseXStart,
+            out int hiPrintRevXStart,
+            out string anchorMode)
+        {
+            anchorMode = "unknown";
+            scanLowPx = 0;
+            scanHighPx = 0;
+            hiPrintBaseXStart = Math.Max(safeMin, GetImageXStartBasePixels(xDpi));
+            hiPrintRevXStart = hiPrintBaseXStart + printWidthPx;
+
+            bool hasMeasuredRange = TryGetPass0MeasuredAbsXScanRange(out int measuredLow, out int measuredHigh);
+            if (hasMeasuredRange)
+            {
+                scanLowPx = measuredLow;
+                scanHighPx = measuredHigh;
+            }
+
+            if (flipPass0 && pendingPass == 0)
+            {
+                anchorMode = "legacyFlipPass0";
+                if (startScanDir == SD_REV)
+                {
+                    anchorMode = hasAbsXAtSwath ? "legacyFlipPass0_liveAbsXPlusWidth_rev"
+                        : hasMeasuredRange ? "legacyFlipPass0_measuredHigh_rev" : "legacyFlipPass0_jobRevXStart";
+                    return ResolveHiPrintCompatRevImageXStart(
+                        absXAtSwath, hasAbsXAtSwath, printWidthPx, measuredLow, measuredHigh, hasMeasuredRange, hiPrintRevXStart, safeMin, pendingPass);
+                }
+                if (hasAbsXAtSwath)
+                {
+                    anchorMode = "legacyFlipPass0_liveAbsX_fwd";
+                    return Math.Max(safeMin, absXAtSwath);
+                }
+                if (hasMeasuredRange)
+                {
+                    anchorMode = "legacyFlipPass0_measuredLow_fwd";
+                    return Math.Max(safeMin, measuredLow);
+                }
+                anchorMode = "legacyFlipPass0_jobBase_fwd";
+                return Math.Max(safeMin, hiPrintBaseXStart);
+            }
+
+            // batch 预灌：pass1/2 在 pass0 扫程中连续下发，禁止用扫程中的 live AbsX（会随编码器漂移，导致 pass2 右下角错位）
+            if (IsBatchSwathModeEnabled() && pendingPass > 0 && _jobUnifiedImageXStartValid)
+            {
+                if (startScanDir == SD_REV)
+                {
+                    // Pass1 物理扫程 15mm→485mm（REV）：xStart 为扫程高端右缘（≈fwdBase+scanTravel），非 fwdBase+图宽+PDoffset（485 端 REV 公式）
+                    if (pendingPass == 1)
+                    {
+                        int scanTravelPx = GetScanTravelWidthPixels(xDpi);
+                        anchorMode = "batch_pass1Rev_scanHighFromFwdBase";
+                        return Math.Max(safeMin, _jobUnifiedImageXStartAbsX + scanTravelPx);
+                    }
+                    int revPdOffset = GetImageXStartRevPdAlignOffsetPixels(xDpi);
+                    anchorMode = "batch_unifiedRev_fwdBasePlusWidth";
+                    return Math.Max(safeMin, _jobUnifiedImageXStartAbsX + printWidthPx + revPdOffset);
+                }
+                anchorMode = "batch_unifiedFwd_jobBase";
+                return Math.Max(safeMin, _jobUnifiedImageXStartAbsX);
+            }
+
+            if (pendingPass == 0)
+            {
+                if (startScanDir == SD_REV)
+                {
+                    anchorMode = hasAbsXAtSwath ? "pass0_liveAbsXPlusWidth_rev"
+                        : hasMeasuredRange ? "pass0_measuredHigh_rev" : "pass0_jobBasePlusWidth_rev";
+                    return ResolveHiPrintCompatRevImageXStart(
+                        absXAtSwath, hasAbsXAtSwath, printWidthPx, measuredLow, measuredHigh, hasMeasuredRange, hiPrintRevXStart, safeMin, pendingPass);
+                }
+                if (hasAbsXAtSwath)
+                {
+                    anchorMode = "pass0_liveAbsX_fwd";
+                    return Math.Max(safeMin, absXAtSwath);
+                }
+                if (hasMeasuredRange)
+                {
+                    anchorMode = "pass0_measuredLow_fwd";
+                    return Math.Max(safeMin, measuredLow);
+                }
+                anchorMode = "pass0_jobBase_fwd";
+                return Math.Max(safeMin, hiPrintBaseXStart);
+            }
+
+            // 逐 pass 门控：Pass1 REV 用 Pass0 扫到 15mm 端的实测 AbsX 作右缘（比 pass 起点锚点/公式 fwdBase+scanTravel 更准）
+            if (pendingPass == 1 && startScanDir == SD_REV && !IsBatchSwathModeEnabled())
+            {
+                if (_pass0ScanAbsXLowEndValid)
+                {
+                    int pass1RevOffsetPx = GetPass1RevExtraOffsetPixels(xDpi);
+                    anchorMode = $"pass1_pass0MeasuredLowEndAbs_rev_offset{pass1RevOffsetPx}";
+                    return Math.Max(safeMin, _pass0ScanAbsXAtLowEnd + pass1RevOffsetPx);
+                }
+                if (pendingPass < _passImageXStartAbsXAnchorValid.Length && _passImageXStartAbsXAnchorValid[pendingPass])
+                {
+                    int pass1RevOffsetPx = GetPass1RevExtraOffsetPixels(xDpi);
+                    anchorMode = $"pass1_passScanOriginAnchor_rev_offset{pass1RevOffsetPx}";
+                    return Math.Max(safeMin, _passImageXStartAbsXAnchor[pendingPass] + pass1RevOffsetPx);
+                }
+            }
+
+            if (pendingPass >= 2 && startScanDir == SD_FWD && !IsBatchSwathModeEnabled())
+            {
+                int fallbackBase = 0;
+                if (_passScanEndAbsXValid[1])
+                    fallbackBase = Math.Max(fallbackBase, _passScanEndAbsX[1]);
+                if (pendingPass < _passImageXStartAbsXAnchorValid.Length && _passImageXStartAbsXAnchorValid[pendingPass])
+                    fallbackBase = Math.Max(fallbackBase, _passImageXStartAbsXAnchor[pendingPass]);
+                if (hasAbsXAtSwath)
+                    fallbackBase = Math.Max(fallbackBase, absXAtSwath);
+
+                if (fallbackBase > 0)
+                {
+                    anchorMode = _passScanEndAbsXValid[1]
+                        ? "pass2_pass1MeasuredHighEndAbs_fwd"
+                        : "passN_passScanOriginAnchor_fwd";
+                    return Math.Max(safeMin, fallbackBase);
+                }
+            }
+
+            if (startScanDir == SD_REV)
+            {
+                anchorMode = hasAbsXAtSwath ? "passN_revHighOrLowSide_rev"
+                    : hasMeasuredRange ? "passN_measuredHigh_rev" : "passN_jobBasePlusWidth_rev";
+                return ResolveHiPrintCompatRevImageXStart(
+                    absXAtSwath, hasAbsXAtSwath, printWidthPx, measuredLow, measuredHigh, hasMeasuredRange, hiPrintRevXStart, safeMin, pendingPass);
+            }
+            if (hasAbsXAtSwath)
+            {
+                anchorMode = "passN_liveAbsX_fwd";
+                return Math.Max(safeMin, absXAtSwath);
+            }
+            anchorMode = "passN_jobBase_fwd";
+            return Math.Max(safeMin, hiPrintBaseXStart);
+        }
+
+        /// <summary>REV 扫向：PCMD_IMAGE xStart 为图右缘。扫程低端起 REV 用 live+图宽；扫程高端起 REV（如 pass1@15mm）右缘即当前/锚点 AbsX。</summary>
+        private static int ResolveHiPrintCompatRevImageXStart(
+            int absXAtSwath,
+            bool hasAbsXAtSwath,
+            int printWidthPx,
+            int measuredLow,
+            int measuredHigh,
+            bool hasMeasuredRange,
+            int hiPrintRevXStart,
+            int safeMin,
+            int pendingPass = -1)
+        {
+            if (hasAbsXAtSwath)
+            {
+                int refAbs = absXAtSwath;
+                if (pendingPass >= 0 && pendingPass < _passImageXStartAbsXAnchorValid.Length
+                    && _passImageXStartAbsXAnchorValid[pendingPass])
+                    refAbs = _passImageXStartAbsXAnchor[pendingPass];
+
+                bool highSideRev = pendingPass > 0;
+                if (hasMeasuredRange && measuredHigh > measuredLow)
+                    highSideRev = refAbs >= (measuredLow + measuredHigh) / 2;
+                else if (pendingPass <= 0 && refAbs > printWidthPx + 512)
+                    highSideRev = true;
+
+                if (highSideRev)
+                    return Math.Max(safeMin, refAbs);
+                return Math.Max(safeMin, refAbs + printWidthPx);
+            }
+            if (hasMeasuredRange)
+                return Math.Max(safeMin, measuredHigh);
+            return Math.Max(safeMin, hiPrintRevXStart);
+        }
+
+        /// <summary>
+        /// 固定 FWD 端 Xleft（AbsX 像素），优先于 live AbsX。pass 覆盖≈[Xleft, Xleft+图形宽]；宜缩短 Xleft 使 Xleft+Width 落在单程扫程内。
+        /// METEOR_IMAGE_XSTART_ABS_MM / METEOR_IMAGE_XSTART_ABS_PX 仅 env 显式设置时启用（非绝对 0 点 mm）。
+        /// </summary>
+        private static bool TryGetFixedFwdImageXStartAbsXPixels(int xDpi, out int fixedAbsXPixels)
+        {
+            fixedAbsXPixels = 0;
+            try
+            {
+                string pxEnv = Environment.GetEnvironmentVariable("METEOR_IMAGE_XSTART_ABS_PX");
+                if (!string.IsNullOrWhiteSpace(pxEnv) && int.TryParse(pxEnv.Trim(), out int px) && px > 0)
+                {
+                    fixedAbsXPixels = px;
+                    return true;
+                }
+                string mmEnv = Environment.GetEnvironmentVariable("METEOR_IMAGE_XSTART_ABS_MM");
+                if (!string.IsNullOrWhiteSpace(mmEnv) && double.TryParse(mmEnv.Trim(), out double mm) && mm > 0)
+                {
+                    fixedAbsXPixels = MmToAbsXPixels(mm, xDpi);
+                    return true;
+                }
+            }
+            catch { }
+            return false;
+        }
+
+        /// <summary>在 live/anchor 基准上叠加偏移；默认 +5mm（扫程起点再进入 5mm 起喷，非绝对 Xleft）。</summary>
+        private static int GetImageXStartOffsetPixels(int xDpi)
+        {
+            try
+            {
+                string pxEnv = Environment.GetEnvironmentVariable("METEOR_IMAGE_XSTART_OFFSET_PX");
+                if (!string.IsNullOrWhiteSpace(pxEnv) && int.TryParse(pxEnv.Trim(), out int px))
+                    return px;
+                string mmEnv = Environment.GetEnvironmentVariable("METEOR_IMAGE_XSTART_OFFSET_MM");
+                if (!string.IsNullOrWhiteSpace(mmEnv) && double.TryParse(mmEnv.Trim(), out double mm))
+                    return (int)Math.Round(mm * (xDpi > 0 ? xDpi : 400) / 25.4, MidpointRounding.AwayFromZero);
+            }
+            catch { }
+            return 0;
+        }
+
+        /// <summary>REV 是否叠加 PD 对齐偏移（默认开；METEOR_IMAGE_XSTART_REV_PD_ALIGN=0 可关）。</summary>
+        private static bool ShouldApplyRevPdAlignOffset()
+        {
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_IMAGE_XSTART_REV_PD_ALIGN");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "0", StringComparison.Ordinal) || string.Equals(t, "false", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "off", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "no", StringComparison.OrdinalIgnoreCase))
+                        return false;
+                }
+            }
+            catch { }
+            return true;
+        }
+
+        /// <summary>
+        /// HiPrint 式 REV（fwdBase+图宽）与现场 natural PD 的默认偏差（px）。默认 -1968（11420→9452）。
+        /// METEOR_IMAGE_XSTART_REV_PD_ALIGN_OFFSET_PX 可覆盖。
+        /// </summary>
+        private static int GetImageXStartRevPdAlignOffsetPixels(int xDpi)
+        {
+            if (!ShouldApplyRevPdAlignOffset())
+                return 0;
+            try
+            {
+                string pxEnv = Environment.GetEnvironmentVariable("METEOR_IMAGE_XSTART_REV_PD_ALIGN_OFFSET_PX");
+                if (!string.IsNullOrWhiteSpace(pxEnv) && int.TryParse(pxEnv.Trim(), out int px))
+                    return px;
+                string mmEnv = Environment.GetEnvironmentVariable("METEOR_IMAGE_XSTART_REV_PD_ALIGN_OFFSET_MM");
+                if (!string.IsNullOrWhiteSpace(mmEnv) && double.TryParse(mmEnv.Trim(), out double mm))
+                    return (int)Math.Round(mm * (xDpi > 0 ? xDpi : 400) / 25.4, MidpointRounding.AwayFromZero);
+            }
+            catch { }
+            return -2048;
+        }
+
+        /// <summary>
+        /// Pass1 REV 现场临时修正（px）。未设时默认 -800，使 pass1 REV 靠近 natural PD 窗口。
+        /// METEOR_PASS1_REV_EXTRA_OFFSET_PX / _MM 可覆盖；设 0 可关闭。
+        /// </summary>
+        private static int GetPass1RevExtraOffsetPixels(int xDpi)
+        {
+            try
+            {
+                string pxEnv = Environment.GetEnvironmentVariable("METEOR_PASS1_REV_EXTRA_OFFSET_PX");
+                if (!string.IsNullOrWhiteSpace(pxEnv) && int.TryParse(pxEnv.Trim(), out int px))
+                    return px;
+                string mmEnv = Environment.GetEnvironmentVariable("METEOR_PASS1_REV_EXTRA_OFFSET_MM");
+                if (!string.IsNullOrWhiteSpace(mmEnv) && double.TryParse(mmEnv.Trim(), out double mm))
+                    return (int)Math.Round(mm * (xDpi > 0 ? xDpi : 400) / 25.4, MidpointRounding.AwayFromZero);
+            }
+            catch { }
+            return -800;
+        }
+
+        /// <summary>
+        /// 是否将 PCMD_IMAGE 宽度裁到单程扫程像素（≈6299@400dpi/400mm）。
+        /// 默认 false（供应商对齐模式：整板宽 7328 + 统一 Xleft + Ytop=0）；
+        /// METEOR_CLAMP_IMAGE_WIDTH_TO_SCAN=1 可开启裁切（最小化数据试验用）。
+        /// </summary>
+        private static bool ShouldClampImageWidthToScanTravel()
+        {
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_CLAMP_IMAGE_WIDTH_TO_SCAN");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "1", StringComparison.Ordinal) || string.Equals(t, "true", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "on", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "yes", StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+            }
+            catch { }
+            return false;
+        }
+
+        /// <summary>
+        /// 正向/反向 PCMD_IMAGE 的 X 起点。对齐/unified 模式已在 imageXStart 中按扫向选好 fwdBase 或 fwdBase+scanTravel；
+        /// 仅 legacy（非 live/unified/anchor）且 METEOR_IMAGE_XSTART_REV_DELTA&gt;0 时 REV 才用 imageXReverseStart。
+        /// </summary>
+        private static int ResolveImageCmdXStart(int imageXStart, int imageXReverseStart, int nPrtDir, bool useLiveAbsX)
+        {
+            if (nPrtDir == 1 || useLiveAbsX)
+                return imageXStart;
+            int revDelta = imageXReverseStart - imageXStart;
+            return revDelta > 0 ? imageXReverseStart : imageXStart;
+        }
+
+        /// <summary>
+        /// 扫描 JOB 的 nPrtXEncPos 锚点（µm）。仅在 METEOR_IMAGE_XSTART_FROM_LIVE_ABS=0 时用于 xStart。
+        /// 默认 xStart 取 STARTSCAN 前 PCC AbsX（≈XCOUNT，mm=absX*25.4/dpi）。环境变量 METEOR_SCANJOB_START_X_UM 可覆盖。
+        /// </summary>
+        private static uint GetScanJobStartXEncPosUm(uint originalValueUm)
+        {
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_SCANJOB_START_X_UM");
+                if (!string.IsNullOrWhiteSpace(env) && uint.TryParse(env.Trim(), out uint value))
+                    return value;
+            }
+            catch { }
+            return originalValueUm;
+        }
+
+        private static bool TryGetNativePrinterStatus(out NativeAppStatus status)
+        {
+            status = default;
+            try
+            {
+                IntPtr ptr = NativePiGetPrnStatus();
+                if (ptr == IntPtr.Zero)
+                    return false;
+                status = Marshal.PtrToStructure<NativeAppStatus>(ptr);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"Meteor TryGetNativePrinterStatus exception: {ex.Message}");
+                return false;
+            }
+        }
+
+        private static bool TryGetNativePccStatus(int pccnum, out NativePccStatus status)
+        {
+            status = default;
+            int resolvedPccNum = pccnum > 0 ? pccnum : 1;
+            try
+            {
+                IntPtr ptr = NativePiGetPccStatus((uint)resolvedPccNum);
+                if (ptr == IntPtr.Zero)
+                    return false;
+                status = Marshal.PtrToStructure<NativePccStatus>(ptr);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"Meteor TryGetNativePccStatus exception: pccnum={resolvedPccNum}, {ex.Message}");
+                return false;
+            }
+        }
+
+        private static bool TryIsScanningModeActive(out int controlWord)
+        {
+            controlWord = 0;
+            try
+            {
+                if (TryGetNativePrinterStatus(out NativeAppStatus nativeStatus))
+                {
+                    controlWord = nativeStatus.Control;
+                    return (controlWord & BM_SCANNING) != 0;
+                }
+            }
+            catch { }
+
+            if (_printerInterfaceInstance == null || _printerInterfaceType == null)
+                return false;
+
+            try
+            {
+                MethodInfo miGetStatus = _printerInterfaceType.GetMethod("PiGetPrnStatus",
+                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static,
+                    null, Type.EmptyTypes, null);
+                if (miGetStatus == null)
+                    return false;
+
+                object target = miGetStatus.IsStatic ? null : _printerInterfaceInstance;
+                object result = miGetStatus.Invoke(target, null);
+                if (result == null)
+                    return false;
+
+                Type statusType = result.GetType();
+                FieldInfo fiControl = statusType.GetField("Control", BindingFlags.Public | BindingFlags.Instance);
+                if (fiControl == null)
+                    return false;
+                controlWord = Convert.ToInt32(fiControl.GetValue(result));
+                return (controlWord & BM_SCANNING) != 0;
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"Meteor TryIsScanningModeActive exception: {ex.Message}");
+                return false;
+            }
+        }
+
+        private static bool TryGetPccMotionSnapshot(int pccnum, out PccMotionSnapshot snapshot)
+        {
+            snapshot = default;
+            snapshot.PccNum = pccnum > 0 ? pccnum : 1;
+
+            try
+            {
+                if (TryGetNativePccStatus(snapshot.PccNum, out NativePccStatus nativeStatus))
+                {
+                    snapshot.Valid = true;
+                    snapshot.BmStatusBits = nativeStatus.bmStatusBits;
+                    snapshot.BmStatusBits2 = nativeStatus.bmStatusBits2;
+                    snapshot.AbsXCount = nativeStatus.AbsXCount;
+                    snapshot.EncoderCount = nativeStatus.EncoderCount;
+                    return true;
+                }
+            }
+            catch { }
+
+            if (_printerInterfaceInstance == null || _printerInterfaceType == null)
+                return false;
+
+            try
+            {
+                Assembly asm = _printerInterfaceType.Assembly;
+                Type typePccStatus = asm.GetTypes().FirstOrDefault(t => t.Name == "TAppPccStatus");
+                if (typePccStatus == null)
+                    return false;
+
+                MethodInfo miGetStatus = _printerInterfaceType.GetMethod("PiGetPccStatus",
+                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static,
+                    null, new Type[] { typeof(int), typePccStatus.MakeByRefType() }, null);
+                if (miGetStatus != null)
+                {
+                    object target = miGetStatus.IsStatic ? null : _printerInterfaceInstance;
+                    object pccStatus = Activator.CreateInstance(typePccStatus);
+                    object[] args = new object[] { snapshot.PccNum, pccStatus };
+                    object result = miGetStatus.Invoke(target, args);
+                    int ret = Convert.ToInt32(result);
+                    if (ret != RVAL_OK)
+                        return false;
+
+                    snapshot.Valid = true;
+                    snapshot.BmStatusBits = Convert.ToInt32(typePccStatus.GetField("bmStatusBits", BindingFlags.Public | BindingFlags.Instance)?.GetValue(args[1]) ?? 0);
+                    snapshot.BmStatusBits2 = Convert.ToInt32(typePccStatus.GetField("bmStatusBits2", BindingFlags.Public | BindingFlags.Instance)?.GetValue(args[1]) ?? 0);
+                    snapshot.AbsXCount = Convert.ToInt32(typePccStatus.GetField("AbsXCount", BindingFlags.Public | BindingFlags.Instance)?.GetValue(args[1]) ?? 0);
+                    snapshot.EncoderCount = Convert.ToInt32(typePccStatus.GetField("EncoderCount", BindingFlags.Public | BindingFlags.Instance)?.GetValue(args[1]) ?? 0);
+                    return true;
+                }
+
+                miGetStatus = _printerInterfaceType.GetMethod("PiGetPccStatus",
+                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static,
+                    null, new Type[] { typeof(uint) }, null);
+                if (miGetStatus == null)
+                    return false;
+
+                object target2 = miGetStatus.IsStatic ? null : _printerInterfaceInstance;
+                object statusObj = miGetStatus.Invoke(target2, new object[] { (uint)snapshot.PccNum });
+                if (statusObj == null)
+                    return false;
+
+                Type statusType2 = statusObj.GetType();
+                snapshot.Valid = true;
+                snapshot.BmStatusBits = Convert.ToInt32(statusType2.GetField("bmStatusBits", BindingFlags.Public | BindingFlags.Instance)?.GetValue(statusObj) ?? 0);
+                snapshot.BmStatusBits2 = Convert.ToInt32(statusType2.GetField("bmStatusBits2", BindingFlags.Public | BindingFlags.Instance)?.GetValue(statusObj) ?? 0);
+                snapshot.AbsXCount = Convert.ToInt32(statusType2.GetField("AbsXCount", BindingFlags.Public | BindingFlags.Instance)?.GetValue(statusObj) ?? 0);
+                snapshot.EncoderCount = Convert.ToInt32(statusType2.GetField("EncoderCount", BindingFlags.Public | BindingFlags.Instance)?.GetValue(statusObj) ?? 0);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"Meteor TryGetPccMotionSnapshot exception: pccnum={snapshot.PccNum}, {ex.Message}");
+                return false;
+            }
+        }
+
+        private static int GetSigned24Delta(int baselineAbsXCount, int currentAbsXCount)
+        {
+            int baseline24 = baselineAbsXCount & 0x00FFFFFF;
+            int current24 = currentAbsXCount & 0x00FFFFFF;
+            int delta = current24 - baseline24;
+            if (delta > 0x007FFFFF)
+                delta -= 0x01000000;
+            else if (delta < -0x00800000)
+                delta += 0x01000000;
+            return delta;
+        }
+
+        private static bool WaitForInitialScanMotionAfterStartScan(int pccnum, PccMotionSnapshot baseline, string stage, out PccMotionSnapshot observed)
+        {
+            observed = baseline;
+            int timeoutMs = GetScanMotionWaitTimeoutMs();
+            int thresholdCounts = GetScanMotionThresholdCounts();
+            int consecutiveNeeded = GetScanMotionConsecutivePollsRequired();
+            const int pollMs = 25;
+            int waitedMs = 0;
+            int consecutiveMotionPolls = 0;
+            bool scanModeReadable = false;
+
+            while (waitedMs <= timeoutMs)
+            {
+                bool scanModeActive = TryIsScanningModeActive(out int controlWord);
+                if (controlWord != 0 || scanModeActive)
+                    scanModeReadable = true;
+
+                if (TryGetPccMotionSnapshot(baseline.PccNum, out observed))
+                {
+                    int absXDelta = GetSigned24Delta(baseline.AbsXCount, observed.AbsXCount);
+                    int encoderDelta = observed.EncoderCount - baseline.EncoderCount;
+                    bool motionDetected = Math.Abs(absXDelta) >= thresholdCounts || Math.Abs(encoderDelta) >= thresholdCounts;
+                    if (motionDetected)
+                        consecutiveMotionPolls++;
+                    else
+                        consecutiveMotionPolls = 0;
+
+                    if (motionDetected && consecutiveMotionPolls >= consecutiveNeeded && (!scanModeReadable || scanModeActive))
+                        return true;
+                }
+
+                if (waitedMs >= timeoutMs)
+                    break;
+
+                Thread.Sleep(pollMs);
+                waitedMs += pollMs;
+            }
+
+            Log4Net.Info($"[MeteorScanMotionGate] WaitTimeout stage={stage} pcc={baseline.PccNum} timeoutMs={timeoutMs} baselineAbsX={baseline.AbsXCount} baselineEncoder={baseline.EncoderCount} lastAbsX={observed.AbsXCount} lastEncoder={observed.EncoderCount} utc={DateTime.UtcNow:O}");
+            return false;
+        }
+
+        /// <summary>
+        /// 位图行序相对喷嘴 Y 向上/向下翻转（缺口朝上/朝下修正）。
+        /// METEOR_IMAGE_FLIP_Y=1/true/on 启用；=0/false 关闭（默认）。
+        /// 若 FLIP_Y=1 后缺口仍不变，试 METEOR_IMAGE_FLIP_X=1 或 METEOR_IMAGE_ROTATE_180=1（勿与 cfg Orientations=1 同开）。
+        /// </summary>
+        private static bool ShouldFlipImageRowsVertically()
+        {
+            if (ShouldRotateImage180Degrees())
+                return true;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_IMAGE_FLIP_Y");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "1", StringComparison.Ordinal) || string.Equals(t, "true", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "on", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "yes", StringComparison.OrdinalIgnoreCase))
+                        return true;
+                    if (string.Equals(t, "0", StringComparison.Ordinal) || string.Equals(t, "false", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "off", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "no", StringComparison.OrdinalIgnoreCase))
+                        return false;
+                }
+            }
+            catch { }
+            return false;
+        }
+
+        /// <summary>扫程方向（X）镜像，METEOR_IMAGE_FLIP_X=1；ROTATE_180=1 时自动启用。</summary>
+        private static bool ShouldFlipImageColumnsHorizontally()
+        {
+            if (ShouldRotateImage180Degrees())
+                return true;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_IMAGE_FLIP_X");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "1", StringComparison.Ordinal) || string.Equals(t, "true", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "on", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "yes", StringComparison.OrdinalIgnoreCase))
+                        return true;
+                    if (string.Equals(t, "0", StringComparison.Ordinal) || string.Equals(t, "false", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "off", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "no", StringComparison.OrdinalIgnoreCase))
+                        return false;
+                }
+            }
+            catch { }
+            return false;
+        }
+
+        /// <summary>等价于 FLIP_X + FLIP_Y（整图旋转 180°）。METEOR_IMAGE_ROTATE_180=1。</summary>
+        private static bool ShouldRotateImage180Degrees()
+        {
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_IMAGE_ROTATE_180");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "1", StringComparison.Ordinal) || string.Equals(t, "true", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "on", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "yes", StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+            }
+            catch { }
+            return false;
+        }
+
+        private static string DescribeImageOrientationTransformFlags()
+        {
+            if (ShouldRotateImage180Degrees())
+                return "rotate180";
+            bool flipY = ShouldFlipImageRowsVertically();
+            bool flipX = ShouldFlipImageColumnsHorizontally();
+            if (flipY && flipX)
+                return "flipX+flipY";
+            if (flipY)
+                return "flipY";
+            if (flipX)
+                return "flipX";
+            return "none";
+        }
+
+        private static int MapSourceImageRowIndex(int targetRow, int imageHeight, bool flipVertically)
+        {
+            if (!flipVertically || imageHeight <= 1)
+                return targetRow;
+            return imageHeight - 1 - targetRow;
+        }
+
+        private static int MapSourceImageColumnIndex(int targetColumn, int imageWidth, bool flipHorizontally)
+        {
+            if (!flipHorizontally || imageWidth <= 1)
+                return targetColumn;
+            return imageWidth - 1 - targetColumn;
+        }
+
+        /// <summary>??1bpp 图像??Meteor 命令缓冲??DWORD 行格式重包??/summary>
+        private static void PackImageRowsToCommandBuffer(byte[] imageBytes, int imageStrideBytes, int imageWidth, int imageHeight, uint[] commandWords, int dataOffset, int rowWordCount)
+        {
+            bool flipVertically = ShouldFlipImageRowsVertically();
+            bool flipHorizontally = ShouldFlipImageColumnsHorizontally();
+            for (int row = 0; row < imageHeight; row++)
+            {
+                int sourceRow = MapSourceImageRowIndex(row, imageHeight, flipVertically);
+                int sourceRowOffset = sourceRow * imageStrideBytes;
+                int targetRowOffset = dataOffset + row * rowWordCount;
+                int targetWordIndex = 0;
+                uint packedWord = 0;
+                int packedBitCount = 0;
+
+                for (int pixelX = 0; pixelX < imageWidth; pixelX++)
+                {
+                    int sourceColumn = MapSourceImageColumnIndex(pixelX, imageWidth, flipHorizontally);
+                    int sourceByteIndex = sourceRowOffset + (sourceColumn >> 3);
+                    int bitIndex = 7 - (sourceColumn & 7);
+                    uint bitValue = (uint)((imageBytes[sourceByteIndex] >> bitIndex) & 0x01);
+                    packedWord = (packedWord << 1) | bitValue;
+                    packedBitCount++;
+
+                    if (packedBitCount == 32)
+                    {
+                        commandWords[targetRowOffset + targetWordIndex] = packedWord;
+                        targetWordIndex++;
+                        packedWord = 0;
+                        packedBitCount = 0;
+                    }
+                }
+
+                if (packedBitCount > 0)
+                {
+                    packedWord <<= (32 - packedBitCount);
+                    commandWords[targetRowOffset + targetWordIndex] = packedWord;
+                    targetWordIndex++;
+                }
+
+                while (targetWordIndex < rowWordCount)
+                {
+                    commandWords[targetRowOffset + targetWordIndex] = 0;
+                    targetWordIndex++;
+                }
+            }
+        }
+
+        /// <summary>??uint[] 拷贝到非托管内存，调??PiSendCommand；若返回 RVAL_FULL 则重试（参??SampleScanPrint main.cpp）??/summary>
+        private static int DoSendCommand(uint[] cmd)
+        {
+            if (cmd == null || cmd.Length == 0) return -1;
+            int len = cmd.Length * 4;
+            IntPtr pCmd = Marshal.AllocHGlobal(len);
+            try
+            {
+                int r;
+                do
+                {
+                    for (int i = 0; i < cmd.Length; i++)
+                        Marshal.WriteInt32(pCmd, i * 4, (int)cmd[i]);
+                    r = NativePiSendCommand(pCmd);
+                } while (r == RVAL_FULL);
+                return r;
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(pCmd);
+            }
+        }
+
+        private static int GetMeteorBidiXAdjustSigned(int xDpi)
+        {
+            try
+            {
+                double reverseOffsetMm = 主界面.g_RYSYSParam != null ? 主界面.g_RYSYSParam.m_dXJetOff : 0.0;
+                double bidiXAdjustValue = (reverseOffsetMm / 25.4) * xDpi * 100.0;
+                return (int)Math.Round(bidiXAdjustValue, MidpointRounding.AwayFromZero);
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"Meteor GetMeteorBidiXAdjustSigned: exception, fallback to 0. {ex.Message}");
+                return 0;
+            }
+        }
+
+        private static bool TrySetMeteorBidiXAdjust(int xDpi)
+        {
+            int bidiXAdjustSigned = GetMeteorBidiXAdjustSigned(xDpi);
+            uint bidiXAdjustUnsigned = unchecked((uint)bidiXAdjustSigned);
+            int ret = NativePiSetParam(CCP_BIDI_XADJUST, bidiXAdjustUnsigned);
+            Log4Net.Info($"Meteor TrySetMeteorBidiXAdjust: xDpi={xDpi} reverseOffsetMm={(主界面.g_RYSYSParam != null ? 主界面.g_RYSYSParam.m_dXJetOff.ToString("F3") : "n/a")} signed={bidiXAdjustSigned} unsigned=0x{bidiXAdjustUnsigned:X8} ret={ret}");
+            return ret == RVAL_OK;
+        }
+
+        /// <summary>设置扫描作业的预估宽度，供旧 StartJob 入口使用??/summary>
+        public static void SetPendingScanJobWidth(uint imageWidth)
+        {
+            lock (SyncRoot)
+            {
+                _pendingScanJobWidth = imageWidth > 0 ? imageWidth : 1;
+            }
+        }
+
+        private static int GetAbsXCount24Signed(int absXCount)
+        {
+            int v = absXCount & 0x00FFFFFF;
+            if (v > 0x007FFFFF)
+                v -= 0x01000000;
+            return v;
+        }
+
+        /// <summary>层末（第 3 PASS 收口回清洗站后）默认不自动开闪喷；仍回清洗站避让。设 METEOR_ENABLE_END_AUTO_FLASH=1 可恢复旧闪喷。</summary>
+        public static bool ShouldSkipLayerEndAutoFlash()
+        {
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_ENABLE_END_AUTO_FLASH");
+                if (string.IsNullOrWhiteSpace(env))
+                    env = Environment.GetEnvironmentVariable("METEOR_ENABLE_END_CLEAN_FLASH");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "1", StringComparison.Ordinal) || string.Equals(t, "true", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "yes", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "on", StringComparison.OrdinalIgnoreCase))
+                        return false;
+                }
+            }
+            catch { }
+            return true;
+        }
+
+        /// <summary>扫程结束后对比固高 X 与 PCC AbsX，用于确认 Meteor 编码器是否在跟轴。</summary>
+        public static void LogScanPassMotionCheck(string stage, double googolXmm)
+        {
+            if (!TryGetPccMotionSnapshot(1, out PccMotionSnapshot snap) || !snap.Valid)
+            {
+                Log4Net.Info($"[MeteorEncoderDiag] stage={stage} googolXmm={googolXmm:F3} pcc=unavailable utc={DateTime.UtcNow:O}");
+                return;
+            }
+            int absX24 = GetAbsXCount24Signed(snap.AbsXCount);
+            RecordPassScanEndAbsXFromStage(stage, absX24);
+        }
+
+        /// <summary>PiSetHome：在 Home 传感器处将 Master PCC 绝对 X 对齐到 cfg/SIG_SET_HOME_OFFSET_PX（说明书要求滑架静止在 Home/暂停位）。</summary>
+        public static bool TryAlignAbsXAtHome(string stage)
+        {
+            if (!EnsureRuntimeReady() || !EnsurePrinterOpened())
+            {
+                Log4Net.Info($"Meteor TryAlignAbsXAtHome({stage}): runtime or printer not ready");
+                return false;
+            }
+            int absXBefore = int.MinValue;
+            int absX24Before = 0;
+            if (TryGetPccMotionSnapshot(1, out PccMotionSnapshot snapBefore) && snapBefore.Valid)
+            {
+                absXBefore = snapBefore.AbsXCount;
+                absX24Before = GetAbsXCount24Signed(absXBefore);
+            }
+            bool forceHome = false;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_FORCE_PISET_HOME_AT_PAUSE");
+                forceHome = string.Equals(env?.Trim(), "1", StringComparison.Ordinal)
+                    || string.Equals(env?.Trim(), "true", StringComparison.OrdinalIgnoreCase);
+            }
+            catch { }
+            const int maxAbsX24AtHome = 20000;
+            if (!forceHome && absXBefore != int.MinValue && Math.Abs(absX24Before) > maxAbsX24AtHome)
+            {
+                Log4Net.Info($"Meteor TryAlignAbsXAtHome({stage}): skip PiSetHome absX24={absX24Before} (|.|>{maxAbsX24AtHome}, not at home sensor); use scanAnchorUm=0");
+                LogPccStatus($"{stage}-SkipPiSetHome");
+                return false;
+            }
+            LogPccStatus($"{stage}-BeforePiSetHome");
+            bool ok = TrySetHome();
+            if (TryGetPccMotionSnapshot(1, out PccMotionSnapshot snapAfter) && snapAfter.Valid && absXBefore != int.MinValue)
+            {
+                int absX24After = GetAbsXCount24Signed(snapAfter.AbsXCount);
+                if (Math.Abs(absX24After - absX24Before) <= 32)
+                    Log4Net.Info($"Meteor TryAlignAbsXAtHome({stage}): PiSetHome done but absX24 unchanged before={absX24Before} after={absX24After} (likely not on home sensor)");
+            }
+            LogPccStatus($"{stage}-AfterPiSetHome");
+            return ok;
+        }
+
+        /// <summary>PiSetHome：在 Home 传感器处将 Master PCC 绝对 X 对齐到 cfg/SIG_SET_HOME_OFFSET_PX（说明书要求滑架静止在 Home 位）。</summary>
+        private static bool TrySetHome()
+        {
+            if (!EnsureRuntimeReady() || !EnsurePrinterOpened())
+                return false;
+
+            if (_useNativePath)
+            {
+                int ret = NativePiSetHome();
+                if (ret == RVAL_OK)
+                {
+                    Log4Net.Info("Meteor PiSetHome => OK (原生)");
+                    return true;
+                }
+
+                for (int i = 0; i < 5 && ret == RVAL_BUSY; i++)
+                {
+                    System.Threading.Thread.Sleep(200);
+                    ret = NativePiSetHome();
+                    if (ret == RVAL_OK)
+                    {
+                        Log4Net.Info($"Meteor PiSetHome 原生 重试{i + 1} => OK");
+                        return true;
+                    }
+                }
+
+                Log4Net.Info($"Meteor PiSetHome 原生 返回 {ret}");
+                return false;
+            }
+
+            try
+            {
+                MethodInfo mi = _printerInterfaceType.GetMethod("PiSetHome", BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null)
+                    ?? _printerInterfaceType.GetMethod("PiSetHome", BindingFlags.Public | BindingFlags.Static, null, Type.EmptyTypes, null);
+                if (mi == null)
+                {
+                    Log4Net.Info("Meteor PiSetHome: reflection path missing PiSetHome method");
+                    return false;
+                }
+
+                object result = mi.Invoke(_printerInterfaceInstance, null);
+                if (result is bool boolResult)
+                {
+                    if (boolResult)
+                    {
+                        Log4Net.Info("Meteor PiSetHome => OK");
+                        return true;
+                    }
+                    Log4Net.Info("Meteor PiSetHome 返回 false");
+                    return false;
+                }
+
+                int ret = result == null ? RVAL_OK : Convert.ToInt32(result);
+                if (ret == RVAL_OK)
+                {
+                    Log4Net.Info("Meteor PiSetHome => OK");
+                    return true;
+                }
+
+                if (ret == RVAL_BUSY)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        System.Threading.Thread.Sleep(200);
+                        result = mi.Invoke(_printerInterfaceInstance, null);
+                        if (result is bool retryBool)
+                        {
+                            if (retryBool)
+                            {
+                                Log4Net.Info($"Meteor PiSetHome => OK (重试 {i + 1} ??");
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            ret = result == null ? RVAL_OK : Convert.ToInt32(result);
+                            if (ret == RVAL_OK)
+                            {
+                                Log4Net.Info($"Meteor PiSetHome => OK (重试 {i + 1} ??");
+                                return true;
+                            }
+                        }
+                    }
+                }
+
+                Log4Net.Info($"Meteor PiSetHome 返回??OK: {ret}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"Meteor TrySetHome exception: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>打印 PCC 关键状态，用于排查 home / absolute X / 编码器计数是否同步??/summary>
+        private static void LogPccStatus(string stage, int pccnum = 0)
+        {
+            int resolvedPccNum = pccnum > 0 ? pccnum : 1;
+
+            if (TryGetPccMotionSnapshot(resolvedPccNum, out PccMotionSnapshot nativeSnapshot) && nativeSnapshot.Valid)
+            {
+                uint absXCount24 = (uint)nativeSnapshot.AbsXCount & 0x00FFFFFF;
+                Log4Net.Info($"Meteor {stage}: PCC={resolvedPccNum} bmStatusBits=0x{nativeSnapshot.BmStatusBits:X8} bmStatusBits2=0x{nativeSnapshot.BmStatusBits2:X8} AbsXCount={nativeSnapshot.AbsXCount} AbsXCount24=0x{absXCount24:X6} EncoderCount={nativeSnapshot.EncoderCount}");
+                return;
+            }
+
+            if (_printerInterfaceInstance == null || _printerInterfaceType == null)
+                return;
+
+            try
+            {
+                Assembly asm = _printerInterfaceType.Assembly;
+                Type typePccStatus = asm.GetTypes().FirstOrDefault(t => t.Name == "TAppPccStatus");
+                if (typePccStatus == null)
+                    return;
+
+                MethodInfo miGetStatus = _printerInterfaceType.GetMethod("PiGetPccStatus",
+                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static,
+                    null, new Type[] { typeof(int), typePccStatus.MakeByRefType() }, null);
+                if (miGetStatus == null)
+                    return;
+
+                object target = miGetStatus.IsStatic ? null : _printerInterfaceInstance;
+                object pccStatus = Activator.CreateInstance(typePccStatus);
+                object[] args = new object[] { resolvedPccNum, pccStatus };
+                object result = miGetStatus.Invoke(target, args);
+                int ret = Convert.ToInt32(result);
+                if (ret != RVAL_OK)
+                {
+                    Log4Net.Info($"Meteor {stage}: PiGetPccStatus({resolvedPccNum}) 返回 {ret}");
+                    return;
+                }
+
+                FieldInfo fiBmStatus = typePccStatus.GetField("bmStatusBits", BindingFlags.Public | BindingFlags.Instance);
+                FieldInfo fiBmStatus2 = typePccStatus.GetField("bmStatusBits2", BindingFlags.Public | BindingFlags.Instance);
+                FieldInfo fiAbsXCount = typePccStatus.GetField("AbsXCount", BindingFlags.Public | BindingFlags.Instance);
+                FieldInfo fiEncoderCount = typePccStatus.GetField("EncoderCount", BindingFlags.Public | BindingFlags.Instance);
+                int bmStatusBits = fiBmStatus != null ? Convert.ToInt32(fiBmStatus.GetValue(args[1])) : 0;
+                int bmStatusBits2 = fiBmStatus2 != null ? Convert.ToInt32(fiBmStatus2.GetValue(args[1])) : 0;
+                int absXCount = fiAbsXCount != null ? Convert.ToInt32(fiAbsXCount.GetValue(args[1])) : int.MinValue;
+                int encoderCount = fiEncoderCount != null ? Convert.ToInt32(fiEncoderCount.GetValue(args[1])) : int.MinValue;
+                uint absXCount24 = (uint)absXCount & 0x00FFFFFF;
+                Log4Net.Info($"Meteor {stage}: PCC={resolvedPccNum} bmStatusBits=0x{bmStatusBits:X8} bmStatusBits2=0x{bmStatusBits2:X8} AbsXCount={absXCount} AbsXCount24=0x{absXCount24:X6} EncoderCount={encoderCount}");
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"Meteor {stage}: LogPccStatus exception: {ex.Message}");
+            }
+        }
+
+        // MeteorSwathConnect/MeteorSwathDisconnect 在扫描引擎独??DLL 中，不在 PrinterInterface.dll；喷头上??闪喷仅用 PiSetHeadPower/PiSetSignal 不受影响??
+
+        /// <summary>喷头上电状态：供外部按??界面绑定。设??true 时执??PCC 空闲检查后调用 PiSetHeadPower(1)，设??false 时调??PiSetHeadPower(0)??/summary>
+        private static bool _headPowerOn;
+        public static bool HeadPowerOn
+        {
+            get => _headPowerOn;
+            set
+            {
+                if (_headPowerOn == value) return;
+                lock (SyncRoot)
+                {
+                    if (!EnsureRuntimeReady() || !EnsurePrinterOpened())
+                    {
+                        Log4Net.Info("Meteor HeadPowerOn: runtime or printer not ready; skip head power on");
+                        return;
+                    }
+                    if (value)
+                    {
+                        if (!TryEnsurePccIdleBeforeHeadPower(1))
+                        {
+                            Log4Net.Info("Meteor HeadPowerOn: PCC1 not ready or disconnected; skip head power on");
+                            _headPowerOn = false;
+                            return;
+                        }
+                        _headPowerOn = TrySetHeadPower(true);
+                    }
+                    else
+                    {
+                        _headPowerOn = false;
+                        TrySetHeadPower(false);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 记录作业参数并复??Meteor 扫描状态标志；不下??PiSetHome/STARTJOB??
+        /// PiSetHome 在 <see cref="SendStartJob"/> 发 STARTJOB 之前执行（暂停位=Home 时对齐 AbsX）。
+        /// </summary>
+        public static int StartJob(ref royal.PRTJOB_ITEM jobItem)
+        {
+            if (!EnsureRuntimeReady())
+                return MeteorRuntimeNotReadyCode;
+            if (!EnsurePrinterOpened())
+                return MeteorApiInvokeFailedCode;
+            if (!_useNativePath)
+            {
+                Log4Net.Info("Meteor StartJob: only supported on native PrinterInterface path");
+                return 0;
+            }
+            lock (SyncRoot)
+            {
+                uint jobId = jobItem.nJobID > 0 ? (uint)jobItem.nJobID : 100u;
+                uint imageWidth = _pendingScanJobWidth > 0 ? _pendingScanJobWidth : 1;
+                _scanJobStarted = false;
+                _homeCommandIssued = false;
+                // 勿清 _pass0SubmitGateConsumedForCurrentJob：RenderToWic 已 WaitReleased 后紧接 StartJob+SendStartJob 时，
+                // WriteImageLayer:FirstStartScan 需 SkipDuplicateWait，否则会二次 Wait 已 Reset 的门控导致死锁、Meteor 无 swath。
+                ResetPass0FirstSwathMeteorReady();
+                ResetPass0DualCoordScanAnchors();
+                ResetPassImageXStartAnchors();
+                for (int i = 1; i < _passSwathMeteorReady.Length; i++)
+                    ResetPassSwathMeteorReady(i);
+                _scanJobStartXEncPosUm = GetScanJobStartXEncPosUm(jobItem.nPrtXEncPos);
+                Log4Net.Info($"Meteor StartJob: context reset JobId={jobId} pendingWidth={imageWidth} jobNprtXEncPos={jobItem.nPrtXEncPos} scanAnchorUm={_scanJobStartXEncPosUm} (0=near-zero xStart for 425→25 scan); PiSetHome at pause; piSetHomeAtSendStartJob={IsPiSetHomeAtJobStartEnabled()}");
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Swath 扫描模式开始作业：暂停位/Home 处 PiSetHome（可选）→ PCMD_STARTJOB（与 HiPrint、Meteor 说明书一致）。
+        /// 不在首条 STARTSCAN 之后再 Home，避免首 PD 后 AbsX 被二次清零。
+        /// </summary>
+        public static bool SendStartJob(int reserved, uint imageWidth)
+        {
+            if (!EnsureRuntimeReady() || !EnsurePrinterOpened() || !_useNativePath)
+            {
+                Log4Net.Info("Meteor SendStartJob: runtime/printer not ready or not native path; skipped");
+                return false;
+            }
+            lock (SyncRoot)
+            {
+                if (_scanJobStarted)
+                {
+                    Log4Net.Info($"Meteor SendStartJob: 已经启动过作业，忽略重复 StartJob。imageWidth={imageWidth}");
+                    return true;
+                }
+                uint jobId = 100u; // ??StartJob 默认保持一??
+                uint effectiveWidth = imageWidth > 0 ? imageWidth : 1;
+
+                if (IsPiSetHomeAtJobStartEnabled())
+                {
+                    LogPccStatus("SendStartJob-BeforePiSetHome");
+                    if (!TrySetHome())
+                    {
+                        Log4Net.Info("Meteor SendStartJob: PiSetHome failed at pause/home position; abort STARTJOB (carriage must be stationary on home sensor)");
+                        return false;
+                    }
+                    LogPccStatus("SendStartJob-AfterPiSetHome");
+                }
+                else
+                {
+                    Log4Net.Info("Meteor SendStartJob: PiSetHome skipped (METEOR_PISET_HOME_AT_JOB_START disabled)");
+                }
+
+                if (!TrySetMeteorBidiXAdjust(400))
+                {
+                    Log4Net.Info("Meteor SendStartJob: CCP_BIDI_XADJUST set failed; continue STARTJOB for diagnostics.");
+                }
+
+                Log4Net.Info($"[MeteorSubmit] marker=BeforePCMD_STARTJOB JobId={jobId} imageWidth={effectiveWidth} note=JT_SCAN docWidth ignored by Meteor unless PD lockout managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
+                ResetPass0FirstSwathMeteorReady();
+                ResetPass0DualCoordScanAnchors();
+                ResetPassImageXStartAnchors();
+                for (int i = 1; i < _passSwathMeteorReady.Length; i++)
+                    ResetPassSwathMeteorReady(i);
+                ResetDeferredEndJobState();
+                uint[] cmd = { PCMD_STARTJOB, 4, jobId, JT_SCAN, RES_HIGH, effectiveWidth };
+                int r = DoSendCommand(cmd);
+                int scanTravelPxHint = GetScanTravelWidthPixels(400);
+                Log4Net.Info($"Meteor SendStartJob: PCMD_STARTJOB JobId={jobId} imageWidth={effectiveWidth} r={r} scanTravelHintMm={GetScanTravelMm()} scanTravelHintPx={scanTravelPxHint} (actual pass travel=encoder during STARTSCAN, not STARTJOB width)");
+                LogPccStatus("SendStartJob-AfterStartJobCmd");
+                if (r != RVAL_OK)
+                    return false;
+
+                _scanJobStarted = true;
+                _pendingScanJobWidth = effectiveWidth;
+                _startJobUtc = DateTime.UtcNow;
+                return true;
+            }
+        }
+
+        /// <summary>自最近一??STARTJOB 起至少等??minMs 再启动打印扫描，避免 X 轴在 CLEAR_HALT 前运动导??PASS0 无图??/summary>
+        public static void WaitUntilMinElapsedAfterStartJob(int minMs = 0)
+        {
+            if (minMs <= 0)
+                minMs = GetMinMsAfterStartJobForPiSetHome();
+            lock (SyncRoot)
+            {
+                if (!_startJobUtc.HasValue || minMs <= 0)
+                    return;
+                double elapsedMs = (DateTime.UtcNow - _startJobUtc.Value).TotalMilliseconds;
+                int sleepMs = (int)Math.Max(0, minMs - elapsedMs);
+                if (sleepMs > 0)
+                {
+                    Log4Net.Info($"Meteor WaitUntilMinElapsedAfterStartJob: elapsed {elapsedMs:F0}ms after STARTJOB, sleep {sleepMs}ms to reach >= {minMs}ms before scan start");
+                    System.Threading.Thread.Sleep(sleepMs);
+                }
+            }
+        }
+
+        /// <summary>兼容旧接口：Swath 每条带开始（STARTSCAN），forward=true 表示正向??/summary>
+        public static bool SendStartScan(bool forward)
+        {
+            if (!EnsureRuntimeReady() || !EnsurePrinterOpened() || !_useNativePath)
+            {
+                Log4Net.Info("Meteor SendStartScan: runtime/printer not ready or not native path; skipped");
+                return false;
+            }
+            lock (SyncRoot)
+            {
+                uint[] cmd = { PCMD_STARTSCAN, 1, forward ? SD_FWD : SD_REV };
+                int r = DoSendCommand(cmd);
+                // 仅在失败时打更明显日志，避免刷屏
+                if (r != RVAL_OK)
+                    Log4Net.Info($"Meteor SendStartScan: r={r} forward={forward}");
+                return r == RVAL_OK;
+            }
+        }
+
+        /// <summary>兼容旧接口：Swath 每条带结束（ENDDOC）??/summary>
+        public static bool SendEndDoc()
+        {
+            if (!EnsureRuntimeReady() || !EnsurePrinterOpened() || !_useNativePath)
+            {
+                Log4Net.Info("Meteor SendEndDoc: runtime/printer not ready or not native path; skipped");
+                return false;
+            }
+            lock (SyncRoot)
+            {
+                uint[] endDoc = { PCMD_ENDDOC, 0 };
+                int r = DoSendCommand(endDoc);
+                if (r != RVAL_OK)
+                    Log4Net.Info($"Meteor SendEndDoc: r={r}");
+                return r == RVAL_OK;
+            }
+        }
+
+        /// <summary>兼容旧接口：Swath 整层/整作业结束（ENDJOB）??/summary>
+        public static bool SendEndJob()
+        {
+            int r = EndJob();
+            return r == 0;
+        }
+
+        /// <summary>在所有图层发送完毕后调用，发??PCMD_ENDJOB 结束作业??/summary>
+        public static int EndJob()
+        {
+            if (!EnsureRuntimeReady() || !EnsurePrinterOpened())
+                return MeteorApiInvokeFailedCode;
+            if (!_useNativePath)
+            {
+                Log4Net.Info("Meteor EndJob: only supported on native PrinterInterface path");
+                return -1;
+            }
+            int outcome;
+            lock (SyncRoot)
+            {
+                uint[] endJob = { PCMD_ENDJOB, 0 };
+                int r = DoSendCommand(endJob);
+                if (r == RVAL_OK)
+                {
+                    Log4Net.Info("Meteor EndJob: PCMD_ENDJOB sent");
+                    _scanJobStarted = false;
+                    _pendingScanJobWidth = 1;
+                    _homeCommandIssued = false;
+                    _startJobUtc = null;
+                    LogPccStatus("EndJob-AfterCommand");
+                }
+                outcome = r == RVAL_OK ? 0 : r;
+            }
+            if (outcome == 0)
+                ResetPass0GateAfterMeteorJobEnd();
+            return outcome;
+        }
+
+        public static int WriteImageLayer(ref royal.LPPRTIMG_LAYER layer, IntPtr imgPtr, int bytes)
+        {
+            if (!EnsureRuntimeReady())
+                return MeteorRuntimeNotReadyCode;
+            if (!EnsurePrinterOpened())
+                return MeteorApiInvokeFailedCode;
+            if (!_useNativePath)
+            {
+                Log4Net.Info("Meteor WriteImageLayer: only supported on native PrinterInterface path");
+                return 1;
+            }
+            if (imgPtr == IntPtr.Zero || bytes <= 0 || layer.nWidth <= 0 || layer.nHeight <= 0)
+                return -110001;
+
+            Log4Net.Info($"Meteor WriteImageLayer: enter layer={layer.nLayerIndex} width={layer.nWidth} height={layer.nHeight} bytes={bytes} nBytesPerLine={layer.nBytesPerLine} nPrtDir={layer.nPrtDir} imgPtr=0x{imgPtr.ToInt64():X} threadId={System.Threading.Thread.CurrentThread.ManagedThreadId}");
+            lock (SyncRoot)
+            {
+                Log4Net.Info($"Meteor WriteImageLayer: lock acquired layer={layer.nLayerIndex} width={layer.nWidth} height={layer.nHeight} bytes={bytes} nBytesPerLine={layer.nBytesPerLine} threadId={System.Threading.Thread.CurrentThread.ManagedThreadId}");
+                bool needFirstHomeAfterStartScan = _scanJobStarted && !_homeCommandIssued;
+                PccMotionSnapshot initialMotionBaseline = default;
+                bool hasInitialMotionBaseline = false;
+                if (needFirstHomeAfterStartScan)
+                {
+                    if (_pass0SubmitGateConsumedForCurrentJob)
+                        Log4Net.Info($"[MeteorScanGate] SkipDuplicateWait stage=WriteImageLayer:FirstStartScan layer={layer.nLayerIndex} reason=pass0 gate already released before STARTJOB");
+                    else
+                        WaitPass0GateBeforeMeteorSubmitIfEnabled("WriteImageLayer:FirstStartScan", layer.nLayerIndex, layer.nLayerIndex);
+                    int minGapMs = GetMinMsAfterStartJobForPiSetHome();
+                    if (_startJobUtc.HasValue && minGapMs > 0)
+                    {
+                        bool skipFirstStartScanDelayForHiPrintCompat = IsHiPrintChainCompatModeEnabled() && ShouldSkipStartJobDelayForHiPrintCompat();
+                        if (skipFirstStartScanDelayForHiPrintCompat)
+                        {
+                            double elapsedMs = (DateTime.UtcNow - _startJobUtc.Value).TotalMilliseconds;
+                            Log4Net.Info($"Meteor WriteImageLayer: HiPrintCompat skip first STARTSCAN delay elapsed={elapsedMs:F0}ms configuredMinGapMs={minGapMs} note=METEOR_HIPRINT_SKIP_STARTJOB_DELAY=1");
+                        }
+                        else
+                        {
+                            double elapsedMs = (DateTime.UtcNow - _startJobUtc.Value).TotalMilliseconds;
+                            int sleepMs = (int)Math.Max(0, minGapMs - elapsedMs);
+                            if (sleepMs > 0)
+                            {
+                                Log4Net.Info($"Meteor WriteImageLayer: elapsed {elapsedMs:F0}ms after STARTJOB, need >= {minGapMs}ms before first STARTSCAN; extra sleep {sleepMs}ms");
+                                System.Threading.Thread.Sleep(sleepMs);
+                            }
+                        }
+                    }
+
+                    hasInitialMotionBaseline = TryGetPccMotionSnapshot(1, out initialMotionBaseline) && initialMotionBaseline.Valid;
+                    if (hasInitialMotionBaseline)
+                    {
+                        bool scanModeActive = TryIsScanningModeActive(out int controlWord);
+                        Log4Net.Info($"[MeteorScanMotionGate] BaselineCaptured stage=WriteImageLayer-BeforeFirstStartScan pcc={initialMotionBaseline.PccNum} scanMode={(scanModeActive ? "On" : "OffOrUnknown")} control=0x{controlWord:X8} absX={initialMotionBaseline.AbsXCount} encoder={initialMotionBaseline.EncoderCount} utc={DateTime.UtcNow:O}");
+                    }
+                    else
+                    {
+                        Log4Net.Info("[MeteorScanMotionGate] BaselineMissing stage=WriteImageLayer-BeforeFirstStartScan note=unable to read PCC state");
+                    }
+                }
+                int bitsPerPixel = layer.nWidth > 0 ? (layer.nBytesPerLine * 8) / layer.nWidth : 1;
+                if (bitsPerPixel < 1) bitsPerPixel = 1;
+                int actualWidth = layer.nWidth;
+                int paddedWidth = ((actualWidth + 31) / 32) * 32;
+                if (paddedWidth != actualWidth)
+                    Log4Net.Info($"Meteor WriteImageLayer: width padded to DWORD boundary originalWidth={actualWidth} effectiveWidth={paddedWidth} layer={layer.nLayerIndex}");
+                int safeImageXStartMin = GetSafeImageXStartMin();
+                int xDpi = (int)(layer.nXDPI > 0 ? layer.nXDPI : 400);
+                int absXAtSwath = 0;
+                bool hasAbsXAtSwath = TryGetPccMotionSnapshot(1, out PccMotionSnapshot snapAtSwath) && snapAtSwath.Valid;
+                if (hasAbsXAtSwath)
+                    absXAtSwath = GetAbsXCount24Signed(snapAtSwath.AbsXCount);
+                int pendingPass = Math.Max(0, Math.Min(_pendingSwathPassIndex, _passImageXStartAbsXAnchor.Length - 1));
+                int scanTravelWidthPx = GetScanTravelWidthPixels(xDpi);
+                bool clampWidthToScanEarly = ShouldClampImageWidthToScanTravel();
+                int printWidthForRevPx = paddedWidth;
+                if (clampWidthToScanEarly && printWidthForRevPx > scanTravelWidthPx)
+                    printWidthForRevPx = scanTravelWidthPx;
+                bool useUnifiedRevXStart = ShouldUseUnifiedAlignImageXStart()
+                    && _jobUnifiedImageXStartValid
+                    && pendingPass > 0
+                    && layer.nPrtDir != 1
+                    && !needFirstHomeAfterStartScan;
+                int fixedFwdXStartPx = 0;
+                bool useFixedFwdXStart = !useUnifiedRevXStart
+                    && TryGetFixedFwdImageXStartAbsXPixels(xDpi, out fixedFwdXStartPx);
+                bool useLiveAbsXForFwd = ShouldUseLiveAbsXForImageXStart()
+                    && !useUnifiedRevXStart && !useFixedFwdXStart
+                    && (pendingPass == 0 || layer.nPrtDir == 1)
+                    && !(IsBatchSwathModeEnabled() && pendingPass > 0);
+                int revPdAlignOffsetPx = useUnifiedRevXStart ? GetImageXStartRevPdAlignOffsetPixels(xDpi) : 0;
+                int imageXStartBasePixels = useUnifiedRevXStart
+                    ? Math.Max(0, _jobUnifiedImageXStartAbsX + printWidthForRevPx + revPdAlignOffsetPx)
+                    : useFixedFwdXStart
+                        ? fixedFwdXStartPx
+                        : useLiveAbsXForFwd
+                            ? (pendingPass == 0
+                                ? Math.Max(0, absXAtSwath)
+                                : ResolveLiveFwdImageXStartBasePixels(pendingPass, absXAtSwath))
+                            : GetImageXStartBasePixels(xDpi);
+                if (needFirstHomeAfterStartScan && ShouldUseUnifiedAlignImageXStart() && imageXStartBasePixels > 64)
+                {
+                    _jobUnifiedImageXStartAbsX = imageXStartBasePixels;
+                    _jobUnifiedImageXStartValid = true;
+                    Log4Net.Info($"[MeteorXStart] JobUnifiedAlignFwdBase captured={imageXStartBasePixels} fromPass0FirstSwath utc={DateTime.UtcNow:O}");
+                }
+                else if (needFirstHomeAfterStartScan && ShouldUseUnifiedAlignImageXStart() && imageXStartBasePixels <= 64)
+                {
+                    Log4Net.Info($"[MeteorXStart] JobUnifiedAlignFwdBaseSkipped invalidBase={imageXStartBasePixels} liveAbsX={absXAtSwath} passIndex={pendingPass} utc={DateTime.UtcNow:O}");
+                }
+                int imageXStartFineOffset = Math.Max(0, layer.nXEncOff - 1);
+                int imageXStartOffsetPx = GetImageXStartOffsetPixels(xDpi);
+                int leadInOffsetPx = layer.nPrtDir == 1 ? imageXStartOffsetPx : 0;
+                int imageXStart = Math.Max(safeImageXStartMin, imageXStartBasePixels + imageXStartFineOffset + leadInOffsetPx);
+                if (pendingPass >= 2 && layer.nPrtDir == 1 && imageXStart <= leadInOffsetPx + 64)
+                {
+                    int fallbackBase = 0;
+                    if (_passScanEndAbsXValid[1])
+                        fallbackBase = Math.Max(fallbackBase, _passScanEndAbsX[1]);
+                    if (_passImageXStartAbsXAnchorValid[pendingPass])
+                        fallbackBase = Math.Max(fallbackBase, _passImageXStartAbsXAnchor[pendingPass]);
+                    if (_jobUnifiedImageXStartValid)
+                        fallbackBase = Math.Max(fallbackBase, _jobUnifiedImageXStartAbsX);
+                    if (fallbackBase > imageXStartBasePixels)
+                    {
+                        Log4Net.Info($"[MeteorXStart] Pass2XStartFallback badBase={imageXStartBasePixels} fallbackBase={fallbackBase} liveAbsX={absXAtSwath} passIndex={pendingPass} utc={DateTime.UtcNow:O}");
+                        imageXStartBasePixels = fallbackBase;
+                        imageXStart = Math.Max(safeImageXStartMin, imageXStartBasePixels + imageXStartFineOffset + leadInOffsetPx);
+                    }
+                }
+                if (useFixedFwdXStart)
+                    Log4Net.Info($"[MeteorXStart] FixedFwdXStart absPx={imageXStartBasePixels} absMm≈{AbsXCountToMm(imageXStartBasePixels, xDpi):F1} passIndex={pendingPass} utc={DateTime.UtcNow:O}");
+                if (leadInOffsetPx != 0)
+                    Log4Net.Info($"[MeteorXStart] XStartOffsetApplied offsetPx={leadInOffsetPx} offsetMm≈{AbsXCountToMm(leadInOffsetPx, xDpi):F1} baseBeforeOffset={imageXStartBasePixels + imageXStartFineOffset} final={imageXStart} passIndex={pendingPass} utc={DateTime.UtcNow:O}");
+                if (useUnifiedRevXStart && layer.nPrtDir != 1)
+                    Log4Net.Info($"[MeteorXStart] UnifiedAlignRevXStart fwdBase={_jobUnifiedImageXStartAbsX} printWidthPx={printWidthForRevPx} revPdAlignOffsetPx={revPdAlignOffsetPx} revBase={imageXStartBasePixels} passIndex={pendingPass} utc={DateTime.UtcNow:O}");
+                if (useLiveAbsXForFwd && pendingPass > 0 && layer.nPrtDir == 1)
+                    Log4Net.Info($"[MeteorXStart] LiveFwdPassXStart passIndex={pendingPass} liveAbsX={absXAtSwath} passAnchor={(_passImageXStartAbsXAnchorValid[pendingPass] ? _passImageXStartAbsXAnchor[pendingPass].ToString() : "n/a")} pass1EndAbsX={(_passScanEndAbsXValid[1] ? _passScanEndAbsX[1].ToString() : "n/a")} resolvedBase={imageXStartBasePixels} utc={DateTime.UtcNow:O}");
+                bool clampWidthToScan = ShouldClampImageWidthToScanTravel();
+                int printWidthPx = paddedWidth;
+                if (clampWidthToScan && printWidthPx > scanTravelWidthPx)
+                    printWidthPx = scanTravelWidthPx;
+                int imageXReverseDelta = GetImageXReverseStartDelta(paddedWidth);
+                int imageXReverseStart = imageXStart + imageXReverseDelta;
+                bool hiPrintCompatMode = IsHiPrintChainCompatModeEnabled();
+                string requestedScanDir = layer.nPrtDir == 1 ? "FWD" : "REV";
+                uint startScanDir = (layer.nPrtDir == 1) ? SD_FWD : SD_REV;
+                bool flipPass0StartScanDirForValidation = hiPrintCompatMode && pendingPass == 0 && ShouldFlipPass0StartScanDir();
+                if (flipPass0StartScanDirForValidation)
+                    startScanDir = startScanDir == SD_FWD ? SD_REV : SD_FWD;
+                string actualScanDir = startScanDir == SD_FWD ? "FWD" : "REV";
+                int scanLowPxForLog = 0;
+                int scanHighPxForLog = 0;
+                int hiPrintBaseForLog = 0;
+                int hiPrintRevForLog = 0;
+                string xStartAnchorMode = "n/a";
+                if (hiPrintCompatMode)
+                {
+                    imageXStart = Math.Max(safeImageXStartMin, GetImageXStartBasePixels(xDpi));
+                    imageXReverseStart = imageXStart + printWidthPx;
+                }
+                int printRowWordCount = ((printWidthPx * bitsPerPixel) + 31) / 32;
+                int printImageWordCount = layer.nHeight * printRowWordCount;
+                bool unifiedAlignX = useLiveAbsXForFwd || useUnifiedRevXStart || useFixedFwdXStart;
+                int imageCmdXStart = hiPrintCompatMode
+                    ? ResolveHiPrintCompatImageCmdXStart(
+                        xDpi, printWidthPx, safeImageXStartMin, startScanDir,
+                        flipPass0StartScanDirForValidation, pendingPass,
+                        absXAtSwath, hasAbsXAtSwath,
+                        out scanLowPxForLog, out scanHighPxForLog, out hiPrintBaseForLog, out hiPrintRevForLog,
+                        out xStartAnchorMode)
+                    : ResolveImageCmdXStart(imageXStart, imageXReverseStart, layer.nPrtDir, unifiedAlignX);
+                if (TryGetForcedImageXStartPixels(startScanDir, out int forcedImageXStartPx))
+                {
+                    int originalImageCmdXStart = imageCmdXStart;
+                    imageCmdXStart = Math.Max(safeImageXStartMin, forcedImageXStartPx);
+                    Log4Net.Info($"[MeteorXStart] FixedOverride env=METEOR_IMAGE_XSTART_FIXED_FWD_PX/REV_PX original={originalImageCmdXStart} forced={imageCmdXStart} passIndex={pendingPass} requestedScanDir={requestedScanDir} actualScanDir={actualScanDir} utc={DateTime.UtcNow:O}");
+                }
+                if (hiPrintCompatMode)
+                {
+                    Log4Net.Info($"[MeteorXStart] HiPrintCompat baseXStart={hiPrintBaseForLog} hiPrintRevXStart={hiPrintRevForLog} measuredAbsXRange=[{scanLowPxForLog},{scanHighPxForLog}] imageCmdXStart={imageCmdXStart} printWidthPx={printWidthPx} passIndex={pendingPass} requestedScanDir={requestedScanDir} actualScanDir={actualScanDir} pass0DirFlip={flipPass0StartScanDirForValidation} liveAbsX24={absXAtSwath} anchor={xStartAnchorMode} utc={DateTime.UtcNow:O}");
+                }
+                int headerWordCount = 6;
+                int commandWordCount = headerWordCount + printImageWordCount;
+                uint[] cmd = new uint[commandWordCount];
+                double absXmm = hasAbsXAtSwath ? AbsXCountToMm(snapAtSwath.AbsXCount, xDpi) : double.NaN;
+                double scanTravelMm = GetScanTravelMm();
+                double printWidthMm = printWidthPx * 25.4 / xDpi;
+                double xStartMm = AbsXCountToMm(imageCmdXStart, xDpi);
+                int encoderStartNeededPx;
+                int encoderEndNeededPx;
+                if (startScanDir == SD_REV)
+                {
+                    encoderEndNeededPx = imageCmdXStart;
+                    encoderStartNeededPx = imageCmdXStart - printWidthPx;
+                }
+                else
+                {
+                    encoderStartNeededPx = imageCmdXStart;
+                    encoderEndNeededPx = imageCmdXStart + printWidthPx;
+                }
+                int coverageScanLowPx = 0;
+                int coverageScanHighPx = 0;
+                bool hasMeasuredScanRange = pendingPass == 0 && TryGetPass0MeasuredAbsXScanRange(out coverageScanLowPx, out coverageScanHighPx);
+                string coverageRangeSource = hasMeasuredScanRange ? "pass0_measuredAbsX" : "none";
+                if (!hasMeasuredScanRange && scanLowPxForLog > 0 && scanHighPxForLog > scanLowPxForLog)
+                {
+                    coverageScanLowPx = scanLowPxForLog;
+                    coverageScanHighPx = scanHighPxForLog;
+                    hasMeasuredScanRange = true;
+                    coverageRangeSource = "pass0_partialMeasuredAbsX";
+                }
+                bool revRangeInScan = false;
+                bool fwdRangeInScan = false;
+                string coverageNote;
+                int coverageShortfallPx = 0;
+                if (hasMeasuredScanRange)
+                {
+                    revRangeInScan = startScanDir == SD_REV
+                        && encoderStartNeededPx >= coverageScanLowPx - 64
+                        && encoderEndNeededPx <= coverageScanHighPx + 64;
+                    fwdRangeInScan = startScanDir == SD_FWD
+                        && encoderStartNeededPx >= coverageScanLowPx - 64
+                        && encoderEndNeededPx <= coverageScanHighPx + 64;
+                    coverageShortfallPx = startScanDir == SD_REV
+                        ? Math.Max(0, coverageScanLowPx - encoderStartNeededPx)
+                        : Math.Max(0, encoderEndNeededPx - coverageScanHighPx);
+                    coverageNote = (startScanDir == SD_REV ? revRangeInScan : fwdRangeInScan)
+                        ? "OK"
+                        : (clampWidthToScan ? "CLAMPED" : "SHORTFALL");
+                }
+                else
+                {
+                    coverageScanLowPx = hasAbsXAtSwath ? absXAtSwath : 0;
+                    coverageScanHighPx = hasAbsXAtSwath ? absXAtSwath + scanTravelWidthPx : 0;
+                    coverageRangeSource = "liveAbsX_only";
+                    revRangeInScan = startScanDir == SD_REV && hasAbsXAtSwath;
+                    fwdRangeInScan = startScanDir == SD_FWD && hasAbsXAtSwath;
+                    coverageNote = hasAbsXAtSwath ? "UNCALIBRATED_LIVE" : "NO_ABSX";
+                }
+                Log4Net.Info($"[MeteorXCoverage] passIndex={pendingPass} requestedScanDir={requestedScanDir} actualScanDir={actualScanDir} xStart={imageCmdXStart} xStartMm≈{xStartMm:F1} encRange=[{encoderStartNeededPx},{encoderEndNeededPx}] scanRangePx=[{coverageScanLowPx},{coverageScanHighPx}] rangeSource={coverageRangeSource} printWidthPx={printWidthPx} printWidthMm≈{printWidthMm:F1} scanTravelPx={scanTravelWidthPx} scanTravelMm={scanTravelMm:F1} shortfallPx={coverageShortfallPx} shortfallMm≈{AbsXCountToMm(coverageShortfallPx, xDpi):F1} status={coverageNote}");
+                Log4Net.Info($"Meteor WriteImageLayer: swath起点 layer={layer.nLayerIndex} passIndex={pendingPass} nXDPI={xDpi} useFixedFwdXStart={useFixedFwdXStart} useUnifiedRevXStart={useUnifiedRevXStart} unifiedFwdBase={(_jobUnifiedImageXStartValid ? _jobUnifiedImageXStartAbsX.ToString() : "n/a")} usePassAnchor={ShouldUsePassAnchoredAbsXForImageXStart()} passAnchorAbsX={(_passImageXStartAbsXAnchorValid[pendingPass] ? _passImageXStartAbsXAnchor[pendingPass].ToString() : "n/a")} useLiveAbsXForFwd={useLiveAbsXForFwd} pccAbsX={(hasAbsXAtSwath ? snapAtSwath.AbsXCount.ToString() : "n/a")} absX24={absXAtSwath} absXmm≈{(hasAbsXAtSwath ? absXmm.ToString("F1") : "n/a")} nPrtDir={layer.nPrtDir} requestedScanDir={requestedScanDir} actualScanDir={actualScanDir} imageCmdXStart={imageCmdXStart} imageXStart={imageXStart} imageXReverseStart={imageXReverseStart} legacyRevDelta={imageXReverseDelta} paddedWidth={paddedWidth} printWidthPx={printWidthPx} scanTravelWidthPx={scanTravelWidthPx} clampWidth={clampWidthToScan} yJetOff={layer.nYJetOff}");
+                cmd[0] = PCMD_STARTSCAN;
+                cmd[1] = 1;
+                cmd[2] = startScanDir;
+                Log4Net.Info($"[MeteorDirChain] stage=BeforeStartScan passIndex={pendingPass} nPrtDir={layer.nPrtDir} requestedScanDir={requestedScanDir} actualStartScanDir={actualScanDir} startScanCmd=[0x{cmd[0]:X8},0x{cmd[1]:X8},0x{cmd[2]:X8}] imageCmdXStart={imageCmdXStart} printWidthPx={printWidthPx} utc={DateTime.UtcNow:O}");
+                Log4Net.Info($"Meteor WriteImageLayer: sending STARTSCAN layer={layer.nLayerIndex} dir={cmd[2]} requestedDir={(layer.nPrtDir == 1 ? SD_FWD : SD_REV)} actualScanDir={actualScanDir} passIndex={pendingPass} hiPrintCompat={hiPrintCompatMode} pass0DirFlipValidation={flipPass0StartScanDirForValidation} threadId={System.Threading.Thread.CurrentThread.ManagedThreadId}");
+                int r = DoSendCommand(cmd);
+                Log4Net.Info($"Meteor WriteImageLayer: STARTSCAN returned r={r} layer={layer.nLayerIndex}");
+                if (r != RVAL_OK) return r;
+
+                if (needFirstHomeAfterStartScan)
+                {
+                    _homeCommandIssued = true;
+                    LogPccStatus("WriteImageLayer-AfterFirstStartScan");
+                    Log4Net.Info("Meteor WriteImageLayer: first swath STARTSCAN sent; no PiSetHome call here, only marks first-startscan handled");
+                }
+
+                cmd[0] = PCMD_IMAGE;
+                cmd[1] = (uint)(commandWordCount - 2);
+                cmd[2] = 1; // plane
+                cmd[3] = (uint)imageCmdXStart;
+                cmd[4] = (uint)Math.Max(0, layer.nYJetOff);
+                cmd[5] = (uint)printWidthPx;
+                Log4Net.Info($"[MeteorDirChain] stage=BeforeImage passIndex={pendingPass} nPrtDir={layer.nPrtDir} requestedScanDir={requestedScanDir} actualStartScanDir={actualScanDir} imageCmdHeader=[0x{cmd[0]:X8},0x{cmd[1]:X8},0x{cmd[2]:X8},0x{cmd[3]:X8},0x{cmd[4]:X8},0x{cmd[5]:X8}] utc={DateTime.UtcNow:O}");
+                Log4Net.Info($"Meteor WriteImageLayer: IMAGE xStart={cmd[3]} yStart={cmd[4]} width={cmd[5]} layer={layer.nLayerIndex} prtDir={layer.nPrtDir} requestedScanDir={requestedScanDir} actualScanDir={actualScanDir} imageCmdXStart={imageCmdXStart} revDeltaApplied={(imageCmdXStart - imageXStart)} scanTravelHintPx={scanTravelWidthPx}");
+                int bitmapStrideBytes = layer.nBytesPerLine;
+                if (bitsPerPixel == 1)
+                {
+                    byte[] imageBytes = new byte[bytes];
+                    Marshal.Copy(imgPtr, imageBytes, 0, bytes);
+                    string imageTransform = DescribeImageOrientationTransformFlags();
+                    if (!string.Equals(imageTransform, "none", StringComparison.Ordinal))
+                        Log4Net.Info($"Meteor WriteImageLayer: image orientation transform={imageTransform} layer={layer.nLayerIndex} passIndex={pendingPass} height={layer.nHeight} width={Math.Min(actualWidth, printWidthPx)}");
+                    PackImageRowsToCommandBuffer(imageBytes, bitmapStrideBytes, Math.Min(actualWidth, printWidthPx), layer.nHeight, cmd, headerWordCount, printRowWordCount);
+                }
+                else
+                {
+                    bool flipVertically = ShouldFlipImageRowsVertically();
+                    bool flipHorizontally = ShouldFlipImageColumnsHorizontally();
+                    string imageTransform = DescribeImageOrientationTransformFlags();
+                    if (!string.Equals(imageTransform, "none", StringComparison.Ordinal))
+                        Log4Net.Info($"Meteor WriteImageLayer: image orientation transform={imageTransform} layer={layer.nLayerIndex} passIndex={pendingPass} height={layer.nHeight}");
+                    int sourceWordCount = Math.Min(printRowWordCount, (bitmapStrideBytes + 3) / 4);
+                    for (int y = 0; y < layer.nHeight; y++)
+                    {
+                        int srcRow = MapSourceImageRowIndex(y, layer.nHeight, flipVertically);
+                        int srcOffset = srcRow * bitmapStrideBytes;
+                        int dstBase = headerWordCount + y * printRowWordCount;
+                        for (int x = 0; x < printRowWordCount; x++)
+                        {
+                            int srcWordIndex = flipHorizontally ? (sourceWordCount - 1 - x) : x;
+                            if (srcWordIndex >= 0 && srcWordIndex < sourceWordCount && srcOffset + (srcWordIndex + 1) * 4 <= bytes && dstBase + x < commandWordCount)
+                                cmd[dstBase + x] = (uint)Marshal.ReadInt32(imgPtr, srcOffset + srcWordIndex * 4);
+                            else if (dstBase + x < commandWordCount)
+                                cmd[dstBase + x] = 0;
+                        }
+                    }
+                }
+                if (!WaitForCommandSpace((uint)cmd.Length, $"WriteImageLayer IMAGE layer={layer.nLayerIndex}"))
+                {
+                    Log4Net.Info($"Meteor WriteImageLayer: IMAGE 前命令空间不足，放弃发??layer={layer.nLayerIndex} requiredDwords={cmd.Length}");
+                    return -200102;
+                }
+                Log4Net.Info($"Meteor WriteImageLayer: sending IMAGE layer={layer.nLayerIndex} totalDwords={commandWordCount} threadId={System.Threading.Thread.CurrentThread.ManagedThreadId}");
+                r = DoSendCommand(cmd);
+                Log4Net.Info($"Meteor WriteImageLayer: IMAGE returned r={r} layer={layer.nLayerIndex}");
+                if (r != RVAL_OK) return r;
+
+                uint[] endDoc = { PCMD_ENDDOC, 0 };
+                Log4Net.Info($"Meteor WriteImageLayer: sending ENDDOC layer={layer.nLayerIndex} threadId={System.Threading.Thread.CurrentThread.ManagedThreadId}");
+                r = DoSendCommand(endDoc);
+                Log4Net.Info($"Meteor WriteImageLayer: ENDDOC returned r={r} layer={layer.nLayerIndex}");
+                if (r != RVAL_OK) return r;
+                Log4Net.Info($"Meteor WriteImageLayer: PCMD_STARTSCAN+IMAGE+ENDDOC Layer={layer.nLayerIndex} {layer.nWidth}x{layer.nHeight} bpp={bitsPerPixel} sent");
+                if (_scanJobStarted && !_pass0FirstSwathMeteorSignaled)
+                    SignalPass0FirstSwathMeteorReadyIfNeeded("WriteImageLayer:FirstSwathEndDoc");
+                SignalPassSwathMeteorReadyIfNeeded(_pendingSwathPassIndex, "WriteImageLayer:SwathEndDoc");
+                return 1; // 调用方以 nRet > 0 判断成功
+            }
+        }
+        public static bool TryGetPassItem(uint layerIndex, int passId, ref royal.LPPassDataItem passData)
+        {
+            if (!EnsureRuntimeReady() || !EnsurePrinterOpened() || passId < 0)
+            {
+                // 失败时把 procState 置为 3，避免上??while 循环无穷等待
+                passData.nProcState = 3;
+                return false;
+            }
+
+            bool ok = false;
+            try
+            {
+                ok = royal.royal.IDP_GetPassItem2(layerIndex, passId, ref passData);
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"Meteor TryGetPassItem: 调用 IDP_GetPassItem2 异常：{ex.Message}");
+                passData.nProcState = 3;
+                return false;
+            }
+
+            // 把真实的有效数据打印出来，便于你确认“为什么不喷??
+            Log4Net.Info(
+                $"Meteor TryGetPassItem: layerIndex={layerIndex} passId={passId} ok={ok} " +
+                $"nProcState={passData.nProcState} " +
+                $"nValidPassJets={passData.nValidPassJets} " +
+                $"nValidPrtCols={passData.nValidPrtCols} " +
+                $"nValidPrtCtlCnts={passData.nValidPrtCtlCnts} " +
+                $"nMinJet0ImgLinePos={passData.nMinJet0ImgLinePos} " +
+                $"nPrtPrecession={passData.nPrtPrecession} " +
+                $"nStartEncPos={passData.nStartEncPos}"
+            );
+
+            if (!ok)
+            {
+                // 失败时同样置??3，避免上??while 循环卡死
+                passData.nProcState = 3;
+            }
+
+            return ok;
+        }
+
+        /// <summary>触发扫描推进（强??Product Detect）。扫描打印时用于推进到下一扫描行，等效设置 home 位置??/summary>
+        public static bool TriggerPass(uint layerIndex, int passId)
+        {
+            if (!EnsureRuntimeReady() || !EnsurePrinterOpened())
+                return false;
+            lock (SyncRoot)
+            {
+                return TryPiSetSignal((int)SIG_FORCEPD, 1);
+            }
+        }
+
+        /// <summary>PureMeteor ForcePD：默认仅 Pass2（Pass1 REV 靠 natural PD）。METEOR_PURE_METEOR_TRIGGER_PASS=1/all 含 Pass1；=0 关闭。</summary>
+        private static bool ShouldTriggerPassForPureMeteorPass(int passIndex)
+        {
+            if (passIndex <= 0)
+                return false;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_PURE_METEOR_TRIGGER_PASS");
+                if (!string.IsNullOrWhiteSpace(env))
+                {
+                    string t = env.Trim();
+                    if (string.Equals(t, "0", StringComparison.Ordinal) || string.Equals(t, "false", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "off", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "no", StringComparison.OrdinalIgnoreCase))
+                        return false;
+                    if (string.Equals(t, "1", StringComparison.Ordinal) || string.Equals(t, "true", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "all", StringComparison.OrdinalIgnoreCase) || string.Equals(t, "on", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(t, "yes", StringComparison.OrdinalIgnoreCase))
+                        return passIndex >= 1;
+                    if (string.Equals(t, "2", StringComparison.Ordinal) || string.Equals(t, "pass2", StringComparison.OrdinalIgnoreCase))
+                        return passIndex >= 2;
+                }
+            }
+            catch { }
+            return passIndex >= 2;
+        }
+
+        private static int GetPureMeteorTriggerDelayMs()
+        {
+            const int defaultDelayMs = 200;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_PURE_METEOR_TRIGGER_DELAY_MS");
+                if (!string.IsNullOrWhiteSpace(env) && int.TryParse(env.Trim(), out int ms))
+                    return Math.Max(0, Math.Min(ms, 3000));
+            }
+            catch { }
+            return defaultDelayMs;
+        }
+
+        /// <summary>swath 已 ENDDOC 且扫程起点停稳后调用：默认仅 Pass2 ForcePD，再启动 X 扫程。</summary>
+        public static bool TriggerPassForPureMeteorSchedule(uint layerIndex, int passId, string motionStage)
+        {
+            if (passId <= 0)
+                return true;
+            if (!ShouldTriggerPassForPureMeteorPass(passId))
+            {
+                Log4Net.Info($"[MeteorScanGate] PureMeteorTriggerPassSkipped passId={passId} layer={layerIndex} stage={motionStage} utc={DateTime.UtcNow:O}");
+                return true;
+            }
+            int delayMs = GetPureMeteorTriggerDelayMs();
+            if (delayMs > 0)
+            {
+                Log4Net.Info($"[MeteorScanGate] PureMeteorTriggerPassDelay passId={passId} layer={layerIndex} stage={motionStage} delayMs={delayMs} utc={DateTime.UtcNow:O}");
+                Thread.Sleep(delayMs);
+            }
+            Log4Net.Info($"[MeteorScanGate] PureMeteorTriggerPassBegin passId={passId} layer={layerIndex} stage={motionStage} utc={DateTime.UtcNow:O}");
+            LogPccStatus($"PureMeteorTriggerPass-BeforeForcePD-P{passId}");
+            bool ok = TriggerPass(layerIndex, passId);
+            LogPccStatus($"PureMeteorTriggerPass-AfterForcePD-P{passId}");
+            Log4Net.Info($"[MeteorScanGate] PureMeteorTriggerPassEnd passId={passId} layer={layerIndex} stage={motionStage} ok={ok} utc={DateTime.UtcNow:O}");
+            return ok;
+        }
+
+        public static bool GetPrintState(ref royal.LPPrtRunInfo runInfo)
+        {
+            if (!EnsureRuntimeReady())
+            {
+                return false;
+            }
+
+            if (!EnsurePrinterOpened())
+            {
+                return false;
+            }
+
+            // TODO: map PiGetStatusEx result to LPPrtRunInfo.
+            return true;
+        }
+
+        /// <summary>终止当前打印作业：先 PiAbort 停止任务，不关闭打印机连接以便可重新启动作业??/summary>
+        public static bool StopJob()
+        {
+            if (!EnsureRuntimeReady())
+                return false;
+            bool resetPass0GateAfter = false;
+            bool ok;
+            lock (SyncRoot)
+            {
+                if (_useNativePath)
+                {
+                    int ret = NativePiAbort();
+                    if (ret == RVAL_OK)
+                        Log4Net.Info("Meteor StopJob: PiAbort executed; print job stopped");
+                    _scanJobStarted = false;
+                    _pendingScanJobWidth = 1;
+                    _homeCommandIssued = false;
+                    _startJobUtc = null;
+                    resetPass0GateAfter = true;
+                    ok = ret == RVAL_OK;
+                }
+                else if (!_printerOpened || _printerInterfaceInstance == null || _printerInterfaceType == null)
+                {
+                    ok = true;
+                }
+                else
+                {
+                    ok = false;
+                    try
+                    {
+                        MethodInfo closeMethod = _printerInterfaceType.GetMethod("PiClosePrinter", BindingFlags.Public | BindingFlags.Instance);
+                        if (closeMethod != null)
+                        {
+                            object result = closeMethod.Invoke(_printerInterfaceInstance, null);
+                            int closeCode = Convert.ToInt32(result);
+                            if (closeCode == 0)
+                            {
+                                _printerOpened = false;
+                                _scanJobStarted = false;
+                                _pendingScanJobWidth = 1;
+                                _homeCommandIssued = false;
+                                _startJobUtc = null;
+                                resetPass0GateAfter = true;
+                                ok = true;
+                            }
+                            else
+                            {
+                                Log4Net.Info($"Meteor StopJob failed, PiClosePrinter return code: {closeCode}");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log4Net.Info($"Meteor StopJob exception: {ex}");
+                    }
+                }
+            }
+            if (resetPass0GateAfter)
+                ResetPass0GateAfterMeteorJobEnd();
+            return ok;
+        }
+
+        /// <summary>闪喷信号 ID，参??SUM_CN_PrintEngine_SDK 用户手册??/summary>
+        private const int SIG_SPIT = 0x0B;
+        /// <summary>喷头上电信号 ID（仅当无 PiSetHeadPower 时用 PiSetSignal 占位）??/summary>
+        private const int SIG_HDPOWER = 0x08;
+
+        public static bool SetFlash(bool enable)
+        {
+            if (!EnsureRuntimeReady())
+                return false;
+            if (!EnsurePrinterOpened())
+                return false;
+
+            lock (SyncRoot)
+            {
+                // 原生路径下无 .NET 实例，仅??NativePiSetHeadPower / NativePiSetSignal
+                if (!_useNativePath && (_printerInterfaceInstance == null || _printerInterfaceType == null))
+                    return false;
+
+                try
+                {
+                    if (enable)
+                    {
+                        // 仅触发闪喷，不控制喷头卡上电/断电（由单独喷头上电按钮控制??
+                        int pccnum = 0;
+                        int hnum = 0;
+                        int spitCount = 200;
+                        int signal = SIG_SPIT | (hnum << 8) | (pccnum << 16);
+                        if (!TryPiSetSignal(signal, spitCount))
+                        {
+                            Log4Net.Info("Meteor SetFlash: PiSetSignal failed; please verify PrinterInterfaceCLS availability");
+                            return false;
+                        }
+                        Log4Net.Info($"Meteor SetFlash(true): PiSetSignal sent signal=0x{signal:X}, count={spitCount}; head power unchanged");
+                    }
+                    else
+                    {
+                        // 关闭闪喷：不操作喷头卡电源，仅表示“结束闪喷”状??
+                        Log4Net.Info("Meteor SetFlash(false): flash stopped; head power unchanged");
+                    }
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Log4Net.Info($"Meteor SetFlash exception: {ex}");
+                    return false;
+                }
+            }
+        }
+
+        private static int GetRvalBusyFromAssembly(Type typeRet)
+        {
+            try
+            {
+                if (typeRet != null && Enum.IsDefined(typeRet, "RVAL_BUSY"))
+                    return Convert.ToInt32(Enum.Parse(typeRet, "RVAL_BUSY"));
+                if (typeRet != null && Enum.IsDefined(typeRet, "RCAL_BUSY"))
+                    return Convert.ToInt32(Enum.Parse(typeRet, "RCAL_BUSY"));
+            }
+            catch { }
+            return 1;
+        }
+
+        /// <summary>喷头上电前检查：等待 PCC 状态为 IDLE（等??IsPCCStateIdle）。原生路径下跳过??/summary>
+        private static bool TryEnsurePccIdleBeforeHeadPower(int pccnum)
+        {
+            if (_useNativePath) return true;
+            try
+            {
+                Assembly asm = _printerInterfaceType.Assembly;
+                Type typePccStatus = asm.GetTypes().FirstOrDefault(t => t.Name == "TAppPccStatus");
+                Type typeRet = asm.GetTypes().FirstOrDefault(t => t.Name == "eRET");
+                if (typePccStatus == null || typeRet == null)
+                    return false;
+
+                MethodInfo miGetStatus = _printerInterfaceType.GetMethod("PiGetPccStatus",
+                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static,
+                    null, new Type[] { typeof(int), typePccStatus.MakeByRefType() }, null);
+                if (miGetStatus == null)
+                    return false;
+
+                object target = miGetStatus.IsStatic ? null : _printerInterfaceInstance;
+                FieldInfo fiBmStatus = typePccStatus.GetField("bmStatusBits", BindingFlags.Public | BindingFlags.Instance);
+                if (fiBmStatus == null)
+                    return false;
+
+                Type typeBmps = asm.GetTypes().FirstOrDefault(t => t.Name == "Bmps");
+                Type typePccState = asm.GetTypes().FirstOrDefault(t => t.Name == "ePCCSTATE");
+                if (typeBmps == null || typePccState == null)
+                    return false;
+                FieldInfo fiBmpsPccState = typeBmps.GetField("BMPS_PCC_STATE", BindingFlags.Public | BindingFlags.Static);
+                FieldInfo fiShPccState = typeBmps.GetField("SH_PCC_STATE", BindingFlags.Public | BindingFlags.Static);
+                if (fiBmpsPccState == null || fiShPccState == null)
+                    return false;
+                int bmpsPccState = Convert.ToInt32(fiBmpsPccState.GetValue(null));
+                int shPccState = Convert.ToInt32(fiShPccState.GetValue(null));
+                object psIdle = Enum.Parse(typePccState, "PS_IDLE");
+
+                int rvalBusy = GetRvalBusyFromAssembly(typeRet);
+                int timeout = 0;
+                while (timeout <= 5)
+                {
+                    object pccStatus = Activator.CreateInstance(typePccStatus);
+                    object[] args = new object[] { pccnum, pccStatus };
+                    object result = miGetStatus.Invoke(target, args);
+                    int ret = Convert.ToInt32(result);
+                    if (ret == rvalBusy)
+                    {
+                        System.Threading.Thread.Sleep(100);
+                        timeout++;
+                        continue;
+                    }
+                    if (ret != RVAL_OK)
+                        return false;
+                    object bmVal = fiBmStatus.GetValue(args[1]);
+                    int bmStatusBits = Convert.ToInt32(bmVal);
+                    int pccstateVal = (bmStatusBits & bmpsPccState) >> shPccState;
+                    if (pccstateVal == Convert.ToInt32(psIdle))
+                    {
+                        Log4Net.Info($"Meteor IsPCCStateIdle: pccnum={pccnum} is idle");
+                        return true;
+                    }
+                    System.Threading.Thread.Sleep(100);
+                    timeout++;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"Meteor TryEnsurePccIdleBeforeHeadPower exception: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>9.8 PiSetHeadPower(DWORD State)：State ??0 关闭喷头，非 0 启动喷头。忙时返??RVAL_BUSY，会重试??/summary>
+        private static bool TrySetHeadPower(bool on)
+        {
+            uint state = on ? 1u : 0u;
+            if (_useNativePath)
+            {
+                int ret = NativePiSetHeadPower(state);
+                if (ret == RVAL_OK) { Log4Net.Info($"Meteor PiSetHeadPower({(on ? "on" : "off")}) => OK (native)"); return true; }
+                for (int i = 0; i < 5 && ret == RVAL_BUSY; i++)
+                {
+                    System.Threading.Thread.Sleep(200);
+                    ret = NativePiSetHeadPower(state);
+                    if (ret == RVAL_OK) { Log4Net.Info($"Meteor PiSetHeadPower 原生 重试{i + 1} => OK"); return true; }
+                }
+                Log4Net.Info($"Meteor PiSetHeadPower 原生 返回 {ret}");
+                return false;
+            }
+            try
+            {
+                MethodInfo mi = _printerInterfaceType.GetMethod("PiSetHeadPower", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint) }, null)
+                    ?? _printerInterfaceType.GetMethod("PiSetHeadPower", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(int) }, null);
+                if (mi == null)
+                {
+                    if (TryPiSetSignal(SIG_HDPOWER, on ? 1 : 0))
+                    {
+                        Log4Net.Info($"Meteor 喷头上电(备用): PiSetSignal(SIG_HDPOWER, {(on ? 1 : 0)})");
+                        return true;
+                    }
+                    return false;
+                }
+
+                int ret = Convert.ToInt32(mi.Invoke(_printerInterfaceInstance, new object[] { state }));
+                if (ret == RVAL_OK)
+                {
+                    Log4Net.Info($"Meteor PiSetHeadPower({(on ? "on" : "off")}) => OK");
+                    return true;
+                }
+                if (ret != RVAL_OK)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        System.Threading.Thread.Sleep(200);
+                        ret = Convert.ToInt32(mi.Invoke(_printerInterfaceInstance, new object[] { state }));
+                        if (ret == RVAL_OK)
+                        {
+                            Log4Net.Info($"Meteor PiSetHeadPower({(on ? "on" : "off")}) => OK (retry {i + 1})");
+                            return true;
+                        }
+                    }
+                    Log4Net.Info($"Meteor PiSetHeadPower 返回??OK (??RVAL_BUSY): {ret}");
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"Meteor TrySetHeadPower exception: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>通过反射或原??PiSetSignal(signal, count)??/summary>
+        private static bool TryPiSetSignal(int signal, int count)
+        {
+            if (_useNativePath)
+            {
+                int ret = NativePiSetSignal((uint)signal, (uint)count);
+                if (ret == RVAL_OK) return true;
+                Log4Net.Info($"Meteor PiSetSignal 原生 返回 {ret}");
+                return false;
+            }
+            try
+            {
+                MethodInfo mi = _printerInterfaceType.GetMethod("PiSetSignal", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(int), typeof(int) }, null);
+                if (mi == null)
+                    return false;
+                object result = mi.Invoke(_printerInterfaceInstance, new object[] { signal, count });
+                if (result != null && result is int code)
+                    return code == 0;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"Meteor PiSetSignal exception: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 尝试打开打印机连接，供同程序集内使用??
+        /// </summary>
+        internal static bool EnsurePrinterOpened()
+        {
+            if (!EnsureRuntimeReady())
+                return false;
+            return EnsurePrinterOpenedInternal();
+        }
+
+        private static bool EnsureRuntimeReady()
+        {
+            lock (SyncRoot)
+            {
+                if (_runtimeReady)
+                {
+                    return true;
+                }
+
+                if (_assemblyLoadAttempted)
+                {
+                    return false;
+                }
+
+                _assemblyLoadAttempted = true;
+                TryLoadMeteorAssembly();
+
+                if (!_runtimeReady)
+                {
+                    Log4Net.Info("Meteor runtime not ready: PrinterInterfaceCLS.dll not found or load failed.");
+                }
+
+                return _runtimeReady;
+            }
+        }
+
+        /// <summary>
+        /// 获取用于查找 PrinterInterfaceCLS.dll 的候选目录：先本程序目录，再环境变量/配置，再 C 盘常??Meteor 安装路径??
+        /// </summary>
+        private static string[] GetMeteorSearchPaths()
+        {
+            var list = new List<string>();
+            string appDir = AppDomain.CurrentDomain.BaseDirectory;
+            list.Add(appDir);
+
+            // 环境变量或配置文件中??Meteor 安装根目录（若有??
+            string envPath = Environment.GetEnvironmentVariable("METEOR_HOME");
+            if (string.IsNullOrEmpty(envPath))
+                envPath = Environment.GetEnvironmentVariable("METEOR_INSTALL_PATH");
+            if (!string.IsNullOrEmpty(envPath))
+            {
+                envPath = envPath.TrimEnd('\\', '/');
+                if (Directory.Exists(envPath))
+                    list.Add(envPath);
+            }
+
+            // C 盘常见安装路径（??SimPrint、PrintEngine、Api 等子目录??
+            string[] commonRoots = new[]
+            {
+                @"C:\Program Files\Meteor Inkjet\Meteor\SimPrint",           // 可能含具体实现的 PrinterInterfaceCLS
+                @"C:\Program Files\Meteor Inkjet\Meteor\PrintEngine\amd64",
+                @"C:\Program Files\Meteor Inkjet\Meteor\PrintEngine",
+                @"C:\Program Files\Meteor Inkjet\Meteor\Api\amd64",
+                @"C:\Program Files\Meteor Inkjet\Meteor\Api\x86",
+                @"C:\Program Files\Meteor Inkjet\Meteor",
+                @"C:\Program Files\Meteor Inkjet",
+                @"C:\Program Files\Meteor",
+                @"C:\Program Files (x86)\Meteor",
+                @"C:\Program Files (x86)\Meteor Inkjet\Meteor\Api\x86",
+                @"C:\Program Files\TTP\Meteor",
+                @"C:\Meteor",
+                @"C:\Meteor Inkjet",
+            };
+            foreach (string root in commonRoots)
+            {
+                if (Directory.Exists(root))
+                    list.Add(root);
+            }
+
+            return list.ToArray();
+        }
+
+        /// <summary>收集可能包含 Meteor 依赖/实现 DLL 的目录：DLL 所在目录、多级父目录、以及已有搜索路径??/summary>
+        private static List<string> GetProbeDirectories(string dllDir)
+        {
+            var list = new List<string>();
+            if (!string.IsNullOrEmpty(dllDir))
+            {
+                list.Add(dllDir);
+                string parent = dllDir;
+                for (int i = 0; i < 5; i++)
+                {
+                    parent = Path.GetDirectoryName(parent);
+                    if (string.IsNullOrEmpty(parent) || list.Contains(parent)) break;
+                    list.Add(parent);
+                }
+            }
+            foreach (string dir in GetMeteorSearchPaths())
+            {
+                if (!string.IsNullOrEmpty(dir) && Directory.Exists(dir) && !list.Contains(dir))
+                    list.Add(dir);
+            }
+            return list;
+        }
+
+        private static void TryLoadMeteorAssembly()
+        {
+            try
+            {
+                string[] searchPaths = GetMeteorSearchPaths();
+                string dllPath = null;
+
+                // 首先在每个目录的根目录查??
+                foreach (string dir in searchPaths)
+                {
+                    string candidate = Path.Combine(dir, "PrinterInterfaceCLS.dll");
+                    if (File.Exists(candidate))
+                    {
+                        dllPath = candidate;
+                        Log4Net.Info($"Meteor: found PrinterInterfaceCLS.dll at [{dllPath}]");
+                        break;
+                    }
+                }
+                
+                // 如果在根目录没找到，递归搜索子目录（最??层）
+                if (string.IsNullOrEmpty(dllPath))
+                {
+                    foreach (string dir in searchPaths)
+                    {
+                        if (!Directory.Exists(dir)) continue;
+                        
+                        try
+                        {
+                            // 搜索当前目录及其子目??
+                            string[] files = Directory.GetFiles(dir, "PrinterInterfaceCLS.dll", SearchOption.AllDirectories);
+                            if (files.Length > 0)
+                            {
+                                // 优先顺序：SimPrint（可能含具体实现??> amd64??4位） > x86
+                                dllPath = files.FirstOrDefault(f => f.IndexOf("SimPrint", StringComparison.OrdinalIgnoreCase) >= 0)
+                                    ?? files.FirstOrDefault(f => f.IndexOf("amd64", StringComparison.OrdinalIgnoreCase) >= 0)
+                                    ?? files.FirstOrDefault(f => f.IndexOf("x86", StringComparison.OrdinalIgnoreCase) >= 0)
+                                    ?? files[0];
+                                if (files.Length > 1)
+                                    Log4Net.Info($"Meteor: ??{files.Length} 个路径中找到 PrinterInterfaceCLS.dll，选用 [{dllPath}]");
+                                else
+                                    Log4Net.Info($"Meteor: found PrinterInterfaceCLS.dll in subdirectory [{dllPath}]");
+                                break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Log4Net.Info($"Meteor: error searching in {dir}: {ex.Message}");
+                        }
+                    }
+                }
+
+                if (string.IsNullOrEmpty(dllPath))
+                {
+                    Log4Net.Info("Meteor: PrinterInterfaceCLS.dll not found in app dir or common C: paths. Set METEOR_HOME to install path if needed.");
+                    return;
+                }
+
+                string dllDir = Path.GetDirectoryName(dllPath);
+                // 在加载任??Meteor DLL 前必??SetDllDirectory，否则原??PrinterInterface.dll/PrintEngine.dll 无法被找??
+                if (!string.IsNullOrEmpty(dllDir))
+                {
+                    if (SetDllDirectory(dllDir))
+                        Log4Net.Info($"Meteor: SetDllDirectory=[{dllDir}] for native dependency loading");
+                    else
+                        Log4Net.Info($"Meteor: SetDllDirectory failed, error={Marshal.GetLastWin32Error()}");
+                }
+                // 收集可能包含依赖/实现类的目录：DLL 所在目??+ 多级父目??+ 已有搜索路径（避??DLL 在其他目录导致找不到??
+                string[] probeDirs = GetProbeDirectories(dllDir).ToArray();
+                Log4Net.Info($"Meteor: 程序集解析将搜索以下目录: [{string.Join("; ", probeDirs)}]");
+
+                ResolveEventHandler resolveFromDllDir = null;
+                if (probeDirs.Length > 0)
+                {
+                    resolveFromDllDir = (sender, args) =>
+                    {
+                        string simpleName = new AssemblyName(args.Name).Name;
+                        foreach (string dir in probeDirs)
+                        {
+                            if (string.IsNullOrEmpty(dir) || !Directory.Exists(dir)) continue;
+                            string candidate = Path.Combine(dir, simpleName + ".dll");
+                            if (File.Exists(candidate))
+                            {
+                                try
+                                {
+                                    return Assembly.LoadFrom(candidate);
+                                }
+                                catch { }
+                            }
+                        }
+                        return null;
+                    };
+                    AppDomain.CurrentDomain.AssemblyResolve += resolveFromDllDir;
+                }
+
+                Assembly piAssembly = null;
+                try
+                {
+                    piAssembly = Assembly.LoadFrom(dllPath);
+                }
+                catch (Exception ex)
+                {
+                    if (resolveFromDllDir != null) AppDomain.CurrentDomain.AssemblyResolve -= resolveFromDllDir;
+                    Log4Net.Info($"Meteor: Assembly.LoadFrom failed [{dllPath}]: {ex.Message}");
+                    return;
+                }
+
+                Type abstractType = piAssembly.GetType("Ttp.Meteor.PrinterInterfaceCLS")
+                    ?? piAssembly.GetType("PrinterInterfaceCLS");
+                if (abstractType == null)
+                {
+                    Type found = piAssembly.GetTypes().FirstOrDefault(t => t.Name == "PrinterInterfaceCLS");
+                    if (found != null)
+                        abstractType = found;
+                }
+                if (abstractType == null)
+                {
+                    Log4Net.Info($"Meteor: 程序集中未找??PrinterInterfaceCLS 类型。程序集内类?? [{string.Join(", ", piAssembly.GetTypes().Select(t => t.FullName).Take(10))}]...");
+                    return;
+                }
+
+                Type[] allInAsm = piAssembly.GetTypes();
+                Log4Net.Info($"Meteor: PrinterInterfaceCLS.dll 内共 {allInAsm.Length} 个类?? [{string.Join("; ", allInAsm.Select(t => t.Name + (t.IsAbstract ? "(抽象)" : "")))}]");
+
+                // PrinterInterfaceCLS ??DLL 中为抽象类，需获取其非抽象子类并实例化
+                _printerInterfaceType = null;
+                _printerInterfaceInstance = null;
+
+                if (abstractType.IsAbstract)
+                {
+                    Type[] concreteTypes = allInAsm
+                        .Where(t => !t.IsAbstract && !t.IsInterface && abstractType.IsAssignableFrom(t))
+                        .ToArray();
+                    Log4Net.Info($"Meteor: 找到 {concreteTypes.Length} 个可实例化子?? [{string.Join(", ", concreteTypes.Select(x => x.FullName))}]");
+
+                    foreach (Type t in concreteTypes)
+                    {
+                        if (_printerInterfaceInstance != null) break;
+                        try
+                        {
+                            _printerInterfaceInstance = Activator.CreateInstance(t);
+                            _printerInterfaceType = t;
+                            Log4Net.Info($"Meteor: created instance of concrete type [{t.FullName}]");
+                            break;
+                        }
+                        catch (Exception ex)
+                        {
+                            Log4Net.Info($"Meteor: skip type {t.FullName}, CreateInstance failed: {ex.Message}");
+                        }
+                        // 尝试带参构造函数：无参、string、int ??
+                        foreach (ConstructorInfo ctor in t.GetConstructors(BindingFlags.Public | BindingFlags.Instance))
+                        {
+                            if (_printerInterfaceInstance != null) break;
+                            ParameterInfo[] ps = ctor.GetParameters();
+                            object[] args = new object[ps.Length];
+                            for (int i = 0; i < ps.Length; i++)
+                            {
+                                Type p = ps[i].ParameterType;
+                                if (p == typeof(string)) args[i] = "";
+                                else if (p == typeof(IntPtr)) args[i] = IntPtr.Zero;
+                                else if (p == typeof(int)) args[i] = 0;
+                                else if (p == typeof(uint)) args[i] = 0u;
+                                else if (p.IsValueType && Nullable.GetUnderlyingType(p) == null) try { args[i] = Activator.CreateInstance(p); } catch { args[i] = null; }
+                                else args[i] = null;
+                            }
+                            try
+                            {
+                                _printerInterfaceInstance = ctor.Invoke(args);
+                                _printerInterfaceType = t;
+                                Log4Net.Info($"Meteor: created instance via ctor({string.Join(", ", ps.Select(x => x.ParameterType.Name))})");
+                                break;
+                            }
+                            catch (Exception ex)
+                            {
+                                Log4Net.Info($"Meteor: ctor({string.Join(", ", ps.Select(x => x.Name))}) failed: {ex.Message}");
+                            }
+                        }
+                        if (_printerInterfaceInstance != null) break;
+                    }
+
+                    if (_printerInterfaceInstance == null)
+                    {
+                        // 备??：静态属??Instance / Default / Current
+                        foreach (string propName in new[] { "Instance", "Default", "Current", "Singleton" })
+                        {
+                            PropertyInfo prop = abstractType.GetProperty(propName, BindingFlags.Public | BindingFlags.Static);
+                            if (prop != null && prop.CanRead && abstractType.IsAssignableFrom(prop.PropertyType))
+                            {
+                                try
+                                {
+                                    _printerInterfaceInstance = prop.GetValue(null);
+                                    if (_printerInterfaceInstance != null)
+                                    {
+                                        _printerInterfaceType = abstractType;
+                                        Log4Net.Info($"Meteor: 通过静态属??{abstractType.Name}.{propName} 获取实例");
+                                        break;
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Log4Net.Info($"Meteor: {propName} get failed: {ex.Message}");
+                                }
+                            }
+                        }
+                        // 备??：抽象类上的静态工厂（无参 + 带参；string 参数传入 dllDir 便于 SDK 加载原生依赖??
+                        if (_printerInterfaceInstance == null)
+                        foreach (string methodName in new[] { "Create", "GetInstance", "CreateInstance" })
+                        {
+                            if (_printerInterfaceInstance != null) break;
+                            foreach (MethodInfo factory in abstractType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == methodName && abstractType.IsAssignableFrom(m.ReturnType)))
+                            {
+                                ParameterInfo[] fp = factory.GetParameters();
+                                object[] fargs = new object[fp.Length];
+                                for (int i = 0; i < fp.Length; i++)
+                                {
+                                    Type p = fp[i].ParameterType;
+                                    if (p == typeof(string)) fargs[i] = string.IsNullOrEmpty(dllDir) ? "" : dllDir;
+                                    else if (p == typeof(int) || p == typeof(uint)) fargs[i] = 0;
+                                    else if (p.IsValueType && Nullable.GetUnderlyingType(p) == null) try { fargs[i] = Activator.CreateInstance(p); } catch { fargs[i] = null; }
+                                    else fargs[i] = null;
+                                }
+                                try
+                                {
+                                    _printerInterfaceInstance = factory.Invoke(null, fargs);
+                                    _printerInterfaceType = abstractType;
+                                    Log4Net.Info($"Meteor: created via {abstractType.Name}.{methodName}({string.Join(", ", fp.Select(x => x.ParameterType.Name))})");
+                                    break;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Log4Net.Info($"Meteor: {methodName}(...) failed: {ex.Message}");
+                                }
+                            }
+                        }
+                        if (_printerInterfaceInstance == null)
+                        {
+                            // 实现在其他目录的 .NET DLL 中：??DLL 所在目录及父目录、Meteor 搜索路径下查找（跳过原生 DLL??
+                            var otherDlls = new List<string>();
+                            foreach (string dir in probeDirs)
+                            {
+                                if (string.IsNullOrEmpty(dir) || !Directory.Exists(dir)) continue;
+                                try
+                                {
+                                    foreach (string f in Directory.GetFiles(dir, "*.dll"))
+                                    {
+                                        if (string.Equals(Path.GetFileName(f), "PrinterInterfaceCLS.dll", StringComparison.OrdinalIgnoreCase)) continue;
+                                        try { AssemblyName.GetAssemblyName(f); otherDlls.Add(f); } catch { }
+                                    }
+                                }
+                                catch { }
+                            }
+                            otherDlls = otherDlls.Distinct().ToList();
+                            Log4Net.Info($"Meteor: found {otherDlls.Count} .NET DLLs under {probeDirs.Length} probe directories; trying to create PrinterInterfaceCLS instance");
+                            foreach (string otherPath in otherDlls)
+                                {
+                                    if (_printerInterfaceInstance != null) break;
+                                    try
+                                    {
+                                        Assembly otherAsm = Assembly.LoadFrom(otherPath);
+                                        foreach (Type ot in otherAsm.GetTypes())
+                                        {
+                                            if (ot.IsAbstract || ot.IsInterface) continue;
+                                            MethodInfo openMi = ot.GetMethod("PiOpenPrinter", BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
+                                            if (openMi == null) continue;
+                                            if (!abstractType.IsAssignableFrom(ot))
+                                            {
+                                                if (ot.GetMethod("PiSetHeadPower", BindingFlags.Public | BindingFlags.Instance) == null) continue;
+                                            }
+                                            try
+                                            {
+                                                _printerInterfaceInstance = Activator.CreateInstance(ot);
+                                                _printerInterfaceType = ot;
+                                                Log4Net.Info($"Meteor: 从同目录 [{Path.GetFileName(otherPath)}] 创建实例 [{ot.FullName}]");
+                                                break;
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Log4Net.Info($"Meteor: ??{Path.GetFileName(otherPath)}.{ot.Name} CreateInstance 失败: {ex.Message}");
+                                            }
+                                        }
+                                    }
+                                    
+                                    catch (Exception ex)
+                                    {
+                                        Log4Net.Info($"Meteor: 加载同目??DLL [{Path.GetFileName(otherPath)}] 失败: {ex.Message}");
+                                    }
+                                }
+                            }
+                            if (_printerInterfaceInstance == null)
+                                Log4Net.Info("Meteor: failed to create PrinterInterfaceCLS instance from discovered assemblies");
+                        }
+                    }
+                
+                else
+                {
+                    try
+                    {
+                        _printerInterfaceInstance = Activator.CreateInstance(abstractType);
+                        _printerInterfaceType = abstractType;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log4Net.Info($"Meteor: 直接创建抽象类实例失?? {ex.Message}");
+                    }
+                }
+
+                _runtimeReady = _printerInterfaceInstance != null;
+                if (!_runtimeReady && !string.IsNullOrEmpty(dllDir))
+                    TryNativePrinterInterfacePath(dllDir);
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"Meteor runtime load exception: {ex}");
+                _runtimeReady = false;
+            }
+        }
+
+        /// <summary>??.NET 无可用实例时，用原生 PrinterInterface.dll。说明书：接口以 PrinterInterface.dll ??PrinterInterfaceCLS.dll 提供；PrintEngine 为核心，原生 DLL 可能??Api ??PrintEngine 目录。多目录尝试并支持本进程内启动引擎??/summary>
+        private static void TryNativePrinterInterfacePath(string dllDir)
+        {
+            string[] candidates = GetNativePrinterInterfaceCandidateDirs(dllDir);
+            foreach (string dir in candidates)
+            {
+                if (string.IsNullOrEmpty(dir) || !Directory.Exists(dir)) continue;
+                try
+                {
+                    bool hasDll = File.Exists(Path.Combine(dir, "PrinterInterface.dll"));
+                    Log4Net.Info($"Meteor: 尝试原生路径 目录=[{dir}] PrinterInterface.dll 存在={hasDll}");
+                    if (!SetDllDirectory(dir))
+                        continue;
+                    int ret = NativePiOpenPrinter();
+                    if (ret == RVAL_OK)
+                    {
+                        _runtimeReady = true;
+                        _useNativePath = true;
+                        _printerOpened = true;
+                        _nativePrinterInterfaceDir = dir;
+                        Log4Net.Info($"Meteor: 已连接已??PrintEngine（原??DLL），目录=[{dir}]");
+                        TryMeteorSwathConnect(dir);
+                        return;
+                    }
+                    if (ret == RVAL_NO_PRINTER)
+                    {
+                        string configPath = GetMeteorConfigPath(dir);
+                        int startRet = NativePiStartPrintEngine(configPath ?? "");
+                        if (startRet == RVAL_OK)
+                        {
+                            ret = NativePiOpenPrinter();
+                            if (ret == RVAL_OK)
+                            {
+                                _runtimeReady = true;
+                                _useNativePath = true;
+                                _printerOpened = true;
+                                _nativePrinterInterfaceDir = dir;
+                                Log4Net.Info($"Meteor: 已在本进程内启动 PrintEngine 并连接（无需外部厂商程序），配置=[{configPath ?? "默认"}]，目??[{dir}]");
+                                TryMeteorSwathConnect(dir);
+                                return;
+                            }
+                        }
+                        // 原生 DLL 已成功加载（PiOpenPrinter 返回 0x12=无引擎），仅引擎未启动；不再尝试其他目录，避免误报“均失败??
+                        if (hasDll)
+                        {
+                            _runtimeReady = true;
+                            _useNativePath = true;
+                            _printerOpened = false;
+                            _nativePrinterInterfaceDir = dir;
+                            Log4Net.Info($"Meteor: native PrinterInterface.dll loaded from [{dir}], but PrintEngine not ready; PiStartPrintEngine returned {startRet}");
+                            return;
+                        }
+                        Log4Net.Info($"Meteor: PiStartPrintEngine returned {startRet}, config=[{configPath ?? "default"}]");
+                    }
+                    else
+                        Log4Net.Info($"Meteor: native PiOpenPrinter failed, ret={ret}, dir=[{dir}]");
+                }
+                catch (DllNotFoundException ex)
+                {
+                    Log4Net.Info($"Meteor: 目录 [{dir}] 下原??PrinterInterface.dll 未找到或依赖缺失: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    Log4Net.Info($"Meteor: TryNativePrinterInterfacePath 目录=[{dir}] 异常: {ex.Message}");
+                }
+            }
+            Log4Net.Info("Meteor: all native PrinterInterface.dll candidate directories failed");
+        }
+
+        /// <summary>说明书：打印引擎为核心，接口??PrinterInterface.dll ??PrinterInterfaceCLS.dll。优先尝试厂商标准安装路径??/summary>
+        private static readonly string DefaultMeteorApiAmd64 = @"C:\Program Files\Meteor Inkjet\Meteor\Api\amd64";
+
+        /// <summary>返回待尝试的原生 PrinterInterface.dll 所在目录列表，优先使用 C:\Program Files\Meteor Inkjet\Meteor\Api\amd64??/summary>
+        private static string[] GetNativePrinterInterfaceCandidateDirs(string apiDllDir)
+        {
+            var list = new List<string>();
+            if (Directory.Exists(DefaultMeteorApiAmd64))
+                list.Add(DefaultMeteorApiAmd64);
+            if (!string.IsNullOrEmpty(apiDllDir) && !list.Contains(apiDllDir))
+                list.Add(apiDllDir);
+            try
+            {
+                string root = !string.IsNullOrEmpty(apiDllDir)
+                    ? Path.GetFullPath(Path.Combine(apiDllDir, "..", ".."))
+                    : Path.GetFullPath(Path.Combine(DefaultMeteorApiAmd64, "..", ".."));
+                string peAmd64 = Path.Combine(root, "PrintEngine", "amd64");
+                string pe = Path.Combine(root, "PrintEngine");
+                if (Directory.Exists(peAmd64) && !list.Contains(peAmd64)) list.Add(peAmd64);
+                if (Directory.Exists(pe) && !list.Contains(pe)) list.Add(pe);
+                if (!list.Contains(root)) list.Add(root);
+            }
+            catch { }
+            return list.ToArray();
+        }
+
+        /// <summary>Monitor 常用配置路径，优先使用（若存在）??/summary>
+        private static readonly string MonitorConfigPath = @"C:\Users\Public\Documents\Meteor\Config\PccE\DefaultStarfire_PccE.cfg";
+
+        /// <summary>??Meteor 安装目录下查找配置文件（.cfg），??PiStartPrintEngine 使用。优先使??Monitor 下的 DefaultStarfire_PccE.cfg，否则在安装目录/SW/PrintEngine 下查找??/summary>
+        private static string GetMeteorConfigPath(string apiDllDir)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(MonitorConfigPath) && File.Exists(MonitorConfigPath))
+                {
+                    Log4Net.Info($"Meteor: 使用 Monitor 配置路径 [{MonitorConfigPath}]");
+                    return MonitorConfigPath;
+                }
+            }
+            catch { }
+            if (string.IsNullOrEmpty(apiDllDir)) return null;
+            try
+            {
+                string meteorRoot = Path.GetFullPath(Path.Combine(apiDllDir, "..", ".."));
+                foreach (string name in new[] { "Meteor.cfg", "PrintEngine.cfg", "default.cfg" })
+                {
+                    string p = Path.Combine(meteorRoot, name);
+                    if (File.Exists(p)) return p;
+                }
+                string sw = Path.Combine(meteorRoot, "SW");
+                if (Directory.Exists(sw))
+                {
+                    string[] cfgs = Directory.GetFiles(sw, "*.cfg", SearchOption.TopDirectoryOnly);
+                    if (cfgs.Length > 0) return cfgs[0];
+                }
+                string pe = Path.Combine(meteorRoot, "PrintEngine");
+                if (Directory.Exists(pe))
+                {
+                    string[] cfgs = Directory.GetFiles(pe, "*.cfg", SearchOption.TopDirectoryOnly);
+                    if (cfgs.Length > 0) return cfgs[0];
+                }
+            }
+            catch { }
+            return null;
+        }
+
+        /// <summary>Swath 扫描引擎接口在独??DLL 中，当前未调用；仅喷头上??闪喷时无需此接口??/summary>
+        private static void TryMeteorSwathConnect(string dir)
+        {
+            Log4Net.Info("Meteor: MeteorSwathConnect not called; scan-engine DLL is separate and head power/flash are unaffected");
+        }
+
+        private static void TryMeteorSwathDisconnect()
+        {
+            // 未调??MeteorSwathDisconnect，无需操作??
+        }
+
+        private static bool EnsurePrinterOpenedInternal()
+        {
+            lock (SyncRoot)
+            {
+                if (!_runtimeReady)
+                    return false;
+                if (_useNativePath)
+                {
+                    if (_printerOpened)
+                        return true;
+                    return TryEnsureNativePrinterOpened();
+                }
+                if (_printerInterfaceType == null || _printerInterfaceInstance == null)
+                    return false;
+
+                if (_printerOpened)
+                    return true;
+
+                try
+                {
+                    MethodInfo openMethod = _printerInterfaceType.GetMethod("PiOpenPrinter", BindingFlags.Public | BindingFlags.Instance);
+                    if (openMethod == null)
+                    {
+                        Log4Net.Info("Meteor API not ready: PiOpenPrinter method missing.");
+                        return false;
+                    }
+
+                    object result = openMethod.Invoke(_printerInterfaceInstance, null);
+                    int openCode = Convert.ToInt32(result);
+                    if (openCode == 0)
+                    {
+                        _printerOpened = true;
+                        return true;
+                    }
+
+                    Log4Net.Info($"Meteor PiOpenPrinter failed, return code: {openCode}");
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    Log4Net.Info($"Meteor PiOpenPrinter exception: {ex}");
+                    return false;
+                }
+            }
+        }
+
+        private static bool TryEnsureNativePrinterOpened()
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(_nativePrinterInterfaceDir) && Directory.Exists(_nativePrinterInterfaceDir))
+                    SetDllDirectory(_nativePrinterInterfaceDir);
+
+                int ret = NativePiOpenPrinter();
+                if (ret == RVAL_OK)
+                {
+                    _printerOpened = true;
+                    Log4Net.Info("Meteor: native retry PiOpenPrinter succeeded");
+                    return true;
+                }
+
+                if (ret == RVAL_NO_PRINTER)
+                {
+                    string configPath = GetMeteorConfigPath(_nativePrinterInterfaceDir);
+                    int startRet = NativePiStartPrintEngine(configPath ?? "");
+                    Log4Net.Info($"Meteor: native retry PiStartPrintEngine returned {startRet}, config=[{configPath ?? "default"}]");
+                    if (startRet == RVAL_OK)
+                    {
+                        ret = NativePiOpenPrinter();
+                        if (ret == RVAL_OK)
+                        {
+                            _printerOpened = true;
+                            Log4Net.Info("Meteor: native retry start PrintEngine then PiOpenPrinter succeeded");
+                            return true;
+                        }
+                    }
+                }
+
+                Log4Net.Info($"Meteor: native retry open PrintEngine failed, PiOpenPrinter returned {ret}");
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"Meteor: TryEnsureNativePrinterOpened exception: {ex.Message}");
+            }
+
+            _printerOpened = false;
+            return false;
+        }
+    }
+}

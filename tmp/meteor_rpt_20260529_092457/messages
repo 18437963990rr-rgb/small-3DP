@@ -1,0 +1,175 @@
+Jan  1 00:01:00 socfpga syslog.info syslogd started: BusyBox v1.20.2
+Jan  1 00:01:00 socfpga user.notice kernel: klogd started: BusyBox v1.20.2 (2013-09-27 23:27:54 CDT)
+Jan  1 00:01:00 socfpga user.info kernel: Booting Linux on physical CPU 0x0
+Jan  1 00:01:00 socfpga user.info kernel: Initializing cgroup subsys cpuset
+Jan  1 00:01:00 socfpga user.notice kernel: Linux version 3.9.0-00161-ged01b8c (david@ubuntu) (gcc version 4.7.3 20121106 (prerelease) (crosstool-NG linaro-1.13.1-4.7-2012.11-20121123 - Linaro GCC 2012.11) ) #1 SMP Fri Nov 8 05:21:39 PST 2013
+Jan  1 00:01:00 socfpga user.warn kernel: CPU: ARMv7 Processor [413fc090] revision 0 (ARMv7), cr=10c5387d
+Jan  1 00:01:00 socfpga user.warn kernel: CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+Jan  1 00:01:00 socfpga user.info kernel: Machine: Altera SOCFPGA, model: Altera SOCFPGA Cyclone V
+Jan  1 00:01:00 socfpga user.warn kernel: Memory policy: ECC disabled, Data cache writealloc
+Jan  1 00:01:00 socfpga user.debug kernel: On node 0 totalpages: 65536
+Jan  1 00:01:00 socfpga user.debug kernel: free_area_init_node: node 0, pgdat 80668040, node_mem_map 806a3000
+Jan  1 00:01:00 socfpga user.debug kernel:   Normal zone: 512 pages used for memmap
+Jan  1 00:01:00 socfpga user.debug kernel:   Normal zone: 0 pages reserved
+Jan  1 00:01:00 socfpga user.debug kernel:   Normal zone: 65536 pages, LIFO batch:15
+Jan  1 00:01:00 socfpga user.info kernel: PERCPU: Embedded 8 pages/cpu @808ad000 s11328 r8192 d13248 u32768
+Jan  1 00:01:00 socfpga user.debug kernel: pcpu-alloc: s11328 r8192 d13248 u32768 alloc=8*4096
+Jan  1 00:01:00 socfpga user.debug kernel: pcpu-alloc: [0] 0 [0] 1 
+Jan  1 00:01:00 socfpga user.warn kernel: Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 65024
+Jan  1 00:01:00 socfpga user.notice kernel: Kernel command line: console=ttyS0,115200 root=/dev/mmcblk0p2 rw rootwait
+Jan  1 00:01:00 socfpga user.info kernel: PID hash table entries: 1024 (order: 0, 4096 bytes)
+Jan  1 00:01:00 socfpga user.info kernel: Dentry cache hash table entries: 32768 (order: 5, 131072 bytes)
+Jan  1 00:01:00 socfpga user.info kernel: Inode-cache hash table entries: 16384 (order: 4, 65536 bytes)
+Jan  1 00:01:00 socfpga user.notice kernel: __ex_table already sorted, skipping sort
+Jan  1 00:01:00 socfpga user.info kernel: Memory: 256MB = 256MB total
+Jan  1 00:01:00 socfpga user.notice kernel: Memory: 252964k/252964k available, 9180k reserved, 0K highmem
+Jan  1 00:01:00 socfpga user.notice kernel: Virtual kernel memory layout:
+Jan  1 00:01:00 socfpga user.notice kernel:     vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+Jan  1 00:01:00 socfpga user.notice kernel:     fixmap  : 0xfff00000 - 0xfffe0000   ( 896 kB)
+Jan  1 00:01:00 socfpga user.notice kernel:     vmalloc : 0x90800000 - 0xff000000   (1768 MB)
+Jan  1 00:01:00 socfpga user.notice kernel:     lowmem  : 0x80000000 - 0x90000000   ( 256 MB)
+Jan  1 00:01:00 socfpga user.notice kernel:     modules : 0x7f000000 - 0x80000000   (  16 MB)
+Jan  1 00:01:00 socfpga user.notice kernel:       .text : 0x80008000 - 0x805ede10   (6040 kB)
+Jan  1 00:01:00 socfpga user.notice kernel:       .init : 0x805ee000 - 0x8062ec40   ( 260 kB)
+Jan  1 00:01:00 socfpga user.notice kernel:       .data : 0x80630000 - 0x8066a498   ( 234 kB)
+Jan  1 00:01:00 socfpga user.notice kernel:        .bss : 0x8066a498 - 0x806a2c80   ( 226 kB)
+Jan  1 00:01:00 socfpga user.info kernel: SLUB: Genslabs=11, HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+Jan  1 00:01:00 socfpga user.info kernel: Hierarchical RCU implementation.
+Jan  1 00:01:00 socfpga user.info kernel: NR_IRQS:16 nr_irqs:16 16
+Jan  1 00:01:00 socfpga user.err kernel: smp_twd: clock not found -2
+Jan  1 00:01:00 socfpga user.info kernel: sched_clock: 32 bits at 100MHz, resolution 10ns, wraps every 42949ms
+Jan  1 00:01:00 socfpga user.info kernel: Console: colour dummy device 80x30
+Jan  1 00:01:00 socfpga user.info kernel: Calibrating delay loop... 1594.16 BogoMIPS (lpj=7970816)
+Jan  1 00:01:00 socfpga user.info kernel: pid_max: default: 32768 minimum: 301
+Jan  1 00:01:00 socfpga user.info kernel: Mount-cache hash table entries: 512
+Jan  1 00:01:00 socfpga user.info kernel: CPU: Testing write buffer coherency: ok
+Jan  1 00:01:00 socfpga user.info kernel: ftrace: allocating 16244 entries in 48 pages
+Jan  1 00:01:00 socfpga user.info kernel: CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+Jan  1 00:01:00 socfpga user.info kernel: Calibrating local timer... 199.87MHz.
+Jan  1 00:01:00 socfpga user.info kernel: Setting up static identity map for 0x8045a520 - 0x8045a578
+Jan  1 00:01:00 socfpga user.warn kernel: CPU1: Booted secondary processor
+Jan  1 00:01:00 socfpga user.info kernel: CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
+Jan  1 00:01:00 socfpga user.info kernel: Brought up 2 CPUs
+Jan  1 00:01:00 socfpga user.info kernel: SMP: Total of 2 processors activated (3188.32 BogoMIPS).
+Jan  1 00:01:00 socfpga user.info kernel: CPU: All CPU(s) started in SVC mode.
+Jan  1 00:01:00 socfpga user.info kernel: devtmpfs: initialized
+Jan  1 00:01:00 socfpga user.info kernel: NET: Registered protocol family 16
+Jan  1 00:01:00 socfpga user.info kernel: DMA: preallocated 256 KiB pool for atomic coherent allocations
+Jan  1 00:01:00 socfpga user.info kernel: L310 cache controller enabled
+Jan  1 00:01:00 socfpga user.info kernel: l2x0: 8 ways, CACHE_ID 0x410030c9, AUX_CTRL 0x32460000, Cache size: 524288 B
+Jan  1 00:01:00 socfpga user.info kernel: syscon ffd05000.rstmgr: syscon regmap start 0xffd05000 end 0xffd05fff registered
+Jan  1 00:01:00 socfpga user.info kernel: syscon ffc25000.sdrctl: syscon regmap start 0xffc25000 end 0xffc25fff registered
+Jan  1 00:01:00 socfpga user.info kernel: syscon ff800000.l3regs: syscon regmap start 0xff800000 end 0xff800fff registered
+Jan  1 00:01:00 socfpga user.info kernel: syscon ffd08000.sysmgr: syscon regmap start 0xffd08000 end 0xffd0bfff registered
+Jan  1 00:01:00 socfpga user.info kernel: hw-breakpoint: found 5 (+1 reserved) breakpoint and 1 watchpoint registers.
+Jan  1 00:01:00 socfpga user.info kernel: hw-breakpoint: maximum watchpoint size is 4 bytes.
+Jan  1 00:01:00 socfpga user.info kernel: bio: create slab <bio-0> at 0
+Jan  1 00:01:00 socfpga user.info kernel: FPGA Mangager framework driver
+Jan  1 00:01:00 socfpga user.info kernel: fpga bridge driver
+Jan  1 00:01:00 socfpga user.notice kernel: SCSI subsystem initialized
+Jan  1 00:01:00 socfpga user.info kernel: usbcore: registered new interface driver usbfs
+Jan  1 00:01:00 socfpga user.info kernel: usbcore: registered new interface driver hub
+Jan  1 00:01:00 socfpga user.info kernel: usbcore: registered new device driver usb
+Jan  1 00:01:00 socfpga user.err kernel: lcd_load_custom_fonts: i2c_master_send returns -121
+Jan  1 00:01:00 socfpga user.err kernel: lcd_cmd_no_params: i2c_master_send returns -121
+Jan  1 00:01:00 socfpga user.err kernel: lcd_cmd_one_param: i2c_master_send returns -121
+Jan  1 00:01:00 socfpga user.err kernel: lcd_cmd_no_params: i2c_master_send returns -121
+Jan  1 00:01:00 socfpga user.info kernel: lcd-comm 0-0028: LCD driver initialized
+Jan  1 00:01:00 socfpga user.info kernel: Switching to clocksource timer0
+Jan  1 00:01:00 socfpga user.info kernel: NET: Registered protocol family 2
+Jan  1 00:01:00 socfpga user.info kernel: TCP established hash table entries: 2048 (order: 2, 16384 bytes)
+Jan  1 00:01:00 socfpga user.info kernel: TCP bind hash table entries: 2048 (order: 2, 16384 bytes)
+Jan  1 00:01:00 socfpga user.info kernel: TCP: Hash tables configured (established 2048 bind 2048)
+Jan  1 00:01:00 socfpga user.info kernel: TCP: reno registered
+Jan  1 00:01:00 socfpga user.info kernel: UDP hash table entries: 256 (order: 1, 8192 bytes)
+Jan  1 00:01:00 socfpga user.info kernel: UDP-Lite hash table entries: 256 (order: 1, 8192 bytes)
+Jan  1 00:01:00 socfpga user.info kernel: NET: Registered protocol family 1
+Jan  1 00:01:00 socfpga user.info kernel: RPC: Registered named UNIX socket transport module.
+Jan  1 00:01:00 socfpga user.info kernel: RPC: Registered udp transport module.
+Jan  1 00:01:00 socfpga user.info kernel: RPC: Registered tcp transport module.
+Jan  1 00:01:00 socfpga user.info kernel: RPC: Registered tcp NFSv4.1 backchannel transport module.
+Jan  1 00:01:00 socfpga user.info kernel: hw perfevents: enabled with ARMv7 Cortex-A9 PMU driver, 7 counters available
+Jan  1 00:01:00 socfpga user.info kernel: arm-pmu arm-pmu: PMU:CTI successfully enabled
+Jan  1 00:01:00 socfpga user.notice kernel: NFS: Registering the id_resolver key type
+Jan  1 00:01:00 socfpga user.notice kernel: Key type id_resolver registered
+Jan  1 00:01:00 socfpga user.notice kernel: Key type id_legacy registered
+Jan  1 00:01:00 socfpga user.info kernel: NTFS driver 2.1.30 [Flags: R/W].
+Jan  1 00:01:00 socfpga user.info kernel: jffs2: version 2.2. (NAND) © 2001-2006 Red Hat, Inc.
+Jan  1 00:01:00 socfpga user.info kernel: msgmni has been set to 494
+Jan  1 00:01:00 socfpga user.info kernel: io scheduler noop registered (default)
+Jan  1 00:01:00 socfpga user.info kernel: Serial: 8250/16550 driver, 2 ports, IRQ sharing disabled
+Jan  1 00:01:00 socfpga user.info kernel: ffc02000.serial0: ttyS0 at MMIO 0xffc02000 (irq = 194) is a 16550A
+Jan  1 00:01:00 socfpga user.info kernel: console [ttyS0] enabled
+Jan  1 00:01:00 socfpga user.info kernel: ffc03000.serial1: ttyS1 at MMIO 0xffc03000 (irq = 195) is a 16550A
+Jan  1 00:01:00 socfpga user.info kernel: altera_fpga_manager ff706000.fpgamgr: fpga manager [Altera FPGA Manager] registered as minor 0
+Jan  1 00:01:00 socfpga user.info kernel: brd: module loaded
+Jan  1 00:01:00 socfpga user.info kernel: at24 0-0051: 4096 byte 24c32 EEPROM, writable, 32 bytes/write
+Jan  1 00:01:00 socfpga user.info kernel: altera_hps2fpga_bridge fpgabridge.2: fpga bridge [hps2fpga] registered as device hps2fpga
+Jan  1 00:01:00 socfpga user.info kernel: altera_hps2fpga_bridge fpgabridge.3: fpga bridge [lshps2fpga] registered as device lwhps2fpga
+Jan  1 00:01:00 socfpga user.info kernel: altera_hps2fpga_bridge fpgabridge.4: fpga bridge [fpga2hps] registered as device fpga2hps
+Jan  1 00:01:00 socfpga user.info kernel: denali-nand-dt ff900000.nand: Dump timing register values:acc_clks: 0, re_2_we: 50, re_2_re: 50
+Jan  1 00:01:00 socfpga user.info kernel: we_2_re: 5170, addr_2_data: 5170, rdwr_en_lo_cnt: 18
+Jan  1 00:01:00 socfpga user.info kernel: rdwr_en_hi_cnt: 12, cs_setup_cnt: 3
+Jan  1 00:01:00 socfpga user.err kernel: denali-nand-dt ff900000.nand: reset bank failed.
+Jan  1 00:01:00 socfpga user.info kernel: nand_get_flash_type: second ID read did not match 97,97 against b7,97
+Jan  1 00:01:00 socfpga user.warn kernel: No NAND device found
+Jan  1 00:01:00 socfpga user.info kernel: cadence-qspi ff705000.spi: master is unqueued, this is deprecated
+Jan  1 00:01:00 socfpga user.err kernel: QSPI: flash cmd execute time out
+Jan  1 00:01:00 socfpga user.warn kernel: m25p80: probe of spi2.0 failed with error -5
+Jan  1 00:01:00 socfpga user.info kernel: cadence-qspi ff705000.spi: Cadence QSPI controller driver
+Jan  1 00:01:00 socfpga user.info kernel: dw_spi_mmio fff00000.spi: master is unqueued, this is deprecated
+Jan  1 00:01:00 socfpga user.info kernel: dw_spi_mmio fff01000.spi: master is unqueued, this is deprecated
+Jan  1 00:01:00 socfpga user.info kernel: stmmac - user ID: 0x10, Synopsys ID: 0x37
+Jan  1 00:01:00 socfpga user.info kernel:  DMA HW capability register supported
+Jan  1 00:01:00 socfpga user.info kernel:  Enhanced/Alternate descriptors
+Jan  1 00:01:00 socfpga user.info kernel:  RX Checksum Offload Engine supported (type 2)
+Jan  1 00:01:00 socfpga user.info kernel:  TX Checksum insertion supported
+Jan  1 00:01:00 socfpga user.info kernel:  Enable RX Mitigation via HW Watchdog Timer
+Jan  1 00:01:00 socfpga user.info kernel: libphy: stmmac: probed
+Jan  1 00:01:00 socfpga user.info kernel: eth0: PHY ID 00221622 at 1 IRQ 0 (stmmac-0:01) active
+Jan  1 00:01:00 socfpga user.info kernel: Initializing USB Mass Storage driver...
+Jan  1 00:01:00 socfpga user.info kernel: usbcore: registered new interface driver usb-storage
+Jan  1 00:01:00 socfpga user.info kernel: USB Mass Storage support registered.
+Jan  1 00:01:00 socfpga user.warn kernel: dwc_otg_core_reset() HANG! AHB Idle GRSTCTL=0
+Jan  1 00:01:00 socfpga user.warn kernel: dwc_otg_core_reset() HANG! AHB Idle GRSTCTL=0
+Jan  1 00:01:00 socfpga user.info kernel: Using Slave mode
+Jan  1 00:01:00 socfpga user.info kernel: dwc_otg ffb40000.usb: DWC OTG Controller
+Jan  1 00:01:00 socfpga user.info kernel: dwc_otg ffb40000.usb: new USB bus registered, assigned bus number 1
+Jan  1 00:01:00 socfpga user.info kernel: dwc_otg ffb40000.usb: irq 160, io mem 0xffb40000
+Jan  1 00:01:00 socfpga user.info kernel: Init: Port Power? op_state=b_peripheral
+Jan  1 00:01:00 socfpga user.info kernel: hub 1-0:1.0: USB hub found
+Jan  1 00:01:00 socfpga user.info kernel: hub 1-0:1.0: 1 port detected
+Jan  1 00:01:00 socfpga user.info kernel: mousedev: PS/2 mouse device common for all mice
+Jan  1 00:01:00 socfpga user.warn kernel: rtc-ds1307: probe of 0-0068 failed with error -5
+Jan  1 00:01:00 socfpga user.info kernel: i2c /dev entries driver
+Jan  1 00:01:00 socfpga user.info kernel: Synopsys Designware Multimedia Card Interface Driver
+Jan  1 00:01:00 socfpga user.info kernel: dwmmc_socfpga ff704000.dwmmc0: couldn't determine pwr-en, assuming pwr-en = 0
+Jan  1 00:01:00 socfpga user.info kernel: dwmmc_socfpga ff704000.dwmmc0: Using internal DMA controller.
+Jan  1 00:01:00 socfpga user.info kernel: dwmmc_socfpga ff704000.dwmmc0: DW MMC controller at irq 171, 32 bit host data width, 1024 deep fifo
+Jan  1 00:01:00 socfpga user.info kernel: mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 400000Hz, actual 396825HZ div = 63)
+Jan  1 00:01:00 socfpga user.info kernel: dwmmc_socfpga ff704000.dwmmc0: 1 slots initialized
+Jan  1 00:01:00 socfpga user.info kernel: dwmmc_socfpga ff704000.dwmmc0: Version ID is 240a
+Jan  1 00:01:00 socfpga user.info kernel: ledtrig-cpu: registered to indicate activity on CPUs
+Jan  1 00:01:00 socfpga user.info kernel: usbcore: registered new interface driver usbhid
+Jan  1 00:01:00 socfpga user.info kernel: usbhid: USB HID core driver
+Jan  1 00:01:00 socfpga user.info kernel: oprofile: using arm/armv7-ca9
+Jan  1 00:01:00 socfpga user.info kernel: TCP: cubic registered
+Jan  1 00:01:00 socfpga user.info kernel: NET: Registered protocol family 17
+Jan  1 00:01:00 socfpga user.info kernel: NET: Registered protocol family 15
+Jan  1 00:01:00 socfpga user.notice kernel: Key type dns_resolver registered
+Jan  1 00:01:00 socfpga user.info kernel: VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 4
+Jan  1 00:01:00 socfpga user.info kernel: ThumbEE CPU extension supported.
+Jan  1 00:01:00 socfpga user.notice kernel: Registering SWP/SWPB emulation handler
+Jan  1 00:01:00 socfpga user.info kernel: Waiting for root device /dev/mmcblk0p2...
+Jan  1 00:01:00 socfpga user.info kernel: mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 50000000Hz, actual 50000000HZ div = 0)
+Jan  1 00:01:00 socfpga user.info kernel: mmc0: new high speed SDHC card at address aaaa
+Jan  1 00:01:00 socfpga user.info kernel: mmcblk0: mmc0:aaaa SS08G 7.40 GiB 
+Jan  1 00:01:00 socfpga user.info kernel:  mmcblk0: p1 p2 p3
+Jan  1 00:01:00 socfpga user.warn kernel: EXT2-fs (mmcblk0p2): warning: mounting unchecked fs, running e2fsck is recommended
+Jan  1 00:01:00 socfpga user.info kernel: VFS: Mounted root (ext2 filesystem) on device 179:2.
+Jan  1 00:01:00 socfpga user.info kernel: devtmpfs: mounted
+Jan  1 00:01:00 socfpga user.info kernel: Freeing init memory: 256K
+Jan  1 00:01:00 socfpga user.warn kernel: eth0: device MAC address 4e:46:d4:07:c2:a5
+Jan  1 00:01:00 socfpga user.info kernel: libphy: stmmac-0:01 - Link is Up - 1000/Full
+Jan  1 00:01:00 socfpga user.info kernel: DEHmodule loading...
+Jan  1 00:01:00 socfpga user.info kernel: allocating a 1MB buffer...

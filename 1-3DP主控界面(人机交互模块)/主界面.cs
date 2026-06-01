@@ -1290,15 +1290,6 @@ namespace BinderJetting
             }
             //textBox4.AppendText(PositonText);//PositonText += "\r\n";
             PositionLable.Text = PositonText;
-            if (g_dEncpos != null && g_dEncpos.Length >= GoogolAxisBuildCylinder
-                && (_lastMainAxis8MonitorLogUtc == DateTime.MinValue || (DateTime.UtcNow - _lastMainAxis8MonitorLogUtc).TotalSeconds >= 1))
-            {
-                _lastMainAxis8MonitorLogUtc = DateTime.UtcNow;
-                double axis8EncRaw = g_dEncpos[GoogolAxisBuildCylinder - 1];
-                double axis8DisplayMm = GetGoogolAxisDisplayPosMm(g_dEncpos, GoogolAxisBuildCylinder);
-                Log4Net.Info($"MainAxis8Monitor: axis8Enc={axis8EncRaw:F1}, axis8DisplayMm={axis8DisplayMm:F3}, z1DisplayMm={Z1PosValue:F3}");
-            }
-
             //（5-1b）PositionLable 仅 enc→mm；prf 为当前段规划位置。TrapMotion 内曾对 prf 清零故 prfMm 多为本段相对位移、encMm 多为绝对光栅，Δ(enc−prf) 在运动中出现近似常偏差不等于故障；应看 Δ 是否持续恶化或 sts 报警。
             if (g_cMotionMap != null && _inkCarEncPrfDiagLogIntervalMs > 0)
             {

@@ -37,10 +37,6 @@ namespace BinderJetting
 
         // 手动界面的 Meteor 调试按钮会直接用到渲染接口，这里提供独立实例以避免引用主界面私有成员。
         private readonly SharpControl g_SharpControl = new SharpControl();
-        private Button _meteorDebugStartJobButton;
-        private Button _meteorDebugStartScanFwdButton;
-        private Button _meteorDebugEndJobButton;
-        private Button _meteorDebugBlankDocButton;
 
         // 定义常量光栅尺分辨率为每毫米1000线，每英寸25400线（Royal/旧光栅用）
         const int EncoderLinePerMM = 1000;
@@ -135,7 +131,6 @@ namespace BinderJetting
             m_PowerBackBtnFlag = PowerBackBtnFlag;//20200327新增:
             InitializeComponent();
             Log4Net.Info("AutoPrintMotion constructor: InitializeComponent done.");
-            InitMeteorDebugControls();
             if (PrintJobExistedFlag == false) //不存在打印任务
             { }
             else
@@ -160,239 +155,6 @@ namespace BinderJetting
             InitDynamicConfigureMotionMode();// 互斥配置多轴的点动和JOG运动配置：动态挂载初始化：20200110
 
             k_EnvironmentParam = new EnvironmentParam();//20200402新增：
-        }
-
-        private void InitMeteorDebugControls()
-        {
-            if (_meteorDebugStartJobButton != null)
-                return;
-
-            Control parent = tabPage1 != null ? (Control)tabPage1 : this;
-
-            _meteorDebugStartJobButton = new Button
-            {
-                Name = "MeteorDebugStartJobButton",
-                Text = "Meteor调试\nSTARTJOB",
-                Size = new Size(116, 44),
-                Location = new Point(700, 8),
-                Anchor = AnchorStyles.Top | AnchorStyles.Right,
-                UseVisualStyleBackColor = true
-            };
-            _meteorDebugStartJobButton.Click += MeteorDebugStartJobButton_Click;
-
-            _meteorDebugStartScanFwdButton = new Button
-            {
-                Name = "MeteorDebugStartScanFwdButton",
-                Text = "Meteor调试\nSTARTSCAN FWD",
-                Size = new Size(116, 44),
-                Location = new Point(820, 8),
-                Anchor = AnchorStyles.Top | AnchorStyles.Right,
-                UseVisualStyleBackColor = true
-            };
-            _meteorDebugStartScanFwdButton.Click += MeteorDebugStartScanFwdButton_Click;
-
-            _meteorDebugEndJobButton = new Button
-            {
-                Name = "MeteorDebugEndJobButton",
-                Text = "Meteor调试\nENDJOB",
-                Size = new Size(116, 44),
-                Location = new Point(940, 8),
-                Anchor = AnchorStyles.Top | AnchorStyles.Right,
-                UseVisualStyleBackColor = true
-            };
-            _meteorDebugEndJobButton.Click += MeteorDebugEndJobButton_Click;
-
-            parent.Controls.Add(_meteorDebugStartJobButton);
-            parent.Controls.Add(_meteorDebugStartScanFwdButton);
-            parent.Controls.Add(_meteorDebugEndJobButton);
-            _meteorDebugStartJobButton.BringToFront();
-            _meteorDebugStartScanFwdButton.BringToFront();
-            _meteorDebugEndJobButton.BringToFront();
-
-            Control blankDocParent = GetMeteorDebugBlankDocParent();
-            _meteorDebugBlankDocButton = new Button
-            {
-                Name = "MeteorDebugBlankDocButton",
-                Text = "Meteor调试\n空白IMAGE文档",
-                Size = new Size(150, 50),
-                Location = new Point(8, 8),
-                Anchor = AnchorStyles.Top | AnchorStyles.Left,
-                UseVisualStyleBackColor = true
-            };
-            _meteorDebugBlankDocButton.Click += MeteorDebugBlankDocButton_Click;
-            blankDocParent.Controls.Add(_meteorDebugBlankDocButton);
-            _meteorDebugBlankDocButton.BringToFront();
-        }
-
-        private Control GetMeteorDebugBlankDocParent()
-        {
-            try
-            {
-                if (ManulDebugTAB != null && ManulDebugTAB.TabPages != null && ManulDebugTAB.TabPages.Count >= 3)
-                    return ManulDebugTAB.TabPages[2];
-            }
-            catch { }
-
-            return tabPage1 != null ? (Control)tabPage1 : this;
-        }
-
-        private void MeteorDebugStartJobButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _meteorDebugStartJobButton.Enabled = false;
-                uint imageWidth = GetMeteorDebugStartJobWidth();
-                Log4Net.Info($"[MeteorDebug] Manual STARTJOB button clicked imageWidth={imageWidth}; no motion, no STARTSCAN, no IMAGE.");
-
-                royal.royal.g_PrtJobItem.nJobID = 100;
-                royal.royal.g_PrtJobItem.nPixelGrayBits = 1;
-                if (royal.royal.g_PrtJobItem.nPrtXEncPos <= 0)
-                    royal.royal.g_PrtJobItem.nPrtXEncPos = 180000;
-                royal.royal.g_PrtJobItem.szJobName = "Meteor调试STARTJOB";
-
-                MeteorPrintEngine.SetPendingScanJobWidth(imageWidth);
-                int startContextRet = MeteorPrintEngine.StartJob(ref royal.royal.g_PrtJobItem);
-                bool startJobOk = startContextRet >= 0 && MeteorPrintEngine.SendStartJob(0, imageWidth);
-                Log4Net.Info($"[MeteorDebug] Manual STARTJOB result contextRet={startContextRet} startJobOk={startJobOk} imageWidth={imageWidth}");
-
-                MessageBox.Show(
-                    startJobOk
-                        ? "Meteor STARTJOB 已发送。此按钮不会启动运动，也不会发送 STARTSCAN/IMAGE。"
-                        : "Meteor STARTJOB 发送失败，请查看软件日志和 Meteor 日志。",
-                    "Meteor调试",
-                    MessageBoxButtons.OK,
-                    startJobOk ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
-            }
-            catch (Exception ex)
-            {
-                Log4Net.Info($"[MeteorDebug] Manual STARTJOB exception: {ex}");
-                MessageBox.Show("Meteor STARTJOB 调试异常：" + ex.Message, "Meteor调试", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (_meteorDebugStartJobButton != null)
-                    _meteorDebugStartJobButton.Enabled = true;
-            }
-        }
-
-        private void MeteorDebugStartScanFwdButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _meteorDebugStartScanFwdButton.Enabled = false;
-                Log4Net.Info("[MeteorDebug] Manual STARTSCAN FWD button clicked; no motion, no IMAGE, no ENDDOC.");
-                bool ok = MeteorPrintEngine.SendStartScan(true);
-                Log4Net.Info($"[MeteorDebug] Manual STARTSCAN FWD result ok={ok}");
-
-                MessageBox.Show(
-                    ok
-                        ? "Meteor STARTSCAN FWD 已发送。请观察 Meteor 日志是否立即出现 PD event。"
-                        : "Meteor STARTSCAN FWD 发送失败，请查看日志。",
-                    "Meteor调试",
-                    MessageBoxButtons.OK,
-                    ok ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
-            }
-            catch (Exception ex)
-            {
-                Log4Net.Info($"[MeteorDebug] Manual STARTSCAN FWD exception: {ex}");
-                MessageBox.Show("Meteor STARTSCAN FWD 调试异常：" + ex.Message, "Meteor调试", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (_meteorDebugStartScanFwdButton != null)
-                    _meteorDebugStartScanFwdButton.Enabled = true;
-            }
-        }
-
-        private void MeteorDebugEndJobButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _meteorDebugEndJobButton.Enabled = false;
-                Log4Net.Info("[MeteorDebug] Manual ENDJOB button clicked.");
-                bool ok = MeteorPrintEngine.SendEndJob();
-                Log4Net.Info($"[MeteorDebug] Manual ENDJOB result ok={ok}");
-
-                MessageBox.Show(
-                    ok ? "Meteor ENDJOB 已发送。" : "Meteor ENDJOB 发送失败，请查看日志。",
-                    "Meteor调试",
-                    MessageBoxButtons.OK,
-                    ok ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
-            }
-            catch (Exception ex)
-            {
-                Log4Net.Info($"[MeteorDebug] Manual ENDJOB exception: {ex}");
-                MessageBox.Show("Meteor ENDJOB 调试异常：" + ex.Message, "Meteor调试", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (_meteorDebugEndJobButton != null)
-                    _meteorDebugEndJobButton.Enabled = true;
-            }
-        }
-
-        private void MeteorDebugBlankDocButton_Click(object sender, EventArgs e)
-        {
-            const int width = 256;
-            const int height = 16;
-            int bytesPerLine = (width + 7) / 8;
-            byte[] blankPayload = new byte[bytesPerLine * height];
-            GCHandle handle = default(GCHandle);
-
-            try
-            {
-                _meteorDebugBlankDocButton.Enabled = false;
-                Log4Net.Info($"[MeteorDebug] Manual blank IMAGE doc clicked; width={width} height={height} bytesPerLine={bytesPerLine}; no motion.");
-
-                royal.royal.g_prtimg_layer.nXDPI = 400;
-                royal.royal.g_prtimg_layer.nYDPI = 600;
-                royal.royal.g_prtimg_layer.nBytesPerLine = bytesPerLine;
-                royal.royal.g_prtimg_layer.nWidth = width;
-                royal.royal.g_prtimg_layer.nHeight = height;
-                royal.royal.g_prtimg_layer.nLayerIndex = 0;
-                royal.royal.g_prtimg_layer.nColorCnts = 1;
-                royal.royal.g_prtimg_layer.nPrtDir = 1;
-                royal.royal.g_prtimg_layer.nPrtFlag = 1;
-                royal.royal.g_prtimg_layer.nYJetOff = 0;
-
-                handle = GCHandle.Alloc(blankPayload, GCHandleType.Pinned);
-                int ret = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, handle.AddrOfPinnedObject(), blankPayload.Length);
-                bool ok = ret > 0;
-                Log4Net.Info($"[MeteorDebug] Manual blank IMAGE doc result ret={ret} width={width} height={height}");
-
-                MessageBox.Show(
-                    ok
-                        ? "空白 IMAGE 文档已发送：STARTSCAN + IMAGE + ENDDOC。请观察 Meteor 日志是否仍立即出现 PD1 event。"
-                        : $"空白 IMAGE 文档发送失败，ret={ret}，请查看日志。",
-                    "Meteor调试",
-                    MessageBoxButtons.OK,
-                    ok ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
-            }
-            catch (Exception ex)
-            {
-                Log4Net.Info($"[MeteorDebug] Manual blank IMAGE doc exception: {ex}");
-                MessageBox.Show("Meteor 空白 IMAGE 文档调试异常：" + ex.Message, "Meteor调试", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (handle.IsAllocated)
-                    handle.Free();
-                if (_meteorDebugBlankDocButton != null)
-                    _meteorDebugBlankDocButton.Enabled = true;
-            }
-        }
-
-        private static uint GetMeteorDebugStartJobWidth()
-        {
-            try
-            {
-                string env = Environment.GetEnvironmentVariable("METEOR_DEBUG_STARTJOB_WIDTH");
-                if (!string.IsNullOrWhiteSpace(env) && uint.TryParse(env.Trim(), out uint parsed) && parsed > 0)
-                    return parsed;
-            }
-            catch { }
-
-            return 7323;
         }
 
         //对于减少缓冲，效果很明显
@@ -11599,8 +11361,6 @@ namespace BinderJetting
                             BackToStation((float)InkCarScanLowXMm, (float)ReturnVelocity1, false, false, 1);//打印：swath 先入 PCC，再启动 485→15 扫程
                             WaitInkCarXAxisReach(InkCarScanLowXMm);
                             MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtScanLowEnd", GetCurrentPos(1));
-                            if (MeteorPrintEngine.IsSplitJobPerPassEnabled())
-                                MeteorPrintEngine.TryCompleteDeferredEndJob("Pass0AtScanLowEnd");
                             BackToStation(passStartBaseY + passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//与 AutoPrintThread2 首条对齐：末位 Y≈50+passPitchY
 
 #region 监控指令：喷墨拍摄位点2
@@ -11614,13 +11374,11 @@ namespace BinderJetting
                         case 1://第2 PASS：swath 先入 PCC，再启动 15→485 扫程，避免小 Xleft 窗口被错过
                             MeteorPrintEngine.SignalPrintThreadPassReadyForMeteorSubmit(k_nCurrentLayer + 1, 1, "pass1-hold15-beforeSwathReady");
                             MeteorPrintEngine.WaitPassSwathMeteorReady(1, 10000);
+                            MeteorPrintEngine.TriggerPassForPureMeteorSchedule((uint)(k_nCurrentLayer + 1), 1, "pass1-afterSwathReady-beforeScan485");
                             BackToStation((float)InkCarScanHighXMm, (float)ReturnVelocity1, false, false, 1);//15→485 异步扫程，与 Pass0 485→15 对称
-                            MeteorPrintEngine.TriggerPassForPureMeteorSchedule((uint)(k_nCurrentLayer + 1), 1, "pass1-afterScan485Started");
                             WaitInkCarXAxisReach(InkCarScanHighXMm);
                             MeteorPrintEngine.LogDualCoordSnapshot("Pass1AtScanHighEnd", GetCurrentPos(1));
                             MeteorPrintEngine.LogScanPassMotionCheck("Pass1AfterScan", GetCurrentPos(1));
-                            if (MeteorPrintEngine.IsSplitJobPerPassEnabled())
-                                MeteorPrintEngine.TryCompleteDeferredEndJob("Pass1AtScanHighEnd");
                             BackToStation(passStartBaseY + 2 * passPitchY - YJetOffWidth, (float)ReturnVelocity1, true, true, 1);//第 2 条带 Y：与首条带基准 50mm 一致
 
 #region 监控指令：喷墨拍摄位点3
@@ -11638,7 +11396,6 @@ namespace BinderJetting
                             MeteorPrintEngine.TriggerPassForPureMeteorSchedule((uint)(k_nCurrentLayer + 1), 2, "pass2-afterScan15Started");
                             WaitInkCarXAxisReach(InkCarScanLowXMm);
                             MeteorPrintEngine.LogDualCoordSnapshot("Pass2AtScanLowEnd", GetCurrentPos(1));
-                            MeteorPrintEngine.LogPccMotionSnapshot("Pass2AtScanLowEnd");
                             MeteorPrintEngine.LogScanPassMotionCheck("Pass2AfterScan", GetCurrentPos(1));
 
 #region 监控指令：喷墨拍摄位点4
@@ -11649,11 +11406,8 @@ namespace BinderJetting
 #endregion
                             BackToStation((float)InkCarScanHighXMm, (float)ReturnVelocity1, false, true, 1);//15→485 收口（同步等停，勿与 EndJob 叠在 15mm 端）
                             WaitInkCarXAxisReach(InkCarScanHighXMm);
-                            MeteorPrintEngine.LogPccMotionSnapshot("Pass2AfterScanHighEndBeforeDualCoord");
                             MeteorPrintEngine.LogDualCoordSnapshot("Pass2AfterScanHighEnd", GetCurrentPos(1));
-                            MeteorPrintEngine.LogPccMotionSnapshot("Pass2AfterScanHighEndBeforeEndJob");
                             MeteorPrintEngine.TryCompleteDeferredEndJob("Pass2AfterScanHighEnd");
-                            MeteorPrintEngine.LogPccMotionSnapshot("Pass2AfterScanHighEndAfterEndJob");
 
                             if (NotGoCleanStationFlag == 1) //不回清洗站
                             { }

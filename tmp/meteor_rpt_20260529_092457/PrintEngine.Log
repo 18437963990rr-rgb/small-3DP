@@ -1,0 +1,67 @@
+-=-=-=-=- File Logging started, this Log part sequential number:0 -=-=-=-=- 
+-=-=-=-=- Print Engine version 4.8.33400.0 (32 bit) (built on Oct 16 2023)  Config file: 'C:\Users\Public\Documents\Meteor\Config\PccE\DefaultStarfire_PccE.cfg' -=-=-=-=- 
+
+[02194] 29-05-2026 09:24:51.717 CDiskLogger::LogFileInit() Max log files:10, each file max size:1048576 bytes
+[02194] 29-05-2026 09:24:57.253 >>>>>>>>>>>>>> creating status report <<<<<<<<<<<<<<
+[02194] 29-05-2026 09:24:57.253 OS version 6.2.9200 (1) 
+[02194] 29-05-2026 09:24:57.253 Processor arch=0x0009 level=0x0006 revision=0x5e03 numprocessors=8
+[02194] 29-05-2026 09:24:57.253 Compiler = 19.29.30133
+[02194] 29-05-2026 09:24:57.253 IsWow64Process = TRUE
+[02194] 29-05-2026 09:24:57.253 Is64BitProcess = FALSE
+[02194] 29-05-2026 09:24:57.253 ============ Print Engine status: ===========
+[02194] 29-05-2026 09:24:57.253 PE Ver=4.8.33400.0 (32 bit) (built on Oct 16 2023) F/W Ver=0x0eb999f3
+[02194] 29-05-2026 09:24:57.253 PrinterState  = 2
+[02194] 29-05-2026 09:24:57.253 PCCs attached = 1
+[02194] 29-05-2026 09:24:57.253 PCCs loading  = 0
+[02194] 29-05-2026 09:24:57.253 Input dwords  = 1334402
+[02194] 29-05-2026 09:24:57.253 Input dw lane2= 0
+[02194] 29-05-2026 09:24:57.253 Input dw flash= 0
+[02194] 29-05-2026 09:24:57.253 Output dwords = 1486866
+[02194] 29-05-2026 09:24:57.253 Print dwords  = 1487004
+[02194] 29-05-2026 09:24:57.253 PCC 1:   State = PS_IDLE
+[02194] 29-05-2026 09:24:57.253     FPGA ver   = 2
+[02194] 29-05-2026 09:24:57.253     PCC MCU ver= 0x0000
+[02194] 29-05-2026 09:24:57.253     StatusBits = 0x22F00C00
+[02194] 29-05-2026 09:24:57.253     FaultReg   = 0x00000000
+[02194] 29-05-2026 09:24:57.253     StatusReg  = 0x00000000
+[02194] 29-05-2026 09:24:57.253     Pd1_Count=2, Pd2_Count=2
+[02194] 29-05-2026 09:24:57.253     PrintCount1=0 PrintCount2=0
+[02194] 29-05-2026 09:24:57.253     Frequency  = 0
+[02194] 29-05-2026 09:24:57.253     Jitter     = 0 x 25ns
+[02194] 29-05-2026 09:24:57.253     AbsXcount  = 16777157
+[02194] 29-05-2026 09:24:57.253     InputCount = 0
+[02194] 29-05-2026 09:24:57.253     OpBuf Busy = 0
+[02194] 29-05-2026 09:24:57.253     SerIn Pkts = 0
+[02194] 29-05-2026 09:24:57.253     SerIn Errs = 0
+[02194] 29-05-2026 09:24:57.253     FPGA Tempr = 0.00
+[02194] 29-05-2026 09:24:57.253     FPGA fan rpm = 0
+[02194] 29-05-2026 09:24:57.253     PCC board rev = ?.?
+[02194] 29-05-2026 09:24:57.253     Head 1: State  = ST_OFF
+[02194] 29-05-2026 09:24:57.253         StatusBits = 0x00000000
+[02194] 29-05-2026 09:24:57.253         DdRamDwords A = 0, B = 0
+[02194] 29-05-2026 09:24:57.253         Buffers A = c0,r0 r0,doc=0; B = c0,r0 r0,doc=0
+[02194] 29-05-2026 09:24:57.253         Queued Cmds A = 0, B = 0
+[02194] 29-05-2026 09:24:57.253         HeadDwords A = 0, B = 0
+[02194] 29-05-2026 09:24:57.253         X-counter = 16776141
+[02194] 29-05-2026 09:24:57.253         Xstart A = 0 (valid=0), B = 0 (valid=0)
+[02194] 29-05-2026 09:24:57.253         Xlen   A = 0 (valid=0), B = 0 (valid=0)
+[02194] 29-05-2026 09:24:57.253         HDC Status Bad CRCs = 0
+[02194] 29-05-2026 09:24:57.253         PrintData  Bad CRCs = 0
+[02194] 29-05-2026 09:24:57.253     Head 2: State  = ST_OFF
+[02194] 29-05-2026 09:24:57.253         StatusBits = 0x00000000
+[02194] 29-05-2026 09:24:57.253         DdRamDwords A = 0, B = 0
+[02194] 29-05-2026 09:24:57.253         Buffers A = c0,r0 r0,doc=0; B = c0,r0 r0,doc=0
+[02194] 29-05-2026 09:24:57.253         Queued Cmds A = 0, B = 0
+[02194] 29-05-2026 09:24:57.253         HeadDwords A = 0, B = 0
+[02194] 29-05-2026 09:24:57.253         X-counter = 16775370
+[02194] 29-05-2026 09:24:57.253         Xstart A = 0 (valid=0), B = 0 (valid=0)
+[02194] 29-05-2026 09:24:57.253         Xlen   A = 0 (valid=0), B = 0 (valid=0)
+[02194] 29-05-2026 09:24:57.253         HDC Status Bad CRCs = 0
+[02194] 29-05-2026 09:24:57.253         PrintData  Bad CRCs = 0
+[02194] 29-05-2026 09:24:57.253 ========== End of Print Engine status =======
+[02194] 29-05-2026 09:24:57.253 PrintEngine location:C:\Program Files\Meteor Inkjet\Meteor\
+[02194] 29-05-2026 09:24:57.253 Cfg path:C:\Users\Public\Documents\Meteor\Config\PccE\DefaultStarfire_PccE.cfg
+[02194] 29-05-2026 09:24:57.344 ### Downloading File from[PCC:1], File:'/var/log/PccSysInfo.tar.gz'
+[02194] 29-05-2026 09:24:57.346 ### PCC client [192.168.2.170] connected. Port:12300  
+[02194] 29-05-2026 09:24:57.396 PrintEngine::CPccE_DlFileSave::Dl_Start() Creating destination file:C:\Users\Public\Documents\Meteor\Config\PccE\StatusReport/PccStatusData/Pcc1_SysInfo.tar.gz
+[02194] 29-05-2026 09:24:57.396 ### [PCC:1] File details: Size:4668, ModTime:09.05.2026 9:24:56
