@@ -2,7 +2,7 @@
 //#define SinglePassPrintMode
 #define TwoPassPrintMode
 //#define TwoPassPrintPerSixTimes  // 已停用：原 6 PASS（AutoPrintThread4 / CreatTwoPassFigure 6 道），只保留下方 3 PASS
-#define TwoPassPrintPerThreeTimes  // 当前：单层 3 PASS，Command 6 → AutoPrintThread5
+#define TwoPassPrintPerThreeTimes  // [2026-06-01] 启用时打印层循环走 EquipmentMotionLogic3 Command=6 → AutoPrintThread5  // 当前：单层 3 PASS，Command 6 → AutoPrintThread5
 
 
 using Composation;
@@ -2811,6 +2811,8 @@ namespace BinderJetting
                                     // 单层 3 PASS：nPassID 与 Meteor Pass 0..2 对齐；YJet 半宽三道对应原「offset-15/10/5」逻辑（按 PASS 固定，不再按层号 k%3 轮转）
                                     if (g_nRePrintTimes == 1)
                                     {
+                                    // [2026-06-01] 打印层循环墨车运动主调用点：EquipmentMotionLogic3(0,6,nPassID) → Command=6 → AutoPrintThread5。
+
                                         double yHalf0 = 0; // 2026-05-07：为切换纯 Meteor 软件补偿临时统一置0；修改前=g_RYSYSParam.m_dYJetOff / 2，默认15mm时为7.5mm
                                         double yHalf1 = 0; // 2026-05-07：为切换纯 Meteor 软件补偿临时统一置0；修改前=(g_RYSYSParam.m_dYJetOff - 5) / 2，默认15mm时为5.0mm
                                         double yHalf2 = 0; // 2026-05-07：为切换纯 Meteor 软件补偿临时统一置0；修改前=(g_RYSYSParam.m_dYJetOff - 10) / 2，默认15mm时为2.5mm
@@ -3830,7 +3832,10 @@ namespace BinderJetting
         /// <param name="YJetOffWidth"></param>
         /// <param name="NotGoCleanStationFlag"></param>
         /// <param name="YJetBaseOffWidth"></param>
-        private void EquipmentMotionLogic3(int index, int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth, int NotGoCleanStationFlag, double YJetBaseOffWidth)//20220524新增：PassIndex指示当前打印PASS序号
+        /// <summary>
+        /// [2026-06-01] 自动打印设备运动调度。墨车 3PASS 量产主路径：Command=6 → AutoPrintMotion3.AutoPrintThread5。
+        /// </summary>
+                private void EquipmentMotionLogic3(int index, int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth, int NotGoCleanStationFlag, double YJetBaseOffWidth)//20220524新增：PassIndex指示当前打印PASS序号
         {
             try
             {
@@ -3966,6 +3971,9 @@ namespace BinderJetting
                     Log4Net.Info($"EquipmentMotionLogic3: 完成调用AutoPrintThread3，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3?.LogInkCarAxisSnapshot($"EquipmentMotionLogic3: Command=5, PassIndex={PassIndex} 执行后轴快照");
                 }
+                // [2026-06-01] 自动打印墨车运动量产主入口：Command=6 → AutoPrintThread5（TwoPassPrintPerThreeTimes / 3PASS+Meteor）。
+                // 调用链：本文件打印层循环 → EquipmentMotionLogic3(0,6,nPassID) → AutoPrintMotion3.AutoPrintThread5。
+                // Command=4→AutoPrintThread2、Command=5→AutoPrintThread3 为其它编译配置/诊断路径，非当前 3PASS 主路径。
                 else if (Command == 6)//20230418新增：自动喷墨逻辑,采用双PASS方式进行打印，第2PASS打印逻辑
                 {
 #if TwoPassPrintMode
@@ -3977,6 +3985,7 @@ namespace BinderJetting
 #endif
 #if TwoPassPrintPerThreeTimes
                     Log4Net.Info($"EquipmentMotionLogic3: 进入Command=6分支(3次)，准备调用AutoPrintThread5，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
+                    // [2026-06-01] Command=6 实际进入墨车运动实现（量产主入口函数）。
                     AutoPrintMotion3.AutoPrintThread5(1, PassIndex, m_MovSpeed, m_BackCleanMovSpeed, ref toCamera, RecordLayerIndex, RecordProcessIndex, PauseFlag, YJetOffWidth, NotGoCleanStationFlag, YJetBaseOffWidth);//20230502新增：YJetBaseOffWidth
                     Log4Net.Info($"EquipmentMotionLogic3: 完成调用AutoPrintThread5(3次)，PassIndex={PassIndex}，UseSimpleTestMotion={手动操作.UseSimpleTestMotion}");
                     AutoPrintMotion3?.LogInkCarAxisSnapshot($"EquipmentMotionLogic3: Command=6(3次), PassIndex={PassIndex} 执行后轴快照");

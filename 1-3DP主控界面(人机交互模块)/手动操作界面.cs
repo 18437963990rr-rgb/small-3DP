@@ -127,6 +127,10 @@ namespace BinderJetting
         const int PowderCarHomeSearchSign = 1;
         const double PowderCarHomeRetractMm = -106.0;//-116+10：在原先 -116mm 回退量上缩短 10mm
         const int PowderCarDisplaySign = 1;
+        const int PowderStationFeedAxis = 3;
+        const double PowderStationFeedSpeedRevPerSec = 2.5;
+        const double PowderStationFeedPosToleranceMm = 15.0;
+        const int PowderStationFeedSettleMs = 150;
 
         int m_PowerBackBtnFlag = 0;//默认状态为0；20200411批注：
         public 手动操作(int PowerBackBtnFlag, UInt32 nValveStateMask, bool PrintJobExistedFlag)//20200718修改：
@@ -4351,6 +4355,124 @@ namespace BinderJetting
             }
         }
 
+        private bool IsPowderCarAtStationForFeed(out string reason)
+        {
+            double cur = GetCurrentPos(7);
+            double cfgHome = Math.Abs(k_RYSYSParamAutoPrintParamInTest != null ? k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition : 0);
+            double corr = k_RYSYSParamAutoPrintParamInTest != null ? k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection : 0;
+            double stationPos = cfgHome - corr;
+            double stationNeg = -cfgHome - corr;
+
+            if (Math.Abs(cur - stationPos) <= PowderStationFeedPosToleranceMm
+                || Math.Abs(cur - stationNeg) <= PowderStationFeedPosToleranceMm
+                || Math.Abs(cur - cfgHome) <= PowderStationFeedPosToleranceMm
+                || Math.Abs(cur + cfgHome) <= PowderStationFeedPosToleranceMm)
+            {
+                reason = $"粉车在落粉站附近 cur={cur:F1}mm";
+                return true;
+            }
+
+            reason = $"粉车不在落粉站，拒绝接粉：cur={cur:F1}mm，expected≈{stationPos:F1}/{stationNeg:F1}mm";
+            return false;
+        }
+
+        private bool StartPowderStationFeedMotion(string sourceTag, bool waitStop)
+        {
+            if (k_RYSYSParamAutoPrintParamInTest == null || k_RYSYSParamAutoPrintParamInTest.m_nEnablePowderStationFeed != 1)
+            {
+                Log4Net.Info($"[{sourceTag}] skip station feed: disabled");
+                return false;
+            }
+
+            string stationReason;
+            if (!IsPowderCarAtStationForFeed(out stationReason))
+            {
+                Log4Net.Info($"[{sourceTag}] skip station feed: {stationReason}");
+                return false;
+            }
+
+            double turns = k_RYSYSParamAutoPrintParamInTest.m_dPowderSupplyRotateNum;
+            if (turns <= 0)
+            {
+                Log4Net.Info($"[{sourceTag}] skip station feed: m_dPowderSupplyRotateNum<=0");
+                return false;
+            }
+
+            Log4Net.Info($"[{sourceTag}] station feed START axis={PowderStationFeedAxis}, turns={turns:F3}, speed={PowderStationFeedSpeedRevPerSec} rev/s, waitStop={waitStop}");
+            TrapMoveUp(PowderStationFeedAxis, true, Convert.ToString(PowderStationFeedSpeedRevPerSec), turns.ToString(System.Globalization.CultureInfo.InvariantCulture), true, waitStop);
+            return true;
+        }
+
+        private void WaitGoogolAxisTrapDone(short axis, string sourceTag, int timeoutMs)
+        {
+            DateTime deadline = DateTime.UtcNow.AddMilliseconds(timeoutMs);
+            int status = 0;
+            while (DateTime.UtcNow < deadline)
+            {
+                motionMap.GetAxisStatus(axis, out status);
+                if ((status & 0x400) == 0)
+                {
+                    Thread.Sleep(30);
+                    motionMap.GetAxisStatus(axis, out status);
+                    if ((status & 0x400) == 0)
+                        return;
+                }
+                Thread.Sleep(10);
+            }
+            Log4Net.Info($"[{sourceTag}] axis{axis} trap wait timeout, sts=0x{status:X}");
+        }
+
+        private void FinishPowderStationFeedMotion(string sourceTag, bool feedStarted)
+        {
+            if (!feedStarted)
+                return;
+
+            WaitGoogolAxisTrapDone(PowderStationFeedAxis, sourceTag + "_axis3", 15000);
+            motionMap.StopMotion(PowderStationFeedAxis);
+            if (PowderStationFeedSettleMs > 0)
+                Thread.Sleep(PowderStationFeedSettleMs);
+            Log4Net.Info($"[{sourceTag}] station feed DONE");
+        }
+
+        private void WaitAxis8StableAfterTrap(string sourceTag)
+        {
+            DateTime axis8Deadline = DateTime.UtcNow.AddSeconds(3);
+            double axis8Prev = GetCurrentPos(8);
+            int axis8StableCount = 0;
+            int axis8Status = 0;
+            while (DateTime.UtcNow < axis8Deadline)
+            {
+                Thread.Sleep(20);
+                double axis8Cur = GetCurrentPos(8);
+                motionMap.GetAxisStatus(8, out axis8Status);
+                axis8StableCount = (Math.Abs(axis8Cur - axis8Prev) <= 0.005 && (axis8Status & 0x400) == 0) ? (axis8StableCount + 1) : 0;
+                axis8Prev = axis8Cur;
+                if (axis8StableCount >= 3)
+                    break;
+            }
+            Log4Net.Info($"[{sourceTag}] axis8 stable wait done, stableCount={axis8StableCount}");
+        }
+
+        private void RunPowderPrepParallel_ZDownAndStationFeed(string sourceTag, double vel, double trapSpaceDown)
+        {
+            bool feedStarted = false;
+#if OpenMagnetWhenUse
+            GoogolDigtalOut(14, true);
+            GoogolDigtalOut(15, true);
+#endif
+            double axis8Before = GetCurrentPos(8);
+            Log4Net.Info($"Axis8DirDiag: {sourceTag} parallel prep down, cur={axis8Before:F3}mm, trap={trapSpaceDown:F3}mm");
+            TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(trapSpaceDown), true, false);
+            feedStarted = StartPowderStationFeedMotion(sourceTag, false);
+            WaitAxis8StableAfterTrap(sourceTag + "_axis8");
+            FinishPowderStationFeedMotion(sourceTag, feedStarted);
+#if OpenMagnetWhenUse
+            GoogolDigtalOut(15, false);
+            GoogolDigtalOut(14, false);
+#endif
+            Log4Net.Info($"Axis8StepDiag: {sourceTag} parallel prep down done, before={axis8Before:F3}mm, after={GetCurrentPos(8):F3}mm, delta={GetCurrentPos(8) - axis8Before:F3}mm");
+        }
+
         //刷新虚拟打印编码器状态显示定时器
         public/*private*/ System.Windows.Forms.Timer Timer4 = null;//刷新虚拟打印编码器状态显示定时器
         private void StartUpadateDYMoveStatus()//开启双Y轴MOVE限位信号
@@ -6035,6 +6157,9 @@ namespace BinderJetting
         public bool[] m_bScraperEnds = new bool[2] { false, false };//历史刮墨双运动AB端定义；20260416起不再驱动轴7/8
         private bool m_bManualAutoCleanEntry = false;
         private bool m_bScraperPreparedForClean = false;
+        /// <summary>自动清洗（非手动）累计次数，用于周期性物理寻零。</summary>
+        private static int s_nAutoCleanRunCounter = 0;
+        private const int AutoCleanPhysicalHomeEveryNRuns = 8;
         public bool CorrectFlag = false;//20200919新增：系统校准标志位
         //public double[] m_Step = new double[2]{ 150, 450};//20200918新增：刮墨主运动、刮墨副步进距离
         //public bool[] m_bMoveModeFlag = new bool[2]{ true, true};//20200918新增：刮墨主运动、刮墨副运动类型
@@ -7574,7 +7699,7 @@ namespace BinderJetting
                     double cleanStationY = INKCAR_CLEAN_STATION_Y;
                     double pressInkX = INKCAR_CLEAN_STATION_X;
                     double cleanX = Math.Min(requestedCleanX, XMaxDistanceMM - 5);
-                    const double scraperCleanAngleDeg = 135.0;
+                    const double scraperCleanAngleDeg = 145.0;
                     const float wipeBackSpeed = 20.0f;
                     const int pressInkHoldMs = 2000;
 
@@ -7586,6 +7711,8 @@ namespace BinderJetting
                         msg = $"自动清洗：新清洗位 X 请求值 {requestedCleanX:F1}mm 超出软件保护上限，实际使用 {cleanX:F1}mm";
                         Log4Net.Info(msg);
                     }
+
+                    bool forcePhysicalHomeThisSession = ResolveForcePhysicalHomeForAutoClean();
 
                     for (int ci = 0; ci < cleanTimes; ci++)
                     {
@@ -7620,15 +7747,10 @@ namespace BinderJetting
                         msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍已到新清洗位 X={cleanX:F1}mm，准备升刮板到 {scraperCleanAngleDeg:F1}°";
                         Log4Net.Info(msg);
 
-                        if (!HomeInkScraperAxis(axisVel, $"AutoCleanThread2_Cycle{ci + 1}_BeforeScrape", false))
-                        {
-                            MessageBox.Show($"自动清洗第{ci + 1}遍：刮板回等待位失败");
-                            break;
-                        }
-
+                        // TrapMoveSpreaderAxis 内部会 ZeroPos+SetEncPos(0) 再转角，与 SetBackSpreaderAxis 重复；刮前不再单独寻零。
                         double relativeCleanAngleDeg = scraperCleanAngleDeg - SinkHomePosition;
                         bool scraperToCleanPos = motionMap.TrapMoveSpreaderAxis(4, axisVel, -relativeCleanAngleDeg);
-                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍刮板升至 {scraperCleanAngleDeg:F1}°，ReturnCode{{{scraperToCleanPos}}}";
+                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍刮板升至 {scraperCleanAngleDeg:F1}°（Trap 目标 {-relativeCleanAngleDeg:F1}°），ReturnCode{{{scraperToCleanPos}}}";
                         Log4Net.Info(msg);
                         if (!scraperToCleanPos)
                         {
@@ -7640,8 +7762,8 @@ namespace BinderJetting
                         msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍墨车以 {wipeBackSpeed:F1}mm/s 从清洗位回刮至压墨位";
                         Log4Net.Info(msg);
 
-                        bool scraperBackOk = motionMap.TrapMoveSpreaderAxisRelative(4, axisVel, relativeCleanAngleDeg);
-                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍刮板相对回等待位 Δ={relativeCleanAngleDeg:F1}°，ReturnCode{{{scraperBackOk}}}";
+                        bool scraperBackOk = motionMap.TrapMoveSpreaderAxis(4, axisVel, 0);
+                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍刮板 Trap 回等待位 0°（与升至 {-relativeCleanAngleDeg:F1}° 同一坐标系），ReturnCode{{{scraperBackOk}}}";
                         Log4Net.Info(msg);
                         if (!scraperBackOk)
                         {
@@ -7649,8 +7771,21 @@ namespace BinderJetting
                             break;
                         }
 
-                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍完成，刮板已回等待位";
+                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍完成，刮板已回 Trap 等待位";
                         Log4Net.Info(msg);
+                    }
+
+                    if (forcePhysicalHomeThisSession)
+                    {
+                        if (!HomeInkScraperAxis(axisVel, "AutoCleanThread2_EndPhysicalHome", false, true))
+                        {
+                            MessageBox.Show("自动清洗结束：刮板物理寻零失败");
+                        }
+                        else
+                        {
+                            msg = "自动清洗：本轮结束已执行刮板物理寻零（手动每次 / 自动每8次）";
+                            Log4Net.Info(msg);
+                        }
                     }
 
                     m_bScraperPreparedForClean = false;
@@ -9275,96 +9410,10 @@ namespace BinderJetting
 #if true//铺粉逻辑，暂时注释掉//20220524新建：成型缸逻辑，一次下降1个层厚
                 //(1)Z向进给：层厚量并入后续补偿下降，避免单独0.1mm动作耗时过长
                 double vel = 2/*1*/;//Z向运动速度为1mm/s//20230403修改：
-#if OpenMagnetWhenUse
-                GoogolDigtalOut(14, true);
-                GoogolDigtalOut(15, true);
-#endif
-                //20230313新增：单独下降层厚，精度不够：继续下降1500um
-                //20230313新增：单独下降层厚，精度不够：继续下降1500um
-                //20230313新增：单独下降层厚，精度不够：继续下降1500um
-                //20220915新增：铺粉完成 下降一段距离，避免回程压碎
-                vel = 2/*1*/;//Z向运动速度为1mm/s//20230403修改：
                 double TrapSpace = -((double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / (double)1000 + (double)1500 / (double)1000);//20220525新建批注：层厚并入下降1500μm补偿
-                                                         //#if OpenMagnetWhenUse
-                                                         //                GoogolDigtalOut(15,true);
-                                                         //#endif
-                TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false);//20260416修改：当前成型缸轴改为轴8
-                                                                                                                                      //#if OpenMagnetWhenUse
-                                                                                                                                      //                GoogolDigtalOut(15,false);
-                                                                                                                                      //#endif
-                double axis8Step2Before = GetCurrentPos(8);
-                double axis8Step2PrfBeforePulse = double.NaN;
-                motionMap.GetPrfPos(8, out axis8Step2PrfBeforePulse);
-                double axis8Step2PrfBefore = axis8Step2PrfBeforePulse / 1000.0;
-                Log4Net.Info($"Axis8DirDiag: Auto下降层厚并补偿, cur={axis8Step2Before:F3}mm, trap={TrapSpace:F3}mm, dir={(TrapSpace < 0 ? "负向=对应手动负向点动" : "正向=对应手动正向点动")}");
-                DateTime axis8StatusStep2Deadline = DateTime.UtcNow.AddSeconds(3); double axis8StatusStep2Prev = GetCurrentPos(8); int axis8Step2StableCount = 0; int axis8StatusStep2 = 0;
-                while (DateTime.UtcNow < axis8StatusStep2Deadline)
-                {
-                    Thread.Sleep(20); double axis8StatusStep2Cur = GetCurrentPos(8); motionMap.GetAxisStatus(8, out axis8StatusStep2);
-                    axis8Step2StableCount = (Math.Abs(axis8StatusStep2Cur - axis8StatusStep2Prev) <= 0.005 && (axis8StatusStep2 & 0x400) == 0) ? (axis8Step2StableCount + 1) : 0; axis8StatusStep2Prev = axis8StatusStep2Cur;
-                    if (axis8Step2StableCount >= 3) break;
-                }
-                double[] axis8EncStep2 = motionMap.GetEncPos(); double axis8RawStep2 = (axis8EncStep2 != null && axis8EncStep2.Length >= 8) ? axis8EncStep2[7] : double.NaN; double axis8Step2After = GetCurrentPos(8);
-                double axis8Step2PrfAfterPulse = double.NaN;
-                motionMap.GetPrfPos(8, out axis8Step2PrfAfterPulse);
-                double axis8Step2PrfAfter = axis8Step2PrfAfterPulse / 1000.0;
-                Log4Net.Info($"Axis8StepDiag: CureFirst step2 done, before={axis8Step2Before:F3}mm, after={axis8Step2After:F3}mm, delta={axis8Step2After - axis8Step2Before:F3}mm, prfBefore={axis8Step2PrfBefore:F3}mm, prfAfter={axis8Step2PrfAfter:F3}mm, prfDelta={axis8Step2PrfAfter - axis8Step2PrfBefore:F3}mm, axis8Sts=0x{axis8StatusStep2:X}, axis8Enc={axis8RawStep2:F1}, stableCount={axis8Step2StableCount}");
-                msg = $"成形面高度下降层厚并补偿 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
+                RunPowderPrepParallel_ZDownAndStationFeed("NewAutoSupplyPowderThread2CureFirst", vel, TrapSpace);
+                msg = $"CureFirst: parallel axis8 down and axis3 station feed done, TrapSpace={{-{TrapSpace}mm}}";
                 Log4Net.Info(msg);
-
-#if OpenMagnetWhenUse
-                GoogolDigtalOut(15, false);
-                GoogolDigtalOut(14, false);
-#endif
-
-                //#if OpenMagnetWhenUse
-                //                GoogolDigtalOut(14, true);
-                //                GoogolDigtalOut(15, true);
-                //#endif
-                //                //20230313新增：单独下降层厚，精度不够：继续下降1500um
-                //                //20230313新增：单独下降层厚，精度不够：继续下降1500um
-                //                //20230313新增：单独下降层厚，精度不够：继续下降1500um
-                //                //20220915新增：铺粉完成 下降一段距离，避免回程压碎
-                //                vel = 2/*1*/;//Z向运动速度为1mm/s//20230403修改：
-                //                TrapSpace = -(double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向//下降1500μm
-                //                                                         //#if OpenMagnetWhenUse
-                //                                                         //                GoogolDigtalOut(15,true);
-                //                                                         //#endif
-                //                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//不同于默认，为不等停
-                //                                                                                                                                      //#if OpenMagnetWhenUse
-                //                                                                                                                                      //                GoogolDigtalOut(15,false);
-                //                                                                                                                                      //#endif
-                //                msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
-                //                Log4Net.Info(msg);
-
-                //                //Thread.Sleep(1000);//等待800 ms
-
-                //                //20230313新增：单独下降层厚，精度不够：回程1500um
-                //                //20230313新增：单独下降层厚，精度不够：回程1500um
-                //                //20230313新增：单独下降层厚，精度不够：回程1500um
-                //                //20220915新增：铺粉完成 下降一段距离，避免回程压碎
-                //                vel = 2/*1*/;//Z向运动速度为1mm/s//20230403修改：
-                //                TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
-                //                                                        //#if OpenMagnetWhenUse
-                //                                                        //                GoogolDigtalOut(15,true);
-                //                                                        //#endif
-                //                TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false/*true*//*!WaitStopFLag*//*true*/);//20200520批注：铺粉车移动到指定位置;//不同于默认，为不等停
-                //#if OpenMagnetWhenUse
-                //                GoogolDigtalOut(15, false);
-                //                GoogolDigtalOut(14, false);
-                //#endif
-                //                msg = $"成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(1, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
-                //                Log4Net.Info(msg);
-                //                //Thread.Sleep(1000);//等待800 ms
-
-                //#endif
-
-                //(1)落粉站漏斗阀门转指定圈数后停止（接粉）
-                double rotateNuM = k_RYSYSParamAutoPrintParamInTest.m_dPowderSupplyRotateNum;
-                msg = $"当前版本停用轴3初始落粉动作，保留原工艺参数参考：轴3原计划转{rotateNuM}圈";
-                Log4Net.Info(msg);
-
-                Thread.Sleep(1000);//20230411新增：等待1s保证接上粉
 
                 /*****************************************=========>>>***************************************/
                 /*****************************************=========>>>***************************************/
@@ -10591,47 +10640,10 @@ namespace BinderJetting
 #if true//铺粉逻辑，暂时注释掉//20220524新建：成型缸逻辑，一次下降1个层厚
                 //(1)Z向进给：层厚量并入后续补偿下降，避免单独0.1mm动作耗时过长
                 double vel = 2/*1*/;//Z向运动速度为1mm/s//20230403修改：
-#if OpenMagnetWhenUse
-                GoogolDigtalOut(14, true);
-                GoogolDigtalOut(15, true);
-#endif
-                //20230313新增：单独下降层厚，精度不够：继续下降1500um
-                //20230313新增：单独下降层厚，精度不够：继续下降1500um
-                //20230313新增：单独下降层厚，精度不够：继续下降1500um
-                //20220915新增：铺粉完成 下降一段距离，避免回程压碎
-                /*
-                 * 成型杠下降，Leon，2024/04/16
-                 */
-                vel = 2/*1*/;//Z向运动速度为1mm/s//20230403修改：
                 double TrapSpace = -((double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / (double)1000 + (double)1500 / (double)1000);//20220525新建批注：层厚并入下降1500μm补偿
-//#if OpenMagnetWhenUse
-//                GoogolDigtalOut(15,true);
-//#endif
-                TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true);//20260416修改：当前成型缸轴改为轴8
-//#if OpenMagnetWhenUse
-//                GoogolDigtalOut(15,false);
-//#endif
-                double axis8Step2Before = GetCurrentPos(8);
-                Log4Net.Info($"Axis8DirDiag: Auto下降层厚并补偿, cur={axis8Step2Before:F3}mm, trap={TrapSpace:F3}mm, dir={(TrapSpace < 0 ? "负向=对应手动负向点动" : "正向=对应手动正向点动")}");
-                double axis8Step2PrfBeforePulse = double.NaN;
-                motionMap.GetPrfPos(8, out axis8Step2PrfBeforePulse);
-                double axis8Step2PrfBefore = axis8Step2PrfBeforePulse / 1000.0;
-                DateTime axis8Step2Deadline = DateTime.UtcNow.AddSeconds(3); double axis8Step2Prev = GetCurrentPos(8); int axis8Step2StableCount = 0; int axis8StatusStep2 = 0;
-                while (DateTime.UtcNow < axis8Step2Deadline)
-                {
-                    Thread.Sleep(20); double axis8Step2Cur = GetCurrentPos(8); motionMap.GetAxisStatus(8, out axis8StatusStep2);
-                    axis8Step2StableCount = (Math.Abs(axis8Step2Cur - axis8Step2Prev) <= 0.005 && (axis8StatusStep2 & 0x400) == 0) ? (axis8Step2StableCount + 1) : 0; axis8Step2Prev = axis8Step2Cur;
-                    if (axis8Step2StableCount >= 3) break;
-                }
-                double[] axis8EncStep2 = motionMap.GetEncPos(); double axis8RawStep2 = (axis8EncStep2 != null && axis8EncStep2.Length >= 8) ? axis8EncStep2[7] : double.NaN; double axis8Step2After = GetCurrentPos(8);
-                double axis8Step2PrfAfterPulse = double.NaN;
-                motionMap.GetPrfPos(8, out axis8Step2PrfAfterPulse);
-                double axis8Step2PrfAfter = axis8Step2PrfAfterPulse / 1000.0;
-                Log4Net.Info($"Axis8StepDiag: AutoSupplyPowder step2 done, before={axis8Step2Before:F3}mm, after={axis8Step2After:F3}mm, delta={axis8Step2After - axis8Step2Before:F3}mm, prfBefore={axis8Step2PrfBefore:F3}mm, prfAfter={axis8Step2PrfAfter:F3}mm, prfDelta={axis8Step2PrfAfter - axis8Step2PrfBefore:F3}mm, axis8Sts=0x{axis8StatusStep2:X}, axis8Enc={axis8RawStep2:F1}, stableCount={axis8Step2StableCount}");
-                msg = $"成形面高度下降层厚并补偿 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, true）";
+                RunPowderPrepParallel_ZDownAndStationFeed("NewAutoSupplyPowderThread2", vel, TrapSpace);
+                msg = $"AutoSupplyPowder: parallel axis8 down and axis3 station feed done, TrapSpace={{-{TrapSpace}mm}}";
                 Log4Net.Info(msg);
-
-                //Thread.Sleep(1000);//等待800 ms
 
                 //20230313新增：单独下降层厚，精度不够：回程1500um
                 //20230313新增：单独下降层厚，精度不够：回程1500um
@@ -10642,9 +10654,10 @@ namespace BinderJetting
                  */
                 vel = 2/*1*/;//Z向运动速度为1mm/s//20230403修改：
                 TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
-//#if OpenMagnetWhenUse
-//                GoogolDigtalOut(15,true);
-//#endif
+#if OpenMagnetWhenUse
+                GoogolDigtalOut(14, true);
+                GoogolDigtalOut(15, true);
+#endif
                 TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false);//20260416修改：当前成型缸轴改为轴8
 #if OpenMagnetWhenUse
                 GoogolDigtalOut(15, false);
@@ -10660,16 +10673,6 @@ namespace BinderJetting
                 //Thread.Sleep(1000);//等待800 ms
 
 #endif
-
-                /*
-                 * 初始落粉，Leon，2024/04/16
-                 */
-                //(1)落粉站漏斗阀门转指定圈数后停止（初始落粉）：20220512批注
-                double rotateNuM = k_RYSYSParamAutoPrintParamInTest.m_dPowderSupplyRotateNum;
-                msg = $"当前版本停用轴3初始落粉动作，保留原工艺参数参考：轴3原计划转{rotateNuM}圈";
-                Log4Net.Info(msg);
-
-                Thread.Sleep(1000);//20230411新增：等待1s保证接上粉
 
                 /*
                  * 铺粉车去程开始，Leon，2024/04/16
@@ -11251,6 +11254,10 @@ namespace BinderJetting
         /// <param name="YJetOffWidth"></param>
         /// <param name="NotGoCleanStationFlag"></param>
         /// TODO::修改打印辐面等常数 
+        /// <summary>
+        /// [2026-06-01] 非当前 3PASS 量产主路径：经 EquipmentMotionLogic3 Command=4 调用（SinglePassPrintMode 等）。
+        /// 当前 TwoPassPrintPerThreeTimes 量产墨车运动见 <see cref="AutoPrintThread5"/>（Command=6）。
+        /// </summary>
         public void AutoPrintThread2(int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth, int NotGoCleanStationFlag)//20220513新建:自动喷墨运动动作
         {
             string msg = $"进入：AutoPrintThread2！";
@@ -11560,6 +11567,11 @@ namespace BinderJetting
             }
             else { }
         }
+        /// <summary>
+        /// [2026-06-01] 自动打印墨车运动量产主实现（3PASS+Meteor）。
+        /// 调用链：工业控制.cs 打印层循环 → EquipmentMotionLogic3(Command=6) → 本方法。
+        /// Meteor 数据链在 5-SharpControl.RenderToWic / MeteorPrintEngine，与本方法通过 ScanGate 对齐。
+        /// </summary>
         public void AutoPrintThread5(int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth, int NotGoCleanStationFlag,double YJetBaseOffWidth)//20220513新建:自动喷墨运动动作
         {
             string msg = $"进入：AutoPrintThread5！Command={Command}, PassIndex={PassIndex}, m_MovSpeed={m_MovSpeed}, m_BackCleanMovSpeed={m_BackCleanMovSpeed}";
@@ -11614,8 +11626,7 @@ namespace BinderJetting
                         case 1://第2 PASS：swath 先入 PCC，再启动 15→485 扫程，避免小 Xleft 窗口被错过
                             MeteorPrintEngine.SignalPrintThreadPassReadyForMeteorSubmit(k_nCurrentLayer + 1, 1, "pass1-hold15-beforeSwathReady");
                             MeteorPrintEngine.WaitPassSwathMeteorReady(1, 10000);
-                            BackToStation((float)InkCarScanHighXMm, (float)ReturnVelocity1, false, false, 1);//15→485 异步扫程，与 Pass0 485→15 对称
-                            MeteorPrintEngine.TriggerPassForPureMeteorSchedule((uint)(k_nCurrentLayer + 1), 1, "pass1-afterScan485Started");
+                            BackToStation((float)InkCarScanHighXMm, (float)ReturnVelocity1, false, false, 1);//15→485 异步扫程，与 Pass0 485→15 对称；pass 切换靠 natural PD
                             WaitInkCarXAxisReach(InkCarScanHighXMm);
                             MeteorPrintEngine.LogDualCoordSnapshot("Pass1AtScanHighEnd", GetCurrentPos(1));
                             MeteorPrintEngine.LogScanPassMotionCheck("Pass1AfterScan", GetCurrentPos(1));
@@ -11631,11 +11642,10 @@ namespace BinderJetting
 #endregion
 
                             break;
-                        case 2://第3 PASS：swath 先入 PCC，先启动 485→15 扫程，再 ForcePD，避免静止端触发窗口被提前消费
+                        case 2://第3 PASS：swath 先入 PCC，再启动 485→15 扫程；pass 切换靠 natural PD（不用 ForcePD）
                             MeteorPrintEngine.SignalPrintThreadPassReadyForMeteorSubmit(k_nCurrentLayer + 1, 2, "pass2-hold485-beforeSwathReady");
                             MeteorPrintEngine.WaitPassSwathMeteorReady(2, 10000);
                             BackToStation((float)InkCarScanLowXMm, (float)ReturnVelocity1, false, false, 1);//485→15 异步扫程
-                            MeteorPrintEngine.TriggerPassForPureMeteorSchedule((uint)(k_nCurrentLayer + 1), 2, "pass2-afterScan15Started");
                             WaitInkCarXAxisReach(InkCarScanLowXMm);
                             MeteorPrintEngine.LogDualCoordSnapshot("Pass2AtScanLowEnd", GetCurrentPos(1));
                             MeteorPrintEngine.LogPccMotionSnapshot("Pass2AtScanLowEnd");
@@ -11647,13 +11657,12 @@ namespace BinderJetting
                                 toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 4);//20230113新建且批注：监控发送指令
                             }
 #endregion
-                            BackToStation((float)InkCarScanHighXMm, (float)ReturnVelocity1, false, true, 1);//15→485 收口（同步等停，勿与 EndJob 叠在 15mm 端）
+                            BackToStation((float)InkCarScanHighXMm, (float)ReturnVelocity1, false, true, 1);//15→485 收口（同步等停）
                             WaitInkCarXAxisReach(InkCarScanHighXMm);
                             MeteorPrintEngine.LogPccMotionSnapshot("Pass2AfterScanHighEndBeforeDualCoord");
                             MeteorPrintEngine.LogDualCoordSnapshot("Pass2AfterScanHighEnd", GetCurrentPos(1));
-                            MeteorPrintEngine.LogPccMotionSnapshot("Pass2AfterScanHighEndBeforeEndJob");
-                            MeteorPrintEngine.TryCompleteDeferredEndJob("Pass2AfterScanHighEnd");
-                            MeteorPrintEngine.LogPccMotionSnapshot("Pass2AfterScanHighEndAfterEndJob");
+                            if (MeteorPrintEngine.TryCompleteDeferredEndJob("Pass2AfterScanHighEnd"))
+                                MeteorPrintEngine.LogPccMotionSnapshot("Pass2AfterScanHighEndAfterDeferredEndJob");
 
                             if (NotGoCleanStationFlag == 1) //不回清洗站
                             { }
@@ -11721,7 +11730,11 @@ namespace BinderJetting
         }
 
         /// <summary>阶段A收敛：UI「自动进给铺粉」与主界面 EquipmentMotionLogic3 Command2 相同，走 NewAutoSupplyPowderThread2*；层/工序号用 0,10 与自动打印占位一致。</summary>
-        /// <remarks>阶段B路由表（唯一主路径）：Command1→AutoCleanThread2；Command2→NewAutoSupplyPowderThread2*；Command3→AutoCureThread；Command4–7→AutoPrintThread2/3/4/5。已标记 [Obsolete] 的旧方法请勿再作工艺修改。</remarks>
+        /// <remarks>
+        /// 阶段B路由表：Command1→AutoCleanThread2；Command2→NewAutoSupplyPowderThread2*；Command3→AutoCureThread；
+        /// [2026-06-01] 自动打印墨车运动量产主路径：Command6→AutoPrintThread5（TwoPassPrintPerThreeTimes / 3PASS+Meteor）；
+        /// Command4→AutoPrintThread2、Command5→AutoPrintThread3 为其它编译配置/诊断路径。
+        /// </remarks>
         private void UiThreadEntry_NewAutoSupplyPowderThread2AlignedWithAutoPrint()
         {
             if (k_RYSYSParamAutoPrintParamInTest.m_nRecoaterMode == 0)
@@ -11732,8 +11745,8 @@ namespace BinderJetting
 
         /// <summary>
         /// 阶段A收敛：UI“自动喷墨运动”与主流程当前打印扫描链路保持一致。
-        /// 当前手动界面编译配置为 TwoPassPrintMode，因此这里按主流程的 3 PASS 路径依次执行 AutoPrintThread5(0..2)，
-        /// 并补执行一次 PassIndex=3 的层后/观察站收尾动作。
+        /// [2026-06-01] 与量产一致：依次 AutoPrintThread5（等价于工业控制 EquipmentMotionLogic3 Command=6），
+        /// 并补执行 PassIndex=3 层后/观察站收尾。
         /// </summary>
         private void UiThreadEntry_AutoPrintThreadAlignedWithAutoPrint()
         {
@@ -12583,6 +12596,21 @@ namespace BinderJetting
             }
         }
 
+        /// <summary>手动清洗每次在流程结束物理寻零；自动清洗每 <see cref="AutoCleanPhysicalHomeEveryNRuns"/> 次入参在流程结束物理寻零一次。刮前不再寻零（TrapMoveSpreaderAxis 内部已 ZeroPos）。</summary>
+        private bool ResolveForcePhysicalHomeForAutoClean()
+        {
+            if (m_bManualAutoCleanEntry)
+            {
+                Log4Net.Info("自动清洗刮板寻零策略：手动入口，本轮结束强制物理寻零");
+                return true;
+            }
+
+            s_nAutoCleanRunCounter++;
+            bool forcePhysical = (s_nAutoCleanRunCounter % AutoCleanPhysicalHomeEveryNRuns == 0);
+            Log4Net.Info($"自动清洗刮板寻零策略：runCounter={s_nAutoCleanRunCounter} everyN={AutoCleanPhysicalHomeEveryNRuns} endPhysicalHome={forcePhysical}");
+            return forcePhysical;
+        }
+
         private bool HomeInkScraperAxis(double homeSpeed, string operationName, bool showMessage, bool forcePhysicalHome = false)
         {
             string msg = $"开启刮墨轴回零校准：{operationName}";
@@ -13411,6 +13439,8 @@ namespace BinderJetting
 
             public double m_dPowderStationCorrection = 2.5;//20220528新增：单位MM
             public double m_dPowderSupplyRotateNum = 2.5;//20220528新增：单位圈
+            public int m_nEnablePowderStationFeed = 1;
+            public int m_nEnableTravelDispenseAxis3 = 0;
 
             public double m_dPreAngleForPowderSupply = 45;//20230411新增：45°
             public double m_dPreAngleRotateSpeedForPowderSupply = 1;//20230411新增：1rev/s

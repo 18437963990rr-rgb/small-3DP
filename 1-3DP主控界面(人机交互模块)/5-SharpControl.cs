@@ -2,7 +2,7 @@
 //#define SinglePassPrintMode
 #define TwoPassPrintMode
 //#define TwoPassPrintPerSixTimes  // 已停用：6 PASS 大图分条渲染
-#define TwoPassPrintPerThreeTimes  // 当前：单层 3 PASS（CreatTwoPassFigure(..., 3, ...)）
+#define TwoPassPrintPerThreeTimes  // [2026-06-01] 单层 3 PASS；墨车运动主路径见工业控制 Command=6→AutoPrintThread5，数据见本文件 RenderToWic/MeteorPrintEngine
 #define TEMP_METEOR_BITMAP_EXPORT
 
 
@@ -1642,11 +1642,11 @@ namespace BinderJetting
                     }
                     Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode {MeteorPrintEngine.DescribeBatchSwathModeConfig()} clone={clone.Width}x{clone.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}");
                     if (batchStartScanGateSplit)
-                        Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode BATCH-GATE-SPLIT 诊断模式 — 先预切缓存 3 strip，STARTSCAN+IMAGE 仍按 Pass0/1/2 门控发送；EndJob 延后至 Pass2 扫程结束");
+                        Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode BATCH-GATE-SPLIT 诊断模式 — 先预切缓存 3 strip，STARTSCAN+IMAGE 仍按 Pass0/1/2 门控发送；EndJob 默认发完即送，METEOR_BATCH_ENDJOB_IMMEDIATE=0 时延后");
                     else if (batchSwathMode)
-                        Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode BATCH-LEGACY 主路径 — Pass0 门控后连续发送 3 strip（STARTSCAN 也会提前）；EndJob 默认延后，METEOR_BATCH_ENDJOB_IMMEDIATE=1 时立即 EndJob");
+                        Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode BATCH-LEGACY 主路径 — Pass0 门控后连续发送 3 strip；EndJob 默认在 swath 发完后立即发送（METEOR_BATCH_ENDJOB_IMMEDIATE=0 可延后）");
                     else
-                        Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode 3PASS 按 pass 门控逐条发送（pass1/2 等待打印线程 Signal；EndJob 延后至 Pass2 扫程结束）");
+                        Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode 3PASS 按 pass 门控逐条发送；EndJob 默认在 swath 发完后立即发送");
                     if (batchStartScanGateSplit)
                     {
                         List<Tuple<System.Drawing.Bitmap, int>> cachedSwaths = new List<Tuple<System.Drawing.Bitmap, int>>();
@@ -1730,15 +1730,15 @@ namespace BinderJetting
                         {
                             Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode SPLIT-JOB-PER-PASS 3PASS swath 已全部发送；每个 pass 的 EndJob 由运动线程在对应扫程结束后完成，stripCount={stripIndexSimple}");
                         }
-                        else if (batchSwathMode && MeteorPrintEngine.IsBatchEndJobImmediateEnabled())
+                        else if (MeteorPrintEngine.IsBatchEndJobImmediateEnabled())
                         {
-                            bool endJobOk = MeteorPrintEngine.SendEndJobPreserveLayerGates("RenderToWic:SimplifiedMeteorAutoFlowMode:BatchImmediateEndJob");
-                            Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode HiPrint-style batch 已连续发送3PASS swath，并按 METEOR_BATCH_ENDJOB_IMMEDIATE=1 立即 EndJob（保留本层运动门控），stripCount={stripIndexSimple}, endJobOk={endJobOk}");
+                            bool endJobOk = MeteorPrintEngine.SendEndJobPreserveLayerGates("RenderToWic:SimplifiedMeteorAutoFlowMode:EndJobAfterSwaths");
+                            Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 3PASS swath 已全部发送，立即 EndJob（供应商：数据发完即可 ENDJOB），stripCount={stripIndexSimple}, batchSwathMode={batchSwathMode}, endJobOk={endJobOk}");
                         }
                         else
                         {
                             MeteorPrintEngine.MarkDeferredEndJobAfterPassSwaths("RenderToWic:SimplifiedMeteorAutoFlowMode");
-                            Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 3PASS swath 全部发送完成，EndJob 已标记延后，stripCount={stripIndexSimple} batchSwathMode={batchSwathMode}");
+                            Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 3PASS swath 全部发送完成，EndJob 延后（METEOR_BATCH_ENDJOB_IMMEDIATE=0），stripCount={stripIndexSimple} batchSwathMode={batchSwathMode}");
                         }
                     }
                     Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 同址3PASS发送完成，index={index}, subindex={subindex}, stripIndexSimple={stripIndexSimple}");
