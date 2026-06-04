@@ -165,9 +165,8 @@ namespace BinderJetting
             }
 
             double cfgHome = manualControl.k_RYSYSParamAutoPrintParamInTest != null ? manualControl.k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition : double.NaN;
-            double stationCorrection = manualControl.k_RYSYSParamAutoPrintParamInTest != null ? manualControl.k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection : double.NaN;
             double expectedHome = cfgHome;
-            double expectedStation = cfgHome - stationCorrection;
+            double expectedStation = cfgHome;//与 Home 校准点一致，不再减 stationCorrection
             const double toleranceMm = 10.0;
             bool nearExpectedHome = !double.IsNaN(expectedHome) && Math.Abs(powderCarMm - expectedHome) <= toleranceMm;
             bool nearExpectedStation = !double.IsNaN(expectedStation) && Math.Abs(powderCarMm - expectedStation) <= toleranceMm;
@@ -7830,12 +7829,14 @@ namespace BinderJetting
                                     {
                                         tempRePrintTimes = g_nRePrintTimes;
                                         int ActualStartNum = g_nLayerStart;
-                                        msg = $"准备处理第{j}层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
+                                        // SimplifiedMeteorAutoFlowMode 下 subindex>0 会直接 return；历史 i+1 偏移仅服务于旧 TwoPass/重喷子层，会导致 j>=1 永远跳过发送。
+                                        int renderSubIndex = g_SharpControl.SimplifiedMeteorAutoFlowMode ? i : (i + 1);
+                                        msg = $"准备处理第{j}层数据：准备调用RenderToWic，index为{j}，subindex为{renderSubIndex}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
                                         Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                                         var renderStopwatch = System.Diagnostics.Stopwatch.StartNew();
-                                        g_SharpControl.RenderToWic(true, j/*1*/, i + 1, g_nRePrintTimes, ActualStartNum);//需要校对渲染区间是否正确//201030修改：
+                                        g_SharpControl.RenderToWic(true, j/*1*/, renderSubIndex, g_nRePrintTimes, ActualStartNum);//需要校对渲染区间是否正确//201030修改：
                                         renderStopwatch.Stop();
-                                        msg = $"完成处理第{j}层数据：准备调用RenderToWic，index为{j}，subindex为{i}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
+                                        msg = $"完成处理第{j}层数据：准备调用RenderToWic，index为{j}，subindex为{renderSubIndex}，g_nRePrintTimes为{g_nRePrintTimes}，起始层为{ActualStartNum}";
                                         Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                                         Log4Net.Info($"数据处理线程：RenderToWic耗时，layer={j}，sub={i}，elapsedMs={renderStopwatch.ElapsedMilliseconds}");
 

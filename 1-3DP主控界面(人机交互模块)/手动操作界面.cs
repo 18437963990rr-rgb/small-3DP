@@ -131,6 +131,7 @@ namespace BinderJetting
         const double PowderStationFeedSpeedRevPerSec = 2.5;
         const double PowderStationFeedPosToleranceMm = 15.0;
         const int PowderStationFeedSettleMs = 150;
+        const int PowderCarTravelEndDwellMs = 600;//去程终点：成型缸返程前下降到位后等停(ms)，再启动铺粉车回程
 
         int m_PowerBackBtnFlag = 0;//默认状态为0；20200411批注：
         public 手动操作(int PowerBackBtnFlag, UInt32 nValveStateMask, bool PrintJobExistedFlag)//20200718修改：
@@ -4318,9 +4319,8 @@ namespace BinderJetting
             {
                 double axis7Mm = GetCurrentPos(7);
                 double cfgHome = k_RYSYSParamAutoPrintParamInTest != null ? k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition : double.NaN;
-                double stationCorrection = k_RYSYSParamAutoPrintParamInTest != null ? k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection : double.NaN;
                 double expectedHome = cfgHome;
-                double expectedStation = cfgHome - stationCorrection;
+                double expectedStation = cfgHome;//落粉站与 Home 校准点一致(112mm)，不再减 stationCorrection
                 const double toleranceMm = 10.0;
 
                 if (!PowderCarHomeFlag)
@@ -4359,9 +4359,8 @@ namespace BinderJetting
         {
             double cur = GetCurrentPos(7);
             double cfgHome = Math.Abs(k_RYSYSParamAutoPrintParamInTest != null ? k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition : 0);
-            double corr = k_RYSYSParamAutoPrintParamInTest != null ? k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection : 0;
-            double stationPos = cfgHome - corr;
-            double stationNeg = -cfgHome - corr;
+            double stationPos = cfgHome;
+            double stationNeg = -cfgHome;
 
             if (Math.Abs(cur - stationPos) <= PowderStationFeedPosToleranceMm
                 || Math.Abs(cur - stationNeg) <= PowderStationFeedPosToleranceMm
@@ -7712,7 +7711,9 @@ namespace BinderJetting
                         Log4Net.Info(msg);
                     }
 
-                    bool forcePhysicalHomeThisSession = ResolveForcePhysicalHomeForAutoClean();
+                    // 二代抬升式短流程：清洗循环内不做 SetBackSpreaderAxis 搜圈；仅 Trap 升角 ↔ trapDeg=0 待机往返。
+                    // 物理寻零仅保留在「刮墨轴回零」按钮；周期计数 ResolveForcePhysicalHomeForAutoClean 此处 intentionally 不调用。
+                    Log4Net.Info("自动清洗：短流程（二代抬升式）跳过清洗内物理寻零，刮后 trapDeg=0 直接回待机");
 
                     for (int ci = 0; ci < cleanTimes; ci++)
                     {
@@ -7747,9 +7748,11 @@ namespace BinderJetting
                         msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍已到新清洗位 X={cleanX:F1}mm，准备升刮板到 {scraperCleanAngleDeg:F1}°";
                         Log4Net.Info(msg);
 
-                        // TrapMoveSpreaderAxis 内部会 ZeroPos+SetEncPos(0) 再转角，与 SetBackSpreaderAxis 重复；刮前不再单独寻零。
+                        // TrapMoveSpreaderAxis 内部 ZeroPos 后以 trap 坐标升角；与 SetBackSpreaderAxis 搜圈无关。
                         double relativeCleanAngleDeg = scraperCleanAngleDeg - SinkHomePosition;
+                        motionMap.LogScraperAxis4Motion($"AutoCleanThread2 第{ci + 1}遍 升角前");
                         bool scraperToCleanPos = motionMap.TrapMoveSpreaderAxis(4, axisVel, -relativeCleanAngleDeg);
+                        motionMap.LogScraperAxis4Motion($"AutoCleanThread2 第{ci + 1}遍 升角后 trapTarget={-relativeCleanAngleDeg:F1}°");
                         msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍刮板升至 {scraperCleanAngleDeg:F1}°（Trap 目标 {-relativeCleanAngleDeg:F1}°），ReturnCode{{{scraperToCleanPos}}}";
                         Log4Net.Info(msg);
                         if (!scraperToCleanPos)
@@ -7762,8 +7765,10 @@ namespace BinderJetting
                         msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍墨车以 {wipeBackSpeed:F1}mm/s 从清洗位回刮至压墨位";
                         Log4Net.Info(msg);
 
-                        bool scraperBackOk = motionMap.TrapMoveSpreaderAxis(4, axisVel, 0);
-                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍刮板 Trap 回等待位 0°（与升至 {-relativeCleanAngleDeg:F1}° 同一坐标系），ReturnCode{{{scraperBackOk}}}";
+                        // 不能用 TrapMoveSpreaderAxis(0)：会先 ZeroPos，电机仍停在刮墨角。二代式收回：trapDeg=0（升角前 ZeroPos 的待机点），不清零、不搜 Home。
+                        const double scraperStandbyTrapDeg = 0.0;
+                        bool scraperBackOk = motionMap.TrapMoveSpreaderAxisToTrapDeg(4, axisVel, scraperStandbyTrapDeg);
+                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍刮板回待机 trapDeg={scraperStandbyTrapDeg:F1}°（机台等待角≈{SinkHomePosition:F1}°，仅 Δ≈{relativeCleanAngleDeg:F1}°），ReturnCode{{{scraperBackOk}}}";
                         Log4Net.Info(msg);
                         if (!scraperBackOk)
                         {
@@ -7771,21 +7776,8 @@ namespace BinderJetting
                             break;
                         }
 
-                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍完成，刮板已回 Trap 等待位";
+                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍完成，刮板已回等待位";
                         Log4Net.Info(msg);
-                    }
-
-                    if (forcePhysicalHomeThisSession)
-                    {
-                        if (!HomeInkScraperAxis(axisVel, "AutoCleanThread2_EndPhysicalHome", false, true))
-                        {
-                            MessageBox.Show("自动清洗结束：刮板物理寻零失败");
-                        }
-                        else
-                        {
-                            msg = "自动清洗：本轮结束已执行刮板物理寻零（手动每次 / 自动每8次）";
-                            Log4Net.Info(msg);
-                        }
                     }
 
                     m_bScraperPreparedForClean = false;
@@ -8725,9 +8717,8 @@ namespace BinderJetting
                         //(2)洒粉车回到落粉站位置（回站）：20220512批注
                         PosValue = GetCurrentPos(7);//20220520新建：查询实时铺粉车位置
                         RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
-                        double PowderStationCorrection = k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection;
-                        // 回程目标使用“铺粉车 home 绝对坐标 - 微调量”，避免旧版 1-correction 导致跨零过大行程。
-                        AimPos = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition - PowderStationCorrection;
+                        // 回程回 Home 校准点(与落粉孔对齐)，不再减 m_dPowderStationCorrection(旧版残留)
+                        AimPos = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition;
                         MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed /*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//更新值到本地变量
                                                                                                                                                        //回程速度125mm/s//20230228修改：回程固化速度可以修改
                         BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为等停
@@ -9887,19 +9878,19 @@ namespace BinderJetting
                 Log4Net.Info($"Axis8DirDiag: Auto下降指定厚度(返程前), cur={GetCurrentPos(8):F3}mm, trap={TrapSpace:F3}mm, dir={(TrapSpace < 0 ? "负向=对应手动负向点动" : "正向=对应手动正向点动")}");
                 msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false）";
                 Log4Net.Info(msg);
-
-                //Thread.Sleep(1000);//等待800 ms
+                WaitAxis8StableAfterTrap("NewAutoSupplyPowderThread2CureFirst_beforeReturn");
+                Thread.Sleep(PowderCarTravelEndDwellMs);
+                Log4Net.Info($"NewAutoSupplyPowderThread2CureFirst: dwell {PowderCarTravelEndDwellMs}ms at travel end after axis8 down, before return");
 
                 /*****************************************<<<=========***********************************/
                 /*****************************************<<<=========***********************************/
                 //(2)洒粉车回到落粉站位置（回站）：20220512批注
                 PosValue = GetCurrentPos(7);//20260416修改：当前铺粉车运动轴改为轴7
                 RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
-                double PowderStationCorrection = k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection;
-                // 回程站1目标改为“就近的 ±Home 一侧”，避免从行程端跨零过冲到负限位。
+                // 回程站1：就近 ±Home 校准点(与落粉孔对齐)，不再减 m_dPowderStationCorrection
                 double cfgHome = Math.Abs(k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition);
-                double aimPosPosHome = cfgHome - PowderStationCorrection;
-                double aimPosNegHome = -cfgHome - PowderStationCorrection;
+                double aimPosPosHome = cfgHome;
+                double aimPosNegHome = -cfgHome;
                 AimPos = (Math.Abs(PosValue - aimPosPosHome) <= Math.Abs(PosValue - aimPosNegHome))
                     ? aimPosPosHome
                     : aimPosNegHome;
@@ -10474,9 +10465,8 @@ namespace BinderJetting
                 //(2)洒粉车回到落粉站位置（回站）：20220512批注
                 PosValue = GetCurrentPos(7);//20260416修改：当前铺粉车运动轴改为轴7
                 RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
-                double PowderStationCorrection = k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection;
-                // 回程目标使用“铺粉车 home 绝对坐标 - 微调量”，避免旧版 1-correction 导致跨零过大行程。
-                AimPos = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition - PowderStationCorrection;
+                // 回程回 Home 校准点(与落粉孔对齐)，不再减 m_dPowderStationCorrection(旧版残留)
+                AimPos = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition;
                 MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//更新值到本地变量//回程速度125mm/s
                 BackToStation2(AimPos, MovSpeed, true);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为等停
                 msg = $"铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, true)：{AimPos}mm，速度{MovSpeed}mm/s：BackToStation2";
@@ -10911,8 +10901,9 @@ namespace BinderJetting
 #endif
                 msg = $"成形面高度下降指定厚度 TrapSpace{{{-TrapSpace}mm}}：TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false）";
                 Log4Net.Info(msg);
-
-                //Thread.Sleep(1000);//等待800 ms
+                WaitAxis8StableAfterTrap("NewAutoSupplyPowderThread2_beforeReturn");
+                Thread.Sleep(PowderCarTravelEndDwellMs);
+                Log4Net.Info($"NewAutoSupplyPowderThread2: dwell {PowderCarTravelEndDwellMs}ms at travel end after axis8 down, before return");
 
 #region 监控指令：铺粉拍摄位点3
                 if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[9])
@@ -10930,9 +10921,8 @@ namespace BinderJetting
                  */
                 PosValue = GetCurrentPos(7);//20260416修改：当前铺粉车运动轴改为轴7
                 RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
-                double PowderStationCorrection = k_RYSYSParamAutoPrintParamInTest.m_dPowderStationCorrection;
-                // 回程目标使用“铺粉车 home 绝对坐标 - 微调量”，避免旧版 1-correction 导致跨零过大行程。
-                AimPos = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition - PowderStationCorrection;
+                // 回程回 Home 校准点(与落粉孔对齐)，不再减 m_dPowderStationCorrection(旧版残留)
+                AimPos = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition;
                 MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//更新值到本地变量//回程速度125mm/s
                 double returnRiseTriggerPos = POWDERCAR_DROP_BEGIN - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply;
                 bool axis8ReturnRiseIssued = false;
@@ -12596,22 +12586,22 @@ namespace BinderJetting
             }
         }
 
-        /// <summary>手动清洗每次在流程结束物理寻零；自动清洗每 <see cref="AutoCleanPhysicalHomeEveryNRuns"/> 次入参在流程结束物理寻零一次。刮前不再寻零（TrapMoveSpreaderAxis 内部已 ZeroPos）。</summary>
+        /// <summary>手动清洗每次在流程开始物理寻零；自动清洗每 <see cref="AutoCleanPhysicalHomeEveryNRuns"/> 次入参在开始物理寻零一次。刮后以 Relative 收回，不再做结束寻零。</summary>
         private bool ResolveForcePhysicalHomeForAutoClean()
         {
             if (m_bManualAutoCleanEntry)
             {
-                Log4Net.Info("自动清洗刮板寻零策略：手动入口，本轮结束强制物理寻零");
+                Log4Net.Info("自动清洗刮板寻零策略：手动入口，本轮开始强制物理寻零");
                 return true;
             }
 
             s_nAutoCleanRunCounter++;
             bool forcePhysical = (s_nAutoCleanRunCounter % AutoCleanPhysicalHomeEveryNRuns == 0);
-            Log4Net.Info($"自动清洗刮板寻零策略：runCounter={s_nAutoCleanRunCounter} everyN={AutoCleanPhysicalHomeEveryNRuns} endPhysicalHome={forcePhysical}");
+            Log4Net.Info($"自动清洗刮板寻零策略：runCounter={s_nAutoCleanRunCounter} everyN={AutoCleanPhysicalHomeEveryNRuns} startPhysicalHome={forcePhysical}");
             return forcePhysical;
         }
 
-        private bool HomeInkScraperAxis(double homeSpeed, string operationName, bool showMessage, bool forcePhysicalHome = false)
+        private bool HomeInkScraperAxis(double homeSpeed, string operationName, bool showMessage, bool forcePhysicalHome = false, int searchHomeTurns = 2)
         {
             string msg = $"开启刮墨轴回零校准：{operationName}";
             Log4Net.Info(msg);
@@ -12624,17 +12614,17 @@ namespace BinderJetting
             }
 
             double sinkPosition = k_RYSYSParamAutoPrintParamInTest.m_dInkSpreaderHomeposition;//刮墨轴的HOME位置
-            bool returnCode = motionMap.SetBackSpreaderAxis(4, homeSpeed, 2, -sinkPosition);//旋转速度：0.5 圈/s////20220919修正：长时间运行，低速导致刮墨轴容易卡死：修正为1圈/s
+            bool returnCode = motionMap.SetBackSpreaderAxis(4, homeSpeed, searchHomeTurns, -sinkPosition);
             if (returnCode == true)//校准成功
             {
-                msg = $"刮墨轴回零成功：{operationName}：{{AXIS{{4}},Vel{{{homeSpeed}圈/s}},开槽位置{{{-sinkPosition}°}}}}";
+                msg = $"刮墨轴回零成功：{operationName}：{{AXIS{{4}},Vel{{{homeSpeed}圈/s}},searchHomeTurns={searchHomeTurns},开槽位置{{{-sinkPosition}°}}}}";
                 Log4Net.Info(msg);
 
                 if (showMessage) { MessageBox.Show("回零成功"); }
             }
             else
             {
-                msg = $"刮墨轴回零失败：{operationName}：{{AXIS{{4}}, Vel{{{homeSpeed}圈/s}},开槽位置{{{-sinkPosition}°}}}}";
+                msg = $"刮墨轴回零失败：{operationName}：{{AXIS{{4}}, Vel{{{homeSpeed}圈/s}}, searchHomeTurns={searchHomeTurns}, 开槽位置{{{-sinkPosition}°}}}}";
                 Log4Net.Info(msg);
 
                 if (showMessage) { MessageBox.Show("回零失败"); }

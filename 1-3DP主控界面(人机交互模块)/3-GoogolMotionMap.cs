@@ -411,22 +411,59 @@ namespace Motion
             }
         }
 
-        /// <summary>相对当前编码器转角增量转动（不清零），用于清洗后回到等待位，避免重复物理寻零。</summary>
-        public bool TrapMoveSpreaderAxisRelative(short AXIS, double homeVel, double deltaDeg)
+        private static int GetSpreaderAxisSubdivided(short AXIS)
+        {
+            if (AXIS == 3) { return (int)(1600 * 2.1); }
+            return ScraperAxis4PulsePerRev;
+        }
+
+        private static double TrapPulseToDeg(int pulse, int subdivided)
+        {
+            return pulse * 360.0 / subdivided;
+        }
+
+        /// <summary>记录刮墨轴 prf/enc，用于诊断「到 90° 后又多转」类问题（GT_SetPos 走规划器，勿仅用 enc 算目标）。</summary>
+        public void LogScraperAxis4Motion(string tag)
         {
             try
             {
+                uint pClock = 0;
+                double prf = 0, enc = 0;
+                gts.mc.GT_GetPrfPos(cardNumber, 4, out prf, 1, out pClock);
+                double[] encAll = GetEncPos();
+                if (encAll != null && encAll.Length >= 4) { enc = encAll[3]; }
+                int subdivided = ScraperAxis4PulsePerRev;
+                LogInfo($"[ScraperAxis4] {tag} prfPulse={prf:F1} encPulse={enc:F1} d(prf-enc)={(prf - enc):F1} prfDeg={TrapPulseToDeg((int)prf, subdivided):F2} encDeg={TrapPulseToDeg((int)enc, subdivided):F2}");
+            }
+            catch (Exception ex)
+            {
+                LogError($"[ScraperAxis4] {tag} 读取异常: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Trap 坐标系绝对角（不清零、不寻零）。升刮板时 <see cref="TrapMoveSpreaderAxis"/> 已 ZeroPos，待机 trapDeg=0 对应机台等待角。
+        /// 二代抬升式：刮后只应 trap 0↔清洗角 往返，不应再 SetBackSpreaderAxis 搜圈。
+        /// </summary>
+        public bool TrapMoveSpreaderAxisToTrapDeg(short AXIS, double homeVel, double trapDeg)
+        {
+            try
+            {
+                LogScraperAxis4Motion($"TrapMoveSpreaderAxisToTrapDeg AXIS={AXIS} trapDeg={trapDeg:F2} 入口");
                 short sRtn = gts.mc.GT_ClrSts(cardNumber, AXIS, 8); Commandhandler("GT_ClrSts", sRtn);
                 sRtn = gts.mc.GT_AxisOn(0, AXIS); Commandhandler("GT_AxisOn", sRtn);
                 EncOffSingleAxis(AXIS);
                 sRtn = gts.mc.GT_PrfTrap(cardNumber, AXIS); Commandhandler("GT_PrfTrap", sRtn);
                 trapPrm.acc = 0.5; trapPrm.dec = 0.5; trapPrm.velStart = 0; trapPrm.smoothTime = 0;
                 sRtn = gts.mc.GT_SetTrapPrm(cardNumber, AXIS, ref trapPrm);
-                int subdivided = (AXIS == 3) ? (int)(1600 * 2.1) : ScraperAxis4PulsePerRev;
+                int subdivided = GetSpreaderAxisSubdivided(AXIS);
                 uint pClock; int status = 0;
                 double vel = homeVel * (subdivided / 1000.0);
-                double encNow = GetEncPos()[AXIS - 1];
-                int position = (int)(encNow + deltaDeg / 360.0 * subdivided);
+                double prfNow = 0;
+                gts.mc.GT_GetPrfPos(cardNumber, AXIS, out prfNow, 1, out pClock);
+                int position = (int)(trapDeg / 360.0 * subdivided);
+                int deltaPulse = position - (int)prfNow;
+                LogInfo($"[ScraperAxis4] TrapMoveSpreaderAxisToTrapDeg AXIS={AXIS} prfNow={prfNow:F1} targetPulse={position} deltaPulse={deltaPulse} deltaDeg={TrapPulseToDeg(deltaPulse, subdivided):F2}");
                 sRtn = gts.mc.GT_SetVel(cardNumber, AXIS, vel);
                 gts.mc.GT_SetPos(cardNumber, AXIS, position); Commandhandler("GT_SetPos", sRtn);
                 sRtn = gts.mc.GT_Update(cardNumber, 1 << (AXIS - 1)); Commandhandler("GT_Update", sRtn);
@@ -437,6 +474,46 @@ namespace Motion
                 }
                 while ((status & 0x400) != 0);
                 Thread.Sleep(200);
+                LogScraperAxis4Motion($"TrapMoveSpreaderAxisToTrapDeg AXIS={AXIS} trapDeg={trapDeg:F2} 出口");
+                return true;
+            }
+            finally
+            {
+                RestoreExternalEncodersAfterGlobalEncOff($"TrapMoveSpreaderAxisToTrapDeg AXIS={AXIS} finally");
+            }
+        }
+
+        /// <summary>相对当前<strong>规划器</strong>位置增量转动（不清零）。旧版用 enc 算 GT_SetPos 会在 EncOff 后与 prf 脱节，导致收回多转一圈。</summary>
+        public bool TrapMoveSpreaderAxisRelative(short AXIS, double homeVel, double deltaDeg)
+        {
+            try
+            {
+                LogScraperAxis4Motion($"TrapMoveSpreaderAxisRelative AXIS={AXIS} deltaDeg={deltaDeg:F2} 入口");
+                short sRtn = gts.mc.GT_ClrSts(cardNumber, AXIS, 8); Commandhandler("GT_ClrSts", sRtn);
+                sRtn = gts.mc.GT_AxisOn(0, AXIS); Commandhandler("GT_AxisOn", sRtn);
+                EncOffSingleAxis(AXIS);
+                sRtn = gts.mc.GT_PrfTrap(cardNumber, AXIS); Commandhandler("GT_PrfTrap", sRtn);
+                trapPrm.acc = 0.5; trapPrm.dec = 0.5; trapPrm.velStart = 0; trapPrm.smoothTime = 0;
+                sRtn = gts.mc.GT_SetTrapPrm(cardNumber, AXIS, ref trapPrm);
+                int subdivided = GetSpreaderAxisSubdivided(AXIS);
+                uint pClock; int status = 0;
+                double vel = homeVel * (subdivided / 1000.0);
+                double prfNow = 0;
+                gts.mc.GT_GetPrfPos(cardNumber, AXIS, out prfNow, 1, out pClock);
+                double encNow = GetEncPos()[AXIS - 1];
+                int position = (int)(prfNow + deltaDeg / 360.0 * subdivided);
+                LogInfo($"[ScraperAxis4] TrapMoveSpreaderAxisRelative AXIS={AXIS} prfNow={prfNow:F1} encNow={encNow:F1} targetPulse={position} deltaDeg={deltaDeg:F2} (旧enc基准目标={(int)(encNow + deltaDeg / 360.0 * subdivided)})");
+                sRtn = gts.mc.GT_SetVel(cardNumber, AXIS, vel);
+                gts.mc.GT_SetPos(cardNumber, AXIS, position); Commandhandler("GT_SetPos", sRtn);
+                sRtn = gts.mc.GT_Update(cardNumber, 1 << (AXIS - 1)); Commandhandler("GT_Update", sRtn);
+                do
+                {
+                    Thread.Sleep(50);
+                    gts.mc.GT_GetSts(cardNumber, AXIS, out status, 1, out pClock);
+                }
+                while ((status & 0x400) != 0);
+                Thread.Sleep(200);
+                LogScraperAxis4Motion($"TrapMoveSpreaderAxisRelative AXIS={AXIS} deltaDeg={deltaDeg:F2} 出口");
                 return true;
             }
             finally
