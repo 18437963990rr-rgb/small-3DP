@@ -7700,7 +7700,14 @@ namespace BinderJetting
                     double cleanX = Math.Min(requestedCleanX, XMaxDistanceMM - 5);
                     const double scraperCleanAngleDeg = 145.0;
                     const float wipeBackSpeed = 20.0f;
-                    const int pressInkHoldMs = 2000;
+                    // 压墨时长与旧版/参数页一致：直接压墨 m_dPressInkTime，压墨泵 m_dPressInkTime2（非写死 2s）
+                    double pressInkHoldSec = k_RYSYSParamAutoPrintParamInTest.m_nUseDirectPushInkModeEnabled == 1
+                        ? k_RYSYSParamAutoPrintParamInTest.m_dPressInkTime
+                        : k_RYSYSParamAutoPrintParamInTest.m_dPressInkTime2;
+                    if (pressInkHoldSec <= 0) { pressInkHoldSec = 1.0; }
+                    int pressInkHoldMs = (int)(pressInkHoldSec * 1000);
+                    msg = $"自动清洗：短流程压墨保持 {pressInkHoldSec:F2}s（{(k_RYSYSParamAutoPrintParamInTest.m_nUseDirectPushInkModeEnabled == 1 ? "PressInkTime/直接压墨" : "PressInkTime2/压墨泵")}）";
+                    Log4Net.Info(msg);
 
                     msg = $"关闭闪喷：IDP_FlashPrtCtl(false)，ReturnCode{{{nRetFlashOff}}}";
                     Log4Net.Info(msg);
@@ -11590,12 +11597,15 @@ namespace BinderJetting
                             msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal}}}";
                             Log4Net.Info(msg);
 
+                            // 750mm 清洗/待机等待位：先放行 STARTJOB（含 PiSetHome），再动至 525 等停发扫程
+                            MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtCleanStationWait", GetCurrentPos(1));
+                            MeteorPrintEngine.SignalPrintThreadLayerPass0PreheatReady(k_nCurrentLayer + 1, "pass0-wait750-cleanStation");
+                            const int meteorStartJobReadyDelayMs = 1800;
+                            Thread.Sleep(meteorStartJobReadyDelayMs);
+
                             BackToStation(passStartBaseY - YJetOffWidth, (float)ReturnVelocity2, true, false, 1);//准备 Y
                             BackToStation((float)InkCarScanApproachXMm, (float)ReturnVelocity2, false, true, 1);//准备 X
                             MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtApproachHold", GetCurrentPos(1));
-                            MeteorPrintEngine.SignalPrintThreadLayerPass0PreheatReady(k_nCurrentLayer + 1, "pass0-approach485");
-                            const int meteorStartJobReadyDelayMs = 1800;
-                            Thread.Sleep(meteorStartJobReadyDelayMs);
                             MeteorPrintEngine.SignalPrintThreadLayerPass0ReadyForMeteorSubmit(k_nCurrentLayer + 1);
                             MeteorPrintEngine.WaitPass0FirstSwathMeteorReady(10000);
                             BackToStation((float)InkCarScanLowXMm, (float)ReturnVelocity1, false, false, 1);//打印：swath 先入 PCC，再启动 485→15 扫程
