@@ -163,6 +163,7 @@ namespace BinderJetting
             StartUpadateMAixsMoveStatus();//开启6轴轴MOVE限位信号：20200110
 #endif
             InitDynamicConfigureMotionMode();// 互斥配置多轴的点动和JOG运动配置：动态挂载初始化：20200110
+            RegisterMeteorInkCarRasterReaders();
 
             k_EnvironmentParam = new EnvironmentParam();//20200402新增：
         }
@@ -6301,6 +6302,32 @@ namespace BinderJetting
             return mm;
         }
 
+        private void RegisterMeteorInkCarRasterReaders()
+        {
+            MeteorPrintEngine.RegisterInkCarGoogolRasterLiveReader(ReadInkCarGoogolRasterForMeteor);
+        }
+
+        private MeteorPrintEngine.InkCarGoogolRasterSample ReadInkCarGoogolRasterForMeteor()
+        {
+            var sample = new MeteorPrintEngine.InkCarGoogolRasterSample();
+            try
+            {
+                if (motionMap == null)
+                    return sample;
+                double[] enc = motionMap.GetEncPos();
+                if (enc != null && enc.Length >= 1)
+                    sample.GoogolEncPulse = enc[0];
+                sample.GoogolEncMm = GetCurrentPos(1);
+                sample.LayerK = k_nCurrentLayer + 1;
+                sample.Valid = true;
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"ReadInkCarGoogolRasterForMeteor exception: {ex.Message}");
+            }
+            return sample;
+        }
+
         public void LogInkCarAxisSnapshot(string context)
         {
             try
@@ -11597,15 +11624,22 @@ namespace BinderJetting
                             msg = $"关闭闪喷操作：IDP_FlashPrtCtl：返回值{{{nRetVal}}}";
                             Log4Net.Info(msg);
 
-                            // 750mm 清洗/待机等待位：先放行 STARTJOB（含 PiSetHome），再动至 525 等停发扫程
-                            MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtCleanStationWait", GetCurrentPos(1));
-                            MeteorPrintEngine.SignalPrintThreadLayerPass0PreheatReady(k_nCurrentLayer + 1, "pass0-wait750-cleanStation");
+                            // 750mm 清洗/待机等待位：仅日志/光栅快照；750→525 过物理 Home 后 Preheat+STARTJOB（默认无 PiSetHome，Xleft=4110）
+                            {
+                                int layerK = k_nCurrentLayer + 1;
+                                MeteorPrintEngine.InkCarGoogolRasterSample rasterAt750 = ReadInkCarGoogolRasterForMeteor();
+                                MeteorPrintEngine.PublishInkCarRasterAt750(rasterAt750.GoogolEncPulse, rasterAt750.GoogolEncMm, layerK);
+                                MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtCleanStationWait", GetCurrentPos(1), layerK);
+                            }
+                            BackToStation(passStartBaseY - YJetOffWidth, (float)ReturnVelocity2, true, false, 1);//准备 Y
+                            BackToStation((float)InkCarScanApproachXMm, (float)ReturnVelocity2, false, true, 1);//750→525，第 1 次物理 Home（无 STARTSCAN armed 窗口）
+                            {
+                                int layerK = k_nCurrentLayer + 1;
+                                MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtApproachHold", GetCurrentPos(1), layerK);
+                            }
+                            MeteorPrintEngine.SignalPrintThreadLayerPass0PreheatReady(k_nCurrentLayer + 1, "pass0-approach525-afterHomeCross");
                             const int meteorStartJobReadyDelayMs = 1800;
                             Thread.Sleep(meteorStartJobReadyDelayMs);
-
-                            BackToStation(passStartBaseY - YJetOffWidth, (float)ReturnVelocity2, true, false, 1);//准备 Y
-                            BackToStation((float)InkCarScanApproachXMm, (float)ReturnVelocity2, false, true, 1);//准备 X
-                            MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtApproachHold", GetCurrentPos(1));
                             MeteorPrintEngine.SignalPrintThreadLayerPass0ReadyForMeteorSubmit(k_nCurrentLayer + 1);
                             MeteorPrintEngine.WaitPass0FirstSwathMeteorReady(10000);
                             BackToStation((float)InkCarScanLowXMm, (float)ReturnVelocity1, false, false, 1);//打印：swath 先入 PCC，再启动 485→15 扫程

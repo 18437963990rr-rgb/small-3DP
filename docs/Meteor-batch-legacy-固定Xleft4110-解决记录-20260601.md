@@ -4,6 +4,7 @@
 > **适用项目：** LaserAdd_3DP 主控 + Meteor PCC-E / Starfire  
 > **涉及模块：** `4-MeteorPrintEngine.cs`、`5-SharpControl.cs`、`手动操作界面.cs`  
 > **前置阅读（按时间）：**  
+> - [Meteor-层间图形错位-PiSetHome750等待位-解决记录-20260604.md](./Meteor-层间图形错位-PiSetHome750等待位-解决记录-20260604.md)（层间左偏闭环，建议与本篇一并阅读）  
 > - [Meteor-STARTSCAN-PD1提前触发排查记录-20260529.md](./Meteor-STARTSCAN-PD1提前触发排查记录-20260529.md)  
 > - [Meteor-3PASS-同Job窗口与REV续查记录-20260528.md](./Meteor-3PASS-同Job窗口与REV续查记录-20260528.md)  
 > - [Meteor-Pass1-Pass2恢复排查与解决记录.md](./Meteor-Pass1-Pass2恢复排查与解决记录.md)  
@@ -259,7 +260,7 @@ EndJob                           → 延后至 Pass2 扫程结束（非 BATCH_EN
 |--------|-----|------|
 | P1 | 去掉临时 `temporaryMeteorTestWidthPx=4323` | 恢复整板宽后重标 4110 或改为公式 |
 | P1 | Pass1 回程 AbsX &lt; 4110 实测统计 | 与 Pass2 触发稳定性相关 |
-| P2 | **PCC AbsX=0 发图原点** | PiSetHome、Xleft 重算、与 525mm 解耦；单独设计 |
+| ~~P2~~ | **PCC 层间 AbsX 对齐** | **已闭环（2026-06-04）**：750mm 等待位 `PiSetHome` + Preheat 时序，见 [层间错位记录](./Meteor-层间图形错位-PiSetHome750等待位-解决记录-20260604.md)；恢复 7323 宽时仍需复核 4110 |
 | P2 | `METEOR_BATCH_SWATH_MODE=0` A/B | 验证「仅固定 4110、不 batch」是否同等稳定 |
 | P3 | 05-29 PD 等待位 / PL7-2 硬件 | 与软件「先灌再动」并行推进 |
 | P3 | `WaitPass0FirstSwathMeteorReady` 返回值检查 | 失败时不应静默开扫 |
