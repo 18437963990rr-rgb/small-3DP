@@ -6439,6 +6439,89 @@ namespace BinderJetting
             }
         }
 
+        private void WaitInkCarYAxisReach(double targetMm, double toleranceMm = 1.0, int timeoutMs = 12000)
+        {
+            DateTime waitStart = DateTime.Now;
+            DateTime lastHeartbeat = waitStart;
+            while (true)
+            {
+                double currentMm = GetCurrentPos(2);
+                double deltaMm = Math.Abs(currentMm - targetMm);
+                if (deltaMm <= toleranceMm)
+                {
+                    Log4Net.Info($"WaitInkCarYAxisReach: reached, targetMm={targetMm:F3}, currentMm={currentMm:F3}, toleranceMm={toleranceMm:F3}, elapsedMs={(DateTime.Now - waitStart).TotalMilliseconds:F0}");
+                    return;
+                }
+
+                if ((DateTime.Now - waitStart).TotalMilliseconds >= timeoutMs)
+                {
+                    Log4Net.Info($"WaitInkCarYAxisReach: timeout, targetMm={targetMm:F3}, currentMm={currentMm:F3}, toleranceMm={toleranceMm:F3}, timeoutMs={timeoutMs}");
+                    return;
+                }
+
+                if ((DateTime.Now - lastHeartbeat) >= TimeSpan.FromMilliseconds(500))
+                {
+                    Log4Net.Info($"WaitInkCarYAxisReach: waiting, targetMm={targetMm:F3}, currentMm={currentMm:F3}, deltaMm={deltaMm:F3}, elapsedMs={(DateTime.Now - waitStart).TotalMilliseconds:F0}");
+                    lastHeartbeat = DateTime.Now;
+                }
+
+                Thread.Sleep(10);
+            }
+        }
+
+        /// <summary>
+        /// 清洗/层间并行清洗前：墨车须在待机等待位 (750,245)。Pass2 回站为异步时 TrapMotion waitStop 可能假到位，须显式等编码器。
+        /// </summary>
+        public void EnsureInkCarAtCleanWaitStation(float movSpeed, string stage, double toleranceMm = 1.0, int timeoutMs = 120000)
+        {
+            double x0 = GetCurrentPos(1);
+            double y0 = GetCurrentPos(2);
+            Log4Net.Info($"[LayerAnchor] EnsureInkCarAtCleanWaitStation begin stage={stage} x={x0:F3} y={y0:F3} targetX={INKCAR_CLEAN_STATION_X} targetY={INKCAR_CLEAN_STATION_Y} utc={DateTime.UtcNow:O}");
+
+            if (Math.Abs(x0 - INKCAR_CLEAN_STATION_X) > toleranceMm)
+            {
+                BackToStation((float)INKCAR_CLEAN_STATION_X, movSpeed, false, true, 1);
+                WaitInkCarXAxisReach(INKCAR_CLEAN_STATION_X, toleranceMm, timeoutMs);
+            }
+            else
+            {
+                WaitInkCarXAxisReach(INKCAR_CLEAN_STATION_X, toleranceMm, timeoutMs);
+            }
+
+            if (Math.Abs(GetCurrentPos(2) - INKCAR_CLEAN_STATION_Y) > toleranceMm)
+            {
+                BackToStation((float)INKCAR_CLEAN_STATION_Y, movSpeed, true, true, 1);
+                WaitInkCarYAxisReach(INKCAR_CLEAN_STATION_Y, toleranceMm, timeoutMs);
+            }
+            else
+            {
+                WaitInkCarYAxisReach(INKCAR_CLEAN_STATION_Y, toleranceMm, timeoutMs);
+            }
+
+            if (Math.Abs(GetCurrentPos(1) - INKCAR_CLEAN_STATION_X) > toleranceMm)
+            {
+                BackToStation((float)INKCAR_CLEAN_STATION_X, movSpeed, false, true, 1);
+                WaitInkCarXAxisReach(INKCAR_CLEAN_STATION_X, toleranceMm, timeoutMs);
+            }
+
+            Log4Net.Info($"[LayerAnchor] EnsureInkCarAtCleanWaitStation end stage={stage} x={GetCurrentPos(1):F3} y={GetCurrentPos(2):F3} utc={DateTime.UtcNow:O}");
+        }
+
+        /// <summary>
+        /// 层间并行时刮板 EncOn(2/8) 与铺粉轴冲突；升/收刮板前等铺粉去程预备位并短暂占用 PowderTrainMotionGate。
+        /// </summary>
+        private bool RunScraperMotionWithInterleaveSync(Func<bool> scraperMotion, string stage)
+        {
+            if (!PrintLayerTransitionAnchors.IsInterleaveEnabled())
+                return scraperMotion();
+
+            PrintLayerTransitionAnchors.WaitPowderForwardPrepForScraper(stage);
+            lock (GoogolMotionMap.PowderTrainMotionGate)
+            {
+                return scraperMotion();
+            }
+        }
+
 
         /// <summary>
         /// 墨车返回指定工作位置
@@ -7393,12 +7476,35 @@ namespace BinderJetting
         /// DONE::修改墨车回清洗站移动方式：先X轴，当X轴在安全区域后，同时移动Y轴
         /// DONE::修改清洗站坐标
 
+        private static float ResolveCleanWipeBackSpeedMmS()
+        {
+            const float defaultMmS = 20.0f;
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_CLEAN_WIPE_BACK_SPEED_MM_S");
+                if (!string.IsNullOrWhiteSpace(env)
+                    && float.TryParse(env.Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float parsed)
+                    && parsed > 0f
+                    && parsed <= 200f)
+                {
+                    return parsed;
+                }
+            }
+            catch { }
+            return defaultMmS;
+        }
+
         public void AutoCleanThread2(float m_BackCleanMovSpeed)//20220520修改及注释：线程内容：自动清洗动作
         {
             //开发需求：（1）清洗过程中，可以指定刮板来回挂的次数；（2）也可以指定压墨的时间，不能限制5S-10S;(3)压墨的时间要延长，清洗的
             string msg = $"进入自动清洗过程：AutoCleanThread";
             Log4Net.Info(msg);
             motionMap.LogInkCarAxisEncClosedLoopDiag("AutoCleanThread2 进入（短时流程开始前基线）");
+
+            bool prevSuppressCmdDialog = GoogolMotionMap.SuppressCommandErrorDialog;
+            GoogolMotionMap.SuppressCommandErrorDialog = true;
+            try
+            {
 
 #if false // 2026-04-27 注释备用：原「20230401 之后」联动清洗（AutoCleanThread2 上一版完整工艺，保留备查）
             //（1）撒粉轴找回零位：20220527新建：
@@ -7726,7 +7832,7 @@ namespace BinderJetting
                     double pressInkX = INKCAR_CLEAN_STATION_X;
                     double cleanX = Math.Min(requestedCleanX, XMaxDistanceMM - 5);
                     const double scraperCleanAngleDeg = 145.0;
-                    const float wipeBackSpeed = 20.0f;
+                    float wipeBackSpeed = ResolveCleanWipeBackSpeedMmS();
                     // 压墨时长与旧版/参数页一致：直接压墨 m_dPressInkTime，压墨泵 m_dPressInkTime2（非写死 2s）
                     double pressInkHoldSec = k_RYSYSParamAutoPrintParamInTest.m_nUseDirectPushInkModeEnabled == 1
                         ? k_RYSYSParamAutoPrintParamInTest.m_dPressInkTime
@@ -7751,11 +7857,10 @@ namespace BinderJetting
 
                     for (int ci = 0; ci < cleanTimes; ci++)
                     {
-                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍开始，墨车直接进入压墨区";
+                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍开始，等待墨车至清洗待机位后再压墨";
                         Log4Net.Info(msg);
 
-                        BackToStation(cleanStationY, ReturnVelocity2, true, true, 1);
-                        BackToStation(pressInkX, ReturnVelocity2, false, true, 1);
+                        EnsureInkCarAtCleanWaitStation(ReturnVelocity2, $"AutoCleanThread2_short_cycle{ci + 1}");
 
                         if (k_RYSYSParamAutoPrintParamInTest.m_nUseDirectPushInkModeEnabled == 1)
                         {
@@ -7782,12 +7887,15 @@ namespace BinderJetting
                         msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍已到新清洗位 X={cleanX:F1}mm，准备升刮板到 {scraperCleanAngleDeg:F1}°";
                         Log4Net.Info(msg);
 
-                        // TrapMoveSpreaderAxis 内部 ZeroPos 后以 trap 坐标升角；与 SetBackSpreaderAxis 搜圈无关。
+                        // 二代短流程：trap 0↔清洗角往返，升角用 TrapMoveSpreaderAxisToTrapDeg，避免 TrapMoveSpreaderAxis 内 GT_ZeroPos 在轴忙/并行时返回 1 并弹窗卡死。
                         double relativeCleanAngleDeg = scraperCleanAngleDeg - SinkHomePosition;
+                        double trapCleanDeg = -relativeCleanAngleDeg;
                         motionMap.LogScraperAxis4Motion($"AutoCleanThread2 第{ci + 1}遍 升角前");
-                        bool scraperToCleanPos = motionMap.TrapMoveSpreaderAxis(4, axisVel, -relativeCleanAngleDeg);
-                        motionMap.LogScraperAxis4Motion($"AutoCleanThread2 第{ci + 1}遍 升角后 trapTarget={-relativeCleanAngleDeg:F1}°");
-                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍刮板升至 {scraperCleanAngleDeg:F1}°（Trap 目标 {-relativeCleanAngleDeg:F1}°），ReturnCode{{{scraperToCleanPos}}}";
+                        bool scraperToCleanPos = RunScraperMotionWithInterleaveSync(
+                            () => motionMap.TrapMoveSpreaderAxisToTrapDeg(4, axisVel, trapCleanDeg),
+                            $"AutoCleanThread2_cycle{ci + 1}_lift");
+                        motionMap.LogScraperAxis4Motion($"AutoCleanThread2 第{ci + 1}遍 升角后 trapTarget={trapCleanDeg:F1}°");
+                        msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍刮板升至 {scraperCleanAngleDeg:F1}°（Trap 目标 {trapCleanDeg:F1}°），ReturnCode{{{scraperToCleanPos}}}";
                         Log4Net.Info(msg);
                         if (!scraperToCleanPos)
                         {
@@ -7799,9 +7907,11 @@ namespace BinderJetting
                         msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍墨车以 {wipeBackSpeed:F1}mm/s 从清洗位回刮至压墨位";
                         Log4Net.Info(msg);
 
-                        // 不能用 TrapMoveSpreaderAxis(0)：会先 ZeroPos，电机仍停在刮墨角。二代式收回：trapDeg=0（升角前 ZeroPos 的待机点），不清零、不搜 Home。
+                        // 收回待机 trapDeg=0，不清零、不搜 Home。
                         const double scraperStandbyTrapDeg = 0.0;
-                        bool scraperBackOk = motionMap.TrapMoveSpreaderAxisToTrapDeg(4, axisVel, scraperStandbyTrapDeg);
+                        bool scraperBackOk = RunScraperMotionWithInterleaveSync(
+                            () => motionMap.TrapMoveSpreaderAxisToTrapDeg(4, axisVel, scraperStandbyTrapDeg),
+                            $"AutoCleanThread2_cycle{ci + 1}_retract");
                         msg = $"自动清洗：第{ci + 1}/{cleanTimes}遍刮板回待机 trapDeg={scraperStandbyTrapDeg:F1}°（机台等待角≈{SinkHomePosition:F1}°，仅 Δ≈{relativeCleanAngleDeg:F1}°），ReturnCode{{{scraperBackOk}}}";
                         Log4Net.Info(msg);
                         if (!scraperBackOk)
@@ -7819,6 +7929,9 @@ namespace BinderJetting
                     msg = $"结束自动清洗过程：AutoCleanThread2（压墨区 -> 压墨2秒 -> 新清洗位 -> 135度刮墨 -> 回刮至压墨位 -> 刮板回等待位）";
                     Log4Net.Info(msg);
                     Log4Net.Info($"[PrintPhase] marker=AutoCleanCycleEnd variant=shortCleanPath k_nCurrentLayer={k_nCurrentLayer} managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O} gateHint=notForSendStartJobBind reason=非每层清洗");
+                    int cleanLayerK = k_nCurrentLayer > 0 ? k_nCurrentLayer : (k_nCurrentLayer + 1);
+                    if (cleanLayerK <= 0) { cleanLayerK = 1; }
+                    PrintLayerTransitionAnchors.MarkCleanDone(cleanLayerK);
                     return;
                 }
 
@@ -8141,6 +8254,11 @@ namespace BinderJetting
             else
             { }
 #endif
+            }
+            finally
+            {
+                GoogolMotionMap.SuppressCommandErrorDialog = prevSuppressCmdDialog;
+            }
         }
 
 
@@ -9670,6 +9788,7 @@ namespace BinderJetting
                 PosValue = GetCurrentPos(7);//20230425新建：实时铺粉车位置
                 msg = $"当前铺粉车位置：打印位置{PosValue}mm";
                 Log4Net.Info(msg);
+                PrintLayerTransitionAnchors.MarkPowderForwardPrepDone();
 
                 /*****************************************↑↑↑↑↑↑↑↑↑↑***********************************/
                 /*****************************************↑↑↑↑↑↑↑↑↑↑***********************************/
@@ -10749,6 +10868,7 @@ namespace BinderJetting
                 PosValue = GetCurrentPos(7);//20260416修改：当前铺粉车运动轴改为轴7
                 msg = $"当前铺粉车位置：打印位置{PosValue}mm";
                 Log4Net.Info(msg);
+                PrintLayerTransitionAnchors.MarkPowderForwardPrepDone();
 
                 //(A-B: 移动-辊粉)//20220919测量：辊子直径 25MM,原来的40MM(记忆中)
                 RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed;//201029批注：更新辊子速度
@@ -11050,6 +11170,8 @@ namespace BinderJetting
 
                 msg = $"自动铺粉正常结束：NewAutoSupplyPowderThread2";
                 Log4Net.Info(msg);
+                int powderLayerK = k_nCurrentLayer > 0 ? k_nCurrentLayer : Math.Max(1, RecordLayerIndex + 1);
+                PrintLayerTransitionAnchors.MarkPowderDone(powderLayerK);
 
 #region 监控指令：铺粉拍摄位点5
                 if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[11])
@@ -11642,6 +11764,7 @@ namespace BinderJetting
                             Thread.Sleep(meteorStartJobReadyDelayMs);
                             MeteorPrintEngine.SignalPrintThreadLayerPass0ReadyForMeteorSubmit(k_nCurrentLayer + 1);
                             MeteorPrintEngine.WaitPass0FirstSwathMeteorReady(10000);
+                            PrintLayerTransitionAnchors.WaitCleanBeforePass0ScanIfRequired(k_nCurrentLayer + 1);
                             BackToStation((float)InkCarScanLowXMm, (float)ReturnVelocity1, false, false, 1);//打印：swath 先入 PCC，再启动 485→15 扫程
                             WaitInkCarXAxisReach(InkCarScanLowXMm);
                             MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtScanLowEnd", GetCurrentPos(1));
@@ -11705,9 +11828,9 @@ namespace BinderJetting
                                 if (PauseFlag != 1)//回原点
                                 {
                                     BackToStation(INKCAR_CLEAN_STATION_X, (float)ReturnVelocity2, false, false, 1);//回到清洗/待机工作位 X
-                                    BackToStation(INKCAR_CLEAN_STATION_Y, (float)ReturnVelocity2, true, false, 1);//回到清洗/待机工作位 Y
-                                    WaitStop(1);//20220520新建：等停墨车第1轴：X方向//外部等停
-                                    WaitStop(2);//20220520新建：//等停墨车第2轴：Y方向//外部等停
+                                    WaitInkCarXAxisReach(INKCAR_CLEAN_STATION_X);
+                                    BackToStation(INKCAR_CLEAN_STATION_Y, (float)ReturnVelocity2, true, true, 1);//回到清洗/待机工作位 Y
+                                    WaitInkCarYAxisReach(INKCAR_CLEAN_STATION_Y);
                                 }
                                 else if (PauseFlag == 1)//20230410新增：
                                 {

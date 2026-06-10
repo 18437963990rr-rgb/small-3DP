@@ -31,6 +31,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using WinFormAnimation;
@@ -2372,6 +2373,7 @@ namespace BinderJetting
                 }
             }
             Log4Net.Info($"[PrintPhase] marker=PrintScheduleGatePassed g_PrintSchedule={g_PrintSchedule} g_nLayerStart={g_nLayerStart} g_nCurrentPrintLayerID={g_nCurrentPrintLayerID} thread=PrintTaskTHREAD managedId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
+            PrintLayerTransitionAnchors.ResetForNewPrintJob();
             PrintFlag = true;//20200716新增：关闭打印机维护的间歇闪喷使能
             ConfigureJetEnvironmentControlMode();//20200602修改:初始化喷墨系统环境控制，具体包括：下发自动供墨指令、下发设置自动负压指令、下发二级墨盒的温度设置指令、设置墨水搅拌周期指令                                           
             InitCarMotor();//20200327新增：//（1）初始化被控对象及加工任务区间
@@ -2703,6 +2705,31 @@ namespace BinderJetting
                                     /*else {}*///不需要每次都清洗，重喷一次清洗一次
                                     if (AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nAutoPrintCleanEnabled == 1)
                                     {
+                                        bool shouldCleanThisLayer = PrintLayerTransitionAnchors.ShouldCleanAtPrintLayer(
+                                            k, nPassID, g_nCleanFrequency, g_nRePrintTimes,
+                                            AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nAutoPrintCleanEnabled);
+                                        PrintLayerTransitionAnchors.SetCleanRequired(k, shouldCleanThisLayer && nPassID == 0);
+
+                                        if (shouldCleanThisLayer && nPassID == 0)
+                                        {
+                                            if (PrintLayerTransitionAnchors.IsInterleaveEnabled()
+                                                && PrintLayerTransitionAnchors.IsCleanDone(k))
+                                            {
+                                                Log4Net.Info($"[LayerAnchor] SkipPass0InlineClean printLayerK={k} reason=deferredCleanAlreadyDone interleave=true");
+                                            }
+                                            else
+                                            {
+                                                float m_MovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarMoveSpeed);
+                                                float m_BackCleanMovSpeed3 = Convert.ToSingle(g_RYSYSParam.CarBackCleanStationMoveSpeed);
+                                                EquipmentMotionLogic3(0, 1, 0, m_MovSpeed3, m_BackCleanMovSpeed3, ref sendMessageToCamera, 0, 0, 0, 0, 0, 0);
+                                                if (PrintLayerTransitionAnchors.IsInterleaveEnabled())
+                                                    PrintLayerTransitionAnchors.MarkCleanDone(k);
+                                            }
+                                        }
+                                    }
+#if false // 2026-06-04 层间交错试改：Pass0 前清洗改为 ShouldCleanAtPrintLayer + 可选跳过已完成的 deferred clean
+                                    if (AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nAutoPrintCleanEnabled == 1)
+                                    {
                                         if (g_nCleanFrequency * g_nRePrintTimes == 1)
                                         {
                                             if (nPassID == 0)
@@ -2725,6 +2752,7 @@ namespace BinderJetting
                                             }
                                         }
                                     }
+#endif
 
                                     if (nPassID == 0)
                                     {
@@ -2881,7 +2909,7 @@ namespace BinderJetting
                                 //EquipmentMotionLogic3(0, 3);//自动进给正式铺粉
                                 if (g_RYSYSParam.m_bApplyPowderSupplyMotion == 0)//0为采用
                                 {
-                                    EquipmentMotionLogic3(0, 2, 0, m_MovSpeed2, m_BackCleanMovSpeed2, ref sendMessageToCamera, renderIndex, 10, 0, 0, 0, 0);//自动铺粉逻辑//20230319调试修改此处
+                                    RunLayerEndPowderAndDeferredClean(k, renderIndex, m_MovSpeed2, m_BackCleanMovSpeed2, ref sendMessageToCamera);
 
                                     msg = $"执行完成铺粉固化操作：EquipmentMotionLogic3：m_bApplyPowderSupplyMotion:{g_RYSYSParam.m_bApplyPowderSupplyMotion}";
                                     Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
@@ -3816,6 +3844,111 @@ namespace BinderJetting
         }
 
 
+        /// <summary>层间并行用：独立手动操作实例，避免与 PrintTask 线程共用 AutoPrintMotion3 产生竞态。</summary>
+        private 手动操作 CreateAutoPrintMotionShell(int motionLayerK)
+        {
+            var motion = new 手动操作(0, nValveStateMask, false);
+            motion.k_dJourney = g_cPrinterSysParam.g_dJourney;
+            motion.k_bInitRoyalSuccess = m_bInitRoyalSuccess;
+            motion.InkCarHomeFlag = InkCarHomeFlag;
+            motion.PowderCarHomeFlag = PowderCarHomeFlag;
+            motion.m_bInkSuppy = g_bAutoSupplyInkFlag;
+            motion.RollerDirectionFlag = g_bRollerDirectionFlag;
+            motion.CorrectFlag = g_bSystemCorrectFlag;
+            motion.k_nCurrentLayer = motionLayerK;
+            if (AutoPrintMotion2 != null)
+            {
+                motion.modbusCommunicateMap = AutoPrintMotion2.modbusCommunicateMap;
+                motion.InitModbusFlag = AutoPrintMotion2.InitModbusFlag;
+            }
+            motion.LoadJsonFile(false);
+            return motion;
+        }
+
+        /// <summary>
+        /// 层末：默认仅 Command2 铺粉；METEOR_LAYER_INTERLEAVE_POWDER_CLEAN=1 时与下一层 Pass0 前清洗并行。
+        /// </summary>
+        private void RunLayerEndPowderAndDeferredClean(int completedLayerK, int renderIndex, float movSpeed, float backCleanSpeed, ref SendMessageToCamera toCamera)
+        {
+            int nextLayerK = completedLayerK + 1;
+            int cleanFreq = g_nCleanFrequency;
+            int rePrintTimes = g_nRePrintTimes;
+            int autoCleanEnabled = AutoPrintMotion1 != null
+                ? AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nAutoPrintCleanEnabled
+                : 1;
+            bool nextNeedsClean = PrintLayerTransitionAnchors.ShouldCleanAtPrintLayer(
+                nextLayerK, 0, cleanFreq, rePrintTimes, autoCleanEnabled);
+            PrintLayerTransitionAnchors.SetCleanRequired(nextLayerK, nextNeedsClean);
+
+            if (!PrintLayerTransitionAnchors.IsInterleaveEnabled() || !nextNeedsClean)
+            {
+                EquipmentMotionLogic3(0, 2, 0, movSpeed, backCleanSpeed, ref toCamera, renderIndex, 10, 0, 0, 0, 0);
+                PrintLayerTransitionAnchors.MarkPowderDone(completedLayerK);
+                return;
+            }
+
+            // Pass2 回 750 为异步；并行清洗启动前须在打印线程确认墨车已到待机等待位，否则短流程会在中途压墨。
+            手动操作 preGateMotion = AutoPrintMotion3 ?? CreateAutoPrintMotionShell(completedLayerK);
+            preGateMotion.EnsureInkCarAtCleanWaitStation(backCleanSpeed, $"LayerTransitionPreGate_completedK={completedLayerK}_nextCleanK={nextLayerK}");
+
+            PrintLayerTransitionAnchors.BeginPowderForwardPrepEpoch();
+            var sw = Stopwatch.StartNew();
+            Log4Net.Info($"[LayerAnchor] LayerTransitionBegin completedLayerK={completedLayerK} nextCleanLayerK={nextLayerK} parallel=true utc={DateTime.UtcNow:O}");
+
+            Exception powderEx = null;
+            Exception cleanEx = null;
+            SendMessageToCamera cameraSink = toCamera;
+
+            Task powderTask = Task.Run(() =>
+            {
+                SendMessageToCamera localCam = cameraSink;
+                try
+                {
+                    // 勿整段持锁：清洗刮板阶段需短暂占用 PowderTrainMotionGate，整段持锁会导致 EncOn(8) 与铺粉 Z 轴并发冲突。
+                    手动操作 powderMotion = CreateAutoPrintMotionShell(completedLayerK);
+                    LogMainPowderCarBaseline("AutoPrint_Command2_LayerTransitionParallel");
+                    Log4Net.Info(powderMotion.GetPowderCarEntryDiag("LayerTransitionParallelPowder"));
+                    if (powderMotion.k_RYSYSParamAutoPrintParamInTest.m_nRecoaterMode == 0)
+                        powderMotion.NewAutoSupplyPowderThread2(ref localCam, renderIndex, 10);
+                    else
+                        powderMotion.NewAutoSupplyPowderThread2CureFirst(ref localCam, renderIndex, 10, backCleanSpeed);
+                    PrintLayerTransitionAnchors.MarkPowderDone(completedLayerK);
+                }
+                catch (Exception ex)
+                {
+                    powderEx = ex;
+                    Log4Net.Info($"[LayerAnchor] LayerTransitionPowderFailed completedLayerK={completedLayerK} ex={ex.Message}");
+                }
+            });
+
+            Task cleanTask = Task.Run(() =>
+            {
+                try
+                {
+                    lock (GoogolMotionMap.InkCarMotionGate)
+                    {
+                        手动操作 cleanMotion = CreateAutoPrintMotionShell(nextLayerK);
+                        cleanMotion.EnsureInkCarAtCleanWaitStation(backCleanSpeed, $"LayerTransitionDeferredClean_L{nextLayerK}");
+                        cleanMotion.AutoCleanThread2(backCleanSpeed);
+                    }
+                    PrintLayerTransitionAnchors.MarkCleanDone(nextLayerK);
+                }
+                catch (Exception ex)
+                {
+                    cleanEx = ex;
+                    Log4Net.Info($"[LayerAnchor] LayerTransitionCleanFailed nextCleanLayerK={nextLayerK} ex={ex.Message}");
+                }
+            });
+
+            Task.WaitAll(powderTask, cleanTask);
+            Log4Net.Info($"[LayerAnchor] LayerTransitionEnd completedLayerK={completedLayerK} nextCleanLayerK={nextLayerK} elapsedMs={sw.ElapsedMilliseconds} powderFailed={(powderEx != null)} cleanFailed={(cleanEx != null)} utc={DateTime.UtcNow:O}");
+
+            if (powderEx != null)
+                throw powderEx;
+            if (cleanEx != null)
+                throw cleanEx;
+        }
+
         /// <summary>
         /// 自动运行动作罗辑
         /// </summary>
@@ -3872,7 +4005,12 @@ namespace BinderJetting
                 AutoPrintMotion3.m_bInkSuppy = g_bAutoSupplyInkFlag;
                 AutoPrintMotion3.RollerDirectionFlag = g_bRollerDirectionFlag;//
                 AutoPrintMotion3.CorrectFlag = g_bSystemCorrectFlag;//20201014新增：系统校准标志位
-                AutoPrintMotion3.k_nCurrentLayer = g_nCurrentLayer;//20201021新增：同步打印进度
+                // 喷墨/Meteor 门控用打印循环层号 k（g_nCurrentPrintLayerID），勿用层末 2968 写回的 g_nCurrentLayer 进度值，否则第二层起 Pass0 仍 Signal/Write 上一层。
+                int motionPrintLayerK = g_nCurrentPrintLayerID > 0 ? g_nCurrentPrintLayerID : g_nCurrentLayer;
+                if (Command == 1 && RecordLayerIndex > 0)
+                    motionPrintLayerK = RecordLayerIndex;
+                AutoPrintMotion3.k_nCurrentLayer = motionPrintLayerK;
+                Log4Net.Info($"EquipmentMotionLogic3: sync k_nCurrentLayer={motionPrintLayerK} g_nCurrentPrintLayerID={g_nCurrentPrintLayerID} g_nCurrentLayer={g_nCurrentLayer} RecordLayerIndex={RecordLayerIndex} Command={Command}");
                 //（2）加载自动供给送粉的配置文件
                 bool returnCode = AutoPrintMotion3.LoadJsonFile(false);//加载自动供给送粉的配置文件
                 msg = $"进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！";

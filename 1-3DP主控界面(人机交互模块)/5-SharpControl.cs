@@ -1630,6 +1630,7 @@ namespace BinderJetting
                     bool batchSwathMode = MeteorPrintEngine.IsBatchSwathModeEnabled();
                     bool batchStartScanGateSplit = batchSwathMode && MeteorPrintEngine.IsBatchStartScanGateSplitEnabled();
                     bool splitJobPerPass = batchStartScanGateSplit && MeteorPrintEngine.IsSplitJobPerPassEnabled();
+                    bool passLiveAbsXGateSplit = MeteorPrintEngine.ShouldUsePassLiveAbsXCompBatchGateSplit();
                     if (!splitJobPerPass)
                     {
                         // Xleft 须在 Meteor AbsX 域（STARTSCAN 前 live AbsX 或 Pass 锚点），勿将固高 mm 写入 nPrtXEncPos
@@ -1643,17 +1644,19 @@ namespace BinderJetting
                     Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode {MeteorPrintEngine.DescribeBatchSwathModeConfig()} clone={clone.Width}x{clone.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}");
                     if (batchStartScanGateSplit)
                         Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode BATCH-GATE-SPLIT 诊断模式 — 先预切缓存 3 strip，STARTSCAN+IMAGE 仍按 Pass0/1/2 门控发送；EndJob 默认发完即送，METEOR_BATCH_ENDJOB_IMMEDIATE=0 时延后");
+                    else if (passLiveAbsXGateSplit)
+                        Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode PASS-LIVE-ABSX-COMP — Pass0 Flush 预灌；Pass1/2 在各自 gate 开扫前动态 Xleft（METEOR_PASS_LIVE_ABSX_COMP=0 回退 legacy）");
                     else if (batchSwathMode)
                         Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode BATCH-LEGACY 主路径 — Pass0 门控后连续发送 3 strip；EndJob 默认在 swath 发完后立即发送（METEOR_BATCH_ENDJOB_IMMEDIATE=0 可延后）");
                     else
                         Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode 3PASS 按 pass 门控逐条发送；EndJob 默认在 swath 发完后立即发送");
-                    if (batchStartScanGateSplit)
+                    if (batchStartScanGateSplit || passLiveAbsXGateSplit)
                     {
                         List<Tuple<System.Drawing.Bitmap, int>> cachedSwaths = new List<Tuple<System.Drawing.Bitmap, int>>();
                         SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, (strip, swathTop) =>
                         {
                             cachedSwaths.Add(Tuple.Create((System.Drawing.Bitmap)strip.Clone(), swathTop));
-                            Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode BATCH-GATE-SPLIT 已缓存strip, stripIndexSimple=" + cachedSwaths.Count + ", swathTopInLayer=" + swathTop + ", size=" + strip.Width + "x" + strip.Height);
+                            Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode " + (passLiveAbsXGateSplit ? "PASS-LIVE-ABSX-COMP" : "BATCH-GATE-SPLIT") + " 已缓存strip, stripIndexSimple=" + cachedSwaths.Count + ", swathTopInLayer=" + swathTop + ", size=" + strip.Width + "x" + strip.Height);
                         }, 0, -1);
                         for (int cachedIndex = 0; cachedIndex < cachedSwaths.Count; cachedIndex++)
                         {
@@ -1662,9 +1665,9 @@ namespace BinderJetting
                             MeteorPrintEngine.SuppressScanMotionGateForNextWrite = false;
                             MeteorPrintEngine.SetPendingSwathPassIndex(cachedIndex);
                             if (cachedIndex == 0)
-                                MeteorPrintEngine.WaitPassGateBeforeMeteorSubmitIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode:BatchGateSplitPass0", index, 0, ActualStartNum);
+                                MeteorPrintEngine.WaitPassGateBeforeMeteorSubmitIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode:" + (passLiveAbsXGateSplit ? "PassLiveAbsXPass0" : "BatchGateSplitPass0"), index, 0, ActualStartNum);
                             else
-                                MeteorPrintEngine.WaitPassGateBeforeMeteorSubmitIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode:BatchGateSplitPass" + cachedIndex, index, cachedIndex, ActualStartNum);
+                                MeteorPrintEngine.WaitPassGateBeforeMeteorSubmitIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode:" + (passLiveAbsXGateSplit ? "PassLiveAbsXPass" : "BatchGateSplitPass") + cachedIndex, index, cachedIndex, ActualStartNum);
                             if (splitJobPerPass)
                             {
                                 MeteorPrintEngine.SetPendingScanJobWidth(actualScanJobWidth);
@@ -1686,7 +1689,12 @@ namespace BinderJetting
                                 MeteorPrintEngine.MarkDeferredEndJobAfterPassSwaths("RenderToWic:SimplifiedMeteorAutoFlowMode:SplitJobPass" + cachedIndex);
                             strip.Dispose();
                             anySwathSent = true;
-                            Log4Net.Info("RenderToWic: Simplified 3PASS cached strip 发送完成, stripIndexSimple=" + cachedIndex + ", swathTopInLayer=" + swathTop + ", batchStartScanGateSplit=True, imageYStart=0, nPrtDir=" + royal.royal.g_prtimg_layer.nPrtDir + ", nYJetOff=" + royal.royal.g_prtimg_layer.nYJetOff + ", writeRet=" + writeRet);
+                            if (passLiveAbsXGateSplit && cachedIndex == 0)
+                            {
+                                MeteorPrintEngine.SignalBatchSwathsMeteorReady("RenderToWic:SimplifiedMeteorAutoFlowMode:PassLiveAbsXCompPass0Flush");
+                                Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode PASS-LIVE-ABSX-COMP Pass0 已入队并 Flush，放行 Pass0 扫程；Pass1/2 待各自 gate");
+                            }
+                            Log4Net.Info("RenderToWic: Simplified 3PASS cached strip 发送完成, stripIndexSimple=" + cachedIndex + ", swathTopInLayer=" + swathTop + ", batchStartScanGateSplit=" + batchStartScanGateSplit + ", passLiveAbsXGateSplit=" + passLiveAbsXGateSplit + ", imageYStart=0, nPrtDir=" + royal.royal.g_prtimg_layer.nPrtDir + ", nYJetOff=" + royal.royal.g_prtimg_layer.nYJetOff + ", writeRet=" + writeRet);
                         }
                         stripIndexSimple = cachedSwaths.Count;
                     }
@@ -1721,7 +1729,7 @@ namespace BinderJetting
                     MeteorPrintEngine.SuppressScanMotionGateForNextWrite = false;
                     if (anySwathSent)
                     {
-                        if (batchSwathMode && !batchStartScanGateSplit && !splitJobPerPass)
+                        if (batchSwathMode && !batchStartScanGateSplit && !splitJobPerPass && !passLiveAbsXGateSplit)
                         {
                             MeteorPrintEngine.SignalBatchSwathsMeteorReady("RenderToWic:SimplifiedMeteorAutoFlowMode:LegacyBatchAllSwathsEndDoc");
                             Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode BATCH-LEGACY 已连续发送全部 swath，现放行 Pass0 扫程，stripCount={stripIndexSimple}");

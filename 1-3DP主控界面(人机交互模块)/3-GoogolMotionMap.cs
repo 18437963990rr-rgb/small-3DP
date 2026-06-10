@@ -33,6 +33,15 @@ namespace Motion
         /// <summary>成型缸（固高 8 轴，与 cfg 中 control8 对应）在闭环且外编进卡时，<see cref="InitCardConfiguration"/> 内需 <see cref="gts.mc.GT_EncOn"/>(8)。若现场为开环脉冲无此外编，请置 <c>false</c>。</summary>
         public bool EnableAxis8ExternalEncoderAfterInit = true;
 
+        /// <summary>层间并行试改：墨车/刮板子系统互斥（轴 1/2/4 + 清洗 IO）。</summary>
+        internal static readonly object InkCarMotionGate = new object();
+
+        /// <summary>层间并行试改：铺粉子系统互斥（轴 3/6/7/8 + 超声/IR）。</summary>
+        internal static readonly object PowderTrainMotionGate = new object();
+
+        /// <summary>自动清洗/铺粉等后台线程：固高指令失败只记日志，不弹 MessageBox 阻塞运动。</summary>
+        public static bool SuppressCommandErrorDialog { get; set; }
+
         public gts.mc.TTrapPrm trapPrm;//点动运动参数——对外开放访问
         public gts.mc.TJogPrm jogPrm;//JOG运动参数——对外开放访问
 
@@ -166,8 +175,40 @@ namespace Motion
             if (error != 0)
             {
                 LogError($"{command}:{error}");
-                MessageBox.Show(command + ":" + error);
+                if (!SuppressCommandErrorDialog)
+                    MessageBox.Show(command + ":" + error);
             }
+        }
+
+        /// <summary>等待刮墨轴 trap 运动结束；超时则平滑停止，便于后续 GT_ZeroPos。</summary>
+        private void WaitSpreaderAxisTrapIdle(short axis, int timeoutMs = 5000)
+        {
+            uint pClock = 0;
+            int status = 0;
+            DateTime deadline = DateTime.UtcNow.AddMilliseconds(timeoutMs);
+            while (DateTime.UtcNow < deadline)
+            {
+                gts.mc.GT_GetSts(cardNumber, axis, out status, 1, out pClock);
+                if ((status & 0x400) == 0)
+                    return;
+                Thread.Sleep(20);
+            }
+            LogInfo($"WaitSpreaderAxisTrapIdle AXIS={axis} timeoutMs={timeoutMs}，执行 StopMotion");
+            StopMotion(axis, true);
+            Thread.Sleep(100);
+        }
+
+        private short TryZeroSpreaderAxisPos(short axis)
+        {
+            WaitSpreaderAxisTrapIdle(axis);
+            short sRtn = gts.mc.GT_ZeroPos(cardNumber, axis, 8);
+            if (sRtn == 0)
+                return 0;
+            LogInfo($"GT_ZeroPos AXIS={axis} 首次返回 {sRtn}，StopMotion 后重试");
+            StopMotion(axis, true);
+            Thread.Sleep(100);
+            gts.mc.GT_ClrSts(cardNumber, axis, 8);
+            return gts.mc.GT_ZeroPos(cardNumber, axis, 8);
         }
         //读取通用输出IO高电平//20200309新增：暂时不需要//20220523新建：红外控制器通讯时，需要检测通讯设备是否完好
         public bool/*void*/ GetDo(short DoNumber/*, out bool OutputState*/)
@@ -371,7 +412,7 @@ namespace Motion
             LogInkCarAxisEncClosedLoopDiag($"TrapMoveSpreaderAxis AXIS={AXIS} GT_EncOff(仅此轴)后立即");
             sRtn = gts.mc.GT_SetCaptureMode(cardNumber, AXIS, gts.mc.CAPTURE_HOME); Commandhandler("GT_SetCaptureMode", sRtn);// (1)启动Home捕获
             sRtn = gts.mc.GT_PrfTrap(cardNumber, AXIS); Commandhandler("GT_PrfTrap", sRtn);// (2)切换到点位运动模式
-            sRtn = gts.mc.GT_ZeroPos(cardNumber, AXIS, 8); Commandhandler("GT_ZeroPos", sRtn);//清零规划位置和实际位置，并进行零飘补偿。
+            sRtn = TryZeroSpreaderAxisPos(AXIS); Commandhandler("GT_ZeroPos", sRtn);//清零规划位置和实际位置，并进行零飘补偿。
             sRtn = gts.mc.GT_SetEncPos(cardNumber, AXIS, 0); Commandhandler("GT_SetEncPos", sRtn);//设置单轴的编码器位置为0
 
             trapPrm.acc = 0.5; trapPrm.dec = 0.5/*1000*/; trapPrm.velStart = 0; trapPrm.smoothTime = 0;//（1）确定：参数的acc和dec含义需要确认清楚————这个参数意义不是很大//(3)执行点动运动
