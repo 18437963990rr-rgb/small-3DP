@@ -1634,8 +1634,14 @@ namespace BinderJetting
                     if (!splitJobPerPass)
                     {
                         // Xleft 须在 Meteor AbsX 域（STARTSCAN 前 live AbsX 或 Pass 锚点），勿将固高 mm 写入 nPrtXEncPos
-                        MeteorPrintEngine.StartJob(ref royal.royal.g_PrtJobItem);
-                        MeteorPrintEngine.SendStartJob(0, actualScanJobWidth);
+                        int startContextRetMain = MeteorPrintEngine.StartJob(ref royal.royal.g_PrtJobItem);
+                        bool startJobOkMain = startContextRetMain >= 0 && MeteorPrintEngine.SendStartJob(0, actualScanJobWidth);
+                        if (!startJobOkMain)
+                        {
+                            Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode StartJob failed; stop swath send. startContextRet={startContextRetMain} scanJobWidth={actualScanJobWidth}");
+                            clone.Dispose();
+                            return;
+                        }
                     }
                     else
                     {
@@ -1643,11 +1649,11 @@ namespace BinderJetting
                     }
                     Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode {MeteorPrintEngine.DescribeBatchSwathModeConfig()} clone={clone.Width}x{clone.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}");
                     if (batchStartScanGateSplit)
-                        Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode BATCH-GATE-SPLIT 诊断模式 — 先预切缓存 3 strip，STARTSCAN+IMAGE 仍按 Pass0/1/2 门控发送；EndJob 默认发完即送，METEOR_BATCH_ENDJOB_IMMEDIATE=0 时延后");
+                        Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode BATCH-GATE-SPLIT 诊断模式 — 先预切缓存 3 strip，STARTSCAN+IMAGE 仍按 Pass0/1/2 门控发送；EndJob 默认延后，METEOR_BATCH_ENDJOB_IMMEDIATE=1 时立即发送");
                     else if (passLiveAbsXGateSplit)
-                        Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode PASS-LIVE-ABSX-COMP — Pass0 Flush 预灌；Pass1/2 在各自 gate 开扫前动态 Xleft（METEOR_PASS_LIVE_ABSX_COMP=0 回退 legacy）");
+                        Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode PASS-LIVE-ABSX-COMP — Pass0 Flush 预灌；Pass1/2 在各自 gate 开扫前动态 Xleft（实验模式，未设 METEOR_PASS_LIVE_ABSX_COMP 时默认关闭）");
                     else if (batchSwathMode)
-                        Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode BATCH-LEGACY 主路径 — Pass0 门控后连续发送 3 strip；EndJob 默认在 swath 发完后立即发送（METEOR_BATCH_ENDJOB_IMMEDIATE=0 可延后）");
+                        Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode BATCH-LEGACY 主路径 — Pass0 门控后连续发送 3 strip；EndJob 默认延后到 Pass2 物理扫程后（METEOR_BATCH_ENDJOB_IMMEDIATE=1 可立即发送）");
                     else
                         Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode 3PASS 按 pass 门控逐条发送；EndJob 默认在 swath 发完后立即发送");
                     if (batchStartScanGateSplit || passLiveAbsXGateSplit)
@@ -1746,7 +1752,7 @@ namespace BinderJetting
                         else
                         {
                             MeteorPrintEngine.MarkDeferredEndJobAfterPassSwaths("RenderToWic:SimplifiedMeteorAutoFlowMode");
-                            Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 3PASS swath 全部发送完成，EndJob 延后（METEOR_BATCH_ENDJOB_IMMEDIATE=0），stripCount={stripIndexSimple} batchSwathMode={batchSwathMode}");
+                            Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 3PASS swath 全部发送完成，EndJob 延后（默认路径；METEOR_BATCH_ENDJOB_IMMEDIATE=1 可立即发送），stripCount={stripIndexSimple} batchSwathMode={batchSwathMode}");
                         }
                     }
                     Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 同址3PASS发送完成，index={index}, subindex={subindex}, stripIndexSimple={stripIndexSimple}");
