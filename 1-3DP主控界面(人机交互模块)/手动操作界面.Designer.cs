@@ -84,6 +84,7 @@ namespace BinderJetting
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
+            this.comboBox12 = new System.Windows.Forms.ComboBox();
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.label66 = new System.Windows.Forms.Label();
             this.label65 = new System.Windows.Forms.Label();
@@ -486,6 +487,7 @@ namespace BinderJetting
             this.label127 = new System.Windows.Forms.Label();
             this.textBox48 = new System.Windows.Forms.TextBox();
             this.label131 = new System.Windows.Forms.Label();
+            this.label136 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.ManulDebugTAB.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -746,6 +748,8 @@ namespace BinderJetting
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tabPage1.Controls.Add(this.comboBox12);
+            this.tabPage1.Controls.Add(this.label136);
             this.tabPage1.Controls.Add(this.comboBox2);
             this.tabPage1.Controls.Add(this.comboBox10);
             this.tabPage1.Controls.Add(this.comboBox1);
@@ -1212,15 +1216,26 @@ namespace BinderJetting
             this.textBox8.Text = "100";
             this.textBox8.Visible = false;
             // 
+            // comboBox12
+            // 
+            this.comboBox12.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox12.FormattingEnabled = true;
+            this.comboBox12.Items.AddRange(new object[] {
+            "A-反向辊子",
+            "B-同向辊子"});
+            this.comboBox12.Location = new System.Drawing.Point(418, 671);
+            this.comboBox12.Name = "comboBox12";
+            this.comboBox12.Size = new System.Drawing.Size(71, 20);
+            this.comboBox12.TabIndex = 212;
+            // 
             // textBox13
             // 
-            this.textBox13.Enabled = false;
             this.textBox13.Font = new System.Drawing.Font("微软雅黑", 8.5F);
             this.textBox13.Location = new System.Drawing.Point(783, 507);
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(36, 22);
             this.textBox13.TabIndex = 182;
-            this.textBox13.Text = "0";
+            this.textBox13.Text = "1";
             // 
             // label66
             // 
@@ -1230,7 +1245,7 @@ namespace BinderJetting
             this.label66.Name = "label66";
             this.label66.Size = new System.Drawing.Size(105, 16);
             this.label66.TabIndex = 181;
-            this.label66.Text = "层厚进给2(um)";
+            this.label66.Text = "轴5辊速(rev/s)";
             // 
             // label65
             // 
@@ -6456,6 +6471,16 @@ namespace BinderJetting
             this.label131.TabIndex = 216;
             this.label131.Text = "出光位置(mm)";
             // 
+            // label136
+            // 
+            this.label136.AutoSize = true;
+            this.label136.Font = new System.Drawing.Font("宋体", 9.5F, System.Drawing.FontStyle.Bold);
+            this.label136.Location = new System.Drawing.Point(342, 673);
+            this.label136.Name = "label136";
+            this.label136.Size = new System.Drawing.Size(77, 13);
+            this.label136.TabIndex = 215;
+            this.label136.Text = "粗辊转向：";
+            // 
             // 手动操作
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -6894,6 +6919,7 @@ namespace BinderJetting
         private System.Windows.Forms.Button button32;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBox12;
         private System.Windows.Forms.Label label85;
         private System.Windows.Forms.Label label87;
         private System.Windows.Forms.TextBox textBox25;
@@ -6989,5 +7015,6 @@ namespace BinderJetting
         private System.Windows.Forms.Label label133;
         private System.Windows.Forms.Label label134;
         private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.Label label136;
     }
 }

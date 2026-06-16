@@ -1330,6 +1330,10 @@ namespace BinderJetting
                 motionMap.StopMotion(AXIS);//停止铺粉辊JOG转动
                 string msg = $"自动停止铺粉棍轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{{第{AXIS}轴}}";
                 Log4Net.Info(msg);
+                AXIS = 5;
+                motionMap.StopMotion(AXIS);//停止粉辊2轴JOG转动
+                msg = $"自动停止粉辊2轴JOG输出（8轴运控板卡系统） ====》：输出AXIS{{第{AXIS}轴}}";
+                Log4Net.Info(msg);
                 AXIS = 7;
             }
             else//不是当前铺粉车联动停轴
@@ -9599,9 +9603,14 @@ namespace BinderJetting
                 AimPos = POWDERCAR_DROP_BEGIN - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply/*40*//*695*/; /*double*/
                 MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*250*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/; //更新值到本地变量//20230425修改：修订铺粉位置
                 double RollerAxis6Speed = System.Math.Abs(k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed);
+                double RollerAxis5Speed = System.Math.Abs(k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerAxis5Speed);
                 bool RollerAxis6Positive = (k_RYSYSParamAutoPrintParamInTest.m_nRollerRotateDirection == 0);
+                bool RollerAxis5Positive = (k_RYSYSParamAutoPrintParamInTest.m_nPowderCarBackRollerAxis5RotateDirection == 0);
                 double RollerStage1Turns = (RollerAxis6Speed > 0 && MovSpeed > 0)
                     ? RollerAxis6Speed * System.Math.Abs(AimPos - GetCurrentPos(7)) / MovSpeed
+                    : 0;
+                double RollerStage1Axis5Turns = (RollerAxis5Speed > 0 && MovSpeed > 0)
+                    ? RollerAxis5Speed * System.Math.Abs(AimPos - GetCurrentPos(7)) / MovSpeed
                     : 0;
                 msg = $"开启铺粉车不等停运动，准备运动至准备打印位置{AimPos}mm，速度{MovSpeed}mm/s：BackToStation2";
                 Log4Net.Info(msg);
@@ -9612,6 +9621,15 @@ namespace BinderJetting
                     else
                     { TrapMoveDown(6, true, Convert.ToString(RollerAxis6Speed), Convert.ToString(RollerStage1Turns), true, false); }
                     msg = $"铺粉辊轴1阶段1启动：AXIS6，方向{(RollerAxis6Positive ? "正向" : "反向")}，速度{RollerAxis6Speed}rev/s，预计转动{RollerStage1Turns:F3}圈";
+                    Log4Net.Info(msg);
+                }
+                if (RollerStage1Axis5Turns > 0.001)
+                {
+                    if (RollerAxis5Positive)
+                    { TrapMoveUp(5, true, Convert.ToString(RollerAxis5Speed), Convert.ToString(RollerStage1Axis5Turns), true, false); }
+                    else
+                    { TrapMoveDown(5, true, Convert.ToString(RollerAxis5Speed), Convert.ToString(RollerStage1Axis5Turns), true, false); }
+                    msg = $"铺粉辊轴2阶段1启动：AXIS5，方向{(RollerAxis5Positive ? "正向" : "反向")}，速度{RollerAxis5Speed}rev/s，预计转动{RollerStage1Axis5Turns:F3}圈";
                     Log4Net.Info(msg);
                 }
                 BackToStation2(AimPos, MovSpeed, false);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
@@ -9653,11 +9671,21 @@ namespace BinderJetting
                 if (RollerAxis6Speed > 0.001)
                 {
                     motionMap.StopMotion(6);
+                    motionMap.StopMotion(5);
                     double RollerStage2Turns = RollerAxis6Speed * System.Math.Max(0, AimPos - PosValue) / MovSpeed + 10;
+                    double RollerStage2Axis5Turns = RollerAxis5Speed * System.Math.Max(0, AimPos - PosValue) / MovSpeed + 10;
                     if (RollerAxis6Positive)
                     { TrapMoveUp(6, true, Convert.ToString(RollerAxis6Speed), Convert.ToString(RollerStage2Turns), true, false); }
                     else
                     { TrapMoveDown(6, true, Convert.ToString(RollerAxis6Speed), Convert.ToString(RollerStage2Turns), true, false); }
+                    if (RollerAxis5Speed > 0.001)
+                    {
+                        if (RollerAxis5Positive)
+                        { TrapMoveUp(5, true, Convert.ToString(RollerAxis5Speed), Convert.ToString(RollerStage2Axis5Turns), true, false); }
+                        else
+                        { TrapMoveDown(5, true, Convert.ToString(RollerAxis5Speed), Convert.ToString(RollerStage2Axis5Turns), true, false); }
+                        Log4Net.Info($"铺粉辊轴2阶段2启动：AXIS5，方向{(RollerAxis5Positive ? "正向" : "反向")}，速度{RollerAxis5Speed}rev/s，目标停止位{RollerStopPos:F3}mm，保底转动{RollerStage2Axis5Turns:F3}圈");
+                    }
                     msg = $"铺粉辊轴1阶段2启动：AXIS6，方向{(RollerAxis6Positive ? "正向" : "反向")}，速度{RollerAxis6Speed}rev/s，目标停止位{RollerStopPos:F3}mm，保底转动{RollerStage2Turns:F3}圈";
                     Log4Net.Info(msg);
                 }
@@ -9760,6 +9788,7 @@ namespace BinderJetting
                     if (!rollerStage2StopIssued && PosValue >= RollerStopPos)
                     {
                         motionMap.StopMotion(6);
+                        motionMap.StopMotion(5);
                         msg = $"铺粉辊轴1阶段2停止：AXIS6，粉车当前位置{PosValue:F3}mm，目标停止位{RollerStopPos:F3}mm";
                         Log4Net.Info(msg);
                         rollerStage2StopIssued = true;
@@ -9768,6 +9797,7 @@ namespace BinderJetting
                 if (!rollerStage2StopIssued)
                 {
                     motionMap.StopMotion(6);
+                    motionMap.StopMotion(5);
                     msg = $"铺粉辊轴1阶段2补停：AXIS6，粉车当前位置{PosValue:F3}mm，目标停止位{RollerStopPos:F3}mm";
                     Log4Net.Info(msg);
                 }
@@ -10583,9 +10613,14 @@ namespace BinderJetting
                 double AimPos = POWDERCAR_DROP_BEGIN - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply/*40*//*695*/;
                 double MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*250*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/; //更新值到本地变量//20230425修改：修订铺粉位置
                 double RollerAxis6Speed = System.Math.Abs(k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed);
+                double RollerAxis5Speed = System.Math.Abs(k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerAxis5Speed);
                 bool RollerAxis6Positive = (k_RYSYSParamAutoPrintParamInTest.m_nRollerRotateDirection == 0);
+                bool RollerAxis5Positive = (k_RYSYSParamAutoPrintParamInTest.m_nPowderCarBackRollerAxis5RotateDirection == 0);
                 double RollerStage1Turns = (RollerAxis6Speed > 0 && MovSpeed > 0)
                     ? RollerAxis6Speed * System.Math.Abs(AimPos - GetCurrentPos(7)) / MovSpeed
+                    : 0;
+                double RollerStage1Axis5Turns = (RollerAxis5Speed > 0 && MovSpeed > 0)
+                    ? RollerAxis5Speed * System.Math.Abs(AimPos - GetCurrentPos(7)) / MovSpeed
                     : 0;
                 msg = $"开启铺粉车不等停运动，准备运动至准备打印位置{AimPos}mm，速度{MovSpeed}mm/s：BackToStation2";
                 Log4Net.Info(msg);
@@ -10596,6 +10631,15 @@ namespace BinderJetting
                     else
                     { TrapMoveDown(6, true, Convert.ToString(RollerAxis6Speed), Convert.ToString(RollerStage1Turns), true, false); }
                     msg = $"铺粉辊轴1阶段1启动：AXIS6，方向{(RollerAxis6Positive ? "正向" : "反向")}，速度{RollerAxis6Speed}rev/s，预计转动{RollerStage1Turns:F3}圈";
+                    Log4Net.Info(msg);
+                }
+                if (RollerStage1Axis5Turns > 0.001)
+                {
+                    if (RollerAxis5Positive)
+                    { TrapMoveUp(5, true, Convert.ToString(RollerAxis5Speed), Convert.ToString(RollerStage1Axis5Turns), true, false); }
+                    else
+                    { TrapMoveDown(5, true, Convert.ToString(RollerAxis5Speed), Convert.ToString(RollerStage1Axis5Turns), true, false); }
+                    msg = $"铺粉辊轴2阶段1启动：AXIS5，方向{(RollerAxis5Positive ? "正向" : "反向")}，速度{RollerAxis5Speed}rev/s，预计转动{RollerStage1Axis5Turns:F3}圈";
                     Log4Net.Info(msg);
                 }
                 BackToStation2(AimPos, MovSpeed, false);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
@@ -10639,11 +10683,21 @@ namespace BinderJetting
                 if (RollerAxis6Speed > 0.001)
                 {
                     motionMap.StopMotion(6);
+                    motionMap.StopMotion(5);
                     double RollerStage2Turns = RollerAxis6Speed * System.Math.Max(0, AimPos - PosValue) / MovSpeed + 10;
+                    double RollerStage2Axis5Turns = RollerAxis5Speed * System.Math.Max(0, AimPos - PosValue) / MovSpeed + 10;
                     if (RollerAxis6Positive)
                     { TrapMoveUp(6, true, Convert.ToString(RollerAxis6Speed), Convert.ToString(RollerStage2Turns), true, false); }
                     else
                     { TrapMoveDown(6, true, Convert.ToString(RollerAxis6Speed), Convert.ToString(RollerStage2Turns), true, false); }
+                    if (RollerAxis5Speed > 0.001)
+                    {
+                        if (RollerAxis5Positive)
+                        { TrapMoveUp(5, true, Convert.ToString(RollerAxis5Speed), Convert.ToString(RollerStage2Axis5Turns), true, false); }
+                        else
+                        { TrapMoveDown(5, true, Convert.ToString(RollerAxis5Speed), Convert.ToString(RollerStage2Axis5Turns), true, false); }
+                        Log4Net.Info($"铺粉辊轴2阶段2启动：AXIS5，方向{(RollerAxis5Positive ? "正向" : "反向")}，速度{RollerAxis5Speed}rev/s，目标停止位{RollerStopPos:F3}mm，保底转动{RollerStage2Axis5Turns:F3}圈");
+                    }
                     msg = $"铺粉辊轴1阶段2启动：AXIS6，方向{(RollerAxis6Positive ? "正向" : "反向")}，速度{RollerAxis6Speed}rev/s，目标停止位{RollerStopPos:F3}mm，保底转动{RollerStage2Turns:F3}圈";
                     Log4Net.Info(msg);
                 }
@@ -10780,6 +10834,7 @@ namespace BinderJetting
                     if (!rollerStage2StopIssued && PosValue >= RollerStopPos)
                     {
                         motionMap.StopMotion(6);
+                        motionMap.StopMotion(5);
                         msg = $"铺粉辊轴1阶段2停止：AXIS6，粉车当前位置{PosValue:F3}mm，目标停止位{RollerStopPos:F3}mm";
                         Log4Net.Info(msg);
                         rollerStage2StopIssued = true;
@@ -10790,6 +10845,7 @@ namespace BinderJetting
                 if (!rollerStage2StopIssued)
                 {
                     motionMap.StopMotion(6);
+                    motionMap.StopMotion(5);
                     msg = $"铺粉辊轴1阶段2补停：AXIS6，粉车当前位置{PosValue:F3}mm，目标停止位{RollerStopPos:F3}mm";
                     Log4Net.Info(msg);
                 }
@@ -10982,10 +11038,10 @@ namespace BinderJetting
                     {
                         //(1)Z向进给：20210125新增
                         TrapMoveUp(2, true, "1",
-                        Convert.ToString(k_RYSYSParamAutoPrintParamInTest.m_nLayerThick2 * k_RYSYSParamAutoPrintParamInTest.m_dPowderSupplyCoefficient/*2*/), true, false);//(1)靠人侧送粉缸点动上升进给量粉末;m_nLayerThick2进给2
+                        Convert.ToString(k_RYSYSParamAutoPrintParamInTest.m_nLayerThick * k_RYSYSParamAutoPrintParamInTest.m_dPowderSupplyCoefficient/*2*/), true, false);//(1)靠人侧送粉缸点动上升进给量粉末
                         Thread.Sleep(300);
                         TrapMoveDown(1, true, "5",
-                            Convert.ToString(k_RYSYSParamAutoPrintParamInTest.m_nLayerThick2), true, false);//(2)成型缸点动下降层厚;m_nLayerThick2进给2
+                            Convert.ToString(k_RYSYSParamAutoPrintParamInTest.m_nLayerThick), true, false);//(2)成型缸点动下降层厚
                         Thread.Sleep(300);
 
 
@@ -11010,10 +11066,10 @@ namespace BinderJetting
                     {
                         //(1)Z向进给：20210125新增
                         TrapMoveUp(2, true, "1",
-                            Convert.ToString(k_RYSYSParamAutoPrintParamInTest.m_nLayerThick * k_RYSYSParamAutoPrintParamInTest.m_dPowderSupplyCoefficient/*2*/), true, false);//(1)靠人侧送粉缸点动上升进给量粉末;m_nLayerThick2进给2
+                            Convert.ToString(k_RYSYSParamAutoPrintParamInTest.m_nLayerThick * k_RYSYSParamAutoPrintParamInTest.m_dPowderSupplyCoefficient/*2*/), true, false);//(1)靠人侧送粉缸点动上升进给量粉末
                         Thread.Sleep(300);
                         TrapMoveDown(1, true, "5",
-                            Convert.ToString(k_RYSYSParamAutoPrintParamInTest.m_nLayerThick), true, false);//(2)成型缸点动下降层厚;m_nLayerThick2进给2
+                            Convert.ToString(k_RYSYSParamAutoPrintParamInTest.m_nLayerThick), true, false);//(2)成型缸点动下降层厚
                         Thread.Sleep(300);
 
                         //(2)开始铺粉：20210125新增
@@ -11898,6 +11954,7 @@ namespace BinderJetting
                     motionMap.StopMotion(8);//停止成型缸轴运动
                     motionMap.StopMotion(3);//停止落粉轴运动
                     motionMap.StopMotion(6);//停止粉辊等辅轴
+                    motionMap.StopMotion(5);//停止粉辊2轴
                     this.AutoSupplyPowderBtn.Text = "自动进给铺粉";
                 }//关闭
                 else { AutoPrintFlag[1] = true; this.AutoSupplyPowderBtn.Text = "停止进给铺粉"; }
@@ -11940,6 +11997,7 @@ namespace BinderJetting
                     AutoPrintFlag[1] = false;
                     motionMap.StopMotion(4);//停止铺粉轴运动         
                     motionMap.StopMotion(6);//停止铺粉轴运动
+                    motionMap.StopMotion(5);//停止粉辊2轴
                     this.AutoSupplyPowderBtn.Text = "自动进给铺粉";
                 }//关闭
                 else { AutoPrintFlag[1] = true; this.AutoSupplyPowderBtn.Text = "停止进给铺粉"; }
@@ -12020,11 +12078,11 @@ namespace BinderJetting
             comboBox1.DataBindings.Add("SelectedIndex", k_RYSYSParamAutoPrintParamInTest, "CureLightStrategy", true, DataSourceUpdateMode.OnPropertyChanged);//车头运动速度：20200326新增
             //辊子方向校准：20220527新增：便于修正辊子方向
             comboBox2.DataBindings.Add("SelectedIndex", k_RYSYSParamAutoPrintParamInTest, "RollerRotateDirection", true, DataSourceUpdateMode.OnPropertyChanged);//辊子方向校准：20220527新增：便于修正辊子方向
+            comboBox12.DataBindings.Add("SelectedIndex", k_RYSYSParamAutoPrintParamInTest, "PowderCarBackRollerAxis5RotateDirection", true, DataSourceUpdateMode.OnPropertyChanged);
 
 
             // 喷头保护设置参数：(清洗和闪喷两种作用)
             textBox5.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "LayerThick", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);
-            textBox13.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "LayerThick2", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//201029新增:
             textBox24.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PowderStationCorrection", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//20220528新增：单位MM
             textBox25.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PowderSupplyRotateNum", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//20220528新增：单位圈
 
@@ -12095,6 +12153,7 @@ namespace BinderJetting
             RollerParamLabel.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "RollerSpeed", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);
             textBox3.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "RollerSpeed", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);
             textBox12.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PowderCarBackRollerSpeed", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//201029新增:
+            textBox13.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PowderCarBackRollerAxis5Speed", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);
 
             textBox14.DataBindings.Add("Text", k_RYSYSParamAutoPrintParamInTest, "PowderSupplyCoefficient", true /*false*/, DataSourceUpdateMode.OnPropertyChanged);//201029新增:
 
@@ -13382,10 +13441,9 @@ namespace BinderJetting
 
             public int m_nCureLightStrategy = 0;//固化策略类型：默认0为UV固化方式，1为IR固化方式
             public int m_nRollerRotateDirection = 0;//辊子方向校准：20220527新增：便于修正辊子方向
+            public int m_nPowderCarBackRollerAxis5RotateDirection = 0;//轴5辊子方向校准
 
             public int m_nLayerThick = 150;//层厚进给（um）//20220525新建：默认铺粉层厚为150μm
-            public int m_nLayerThick2 = 300;//层厚进给2（um）
-
             public double m_dPowderStationCorrection = 2.5;//20220528新增：单位MM
             public double m_dPowderSupplyRotateNum = 2.5;//20220528新增：单位圈
             public int m_nEnablePowderStationFeed = 1;
@@ -13430,6 +13488,7 @@ namespace BinderJetting
 
     
             public double m_dPowderCarBackRollerSpeed = 1;//铺粉车复位滚动速度（REV/s）
+            public double m_dPowderCarBackRollerAxis5Speed = 1;//轴5粉辊转速（REV/s）
             public double m_dPowderCarHomeposition = 112/*5*/;//20220512新建：光电HOME传感器物理位置//20220521修改：铺粉回零位修改为112MM
             public double m_dPowderSpreaderHomeposition = 40/*5*/;//20220526新建：粉末Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）
             public double m_dInkSpreaderHomeposition = 90/*40*//*5*/;//20220526新建：墨车Spreader HOME值设置，此值需考虑实际的光电HOME传感器的物理位置，单位度（°）//20230407修改：修正后的复位值为106°
@@ -13482,6 +13541,11 @@ namespace BinderJetting
                 get { return this.m_nRollerRotateDirection; }
                 set { if (value != this.m_nRollerRotateDirection) { this.m_nRollerRotateDirection = value; NotifyPropertyChanged(); } }
             }
+            public int PowderCarBackRollerAxis5RotateDirection
+            {
+                get { return this.m_nPowderCarBackRollerAxis5RotateDirection; }
+                set { if (value != this.m_nPowderCarBackRollerAxis5RotateDirection) { this.m_nPowderCarBackRollerAxis5RotateDirection = value; NotifyPropertyChanged(); } }
+            }
 
             ///自动固化-自动进给铺粉-自动铺粉续打所需参数
             public int LayerThick//层厚进给（um）
@@ -13489,12 +13553,6 @@ namespace BinderJetting
                 get { return this.m_nLayerThick; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
                 set { if (value != this.m_nLayerThick) { this.m_nLayerThick = value; NotifyPropertyChanged(); } }
             }
-            public int LayerThick2//层厚进给（um）
-            {
-                get { return this.m_nLayerThick2; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
-                set { if (value != this.m_nLayerThick2) { this.m_nLayerThick2 = value; NotifyPropertyChanged(); } }
-            }
-
             /////20220528新增：单位MM
             public double PowderStationCorrection
             {
@@ -14147,6 +14205,11 @@ namespace BinderJetting
                 get { return this.m_dPowderCarBackRollerSpeed; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
                 set { if (value != this.m_dPowderCarBackRollerSpeed) { this.m_dPowderCarBackRollerSpeed = value; NotifyPropertyChanged(); } }
             }
+            public double PowderCarBackRollerAxis5Speed//轴5粉辊转速（REV/s）
+            {
+                get { return this.m_dPowderCarBackRollerAxis5Speed; }
+                set { if (value != this.m_dPowderCarBackRollerAxis5Speed) { this.m_dPowderCarBackRollerAxis5Speed = value; NotifyPropertyChanged(); } }
+            }
 
             public double PowderSupplyCoefficient//滚动速度（mm/s）
             {
@@ -14240,6 +14303,6 @@ namespace BinderJetting
             {
                 Log4Net.Info("手动操作界面 button17：喷头上电失败");
             }
-        }
+        } 
     }
 }
