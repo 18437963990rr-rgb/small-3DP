@@ -1,6 +1,6 @@
 # Meteor 层间与 Pass 间套准 — 讨论思路梳理（至 2026-06-10）
 
-> **文档版本：** 2026-06-10  
+> **文档版本：** 2026-06-11  
 > **文档性质：** 讨论梳理 / 决策备忘（非单次试打结案报告）  
 > **适用项目：** LaserAdd_3DP 主控 + Meteor PCC-E / Starfire  
 > **涉及模块：** `4-MeteorPrintEngine.cs`、`5-SharpControl.cs`、`手动操作界面.cs`  
@@ -17,6 +17,7 @@
 - 区分 **层间套准** 与 **Pass 间拼接** 两条线，不再用一套 Xleft 策略「包打天下」；
 - 理解当前代码（8462/4110、gate-split、live comp）**在解决什么、没解决什么**；
 - 评估 **过几天加装光栅尺** 后，哪些工作可保留、哪些只是过渡；
+- 与 **HiPrint 历史时期** 同类轴定位问题对照，避免重复弯路；
 - 决定下一枪试打应验证**哪条假设**，而不是继续拧常数。
 
 ---
@@ -200,7 +201,7 @@ Xleft_最终 = 金样底座（4110 / 8462 / 4110）+ TryComputePassLiveAbsXCompP
 - **层间交给物理 Home、要逐层对齐** → **Pass 间问题重新变大**（数 mm～厘米）。  
 - **层间差补采样错域时** → 层间恶化，Pass 间**相对**正常（三层同偏移）。
 
-这不是「层间策略必然毁掉 Pass」，而是：**当前选用的层间路径（Home + 无 Flush 差补 + Flush 金样 Xleft）与 Pass 开扫时刻的 absX 状态不匹配**。
+这不是「层间策略必然毁掉 Pass」，而是：**当前选用的层间路径（Home + 无 Flush 差补 + Flush 金样 Xleft）与 Pass 开扫时刻的 absX 状态不匹配**。早期 **HiPrint** 在类似现象下亦归为轴定位问题，见 **§13**。
 
 ### 8.2 物理 Home 改善了什么、没改善什么
 
@@ -290,19 +291,116 @@ L2（有尺稳定后）
 
 ---
 
-## 13. 相关文档索引
+## 13. HiPrint 历史对照：同类轴定位问题
+
+> **结论先行：** 查阅早期 HiPrint 试打记录与现场照片后，与当前 Meteor Pass/层间偏差**属同一问题类**——**多套坐标/多时刻绑定点未在同一物理位置上建立稳定映射**；不是位图错误，也不是单靠拧一个 Xleft 或 JSON 工艺参数能根治。差别主要在**轴绑定策略**（HiPrint 偏 JOB 前 PiSetHome；现软件偏物理 Home 顾层间 + Flush 金样顾 Pass）。
+
+### 13.1 现象对照（HiPrint 时期 vs 当前）
+
+| 现象 | HiPrint 排查记录 / 试打照片 | 当前 Meteor（06-09～06-10） |
+|------|------------------------------|-----------------------------|
+| 块与块、pass 与 pass 台阶 | 有；曾讨论 **~0.8mm** 量级台阶、强弱层差异 | Pass 间 **数 mm**；层间 **~1–3mm** |
+| 「某参考线能对上、3PASS 块又对不上」 | 有（先在某尺寸线/条带对齐，换到块拼接又偏） | Pass0 肉眼似齐、卡尺 Pass0/Pass2 仍差数 mm |
+| 怀疑联动/参数文件 | 曾怀疑 C 联动、机构参数；**最终回到 Home/光栅/发图绑定点** | `PrintStrategy-Configuration.json` 多数项**非主因**（见 §14） |
+| 补偿手段 | 补偿矩阵、BIDI、Xleft 微调 | 8462/4110 + live comp、`m_dXJetOff`→BidiXAdjust |
+
+### 13.2 共用根因模型（与 §4 一致）
+
+```text
+固高 mm（15 / 525 / 750）              ← 运动卡「到了哪」
+PiSetHome / PCC absX（~0 / ~2090 / ~10000）  ← Meteor 光栅域「计数是多少」
+PCMD_IMAGE Xleft（4110 / 8462）         ← 发图命令域「从哪喷」
+```
+
+**图形数据可以正确，但三域未绑在同一物理时刻/位置 → 粉床上看就是 pass 台阶或层间错位。**
+
+PLC/机械最后 **X/Y 回 0** 与 Meteor **`PiSetHome` 归零** 也不是天然同一概念；必须在**同一物理点**建立关联，否则 Xleft「数值合理」仍窗口错位（见 [Meteor-Home-Xleft-REV续查记录-20260528.md](./Meteor-Home-Xleft-REV续查记录-20260528.md) §7～§8）。
+
+### 13.3 HiPrint 与当前自研路径：同病、不同药方
+
+| 维度 | HiPrint（历史） | 当前自研 Meteor |
+|------|-----------------|-----------------|
+| **JOB 前参考** | 每张图 / 每 JOB 前 **`PiSetHome()`**（`PrintJobManagerThread`） | 默认 **`METEOR_PISET_HOME_AT_JOB_START` 关闭** |
+| **发图顺序** | `PiSetHome → BIDI_XADJUST → STARTJOB → (STARTSCAN+IMAGE+ENDDOC)* → ENDJOB` | 750/658 预热 → StartJob（常跳过 PiSetHome）→ Flush 或 gate-split |
+| **Xleft** | `createImageCommand` / 扫程链上算 xStart | **金样 4110/8462** + `ResolveHiPrintCompat` + live comp |
+| **层间** | Home + **PiSetHome** 双锚 | 主要靠 **物理过 Home** |
+| **Pass 间** | 同一 JOB 内 absX 链 + 每 JOB 归零 | Flush **锁死** unified Xleft；扫程中 absX 漂移暴露 |
+
+代码里已保留 **HiPrintCompat**、REV 右缘 xStart 等规则，但**轴绑定策略未完整复刻 HiPrint**（尤其每 JOB 的 PiSetHome、batch 下 `pass0MeasuredLowEnd` 定 Xleft 被禁用）。近期在 8462 上叠 comp，与 HiPrint 时代调补偿矩阵 / BIDI 属于**同一思路的延续**——轴未绑死前的软件补丁。
+
+### 13.4 对 HiPrint 经验的提炼（避免重复弯路）
+
+1. **只在某一参考线对齐，不能保证 3PASS 块在另一时刻仍对齐**（尺寸线 vs 15mm 换向 vs REV 开扫）。  
+2. **层间策略与 Pass 策略会互相牵制**：差补错域时层间恶化、Pass 间相对正常，说明「三层同偏移」≠「三层拼严」。  
+3. **调 Xleft / 补偿能缓解，绑定点错了仍会复发**——换层、换次、pass0Low 波动时尤其明显。  
+4. **后续优先级**仍应是 §9.3 的 L0→L1：先验证 gate 锚点定 Xleft（A/B），再加光栅尺门控；小幅 BIDI / `m_dXJetOff` 仅作收尾微调。
+
+```text
+Hiprint 启示：先把「开扫那一刻的 absX ↔ Xleft」绑死，再谈 trim；
+现软件缺口：batch 仍用 Flush 金样 8462/4110 作底座，锚点只驱动 comp 补丁。
+```
+
+---
+
+## 14. 附录：`PrintStrategy-Configuration.json` 与 Pass 偏移
+
+> 典型路径：`F:/PrintStrategy-Configuration.json`（与工程内 `LocalRYSYSParam` 同结构；`m_xxx` 与无 `m_` 前缀字段为重复序列化）。**`m_PrintStrategys` 为空时，实际生效的是 `LocalRYSYSParam` 块。**
+
+### 14.1 与 Pass 图形偏移直接相关
+
+| 参数 | 典型值（现场） | 功能 | Meteor 3PASS 当前是否影响 Pass 偏移 |
+|------|----------------|------|-------------------------------------|
+| **m_dXJetOff** | `0` | X 起打偏移；Meteor → `CCP_BIDI_XADJUST`（`TrySetMeteorBidiXAdjust`） | **有**：FWD/REV 往返微差；=0 即未补偿 |
+| **m_dYJetOff** | `15` | 多 PASS Y 起打；原传入 `AutoPrintThread5` 的 `YJetOffWidth` | **设计上强相关**，但 **2026-05-07 起代码强制 yHalf/baseYJetOff=0**，改 JSON **目前基本无效** |
+| **m_dPrtXEncPos** | `180` mm | → `nPrtXEncPos=180000` µm，`scanAnchorUm`（日志可见） | **弱**：元数据/旧分支；**不主导** 4110/8462 Xleft |
+| **m_nPrtCtl** | `8` | bit3 **X 镜像** 等 JOB 控制 | **可能**：误开镜像会导致整 pass 左右翻转 |
+
+### 14.2 间接相关（速度、行程）
+
+| 参数 | 作用 | 说明 |
+|------|------|------|
+| **CarMoveSpeed** / **CarBackCleanStationMoveSpeed** | 扫程与回站速度 | 影响开扫时序，不直接改 Xleft |
+| **CarMoveBufferLength** + **PrintAeraLength** + **CarMoveBufferLength2** | Royal `g_nCarSinglePassLength` | **Royal 单程**逻辑；Meteor 15↔525 mm 扫程由代码常量/环境变量决定 |
+
+### 14.3 基本不决定 Pass 套准
+
+| 参数 | 说明 |
+|------|------|
+| **m_nXPrintDpiIndex** / **m_XPrintDpi[]** | 历史喷头密度索引；Meteor 光栅用 **RenderDpiX≈400**（`PrintRasterConfig`），非此索引 |
+| **m_nPixelGrayBits** / **m_dPixelGrayValue** | 灰度/bpp |
+| **SubAreaWidth** / **WeakAreaWidth** / **Deviation** / **UnactDepth** | 大零件分区渲染算法，非机械套准 |
+| 闪喷、清洗、UV、供墨搅拌等 | 工艺与维护，与 Pass X 拼接无直接关系 |
+
+### 14.4 小结
+
+```text
+JSON 里能当「Pass 套准旋钮」用的很少：主要是 m_dXJetOff（当前=0）、
+理论上还有 m_dYJetOff（但 Meteor 路径已屏蔽）。
+
+当前数 mm～厘米级 Pass 偏差，主因在 Meteor 光栅域 / Xleft / gate 发图 /
+环境变量（METEOR_*），不在 PrintStrategy-Configuration.json 大部分字段。
+```
+
+更完整的 Pass/层间策略见本文 §5～§9；HiPrint 对照见 §13。
+
+---
+
+## 15. 相关文档索引
 
 | 文档 | 内容 |
 |------|------|
 | [20260609 差补与方案 A 记录](./Meteor-层间与Pass间套准-差补试验与方案A-解决记录-20260609.md) | 试打数据、根因、代码修正 |
 | [20260606 无 PiSetHome 基线](./Meteor-层间套准-无PiSetHome与525光栅-解决记录-20260606.md) | 525 散差、固定 4110 |
+| [20260528 Home/Xleft/REV 续查](./Meteor-Home-Xleft-REV续查记录-20260528.md) | **HiPrint PiSetHome**、PLC 与 Meteor 原点、坐标模型 |
 | [20260604 PiSetHome 750](./Meteor-层间图形错位-PiSetHome750等待位-解决记录-20260604.md) | 高精度分支 |
 | [20260601 batch legacy](./Meteor-batch-legacy-固定Xleft4110-解决记录-20260601.md) | 4110/8462 设计来源 |
+| [Pass0 排查记录](./Meteor-Pass0打印排查与解决记录.md) | HiPrint compat、`m_dXJetOff` / BidiXAdjust |
 
 ---
 
-## 14. 修订记录
+## 16. 修订记录
 
 | 日期 | 说明 |
 |------|------|
 | 2026-06-10 | 初稿：汇总 06-09～06-10 对话中的问题二分、方案 B 局限、gate 锚点 A/B 提议、光栅尺演进判断 |
+| 2026-06-11 | 增补 §13 HiPrint 轴定位历史对照；§14 `PrintStrategy-Configuration.json` 与 Pass 偏移附录；索引补 HiPrint/Pass0 文档 |
