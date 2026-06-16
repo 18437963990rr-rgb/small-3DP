@@ -32,16 +32,6 @@ namespace BinderJetting
 {
     public partial class 手动操作 : Form
     {
-        // 简易测试运动旁路开关（由主界面读取）。默认关闭，不改变正常打印流程。
-        public static bool UseSimpleTestMotion = false;
-
-        // 手动界面的 Meteor 调试按钮会直接用到渲染接口，这里提供独立实例以避免引用主界面私有成员。
-        private readonly SharpControl g_SharpControl = new SharpControl();
-        private Button _meteorDebugStartJobButton;
-        private Button _meteorDebugStartScanFwdButton;
-        private Button _meteorDebugEndJobButton;
-        private Button _meteorDebugBlankDocButton;
-
         // 定义常量光栅尺分辨率为每毫米1000线，每英寸25400线（Royal/旧光栅用）
         const int EncoderLinePerMM = 1000;
         const int EncoderLinePerInch =  EncoderLinePerMM * 254 / 10;
@@ -141,7 +131,6 @@ namespace BinderJetting
             m_PowerBackBtnFlag = PowerBackBtnFlag;//20200327新增:
             InitializeComponent();
             Log4Net.Info("AutoPrintMotion constructor: InitializeComponent done.");
-            InitMeteorDebugControls();
             if (PrintJobExistedFlag == false) //不存在打印任务
             { }
             else
@@ -169,238 +158,11 @@ namespace BinderJetting
             k_EnvironmentParam = new EnvironmentParam();//20200402新增：
         }
 
-        private void InitMeteorDebugControls()
-        {
-            if (_meteorDebugStartJobButton != null)
-                return;
+       
+       
+       
 
-            Control parent = tabPage1 != null ? (Control)tabPage1 : this;
-
-            _meteorDebugStartJobButton = new Button
-            {
-                Name = "MeteorDebugStartJobButton",
-                Text = "Meteor调试\nSTARTJOB",
-                Size = new Size(116, 44),
-                Location = new Point(700, 8),
-                Anchor = AnchorStyles.Top | AnchorStyles.Right,
-                UseVisualStyleBackColor = true
-            };
-            _meteorDebugStartJobButton.Click += MeteorDebugStartJobButton_Click;
-
-            _meteorDebugStartScanFwdButton = new Button
-            {
-                Name = "MeteorDebugStartScanFwdButton",
-                Text = "Meteor调试\nSTARTSCAN FWD",
-                Size = new Size(116, 44),
-                Location = new Point(820, 8),
-                Anchor = AnchorStyles.Top | AnchorStyles.Right,
-                UseVisualStyleBackColor = true
-            };
-            _meteorDebugStartScanFwdButton.Click += MeteorDebugStartScanFwdButton_Click;
-
-            _meteorDebugEndJobButton = new Button
-            {
-                Name = "MeteorDebugEndJobButton",
-                Text = "Meteor调试\nENDJOB",
-                Size = new Size(116, 44),
-                Location = new Point(940, 8),
-                Anchor = AnchorStyles.Top | AnchorStyles.Right,
-                UseVisualStyleBackColor = true
-            };
-            _meteorDebugEndJobButton.Click += MeteorDebugEndJobButton_Click;
-
-            parent.Controls.Add(_meteorDebugStartJobButton);
-            parent.Controls.Add(_meteorDebugStartScanFwdButton);
-            parent.Controls.Add(_meteorDebugEndJobButton);
-            _meteorDebugStartJobButton.BringToFront();
-            _meteorDebugStartScanFwdButton.BringToFront();
-            _meteorDebugEndJobButton.BringToFront();
-
-            Control blankDocParent = GetMeteorDebugBlankDocParent();
-            _meteorDebugBlankDocButton = new Button
-            {
-                Name = "MeteorDebugBlankDocButton",
-                Text = "Meteor调试\n空白IMAGE文档",
-                Size = new Size(150, 50),
-                Location = new Point(8, 8),
-                Anchor = AnchorStyles.Top | AnchorStyles.Left,
-                UseVisualStyleBackColor = true
-            };
-            _meteorDebugBlankDocButton.Click += MeteorDebugBlankDocButton_Click;
-            blankDocParent.Controls.Add(_meteorDebugBlankDocButton);
-            _meteorDebugBlankDocButton.BringToFront();
-        }
-
-        private Control GetMeteorDebugBlankDocParent()
-        {
-            try
-            {
-                if (ManulDebugTAB != null && ManulDebugTAB.TabPages != null && ManulDebugTAB.TabPages.Count >= 3)
-                    return ManulDebugTAB.TabPages[2];
-            }
-            catch { }
-
-            return tabPage1 != null ? (Control)tabPage1 : this;
-        }
-
-        private void MeteorDebugStartJobButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _meteorDebugStartJobButton.Enabled = false;
-                uint imageWidth = GetMeteorDebugStartJobWidth();
-                Log4Net.Info($"[MeteorDebug] Manual STARTJOB button clicked imageWidth={imageWidth}; no motion, no STARTSCAN, no IMAGE.");
-
-                royal.royal.g_PrtJobItem.nJobID = 100;
-                royal.royal.g_PrtJobItem.nPixelGrayBits = 1;
-                if (royal.royal.g_PrtJobItem.nPrtXEncPos <= 0)
-                    royal.royal.g_PrtJobItem.nPrtXEncPos = 180000;
-                royal.royal.g_PrtJobItem.szJobName = "Meteor调试STARTJOB";
-
-                MeteorPrintEngine.SetPendingScanJobWidth(imageWidth);
-                int startContextRet = MeteorPrintEngine.StartJob(ref royal.royal.g_PrtJobItem);
-                bool startJobOk = startContextRet >= 0 && MeteorPrintEngine.SendStartJob(0, imageWidth);
-                Log4Net.Info($"[MeteorDebug] Manual STARTJOB result contextRet={startContextRet} startJobOk={startJobOk} imageWidth={imageWidth}");
-
-                MessageBox.Show(
-                    startJobOk
-                        ? "Meteor STARTJOB 已发送。此按钮不会启动运动，也不会发送 STARTSCAN/IMAGE。"
-                        : "Meteor STARTJOB 发送失败，请查看软件日志和 Meteor 日志。",
-                    "Meteor调试",
-                    MessageBoxButtons.OK,
-                    startJobOk ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
-            }
-            catch (Exception ex)
-            {
-                Log4Net.Info($"[MeteorDebug] Manual STARTJOB exception: {ex}");
-                MessageBox.Show("Meteor STARTJOB 调试异常：" + ex.Message, "Meteor调试", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (_meteorDebugStartJobButton != null)
-                    _meteorDebugStartJobButton.Enabled = true;
-            }
-        }
-
-        private void MeteorDebugStartScanFwdButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _meteorDebugStartScanFwdButton.Enabled = false;
-                Log4Net.Info("[MeteorDebug] Manual STARTSCAN FWD button clicked; no motion, no IMAGE, no ENDDOC.");
-                bool ok = MeteorPrintEngine.SendStartScan(true);
-                Log4Net.Info($"[MeteorDebug] Manual STARTSCAN FWD result ok={ok}");
-
-                MessageBox.Show(
-                    ok
-                        ? "Meteor STARTSCAN FWD 已发送。请观察 Meteor 日志是否立即出现 PD event。"
-                        : "Meteor STARTSCAN FWD 发送失败，请查看日志。",
-                    "Meteor调试",
-                    MessageBoxButtons.OK,
-                    ok ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
-            }
-            catch (Exception ex)
-            {
-                Log4Net.Info($"[MeteorDebug] Manual STARTSCAN FWD exception: {ex}");
-                MessageBox.Show("Meteor STARTSCAN FWD 调试异常：" + ex.Message, "Meteor调试", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (_meteorDebugStartScanFwdButton != null)
-                    _meteorDebugStartScanFwdButton.Enabled = true;
-            }
-        }
-
-        private void MeteorDebugEndJobButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _meteorDebugEndJobButton.Enabled = false;
-                Log4Net.Info("[MeteorDebug] Manual ENDJOB button clicked.");
-                bool ok = MeteorPrintEngine.SendEndJob();
-                Log4Net.Info($"[MeteorDebug] Manual ENDJOB result ok={ok}");
-
-                MessageBox.Show(
-                    ok ? "Meteor ENDJOB 已发送。" : "Meteor ENDJOB 发送失败，请查看日志。",
-                    "Meteor调试",
-                    MessageBoxButtons.OK,
-                    ok ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
-            }
-            catch (Exception ex)
-            {
-                Log4Net.Info($"[MeteorDebug] Manual ENDJOB exception: {ex}");
-                MessageBox.Show("Meteor ENDJOB 调试异常：" + ex.Message, "Meteor调试", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (_meteorDebugEndJobButton != null)
-                    _meteorDebugEndJobButton.Enabled = true;
-            }
-        }
-
-        private void MeteorDebugBlankDocButton_Click(object sender, EventArgs e)
-        {
-            const int width = 256;
-            const int height = 16;
-            int bytesPerLine = (width + 7) / 8;
-            byte[] blankPayload = new byte[bytesPerLine * height];
-            GCHandle handle = default(GCHandle);
-
-            try
-            {
-                _meteorDebugBlankDocButton.Enabled = false;
-                Log4Net.Info($"[MeteorDebug] Manual blank IMAGE doc clicked; width={width} height={height} bytesPerLine={bytesPerLine}; no motion.");
-
-                royal.royal.g_prtimg_layer.nXDPI = 400;
-                royal.royal.g_prtimg_layer.nYDPI = 600;
-                royal.royal.g_prtimg_layer.nBytesPerLine = bytesPerLine;
-                royal.royal.g_prtimg_layer.nWidth = width;
-                royal.royal.g_prtimg_layer.nHeight = height;
-                royal.royal.g_prtimg_layer.nLayerIndex = 0;
-                royal.royal.g_prtimg_layer.nColorCnts = 1;
-                royal.royal.g_prtimg_layer.nPrtDir = 1;
-                royal.royal.g_prtimg_layer.nPrtFlag = 1;
-                royal.royal.g_prtimg_layer.nYJetOff = 0;
-
-                handle = GCHandle.Alloc(blankPayload, GCHandleType.Pinned);
-                int ret = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, handle.AddrOfPinnedObject(), blankPayload.Length);
-                bool ok = ret > 0;
-                Log4Net.Info($"[MeteorDebug] Manual blank IMAGE doc result ret={ret} width={width} height={height}");
-
-                MessageBox.Show(
-                    ok
-                        ? "空白 IMAGE 文档已发送：STARTSCAN + IMAGE + ENDDOC。请观察 Meteor 日志是否仍立即出现 PD1 event。"
-                        : $"空白 IMAGE 文档发送失败，ret={ret}，请查看日志。",
-                    "Meteor调试",
-                    MessageBoxButtons.OK,
-                    ok ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
-            }
-            catch (Exception ex)
-            {
-                Log4Net.Info($"[MeteorDebug] Manual blank IMAGE doc exception: {ex}");
-                MessageBox.Show("Meteor 空白 IMAGE 文档调试异常：" + ex.Message, "Meteor调试", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (handle.IsAllocated)
-                    handle.Free();
-                if (_meteorDebugBlankDocButton != null)
-                    _meteorDebugBlankDocButton.Enabled = true;
-            }
-        }
-
-        private static uint GetMeteorDebugStartJobWidth()
-        {
-            try
-            {
-                string env = Environment.GetEnvironmentVariable("METEOR_DEBUG_STARTJOB_WIDTH");
-                if (!string.IsNullOrWhiteSpace(env) && uint.TryParse(env.Trim(), out uint parsed) && parsed > 0)
-                    return parsed;
-            }
-            catch { }
-
-            return 7323;
-        }
+       
 
         //对于减少缓冲，效果很明显
         protected override CreateParams CreateParams
@@ -414,11 +176,6 @@ namespace BinderJetting
         }
 
         public/*private*/ System.Windows.Forms.Timer Timer = null;
-        // 主界面在简易测试模式下会调用此入口旁路自动运动流程。
-        public void RunSimpleTestMotionRuntimeStep(int passIndex)
-        {
-            Log4Net.Info($"RunSimpleTestMotionRuntimeStep invoked, passIndex={passIndex}");
-        }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -6247,9 +6004,9 @@ namespace BinderJetting
             // 轴7段间切速时更容易感到冲击，这里单独放柔加减速与平滑时间，保持连续运动而非强制停顿。
             gts.mc.TTrapPrm powderTrapPrm = new gts.mc.TTrapPrm();
             powderTrapPrm.acc = 300;
-            powderTrapPrm.dec = 300;
-            powderTrapPrm.velStart = 5;
-            powderTrapPrm.smoothTime = 10;
+            powderTrapPrm.dec = 350;
+            powderTrapPrm.velStart = 15;
+            powderTrapPrm.smoothTime = 30;
             int cmdPosition = (int)(TrapSpace * 1000) * PowderCarCmdSign;
             motionMap.TrapMotion(7, ref powderTrapPrm, cmdPosition, m_MovSpeed, 0, 0, WaitStopFLag);
         }
@@ -14471,21 +14228,6 @@ namespace BinderJetting
 
         }
 
-        private void button16_Click(object sender, EventArgs e)
-        {
-            Log4Net.Info("button16：简易测试流程已移除，打印始终走 AutoPrintThread2 正式 Pass 调度。");
-        }
-
-        private void button16_MouseDown(object sender, MouseEventArgs e)
-        {
-            Log4Net.Info($"button16 MouseDown：Button={e.Button}, Location=({e.X},{e.Y})");
-        }
-
-        private void button16_MouseUp(object sender, MouseEventArgs e)
-        {
-            Log4Net.Info($"button16 MouseUp：Button={e.Button}, Location=({e.X},{e.Y})");
-        }
-
         private void button17_Click(object sender, EventArgs e)
         {
             MeteorPrintEngine.HeadPowerOn = true;
@@ -14497,135 +14239,6 @@ namespace BinderJetting
             else
             {
                 Log4Net.Info("手动操作界面 button17：喷头上电失败");
-            }
-        }
-        private void button30_Click(object sender, EventArgs e)
-        {
-            string jobBitmapPath = System.IO.Path.Combine(System.Windows.Forms.Application.StartupPath, @"JOB输出文件\0.bmp");
-            Log4Net.Info($"button30_Click: 开始执行 Meteor 单向单PASS测试，bitmap={jobBitmapPath}");
-
-            if (!System.IO.File.Exists(jobBitmapPath))
-            {
-                string msg = $"Meteor 单向测试失败：未找到测试图 {jobBitmapPath}";
-                Log4Net.Info(msg);
-                MessageBox.Show(msg);
-                return;
-            }
-
-            System.Drawing.Bitmap processedBitmap = null;
-            System.Drawing.Imaging.BitmapData bmpData = null;
-            IntPtr imgPtr = IntPtr.Zero;
-
-            try
-            {
-                processedBitmap = new System.Drawing.Bitmap(jobBitmapPath);
-                if (processedBitmap.PixelFormat != System.Drawing.Imaging.PixelFormat.Format1bppIndexed)
-                {
-                    string msg = $"Meteor 单向测试失败：当前仅支持 1bpp 图像，实际像素格式={processedBitmap.PixelFormat}";
-                    Log4Net.Info(msg);
-                    MessageBox.Show(msg);
-                    return;
-                }
-
-                System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, processedBitmap.Width, processedBitmap.Height);
-                bmpData = processedBitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadOnly, processedBitmap.PixelFormat);
-
-                int bytes = Math.Abs(bmpData.Stride) * processedBitmap.Height;
-                byte[] rgbValues = new byte[bytes];
-                Marshal.Copy(bmpData.Scan0, rgbValues, 0, bytes);
-
-                for (int counter = 0; counter < bytes; counter++)
-                    rgbValues[counter] = (byte)~rgbValues[counter];
-
-                imgPtr = Marshal.AllocHGlobal(bytes);
-                Marshal.Copy(rgbValues, 0, imgPtr, bytes);
-
-                royal.royal.g_prtimg_layer = new royal.LPPRTIMG_LAYER();
-                royal.royal.g_prtimg_layer.nReserved = new int[8];
-                royal.royal.g_prtimg_layer.nLayerIndex = 1;
-                royal.royal.g_prtimg_layer.nImgStartJetIndex = 0;
-                royal.royal.g_prtimg_layer.nPrtDir = 1;
-                royal.royal.g_prtimg_layer.nXEncOff = 1;
-                royal.royal.g_prtimg_layer.nYJetOff = 0;
-                royal.royal.g_prtimg_layer.nColorCnts = 1;
-                royal.royal.g_prtimg_layer.nXDPI = 400;
-                royal.royal.g_prtimg_layer.nYDPI = 400;
-                royal.royal.g_prtimg_layer.nBytesPerLine = bmpData.Stride;
-                royal.royal.g_prtimg_layer.nWidth = processedBitmap.Width;
-                royal.royal.g_prtimg_layer.nHeight = processedBitmap.Height;
-                royal.royal.g_prtimg_layer.nPrtFlag = 0;
-
-                Log4Net.Info(
-                    $"button30_Click: 测试参数 width={processedBitmap.Width}, height={processedBitmap.Height}, " +
-                    $"stride={bmpData.Stride}, XDPI={royal.royal.g_prtimg_layer.nXDPI}, " +
-                    $"YDPI={royal.royal.g_prtimg_layer.nYDPI}, nPrtDir={royal.royal.g_prtimg_layer.nPrtDir}, " +
-                    $"nPrtFlag={royal.royal.g_prtimg_layer.nPrtFlag}, nXEncOff={royal.royal.g_prtimg_layer.nXEncOff}, " +
-                    $"nYJetOff={royal.royal.g_prtimg_layer.nYJetOff}, nImgStartJetIndex={royal.royal.g_prtimg_layer.nImgStartJetIndex}");
-
-                MeteorPrintEngine.WaitPass0GateBeforeMeteorSubmitIfEnabled("手动操作_button30_单向PASS", royal.royal.g_prtimg_layer.nLayerIndex, royal.royal.g_prtimg_layer.nLayerIndex);
-
-                if (!MeteorPrintEngine.SendStartJob(0, (uint)processedBitmap.Width))
-                {
-                    Log4Net.Info("button30_Click: SendStartJob 失败。");
-                    MessageBox.Show("Meteor 单向测试失败：SendStartJob 失败。");
-                    return;
-                }
-
-                int nRet = MeteorPrintEngine.WriteImageLayer(ref royal.royal.g_prtimg_layer, imgPtr, bytes);
-                Log4Net.Info($"button30_Click: WriteImageLayer 返回 nRet={nRet}");
-                if (nRet <= 0)
-                {
-                    MessageBox.Show($"Meteor 单向测试失败：WriteImageLayer 返回 {nRet}");
-                    return;
-                }
-
-                Log4Net.Info("button30_Click: Meteor 单向单PASS测试发送完成。");
-                MessageBox.Show("Meteor 单向单PASS测试发送完成。");
-            }
-            catch (Exception ex)
-            {
-                Log4Net.Info($"button30_Click exception: {ex}");
-                MessageBox.Show("Meteor 单向测试异常：" + ex.Message);
-            }
-            finally
-            {
-                try
-                {
-                    MeteorPrintEngine.SendEndJob();
-                }
-                catch (Exception ex)
-                {
-                    Log4Net.Info($"button30_Click: SendEndJob exception: {ex.Message}");
-                }
-
-                if (bmpData != null && processedBitmap != null)
-                    processedBitmap.UnlockBits(bmpData);
-                if (imgPtr != IntPtr.Zero)
-                    Marshal.FreeHGlobal(imgPtr);
-                if (processedBitmap != null)
-                    processedBitmap.Dispose();
-            }
-        }
-
-        private void button31_Click(object sender, EventArgs e)
-        {
-            Log4Net.Info("button31_Click: 开始执行仅导出切片图测试，不启动Meteor发送。");
-            try
-            {
-                g_SharpControl.ExportSlicesOnlyMode = true;
-                g_SharpControl.RenderToWic(true, 0, 0, 1, 0);
-                string exportRoot = System.IO.Path.Combine(System.Windows.Forms.Application.StartupPath, "TEMP_METEOR_BITMAP_EXPORT");
-                Log4Net.Info($"button31_Click: 切片图导出完成，目录={exportRoot}");
-                MessageBox.Show("切片图导出完成。");
-            }
-            catch (Exception ex)
-            {
-                Log4Net.Info($"button31_Click exception: {ex}");
-                MessageBox.Show("导出切片图异常：" + ex.Message);
-            }
-            finally
-            {
-                g_SharpControl.ExportSlicesOnlyMode = false;
             }
         }
     }
