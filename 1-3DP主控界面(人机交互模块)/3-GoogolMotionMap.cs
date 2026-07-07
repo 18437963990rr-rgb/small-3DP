@@ -26,6 +26,12 @@ namespace Motion
 
         /// <summary>
         /// 在 <see cref="InitCardConfiguration"/> 里，<see cref="EncOff"/> 会对 1~8 路编码器切到「内部脉冲计数」。
+        /// 若 MCT/电气上轴1为「外接光栅进卡 + 卡上闭环」，必须对轴1再 <see cref="gts.mc.GT_EncOn"/>；cfg 中 <c>[encoder1] active=2</c> 须与外编接线一致。开环脉冲无此外编时请置 <c>false</c>。
+        /// </summary>
+        public bool EnableAxis1ExternalEncoderAfterInit = true;
+
+        /// <summary>
+        /// 在 <see cref="InitCardConfiguration"/> 里，<see cref="EncOff"/> 会对 1~8 路编码器切到「内部脉冲计数」。
         /// 若 MCT/电气上轴2为「外接编码器进卡 + 卡上闭环/模拟量」，必须对轴2再 <see cref="gts.mc.GT_EncOn"/>，否则闭环反馈不对，常表现为不动作；若轴2实际为开环脉冲到驱动、不进外编，请改为 <c>false</c>。
         /// </summary>
         public bool EnableAxis2ExternalEncoderAfterInit = true;
@@ -88,7 +94,7 @@ namespace Motion
         public bool MotionDebugEnabled = false;
 
         /// <summary>
-        /// 现场诊断：刮墨/回零路径中 <see cref="EncOff"/> 会关闭 1~8 轴外接编码器；若墨车 Y（轴2）依赖外编闭环且未再 <c>GT_EncOn(2)</c>，对比规划/编码器计数有助判断。
+        /// 现场诊断：刮墨/回零路径中 <see cref="EncOff"/> 会关闭 1~8 轴外接编码器；若墨车 X/Y（轴1/2）依赖外编且未再 <c>GT_EncOn</c>，对比规划/编码器计数有助判断。
         /// 设为 false 可减少日志量。
         /// </summary>
         // 默认关闭闭环诊断采样日志；仅在编码器/闭环类问题排查时启用。
@@ -133,7 +139,7 @@ namespace Motion
         }
 
         /// <summary>
-        /// 读取轴1/2 状态字、规划位置、编码器位置及 Δ(prf−enc)；配合线程 tid 与 <see cref="EnableAxis2ExternalEncoderAfterInit"/> 判断是否可能在 EncOff 后丢失轴2外编闭环。
+        /// 读取轴1/2 状态字、规划位置、编码器位置及 Δ(prf−enc)；配合线程 tid 与 <see cref="EnableAxis1ExternalEncoderAfterInit"/> / <see cref="EnableAxis2ExternalEncoderAfterInit"/> 判断是否可能在 EncOff 后丢失墨车外编闭环。
         /// </summary>
         public void LogInkCarAxisEncClosedLoopDiag(string context)
         {
@@ -157,7 +163,7 @@ namespace Motion
                 double d1 = double.IsNaN(enc1) ? double.NaN : prf1 - enc1;
                 double d2 = double.IsNaN(enc2) ? double.NaN : prf2 - enc2;
                 int tid = System.Threading.Thread.CurrentThread.ManagedThreadId;
-                LogInfo($"[EncClosedLoopDiag] {context} tid={tid} Axis2ExtEncCfg={EnableAxis2ExternalEncoderAfterInit} GT_GetSts_rtn A1={rSts1} A2={rSts2} | A1 sts=0x{st1:X} prf={prf1:F2} enc={enc1:F2} d(prf-enc)={d1:F2} | A2 sts=0x{st2:X} prf={prf2:F2} enc={enc2:F2} d(prf-enc)={d2:F2}");
+                LogInfo($"[EncClosedLoopDiag] {context} tid={tid} Axis1ExtEncCfg={EnableAxis1ExternalEncoderAfterInit} Axis2ExtEncCfg={EnableAxis2ExternalEncoderAfterInit} GT_GetSts_rtn A1={rSts1} A2={rSts2} | A1 sts=0x{st1:X} prf={prf1:F2} enc={enc1:F2} d(prf-enc)={d1:F2} | A2 sts=0x{st2:X} prf={prf2:F2} enc={enc2:F2} d(prf-enc)={d2:F2}");
             }
             catch (Exception ex)
             {
@@ -262,35 +268,35 @@ namespace Motion
         public bool SreaderAxisHomeFlag = false;//20220526新建：撒粉轴回零标志位
 
         /// <summary>
-        /// 与 <see cref="InitCardConfiguration"/> 对称：<see cref="EncOff"/> 会对 1~8 轴执行 <c>GT_EncOff</c>，墨车 Y(2)、成型缸(8) 等若依赖外接编码器闭环，须在子流程结束时 <c>GT_EncOn</c> 恢复，否则易出现「刮墨校准后 Y 失效」。
+        /// 对单轴执行 <c>GT_EncOn</c>，供初始化与 EncOff 后恢复外编光栅。
+        /// </summary>
+        private void TryEncOnExternalEncoder(short axis, bool enabled, string logLabel, string context = null)
+        {
+            if (!enabled)
+            {
+                return;
+            }
+
+            short sRtn = gts.mc.GT_EncOn(cardNumber, axis);
+            string prefix = string.IsNullOrEmpty(context) ? string.Empty : context + " ";
+            if (sRtn != 0)
+            {
+                LogError($"{prefix}GT_EncOn {logLabel} axis={axis} 失败: {sRtn}");
+            }
+            else
+            {
+                LogInfo($"{prefix}GT_EncOn {logLabel} axis={axis}: 已切回外接编码器");
+            }
+        }
+
+        /// <summary>
+        /// 与 <see cref="InitCardConfiguration"/> 对称：<see cref="EncOff"/> 会对 1~8 轴执行 <c>GT_EncOff</c>，墨车 X/Y(1/2)、成型缸(8) 等若依赖外接光栅，须在子流程结束时恢复 <c>GT_EncOn</c>，否则 <see cref="GetEncPos"/> 退回内部脉冲计数（典型：铺粉车 <see cref="SetBackHome"/> 后墨车 X/Y 读数失真）。
         /// </summary>
         private void RestoreExternalEncodersAfterGlobalEncOff(string context)
         {
-            if (EnableAxis2ExternalEncoderAfterInit)
-            {
-                short s2 = gts.mc.GT_EncOn(cardNumber, 2);
-                if (s2 != 0)
-                {
-                    LogError($"{context} GT_EncOn(2) 墨车Y外编 失败: {s2}");
-                }
-                else
-                {
-                    LogInfo($"{context} 已 GT_EncOn(2) 恢复墨车Y外接编码器");
-                }
-            }
-
-            if (EnableAxis8ExternalEncoderAfterInit)
-            {
-                short s8 = gts.mc.GT_EncOn(cardNumber, 8);
-                if (s8 != 0)
-                {
-                    LogError($"{context} GT_EncOn(8) 成型缸外编 失败: {s8}");
-                }
-                else
-                {
-                    LogInfo($"{context} 已 GT_EncOn(8) 恢复成型缸外接编码器");
-                }
-            }
+            TryEncOnExternalEncoder(1, EnableAxis1ExternalEncoderAfterInit, "轴1(墨车X)", context);
+            TryEncOnExternalEncoder(2, EnableAxis2ExternalEncoderAfterInit, "轴2(墨车Y)", context);
+            TryEncOnExternalEncoder(8, EnableAxis8ExternalEncoderAfterInit, "轴8(成型缸)", context);
         }
 
         /// <summary>
@@ -307,7 +313,7 @@ namespace Motion
             short sRtn = gts.mc.GT_ClrSts(cardNumber, AXIS, 8); Commandhandler("GT_ClrSts", sRtn);//(0-1)清除指定轴的报警和限位 
             sRtn = gts.mc.GT_AxisOn(0, AXIS); Commandhandler("GT_AxisOn", sRtn);//(0-2)驱动器使能
 
-            EncOffSingleAxis(AXIS);//20260507：仅关本回零轴，勿 EncOff 全轴伤及墨车Y(2)外编
+            EncOffSingleAxis(AXIS);//20260507：仅关本回零轴，勿 EncOff 全轴伤及墨车 X/Y(1/2) 外编
             LogInkCarAxisEncClosedLoopDiag($"SetBackSpreaderAxis AXIS={AXIS} GT_EncOff(仅此轴)后立即");
             sRtn = gts.mc.GT_SetCaptureMode(cardNumber, AXIS, gts.mc.CAPTURE_HOME); Commandhandler("GT_SetCaptureMode", sRtn);// (1)启动Home捕获
             sRtn = gts.mc.GT_PrfTrap(cardNumber, AXIS); Commandhandler("GT_PrfTrap", sRtn);// (2)切换到点位运动模式
@@ -393,7 +399,7 @@ namespace Motion
                 Commandhandler("GT_SetEncPos", sRtn);
                 SreaderAxisHomeFlag = true;//20200627批注：墨车回零成功标志位
             }
-            LogInkCarAxisEncClosedLoopDiag($"SetBackSpreaderAxis AXIS={AXIS} return true 出口(随后 finally 恢复轴2/8外编)");
+            LogInkCarAxisEncClosedLoopDiag($"SetBackSpreaderAxis AXIS={AXIS} return true 出口(随后 finally 恢复轴1/2/8外编)");
             return true;
             }
             finally
@@ -408,7 +414,7 @@ namespace Motion
             short sRtn = gts.mc.GT_ClrSts(cardNumber, AXIS, 8); Commandhandler("GT_ClrSts", sRtn);//(0-1)清除指定轴的报警和限位 
             sRtn = gts.mc.GT_AxisOn(0, AXIS); Commandhandler("GT_AxisOn", sRtn);//(0-2)驱动器使能
 
-            EncOffSingleAxis(AXIS);//20260507：仅关本轴，勿 EncOff 全轴伤及墨车Y(2)外编
+            EncOffSingleAxis(AXIS);//20260507：仅关本轴，勿 EncOff 全轴伤及墨车 X/Y(1/2) 外编
             LogInkCarAxisEncClosedLoopDiag($"TrapMoveSpreaderAxis AXIS={AXIS} GT_EncOff(仅此轴)后立即");
             sRtn = gts.mc.GT_SetCaptureMode(cardNumber, AXIS, gts.mc.CAPTURE_HOME); Commandhandler("GT_SetCaptureMode", sRtn);// (1)启动Home捕获
             sRtn = gts.mc.GT_PrfTrap(cardNumber, AXIS); Commandhandler("GT_PrfTrap", sRtn);// (2)切换到点位运动模式
@@ -579,7 +585,7 @@ namespace Motion
             //(0-2)驱动器使能
             sRtn = gts.mc.GT_AxisOn(0, AXIS);
             Commandhandler("GT_AxisOn", sRtn);
-            LogInfo($"SetBackHome: AXIS={AXIS} 即将全轴 EncOff；若轴2/8依赖外接编码器闭环，将在 finally 中恢复 GT_EncOn");
+            LogInfo($"SetBackHome: AXIS={AXIS} 即将全轴 EncOff；若轴1/2/8依赖外接光栅，将在 finally 中恢复 GT_EncOn");
             uint axis8ClockBefore = 0;
             int axis8StatusBefore = 0;
             mc.GT_GetSts(cardNumber, 8, out axis8StatusBefore, 1, out axis8ClockBefore);
@@ -794,35 +800,37 @@ namespace Motion
 
             //gts.mc.GT_EncSns(cardNumber,2);//20220512新建批注：固高的2轴外部编码器输入相反
 
+            TryEncOnExternalEncoder(1, EnableAxis1ExternalEncoderAfterInit, "轴1(墨车X-外接编码器)");
+            TryEncOnExternalEncoder(2, EnableAxis2ExternalEncoderAfterInit, "轴2(墨车Y-外接编码器)");
+            TryEncOnExternalEncoder(8, EnableAxis8ExternalEncoderAfterInit, "轴8(成型缸-外接编码器)");
+
+            if (EnableAxis1ExternalEncoderAfterInit)
+                ApplyClosedLoopPidDefaults(1, "轴1(墨车X)", 1, 32767);
             if (EnableAxis2ExternalEncoderAfterInit)
-            {
-                short sEnc2 = gts.mc.GT_EncOn(cardNumber, 2);
-                if (sEnc2 != 0)
-                {
-                    LogError($"GT_EncOn 轴2(外接编码器) 失败: {sEnc2}");
-                }
-                else
-                {
-                    LogInfo("GT_EncOn 轴2: 已切回外接编码器，供闭环/与 EncOff 全轴缺省策略对齐");
-                }
-            }
-
+                ApplyClosedLoopPidDefaults(2, "轴2(墨车Y)", 1, 32767);
             if (EnableAxis8ExternalEncoderAfterInit)
-            {
-                short sEnc8 = gts.mc.GT_EncOn(cardNumber, 8);
-                if (sEnc8 != 0)
-                {
-                    LogError($"GT_EncOn 轴8(成型缸-外接编码器) 失败: {sEnc8}");
-                }
-                else
-                {
-                    LogInfo("GT_EncOn 轴8(成型缸): 已切回外接编码器，供闭环/与 EncOff 全轴缺省策略对齐");
-                }
-            }
+                ApplyClosedLoopPidDefaults(8, "轴8(成型缸)", 1, 32767);
+            LogInkCarAxisEncClosedLoopDiag("InitCardConfiguration 完成(含按配置的 GT_EncOn 轴1/2/8 后) 基线");
+            TurnOffIrModule();
+        }
 
-            ApplyClosedLoopPidDefaults(2, "轴2(墨车Y)", 1, 32767);
-            ApplyClosedLoopPidDefaults(8, "轴8(成型缸)", 1, 32767);
-            LogInkCarAxisEncClosedLoopDiag("InitCardConfiguration 完成(含按配置的 GT_EncOn 轴2/8 后) 基线");
+        /// <summary>CN14-5 非轴 DAC11，量程 0~+10V；变频器 AI 0~10V 对应 0~100% 额定功率。</summary>
+        private const short IrDacChannel = 11;
+        private const double IrDacFullScaleVolts = 10.0;
+        private const double IrInverterMaxVolts = 10.0;
+
+        public void SetIrModulePowerPercent(double percent)
+        {
+            percent = Math.Max(0, Math.Min(100, percent));
+            double volts = percent / 100.0 * IrInverterMaxVolts;
+            short raw = (short)(32767 * volts / IrDacFullScaleVolts);
+            short sRtn = mc.GT_SetDac(cardNumber, IrDacChannel, ref raw, 1);
+            Commandhandler("GT_SetDac IR DAC11", sRtn);
+        }
+
+        public void TurnOffIrModule()
+        {
+            SetIrModulePowerPercent(0);
         }
 
         /// <summary>
@@ -922,11 +930,28 @@ namespace Motion
         }
 
 
+        /// <summary>墨车 X/Y：Trap 须以 enc 为基准对齐 prf 并下发绝对目标，避免 GT_SetPrfPos(0) 与外编闭环冲突导致回程飞车。</summary>
+        private static bool UseEncAlignedTrapForAxis(short axis)
+        {
+            return axis == 1 || axis == 2;
+        }
+
         //点位运动：执行点位动作
         //正反方向点位运动
         public void TrapMotion(short AXIS, ref mc.TTrapPrm p_trap, int position, double vel, double RollerParam, int RollerDirection, bool WaitStopFlag)//注意：位置的类型为int，不是double；
         {
             short sRtn;//第二部分——本部分是重点（1）准备运动（a）清除各轴的报警和限位，必须的
+
+            double trapStartEnc = double.NaN;
+            int profileTargetPulse = position;
+            bool encAlignedTrap = UseEncAlignedTrapForAxis(AXIS);
+            try
+            {
+                double[] encBeforeTrap = GetEncPos();
+                if (encBeforeTrap != null && encBeforeTrap.Length >= AXIS)
+                    trapStartEnc = encBeforeTrap[AXIS - 1];
+            }
+            catch { }
 
             if (AXIS == 2)
             {
@@ -968,7 +993,18 @@ namespace Motion
 #if false//20200515新建：此处应该关闭，不然，位置会不准确            
             sRtn = mc.GT_ZeroPos(0, AXIS, 1);//（c）实际位置清零，必须的———非必要
 #endif
-            sRtn = mc.GT_SetPrfPos(0, AXIS, 0); //（d）AXIS轴规划位置清零，必须的———非必要            
+            if (encAlignedTrap && !double.IsNaN(trapStartEnc))
+            {
+                int encPulse = (int)Math.Round(trapStartEnc);
+                profileTargetPulse = encPulse + position;
+                sRtn = mc.GT_SetPrfPos(0, AXIS, encPulse);
+                LogMotionDebug($"TrapMotion: enc-aligned GT_SetPrfPos, axis={AXIS}, enc0={encPulse}, rel={position}, absTarget={profileTargetPulse}, sRtn={sRtn}");
+            }
+            else
+            {
+                sRtn = mc.GT_SetPrfPos(0, AXIS, 0); //（d）非墨车轴仍沿用相对 Trap：prf 清零后 SetPos(rel)
+                LogMotionDebug($"TrapMotion: legacy GT_SetPrfPos(0), axis={AXIS}, relTarget={position}, sRtn={sRtn}");
+            }
             LogMotionDebug($"TrapMotion: after GT_SetPrfPos, axis={AXIS}, sRtn={sRtn}");
             if (AXIS == 2)
             {
@@ -985,8 +1021,8 @@ namespace Motion
             LogMotionDebug($"TrapMotion: after GT_PrfTrap, axis={AXIS}, sRtn={sRtn}");
             sRtn = mc.GT_SetTrapPrm(0, AXIS, ref p_trap);//（2）设置参数并开始运动，必须的// 设置点位运动参数，必须的//trap，为引用（等同于返回值），使用之前必须初始化，否则报错。总          
             LogMotionDebug($"TrapMotion: after GT_SetTrapPrm, axis={AXIS}, sRtn={sRtn}");
-            sRtn = mc.GT_SetPos(0, AXIS, position);// 设置AXIS轴的目标位置，必须的
-            LogMotionDebug($"TrapMotion: after GT_SetPos, axis={AXIS}, sRtn={sRtn}, target={position}");
+            sRtn = mc.GT_SetPos(0, AXIS, profileTargetPulse);// 墨车轴为 enc 绝对目标；其它轴为相对目标
+            LogMotionDebug($"TrapMotion: after GT_SetPos, axis={AXIS}, sRtn={sRtn}, target={profileTargetPulse}, rel={position}, encAligned={encAlignedTrap}");
             if (AXIS == 2)
             {
                 double[] encDiag = GetEncPos();
@@ -1032,30 +1068,80 @@ namespace Motion
             if (WaitStopFlag)
             {
                 DateTime waitHeartbeat = DateTime.MinValue;
-                while ((Math.Abs(pos) < Math.Abs(position)) && ((AxiStatus & 0x20) == 0) && ((AxiStatus & 0x40) == 0))//20200220:调试时暂时去掉下方的循环检测（1）没到位置了（2）没到正限位了（3）没到负限，所有的均没发生，继续读取//或者是没有限位的时候
+                DateTime waitStart = DateTime.UtcNow;
+                double trapTargetEnc = double.IsNaN(trapStartEnc) ? double.NaN : trapStartEnc + position;
+                const double overshootStopCounts = 20000.0;
+                const double inkCarProfileTolCounts = 500.0;
+                const double inkCarEncTolCounts = 1000.0;
+                const int waitStopTimeoutMs = 60000;
+                while (true)
                 {
                     sRtn = mc.GT_GetPrfPos(0, AXIS, out pos, 1, out pClock);
                     mc.GT_GetSts(0, AXIS, out AxiStatus, 1, out pClock);
-                    DateTime now = DateTime.UtcNow;
-                    if (waitHeartbeat == DateTime.MinValue || (now - waitHeartbeat) >= TimeSpan.FromSeconds(3))
+                    bool posLimit = (AxiStatus & 0x20) != 0;
+                    bool negLimit = (AxiStatus & 0x40) != 0;
+                    bool profileMoving = (AxiStatus & 0x400) != 0;
+                    bool profileReached = encAlignedTrap && !double.IsNaN(trapStartEnc)
+                        ? Math.Abs(pos - profileTargetPulse) <= inkCarProfileTolCounts
+                        : Math.Abs(pos) >= Math.Abs(position);
+                    bool encoderOvershot = false;
+                    double encNow = double.NaN;
+                    bool encReached = !encAlignedTrap;
+                    if (!double.IsNaN(trapTargetEnc) && position != 0)
                     {
-                        LogMotionDebug($"TrapMotion: waiting, axis={AXIS}, sRtn={sRtn}, pos={pos}, AxiStatus=0x{AxiStatus:X}, target={position}");
-                        if (AXIS == 2)
+                        try
                         {
-                            double[] encDiag = GetEncPos();
-                            double prfXDiag;
-                            double prfYDiag;
-                            GetPrfPos(1, out prfXDiag);
-                            GetPrfPos(2, out prfYDiag);
-                            double encXDiag = (encDiag != null && encDiag.Length >= 1) ? encDiag[0] : double.NaN;
-                            double encYDiag = (encDiag != null && encDiag.Length >= 2) ? encDiag[1] : double.NaN;
-                            LogMotionDebug($"TrapMotionDiag[waiting heartbeat]: activeAxis={AXIS}, encX={encXDiag:F0}, prfX={prfXDiag:F0}, encY={encYDiag:F0}, prfY={prfYDiag:F0}");
+                            double[] encNowAll = GetEncPos();
+                            if (encNowAll != null && encNowAll.Length >= AXIS)
+                            {
+                                encNow = encNowAll[AXIS - 1];
+                                encoderOvershot = (position > 0 && encNow > trapTargetEnc + overshootStopCounts)
+                                    || (position < 0 && encNow < trapTargetEnc - overshootStopCounts);
+                                if (encAlignedTrap)
+                                    encReached = Math.Abs(encNow - trapTargetEnc) <= inkCarEncTolCounts;
+                            }
                         }
-                        waitHeartbeat = now;
+                        catch { }
                     }
+                    else if (encAlignedTrap && position == 0 && !double.IsNaN(trapStartEnc))
+                    {
+                        encReached = true;
+                    }
+
+                    if (encoderOvershot)
+                    {
+                        StopMotion(AXIS, true);
+                        LogInfo($"TrapMotion: encoder overshoot stop, axis={AXIS}, encNow={encNow:F0}, targetEnc={trapTargetEnc:F0}, startEnc={trapStartEnc:F0}, position={position}, AxiStatus=0x{AxiStatus:X}");
+                        break;
+                    }
+
+                    if ((posLimit && position > 0) || (negLimit && position < 0))
+                    {
+                        StopMotion(AXIS, true);
+                        LogInfo($"TrapMotion: limit stop while waiting, axis={AXIS}, pos={pos}, target={profileTargetPulse}, rel={position}, AxiStatus=0x{AxiStatus:X}, posLimit={posLimit}, negLimit={negLimit}");
+                        break;
+                    }
+
+                    if (profileReached && !profileMoving && encReached)
+                        break;
+
+                    if ((DateTime.UtcNow - waitStart).TotalMilliseconds >= waitStopTimeoutMs)
+                    {
+                        StopMotion(AXIS, true);
+                        LogInfo($"TrapMotion: waitStop timeout stop, axis={AXIS}, pos={pos}, target={position}, AxiStatus=0x{AxiStatus:X}, timeoutMs={waitStopTimeoutMs}");
+                        break;
+                    }
+
+                    DateTime waitNow = DateTime.UtcNow;
+                    if (waitHeartbeat == DateTime.MinValue || (waitNow - waitHeartbeat) >= TimeSpan.FromSeconds(3))
+                    {
+                        LogMotionDebug($"TrapMotion: waiting, axis={AXIS}, sRtn={sRtn}, pos={pos}, AxiStatus=0x{AxiStatus:X}, absTarget={profileTargetPulse}, rel={position}, profileMoving={profileMoving}, profileReached={profileReached}, encReached={encReached}, encNow={encNow:F0}, targetEnc={trapTargetEnc:F0}");
+                        waitHeartbeat = waitNow;
+                    }
+
                     if (sRtn != 0)
                     {
-                        Commandhandler("读取规划位置", sRtn);//返回指令判断
+                        Commandhandler("读取规划位置", sRtn);
                     }
                     Thread.Sleep(1);
                 }
@@ -1262,6 +1348,16 @@ namespace Motion
         {
             gts.mc.GT_SetEncPos(cardNumber, encoder, encpoc);//设置单轴的编码器位置
         }
+
+        /// <summary>
+        /// 将规划位置设为指定脉冲值（不移动电机）。外编闭环下回零/定位后须与 <see cref="SetEncPos"/> 对齐，
+        /// 否则 prf 与 enc 偏差会导致停稳后缓慢跟随或他轴运动时本轴光栅漂移。
+        /// </summary>
+        public void SetPrfPos(short axis, int prfPulse)
+        {
+            short sRtn = gts.mc.GT_SetPrfPos(0, axis, prfPulse);
+            Commandhandler($"GT_SetPrfPos axis={axis} pulse={prfPulse}", sRtn);
+        }
         public void EncOff()//设置为脉冲计数器形式//20200226新建：
         {
             for (short i=1;i<=8;i++)//20200226新建：
@@ -1272,7 +1368,7 @@ namespace Motion
 
         /// <summary>
         /// 仅对指定轴执行 <c>GT_EncOff</c>。刮墨回零/刮墨点位请用本方法，
-        /// 避免 <see cref="EncOff"/> 对 1~8 全轴关闭导致墨车 Y(2) 等外接光栅/闭环被误关。
+        /// 避免 <see cref="EncOff"/> 对 1~8 全轴关闭导致墨车 X/Y(1/2) 等外接光栅/闭环被误关。
         /// </summary>
         public void EncOffSingleAxis(short axis)
         {

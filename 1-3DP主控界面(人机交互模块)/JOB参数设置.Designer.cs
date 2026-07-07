@@ -1948,7 +1948,7 @@
             // 
             // textBox27
             // 
-            this.textBox27.Enabled = false;
+            this.textBox27.Enabled = true;
             this.textBox27.Location = new System.Drawing.Point(192, 276);
             this.textBox27.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox27.Name = "textBox27";

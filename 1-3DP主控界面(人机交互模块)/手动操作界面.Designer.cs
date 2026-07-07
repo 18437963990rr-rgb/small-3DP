@@ -466,6 +466,7 @@ namespace BinderJetting
             this.ADIBSetApplyBtn = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.buttonMeteorPiSetHomeFixedXStart = new System.Windows.Forms.Button();
             this.button17 = new System.Windows.Forms.Button();
             this.label134 = new System.Windows.Forms.Label();
             this.textBox40 = new System.Windows.Forms.TextBox();
@@ -6218,6 +6219,7 @@ namespace BinderJetting
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.buttonMeteorPiSetHomeFixedXStart);
             this.tabPage3.Controls.Add(this.button17);
             this.tabPage3.Controls.Add(this.label134);
             this.tabPage3.Controls.Add(this.textBox40);
@@ -6247,6 +6249,19 @@ namespace BinderJetting
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "原位固化增强控制";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // buttonMeteorPiSetHomeFixedXStart
+            // 
+            this.buttonMeteorPiSetHomeFixedXStart.BackColor = System.Drawing.Color.Honeydew;
+            this.buttonMeteorPiSetHomeFixedXStart.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
+            this.buttonMeteorPiSetHomeFixedXStart.ForeColor = System.Drawing.Color.DarkGreen;
+            this.buttonMeteorPiSetHomeFixedXStart.Location = new System.Drawing.Point(666, 229);
+            this.buttonMeteorPiSetHomeFixedXStart.Name = "buttonMeteorPiSetHomeFixedXStart";
+            this.buttonMeteorPiSetHomeFixedXStart.Size = new System.Drawing.Size(162, 42);
+            this.buttonMeteorPiSetHomeFixedXStart.TabIndex = 245;
+            this.buttonMeteorPiSetHomeFixedXStart.Text = "切到PiSetHome\r\n固定XStart";
+            this.buttonMeteorPiSetHomeFixedXStart.UseVisualStyleBackColor = false;
+            this.buttonMeteorPiSetHomeFixedXStart.Click += new System.EventHandler(this.buttonMeteorPiSetHomeFixedXStart_Click);
             // 
             // button17
             // 
@@ -6438,9 +6453,9 @@ namespace BinderJetting
             this.textBox47.Font = new System.Drawing.Font("微软雅黑", 8.5F);
             this.textBox47.Location = new System.Drawing.Point(129, 83);
             this.textBox47.Name = "textBox47";
-            this.textBox47.Size = new System.Drawing.Size(36, 22);
+            this.textBox47.Size = new System.Drawing.Size(48, 22);
             this.textBox47.TabIndex = 224;
-            this.textBox47.Text = "255";
+            this.textBox47.Text = "425";
             // 
             // label127
             // 
@@ -6450,16 +6465,16 @@ namespace BinderJetting
             this.label127.Name = "label127";
             this.label127.Size = new System.Drawing.Size(105, 16);
             this.label127.TabIndex = 223;
-            this.label127.Text = "闭光位置(mm)";
+            this.label127.Text = "去程闭光(轴7mm)";
             // 
             // textBox48
             // 
             this.textBox48.Font = new System.Drawing.Font("微软雅黑", 8.5F);
             this.textBox48.Location = new System.Drawing.Point(129, 110);
             this.textBox48.Name = "textBox48";
-            this.textBox48.Size = new System.Drawing.Size(36, 22);
+            this.textBox48.Size = new System.Drawing.Size(48, 22);
             this.textBox48.TabIndex = 217;
-            this.textBox48.Text = "620";
+            this.textBox48.Text = "980";
             // 
             // label131
             // 
@@ -6469,7 +6484,7 @@ namespace BinderJetting
             this.label131.Name = "label131";
             this.label131.Size = new System.Drawing.Size(105, 16);
             this.label131.TabIndex = 216;
-            this.label131.Text = "出光位置(mm)";
+            this.label131.Text = "去程出光(轴7mm)";
             // 
             // label136
             // 
@@ -6994,6 +7009,7 @@ namespace BinderJetting
         private System.Windows.Forms.Label label122;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button buttonMeteorPiSetHomeFixedXStart;
         private System.Windows.Forms.ComboBox comboBox11;
         private System.Windows.Forms.Label label132;
         private System.Windows.Forms.TextBox textBox41;

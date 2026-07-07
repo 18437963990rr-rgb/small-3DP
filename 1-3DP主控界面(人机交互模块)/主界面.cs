@@ -2227,11 +2227,11 @@ namespace BinderJetting
                 //g_RYSYSParam.CarMoveSpeed = MM_TO_DOT(m_szMovSpeed, 5080);     
                 g_nCarSinglePassLength = (int)((g_RYSYSParam.m_dCarMoveBufferLength + g_RYSYSParam.m_dPrintAeraLength + g_RYSYSParam.m_dCarMoveBufferLength2) * EncoderLinePerInch);//SinglePass运动距离：20200327新增：
 
+                f.PrintStrategys.LocalRYSYSParam = (RYSYSParam)g_RYSYSParam.Clone();//20230203新增：修复打印DPI等参数无法本地保存的问题
                 g_PrintStrategys = ObjectCopier.Clone(f.PrintStrategys);//20200806新增：保存打印策略
 
                 //20210113新增：大零件分区处理算法
                 g_SharpControl.gc_RysysParam = g_RYSYSParam;//20210113新增：大零件分区处理算法
-                f.PrintStrategys.LocalRYSYSParam = g_RYSYSParam;//20230203新增：修复打印DPI等参数无法本地保存的问题
                 //g_RYSYSParam.m_dSubAreaWidth;
                 //g_RYSYSParam.m_dWeakAreaWidth;
                 //g_RYSYSParam.m_dDeviation;
@@ -4052,6 +4052,25 @@ namespace BinderJetting
                             else
                             {
                                 MessageBox.Show(powderCarReadyReason);
+                            }
+                        }
+                        return;
+                    }
+
+                    string inkCarReadyReason = null;
+                    if (!AutoPrintMotion3.IsInkCarAtCleanWaitStation(out inkCarReadyReason))
+                    {
+                        Log4Net.Info($"自动铺粉拦截：{inkCarReadyReason}");
+                        PrintConrolFlag = "StopPrint";
+                        if (this.IsHandleCreated)
+                        {
+                            if (this.InvokeRequired)
+                            {
+                                this.BeginInvoke(new Action(() => MessageBox.Show(inkCarReadyReason)));
+                            }
+                            else
+                            {
+                                MessageBox.Show(inkCarReadyReason);
                             }
                         }
                         return;

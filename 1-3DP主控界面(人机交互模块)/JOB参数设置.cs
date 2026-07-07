@@ -67,7 +67,7 @@ namespace BinderJetting
                 textBox10.Enabled = false;
                 textBox8.Enabled = false;
                 textBox37.Enabled = false;
-                textBox27.Enabled = false;//20230321新增：
+                textBox27.Enabled = true;//20230321新增：
                 checkBox10.Enabled = false;
                 comboBox2.Enabled = false;//20230320新增：
             }
@@ -586,6 +586,7 @@ namespace BinderJetting
             textBox28.DataBindings.Add("Text", k_RYSYSParam, "PrtCtl", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//JOB控制字：
             textBox8.DataBindings.Add("Text", k_RYSYSParam, "PrtXEncPos", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//任务的X向起打位置:20200411新增
 
+            textBox27.Text = k_RYSYSParam.XJetOff.ToString();
             textBox27.DataBindings.Add("Text", k_RYSYSParam, "XJetOff", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//任务的X向起打位置修正:20230321修订
             textBox37.DataBindings.Add("Text", k_RYSYSParam, "YJetOff", true/*false*/, DataSourceUpdateMode.OnPropertyChanged);//任务的X向起打位置:20200411新增
 
@@ -1199,7 +1200,7 @@ namespace BinderJetting
             get { return this.m_dXJetOff; }/*//20200225：value 关键字用于定义由 set 取值函数分配的值。*/
             set 
             { 
-                if ((value != this.m_dXJetOff) && (0 <= value && value <= 5))
+                if ((value != this.m_dXJetOff) && (-5 <= value && value <= 5))
                 {
                     this.m_dXJetOff = value; NotifyPropertyChanged();
                 }
@@ -1207,9 +1208,9 @@ namespace BinderJetting
                 {
                     this.m_dXJetOff = 5; NotifyPropertyChanged();
                 }
-                else if (value < 0)
+                else if (value < -5)
                 {
-                    this.m_dXJetOff = 0; NotifyPropertyChanged();
+                    this.m_dXJetOff = -5; NotifyPropertyChanged();
                 }
             }
         }
