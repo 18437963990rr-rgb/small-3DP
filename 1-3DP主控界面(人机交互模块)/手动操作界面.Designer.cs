@@ -466,6 +466,11 @@ namespace BinderJetting
             this.ADIBSetApplyBtn = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.labelPassYTrimHint = new System.Windows.Forms.Label();
+            this.textBox50 = new System.Windows.Forms.TextBox();
+            this.labelPass2YTrim = new System.Windows.Forms.Label();
+            this.textBox49 = new System.Windows.Forms.TextBox();
+            this.labelPass0YTrim = new System.Windows.Forms.Label();
             this.buttonMeteorPiSetHomeFixedXStart = new System.Windows.Forms.Button();
             this.button17 = new System.Windows.Forms.Button();
             this.label134 = new System.Windows.Forms.Label();
@@ -3209,7 +3214,7 @@ namespace BinderJetting
             this.button41.AutoSize = true;
             this.button41.BackColor = System.Drawing.Color.Transparent;
             this.button41.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button41.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.button41.DialogResult = System.Windows.Forms.DialogResult.None;
             this.button41.Image = ((System.Drawing.Image)(resources.GetObject("button41.Image")));
             this.button41.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button41.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -3316,7 +3321,7 @@ namespace BinderJetting
             this.button20.AutoSize = true;
             this.button20.BackColor = System.Drawing.Color.Transparent;
             this.button20.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button20.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.button20.DialogResult = System.Windows.Forms.DialogResult.None;
             this.button20.Image = ((System.Drawing.Image)(resources.GetObject("button20.Image")));
             this.button20.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button20.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -6219,6 +6224,11 @@ namespace BinderJetting
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.labelPassYTrimHint);
+            this.tabPage3.Controls.Add(this.textBox50);
+            this.tabPage3.Controls.Add(this.labelPass2YTrim);
+            this.tabPage3.Controls.Add(this.textBox49);
+            this.tabPage3.Controls.Add(this.labelPass0YTrim);
             this.tabPage3.Controls.Add(this.buttonMeteorPiSetHomeFixedXStart);
             this.tabPage3.Controls.Add(this.button17);
             this.tabPage3.Controls.Add(this.label134);
@@ -6249,6 +6259,51 @@ namespace BinderJetting
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "原位固化增强控制";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // labelPassYTrimHint
+            // 
+            this.labelPassYTrimHint.ForeColor = System.Drawing.Color.Red;
+            this.labelPassYTrimHint.Location = new System.Drawing.Point(171, 224);
+            this.labelPassYTrimHint.Name = "labelPassYTrimHint";
+            this.labelPassYTrimHint.Size = new System.Drawing.Size(470, 28);
+            this.labelPassYTrimHint.TabIndex = 250;
+            this.labelPassYTrimHint.Text = "【3PASS Y补偿】Pass0正值裁减下侧越界(mm)；Pass2正值裁减上侧越界(mm)。肉眼观察后微调。";
+            // 
+            // textBox50
+            // 
+            this.textBox50.Font = new System.Drawing.Font("微软雅黑", 8.5F);
+            this.textBox50.Location = new System.Drawing.Point(129, 198);
+            this.textBox50.Name = "textBox50";
+            this.textBox50.Size = new System.Drawing.Size(36, 22);
+            this.textBox50.TabIndex = 249;
+            this.textBox50.Text = "0";
+            // 
+            // labelPass2YTrim
+            // 
+            this.labelPass2YTrim.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
+            this.labelPass2YTrim.Location = new System.Drawing.Point(22, 193);
+            this.labelPass2YTrim.Name = "labelPass2YTrim";
+            this.labelPass2YTrim.Size = new System.Drawing.Size(101, 28);
+            this.labelPass2YTrim.TabIndex = 248;
+            this.labelPass2YTrim.Text = "Pass2 Y补偿(mm)";
+            // 
+            // textBox49
+            // 
+            this.textBox49.Font = new System.Drawing.Font("微软雅黑", 8.5F);
+            this.textBox49.Location = new System.Drawing.Point(129, 168);
+            this.textBox49.Name = "textBox49";
+            this.textBox49.Size = new System.Drawing.Size(36, 22);
+            this.textBox49.TabIndex = 247;
+            this.textBox49.Text = "0";
+            // 
+            // labelPass0YTrim
+            // 
+            this.labelPass0YTrim.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
+            this.labelPass0YTrim.Location = new System.Drawing.Point(22, 168);
+            this.labelPass0YTrim.Name = "labelPass0YTrim";
+            this.labelPass0YTrim.Size = new System.Drawing.Size(101, 28);
+            this.labelPass0YTrim.TabIndex = 246;
+            this.labelPass0YTrim.Text = "Pass0 Y补偿(mm)";
             // 
             // buttonMeteorPiSetHomeFixedXStart
             // 
@@ -7031,6 +7086,11 @@ namespace BinderJetting
         private System.Windows.Forms.Label label133;
         private System.Windows.Forms.Label label134;
         private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.Label labelPass0YTrim;
+        private System.Windows.Forms.TextBox textBox49;
+        private System.Windows.Forms.Label labelPass2YTrim;
+        private System.Windows.Forms.TextBox textBox50;
+        private System.Windows.Forms.Label labelPassYTrimHint;
         private System.Windows.Forms.Label label136;
     }
 }

@@ -7939,6 +7939,11 @@ namespace BinderJetting
                                 DataTaskFlag = 2;//工作态标志//工作态不可强制暂停
 
                                 g_SharpControl.XDpi = g_RYSYSParam.m_XPrintDpi[g_RYSYSParam.XPrintDpiIndex]/*(float)(Convert.ToDouble(g_RYSYSParam.XPrintDpi))*/;
+                                if (AutoPrintMotion1 != null && AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest != null)
+                                {
+                                    g_SharpControl.Pass0EffectiveYTrimMm = AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.Pass0EffectiveYTrimMm;
+                                    g_SharpControl.Pass2EffectiveYTrimMm = AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.Pass2EffectiveYTrimMm;
+                                }
                                 int i = 0;
                                 for (/*int*/i = 0; i < tempRePrintTimes; i++)//20201030新增：按照重喷次数发送数据量
                                 {

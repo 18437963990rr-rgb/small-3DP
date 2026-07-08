@@ -7,6 +7,11 @@ namespace LaserAdd.PrintRaster
     {
         public const int PlateWidthMm = 465;
         public const int PlateHeightMm = 370;
+        /// <summary>与 AutoPrintThread5 passStartBaseY 一致（mm，平台坐标，0=下沿）。</summary>
+        public const double MeteorPassStartBaseYMm = 55.0;
+        /// <summary>与 InkCarPassPitchYMm 一致：64.96×2 mm。</summary>
+        public const double MeteorPassPitchYMm = 64.96 * 2.0;
+        public const int MeteorPassCountPerLayer = 3;
         /// <summary>RIP 整板与主程序 Meteor 单层光栅默认 DPI（与历史 RipPlateConfig.RipDpi 一致）。</summary>
         public const int SliceDpi = 400;
 

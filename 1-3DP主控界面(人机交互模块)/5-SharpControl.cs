@@ -56,6 +56,11 @@ namespace BinderJetting
         public static float PlateCenterOffsetXMm => PrintRasterConfig.PlateCenterOffsetXMm;
         public static float PlateCenterOffsetYMm => PrintRasterConfig.PlateCenterOffsetYMm;
 
+        /// <summary>Pass0 平台内有效 Y 下沿补偿(mm)：正值裁减下侧/platform 外喷嘴对应图形行。</summary>
+        public double Pass0EffectiveYTrimMm = 0;
+        /// <summary>Pass2 平台内有效 Y 上沿补偿(mm)：正值裁减上侧/platform 外喷嘴对应图形行。</summary>
+        public double Pass2EffectiveYTrimMm = 0;
+
         public RYSYSParam gc_RysysParam = new RYSYSParam();//20210113新增：用于修改大零件打印子区域处理算法的相关参数：
 
         public List<JobItem> tempJobItems = new List<JobItem>();//全部的job参数，包含了所有STL位置、参数//20200527框架移植：
@@ -1607,20 +1612,6 @@ namespace BinderJetting
 #endif
                 if (SimplifiedMeteorAutoFlowMode)
                 {
-                    const int temporaryMeteorTestWidthPx = 4323;
-                    if (clone.Width > temporaryMeteorTestWidthPx)
-                    {
-                        System.Drawing.Rectangle cropRect = new System.Drawing.Rectangle(0, 0, temporaryMeteorTestWidthPx, clone.Height);
-                        System.Drawing.Bitmap croppedClone = clone.Clone(cropRect, clone.PixelFormat);
-                        try
-                        {
-                            croppedClone.SetResolution(clone.HorizontalResolution, clone.VerticalResolution);
-                        }
-                        catch { }
-                        Log4Net.Info($"RenderToWic: SimplifiedMeteorAutoFlowMode 临时测试裁剪宽度 original={clone.Width}x{clone.Height} cropped={croppedClone.Width}x{croppedClone.Height} note=temporaryMeteorTestWidthPx");
-                        clone.Dispose();
-                        clone = croppedClone;
-                    }
                     int stripIndexSimple = 0;
                     bool anySwathSent = false;
                     uint actualScanJobWidth = (uint)Math.Max(1, clone.Width);
@@ -1669,16 +1660,28 @@ namespace BinderJetting
                         Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode 3PASS 按 pass 门控逐条发送；EndJob 默认在 swath 发完后立即发送");
                     if (batchStartScanGateSplit || passLiveAbsXGateSplit || passGateAnchorXStart || allFwdDiagnostic)
                     {
-                        List<Tuple<System.Drawing.Bitmap, int>> cachedSwaths = new List<Tuple<System.Drawing.Bitmap, int>>();
-                        SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, (strip, swathTop) =>
+                        List<Tuple<System.Drawing.Bitmap, int, double, double>> cachedPassCrops = new List<Tuple<System.Drawing.Bitmap, int, double, double>>();
+                        float renderDpiYForCrop = GetRenderDpiY();
+                        for (int passIndex = 0; passIndex < PrintRasterConfig.MeteorPassCountPerLayer; passIndex++)
                         {
-                            cachedSwaths.Add(Tuple.Create((System.Drawing.Bitmap)strip.Clone(), swathTop));
-                            Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode " + (passGateAnchorXStart ? "PASS-GATE-ANCHOR-XSTART" : passLiveAbsXGateSplit ? "PASS-LIVE-ABSX-COMP" : "BATCH-GATE-SPLIT") + " 已缓存strip, stripIndexSimple=" + cachedSwaths.Count + ", swathTopInLayer=" + swathTop + ", size=" + strip.Width + "x" + strip.Height);
-                        }, 0, -1);
-                        for (int cachedIndex = 0; cachedIndex < cachedSwaths.Count; cachedIndex++)
+                            System.Drawing.Bitmap cropStrip;
+                            int nozzleYJetOffPx;
+                            double covLoMm;
+                            double covHiMm;
+                            if (!TryCreatePassPlatformCropStrip(clone, passIndex, renderDpiYForCrop, out cropStrip, out nozzleYJetOffPx, out covLoMm, out covHiMm))
+                            {
+                                Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode pass platform crop skipped, passIndex=" + passIndex);
+                                continue;
+                            }
+                            cachedPassCrops.Add(Tuple.Create(cropStrip, nozzleYJetOffPx, covLoMm, covHiMm));
+                            Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode " + (passGateAnchorXStart ? "PASS-GATE-ANCHOR-XSTART" : passLiveAbsXGateSplit ? "PASS-LIVE-ABSX-COMP" : "BATCH-GATE-SPLIT") + " 已缓存passCrop, passIndex=" + passIndex + ", covLo=" + covLoMm.ToString("F3") + ", covHi=" + covHiMm.ToString("F3") + ", size=" + cropStrip.Width + "x" + cropStrip.Height + ", nozzleYJetOffPx=" + nozzleYJetOffPx);
+                        }
+                        for (int cachedIndex = 0; cachedIndex < cachedPassCrops.Count; cachedIndex++)
                         {
-                            System.Drawing.Bitmap strip = cachedSwaths[cachedIndex].Item1;
-                            int swathTop = cachedSwaths[cachedIndex].Item2;
+                            System.Drawing.Bitmap strip = cachedPassCrops[cachedIndex].Item1;
+                            int nozzleYJetOffPx = cachedPassCrops[cachedIndex].Item2;
+                            double covLoMm = cachedPassCrops[cachedIndex].Item3;
+                            double covHiMm = cachedPassCrops[cachedIndex].Item4;
                             MeteorPrintEngine.SuppressScanMotionGateForNextWrite = false;
                             MeteorPrintEngine.SetPendingSwathPassIndex(cachedIndex);
                             if (cachedIndex == 0)
@@ -1700,8 +1703,7 @@ namespace BinderJetting
                                 Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode SPLIT-JOB-PER-PASS StartJob完成, passIndex=" + cachedIndex + ", scanJobWidth=" + actualScanJobWidth);
                             }
                             royal.royal.g_prtimg_layer.nPrtDir = allFwdDiagnostic ? 1 : ((cachedIndex % 2 == 0) ? 1 : 0);
-                            royal.royal.g_prtimg_layer.nYJetOff = 0;
-                            int writeRet = WriteImgLayerData(strip, index, subindex, RePrintTimes, true, 0);
+                            int writeRet = WriteImgLayerData(strip, index, subindex, RePrintTimes, true, nozzleYJetOffPx);
                             if (splitJobPerPass)
                                 MeteorPrintEngine.MarkDeferredEndJobAfterPassSwaths("RenderToWic:SimplifiedMeteorAutoFlowMode:SplitJobPass" + cachedIndex);
                             strip.Dispose();
@@ -1711,37 +1713,46 @@ namespace BinderJetting
                                 MeteorPrintEngine.SignalBatchSwathsMeteorReady("RenderToWic:SimplifiedMeteorAutoFlowMode:" + (passGateAnchorXStart ? "PassGateAnchorXStartPass0Flush" : "PassLiveAbsXCompPass0Flush"));
                                 Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode " + (passGateAnchorXStart ? "PASS-GATE-ANCHOR-XSTART" : "PASS-LIVE-ABSX-COMP") + " Pass0 已入队并 Flush，放行 Pass0 扫程；Pass1/2 待各自 gate");
                             }
-                            Log4Net.Info("RenderToWic: Simplified 3PASS cached strip 发送完成, stripIndexSimple=" + cachedIndex + ", swathTopInLayer=" + swathTop + ", batchStartScanGateSplit=" + batchStartScanGateSplit + ", passLiveAbsXGateSplit=" + passLiveAbsXGateSplit + ", passGateAnchorXStart=" + passGateAnchorXStart + ", imageYStart=0, nPrtDir=" + royal.royal.g_prtimg_layer.nPrtDir + ", nYJetOff=" + royal.royal.g_prtimg_layer.nYJetOff + ", writeRet=" + writeRet);
+                            Log4Net.Info("RenderToWic: Simplified 3PASS cached passCrop 发送完成, passIndex=" + cachedIndex + ", covLo=" + covLoMm.ToString("F3") + ", covHi=" + covHiMm.ToString("F3") + ", batchStartScanGateSplit=" + batchStartScanGateSplit + ", passLiveAbsXGateSplit=" + passLiveAbsXGateSplit + ", passGateAnchorXStart=" + passGateAnchorXStart + ", nozzleYJetOffPx=" + nozzleYJetOffPx + ", nPrtDir=" + royal.royal.g_prtimg_layer.nPrtDir + ", writeRet=" + writeRet);
                         }
-                        stripIndexSimple = cachedSwaths.Count;
+                        stripIndexSimple = cachedPassCrops.Count;
                     }
                     else
                     {
-                        SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, (strip, swathTop) =>
+                        float renderDpiYForCrop = GetRenderDpiY();
+                        for (int passIndex = 0; passIndex < PrintRasterConfig.MeteorPassCountPerLayer; passIndex++)
                         {
-                            MeteorPrintEngine.SetPendingSwathPassIndex(stripIndexSimple);
+                            System.Drawing.Bitmap strip;
+                            int nozzleYJetOffPx;
+                            double covLoMm;
+                            double covHiMm;
+                            if (!TryCreatePassPlatformCropStrip(clone, passIndex, renderDpiYForCrop, out strip, out nozzleYJetOffPx, out covLoMm, out covHiMm))
+                            {
+                                Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode pass platform crop skipped, passIndex=" + passIndex);
+                                continue;
+                            }
+                            MeteorPrintEngine.SetPendingSwathPassIndex(passIndex);
                             if (batchSwathMode)
                             {
-                                if (stripIndexSimple == 0)
+                                if (passIndex == 0)
                                     MeteorPrintEngine.WaitPassGateBeforeMeteorSubmitIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode:Pass0", index, 0, ActualStartNum);
-                                MeteorPrintEngine.SuppressScanMotionGateForNextWrite = stripIndexSimple > 0;
+                                MeteorPrintEngine.SuppressScanMotionGateForNextWrite = passIndex > 0;
                             }
                             else
                             {
                                 MeteorPrintEngine.SuppressScanMotionGateForNextWrite = false;
-                                if (stripIndexSimple == 0)
+                                if (passIndex == 0)
                                     MeteorPrintEngine.WaitPassGateBeforeMeteorSubmitIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode:Pass0", index, 0, ActualStartNum);
                                 else
-                                    MeteorPrintEngine.WaitPassGateBeforeMeteorSubmitIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode:Pass" + stripIndexSimple, index, stripIndexSimple, ActualStartNum);
+                                    MeteorPrintEngine.WaitPassGateBeforeMeteorSubmitIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode:Pass" + passIndex, index, passIndex, ActualStartNum);
                             }
-                            royal.royal.g_prtimg_layer.nPrtDir = (stripIndexSimple % 2 == 0) ? 1 : 0;
-                            // 同址 3PASS：yStart=0，Y 步距由打印线程墨车定位（batch 试验亦保持，避免 Pass0 发糊回归）
-                            royal.royal.g_prtimg_layer.nYJetOff = 0;
-                            int writeRet = WriteImgLayerData(strip, index, subindex, RePrintTimes, true, 0);
+                            royal.royal.g_prtimg_layer.nPrtDir = (passIndex % 2 == 0) ? 1 : 0;
+                            int writeRet = WriteImgLayerData(strip, index, subindex, RePrintTimes, true, nozzleYJetOffPx);
+                            strip.Dispose();
                             anySwathSent = true;
-                            Log4Net.Info("RenderToWic: Simplified 3PASS stripProcessor 完成, stripIndexSimple=" + stripIndexSimple + ", swathTopInLayer=" + swathTop + ", batchSwathMode=" + batchSwathMode + ", suppressScanMotionGate=" + MeteorPrintEngine.SuppressScanMotionGateForNextWrite + ", imageYStart=0, nPrtDir=" + royal.royal.g_prtimg_layer.nPrtDir + ", nYJetOff=" + royal.royal.g_prtimg_layer.nYJetOff + ", writeRet=" + writeRet);
                             stripIndexSimple++;
-                        }, 0, -1);
+                            Log4Net.Info("RenderToWic: Simplified 3PASS passCrop 完成, passIndex=" + passIndex + ", covLo=" + covLoMm.ToString("F3") + ", covHi=" + covHiMm.ToString("F3") + ", batchSwathMode=" + batchSwathMode + ", suppressScanMotionGate=" + MeteorPrintEngine.SuppressScanMotionGateForNextWrite + ", nozzleYJetOffPx=" + nozzleYJetOffPx + ", nPrtDir=" + royal.royal.g_prtimg_layer.nPrtDir + ", writeRet=" + writeRet);
+                        }
                     }
                     MeteorPrintEngine.SuppressScanMotionGateForNextWrite = false;
                     if (anySwathSent)
@@ -2286,6 +2297,46 @@ namespace BinderJetting
             {     
             }
 
+        }
+
+        /// <summary>按 Pass 物理 Y 与平台 [0,PlateHeight] 交集，从整层位图裁切有效条带；平台 Y 0=下沿、370=上沿。</summary>
+        private bool TryCreatePassPlatformCropStrip(System.Drawing.Bitmap fullLayer, int passIndex, float renderDpiY, out System.Drawing.Bitmap cropStrip, out int nozzleYJetOffPx, out double covLoMm, out double covHiMm)
+        {
+            cropStrip = null;
+            nozzleYJetOffPx = 0;
+            covLoMm = 0;
+            covHiMm = 0;
+            if (fullLayer == null || passIndex < 0 || passIndex >= PrintRasterConfig.MeteorPassCountPerLayer)
+                return false;
+
+            double plateH = PlateHeightMm;
+            double swathH = PrintRasterConfig.SwathStripHeightPixels * 25.4 / renderDpiY;
+            double passY = PrintRasterConfig.MeteorPassStartBaseYMm + passIndex * PrintRasterConfig.MeteorPassPitchYMm;
+            double covLo = passY;
+            double covHi = passY + swathH;
+            if (passIndex == 0)
+                covLo += Pass0EffectiveYTrimMm;
+            else if (passIndex == 2)
+                covHi -= Pass2EffectiveYTrimMm;
+            covLo = Math.Max(0, Math.Min(plateH, covLo));
+            covHi = Math.Max(0, Math.Min(plateH, covHi));
+            covLoMm = covLo;
+            covHiMm = covHi;
+            if (covHi <= covLo + 0.001)
+                return false;
+
+            int rowTop = (int)((plateH - covHi) * renderDpiY / 25.4f);
+            int rowBottom = (int)((plateH - covLo) * renderDpiY / 25.4f + 1);
+            rowTop = Math.Max(0, Math.Min(fullLayer.Height - 1, rowTop));
+            rowBottom = Math.Max(rowTop + 1, Math.Min(fullLayer.Height, rowBottom));
+            int cropH = rowBottom - rowTop;
+            if (cropH <= 0)
+                return false;
+
+            cropStrip = fullLayer.Clone(new System.Drawing.Rectangle(0, rowTop, fullLayer.Width, cropH), fullLayer.PixelFormat);
+            nozzleYJetOffPx = (int)Math.Max(0, Math.Round((covLo - passY) * renderDpiY / 25.4f, MidpointRounding.AwayFromZero));
+            Log4Net.Info($"[PassPlatformYCrop] passIndex={passIndex} passY={passY:F3} covLo={covLo:F3} covHi={covHi:F3} rowTop={rowTop} rowBottom={rowBottom} cropH={cropH} nozzleYJetOffPx={nozzleYJetOffPx} pass0Trim={Pass0EffectiveYTrimMm:F3} pass2Trim={Pass2EffectiveYTrimMm:F3}");
+            return true;
         }
 
         public int k_dYJetOff = 0;//20210311修正：Y向的位置起始偏差。
