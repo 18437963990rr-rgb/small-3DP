@@ -472,6 +472,7 @@ namespace BinderJetting
             this.textBox49 = new System.Windows.Forms.TextBox();
             this.labelPass0YTrim = new System.Windows.Forms.Label();
             this.buttonMeteorPiSetHomeFixedXStart = new System.Windows.Forms.Button();
+            this.buttonMeteorPhysicalHomeFastPrint = new System.Windows.Forms.Button();
             this.button17 = new System.Windows.Forms.Button();
             this.label134 = new System.Windows.Forms.Label();
             this.textBox40 = new System.Windows.Forms.TextBox();
@@ -6229,6 +6230,7 @@ namespace BinderJetting
             this.tabPage3.Controls.Add(this.labelPass2YTrim);
             this.tabPage3.Controls.Add(this.textBox49);
             this.tabPage3.Controls.Add(this.labelPass0YTrim);
+            this.tabPage3.Controls.Add(this.buttonMeteorPhysicalHomeFastPrint);
             this.tabPage3.Controls.Add(this.buttonMeteorPiSetHomeFixedXStart);
             this.tabPage3.Controls.Add(this.button17);
             this.tabPage3.Controls.Add(this.label134);
@@ -6317,6 +6319,19 @@ namespace BinderJetting
             this.buttonMeteorPiSetHomeFixedXStart.Text = "切到PiSetHome\r\n固定XStart";
             this.buttonMeteorPiSetHomeFixedXStart.UseVisualStyleBackColor = false;
             this.buttonMeteorPiSetHomeFixedXStart.Click += new System.EventHandler(this.buttonMeteorPiSetHomeFixedXStart_Click);
+            // 
+            // buttonMeteorPhysicalHomeFastPrint
+            // 
+            this.buttonMeteorPhysicalHomeFastPrint.BackColor = System.Drawing.Color.AliceBlue;
+            this.buttonMeteorPhysicalHomeFastPrint.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
+            this.buttonMeteorPhysicalHomeFastPrint.ForeColor = System.Drawing.Color.DarkSlateBlue;
+            this.buttonMeteorPhysicalHomeFastPrint.Location = new System.Drawing.Point(666, 277);
+            this.buttonMeteorPhysicalHomeFastPrint.Name = "buttonMeteorPhysicalHomeFastPrint";
+            this.buttonMeteorPhysicalHomeFastPrint.Size = new System.Drawing.Size(162, 42);
+            this.buttonMeteorPhysicalHomeFastPrint.TabIndex = 248;
+            this.buttonMeteorPhysicalHomeFastPrint.Text = "切到物理Home\r\n快速打印";
+            this.buttonMeteorPhysicalHomeFastPrint.UseVisualStyleBackColor = false;
+            this.buttonMeteorPhysicalHomeFastPrint.Click += new System.EventHandler(this.buttonMeteorPhysicalHomeFastPrint_Click);
             // 
             // button17
             // 
@@ -7065,6 +7080,7 @@ namespace BinderJetting
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Button buttonMeteorPiSetHomeFixedXStart;
+        private System.Windows.Forms.Button buttonMeteorPhysicalHomeFastPrint;
         private System.Windows.Forms.ComboBox comboBox11;
         private System.Windows.Forms.Label label132;
         private System.Windows.Forms.TextBox textBox41;
