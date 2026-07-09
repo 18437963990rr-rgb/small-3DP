@@ -12149,7 +12149,25 @@ namespace BinderJetting
 
         private const string MeteorAutoPrintMotionBranchPrecision = "precision_pisethome";
         private const string MeteorAutoPrintMotionBranchPhysicalFast = "physical_home_fast";
-        private const int MeteorPhysicalHomeFastStartJobReadyDelayMs = 1800;
+        /// <summary>快速分支 525 接近位：swath 就绪时允许的最大 X 偏差 mm（不做 Stable 多点采样）。</summary>
+        private const double MeteorPhysicalHomeFastApproachReachToleranceMm = 2.0;
+        /// <summary>快速分支扫程低位/高位到位容差：Pass0 扫完常有 1~2mm 回弹，过严会卡 Pass1。</summary>
+        private const double MeteorPhysicalHomeFastScanEndpointToleranceMm = 2.5;
+
+        private bool IsInkCarXNearScanEndpoint(double targetMm, double toleranceMm = MeteorPhysicalHomeFastScanEndpointToleranceMm)
+        {
+            return Math.Abs(GetCurrentPos(1) - targetMm) <= toleranceMm && !IsInkCarXProfileMoving();
+        }
+
+        private bool WaitInkCarXNearScanEndpoint(double targetMm, double toleranceMm = MeteorPhysicalHomeFastScanEndpointToleranceMm, int timeoutMs = 12000)
+        {
+            if (IsInkCarXNearScanEndpoint(targetMm, toleranceMm))
+            {
+                Log4Net.Info($"WaitInkCarXNearScanEndpoint: already at targetMm={targetMm:F3}, currentMm={GetCurrentPos(1):F3}, toleranceMm={toleranceMm:F3}");
+                return true;
+            }
+            return WaitInkCarXAxisReach(targetMm, toleranceMm, timeoutMs);
+        }
 
         private bool IsMeteorPhysicalHomeFastPrintMotionBranch()
         {
@@ -12162,35 +12180,62 @@ namespace BinderJetting
                 || IsMeteorPiSetHomeFixedXStartUiMode();
         }
 
-        /// <summary>物理 Home 快速分支 Pass0：750→525 过 Home，无每层 PiSetHome/663.5 停靠。</summary>
+        /// <summary>快速分支：809→525 可与 StartJob 并行；须到 525 停稳后再 Signal 放行 STARTSCAN，swath 预载完再启动 525→15 扫程。</summary>
+        private bool MoveInkCarXToApproachAndWaitPass0SwathPhysicalFast(int layerK, float speed, int timeoutMs)
+        {
+            DateTime parallelStart = DateTime.Now;
+            MeteorPrintEngine.SignalPrintThreadLayerPass0PreheatReady(layerK, "pass0-approach525-physical-fast");
+            BackToStation((float)InkCarScanApproachXMm, speed, false, false, 1);
+
+            if (!WaitInkCarXAxisReachWithProfileStopped(InkCarScanApproachXMm, MeteorPhysicalHomeFastApproachReachToleranceMm, timeoutMs))
+            {
+                Log4Net.Info($"[MeteorMotionBranch] physical_home_fast Pass0 approach hold failed targetMm={InkCarScanApproachXMm:F3} timeoutMs={timeoutMs}");
+                return false;
+            }
+
+            MeteorPrintEngine.SignalPrintThreadLayerPass0ReadyForMeteorSubmit(layerK);
+            if (!MeteorPrintEngine.WaitPass0FirstSwathMeteorReady(timeoutMs))
+            {
+                Log4Net.Info($"[MeteorMotionBranch] physical_home_fast Pass0 swath preload timeout timeoutMs={timeoutMs}");
+                return false;
+            }
+
+            MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtApproachHold", GetCurrentPos(1), layerK);
+            Log4Net.Info($"[MeteorMotionBranch] physical_home_fast Pass0 approach+swath ok targetMm={InkCarScanApproachXMm:F3} deltaMm={Math.Abs(GetCurrentPos(1) - InkCarScanApproachXMm):F3} elapsedMs={(DateTime.Now - parallelStart).TotalMilliseconds:F0} batchPerPassGate={!MeteorPrintEngine.IsBatchSwathModeEnabled()}");
+            return true;
+        }
+
+        /// <summary>物理 Home 快速分支 Pass0：750→525 过 Home 并行首 swath；无每层 PiSetHome/663.5；扫程终点与 Y 换带仍须等停。</summary>
         private bool RunAutoPrintThread5Pass0PhysicalHomeFast(
             int meteorMotionLayerK, double passStartBaseY, double passPitchY,
             double returnVelocity1, double returnVelocity2, double yJetOffWidth)
         {
             Log4Net.Info("[MeteorMotionBranch] physical_home_fast Pass0 begin");
-            BackToStation(passStartBaseY - yJetOffWidth, (float)returnVelocity2, true, false, 1);
-            BackToStation((float)InkCarScanApproachXMm, (float)returnVelocity2, false, true, 1);
-            MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtApproachHoldPhysicalFast", GetCurrentPos(1));
-            MeteorPrintEngine.SignalPrintThreadLayerPass0PreheatReady(k_nCurrentLayer + 1, "pass0-approach525-physical-fast");
-            Thread.Sleep(MeteorPhysicalHomeFastStartJobReadyDelayMs);
-            MeteorPrintEngine.SignalPrintThreadLayerPass0ReadyForMeteorSubmit(k_nCurrentLayer + 1);
-            if (!MeteorPrintEngine.WaitPass0FirstSwathMeteorReady(10000))
+            int layerK = k_nCurrentLayer + 1;
+            if (!MoveInkCarXToApproachAndWaitPass0SwathPhysicalFast(layerK, (float)returnVelocity2, 10000))
             {
                 _meteorMotionAbortLayerK = meteorMotionLayerK;
-                Log4Net.Info("AutoPrintThread5[physical_home_fast]: Pass0 swath wait timeout; abort");
+                Log4Net.Info("AutoPrintThread5[physical_home_fast]: Pass0 approach+swath parallel failed; abort");
                 return false;
             }
             BackToStation((float)InkCarScanLowXMm, (float)returnVelocity1, false, false, 1);
-            if (!WaitInkCarXAxisReach(InkCarScanLowXMm))
+            if (!WaitInkCarXNearScanEndpoint(InkCarScanLowXMm))
             {
                 _meteorMotionAbortLayerK = meteorMotionLayerK;
                 Log4Net.Info("AutoPrintThread5[physical_home_fast]: Pass0 X did not reach scan low end; abort");
                 return false;
             }
-            MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtScanLowEndPhysicalFast", GetCurrentPos(1));
+            MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtScanLowEnd", GetCurrentPos(1), layerK);
             if (MeteorPrintEngine.IsSplitJobPerPassEnabled())
-                MeteorPrintEngine.TryCompleteDeferredEndJob("Pass0AtScanLowEndPhysicalFast");
-            BackToStation(passStartBaseY + passPitchY - yJetOffWidth, (float)returnVelocity1, true, true, 1);
+                MeteorPrintEngine.TryCompleteDeferredEndJob("Pass0AtScanLowEnd");
+            double pass1TargetY = passStartBaseY + passPitchY - yJetOffWidth;
+            BackToStation((float)pass1TargetY, (float)returnVelocity1, true, false, 1);
+            if (!WaitInkCarYAxisReach(pass1TargetY, 1.0, 15000))
+            {
+                _meteorMotionAbortLayerK = meteorMotionLayerK;
+                Log4Net.Info($"AutoPrintThread5[physical_home_fast]: Pass0 Y did not reach pass1 strip; targetY={pass1TargetY:F3}");
+                return false;
+            }
             Log4Net.Info("[MeteorMotionBranch] physical_home_fast Pass0 end");
             return true;
         }
@@ -12200,6 +12245,12 @@ namespace BinderJetting
             double returnVelocity1, double yJetOffWidth)
         {
             Log4Net.Info("[MeteorMotionBranch] physical_home_fast Pass1 begin");
+            if (!WaitInkCarXNearScanEndpoint(InkCarScanLowXMm, MeteorPhysicalHomeFastScanEndpointToleranceMm, 3000))
+            {
+                _meteorMotionAbortLayerK = meteorMotionLayerK;
+                Log4Net.Info("AutoPrintThread5[physical_home_fast]: Pass1 X not at scan low before REV submit; abort");
+                return false;
+            }
             MeteorPrintEngine.SignalPrintThreadPassReadyForMeteorSubmit(k_nCurrentLayer + 1, 1, "pass1-hold15-physical-fast");
             if (!MeteorPrintEngine.WaitPassSwathMeteorReady(1, 10000))
             {
@@ -12209,7 +12260,7 @@ namespace BinderJetting
             }
             MeteorPrintEngine.TriggerPassForPureMeteorSchedule((uint)(k_nCurrentLayer + 1), 1, "pass1-afterSwathReady-physical-fast");
             BackToStation((float)InkCarScanHighXMm, (float)returnVelocity1, false, false, 1);
-            if (!WaitInkCarXAxisReach(InkCarScanHighXMm))
+            if (!WaitInkCarXNearScanEndpoint(InkCarScanHighXMm))
             {
                 _meteorMotionAbortLayerK = meteorMotionLayerK;
                 Log4Net.Info("AutoPrintThread5[physical_home_fast]: Pass1 X did not reach scan high end; abort");
@@ -12219,7 +12270,14 @@ namespace BinderJetting
             MeteorPrintEngine.LogScanPassMotionCheck("Pass1AfterScanPhysicalFast", GetCurrentPos(1));
             if (MeteorPrintEngine.IsSplitJobPerPassEnabled())
                 MeteorPrintEngine.TryCompleteDeferredEndJob("Pass1AtScanHighEndPhysicalFast");
-            BackToStation(passStartBaseY + 2 * passPitchY - yJetOffWidth, (float)returnVelocity1, true, true, 1);
+            double pass2TargetY = passStartBaseY + 2 * passPitchY - yJetOffWidth;
+            BackToStation((float)pass2TargetY, (float)returnVelocity1, true, false, 1);
+            if (!WaitInkCarYAxisReach(pass2TargetY, 1.0, 15000))
+            {
+                _meteorMotionAbortLayerK = meteorMotionLayerK;
+                Log4Net.Info($"AutoPrintThread5[physical_home_fast]: Pass1 Y did not reach pass2 strip; targetY={pass2TargetY:F3}");
+                return false;
+            }
             Log4Net.Info("[MeteorMotionBranch] physical_home_fast Pass1 end");
             return true;
         }
@@ -12230,6 +12288,19 @@ namespace BinderJetting
             ref SendMessageToCamera toCamera, int recordLayerIndex, int pauseFlag, int notGoCleanStationFlag)
         {
             Log4Net.Info("[MeteorMotionBranch] physical_home_fast Pass2 begin");
+            double pass2TargetY = passStartBaseY + 2 * passPitchY - yJetOffWidth;
+            if (!WaitInkCarYAxisReach(pass2TargetY, 1.0, 15000))
+            {
+                _meteorMotionAbortLayerK = meteorMotionLayerK;
+                Log4Net.Info($"AutoPrintThread5[physical_home_fast]: Pass2 Y did not reach pass2 strip before scan; targetY={pass2TargetY:F3}");
+                return false;
+            }
+            if (!WaitInkCarXNearScanEndpoint(InkCarScanHighXMm, MeteorPhysicalHomeFastScanEndpointToleranceMm, 3000))
+            {
+                _meteorMotionAbortLayerK = meteorMotionLayerK;
+                Log4Net.Info("AutoPrintThread5[physical_home_fast]: Pass2 X not at scan high before FWD submit; abort");
+                return false;
+            }
             MeteorPrintEngine.SignalPrintThreadPassReadyForMeteorSubmit(k_nCurrentLayer + 1, 2, "pass2-hold485-physical-fast");
             if (!MeteorPrintEngine.WaitPassSwathMeteorReady(2, 10000))
             {
@@ -12238,13 +12309,13 @@ namespace BinderJetting
                 return false;
             }
             BackToStation((float)InkCarScanLowXMm, (float)returnVelocity1, false, false, 1);
-            MeteorPrintEngine.TriggerPassForPureMeteorSchedule((uint)(k_nCurrentLayer + 1), 2, "pass2-afterScan15Started-physical-fast");
-            if (!WaitInkCarXAxisReach(InkCarScanLowXMm))
+            if (!WaitInkCarXNearScanEndpoint(InkCarScanLowXMm))
             {
                 _meteorMotionAbortLayerK = meteorMotionLayerK;
                 Log4Net.Info("AutoPrintThread5[physical_home_fast]: Pass2 X did not reach scan low end; abort");
                 return false;
             }
+            MeteorPrintEngine.TriggerPassForPureMeteorSchedule((uint)(k_nCurrentLayer + 1), 2, "pass2-afterScan15End-physical-fast");
             MeteorPrintEngine.LogDualCoordSnapshot("Pass2AtScanLowEndPhysicalFast", GetCurrentPos(1));
             MeteorPrintEngine.LogScanPassMotionCheck("Pass2AfterScanPhysicalFast", GetCurrentPos(1));
             LogInkCarLayerScan750ToPass2LowTiming("Pass2AtScanLowEndPhysicalFast");
@@ -12252,14 +12323,14 @@ namespace BinderJetting
             if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
                 toCamera.SendMessageFromSharedMemory(false, recordLayerIndex, 4);
 
-            BackToStation((float)InkCarScanHighXMm, (float)returnVelocity1, false, true, 1);
-            if (!WaitInkCarXAxisReach(InkCarScanHighXMm))
+            BackToStation((float)InkCarScanHighXMm, (float)returnVelocity1, false, false, 1);
+            if (!WaitInkCarXNearScanEndpoint(InkCarScanHighXMm))
             {
                 _meteorMotionAbortLayerK = meteorMotionLayerK;
-                Log4Net.Info("AutoPrintThread5[physical_home_fast]: Pass2 X did not reach scan high end; abort");
+                Log4Net.Info("AutoPrintThread5[physical_home_fast]: Pass2 X did not reach scan high end before EndJob; abort");
                 return false;
             }
-            MeteorPrintEngine.LogDualCoordSnapshot("Pass2AfterScanHighEndPhysicalFast", GetCurrentPos(1));
+            MeteorPrintEngine.LogDualCoordSnapshot("Pass2AtScanHighEndPhysicalFast", GetCurrentPos(1));
             if (MeteorPrintEngine.TryCompleteDeferredEndJob("Pass2AfterScanHighEndPhysicalFast"))
                 MeteorPrintEngine.LogPccMotionSnapshot("Pass2AfterScanHighEndPhysicalFastAfterDeferredEndJob");
 
@@ -12267,10 +12338,14 @@ namespace BinderJetting
             {
                 if (pauseFlag != 1)
                 {
-                    BackToStation(INKCAR_CLEAN_STATION_X, (float)returnVelocity2, false, false, 1);
-                    BackToStation(INKCAR_CLEAN_STATION_Y, (float)returnVelocity2, true, false, 1);
-                    WaitStop(1);
-                    WaitStop(2);
+                    if (!ReturnInkCarToCleanWaitStationAfterPass2((float)returnVelocity2))
+                    {
+                        _meteorMotionAbortLayerK = meteorMotionLayerK;
+                        motionMap.StopMotion(1, true);
+                        motionMap.StopMotion(2, true);
+                        Log4Net.Info("AutoPrintThread5[physical_home_fast]: clean wait station overlap return failed after Pass2; abort");
+                        return false;
+                    }
                 }
                 else
                 {
@@ -12334,9 +12409,11 @@ namespace BinderJetting
                                     : (IsMeteorPrecisionPiSetHomeMotionBranch() ? MeteorAutoPrintMotionBranchPrecision : "default");
                                 Log4Net.Info($"[InkCarTiming] marker=LayerScan750ToPass2LowBegin layerK={layerK} motionBranch={motionBranch} conservativeTiming={IsInkCarConservativeTimingEnabled()} fastOfficialQueued={IsInkCarFastOfficialQueuedMotionEnabled()} utc={_inkCarLayerScan750ToPass2LowStartUtc:O}");
                             }
-                            BackToStation(passStartBaseY - YJetOffWidth, (float)ReturnVelocity2, true, false, 1);//准备 Y
+                            BackToStation(passStartBaseY - YJetOffWidth, (float)ReturnVelocity2, true, IsMeteorPhysicalHomeFastPrintMotionBranch(), 1);//准备 Y；快速分支须等停后再动 X
                             if (IsMeteorPhysicalHomeFastPrintMotionBranch())
                             {
+                                ClearMeteorImageXStartFixedProcessOverrides();
+                                ApplyMeteorPhysicalHomeFastXStartTuningProcessOverrides();
                                 if (!RunAutoPrintThread5Pass0PhysicalHomeFast(meteorMotionLayerK, passStartBaseY, passPitchY, ReturnVelocity1, ReturnVelocity2, YJetOffWidth))
                                     return;
 #region 监控指令：喷墨拍摄位点2
@@ -12864,11 +12941,43 @@ namespace BinderJetting
         private const string MeteorPiSetHomeFixedPass1RevXStartPx = "7085";
         private const string MeteorPiSetHomeFixedPass2FwdXStartPx = "2760";
 
+        private const string MeteorPhysicalHomeFastFwdLeadInOffsetPx = "75";
+        private const string MeteorPhysicalHomeFastImageMaxWidthPx = "6000";
+        private const string MeteorPhysicalHomeFastPass1RevExtraOffsetPx = "-400";
+
         private static void SetProcessEnv(string name, string value)
         {
             Environment.SetEnvironmentVariable(name, value, EnvironmentVariableTarget.Process);
         }
 
+        private static void ClearProcessEnv(string name)
+        {
+            Environment.SetEnvironmentVariable(name, null, EnvironmentVariableTarget.Process);
+        }
+
+        private static void ClearMeteorPassFixedXStartProcessOverrides()
+        {
+            // 进程 env 设为 0：TryGetPassSpecificImageXStartPixels 要求 >0，等效关闭；且覆盖用户变量里的固定 XStart
+            SetProcessEnv("METEOR_PASS0_FWD_XSTART_PX", "0");
+            SetProcessEnv("METEOR_PASS1_REV_XSTART_PX", "0");
+            SetProcessEnv("METEOR_PASS2_FWD_XSTART_PX", "0");
+        }
+
+        /// <summary>关闭用户级 METEOR_IMAGE_XSTART_FIXED_*（精扫 PiSetHome 标定值；无 PiSetHome 时必须用 live AbsX）。</summary>
+        private static void ClearMeteorImageXStartFixedProcessOverrides()
+        {
+            SetProcessEnv("METEOR_IMAGE_XSTART_FIXED_FWD_PX", "-1");
+            SetProcessEnv("METEOR_IMAGE_XSTART_FIXED_REV_PX", "-1");
+            SetProcessEnv("METEOR_IMAGE_XSTART_FIXED_PX", "-1");
+        }
+
+        private static void ApplyMeteorPhysicalHomeFastXStartTuningProcessOverrides()
+        {
+            SetProcessEnv("METEOR_IMAGE_XSTART_OFFSET_PX", MeteorPhysicalHomeFastFwdLeadInOffsetPx);
+            SetProcessEnv("METEOR_PASS1_REV_EXTRA_OFFSET_PX", MeteorPhysicalHomeFastPass1RevExtraOffsetPx);
+            SetProcessEnv("METEOR_PASS2_FWD_EXTRA_OFFSET_PX", "0");
+            SetProcessEnv("METEOR_IMAGE_MAX_WIDTH_PX", MeteorPhysicalHomeFastImageMaxWidthPx);
+        }
         private static string GetProcessEnv(string name)
         {
             return Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
@@ -12939,6 +13048,10 @@ namespace BinderJetting
             SetProcessEnv("METEOR_ALL_FWD_DIAG", "0");
             SetProcessEnv("METEOR_SPLIT_JOB_PER_PASS", "0");
             SetProcessEnv("METEOR_BATCH_ENDJOB_IMMEDIATE", "0");
+            SetProcessEnv("METEOR_IMAGE_XSTART_OFFSET_PX", "0");
+            SetProcessEnv("METEOR_PASS1_REV_EXTRA_OFFSET_PX", "-800");
+            SetProcessEnv("METEOR_PASS2_FWD_EXTRA_OFFSET_PX", "0");
+            SetProcessEnv("METEOR_IMAGE_MAX_WIDTH_PX", "0");
             InvalidateInkCarMotionTimingCache();
         }
 
@@ -12971,13 +13084,18 @@ namespace BinderJetting
             SetProcessEnv("METEOR_PER_LAYER_HOME_800_MODE", "0");
             SetProcessEnv("METEOR_OFFICIAL_QUEUED_SCAN_MODE", "0");
             SetProcessEnv("METEOR_INKCAR_CONSERVATIVE_TIMING", "0");
-            SetProcessEnv("METEOR_BATCH_SWATH_MODE", "1");
+            // 逐 pass 门控发图：Pass1 swath 在 15mm 开扫点下发，避免 BATCH 预灌导致 REV 无墨
+            SetProcessEnv("METEOR_BATCH_SWATH_MODE", "0");
             SetProcessEnv("METEOR_BATCH_ENDJOB_IMMEDIATE", "0");
+            SetProcessEnv("METEOR_BATCH_POST_SEND_DEPART_DELAY_MS", "0");
             SetProcessEnv("METEOR_PASS_GATE_ANCHOR_XSTART", "0");
             SetProcessEnv("METEOR_PASS_LIVE_ABSX_COMP", "0");
             SetProcessEnv("METEOR_LAYER_ABSX_DELTA_COMP", "0");
             SetProcessEnv("METEOR_ALL_FWD_DIAG", "0");
             SetProcessEnv("METEOR_SPLIT_JOB_PER_PASS", "0");
+            ClearMeteorPassFixedXStartProcessOverrides();
+            ClearMeteorImageXStartFixedProcessOverrides();
+            ApplyMeteorPhysicalHomeFastXStartTuningProcessOverrides();
             InvalidateInkCarMotionTimingCache();
         }
 
@@ -13011,8 +13129,8 @@ namespace BinderJetting
             UpdateMeteorPhysicalHomeFastPrintButtonText();
             UpdateMeteorPiSetHomeFixedXStartButtonText();
             string config = MeteorPrintEngine.DescribeBatchSwathModeConfig();
-            Log4Net.Info($"Meteor 快速分支(physical_home_fast)已设置：{config}; motionBranch={MeteorAutoPrintMotionBranchPhysicalFast}; 无每层PiSetHome/663.5停靠");
-            MessageBox.Show("已切换为物理 Home 快速打印分支。\r\n750→525 过 Home，BATCH 逐 pass 门控，无每层 PiSetHome/663.5 停靠。\r\n与「PiSetHome 固定 XStart」互斥，对下一次打印生效。");
+            Log4Net.Info($"Meteor 快速分支(physical_home_fast)已设置：{config}; motionBranch={MeteorAutoPrintMotionBranchPhysicalFast}; 无每层PiSetHome/663.5停靠; 已关闭用户级METEOR_IMAGE_XSTART_FIXED_*; imageMaxWidthPx={MeteorPhysicalHomeFastImageMaxWidthPx}; fwdLeadInPx={MeteorPhysicalHomeFastFwdLeadInOffsetPx}; pass1RevExtraPx={MeteorPhysicalHomeFastPass1RevExtraOffsetPx}");
+            MessageBox.Show("已切换为物理 Home 快速打印分支。\r\n750→525 过 Home；BATCH=0 逐 pass 门控发图；无 PiSetHome/663.5；扫程/Y 异步不等终点。\r\n进程内已清除用户级固定 XStart 覆盖，并设置单次 IMAGE 宽度上限 6000px、FWD 起喷余量 +75px、Pass1 REV 偏移 -400px。\r\n对下一次打印生效。");
         }
 
         private void AutoCureBtn_Click(object sender, EventArgs e)//20220521实现：自动固化逻辑
@@ -14808,7 +14926,7 @@ namespace BinderJetting
                         {
                             this.m_dPowderSupplyRotateNum = 5; NotifyPropertyChanged();
                         }
-                        else if (value <= 0.5)
+                        else if (value <= 0)
                         {
                             this.m_dPowderSupplyRotateNum = 1; NotifyPropertyChanged();
                         }
