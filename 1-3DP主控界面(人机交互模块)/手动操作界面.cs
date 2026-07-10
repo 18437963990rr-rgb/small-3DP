@@ -12317,6 +12317,7 @@ namespace BinderJetting
                 Log4Net.Info("AutoPrintThread5[physical_home_fast]: Pass2 swath wait timeout; abort");
                 return false;
             }
+            MeteorPrintEngine.TriggerPassForPureMeteorSchedule((uint)(k_nCurrentLayer + 1), 2, "pass2-beforeScanLow-physical-fast");
             BackToStation((float)InkCarScanLowXMm, (float)returnVelocity1, false, false, 1);
             if (!WaitInkCarXNearScanEndpoint(InkCarScanLowXMm))
             {
@@ -12324,7 +12325,6 @@ namespace BinderJetting
                 Log4Net.Info("AutoPrintThread5[physical_home_fast]: Pass2 X did not reach scan low end; abort");
                 return false;
             }
-            MeteorPrintEngine.TriggerPassForPureMeteorSchedule((uint)(k_nCurrentLayer + 1), 2, "pass2-afterScan15End-physical-fast");
             MeteorPrintEngine.LogDualCoordSnapshot("Pass2AtScanLowEndPhysicalFast", GetCurrentPos(1));
             MeteorPrintEngine.LogScanPassMotionCheck("Pass2AfterScanPhysicalFast", GetCurrentPos(1));
             LogInkCarLayerScan750ToPass2LowTiming("Pass2AtScanLowEndPhysicalFast");
@@ -12951,12 +12951,46 @@ namespace BinderJetting
         private const string MeteorPiSetHomeFixedPass2FwdXStartPx = "2760";
 
         private const string MeteorPhysicalHomeFastFwdLeadInOffsetPx = "75";
-        private const string MeteorPhysicalHomeFastImageMaxWidthPx = "6000";
-        private const string MeteorPhysicalHomeFastPass1RevExtraOffsetPx = "-400";
+        private const string MeteorPhysicalHomeFastImageMaxWidthPx = "7323";
+        private const string MeteorPhysicalHomeFastPass1RevExtraOffsetPx = "-1150";
+        private const string MeteorPhysicalHomeFastPass0FwdXStartPx = "1700";
+        private const string MeteorPhysicalHomeFastPass1RevXStartPx = "9117";
+        private const string MeteorPhysicalHomeFastPass2FwdXStartPx = "1700";
 
         private static void SetProcessEnv(string name, string value)
         {
             Environment.SetEnvironmentVariable(name, value, EnvironmentVariableTarget.Process);
+        }
+
+        private static string GetExternalEnvValue(string name)
+        {
+            try
+            {
+                string value = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.User);
+                if (!string.IsNullOrWhiteSpace(value))
+                    return value.Trim();
+
+                value = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Machine);
+                if (!string.IsNullOrWhiteSpace(value))
+                    return value.Trim();
+            }
+            catch { }
+            return null;
+        }
+
+        private static void SetProcessIntEnvWithExternalOverride(string name, string defaultValue, int minValue, int maxValue)
+        {
+            string value = defaultValue;
+            string externalValue = GetExternalEnvValue(name);
+            if (!string.IsNullOrWhiteSpace(externalValue))
+            {
+                int parsedValue;
+                if (int.TryParse(externalValue, out parsedValue) && parsedValue >= minValue && parsedValue <= maxValue)
+                    value = parsedValue.ToString();
+                else
+                    Log4Net.Info($"Meteor physical_home_fast external env ignored: {name}={externalValue}, validRange=[{minValue},{maxValue}]");
+            }
+            SetProcessEnv(name, value);
         }
 
         private static void ClearProcessEnv(string name)
@@ -12982,10 +13016,10 @@ namespace BinderJetting
 
         private static void ApplyMeteorPhysicalHomeFastXStartTuningProcessOverrides()
         {
-            SetProcessEnv("METEOR_IMAGE_XSTART_OFFSET_PX", MeteorPhysicalHomeFastFwdLeadInOffsetPx);
-            SetProcessEnv("METEOR_PASS1_REV_EXTRA_OFFSET_PX", MeteorPhysicalHomeFastPass1RevExtraOffsetPx);
-            SetProcessEnv("METEOR_PASS2_FWD_EXTRA_OFFSET_PX", "0");
-            SetProcessEnv("METEOR_IMAGE_MAX_WIDTH_PX", MeteorPhysicalHomeFastImageMaxWidthPx);
+            SetProcessIntEnvWithExternalOverride("METEOR_IMAGE_XSTART_OFFSET_PX", MeteorPhysicalHomeFastFwdLeadInOffsetPx, -4096, 4096);
+            SetProcessIntEnvWithExternalOverride("METEOR_PASS1_REV_EXTRA_OFFSET_PX", MeteorPhysicalHomeFastPass1RevExtraOffsetPx, -4096, 4096);
+            SetProcessIntEnvWithExternalOverride("METEOR_PASS2_FWD_EXTRA_OFFSET_PX", "0", -4096, 4096);
+            SetProcessIntEnvWithExternalOverride("METEOR_IMAGE_MAX_WIDTH_PX", MeteorPhysicalHomeFastImageMaxWidthPx, 0, 20000);
         }
         private static string GetProcessEnv(string name)
         {
@@ -13061,6 +13095,9 @@ namespace BinderJetting
             SetProcessEnv("METEOR_PASS1_REV_EXTRA_OFFSET_PX", "-800");
             SetProcessEnv("METEOR_PASS2_FWD_EXTRA_OFFSET_PX", "0");
             SetProcessEnv("METEOR_IMAGE_MAX_WIDTH_PX", "0");
+            SetProcessEnv("METEOR_INKCAR_SCAN_APPROACH_HIGH_MM", "525");
+            SetProcessEnv("METEOR_INKCAR_SCAN_HIGH_END_MM", "525");
+            SetProcessEnv("METEOR_PURE_METEOR_TRIGGER_PASS", "0");
             InvalidateInkCarMotionTimingCache();
         }
 
@@ -13094,17 +13131,25 @@ namespace BinderJetting
             SetProcessEnv("METEOR_OFFICIAL_QUEUED_SCAN_MODE", "0");
             SetProcessEnv("METEOR_INKCAR_CONSERVATIVE_TIMING", "0");
             // 逐 pass 门控发图：Pass1 swath 在 15mm 开扫点下发，避免 BATCH 预灌导致 REV 无墨
-            SetProcessEnv("METEOR_BATCH_SWATH_MODE", "0");
+            SetProcessEnv("METEOR_BATCH_SWATH_MODE", "1");
+            SetProcessEnv("METEOR_BATCH_STARTSCAN_GATE_SPLIT", "1");
             SetProcessEnv("METEOR_BATCH_ENDJOB_IMMEDIATE", "0");
             SetProcessEnv("METEOR_BATCH_POST_SEND_DEPART_DELAY_MS", "0");
             SetProcessEnv("METEOR_PASS_GATE_ANCHOR_XSTART", "0");
             SetProcessEnv("METEOR_PASS_LIVE_ABSX_COMP", "0");
             SetProcessEnv("METEOR_LAYER_ABSX_DELTA_COMP", "0");
             SetProcessEnv("METEOR_ALL_FWD_DIAG", "0");
-            SetProcessEnv("METEOR_SPLIT_JOB_PER_PASS", "0");
+            SetProcessEnv("METEOR_SPLIT_JOB_PER_PASS", "1");
+            SetProcessEnv("METEOR_INKCAR_SCAN_APPROACH_HIGH_MM", "635");
+            SetProcessEnv("METEOR_INKCAR_SCAN_HIGH_END_MM", "635");
             ClearMeteorPassFixedXStartProcessOverrides();
+            SetProcessIntEnvWithExternalOverride("METEOR_PASS0_FWD_XSTART_PX", MeteorPhysicalHomeFastPass0FwdXStartPx, 1, 20000);
+            SetProcessIntEnvWithExternalOverride("METEOR_PASS1_REV_XSTART_PX", MeteorPhysicalHomeFastPass1RevXStartPx, 1, 20000);
+            SetProcessIntEnvWithExternalOverride("METEOR_PASS2_FWD_XSTART_PX", MeteorPhysicalHomeFastPass2FwdXStartPx, 1, 20000);
+            SetProcessEnv("METEOR_PURE_METEOR_TRIGGER_PASS", "0");
             ClearMeteorImageXStartFixedProcessOverrides();
             ApplyMeteorPhysicalHomeFastXStartTuningProcessOverrides();
+            Log4Net.Info($"Meteor physical_home_fast effective env: pass0FwdXStart={GetProcessEnv("METEOR_PASS0_FWD_XSTART_PX")}; pass1RevXStart={GetProcessEnv("METEOR_PASS1_REV_XSTART_PX")}; pass2FwdXStart={GetProcessEnv("METEOR_PASS2_FWD_XSTART_PX")}; imageXStartOffset={GetProcessEnv("METEOR_IMAGE_XSTART_OFFSET_PX")}; pass1RevExtra={GetProcessEnv("METEOR_PASS1_REV_EXTRA_OFFSET_PX")}; pass2FwdExtra={GetProcessEnv("METEOR_PASS2_FWD_EXTRA_OFFSET_PX")}; imageMaxWidthPx={GetProcessEnv("METEOR_IMAGE_MAX_WIDTH_PX")}");
             InvalidateInkCarMotionTimingCache();
         }
 
@@ -13138,8 +13183,8 @@ namespace BinderJetting
             UpdateMeteorPhysicalHomeFastPrintButtonText();
             UpdateMeteorPiSetHomeFixedXStartButtonText();
             string config = MeteorPrintEngine.DescribeBatchSwathModeConfig();
-            Log4Net.Info($"Meteor 快速分支(physical_home_fast)已设置：{config}; motionBranch={MeteorAutoPrintMotionBranchPhysicalFast}; 无每层PiSetHome/663.5停靠; 已关闭用户级METEOR_IMAGE_XSTART_FIXED_*; imageMaxWidthPx={MeteorPhysicalHomeFastImageMaxWidthPx}; fwdLeadInPx={MeteorPhysicalHomeFastFwdLeadInOffsetPx}; pass1RevExtraPx={MeteorPhysicalHomeFastPass1RevExtraOffsetPx}");
-            MessageBox.Show("已切换为物理 Home 快速打印分支。\r\n750→525 过 Home；BATCH=0 逐 pass 门控发图；无 PiSetHome/663.5；扫程/Y 异步不等终点。\r\n进程内已清除用户级固定 XStart 覆盖，并设置单次 IMAGE 宽度上限 6000px、FWD 起喷余量 +75px、Pass1 REV 偏移 -400px。\r\n对下一次打印生效。");
+            Log4Net.Info($"Meteor 快速分支(physical_home_fast)已设置：{config}; motionBranch={MeteorAutoPrintMotionBranchPhysicalFast}; 无每层PiSetHome/663.5停靠; approachHighMm=635; highEndMm=635; pass0FwdXStart={MeteorPhysicalHomeFastPass0FwdXStartPx}; pass1RevXStart={MeteorPhysicalHomeFastPass1RevXStartPx}; pass2FwdXStart={MeteorPhysicalHomeFastPass2FwdXStartPx}; splitJobPerPass=1; forcePd=0; 已关闭用户级METEOR_IMAGE_XSTART_FIXED_*; imageMaxWidthPx={MeteorPhysicalHomeFastImageMaxWidthPx}; fwdLeadInPx={MeteorPhysicalHomeFastFwdLeadInOffsetPx}; pass1RevExtraPx={MeteorPhysicalHomeFastPass1RevExtraOffsetPx}");
+            MessageBox.Show("已切换为物理 Home 快速打印分支。\r\n750→635 过 Home；XStart=2500/8500/2500；高端收口=635；BATCH=1+GATE_SPLIT=1+SPLIT_JOB=1；ForcePD=0。\r\n进程内已清除用户级固定 XStart 覆盖，并设置单次 IMAGE 宽度上限 7323px。\r\n对下一次打印生效。");
         }
 
         private void AutoCureBtn_Click(object sender, EventArgs e)//20220521实现：自动固化逻辑
