@@ -7380,15 +7380,24 @@ namespace BinderJetting
 
         //20201021新增：线程管理的案发现场，只要是相应的线程我就存储在这里，不管线程是死是活，祖祖辈辈就在这里，便于维护及管理
         private List<Thread> AutoPrintThreads = new List<Thread>();//20201021新增：线程管理的案发现场
+        private const int AutoPrintThreadAbortJoinTimeoutMs = 3000;
         public void DeleteAutoPrintThread(string ThreadName)
         {
             string tempThreadName = ThreadName;
             Thread tempThread = AutoPrintThreads.Where(x => x.Name == tempThreadName).FirstOrDefault();
             if (tempThread != null)
             {
+                if (Thread.CurrentThread.ManagedThreadId == tempThread.ManagedThreadId)
+                {
+                    AutoPrintThreads.Remove(tempThread);
+                    return;
+                }
                 tempThread.Abort();//20200221修改:当调用非托管线程时，有时会抛出异常但不一定及时停止
-                while (tempThread.ThreadState != ThreadState.Aborted)
-                { Thread.Sleep(100); }
+                if (!tempThread.Join(AutoPrintThreadAbortJoinTimeoutMs))
+                {
+                    Log4Net.Info($"DeleteAutoPrintThread timeout: threadName={tempThreadName}, state={tempThread.ThreadState}");
+                    return;
+                }
                 AutoPrintThreads.Remove(tempThread);//20200111添加：解决Gohome无法重新执行的BUG
             }
         }
