@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using LaserAdd.PrintRaster;
 using LaserADD_BinderJetter;
 using System.Windows.Forms;
 using System.ComponentModel;
@@ -162,6 +163,8 @@ namespace BinderJetting
         const int PowderCarTravelEndAxis8LeadMs = 300;
 
         int m_PowerBackBtnFlag = 0;//默认状态为0；20200411批注：
+        private Button _recordSafetyCoordinatesButton;
+        private Label _safetyCoordinatesSnapshotLabel;
         public 手动操作(int PowerBackBtnFlag, UInt32 nValveStateMask, bool PrintJobExistedFlag)//20200718修改：
         {
             Log4Net.Info("AutoPrintMotion constructor: start.");
@@ -170,6 +173,7 @@ namespace BinderJetting
             UpdateMeteorPiSetHomeFixedXStartButtonText();
             UpdateMeteorPhysicalHomeFastPrintButtonText();
             InitializeDualRasterSamplingControls();
+            InitializeSafetyCoordinatesSnapshotControls();
             Log4Net.Info("AutoPrintMotion constructor: InitializeComponent done.");
             if (PrintJobExistedFlag == false) //不存在打印任务
             { }
@@ -196,6 +200,86 @@ namespace BinderJetting
             RegisterMeteorInkCarRasterReaders();
 
             k_EnvironmentParam = new EnvironmentParam();//20200402新增：
+        }
+
+        private void InitializeSafetyCoordinatesSnapshotControls()
+        {
+            _recordSafetyCoordinatesButton = new Button
+            {
+                Name = "RecordSafetyCoordinatesButton",
+                Text = "记录防撞坐标",
+                Location = new Point(666, 340),
+                Size = new Size(162, 32),
+                UseVisualStyleBackColor = true
+            };
+            _recordSafetyCoordinatesButton.Click += RecordSafetyCoordinatesButton_Click;
+
+            _safetyCoordinatesSnapshotLabel = new Label
+            {
+                Name = "SafetyCoordinatesSnapshotLabel",
+                Location = new Point(666, 376),
+                Size = new Size(162, 66),
+                BorderStyle = BorderStyle.FixedSingle,
+                TextAlign = ContentAlignment.TopLeft,
+                Font = new Font("Microsoft Sans Serif", 8F),
+                Text = "未记录防撞坐标"
+            };
+
+            tabPage3.Controls.Add(_recordSafetyCoordinatesButton);
+            tabPage3.Controls.Add(_safetyCoordinatesSnapshotLabel);
+        }
+
+        // Reads position feedback only; it never issues a motion command.
+        private void RecordSafetyCoordinatesButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                double[] enc = motionMap.GetEncPos();
+                if (enc == null || enc.Length < 7)
+                    throw new InvalidOperationException("控制器未返回完整的 1-7 轴编码器数据。");
+
+                double inkXmm = GetCurrentPos(1);
+                double inkYmm = GetCurrentPos(2);
+                double powderCarMm = GetCurrentPos(7);
+                int inkXStatus = 0;
+                int inkYStatus = 0;
+                int powderCarStatus = 0;
+                motionMap.GetAxisStatus(1, out inkXStatus);
+                motionMap.GetAxisStatus(2, out inkYStatus);
+                motionMap.GetAxisStatus(7, out powderCarStatus);
+
+                double effectivePreMm = k_RYSYSParamAutoPrintParamInTest != null
+                    ? k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply
+                    : double.NaN;
+                double stageSwitchMm = double.IsNaN(effectivePreMm)
+                    ? double.NaN
+                    : POWDERCAR_DROP_BEGIN - effectivePreMm;
+                double stage1Speed = k_RYSYSParamAutoPrintParamInTest != null
+                    ? k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed
+                    : double.NaN;
+                double stage2Speed = k_RYSYSParamAutoPrintParamInTest != null
+                    ? k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed
+                    : double.NaN;
+                DateTime now = DateTime.Now;
+
+                Log4Net.Info(
+                    $"[CollisionSafetySnapshot] local={now:yyyy-MM-dd HH:mm:ss.fff}; " +
+                    $"inkX={inkXmm:F3}mm rawEnc1={enc[0]:F1} sts1=0x{inkXStatus:X}; " +
+                    $"inkY={inkYmm:F3}mm rawEnc2={enc[1]:F1} sts2=0x{inkYStatus:X}; " +
+                    $"powderAxis7={powderCarMm:F3}mm rawEnc7={enc[6]:F1} sts7=0x{powderCarStatus:X}; " +
+                    $"preAngleUi='{textBox30.Text}'; preAngleEffective={effectivePreMm:F3}mm; " +
+                    $"powderStageSwitch={stageSwitchMm:F3}mm (= {POWDERCAR_DROP_BEGIN:F3} - preAngle); " +
+                    $"stage1CureBackSpeed={stage1Speed:F3}mm/s; stage2PowderBackSpeed={stage2Speed:F3}mm/s");
+
+                _safetyCoordinatesSnapshotLabel.Text =
+                    $"已记录 {now:HH:mm:ss}\r\n墨 X:{inkXmm:F1} Y:{inkYmm:F1}\r\n粉车:{powderCarMm:F1}\r\n切换点:{stageSwitchMm:F1}";
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Error($"[CollisionSafetySnapshot] failed: {ex}");
+                _safetyCoordinatesSnapshotLabel.Text = "记录失败，详见日志";
+                MessageBox.Show("防撞坐标读取失败，请查看日志。", "防撞坐标", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
        
@@ -2507,9 +2591,7 @@ namespace BinderJetting
             else//无报警
             { this.NLLabel8.BackColor = Color.LimeGreen; }
 
-            double[] g_dEncpos = new double[8];
-            g_dEncpos = motionMap.GetEncPos();
-            double PosValue = g_dEncpos[3] / 1000;//铺粉位置
+            double PosValue = GetCurrentPos(7);//铺粉车当前为轴7，读取实际显示坐标
             string PositonText = "铺粉车: " + PosValue.ToString("F1") + " MM";
             PowerPosLable.Text = PositonText;//202001021新增位置监测：
             double CurrentPos = GetCurrentPos(1);//初始编码器位置：
@@ -15067,9 +15149,9 @@ namespace BinderJetting
                         {
                             this.m_dPowderSupplyRotateNum = 5; NotifyPropertyChanged();
                         }
-                        else if (value <= 0)
+                        else if (value < 0)
                         {
-                            this.m_dPowderSupplyRotateNum = 1; NotifyPropertyChanged();
+                            this.m_dPowderSupplyRotateNum = 0; NotifyPropertyChanged();
                         }
                         else
                         {
