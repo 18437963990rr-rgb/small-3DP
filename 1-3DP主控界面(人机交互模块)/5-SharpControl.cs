@@ -1699,7 +1699,10 @@ namespace BinderJetting
                 {
                     int stripIndexSimple = 0;
                     bool anySwathSent = false;
+                    int meteorRasterCutWidthPx = ResolveMeteorRasterCutWidthPixels(clone.Width);
                     uint actualScanJobWidth = (uint)Math.Max(1, clone.Width);
+                    if (meteorRasterCutWidthPx > 0 && meteorRasterCutWidthPx < clone.Width)
+                        Log4Net.Info($"[MeteorRasterWindow] SimplifiedMeteorAutoFlowMode commandWindowWidth={clone.Width} contentWidth={meteorRasterCutWidthPx} env=METEOR_IMAGE_MAX_WIDTH_PX note=preserve full Meteor IMAGE/STARTJOB window for HDC trigger margin; content tail is blanked downstream");
                     Log4Net.Info($"[RenderPhase] marker=RasterReady_BeforeMeteorSubmit path=SimplifiedMeteorAutoFlowMode clone={clone.Width}x{clone.Height} index={index} subindex={subindex} managedThreadId={System.Threading.Thread.CurrentThread.ManagedThreadId} utc={System.DateTime.UtcNow:O}");
                     MeteorPrintEngine.WaitPass0PreheatGateBeforeStartJobIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode:PreStartJob", index, ActualStartNum);
                     MeteorPrintEngine.SetPendingScanJobWidth(actualScanJobWidth);
@@ -2402,6 +2405,22 @@ namespace BinderJetting
                 if (data[i] != 0) count++;
             }
             return count;
+        }
+
+        private static int ResolveMeteorRasterCutWidthPixels(int sourceWidth)
+        {
+            if (sourceWidth <= 0)
+                return 0;
+
+            try
+            {
+                string env = Environment.GetEnvironmentVariable("METEOR_IMAGE_MAX_WIDTH_PX");
+                if (!string.IsNullOrWhiteSpace(env) && int.TryParse(env.Trim(), out int maxWidthPx) && maxWidthPx > 0)
+                    return Math.Max(1, Math.Min(sourceWidth, Math.Min(maxWidthPx, 20000)));
+            }
+            catch { }
+
+            return sourceWidth;
         }
 
         private static int CountSetPixels1Bpp(byte[] data, int width, int height, int bytesPerLine)
