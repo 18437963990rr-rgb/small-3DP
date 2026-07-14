@@ -2279,6 +2279,150 @@ namespace BinderJetting
         当前设备轴映射已调整，成型缸实际使用轴8，铺粉车实际使用轴7。
         **********************************************/
         bool InkCarHomeFlag = false; bool PowderCarHomeFlag = false;
+        private readonly object _powderReturnEarlyTailSync = new object();
+        private Task _powderReturnEarlyTailTask;
+        private readonly object _earlyLayerPowderStartSync = new object();
+        private int _earlyLayerPowderStartedLayerK = int.MinValue;
+        private Task _earlyLayerPowderTransitionTask;
+
+        private bool StartLayerEndPowderEarly(int completedLayerK, int renderIndex, float movSpeed, float backCleanSpeed, SendMessageToCamera cameraSink)
+        {
+            if (!string.Equals(Environment.GetEnvironmentVariable("METEOR_POWDER_RETURN_EARLY_PASS0_PREP"), "1", StringComparison.OrdinalIgnoreCase)
+                || !string.Equals(Environment.GetEnvironmentVariable("METEOR_AUTO_PRINT_MOTION_BRANCH"), "physical_home_fast", StringComparison.OrdinalIgnoreCase)
+                || g_RYSYSParam.m_bApplyPowderSupplyMotion != 0)
+                return false;
+
+            int rePrintTimes = g_nRePrintTimes;
+            int finalLayerK = (g_nLayerEnd - g_nLayerStart + 1) * rePrintTimes;
+            if (completedLayerK >= finalLayerK)
+            {
+                Log4Net.Info($"[PowderReturnEarlyPrep] final layer reached; skip early powder completedLayerK={completedLayerK}, finalLayerK={finalLayerK}, layerStart={g_nLayerStart}, layerEnd={g_nLayerEnd}");
+                return false;
+            }
+
+            int nextLayerK = completedLayerK + 1;
+            int cleanFreq = g_nCleanFrequency;
+            int autoCleanEnabled = AutoPrintMotion1 != null
+                ? AutoPrintMotion1.k_RYSYSParamAutoPrintParamInTest.m_nAutoPrintCleanEnabled
+                : 1;
+            bool nextNeedsClean = PrintLayerTransitionAnchors.ShouldCleanAtPrintLayer(
+                nextLayerK, 0, cleanFreq, rePrintTimes, autoCleanEnabled);
+            if (nextNeedsClean || !PrintLayerTransitionAnchors.IsInterleaveEnabled())
+            {
+                Log4Net.Info($"[PowderReturnEarlyPrep] formal powder trigger kept in main sequence; completedLayerK={completedLayerK}, nextNeedsClean={nextNeedsClean}, interleave={PrintLayerTransitionAnchors.IsInterleaveEnabled()}");
+                return false;
+            }
+
+            lock (_earlyLayerPowderStartSync)
+            {
+                if (_earlyLayerPowderStartedLayerK == completedLayerK)
+                {
+                    Log4Net.Info($"[PowderReturnEarlyPrep] duplicate formal powder trigger ignored; completedLayerK={completedLayerK}");
+                    return true;
+                }
+                _earlyLayerPowderStartedLayerK = completedLayerK;
+            }
+
+            Log4Net.Info($"[PowderReturnEarlyPrep] formal powder start accepted at Pass2 low end; completedLayerK={completedLayerK}");
+            Task transitionTask = Task.Run(() =>
+            {
+                SendMessageToCamera localCamera = cameraSink;
+                try
+                {
+                    RunLayerEndPowderAndDeferredClean(completedLayerK, renderIndex, movSpeed, backCleanSpeed, ref localCamera);
+                }
+                catch (Exception ex)
+                {
+                    Log4Net.Info($"[PowderReturnEarlyPrep] formal early powder failed; completedLayerK={completedLayerK}, ex={ex}");
+                    PrintConrolFlag = "StopPrint";
+                }
+            });
+            lock (_earlyLayerPowderStartSync)
+                _earlyLayerPowderTransitionTask = transitionTask;
+            return true;
+        }
+
+        private bool ConsumeEarlyLayerPowderStarted(int completedLayerK)
+        {
+            Task transitionTask;
+            lock (_earlyLayerPowderStartSync)
+            {
+                if (_earlyLayerPowderStartedLayerK != completedLayerK)
+                    return false;
+                _earlyLayerPowderStartedLayerK = int.MinValue;
+                transitionTask = _earlyLayerPowderTransitionTask;
+                _earlyLayerPowderTransitionTask = null;
+            }
+
+            if (transitionTask == null)
+            {
+                Log4Net.Info($"[PowderReturnEarlyPrep] formal powder transition task missing; completedLayerK={completedLayerK}; stop before next Pass0");
+                PrintConrolFlag = "StopPrint";
+                return true;
+            }
+
+            Log4Net.Info($"[PowderReturnEarlyPrep] main layer transition waits for powder safety release; completedLayerK={completedLayerK}, timeoutMs=30000");
+            try
+            {
+                if (!transitionTask.Wait(30000))
+                {
+                    Log4Net.Info($"[PowderReturnEarlyPrep] powder safety release timeout; completedLayerK={completedLayerK}; stop before next Pass0");
+                    PrintConrolFlag = "StopPrint";
+                }
+                else
+                {
+                    Log4Net.Info($"[PowderReturnEarlyPrep] powder safety release completed; completedLayerK={completedLayerK}; next Pass0 may start");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log4Net.Info($"[PowderReturnEarlyPrep] powder safety release task failed; completedLayerK={completedLayerK}, ex={ex}");
+                PrintConrolFlag = "StopPrint";
+            }
+            return true;
+        }
+
+        private bool WaitForPowderReturnEarlyTail(int timeoutMs)
+        {
+            if (!string.Equals(Environment.GetEnvironmentVariable("METEOR_POWDER_RETURN_EARLY_PASS0_PREP"), "1", StringComparison.OrdinalIgnoreCase))
+                return true;
+
+            Task tailTask;
+            lock (_powderReturnEarlyTailSync)
+                tailTask = _powderReturnEarlyTailTask;
+
+            if (tailTask == null)
+                return true;
+
+            if (tailTask.IsCompleted)
+            {
+                lock (_powderReturnEarlyTailSync)
+                {
+                    if (ReferenceEquals(_powderReturnEarlyTailTask, tailTask))
+                        _powderReturnEarlyTailTask = null;
+                }
+                return true;
+            }
+
+            Log4Net.Info($"[PowderReturnEarlyPrep] Command2 waits for previous axis7 tail return; status={tailTask.Status}, timeoutMs={timeoutMs}");
+            if (!tailTask.Wait(timeoutMs))
+            {
+                string tailDiag = AutoPrintMotion3 != null
+                    ? AutoPrintMotion3.GetPowderCarEntryDiag("PowderReturnEarlyPrep_TailTimeout")
+                    : "AutoPrintMotion3=null";
+                Log4Net.Info($"[PowderReturnEarlyPrep] previous axis7 tail return timeout; current Command2 is blocked to avoid a second powder forward pass; {tailDiag}");
+                return false;
+            }
+
+            lock (_powderReturnEarlyTailSync)
+            {
+                if (ReferenceEquals(_powderReturnEarlyTailTask, tailTask))
+                    _powderReturnEarlyTailTask = null;
+            }
+            Log4Net.Info($"[PowderReturnEarlyPrep] previous axis7 tail return completed; Command2 may start, status={tailTask.Status}");
+            return true;
+        }
+
         /// <summary>
         /// （0）启打位置检测：（a）铺粉启打位置严格控制（避免撞机）+（b）墨车启打位置严格控制（避免撞机）
         /// </summary>
@@ -2896,7 +3040,7 @@ namespace BinderJetting
                             //EquipmentMotionLogic3(0, 1);//自动固化逻辑
                             //EquipmentMotionLogic3(0, 3, 0, m_MovSpeed2);//自动固化逻辑//20220914修改：调换铺粉逻辑与固化逻辑顺序，否则会造成推动
 
-                            if (k < (LayerEndNum + 1) * g_nRePrintTimes)//20220524新建：避免埋掉，最后一次不进给铺粉
+                            if (k < (LayerEndNum - g_nLayerStart + 1) * g_nRePrintTimes)//20220524新建：避免埋掉，最后一次不进给铺粉
                             {
                                 ////#region 监控指令：铺粉拍摄位点1
                                 ////                                if (sendMessageToCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[7])
@@ -2909,7 +3053,16 @@ namespace BinderJetting
                                 //EquipmentMotionLogic3(0, 3);//自动进给正式铺粉
                                 if (g_RYSYSParam.m_bApplyPowderSupplyMotion == 0)//0为采用
                                 {
-                                    RunLayerEndPowderAndDeferredClean(k, renderIndex, m_MovSpeed2, m_BackCleanMovSpeed2, ref sendMessageToCamera);
+                                    if (ConsumeEarlyLayerPowderStarted(k))
+                                    {
+                                        Log4Net.Info($"[PowderReturnEarlyPrep] main layer-end powder skipped after formal powder safety release; completedLayerK={k}");
+                                        if (PrintConrolFlag == "StopPrint")
+                                            break;
+                                    }
+                                    else
+                                    {
+                                        RunLayerEndPowderAndDeferredClean(k, renderIndex, m_MovSpeed2, m_BackCleanMovSpeed2, ref sendMessageToCamera);
+                                    }
 
                                     msg = $"执行完成铺粉固化操作：EquipmentMotionLogic3：m_bApplyPowderSupplyMotion:{g_RYSYSParam.m_bApplyPowderSupplyMotion}";
                                     Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
@@ -3878,18 +4031,37 @@ namespace BinderJetting
                 : 1;
             bool nextNeedsClean = PrintLayerTransitionAnchors.ShouldCleanAtPrintLayer(
                 nextLayerK, 0, cleanFreq, rePrintTimes, autoCleanEnabled);
+            bool earlyPass0Mode = string.Equals(Environment.GetEnvironmentVariable("METEOR_POWDER_RETURN_EARLY_PASS0_PREP"), "1", StringComparison.OrdinalIgnoreCase)
+                && string.Equals(Environment.GetEnvironmentVariable("METEOR_AUTO_PRINT_MOTION_BRANCH"), "physical_home_fast", StringComparison.OrdinalIgnoreCase);
+
+            if (earlyPass0Mode && AutoPrintMotion3 != null && AutoPrintMotion3.IsMeteorMotionAbortedForLayer(completedLayerK + 1))
+            {
+                Log4Net.Info($"[MeteorLayerRecovery] motion aborted for completedLayerK={completedLayerK}; return ink car to the clean station before powder and continue with the next layer");
+                AutoPrintMotion3.EnsureInkCarAtCleanWaitStation(backCleanSpeed, $"MeteorLayerRecovery_completedK={completedLayerK}", 1.0, 8000);
+            }
+
+            if (earlyPass0Mode)
+            {
+                // Experimental mechanical validation: skip the inter-layer nozzle
+                // cleaning task only in this button branch; keep the normal path unchanged.
+                nextNeedsClean = false;
+                Log4Net.Info($"[PowderReturnEarlyPrep] inter-layer cleaning disabled for experimental physical_home_fast; completedLayerK={completedLayerK}, nextLayerK={nextLayerK}");
+            }
             PrintLayerTransitionAnchors.SetCleanRequired(nextLayerK, nextNeedsClean);
 
-            if (!PrintLayerTransitionAnchors.IsInterleaveEnabled() || !nextNeedsClean)
+            if (!PrintLayerTransitionAnchors.IsInterleaveEnabled() || (!nextNeedsClean && !earlyPass0Mode))
             {
                 EquipmentMotionLogic3(0, 2, 0, movSpeed, backCleanSpeed, ref toCamera, renderIndex, 10, 0, 0, 0, 0);
                 PrintLayerTransitionAnchors.MarkPowderDone(completedLayerK);
                 return;
             }
 
-            // Pass2 回 750 为异步；并行清洗启动前须在打印线程确认墨车已到待机等待位，否则短流程会在中途压墨。
-            手动操作 preGateMotion = AutoPrintMotion3 ?? CreateAutoPrintMotionShell(completedLayerK);
-            preGateMotion.EnsureInkCarAtCleanWaitStation(backCleanSpeed, $"LayerTransitionPreGate_completedK={completedLayerK}_nextCleanK={nextLayerK}");
+            // 实验并行分支不能在这里先等墨车回750，否则440mm安全点无法真正放行Pass0；清洗任务内部仍保留自己的待机位确认。
+            if (!earlyPass0Mode)
+            {
+                手动操作 preGateMotion = AutoPrintMotion3 ?? CreateAutoPrintMotionShell(completedLayerK);
+                preGateMotion.EnsureInkCarAtCleanWaitStation(backCleanSpeed, $"LayerTransitionPreGate_completedK={completedLayerK}_nextCleanK={nextLayerK}");
+            }
 
             PrintLayerTransitionAnchors.BeginPowderForwardPrepEpoch();
             var sw = Stopwatch.StartNew();
@@ -3898,6 +4070,30 @@ namespace BinderJetting
             Exception powderEx = null;
             Exception cleanEx = null;
             SendMessageToCamera cameraSink = toCamera;
+            Task cleanTask = Task.CompletedTask;
+            var earlyPass0Release = new TaskCompletionSource<bool>();
+
+            if (nextNeedsClean)
+            {
+                cleanTask = Task.Run(() =>
+                {
+                    try
+                    {
+                        lock (GoogolMotionMap.InkCarMotionGate)
+                        {
+                            手动操作 cleanMotion = CreateAutoPrintMotionShell(nextLayerK);
+                            cleanMotion.EnsureInkCarAtCleanWaitStation(backCleanSpeed, $"LayerTransitionDeferredClean_L{nextLayerK}");
+                            cleanMotion.AutoCleanThread2(backCleanSpeed);
+                        }
+                        PrintLayerTransitionAnchors.MarkCleanDone(nextLayerK);
+                    }
+                    catch (Exception ex)
+                    {
+                        cleanEx = ex;
+                        Log4Net.Info($"[LayerAnchor] LayerTransitionCleanFailed nextCleanLayerK={nextLayerK} ex={ex.Message}");
+                    }
+                });
+            }
 
             Task powderTask = Task.Run(() =>
             {
@@ -3908,10 +4104,16 @@ namespace BinderJetting
                     手动操作 powderMotion = CreateAutoPrintMotionShell(completedLayerK);
                     LogMainPowderCarBaseline("AutoPrint_Command2_LayerTransitionParallel");
                     Log4Net.Info(powderMotion.GetPowderCarEntryDiag("LayerTransitionParallelPowder"));
+                    Action powderReturnSafeCallback = () =>
+                    {
+                        if (TryStartPowderReturnEarlyPass0Preparation(
+                            powderMotion, completedLayerK + 1, backCleanSpeed, cleanTask, completedLayerK))
+                            earlyPass0Release.TrySetResult(true);
+                    };
                     if (powderMotion.k_RYSYSParamAutoPrintParamInTest.m_nRecoaterMode == 0)
-                        powderMotion.NewAutoSupplyPowderThread2(ref localCam, renderIndex, 10);
+                        powderMotion.NewAutoSupplyPowderThread2(ref localCam, renderIndex, 10, powderReturnSafeCallback);
                     else
-                        powderMotion.NewAutoSupplyPowderThread2CureFirst(ref localCam, renderIndex, 10, backCleanSpeed);
+                        powderMotion.NewAutoSupplyPowderThread2CureFirst(ref localCam, renderIndex, 10, backCleanSpeed, powderReturnSafeCallback);
                     PrintLayerTransitionAnchors.MarkPowderDone(completedLayerK);
                 }
                 catch (Exception ex)
@@ -3921,24 +4123,26 @@ namespace BinderJetting
                 }
             });
 
-            Task cleanTask = Task.Run(() =>
+            if (string.Equals(Environment.GetEnvironmentVariable("METEOR_POWDER_RETURN_EARLY_PASS0_PREP"), "1", StringComparison.OrdinalIgnoreCase))
             {
-                try
+                lock (_powderReturnEarlyTailSync)
+                    _powderReturnEarlyTailTask = powderTask;
+                Log4Net.Info($"[PowderReturnEarlyPrep] registered axis7 tail task; completedLayerK={completedLayerK}, nextLayerK={nextLayerK}");
+            }
+
+            bool releasedAtPowderReturnSafetyPoint = false;
+            if (string.Equals(Environment.GetEnvironmentVariable("METEOR_POWDER_RETURN_EARLY_PASS0_PREP"), "1", StringComparison.OrdinalIgnoreCase))
+            {
+                int completedTaskIndex = Task.WaitAny(powderTask, earlyPass0Release.Task);
+                releasedAtPowderReturnSafetyPoint = completedTaskIndex == 1 && earlyPass0Release.Task.Result;
+                if (releasedAtPowderReturnSafetyPoint)
                 {
-                    lock (GoogolMotionMap.InkCarMotionGate)
-                    {
-                        手动操作 cleanMotion = CreateAutoPrintMotionShell(nextLayerK);
-                        cleanMotion.EnsureInkCarAtCleanWaitStation(backCleanSpeed, $"LayerTransitionDeferredClean_L{nextLayerK}");
-                        cleanMotion.AutoCleanThread2(backCleanSpeed);
-                    }
-                    PrintLayerTransitionAnchors.MarkCleanDone(nextLayerK);
+                    Log4Net.Info($"[PowderReturnEarlyPrep] layer transition released at axis7 440mm return trigger; completedLayerK={completedLayerK}, nextLayerK={nextLayerK}; Pass0 preparation overlaps the tail return and scan remains axis7/axis8 gated.");
+                    powderTask.ContinueWith(t =>
+                        Log4Net.Info($"[PowderReturnEarlyPrep] powder return task completed after release completedLayerK={completedLayerK}, status={t.Status}, faulted={t.IsFaulted}"));
+                    return;
                 }
-                catch (Exception ex)
-                {
-                    cleanEx = ex;
-                    Log4Net.Info($"[LayerAnchor] LayerTransitionCleanFailed nextCleanLayerK={nextLayerK} ex={ex.Message}");
-                }
-            });
+            }
 
             Task.WaitAll(powderTask, cleanTask);
             Log4Net.Info($"[LayerAnchor] LayerTransitionEnd completedLayerK={completedLayerK} nextCleanLayerK={nextLayerK} elapsedMs={sw.ElapsedMilliseconds} powderFailed={(powderEx != null)} cleanFailed={(cleanEx != null)} utc={DateTime.UtcNow:O}");
@@ -3947,6 +4151,31 @@ namespace BinderJetting
                 throw powderEx;
             if (cleanEx != null)
                 throw cleanEx;
+        }
+
+        /// <summary>
+        /// 层间快速模式：只在粉车越过预落粉安全点、延后清洗已成功结束时提前预热并放行下一层 Pass0。
+        /// 首层和单层打印均不会进入层末铺粉回程，因此仍保持原有顺序。
+        /// </summary>
+        private bool TryStartPowderReturnEarlyPass0Preparation(手动操作 motion, int nextLayerK, float backCleanSpeed, Task cleanTask, int completedLayerK)
+        {
+            if (!string.Equals(Environment.GetEnvironmentVariable("METEOR_POWDER_RETURN_EARLY_PASS0_PREP"), "1", StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            if (cleanTask == null || cleanTask.Status != TaskStatus.RanToCompletion)
+            {
+                string cleanStatus = cleanTask == null ? "not-created" : cleanTask.Status.ToString();
+                Log4Net.Info($"[PowderReturnEarlyPrep] skipped completedLayerK={completedLayerK} nextLayerK={nextLayerK}, deferredClean={cleanStatus}; keep stable sequence.");
+                return false;
+            }
+
+            lock (GoogolMotionMap.InkCarMotionGate)
+            {
+                bool started = motion.BeginPowderReturnEarlyPass0Preparation(nextLayerK, backCleanSpeed,
+                    $"LayerTransition_completedK={completedLayerK}");
+                Log4Net.Info($"[PowderReturnEarlyPrep] callback completedLayerK={completedLayerK} nextLayerK={nextLayerK} started={started} clean=done");
+                return started;
+            }
         }
 
         /// <summary>
@@ -4016,6 +4245,21 @@ namespace BinderJetting
                 msg = $"进入：EquipmentMotionLogic3=》加载配置文件-LoadJsonFile成功！";
                 Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
                 Log4Net.Info($"EquipmentMotionLogic3: 入口状态，Command={Command}，PassIndex={PassIndex}，AutoPrintMotion3={(AutoPrintMotion3 == null ? "null" : "ok")}");
+
+                AutoPrintMotion3.EarlyLayerPowderStartCallback = null;
+                AutoPrintMotion3.Pass2ParallelPowderPrepAllowedCallback = null;
+                if (Command == 6 && PassIndex == 2
+                    && string.Equals(Environment.GetEnvironmentVariable("METEOR_POWDER_RETURN_EARLY_PASS0_PREP"), "1", StringComparison.OrdinalIgnoreCase)
+                    && string.Equals(Environment.GetEnvironmentVariable("METEOR_AUTO_PRINT_MOTION_BRANCH"), "physical_home_fast", StringComparison.OrdinalIgnoreCase)
+                    && g_RYSYSParam.m_bApplyPowderSupplyMotion == 0)
+                {
+                    SendMessageToCamera earlyPowderCamera = toCamera;
+                    AutoPrintMotion3.Pass2ParallelPowderPrepAllowedCallback = completedLayerK =>
+                        completedLayerK < (g_nLayerEnd - g_nLayerStart + 1) * g_nRePrintTimes;
+                    AutoPrintMotion3.EarlyLayerPowderStartCallback = completedLayerK =>
+                        StartLayerEndPowderEarly(completedLayerK, RecordLayerIndex, m_MovSpeed, m_BackCleanMovSpeed, earlyPowderCamera);
+                    Log4Net.Info("[PowderReturnEarlyPrep] formal powder trigger armed for immediate Pass2-low start; no ink-X release threshold");
+                }
             }
             catch (Exception e)
             {
@@ -4036,6 +4280,12 @@ namespace BinderJetting
                 AutoPrintMotion.AutoSupplyPowderThread();//20201029:自动进给预送粉
 #else//上送粉逻辑
                     //AutoPrintMotion3.NewAutoSupplyPowderThread2/*NewAutoSupplyPowderThread*/(ref toCamera, RecordLayerIndex, RecordProcessIndex);//20201029:自动上送粉//20230114修改：添加新的参数NewAutoSupplyPowderThread2
+                    if (!WaitForPowderReturnEarlyTail(15000))
+                    {
+                        PrintConrolFlag = "StopPrint";
+                        Log4Net.Info("自动铺粉拦截：上一层粉车回站未完成，禁止当前 Command2 重发铺粉去程。");
+                        return;
+                    }
                     LogMainPowderCarBaseline("AutoPrint_Command2_Main");
                     Log4Net.Info(AutoPrintMotion3.GetPowderCarEntryDiag("AutoPrint_Command2"));
                     string powderCarReadyReason = null;

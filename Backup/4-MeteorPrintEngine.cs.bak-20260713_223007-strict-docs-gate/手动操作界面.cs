@@ -16,7 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 using LaserAdd.PrintRaster;
 using LaserADD_BinderJetter;
 using System.Windows.Forms;
@@ -129,9 +128,6 @@ namespace BinderJetting
         /// 可用于 Meteor 扫描模式下在每条 swath 结束后发 PCMD_ENDDOC 等逻辑。
         /// </summary>
         public static event Action YAxisMoveStarted;
-        public Action<int> EarlyLayerPowderStartCallback;
-        public Func<int, bool> Pass2ParallelPowderPrepAllowedCallback;
-        private const double EarlyLayerPowderInkXTriggerMm = INKCAR_SOA_MAX_X + 5.0; // 5 mm after the established 660 mm safety boundary
 
         // 铺粉车的一些常数
         const double POWDERCAR_TRAVEL_DIST = /*918.0*/1017;     // 铺粉车行程距离，mm //20251206修改，硬件更换
@@ -4218,38 +4214,6 @@ namespace BinderJetting
             }
         }
 
-        private bool IsPass2ParallelAxis7StageReadyForAuto(double axis7Mm)
-        {
-            if (!IsPass2ParallelAxis7EarlyStageEnabled() || k_RYSYSParamAutoPrintParamInTest == null)
-                return false;
-            double targetMm = POWDERCAR_DROP_BEGIN - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply;
-            lock (Pass2ParallelPowderPrepSync)
-            {
-                return _pass2ParallelAxis7StageLayerK == k_nCurrentLayer + 1
-                    && Math.Abs(axis7Mm - targetMm) <= 3.0;
-            }
-        }
-
-        private void ClearPass2ParallelAxis7Stage(int completedLayerK)
-        {
-            lock (Pass2ParallelPowderPrepSync)
-            {
-                if (_pass2ParallelAxis7StageLayerK == completedLayerK)
-                    _pass2ParallelAxis7StageLayerK = int.MinValue;
-            }
-        }
-
-        private bool TryConsumePass2ParallelAxis7Stage(int completedLayerK)
-        {
-            lock (Pass2ParallelPowderPrepSync)
-            {
-                if (_pass2ParallelAxis7StageLayerK != completedLayerK)
-                    return false;
-                _pass2ParallelAxis7StageLayerK = int.MinValue;
-                return true;
-            }
-        }
-
         public bool IsPowderCarCoordinateReadyForAuto(out string reason)
         {
             try
@@ -4274,14 +4238,6 @@ namespace BinderJetting
                     Thread.Sleep(50);
                     axis7Mm = GetCurrentPos(7);
                     Log4Net.Info($"粉车坐标基准软对齐：轴7编码器重写后 axis7Mm={axis7Mm:F3}mm，targetHome={expectedHome:F3}mm。");
-                }
-
-                if (IsPass2ParallelAxis7StageReadyForAuto(axis7Mm))
-                {
-                    double stageTargetMm = POWDERCAR_DROP_BEGIN - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply;
-                    reason = $"粉车坐标基准校验通过：Pass2轴7提前预备状态，axis7Mm={axis7Mm:F3}mm，stageTarget≈{stageTargetMm:F3}mm；本轮铺粉将从预备位置继续。";
-                    Log4Net.Info($"[Pass2ParallelPowderPrep] coordinate gate accepted prepared axis7 stage layerK={k_nCurrentLayer + 1}; axis7Mm={axis7Mm:F3} target={stageTargetMm:F3}");
-                    return true;
                 }
 
                 if (double.IsNaN(axis7Mm) || (Math.Abs(axis7Mm - expectedHome) > toleranceMm && Math.Abs(axis7Mm - expectedStation) > toleranceMm))
@@ -6263,7 +6219,7 @@ namespace BinderJetting
             powderTrapPrm.acc = 300;
             powderTrapPrm.dec = 350;
             powderTrapPrm.velStart = 15;
-            powderTrapPrm.smoothTime = 45;
+            powderTrapPrm.smoothTime = 55;
             int cmdPosition = (int)(TrapSpace * 1000) * PowderCarCmdSign;
             motionMap.TrapMotion(7, ref powderTrapPrm, cmdPosition, m_MovSpeed, 0, 0, WaitStopFLag);
         }
@@ -10153,7 +10109,7 @@ namespace BinderJetting
                 //(1)Z向进给：层厚量并入后续补偿下降，避免单独0.1mm动作耗时过长
                 double vel = 2/*1*/;//Z向运动速度为1mm/s//20230403修改：
                 double TrapSpace = -((double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / (double)1000 + (double)1500 / (double)1000);//20220525新建批注：层厚并入下降1500μm补偿
-                bool pass2ParallelPrepConsumed = TryConsumePass2ParallelPowderPreparation(k_nCurrentLayer + 1);
+                bool pass2ParallelPrepConsumed = TryConsumePass2ParallelPowderPreparation(k_nCurrentLayer);
                 if (!pass2ParallelPrepConsumed)
                     RunPowderPrepParallel_ZDownAndStationFeed("NewAutoSupplyPowderThread2CureFirst", vel, TrapSpace);
                 msg = pass2ParallelPrepConsumed
@@ -10506,7 +10462,7 @@ namespace BinderJetting
                 /*double*/
                 // DONE::需要替换常数695
                 //AimPos = 695; /*double*/ MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed; //更新值到本地变量
-                AimPos = POWDERCAR_TRAVEL_DIST; /*double*/ MovSpeed = EnvEquals(PowderReturnEarlyPass0PrepModeEnv, "1") && IsMeteorPhysicalHomeFastPrintMotionBranch() ? 95.0 : k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed; //快速链路正式铺粉95mm/s
+                AimPos = POWDERCAR_TRAVEL_DIST; /*double*/ MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed; //更新值到本地变量
                 double RollerStopPos = POWDERCAR_TRAVEL_DIST - 3;
                 bool rollerStage2StopIssued = false;
                 if (RollerAxis6Speed > 0.001)
@@ -10675,11 +10631,10 @@ namespace BinderJetting
                     ? aimPosPosHome
                     : aimPosNegHome;
                 bool fastPowderReturnPass0Mode = EnvEquals(PowderReturnEarlyPass0PrepModeEnv, "1") && IsMeteorPhysicalHomeFastPrintMotionBranch();
-                MovSpeed = fastPowderReturnPass0Mode ? 235.0 : k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//快速模式回程高速235mm/s
+                MovSpeed = fastPowderReturnPass0Mode ? 225.0 : k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//快速模式回程高速225mm/s
                 double returnRiseTriggerPos = POWDERCAR_DROP_BEGIN - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply;
                 bool axis8ReturnRiseIssued = false;
                 bool returnStage2SpeedIssued = false;
-                bool earlyPass0ReleaseIssued = false;
                 double axis8Step5Before = double.NaN;
                 double axis8Step5PrfBeforePulse = double.NaN;
                 BackToStation2(AimPos, MovSpeed, false);//20220520新建：单位为MM//此处：true为的等停，false为不等停//返程改为同步监控
@@ -10709,30 +10664,14 @@ namespace BinderJetting
                         msg = $"返程经过预落粉点{returnRiseTriggerPos:F3}mm，触发成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false）";
                         Log4Net.Info(msg);
                         axis8ReturnRiseIssued = true;
-                        if (!fastPowderReturnPass0Mode)
-                        {
-                            InvokePowderReturnSafeCallback(powderReturnSafeCallback, "NewAutoSupplyPowderThread2CureFirst");
-                            earlyPass0ReleaseIssued = true;
-                        }
+                        InvokePowderReturnSafeCallback(powderReturnSafeCallback, "NewAutoSupplyPowderThread2CureFirst");
                         if (fastPowderReturnPass0Mode && !returnStage2SpeedIssued)
                         {
                             double returnTailSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed;
                             BackToStation2(AimPos, returnTailSpeed, false);
                             returnStage2SpeedIssued = true;
-                            earlyPass0ReleaseIssued = true;
-                            Log4Net.Info($"[PowderReturnEarlyPrep] axis7 crossed stage trigger={returnRiseTriggerPos:F3}mm; release Pass0 preparation while axis7 returns to target={AimPos:F3}mm");
-                            InvokePowderReturnSafeCallback(powderReturnSafeCallback, "NewAutoSupplyPowderThread2CureFirst-Axis7At440");
+                            Log4Net.Info($"[PowderReturnEarlyPrep] axis7 crossed safety trigger={returnRiseTriggerPos:F3}mm; return stage2 target={AimPos:F3}mm speed={returnTailSpeed:F3}mm/s; Pass0 may overlap this tail");
                         }
-                    }
-                    if (fastPowderReturnPass0Mode && !earlyPass0ReleaseIssued
-                        && axis8ReturnRiseIssued
-                        && Math.Abs(PosValue - AimPos) <= 1.0
-                        && (returnAxis7Status & 0x20) == 0
-                        && (returnAxis7Status & 0x40) == 0)
-                    {
-                        earlyPass0ReleaseIssued = true;
-                        Log4Net.Info($"[PowderReturnEarlyPrep] axis7 reached station target={AimPos:F3}mm; release Pass0 only after axis7 return, current={PosValue:F3}mm status=0x{returnAxis7Status:X}");
-                        InvokePowderReturnSafeCallback(powderReturnSafeCallback, "NewAutoSupplyPowderThread2CureFirst-Axis7AtStation");
                     }
                     Thread.Sleep(10);
                 } while (Math.Abs(PosValue - AimPos) > 1.0 && (returnAxis7Status & 0x20) == 0 && (returnAxis7Status & 0x40) == 0);
@@ -11437,10 +11376,8 @@ namespace BinderJetting
 #if true//铺粉逻辑，暂时注释掉//20220524新建：成型缸逻辑，一次下降1个层厚
                 //(1)Z向进给：层厚量并入后续补偿下降，避免单独0.1mm动作耗时过长
                 double vel = 2/*1*/;//Z向运动速度为1mm/s//20230403修改：
-                double axis8BacklashCompensationMm = IsPowderReturnEarlyPass0PrepUiMode() ? 0.7 : 1.5;
-                double TrapSpace = -((double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / (double)1000 + axis8BacklashCompensationMm);//层厚并入轴8回差补偿
-                bool pass2ParallelPrepConsumed = TryConsumePass2ParallelPowderPreparation(k_nCurrentLayer + 1);
-                bool pass2ParallelAxis7StageConsumed = pass2ParallelPrepConsumed && TryConsumePass2ParallelAxis7Stage(k_nCurrentLayer + 1);
+                double TrapSpace = -((double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / (double)1000 + (double)1500 / (double)1000);//20220525新建批注：层厚并入下降1500μm补偿
+                bool pass2ParallelPrepConsumed = TryConsumePass2ParallelPowderPreparation(k_nCurrentLayer);
                 if (!pass2ParallelPrepConsumed)
                     RunPowderPrepParallel_ZDownAndStationFeed("NewAutoSupplyPowderThread2", vel, TrapSpace);
                 msg = pass2ParallelPrepConsumed
@@ -11456,7 +11393,7 @@ namespace BinderJetting
                  * 成型缸上升，Leon，2024/04/16
                  */
                 vel = 2/*1*/;//Z向运动速度为1mm/s//20230403修改：
-                TrapSpace = axis8BacklashCompensationMm;//快速模式回升700μm，净下降仍为当前层厚
+                TrapSpace = (double)1500 / (double)1000;//20220525新建批注：层厚：调试用150μm//为负方向
 #if OpenMagnetWhenUse
                 GoogolDigtalOut(14, true);
                 GoogolDigtalOut(15, true);
@@ -11496,11 +11433,9 @@ namespace BinderJetting
                 double RollerStage1Axis5Turns = (RollerAxis5Speed > 0 && MovSpeed > 0)
                     ? RollerAxis5Speed * System.Math.Abs(AimPos - GetCurrentPos(7)) / MovSpeed
                     : 0;
-                msg = pass2ParallelAxis7StageConsumed
-                    ? $"AutoSupplyPowder: consumed Pass2 parallel axis7 stage at {GetCurrentPos(7):F3}mm; skip duplicate command to {AimPos}mm."
-                    : $"开启铺粉车不等停运动，准备运动至准备打印位置{AimPos}mm，速度{MovSpeed}mm/s：BackToStation2";
+                msg = $"开启铺粉车不等停运动，准备运动至准备打印位置{AimPos}mm，速度{MovSpeed}mm/s：BackToStation2";
                 Log4Net.Info(msg);
-                if (!pass2ParallelAxis7StageConsumed && RollerStage1Turns > 0.001)
+                if (RollerStage1Turns > 0.001)
                 {
                     if (RollerAxis6Positive)
                     { TrapMoveUp(6, true, Convert.ToString(RollerAxis6Speed), Convert.ToString(RollerStage1Turns), true, false); }
@@ -11509,7 +11444,7 @@ namespace BinderJetting
                     msg = $"铺粉辊轴1阶段1启动：AXIS6，方向{(RollerAxis6Positive ? "正向" : "反向")}，速度{RollerAxis6Speed}rev/s，预计转动{RollerStage1Turns:F3}圈";
                     Log4Net.Info(msg);
                 }
-                if (!pass2ParallelAxis7StageConsumed && RollerStage1Axis5Turns > 0.001)
+                if (RollerStage1Axis5Turns > 0.001)
                 {
                     if (RollerAxis5Positive)
                     { TrapMoveUp(5, true, Convert.ToString(RollerAxis5Speed), Convert.ToString(RollerStage1Axis5Turns), true, false); }
@@ -11518,8 +11453,7 @@ namespace BinderJetting
                     msg = $"铺粉辊轴2阶段1启动：AXIS5，方向{(RollerAxis5Positive ? "正向" : "反向")}，速度{RollerAxis5Speed}rev/s，预计转动{RollerStage1Axis5Turns:F3}圈";
                     Log4Net.Info(msg);
                 }
-                if (!pass2ParallelAxis7StageConsumed)
-                    BackToStation2(AimPos, MovSpeed, false);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
+                BackToStation2(AimPos, MovSpeed, false);//20220520新建：单位为MM//此处：true为的等停，false为不等停//此处为不等停
 
                 double PosValue = 0;
                 int stage1Axis7Status = 0;
@@ -11529,8 +11463,7 @@ namespace BinderJetting
                     motionMap.GetAxisStatus(7, out stage1Axis7Status);
                     TrySyncCureLightByPowderCarPos(PosValue, syncCureWindow, ref m_startLightFlag, ref m_startLightFlag2);
                     Thread.Sleep(10);
-                } while (!pass2ParallelAxis7StageConsumed && PosValue < AimPos && (stage1Axis7Status & 0x20) == 0 && (stage1Axis7Status & 0x40) == 0);
-                ClearPass2ParallelAxis7Stage(k_nCurrentLayer + 1);
+                } while (PosValue < AimPos && (stage1Axis7Status & 0x20) == 0 && (stage1Axis7Status & 0x40) == 0);
                 DateTime axis8Step3Deadline = DateTime.UtcNow.AddSeconds(3); double axis8Step3Prev = GetCurrentPos(8); int axis8Step3StableCount = 0; int axis8StatusStep3 = 0;
                 while (DateTime.UtcNow < axis8Step3Deadline)
                 {
@@ -11556,7 +11489,7 @@ namespace BinderJetting
                 //AimPos = 695;       // 铺粉车去程最大行程，695mm
                 AimPos = POWDERCAR_TRAVEL_DIST;       // 铺粉车去程最大行程
                 /*double*/
-                MovSpeed = EnvEquals(PowderReturnEarlyPass0PrepModeEnv, "1") && IsMeteorPhysicalHomeFastPrintMotionBranch() ? 95.0 : k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed; //快速链路正式铺粉95mm/s
+                MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed; //更新值到本地变量
                 double RollerStopPos = POWDERCAR_TRAVEL_DIST - 3;
                 bool rollerStage2StopIssued = false;
                 if (RollerAxis6Speed > 0.001)
@@ -11725,11 +11658,10 @@ namespace BinderJetting
                 // 回程回 Home 校准点(与落粉孔对齐)，不再减 m_dPowderStationCorrection(旧版残留)
                 AimPos = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition;
                 bool fastPowderReturnPass0Mode = EnvEquals(PowderReturnEarlyPass0PrepModeEnv, "1") && IsMeteorPhysicalHomeFastPrintMotionBranch();
-                MovSpeed = fastPowderReturnPass0Mode ? 235.0 : k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//快速模式回程高速235mm/s
+                MovSpeed = fastPowderReturnPass0Mode ? 225.0 : k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed/*125*//*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed*/;//快速模式回程高速225mm/s
                 double returnRiseTriggerPos = POWDERCAR_DROP_BEGIN - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply;
                 bool axis8ReturnRiseIssued = false;
                 bool returnStage2SpeedIssued = false;
-                bool earlyPass0ReleaseIssued = false;
                 double axis8Step5Before = double.NaN;
                 BackToStation2(AimPos, MovSpeed, false);//20220520新建：单位为MM//此处：true为的等停，false为不等停//返程改为同步监控
                 msg = $"铺粉车返回至站1：BackToStation2(AimPos, MovSpeed, false)：{AimPos}mm，速度{MovSpeed}mm/s：BackToStation2";
@@ -11757,28 +11689,14 @@ namespace BinderJetting
                         msg = $"返程经过预落粉点{ returnRiseTriggerPos:F3}mm，触发成形面高度上升层厚 TrapSpace{{{TrapSpace}mm}}：TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(TrapSpace), true, false）";
                         Log4Net.Info(msg);
                         axis8ReturnRiseIssued = true;
-                        if (!fastPowderReturnPass0Mode)
-                        {
-                            InvokePowderReturnSafeCallback(powderReturnSafeCallback, "NewAutoSupplyPowderThread2");
-                            earlyPass0ReleaseIssued = true;
-                        }
+                        InvokePowderReturnSafeCallback(powderReturnSafeCallback, "NewAutoSupplyPowderThread2");
                         if (fastPowderReturnPass0Mode && !returnStage2SpeedIssued)
                         {
+                            double returnTailSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed;
+                            BackToStation2(AimPos, returnTailSpeed, false);
                             returnStage2SpeedIssued = true;
-                            earlyPass0ReleaseIssued = true;
-                            Log4Net.Info($"[PowderReturnEarlyPrep] axis7 crossed stage trigger={returnRiseTriggerPos:F3}mm; release Pass0 preparation while axis7 returns to target={AimPos:F3}mm");
-                            InvokePowderReturnSafeCallback(powderReturnSafeCallback, "NewAutoSupplyPowderThread2-Axis7At440");
+                            Log4Net.Info($"[PowderReturnEarlyPrep] axis7 crossed safety trigger={returnRiseTriggerPos:F3}mm; return stage2 target={AimPos:F3}mm speed={returnTailSpeed:F3}mm/s; Pass0 may overlap this tail");
                         }
-                    }
-                    if (fastPowderReturnPass0Mode && !earlyPass0ReleaseIssued
-                        && axis8ReturnRiseIssued
-                        && Math.Abs(PosValue - AimPos) <= 1.0
-                        && (returnAxis7Status & 0x20) == 0
-                        && (returnAxis7Status & 0x40) == 0)
-                    {
-                        earlyPass0ReleaseIssued = true;
-                        Log4Net.Info($"[PowderReturnEarlyPrep] axis7 reached station target={AimPos:F3}mm; release Pass0 only after axis7 return, current={PosValue:F3}mm status=0x{returnAxis7Status:X}");
-                        InvokePowderReturnSafeCallback(powderReturnSafeCallback, "NewAutoSupplyPowderThread2-Axis7AtStation");
                     }
                     Thread.Sleep(10);
                 } while (Math.Abs(PosValue - AimPos) > 1.0 && (returnAxis7Status & 0x20) == 0 && (returnAxis7Status & 0x40) == 0);
@@ -12392,11 +12310,6 @@ namespace BinderJetting
         /// </summary>
         private int _meteorMotionAbortLayerK = -1;
 
-        public bool IsMeteorMotionAbortedForLayer(int motionLayerK)
-        {
-            return _meteorMotionAbortLayerK == motionLayerK;
-        }
-
         private const string MeteorAutoPrintMotionBranchPrecision = "precision_pisethome";
         private const string MeteorAutoPrintMotionBranchPhysicalFast = "physical_home_fast";
         /// <summary>快速分支 525 接近位：swath 就绪时允许的最大 X 偏差 mm（不做 Stable 多点采样）。</summary>
@@ -12448,10 +12361,6 @@ namespace BinderJetting
             if (!EnvEquals(PowderReturnEarlyPass0PrepModeEnv, "1") || !IsMeteorPhysicalHomeFastPrintMotionBranch())
                 return false;
 
-            // nextLayerK follows the print-loop layer number; AutoPrintThread5's
-            // physical motion key is one-based relative to that number.
-            int pass0MotionLayerK = nextLayerK + 1;
-
             string reason;
             if (!IsInkCarAtCleanWaitStation(out reason))
             {
@@ -12461,27 +12370,15 @@ namespace BinderJetting
 
             lock (PowderReturnEarlyPass0PrepSync)
             {
-                if (_powderReturnEarlyPass0PreheatLayerK == pass0MotionLayerK)
+                if (_powderReturnEarlyPass0PreheatLayerK == nextLayerK)
                     return true;
 
-                // Register ownership before waking Pass0. Pass0 will consume this
-                // marker and wait for the same X move instead of issuing another one.
-                _powderReturnEarlyPass0PreheatLayerK = pass0MotionLayerK;
-                _powderReturnEarlyPass0PreheatUtc = DateTime.UtcNow;
-                try
-                {
-                    BackToStation((float)InkCarScanApproachXMm, backCleanSpeed, false, false, 1);
-                }
-                catch
-                {
-                    _powderReturnEarlyPass0PreheatLayerK = int.MinValue;
-                    _powderReturnEarlyPass0PreheatUtc = DateTime.MinValue;
-                    throw;
-                }
+                MeteorPrintEngine.SignalPrintThreadLayerPass0PreheatReady(nextLayerK, "powder-return-early-prep");
+                BackToStation((float)InkCarScanApproachXMm, backCleanSpeed, false, false, 1);
+                _powderReturnEarlyPass0PreheatLayerK = nextLayerK;
             }
 
-            MeteorPrintEngine.SignalPrintThreadLayerPass0PreheatReady(nextLayerK, "powder-return-early-prep");
-            Log4Net.Info($"[PowderReturnEarlyPrep] started source={sourceTag} layerK={nextLayerK} pass0MotionLayerK={pass0MotionLayerK} targetX={InkCarScanApproachXMm:F3} speed={backCleanSpeed:F3}; Pass0 preheat and registered X move released together at axis7 return trigger");
+            Log4Net.Info($"[PowderReturnEarlyPrep] started source={sourceTag} layerK={nextLayerK} targetX={InkCarScanApproachXMm:F3} speed={backCleanSpeed:F3}; Pass0 scan thread may proceed while axis7 returns home");
             return true;
         }
 
@@ -12528,13 +12425,6 @@ namespace BinderJetting
 
         private bool RunPass2ParallelPowderAxis7ForwardStage(int completedLayerK)
         {
-            if (!IsPass2ParallelAxis7EarlyStageEnabled())
-            {
-                lock (Pass2ParallelPowderPrepSync)
-                    _pass2ParallelAxis7StageLayerK = int.MinValue;
-                Log4Net.Info($"[Pass2ParallelPowderPrep] axis7 early stage disabled; keep axis7 at home/station for normal powder path, completedLayerK={completedLayerK}");
-                return false;
-            }
             double targetMm = POWDERCAR_DROP_BEGIN - k_RYSYSParamAutoPrintParamInTest.PreAngleRotatePositionForPowderSupply;
             double moveSpeed = k_RYSYSParamAutoPrintParamInTest.m_dCureBackSpeed;
             double initialAxis7 = GetCurrentPos(7);
@@ -12618,33 +12508,25 @@ namespace BinderJetting
                 }
 
                 _pass2ParallelPowderPrepLayerK = int.MinValue;
-                _pass2ParallelAxis7StageLayerK = int.MinValue;
                 _pass2ParallelPowderPrepThread = new Thread(() =>
                 {
                     try
                     {
                         double vel = 2;
-                        double trapSpace = -((double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / 1000.0 + 0.7);
-                        Task<bool> axis7StageTask = Task.Run(() => RunPass2ParallelPowderAxis7ForwardStage(completedLayerK));
-                        bool axis7StageCompleted;
+                        double trapSpace = -((double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / 1000.0 + 1.5);
                         lock (GoogolMotionMap.PowderTrainMotionGate)
                         {
                             RunPowderPrepParallel_ZDownAndStationFeed("Pass2ParallelPowderPrep", vel, trapSpace);
                         }
 
-                        axis7StageCompleted = axis7StageTask.GetAwaiter().GetResult();
+                        bool axis7StageCompleted = RunPass2ParallelPowderAxis7ForwardStage(completedLayerK);
 
                         lock (Pass2ParallelPowderPrepSync)
-                        {
                             _pass2ParallelPowderPrepLayerK = completedLayerK;
-                            _pass2ParallelAxis7StageLayerK = axis7StageCompleted ? completedLayerK : int.MinValue;
-                        }
                         Log4Net.Info($"[Pass2ParallelPowderPrep] completed completedLayerK={completedLayerK}; normal powder path will consume axis8/station-feed prep; axis7StageCompleted={axis7StageCompleted}");
                     }
                     catch (Exception ex)
                     {
-                        lock (Pass2ParallelPowderPrepSync)
-                            _pass2ParallelAxis7StageLayerK = int.MinValue;
                         Log4Net.Info($"[Pass2ParallelPowderPrep] failed completedLayerK={completedLayerK}, ex={ex.Message}; normal powder prep will run");
                     }
                 });
@@ -12652,7 +12534,7 @@ namespace BinderJetting
                 _pass2ParallelPowderPrepThread.Start();
             }
 
-            Log4Net.Info($"[Pass2ParallelPowderPrep] started completedLayerK={completedLayerK}; axis7 stage1 and axis8/station-feed run concurrently with ink-car return");
+            Log4Net.Info($"[Pass2ParallelPowderPrep] started completedLayerK={completedLayerK}; axis8/station-feed then gated axis7 stage1 are parallel with ink-car return");
             return true;
         }
 
@@ -12685,25 +12567,19 @@ namespace BinderJetting
             }
         }
 
-        private static bool TryConsumePowderReturnEarlyPass0Preheat(int layerK)
+        private static bool TryConsumePowderReturnEarlyPass0Preheat(int layerK, bool inkCarHasLeftWaitStation)
         {
             lock (PowderReturnEarlyPass0PrepSync)
             {
                 if (_powderReturnEarlyPass0PreheatLayerK != layerK)
-                {
-                    Log4Net.Info($"[PowderReturnEarlyPrep] Pass0 preheat marker mismatch; expectedMotionLayerK={layerK}, registeredMotionLayerK={_powderReturnEarlyPass0PreheatLayerK}");
                     return false;
-                }
-                if ((DateTime.UtcNow - _powderReturnEarlyPass0PreheatUtc).TotalSeconds > 30)
+                if (!inkCarHasLeftWaitStation)
                 {
-                    Log4Net.Info($"[PowderReturnEarlyPrep] Pass0 preheat marker expired; motionLayerK={layerK}");
+                    // 上一任务中止后可能遗留同层号标记；墨车仍在等待位说明本层未实际提前预备。
                     _powderReturnEarlyPass0PreheatLayerK = int.MinValue;
-                    _powderReturnEarlyPass0PreheatUtc = DateTime.MinValue;
                     return false;
                 }
                 _powderReturnEarlyPass0PreheatLayerK = int.MinValue;
-                _powderReturnEarlyPass0PreheatUtc = DateTime.MinValue;
-                Log4Net.Info($"[PowderReturnEarlyPrep] Pass0 consumed registered X move; motionLayerK={layerK}");
                 return true;
             }
         }
@@ -12718,7 +12594,9 @@ namespace BinderJetting
         private bool MoveInkCarXToApproachAndWaitPass0SwathPhysicalFast(int layerK, float speed, int timeoutMs)
         {
             DateTime parallelStart = DateTime.Now;
-            bool earlyPreheatConsumed = TryConsumePowderReturnEarlyPass0Preheat(layerK);
+            double currentXBeforePass0Prep = GetCurrentPos(1);
+            bool inkCarHasLeftWaitStation = Math.Abs(currentXBeforePass0Prep - INKCAR_CLEAN_STATION_X) > 5.0;
+            bool earlyPreheatConsumed = TryConsumePowderReturnEarlyPass0Preheat(layerK, inkCarHasLeftWaitStation);
             if (!earlyPreheatConsumed)
                 MeteorPrintEngine.SignalPrintThreadLayerPass0PreheatReady(layerK, "pass0-approach525-physical-fast");
             // 回程安全点已提前发出 750→准备位运动时，不重复下发同轴 Trap 指令；仅等待该运动到位。
@@ -12741,35 +12619,6 @@ namespace BinderJetting
             MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtApproachHold", GetCurrentPos(1), layerK);
             Log4Net.Info($"[MeteorMotionBranch] physical_home_fast Pass0 approach+swath ok targetMm={InkCarScanApproachXMm:F3} deltaMm={Math.Abs(GetCurrentPos(1) - InkCarScanApproachXMm):F3} elapsedMs={(DateTime.Now - parallelStart).TotalMilliseconds:F0} earlyPowderReturnPreheat={earlyPreheatConsumed} batchPerPassGate={!MeteorPrintEngine.IsBatchSwathModeEnabled()}");
             return true;
-        }
-
-        private bool WaitPowderCarReturnSafeForPass0Scan(int timeoutMs)
-        {
-            if (!EnvEquals(PowderReturnEarlyPass0PrepModeEnv, "1"))
-                return true;
-
-            double cfgHome = Math.Abs(k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition);
-            DateTime deadline = DateTime.UtcNow.AddMilliseconds(timeoutMs);
-            while (DateTime.UtcNow < deadline)
-            {
-                double axis7Mm = GetCurrentPos(7);
-                int axis7Status = 0;
-                motionMap.GetAxisStatus(7, out axis7Status);
-                if ((axis7Status & 0x20) != 0 || (axis7Status & 0x40) != 0)
-                {
-                    Log4Net.Info($"[PowderReturnEarlyPrep] Pass0 scan gate rejected by axis7 limit/alarm; current={axis7Mm:F3}mm status=0x{axis7Status:X}");
-                    return false;
-                }
-                if (Math.Min(Math.Abs(axis7Mm - cfgHome), Math.Abs(axis7Mm + cfgHome)) <= 2.0)
-                {
-                    Log4Net.Info($"[PowderReturnEarlyPrep] Pass0 scan gate axis7 safe; current={axis7Mm:F3}mm station=+/-{cfgHome:F3}mm status=0x{axis7Status:X}");
-                    return true;
-                }
-                Thread.Sleep(10);
-            }
-
-            Log4Net.Info($"[PowderReturnEarlyPrep] Pass0 scan gate axis7 timeout; current={GetCurrentPos(7):F3}mm station=+/-{cfgHome:F3}mm timeoutMs={timeoutMs}");
-            return false;
         }
 
         private bool WaitBuildCylinderReturnRiseStopped(int timeoutMs)
@@ -12814,12 +12663,6 @@ namespace BinderJetting
                 Log4Net.Info($"AutoPrintThread5[physical_home_fast]: Pass0 Y did not reach initial strip before scan; targetY={pass0TargetY:F3}");
                 return false;
             }
-            if (!WaitPowderCarReturnSafeForPass0Scan(10000))
-            {
-                _meteorMotionAbortLayerK = meteorMotionLayerK;
-                Log4Net.Info("AutoPrintThread5[physical_home_fast]: axis7 did not enter the safe station before Pass0 scan; abort");
-                return false;
-            }
             // 快速模式首层/单层此处会立即通过；层间提前放行时则确保轴8返程抬升已停稳后再真正扫程。
             if (!WaitBuildCylinderReturnRiseStopped(10000))
             {
@@ -12862,8 +12705,7 @@ namespace BinderJetting
                 return false;
             }
             bool pass1PrepackSendSplit = EnvEquals(PowderReturnEarlyPass0PrepModeEnv, "1")
-                && MeteorPrintEngine.IsPassGateAnchorXStartEnabled()
-                && MeteorPrintEngine.IsPassMotionPrepackSendOverlapEnabled();
+                && MeteorPrintEngine.IsPassGateAnchorXStartEnabled();
             if (pass1PrepackSendSplit)
             {
                 if (!MeteorPrintEngine.WaitPassSwathPrepackedReady(1, 10000))
@@ -12918,37 +12760,6 @@ namespace BinderJetting
             return true;
         }
 
-        private void MonitorEarlyLayerPowderStart(int completedLayerK, Func<bool> isCancelled)
-        {
-            Action<int> callback = EarlyLayerPowderStartCallback;
-            if (callback == null)
-                return;
-
-            DateTime deadline = DateTime.UtcNow.AddSeconds(15);
-            while (DateTime.UtcNow < deadline)
-            {
-                if (isCancelled != null && isCancelled())
-                    return;
-                try
-                {
-                    double currentX = GetCurrentPos(1);
-                    if (currentX >= EarlyLayerPowderInkXTriggerMm)
-                    {
-                        Log4Net.Info($"[PowderReturnEarlyPrep] formal powder trigger reached; completedLayerK={completedLayerK}, inkX={currentX:F3}, thresholdInkX={EarlyLayerPowderInkXTriggerMm:F3}");
-                        callback(completedLayerK);
-                        return;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log4Net.Info($"[PowderReturnEarlyPrep] formal powder trigger monitor failed; completedLayerK={completedLayerK}, ex={ex.Message}");
-                    return;
-                }
-                Thread.Sleep(10);
-            }
-            Log4Net.Info($"[PowderReturnEarlyPrep] formal powder trigger timeout; completedLayerK={completedLayerK}, thresholdInkX={EarlyLayerPowderInkXTriggerMm:F3}, currentX={GetCurrentPos(1):F3}");
-        }
-
         private bool RunAutoPrintThread5Pass2PhysicalHomeFast(
             int meteorMotionLayerK, double passStartBaseY, double passPitchY,
             double returnVelocity1, double returnVelocity2, double yJetOffWidth,
@@ -12969,8 +12780,7 @@ namespace BinderJetting
                 return false;
             }
             bool pass2PrepackSendSplit = EnvEquals(PowderReturnEarlyPass0PrepModeEnv, "1")
-                && MeteorPrintEngine.IsPassGateAnchorXStartEnabled()
-                && MeteorPrintEngine.IsPassMotionPrepackSendOverlapEnabled();
+                && MeteorPrintEngine.IsPassGateAnchorXStartEnabled();
             if (pass2PrepackSendSplit)
             {
                 if (!MeteorPrintEngine.WaitPassSwathPrepackedReady(2, 10000))
@@ -13020,18 +12830,7 @@ namespace BinderJetting
                 if (pauseFlag != 1)
                 {
                     BackToStation(INKCAR_CLEAN_STATION_X, (float)returnVelocity2, false, false, 1);
-                    int completedLayerK = meteorMotionLayerK - 1;
-                    bool allowParallelPowderPrep = Pass2ParallelPowderPrepAllowedCallback != null
-                        && Pass2ParallelPowderPrepAllowedCallback(completedLayerK);
-                    if (allowParallelPowderPrep)
-                        BeginPass2ParallelPowderPreparation(meteorMotionLayerK);
-                    else
-                        Log4Net.Info($"[Pass2ParallelPowderPrep] skipped before start; completedLayerK={completedLayerK}, motionLayerK={meteorMotionLayerK}; no next layer in current print range");
-                    if (EarlyLayerPowderStartCallback != null)
-                    {
-                        Log4Net.Info($"[PowderReturnEarlyPrep] formal powder starts at Pass2 low end; completedLayerK={completedLayerK}, motionLayerK={meteorMotionLayerK}; axis7/axis8/station-feed overlap ink-car return");
-                        EarlyLayerPowderStartCallback(completedLayerK);
-                    }
+                    BeginPass2ParallelPowderPreparation(meteorMotionLayerK);
                     bool cleanReturnEndJobDone = false;
                     Thread cleanReturnEndJobThread = new Thread(() =>
                     {
@@ -13689,22 +13488,14 @@ namespace BinderJetting
         private const string PowderReturnEarlyPass0PrepModeEnv = "METEOR_POWDER_RETURN_EARLY_PASS0_PREP";
         private static readonly object PowderReturnEarlyPass0PrepSync = new object();
         private static int _powderReturnEarlyPass0PreheatLayerK = int.MinValue;
-        private static DateTime _powderReturnEarlyPass0PreheatUtc = DateTime.MinValue;
         private static readonly object Pass2ParallelPowderPrepSync = new object();
         private static int _pass2ParallelPowderPrepLayerK = int.MinValue;
         private static Thread _pass2ParallelPowderPrepThread;
-        private static int _pass2ParallelAxis7StageLayerK = int.MinValue;
         private const double Pass2ParallelAxis7HoldMm = 180.0;
         private const double Pass2ParallelInkXReleaseMm = 100.0;
         private const double Pass2ParallelInkYSafeMinMm = 290.0;
         private const double Pass2ParallelInkYSafeMaxMm = 315.0;
-        private const string Pass2ParallelAxis7EarlyStageEnv = "METEOR_PASS2_AXIS7_EARLY_STAGE";
         private const string PowderReturnEarlyPass0PrepExperimentalHighEndMm = "635";
-
-        private static bool IsPass2ParallelAxis7EarlyStageEnabled()
-        {
-            return EnvEquals(Pass2ParallelAxis7EarlyStageEnv, "1");
-        }
 
         private static void SetProcessEnv(string name, string value)
         {
@@ -13773,7 +13564,7 @@ namespace BinderJetting
 
         private static void ApplyPowderReturnEarlyPass0PrepExperimentalOverrides(bool enable)
         {
-            SetProcessEnv("METEOR_PASS_GATE_ANCHOR_XSTART", "0");
+            SetProcessEnv("METEOR_PASS_GATE_ANCHOR_XSTART", enable ? "1" : "0");
             SetProcessEnv("METEOR_INKCAR_SCAN_APPROACH_HIGH_MM", enable ? PowderReturnEarlyPass0PrepExperimentalHighEndMm : "635");
             SetProcessEnv("METEOR_INKCAR_SCAN_HIGH_END_MM", enable ? PowderReturnEarlyPass0PrepExperimentalHighEndMm : "635");
             InvalidateInkCarMotionTimingCache();
@@ -13848,8 +13639,6 @@ namespace BinderJetting
             SetProcessEnv("METEOR_LAYER_ABSX_DELTA_COMP", "0");
             SetProcessEnv("METEOR_ALL_FWD_DIAG", "0");
             SetProcessEnv("METEOR_SPLIT_JOB_PER_PASS", "0");
-            SetProcessEnv("METEOR_PASS_SWATH_DOCS_STRICT", "0");
-            SetProcessEnv(Pass2ParallelAxis7EarlyStageEnv, "0");
             SetProcessEnv("METEOR_BATCH_ENDJOB_IMMEDIATE", "0");
             SetProcessEnv("METEOR_IMAGE_XSTART_OFFSET_PX", "0");
             SetProcessEnv("METEOR_PASS1_REV_EXTRA_OFFSET_PX", "-800");
@@ -13916,22 +13705,20 @@ namespace BinderJetting
             SetProcessEnv("METEOR_PER_LAYER_HOME_800_MODE", "0");
             SetProcessEnv("METEOR_OFFICIAL_QUEUED_SCAN_MODE", "0");
             SetProcessEnv("METEOR_INKCAR_CONSERVATIVE_TIMING", "0");
-            // 效率测试：每层3PASS统一入队，取消逐PASS的STARTJOB/ENDJOB交接。
+            // 逐 pass 门控发图：Pass1 swath 在 15mm 开扫点下发，避免 BATCH 预灌导致 REV 无墨
             SetProcessEnv("METEOR_BATCH_SWATH_MODE", "1");
-            SetProcessEnv("METEOR_BATCH_STARTSCAN_GATE_SPLIT", "0");
+            SetProcessEnv("METEOR_BATCH_STARTSCAN_GATE_SPLIT", "1");
             SetProcessEnv("METEOR_BATCH_ENDJOB_IMMEDIATE", "0");
             SetProcessEnv("METEOR_BATCH_POST_SEND_DEPART_DELAY_MS", "0");
             SetProcessEnv("METEOR_PASS_GATE_ANCHOR_XSTART", "0");
             SetProcessEnv("METEOR_PASS_LIVE_ABSX_COMP", "0");
             SetProcessEnv("METEOR_LAYER_ABSX_DELTA_COMP", "0");
             SetProcessEnv("METEOR_ALL_FWD_DIAG", "0");
-            SetProcessEnv("METEOR_SPLIT_JOB_PER_PASS", "0");
-            SetProcessEnv("METEOR_PASS_SWATH_DOCS_STRICT", "0");
-            SetProcessEnv(Pass2ParallelAxis7EarlyStageEnv, "0");
+            SetProcessEnv("METEOR_SPLIT_JOB_PER_PASS", "1");
             SetProcessEnv("METEOR_SWATH_PAYLOAD_DIAG", "0");
             SetProcessIntEnvWithExternalOverride("METEOR_MIN_MS_AFTER_STARTJOB_FOR_SETHOME", "200", 0, 15000);
             SetProcessIntEnvWithExternalOverride("METEOR_PASS_SWATH_DOCS_MIN", "1", 1, 64);
-            SetProcessIntEnvWithExternalOverride("METEOR_PASS_SWATH_DOCS_WAIT_MS", "1400", 0, 10000);
+            SetProcessIntEnvWithExternalOverride("METEOR_PASS_SWATH_DOCS_WAIT_MS", "1200", 0, 10000);
             SetProcessIntEnvWithExternalOverride("METEOR_PASS_SWATH_DOCS_POLL_MS", "100", 20, 200);
             SetProcessEnv("METEOR_INKCAR_SCAN_APPROACH_HIGH_MM", "635");
             SetProcessEnv("METEOR_INKCAR_SCAN_HIGH_END_MM", "635");
@@ -13979,8 +13766,8 @@ namespace BinderJetting
             UpdateMeteorPiSetHomeFixedXStartButtonText();
             UpdatePowderReturnEarlyPass0PrepButtonText();
             string config = MeteorPrintEngine.DescribeBatchSwathModeConfig();
-            Log4Net.Info($"Meteor 快速分支(physical_home_fast)已设置：{config}; motionBranch={MeteorAutoPrintMotionBranchPhysicalFast}; 无每层PiSetHome/663.5停靠; approachHighMm=635; highEndMm=635; pass0FwdXStart={MeteorPhysicalHomeFastPass0FwdXStartPx}; pass1RevXStart={MeteorPhysicalHomeFastPass1RevXStartPx}; pass2FwdXStart={MeteorPhysicalHomeFastPass2FwdXStartPx}; unifiedLayerBatch=1; forcePd=0; 已关闭用户级METEOR_IMAGE_XSTART_FIXED_*; imageMaxWidthPx={MeteorPhysicalHomeFastImageMaxWidthPx}; fwdLeadInPx={MeteorPhysicalHomeFastFwdLeadInOffsetPx}; pass1RevExtraPx={MeteorPhysicalHomeFastPass1RevExtraOffsetPx}");
-            MessageBox.Show("已切换为物理 Home 快速打印分支。\r\n750→635 过 Home；XStart=2500/8500/2500；高端收口=635；每层统一发送3PASS，入队软等待上限1400ms；ForcePD=0。\r\n进程内已清除用户级固定 XStart 覆盖，并设置单次 IMAGE 宽度上限 7244px（约460mm@400DPI）。\r\n对下一次打印生效。");
+            Log4Net.Info($"Meteor 快速分支(physical_home_fast)已设置：{config}; motionBranch={MeteorAutoPrintMotionBranchPhysicalFast}; 无每层PiSetHome/663.5停靠; approachHighMm=635; highEndMm=635; pass0FwdXStart={MeteorPhysicalHomeFastPass0FwdXStartPx}; pass1RevXStart={MeteorPhysicalHomeFastPass1RevXStartPx}; pass2FwdXStart={MeteorPhysicalHomeFastPass2FwdXStartPx}; splitJobPerPass=1; forcePd=0; 已关闭用户级METEOR_IMAGE_XSTART_FIXED_*; imageMaxWidthPx={MeteorPhysicalHomeFastImageMaxWidthPx}; fwdLeadInPx={MeteorPhysicalHomeFastFwdLeadInOffsetPx}; pass1RevExtraPx={MeteorPhysicalHomeFastPass1RevExtraOffsetPx}");
+            MessageBox.Show("已切换为物理 Home 快速打印分支。\r\n750→635 过 Home；XStart=2500/8500/2500；高端收口=635；BATCH=1+GATE_SPLIT=1+SPLIT_JOB=1；ForcePD=0。\r\n进程内已清除用户级固定 XStart 覆盖，并设置单次 IMAGE 宽度上限 7244px（约460mm@400DPI）。\r\n对下一次打印生效。");
         }
 
         private void buttonPowderReturnEarlyPass0Prep_Click(object sender, EventArgs e)
@@ -14000,14 +13787,11 @@ namespace BinderJetting
 
             bool enable = !IsPowderReturnEarlyPass0PrepUiMode();
             SetProcessEnv(PowderReturnEarlyPass0PrepModeEnv, enable ? "1" : "0");
-            SetProcessEnv("METEOR_PASS_SWATH_DOCS_STRICT", "0");
-            SetProcessEnv(Pass2ParallelAxis7EarlyStageEnv, enable ? "1" : "0");
-            Log4Net.Info($"[PowderReturnEarlyPrep] experimental Pass0 preparation gate={(enable ? "axis7-return-440" : "legacy")}; formal Pass0 scan remains axis7-station and axis8-stable gated");
             ApplyPowderReturnEarlyPass0PrepExperimentalOverrides(enable);
             UpdatePowderReturnEarlyPass0PrepButtonText();
-            Log4Net.Info($"[PowderReturnEarlyPrep] mode={(enable ? "enabled" : "disabled")}; strictDocs=0; axis7EarlyStage={(enable ? "1" : "0")}; passGateAnchor=0; docsWaitMs={GetProcessEnv("METEOR_PASS_SWATH_DOCS_WAIT_MS")}; branch=physical_home_fast; unifiedLayerBatch=1; axis7 spread={(enable ? "95" : "configured")}mm/s; axis7 return=235mm/s with no second return command at trigger; highEnd={(enable ? PowderReturnEarlyPass0PrepExperimentalHighEndMm : "635")}mm; first layer remains sequential; Pass0 is released while axis7 tail returns.");
+            Log4Net.Info($"[PowderReturnEarlyPrep] mode={(enable ? "enabled" : "disabled")}; branch=physical_home_fast; axis7 return=225mm/s then low-speed after pre-drop trigger; Pass2 parallel prep uses axis7 hold=180mm/releaseInkX=100mm/measuredInkY=[290,315]mm; highEnd={(enable ? PowderReturnEarlyPass0PrepExperimentalHighEndMm : "635")}mm; first layer remains sequential; Pass0 is released while axis7 tail returns.");
             MessageBox.Show(enable
-                ? "已启用 Pass2 粉站预备 + 粉车回程并行 Pass0。\r\n正式铺粉以95mm/s运行，回程以235mm/s运行；清洗已完成时，同时启动下一层 Pass0 的预热和墨车准备，并放行下一层扫描链路。\r\n实际扫程前仍确认成型缸轴8已停稳；首层和单层打印不走此回程分支，保持原顺序。"
+                ? "已启用 Pass2 粉站预备 + 粉车回程并行 Pass0。\r\n回程以225mm/s运行，经过预落粉安全点后切换为原回站低速；清洗已完成时，同时启动下一层 Pass0 的预热和墨车准备，并放行下一层扫描链路。\r\n实际扫程前仍确认成型缸轴8已停稳；首层和单层打印不走此回程分支，保持原顺序。"
                 : "已关闭试验性并行预备，恢复物理 Home 快速分支的稳定层间顺序。");
         }
 

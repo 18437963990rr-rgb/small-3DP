@@ -473,6 +473,7 @@ namespace BinderJetting
             this.labelPass0YTrim = new System.Windows.Forms.Label();
             this.buttonMeteorPiSetHomeFixedXStart = new System.Windows.Forms.Button();
             this.buttonMeteorPhysicalHomeFastPrint = new System.Windows.Forms.Button();
+            this.buttonPowderReturnEarlyPass0Prep = new System.Windows.Forms.Button();
             this.button17 = new System.Windows.Forms.Button();
             this.label134 = new System.Windows.Forms.Label();
             this.textBox40 = new System.Windows.Forms.TextBox();
@@ -6230,6 +6231,7 @@ namespace BinderJetting
             this.tabPage3.Controls.Add(this.labelPass2YTrim);
             this.tabPage3.Controls.Add(this.textBox49);
             this.tabPage3.Controls.Add(this.labelPass0YTrim);
+            this.tabPage3.Controls.Add(this.buttonPowderReturnEarlyPass0Prep);
             this.tabPage3.Controls.Add(this.buttonMeteorPhysicalHomeFastPrint);
             this.tabPage3.Controls.Add(this.buttonMeteorPiSetHomeFixedXStart);
             this.tabPage3.Controls.Add(this.button17);
@@ -6332,6 +6334,19 @@ namespace BinderJetting
             this.buttonMeteorPhysicalHomeFastPrint.Text = "切到物理Home\r\n快速打印";
             this.buttonMeteorPhysicalHomeFastPrint.UseVisualStyleBackColor = false;
             this.buttonMeteorPhysicalHomeFastPrint.Click += new System.EventHandler(this.buttonMeteorPhysicalHomeFastPrint_Click);
+            //
+            // buttonPowderReturnEarlyPass0Prep
+            //
+            this.buttonPowderReturnEarlyPass0Prep.BackColor = System.Drawing.Color.MistyRose;
+            this.buttonPowderReturnEarlyPass0Prep.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
+            this.buttonPowderReturnEarlyPass0Prep.ForeColor = System.Drawing.Color.Maroon;
+            this.buttonPowderReturnEarlyPass0Prep.Location = new System.Drawing.Point(666, 325);
+            this.buttonPowderReturnEarlyPass0Prep.Name = "buttonPowderReturnEarlyPass0Prep";
+            this.buttonPowderReturnEarlyPass0Prep.Size = new System.Drawing.Size(162, 42);
+            this.buttonPowderReturnEarlyPass0Prep.TabIndex = 251;
+            this.buttonPowderReturnEarlyPass0Prep.Text = "粉车回程提前\r\nPass0预备";
+            this.buttonPowderReturnEarlyPass0Prep.UseVisualStyleBackColor = false;
+            this.buttonPowderReturnEarlyPass0Prep.Click += new System.EventHandler(this.buttonPowderReturnEarlyPass0Prep_Click);
             // 
             // button17
             // 
@@ -7081,6 +7096,7 @@ namespace BinderJetting
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Button buttonMeteorPiSetHomeFixedXStart;
         private System.Windows.Forms.Button buttonMeteorPhysicalHomeFastPrint;
+        private System.Windows.Forms.Button buttonPowderReturnEarlyPass0Prep;
         private System.Windows.Forms.ComboBox comboBox11;
         private System.Windows.Forms.Label label132;
         private System.Windows.Forms.TextBox textBox41;

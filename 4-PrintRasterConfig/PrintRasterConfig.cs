@@ -6,7 +6,9 @@ namespace LaserAdd.PrintRaster
     public static class PrintRasterConfig
     {
         public const int PlateWidthMm = 465;
-        public const int PlateHeightMm = 370;
+        // 双喷头单 PASS 有效 Y 覆盖为 64.96 × 2 mm；三 PASS 完整覆盖幅面为 389.76 mm。
+        // 该值小于 Y 轴可安全到达的 460 mm，保留机械行程余量。
+        public const float PlateHeightMm = 64.96f * 2 * 3;
         /// <summary>与 AutoPrintThread5 passStartBaseY 一致（mm，平台坐标，0=下沿）。</summary>
         public const double MeteorPassYInstallCompensationMm = 1.5;
         public const double MeteorPassStartBaseYMm = 55.0 - MeteorPassYInstallCompensationMm;

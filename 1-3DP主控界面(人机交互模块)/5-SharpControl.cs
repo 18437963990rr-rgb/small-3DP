@@ -1523,7 +1523,7 @@ namespace BinderJetting
             return RenderDpiY > 0 ? RenderDpiY : PrintRasterConfig.SliceDpi;
         }
         /// <summary>
-        /// 20200609：生成1帧的加工数据//幅面与 SharpControl.PlateWidthMm/PlateHeightMm 一致（当前465×370mm）
+        /// 20200609：生成1帧的加工数据//幅面与 SharpControl.PlateWidthMm/PlateHeightMm 一致（当前465×389.76mm）
         /// </summary>
         /// <param name="action"></param>
         public void RenderToWic(bool action, int index, int subindex, int RePrintTimes, int ActualStartNum)//subindex:重喷索引，取值为0-1-2-3-....-n//201030新增：//20230317修改：修复中断打印之后，重新启动设置新区间，打印过程中的实际传输实际仍然按照第1层数据发送的BUG
@@ -2353,7 +2353,7 @@ namespace BinderJetting
 
         }
 
-        /// <summary>按 Pass 物理 Y 与平台 [0,PlateHeight] 交集，从整层位图裁切有效条带；平台 Y 0=下沿、370=上沿。</summary>
+        /// <summary>按 Pass 物理 Y 与平台 [0,PlateHeight] 交集，从整层位图裁切有效条带；平台 Y 0=下沿、389.76=上沿。</summary>
         private bool TryCreatePassPlatformCropStrip(System.Drawing.Bitmap fullLayer, int passIndex, float renderDpiY, out System.Drawing.Bitmap cropStrip, out int nozzleYJetOffPx, out double covLoMm, out double covHiMm)
         {
             cropStrip = null;
