@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A7B65B6E-2D42-49C5-9B09-2AA1F2057D4C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>LaserAdd.SmallPrinter</RootNamespace>
+    <AssemblyName>LaserAdd-SmallPrinter</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="SmallPrinterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeviceProfile.cs" />
+    <Compile Include="PowderFeedOutput.cs" />
+    <Compile Include="GtsTelemetry.cs" />
+    <Compile Include="GtsControllerSession.cs" />
+    <Compile Include="GtsMotionController.cs" />
+    <Compile Include="HeadCleaningWorkflow.cs" />
+    <Compile Include="LayerPrintWorkflow.cs" />
+    <Compile Include="ManualMotionController.cs" />
+    <Compile Include="MeteorHeadTelemetry.cs" />
+    <Compile Include="MeteorControllerSession.cs" />
+    <Compile Include="RasterValidator.cs" />
+    <Compile Include="SliceTask.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="SmallPrinterProfile.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="..\1-3DP主控界面(人机交互模块)\GTS800-加限位.cfg">
+      <Link>GTS800-加限位.cfg</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\gts.dll">
+      <Link>gts.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

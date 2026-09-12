@@ -1,4 +1,4 @@
-﻿//#define DataProcessDebugMode
+//#define DataProcessDebugMode
 //#define SinglePassPrintMode
 #define TwoPassPrintMode
 //#define TwoPassPrintPerSixTimes  // 已停用：原 6 PASS（AutoPrintThread4 / CreatTwoPassFigure 6 道），只保留下方 3 PASS
@@ -8,6 +8,7 @@
 using Composation;
 using ComposationConfirm;
 using JOB管理_调度类库_JOB管理模块_JOB调度模块;
+using LaserAdd.PrintRaster;
 using Microsoft.VisualBasic.Devices;
 using Modbus.Device;
 using Motion;//导入GoogolMotionMap引用包
@@ -481,6 +482,34 @@ namespace BinderJetting
         public 主界面()
         {
             InitializeComponent();
+            var smallScanMode = new ToolStripMenuItem("喷印模式：" + SmallMachineConfiguration.ModeText);
+            smallScanMode.ToolTipText = "切换去程/往返喷墨；已开始的作业保持原模式，下次作业生效。";
+            smallScanMode.Click += delegate
+            {
+                try { SmallMachineConfiguration.ToggleMode(); smallScanMode.Text = "喷印模式：" + SmallMachineConfiguration.ModeText; }
+                catch (Exception ex) { MessageBox.Show("喷印模式保存失败：" + ex.Message); }
+            };
+            menuStrip1.Items.Add(smallScanMode);
+            var feedTimeMenu = new ToolStripMenuItem("落粉开启时间…");
+            feedTimeMenu.Click += delegate
+            {
+                using (var dialog = new Form { Text = "EXO10 落粉开启时间", Width = 320, Height = 155, StartPosition = FormStartPosition.CenterParent })
+                {
+                    var input = new NumericUpDown { Minimum = 0, Maximum = 60000, Increment = 100, Value = Math.Max(0, Math.Min(60000, SmallMachineConfiguration.Profile.PowderFeedDurationMs)), Left = 18, Top = 18, Width = 160 };
+                    var label = new Label { Text = "ms（0=未设置）", Left = 183, Top = 22, Width = 110 };
+                    var save = new Button { Text = "保存", DialogResult = DialogResult.OK, Left = 200, Top = 62 };
+                    dialog.Controls.Add(input); dialog.Controls.Add(label); dialog.Controls.Add(save); dialog.AcceptButton = save;
+                    if (dialog.ShowDialog(this) != DialogResult.OK) return;
+                    int previous = SmallMachineConfiguration.Profile.PowderFeedDurationMs;
+                    try
+                    {
+                        SmallMachineConfiguration.Profile.PowderFeedDurationMs = (int)input.Value;
+                        SmallMachineConfiguration.Profile.Save(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SmallPrinterProfile.json"));
+                    }
+                    catch (Exception ex) { SmallMachineConfiguration.Profile.PowderFeedDurationMs = previous; MessageBox.Show(ex.Message); }
+                }
+            };
+            menuStrip1.Items.Add(feedTimeMenu);
             MyRenderer myRenderer = new MyRenderer();
             myRenderer.RoundedEdges = true;//圆角
             bool returnvalue = myRenderer.RoundedEdges;
@@ -1420,6 +1449,7 @@ namespace BinderJetting
 #endif
                         if ((DataTaskFlag == 1) || (DataTaskFlag == 4)) //DataTaskTHREAD处于初始态或者结束态
                         {
+                            SmallMachineConfiguration.BeginJob();
                             string tempThreadName = "DataTaskTHREAD";
                             Thread tempThread = PrinterLogicThreads.Where(x => x.Name == (tempThreadName)).FirstOrDefault();
                             if (tempThread != null)
@@ -2690,10 +2720,11 @@ namespace BinderJetting
                         PassNum = 6;//两组各 3 道
 #endif
 #if TwoPassPrintPerThreeTimes
-                        PassNum = 3;
+                        PassNum = SmallMachineConfiguration.JobPlan.ScanCount;
 #endif
 #endif
 
+                        if (SmallMachineConfiguration.UseSmallScan) PassNum = SmallMachineConfiguration.JobPlan.ScanCount;
                         for (PassItems = 0; PassItems < PassNum/*6*//*7*/; PassItems++)//20220531修改：总共数量为6 PASS
                         {
                             /*****************（1）20220524批注：确保获取打印PASS信息*********************/
@@ -2979,29 +3010,17 @@ namespace BinderJetting
                                     }
 #endif
 #if TwoPassPrintPerThreeTimes
-                                    // 单层 3 PASS：nPassID 与 Meteor Pass 0..2 对齐；YJet 半宽三道对应原「offset-15/10/5」逻辑（按 PASS 固定，不再按层号 k%3 轮转）
+                                    // 常规为单层 3PASS；物理 Home 双次扫描为 P0/P1/P2 两轮。第二轮机械 Y 向负移，Meteor IMAGE yStart 同步正补偿。
                                     if (g_nRePrintTimes == 1)
                                     {
                                     // [2026-06-01] 打印层循环墨车运动主调用点：EquipmentMotionLogic3(0,6,nPassID) → Command=6 → AutoPrintThread5。
-
-                                        double yHalf0 = 0; // 2026-05-07：为切换纯 Meteor 软件补偿临时统一置0；修改前=g_RYSYSParam.m_dYJetOff / 2，默认15mm时为7.5mm
-                                        double yHalf1 = 0; // 2026-05-07：为切换纯 Meteor 软件补偿临时统一置0；修改前=(g_RYSYSParam.m_dYJetOff - 5) / 2，默认15mm时为5.0mm
-                                        double yHalf2 = 0; // 2026-05-07：为切换纯 Meteor 软件补偿临时统一置0；修改前=(g_RYSYSParam.m_dYJetOff - 10) / 2，默认15mm时为2.5mm
-                                        if (nPassID == 0)
-                                        {
-                                            Log4Net.Info($"打印主循环：Command=6(3PASS/P0)，k={k}，nPassID={nPassID}，YHalf={yHalf0}，PauseFlag={m_nPauseMovedFlag}");
-                                            EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, yHalf0, 0, 0);
-                                        }
-                                        else if (nPassID == 1)
-                                        {
-                                            Log4Net.Info($"打印主循环：Command=6(3PASS/P1)，k={k}，nPassID={nPassID}，YHalf={yHalf1}，PauseFlag={m_nPauseMovedFlag}");
-                                            EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, yHalf1, 0, 0);
-                                        }
-                                        else
-                                        {
-                                            Log4Net.Info($"打印主循环：Command=6(3PASS/P2)，k={k}，nPassID={nPassID}，YHalf={yHalf2}，PauseFlag={m_nPauseMovedFlag}");
-                                            EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, yHalf2, 0, 0);
-                                        }
+                                        int basePassID = nPassID % 3;
+                                        int scanRepeatIndex = nPassID / 3;
+                                        double repeatYShiftMm = scanRepeatIndex > 0
+                                            ? PrintRasterConfig.GetPhysicalHomeDoubleScanShiftMm(PrintRasterConfig.SliceDpi)
+                                            : 0.0;
+                                        Log4Net.Info($"打印主循环：Command=6({(PrintRasterConfig.IsPhysicalHomeDoubleScanEnabled() ? "双次扫描" : "3PASS")}/P{basePassID})，k={k}，scanStep={nPassID}，repeat={scanRepeatIndex + 1}，mechanicalYMinus={repeatYShiftMm:F3}mm，PauseFlag={m_nPauseMovedFlag}");
+                                        EquipmentMotionLogic3(0, 6, nPassID, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, repeatYShiftMm, 0, 0);
                                     }
 #endif
 #endif
@@ -3025,7 +3044,8 @@ namespace BinderJetting
                             EquipmentMotionLogic3(0, 6, 6/*PassIndex：Thread4 附加观察位*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0);//自动喷墨运动逻辑
 #endif
 #if TwoPassPrintPerThreeTimes
-                            EquipmentMotionLogic3(0, 6, 3/*PassIndex：Thread5 可选观察*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0, 0);//自动喷墨运动逻辑
+                            int observationPassIndex = PrintRasterConfig.IsPhysicalHomeDoubleScanEnabled() ? 6 : 3;
+                            EquipmentMotionLogic3(0, 6, observationPassIndex/*Thread5 可选观察；双次扫描时6避免与第二轮Pass0冲突*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0, 0);//自动喷墨运动逻辑
 #endif
                         }
 
@@ -3139,7 +3159,8 @@ namespace BinderJetting
                             EquipmentMotionLogic3(0, 6, 6/*PassIndex：Thread4 附加观察*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0);//自动喷墨运动逻辑
 #endif
 #if TwoPassPrintPerThreeTimes
-                            EquipmentMotionLogic3(0, 6, 3/*PassIndex：Thread5 可选观察*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0, 0);//自动喷墨运动逻辑
+                            int pauseObservationPassIndex = PrintRasterConfig.IsPhysicalHomeDoubleScanEnabled() ? 6 : 3;
+                            EquipmentMotionLogic3(0, 6, pauseObservationPassIndex/*Thread5 可选观察*/, m_MovSpeed, m_BackCleanMovSpeed, ref sendMessageToCamera, 0, 0, m_nPauseMovedFlag, 0, 0, 0);//自动喷墨运动逻辑
 #endif
 #endif
                             m_nPauseMovedFlag = 2;//已经运动过额标志位
@@ -4248,7 +4269,10 @@ namespace BinderJetting
 
                 AutoPrintMotion3.EarlyLayerPowderStartCallback = null;
                 AutoPrintMotion3.Pass2ParallelPowderPrepAllowedCallback = null;
-                if (Command == 6 && PassIndex == 2
+                bool finalPhysicalHomePass2 = !PrintRasterConfig.IsPhysicalHomeDoubleScanEnabled()
+                    ? PassIndex == 2
+                    : PassIndex == 5;
+                if (Command == 6 && finalPhysicalHomePass2
                     && string.Equals(Environment.GetEnvironmentVariable("METEOR_POWDER_RETURN_EARLY_PASS0_PREP"), "1", StringComparison.OrdinalIgnoreCase)
                     && string.Equals(Environment.GetEnvironmentVariable("METEOR_AUTO_PRINT_MOTION_BRANCH"), "physical_home_fast", StringComparison.OrdinalIgnoreCase)
                     && g_RYSYSParam.m_bApplyPowderSupplyMotion == 0)
@@ -4403,6 +4427,13 @@ namespace BinderJetting
             {
                 string msg = $"对象发生异常，区间位点2：" + e.ToString();
                 Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
+                if (SmallMachineConfiguration.UseSmallScan)
+                {
+                    PrintConrolFlag = "StopPrint";
+                    SmallMachineConfiguration.Fail(e);
+                    MeteorPrintEngine.StopJob();
+                    throw;
+                }
             }
         }
 
@@ -5485,6 +5516,11 @@ namespace BinderJetting
             timeout = ((0x3FFFC00) & m_ulControlMask) >> 10;//实际数据
             control = ((0x3FC) & m_ulControlMask) >> 2;//DO对象
             state = ((0x3) & m_ulControlMask) >> 0;//输出状态
+            if (source == 10 || control == 10)
+            {
+                Log4Net.Info("EXO10 已改为落粉输出，跳过旧绿灯一键启动联动。");
+                return;
+            }
 
             try//核心程序语句:20200312新增
             {

@@ -243,6 +243,16 @@ namespace BinderJetting
             //(a)获取列表控件的Tag中存储的ID
             int myTag = Convert.ToInt32((sender as Control).Tag);
             Control btn = sender as Control;
+            if (myTag == LaserAdd.SmallPrinter.PowderFeedOutput.ApiChannel)
+            {
+                try
+                {
+                    LaserAdd.SmallPrinter.PowderFeedOutput.Set(!LaserAdd.SmallPrinter.PowderFeedOutput.IsOpen);
+                    btn.Text = LaserAdd.SmallPrinter.PowderFeedOutput.IsOpen ? "落粉：开启" : "落粉：关闭";
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+                return;
+            }
             //(b1)根据ID反转并存储到对应控件列表
             m_mGoogolMotionMap.m_bIoEnable[myTag - 1] = !m_mGoogolMotionMap.m_bIoEnable[myTag - 1];
             ////(b2)根据ID反转颜色状态

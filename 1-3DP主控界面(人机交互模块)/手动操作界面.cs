@@ -1,4 +1,4 @@
-#define TwoPassPrintMode
+﻿#define TwoPassPrintMode
 //#define SinglePassPrintMode
 //#define DataProcessDebugMode
 //#define UseP5PortForCleaning
@@ -29,6 +29,7 @@ using System.Net;
 using Modbus.Device;
 using System.IO.Ports;
 using System.Windows.Interop;
+using SharpDX.Direct2D1;
 
 namespace BinderJetting
 {
@@ -38,7 +39,7 @@ namespace BinderJetting
         const int EncoderLinePerMM = 1000;
         const int EncoderLinePerInch =  EncoderLinePerMM * 254 / 10;
         const int DriverPulsePerMM = 1000;              // 伺服驱动器每毫米发送脉冲数（它轴沿用）
-        const int XMaxDistanceMM = 860;                 // X轴正负行程开关之间距离
+        static double XMaxDistanceMM => SmallMachineConfiguration.Ink.MaximumPositionMm;
         const int YMaxDistanceMM = 470;                 // Y轴正负行程开关之间距离
         // ---------- 墨车 X：电机/光栅/限位接线变更后，优先只改下面常数 ----------
         // InkCarXCmdSign：命令脉冲总符号。影响 BackToStation(X)、回零搜索/回退（RunInkCarAxisLimitHome 轴1），与 InkCarXCmdSign 相乘处一致。
@@ -55,6 +56,9 @@ namespace BinderJetting
         const int InkCarYDisplaySign = 1;
         /// <summary>墨车 Y：仅用于点动/BackToStation 的 Trap 脉冲方向，与 <see cref="InkCarXCmdSign"/> 并列；回零流程不使用本符号。</summary>
         const int InkCarYCmdSign = 1;
+
+        private System.Drawing.Image _limitRedImage;
+        private System.Drawing.Image _limitGreenImage;
 
         private const bool DisableRoyalStartupPolling = true;
 
@@ -101,13 +105,13 @@ namespace BinderJetting
          * 刮墨位置坐标: (855, 245)
          * 压墨位置坐标: (750, 245)
          */
-        const double INKCAR_CLEAN_PRESTOP_X = 700.0;    // 进入压墨位前的预停靠位，给刮片预转留安全空间
-        const double INKCAR_CLEAN_STATION_X = 750.0;    // 墨车清洗站位置坐标，压墨位置
+        static double INKCAR_CLEAN_PRESTOP_X => SmallMachineConfiguration.Park;
+        static double INKCAR_CLEAN_STATION_X => SmallMachineConfiguration.Park;
         const double INKCAR_CLEAN_STATION_Y = 245.0;
         const double INKCAR_CLEAN_SCRAPE_POS_REL = 105.0;    // 墨车清洗站刮墨位置, mm
-        const double INKCAR_DEFAULT_X = INKCAR_CLEAN_STATION_X;   // 默认待打位与清洗/临停位统一
+        static double INKCAR_DEFAULT_X => INKCAR_CLEAN_STATION_X;
         const double INKCAR_DEFAULT_Y = INKCAR_CLEAN_STATION_Y;
-        const double INKCAR_REVISION_X = INKCAR_DEFAULT_X;        // 观察/临停位暂时与默认位重合
+        static double INKCAR_REVISION_X => INKCAR_DEFAULT_X;
         const double INKCAR_REVISION_Y = INKCAR_DEFAULT_Y;
 
         /// <summary>墨车相邻 meteor PASS 之间 Y 向步距（mm），硬件：64.96×2。</summary>
@@ -115,7 +119,7 @@ namespace BinderJetting
         private const double InkCarPassStartBaseYMm = PrintRasterConfig.MeteorPassStartBaseYMm;
         private const double InkCarPassYReachToleranceMm = 0.15;
         /// <summary>单层打印墨车走位对应的 PASS 数（与 Meteor 层内 Pass 数量一致）。</summary>
-        private const int InkCarPassCountPerLayer = 3;
+        private const int InkCarPassCountPerLayer = PrintRasterConfig.MeteorPassCountPerLayer;
 
 /// <summary>Pass0 打印前 X 准备点（mm），默认 485；与 Meteor <see cref="MeteorPrintEngine.GetInkCarScanApproachHighEndMm"/> 一致。</summary>
         static double InkCarScanApproachXMm => MeteorPrintEngine.GetInkCarScanApproachHighEndMm();
@@ -134,9 +138,9 @@ namespace BinderJetting
         private const double EarlyLayerPowderInkXTriggerMm = INKCAR_SOA_MAX_X + 5.0; // 5 mm after the established 660 mm safety boundary
 
         // 铺粉车的一些常数
-        const double POWDERCAR_TRAVEL_DIST = /*918.0*/1017;     // 铺粉车行程距离，mm //20251206修改，硬件更换
-        const double POWDERCAR_DROP_BEGIN  = /*400.0*//*355*/455;     // 铺粉车开始落粉位置，mm //20251206修改，硬件更换
-        const double POWDERCAR_DROP_END    = 925.0;     // 铺粉车停止落粉位置，mm
+        static double POWDERCAR_TRAVEL_DIST => SmallMachineConfiguration.Powder.MaximumPositionMm;
+        static double POWDERCAR_DROP_BEGIN => SmallMachineConfiguration.Powder.MinimumPositionMm;
+        static double POWDERCAR_DROP_END => SmallMachineConfiguration.Powder.MaximumPositionMm;
 
         /// <summary>CN14-5 / EXO3：红外模块使能 DO（电气面板 DigtalOut3，Tag=3）。</summary>
         private const short IrModuleEnableDo = 3;
@@ -176,6 +180,7 @@ namespace BinderJetting
             InitializeComponent();
             UpdateMeteorPiSetHomeFixedXStartButtonText();
             UpdateMeteorPhysicalHomeFastPrintButtonText();
+            UpdateMeteorPhysicalHomeDoubleScanButtonText();
             UpdatePowderReturnEarlyPass0PrepButtonText();
             InitializeDualRasterSamplingControls();
             InitializeSafetyCoordinatesSnapshotControls();
@@ -203,9 +208,11 @@ namespace BinderJetting
 #endif
             InitDynamicConfigureMotionMode();// 互斥配置多轴的点动和JOG运动配置：动态挂载初始化：20200110
             RegisterMeteorInkCarRasterReaders();
+            StartUpadateMAixsMoveStatus();
 
             k_EnvironmentParam = new EnvironmentParam();//20200402新增：
         }
+
 
         private void InitializeSafetyCoordinatesSnapshotControls()
         {
@@ -1086,14 +1093,8 @@ namespace BinderJetting
             m_sVel[0] = this.velLabel0.Text;
             m_sStep[0] = this.stepLabel0.Text;
             m_bEnds[0] = this.HomeEndsLabel0.Checked;
-            m_bMoveModeFlag[1] = this.MoveModeLabel1.Checked;
-            m_sVel[1] = this.velLabel1.Text;
-            m_sStep[1] = this.stepLabel1.Text;
-            m_bEnds[1] = this.HomeEndsLabel1.Checked;
-            m_bMoveModeFlag[2] = this.MoveModeLabel2.Checked;
-            m_sVel[2] = this.velLabel2.Text;
-            m_sStep[2] = this.stepLabel2.Text;
-            m_bEnds[2] = this.HomeEndsLabel2.Checked;
+            
+          
             m_bMoveModeFlag[3] = this.MoveModeLabel3.Checked;
             m_sVel[3] = this.velLabel3.Text;
             m_sStep[3] = this.stepLabel3.Text;
@@ -1704,6 +1705,7 @@ namespace BinderJetting
         //private void MoveHome(object sender, EventArgs e)//不管当前的运动方式是什么，开启JOG运动模式，返回到原点
         private void MoveHome(short AXIS, double vel, ref bool FlagGoHome, bool Ends)//JOG回原点.20200110:只负责1轴的回零点
         {
+            SmallMachineConfiguration.RejectRemovedAxis(AXIS);
             GohomeParam tempgohomeParam = new GohomeParam();//20200110:放到这里主要方便下面的多线程直接调用
             tempgohomeParam.AXIS = AXIS;
             tempgohomeParam.vel = vel;//20200111修正:回零点的速度，调整为原来的10分之1
@@ -1792,7 +1794,8 @@ namespace BinderJetting
             switch (myTag)//回零点：想起来了：20200110C#多线程爽的一比
             {
                 case 1:
-                    MoveHome(1, vel, ref FlagGoHome[0], m_bEnds[0]);//新建线程，执行会零点，并标记回零点标志位：20200110
+                    Log4Net.Info("旧通用轴1回零入口已停用；请使用“校准墨车”，执行小机 X 限位、脱限和脉冲坐标建立流程。");
+                    MessageBox.Show("请使用“校准墨车”执行 X 轴回零。");
                     //if (this.CorrectCheck.Checked)//20200222：零位校准设置1轴其编码器值为0，向下运动到限位
                     //{ motionMap.SetEncPos(1, (int)(0 - 1000 * m_dHeight1));}
                     //20200222：对应的位置初始化放到线程中实现。
@@ -1824,12 +1827,14 @@ namespace BinderJetting
                     //{ motionMap.SetEncPos(6, (int)(0 - 1000 * m_dHeight6)); }
                     break;
                 case 7://20200903批注:轴数由6轴提升到8轴              
-                    MoveHome(7, vel, ref FlagGoHome[6], m_bEnds[6]);//20200623修改：1000pulse/125mm
+                    Log4Net.Info("旧通用轴7回零入口已停用；请使用“校准铺粉车”，执行 Home 捕获、脱离和 5mm 坐标建立流程。");
+                    MessageBox.Show("请使用“校准铺粉车”执行铺粉车回零。");
                     //if (this.CorrectCheck.Checked)//20200222：零位校准设置1轴其编码器值为0，向下运动到限位
                     //{ motionMap.SetEncPos(6, (int)(0 - 1000 * m_dHeight6)); }
                     break;
                 case 8://20200903批注:轴数由6轴提升到8轴：刮墨副运动
-                    MoveHome(8, vel, ref FlagGoHome[7], m_bEnds[7]);//20200623修改：1000pulse/125mm
+                    Log4Net.Info("成型缸轴8回零已拒绝：回零方向、脱限量和坐标基准尚未确认，不能使用旧通用碰限位流程。");
+                    MessageBox.Show("成型缸回零参数尚未确认，当前禁止执行。");
                     //if (this.CorrectCheck.Checked)//20200222：零位校准设置1轴其编码器值为0，向下运动到限位
                     //{ motionMap.SetEncPos(6, (int)(0 - 1000 * m_dHeight6)); }
                     break;
@@ -1902,6 +1907,7 @@ namespace BinderJetting
         /// <param name="e"></param>
         private void StopBtn_Click(object sender, EventArgs e)//不管当前的运动方式是什么，统一停止下来
         {
+            StopSmallPowderFeed();
             //(a-1)初始化6轴运动的所有参数
             //bool[] FlagGoHome = new bool[6];
             InitMovParam();//从主界面读取数据到3大标志位中           
@@ -1948,6 +1954,7 @@ namespace BinderJetting
         //private void TrapMoveUp(object sender, EventArgs e)//单击按钮时，判断是什么运动模式，再决定是否执行点动        
         private void TrapMoveUp(short AXIS, bool m_bMoveModeFlag, string m_sVel, string m_sStep, bool OtherThreadUse, bool WaitStopFlag)//20220512新建:点动运动是否等停
         {
+            SmallMachineConfiguration.RejectRemovedAxis(AXIS);
             if (m_bMoveModeFlag == true)
             {
                 motionMap.ClrLimitAndAbrupt(AXIS);//增添这一行非常关键。——————对应的trpmotion中间的清楚报警和限位就有点不太必要了              
@@ -2141,6 +2148,7 @@ namespace BinderJetting
         //private void TrapMoveDown(object sender, EventArgs e)//下降按键
         public void TrapMoveDown(short AXIS, bool m_bMoveModeFlag, string m_sVel, string m_sStep, bool OtherThreadUse, bool WaitStopFlag)//下降按键
         {
+            SmallMachineConfiguration.RejectRemovedAxis(AXIS);
             if (m_bMoveModeFlag == true)
             {
                 motionMap.ClrLimitAndAbrupt(AXIS);//增添这一行非常关键。——————对应的trpmotion中间的清楚报警和限位就有点不太必要了
@@ -2505,32 +2513,10 @@ namespace BinderJetting
             { this.NLLabel1.BackColor = Color.LimeGreen; }
 
             /////////(2)次序为P，Z，N 限位
-            if (0 != (nIOState[1] & 0x20))//是否有报警：有限位报警
-            { this.PLLabel2.BackColor = Color.Red; }
-            else//无报警
-            { this.PLLabel2.BackColor = Color.LimeGreen; }
-            if (0 != (nIOState[1] & 0x00))//有报警————2010110:固高控制器不接零限位信号，掩码取值20
-            { this.ZeroLabel2.BackColor = Color.Red; }
-            else//无报警
-            { this.ZeroLabel2.BackColor = Color.LimeGreen; }
-            if (0 != (nIOState[1] & 0x40))//有报警
-            { this.NLLabel2.BackColor = Color.Red; }
-            else//无报警
-            { this.NLLabel2.BackColor = Color.LimeGreen; }
+          
 
             /////////(3)次序为P，Z，N 限位
-            if (0 != (nIOState[2] & 0x20))//是否有报警：有限位报警
-            { this.PLLabel3.BackColor = Color.Red; }
-            else//无报警
-            { this.PLLabel3.BackColor = Color.LimeGreen; }
-            if (0 != (nIOState[2] & 0x00))//有报警————2010110:固高控制器不接零限位信号，掩码取值20
-            { this.ZeroLabel3.BackColor = Color.Red; }
-            else//无报警
-            { this.ZeroLabel3.BackColor = Color.LimeGreen; }
-            if (0 != (nIOState[2] & 0x40))//有报警
-            { this.NLLabel3.BackColor = Color.Red; }
-            else//无报警
-            { this.NLLabel3.BackColor = Color.LimeGreen; }
+         
 
             /////////(4)次序为P，Z，N 限位
             if (0 != (nIOState[3] & 0x20))//是否有报警：有限位报警
@@ -2589,18 +2575,9 @@ namespace BinderJetting
             { this.NLLabel7.BackColor = Color.LimeGreen; }
 
             /////////(6)次序为P，Z，N 限位//20200903批注：更新到8轴
-            if (0 != (nIOState[7] & 0x20))//是否有报警：有限位报警
-            { this.PLLabel8.BackColor = Color.Red; }
-            else//无报警
-            { this.PLLabel8.BackColor = Color.LimeGreen; }
-            if (0 != (nIOState[7] & 0x00))//有报警————2010110:固高控制器不接零限位信号，掩码取值20
-            { this.ZeroLabel8.BackColor = Color.Red; }
-            else//无报警
-            { this.ZeroLabel8.BackColor = Color.LimeGreen; }
-            if (0 != (nIOState[7] & 0x40))//有报警
-            { this.NLLabel8.BackColor = Color.Red; }
-            else//无报警
-            { this.NLLabel8.BackColor = Color.LimeGreen; }
+            SetLimitLamp(this.PLLabel8, (nIOState[7] & 0x20) != 0);
+            SetLimitLamp(this.ZeroLabel8, false);
+            SetLimitLamp(this.NLLabel8, (nIOState[7] & 0x40) != 0);
 
             double PosValue = GetCurrentPos(7);//铺粉车当前为轴7，读取实际显示坐标
             string PositonText = "铺粉车: " + PosValue.ToString("F1") + " MM";
@@ -2610,6 +2587,26 @@ namespace BinderJetting
             PositonText = "墨车: " + PosValue.ToString("F1") + " MM";
             InkCarPosLable.Text = PositonText;//202001021新增位置监测：
 
+        }
+
+        private void SetLimitLamp(PictureBox lamp, bool isAlarm)
+        {
+            if (_limitRedImage == null || _limitGreenImage == null)
+            {
+                string imageDirectory = Path.Combine(Application.StartupPath, "Resources");
+                _limitRedImage = LoadImage(Path.Combine(imageDirectory, "red1.png"));
+                _limitGreenImage = LoadImage(Path.Combine(imageDirectory, "green1.png"));
+            }
+
+            lamp.Image = isAlarm ? _limitRedImage : _limitGreenImage;
+        }
+
+        private static System.Drawing.Image LoadImage(string path)
+        {
+            using (System.Drawing.Image source = System.Drawing.Image.FromFile(path))
+            {
+                return new System.Drawing.Bitmap(source);
+            }
         }
         /*****************************************************喷墨手动控制部分——20200109*****************************************************/
         /*****************************************************喷墨手动控制部分——20200109*****************************************************/
@@ -2887,7 +2884,7 @@ namespace BinderJetting
             /*****************************************新的有效方法*****************************************/
             //(壹)  使用Bitmap内置的文件流解析单点BMP数据//(A):第一步，完成图片文件的解析成字节流：
             //(壹)  使用Bitmap内置的文件流解析单点BMP数据
-            Bitmap processedBitmap = new Bitmap(@"C:\Users\SummerGhost\Documents\" +
+            System.Drawing.Bitmap processedBitmap = new System.Drawing.Bitmap(@"C:\Users\SummerGhost\Documents\" +
                 @"Visual Studio 2017\Projects\LaserAdd_3DP_Software\1-3DP主控界面(人机交互模块)\" +
                 @"bin\x64\Debug\JOB输出文件\0.bmp");
             //(贰)校验传输的数据是否准确：20200409新增
@@ -3166,6 +3163,7 @@ namespace BinderJetting
 
         private void StopPrintJob_Click(object sender, EventArgs e)
         {
+            StopSmallPowderFeed();
 #if false
             bool nRetVal = MeteorPrintEngine.StopJob();
 #endif
@@ -3245,7 +3243,7 @@ namespace BinderJetting
         ////（1）刷新液位报警信号
         //InkStateCtrl inkStateCtrl = new InkStateCtrl();//20200401删除：
         LaserADD_BinderJetter.InkStateCtrl inkStateCtrl = new LaserADD_BinderJetter.InkStateCtrl();//20200401新增：
-        Bitmap inkState = new Bitmap(500, 100);
+        System.Drawing.Bitmap inkState = new System.Drawing.Bitmap(500, 100);
         Rectangle rectangle = new Rectangle();
         private void Timer3_Tick(object sender, EventArgs e)//刷新墨量显示状态定时器
         {
@@ -4076,7 +4074,8 @@ namespace BinderJetting
                 double axis8EncBeforeHome = (axisEncBeforeHome != null && axisEncBeforeHome.Length >= 8) ? axisEncBeforeHome[7] : double.NaN;
                 double axis8MmBeforeHome = GetCurrentPos(8);
                 Log4Net.Info($"PowderCarHomeResetThread: before SetBackHome, Axis8ExtEncCfg={motionMap.EnableAxis8ExternalEncoderAfterInit}, axis8Sts=0x{axis8StatusBeforeHome:X}, axis8Enc={axis8EncBeforeHome:F1}, axis8Mm={axis8MmBeforeHome:F3}");
-                bool ReturnCode = motionMap.SetBackHome(7/*轴*/, k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition /*0*//*105*//*原点复位值，单位MM*/, 20/*校准速度，单位MM/S*/, 1000 * PowderCarHomeSearchSign/*搜索距离(mm)：符号只决定寻 Home 第一段方向*/, PowderCarHomeRetractMm/*第二段：捕获脉冲 + mm×1000，见 PowderCarHomeRetractMm 注释*/, ref PowderCarHomeFlag/*校准完成标志*/);//20260416修改：铺粉轴改为轴7
+                double configuredPowderHomeMm = SmallMachineConfiguration.Powder.HomePositionMm;
+                bool ReturnCode = motionMap.SetBackHome(7/*轴*/, configuredPowderHomeMm/*共享小机配置：当前为5mm*/, 20/*校准速度，单位MM/S*/, 1000 * PowderCarHomeSearchSign/*搜索距离(mm)：符号只决定寻 Home 第一段方向*/, PowderCarHomeRetractMm/*第二段：捕获脉冲 + mm×1000，见 PowderCarHomeRetractMm 注释*/, ref PowderCarHomeFlag/*校准完成标志*/);//20260416修改：铺粉轴改为轴7
                 int axis8StatusAfterHome = 0;
                 motionMap.GetAxisStatus(8, out axis8StatusAfterHome);
                 double[] axisEncAfterHome = motionMap.GetEncPos();
@@ -4086,16 +4085,10 @@ namespace BinderJetting
                 if (ReturnCode == true)//校准成功
                 {
                     RollerParam = 0/*k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackRollerSpeed*/;//201029批注：更新辊子速度
-                    // SetBackHome 末尾 SetEncPos 为 -(home_value×1000) 脉冲；GetCurrentPos(7) 再乘 PowderCarDisplaySign。
-                    // 配置里 m_dPowderCarHomeposition 多为正（如 112），数显可能为 -112，若 BackToStation2 仍用 AimPos=+112，
-                    // 则 TrapSpace=112-(-112)=224mm → targetPulse 约 ±224000，必顶限位。此处选用与当前显示最接近的 ±cfgHome。
-                    double cfgHome = k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition;
+                    // SetBackHome 已同时写入轴7内部计数和规划坐标；等待位直接使用共享小机配置。
+                    double cfgHome = configuredPowderHomeMm;
                     double cur = GetCurrentPos(7);
                     double AimPos = cfgHome;
-                    if (Math.Abs(cur - cfgHome) > Math.Abs(cur + cfgHome))
-                    {
-                        AimPos = -cfgHome;
-                    }
 
                     double MovSpeed = 20.0;//与 SetBackHome 校准速度一致
                     double trapMm = AimPos - cur;
@@ -4320,6 +4313,8 @@ namespace BinderJetting
             return false;
         }
 
+        private readonly ManualResetEventSlim _smallPowderFeedCancelled = new ManualResetEventSlim(false);
+
         private bool StartPowderStationFeedMotion(string sourceTag, bool waitStop)
         {
             if (k_RYSYSParamAutoPrintParamInTest == null || k_RYSYSParamAutoPrintParamInTest.m_nEnablePowderStationFeed != 1)
@@ -4335,16 +4330,43 @@ namespace BinderJetting
                 return false;
             }
 
-            double turns = k_RYSYSParamAutoPrintParamInTest.m_dPowderSupplyRotateNum;
-            if (turns <= 0)
-            {
-                Log4Net.Info($"[{sourceTag}] skip station feed: m_dPowderSupplyRotateNum<=0");
-                return false;
-            }
+            var profile = SmallMachineConfiguration.Profile;
+            if (profile.PowderFeedDurationMs <= 0)
+                throw new InvalidOperationException("请配置推动式落粉开启时间 PowderFeedDurationMs。");
+            // 开合完成并关闭后才能离开接粉位，不使用旧轴3圈数或异步旋转。
+            LaserAdd.SmallPrinter.PowderFeedOutput.Feed(profile.PowderFeedDurationMs);
+            return false; // IO 已完成，不进入旧轴3等停逻辑。
+        }
 
-            Log4Net.Info($"[{sourceTag}] station feed START axis={PowderStationFeedAxis}, turns={turns:F3}, speed={PowderStationFeedSpeedRevPerSec} rev/s, waitStop={waitStop}");
-            TrapMoveUp(PowderStationFeedAxis, true, Convert.ToString(PowderStationFeedSpeedRevPerSec), turns.ToString(System.Globalization.CultureInfo.InvariantCulture), true, waitStop);
-            return true;
+        private void ApplySmallMachinePowderParameters()
+        {
+            SmallMachineConfiguration.EnsureConfigured();
+            if (k_RYSYSParamAutoPrintParamInTest.m_nEnablePowderStationFeed == 1 && SmallMachineConfiguration.Profile.PowderFeedDurationMs <= 0)
+                throw new InvalidOperationException("请先通过“落粉开启时间”设置接粉时间（ms）。");
+            k_RYSYSParamAutoPrintParamInTest.m_dPowderCarHomeposition = SmallMachineConfiguration.Powder.HomePositionMm;
+            k_RYSYSParamAutoPrintParamInTest.m_dPowderCarStartposition = SmallMachineConfiguration.Powder.MinimumPositionMm;
+            k_RYSYSParamAutoPrintParamInTest.m_dPowderCarStayposition = SmallMachineConfiguration.Powder.HomePositionMm;
+            k_RYSYSParamAutoPrintParamInTest.m_dPreAngleRotatePositionForPowderSupply = 0;
+            k_RYSYSParamAutoPrintParamInTest.m_nEnableTravelDispenseAxis3 = 0;
+            k_RYSYSParamAutoPrintParamInTest.m_dPowderCarBackSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPowderSpeed;
+            k_RYSYSParamAutoPrintParamInTest.m_dPowderCarCureSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPowderSpeed;
+        }
+
+        private void SetSmallPowderFeed(bool open)
+        {
+            var output = SmallMachineConfiguration.Profile.GetOutput(LaserAdd.SmallPrinter.OutputRole.PowderFeedEnable);
+            if (output == null || output.Channel <= 0)
+            {
+                if (open) throw new InvalidOperationException("推动式落粉 DO 通道及有效电平尚未配置。");
+                return;
+            }
+            LaserAdd.SmallPrinter.PowderFeedOutput.Set(open);
+        }
+
+        public void StopSmallPowderFeed()
+        {
+            _smallPowderFeedCancelled.Set();
+            SetSmallPowderFeed(false);
         }
 
         private void WaitGoogolAxisTrapDone(short axis, string sourceTag, int timeoutMs)
@@ -4407,7 +4429,7 @@ namespace BinderJetting
                 Thread.Sleep(leadMs);
         }
 
-        private void RunPowderPrepParallel_ZDownAndStationFeed(string sourceTag, double vel, double trapSpaceDown)
+        private void RunPowderPrepParallel_ZDownAndStationFeed(string sourceTag, double vel, double trapSpaceDown, bool runStationFeed = true)
         {
             bool feedStarted = false;
 #if OpenMagnetWhenUse
@@ -4417,7 +4439,10 @@ namespace BinderJetting
             double axis8Before = GetCurrentPos(8);
             Log4Net.Info($"Axis8DirDiag: {sourceTag} parallel prep down, cur={axis8Before:F3}mm, trap={trapSpaceDown:F3}mm");
             TrapMoveUp(8, true, Convert.ToString(vel), Convert.ToString(trapSpaceDown), true, false);
-            feedStarted = StartPowderStationFeedMotion(sourceTag, false);
+            if (runStationFeed)
+                feedStarted = StartPowderStationFeedMotion(sourceTag, false);
+            else
+                Log4Net.Info($"[{sourceTag}] fast mode defers axis3 station feed until axis7 return is complete");
             WaitAxis8StableAfterTrap(sourceTag + "_axis8");
             FinishPowderStationFeedMotion(sourceTag, feedStarted);
 #if OpenMagnetWhenUse
@@ -6255,6 +6280,8 @@ namespace BinderJetting
         /// <param name="WaitStopFLag"></param>
         private void BackToStation2(double AimPos, double m_MovSpeed, bool WaitStopFLag)//20220520新建：铺粉轴运动至指定区域：AimPos位置单位为MM
         {
+            SmallMachineConfiguration.CheckTarget(SmallMachineConfiguration.Powder, AimPos);
+            m_MovSpeed = k_RYSYSParamAutoPrintParamInTest.m_dPowderSpeed;
             double CurrentPos = GetCurrentPos(7);//20260416修改：当前铺粉车运动轴改为轴7
             // 铺粉流程位移按目标与当前差值计算；默认同向（PowderCarProcessSign=+1）。
             double TrapSpace = (AimPos - CurrentPos) * PowderCarProcessSign;
@@ -6984,6 +7011,11 @@ namespace BinderJetting
         /// <summary>Pass2 后回清洗待机位：X async→750，X 过 SOA 后再 Y async→245，双轴 Reach+停稳。</summary>
         private bool ReturnInkCarToCleanWaitStationAfterPass2(float movSpeed, double toleranceMm = 1.0, int timeoutMs = 120000, bool xReturnAlreadyStarted = false)
         {
+            if (InkCarPassCountPerLayer == 1)
+            {
+                EnsureInkCarAtCleanWaitStation(movSpeed, "SinglePassReturn", toleranceMm, timeoutMs);
+                return true;
+            }
             DateTime waitStart = DateTime.Now;
             if (!xReturnAlreadyStarted)
                 BackToStation((float)INKCAR_CLEAN_STATION_X, movSpeed, false, false, 1);
@@ -7060,6 +7092,8 @@ namespace BinderJetting
 
         private bool WaitInkCarYAxisReach(double targetMm, double toleranceMm = 1.0, int timeoutMs = 12000)
         {
+            // 本机未安装 Y 轴，不读取或等待不存在的轴。
+            if (InkCarPassCountPerLayer == 1) return true;
             DateTime waitStart = DateTime.Now;
             DateTime lastHeartbeat = waitStart;
             while (true)
@@ -7094,7 +7128,7 @@ namespace BinderJetting
         public bool IsInkCarAtCleanWaitStation(out string reason, double toleranceMm = 1.0)
         {
             double x = GetCurrentPos(1);
-            double y = GetCurrentPos(2);
+            double y = INKCAR_CLEAN_STATION_Y;
             double dx = Math.Abs(x - INKCAR_CLEAN_STATION_X);
             double dy = Math.Abs(y - INKCAR_CLEAN_STATION_Y);
             if (dx <= toleranceMm && dy <= toleranceMm)
@@ -7110,7 +7144,7 @@ namespace BinderJetting
         public void EnsureInkCarAtCleanWaitStation(float movSpeed, string stage, double toleranceMm = 1.0, int timeoutMs = 120000)
         {
             double x0 = GetCurrentPos(1);
-            double y0 = GetCurrentPos(2);
+            double y0 = INKCAR_CLEAN_STATION_Y;
             Log4Net.Info($"[LayerAnchor] EnsureInkCarAtCleanWaitStation begin stage={stage} x={x0:F3} y={y0:F3} targetX={INKCAR_CLEAN_STATION_X} targetY={INKCAR_CLEAN_STATION_Y} utc={DateTime.UtcNow:O}");
 
             bool needMoveX = Math.Abs(x0 - INKCAR_CLEAN_STATION_X) > toleranceMm;
@@ -7164,13 +7198,16 @@ namespace BinderJetting
         /// <note> 修改X轴与Y轴的行程范围，2024/04/12，Leon</note>
         private void BackToStation(double AimPos, float m_MovSpeed, bool MoveDirectionFlag, bool WaitStopFLag, double CorrectionRatio)//运动至初始区域：AimPos位置单位为MM：精华
         {
+            if (MoveDirectionFlag) return; // 兼容旧调用；本设备没有墨车 Y 轴。
+            SmallMachineConfiguration.CheckTarget(SmallMachineConfiguration.Ink, AimPos);
+            m_MovSpeed = m_szMovSpeed; // 准备、喷印、回程使用同一个可调速度。
             try 
             {   
                 Log4Net.Info($"BackToStation: enter, AimPos={AimPos:F3}, m_MovSpeed={m_MovSpeed:F3}, MoveDirectionFlag={(MoveDirectionFlag ? "Y" : "X")}, WaitStopFlag={WaitStopFLag}, CorrectionRatio={CorrectionRatio:F3}");
                 switch (MoveDirectionFlag)
                     {
                         case false://X 轴：固高编码器定位
-                            if (AimPos >= 5 && AimPos <= (XMaxDistanceMM - 5))
+                            if (AimPos >= SmallMachineConfiguration.Ink.MinimumPositionMm && AimPos <= XMaxDistanceMM)
                             {
                                 Log4Net.Info($"BackToStation X: before GetEncPos, AimPos={AimPos:F3}");
                                 double[] encX = motionMap.GetEncPos();
@@ -7245,16 +7282,17 @@ namespace BinderJetting
 
         private void MoveInkCarToCleanPreStop(float returnVelocity, bool firstCycle)
         {
+            if (InkCarPassCountPerLayer == 1)
+            {
+                EnsureInkCarAtCleanWaitStation(returnVelocity, "CleanPreStop");
+                return;
+            }
             double pos_x;
             if (firstCycle)
             {
                 // 先将 X 拉到压墨位前 50mm 的安全区，等待越过 SOA 后再下 Y。
                 BackToStation(INKCAR_CLEAN_PRESTOP_X, returnVelocity, false, false, 1.0);
-                do
-                {
-                    Thread.Sleep(100);
-                    pos_x = GetCurrentPos(1);
-                } while (pos_x < INKCAR_SOA_MAX_X);
+                if (!WaitInkCarXAxisReach(INKCAR_CLEAN_STATION_X, 1.0, 12000)) throw new TimeoutException("墨车未到达清洗等待位。");
 
                 BackToStation(INKCAR_CLEAN_STATION_Y, returnVelocity, true, true, 1);
             }
@@ -7642,12 +7680,7 @@ namespace BinderJetting
                     BackToStation(INKCAR_CLEAN_STATION_X, (float)ReturnVelocity2, false, false, 1.0);
 
                     // 判断X坐标是否已经超出SOA的最大X坐标位
-                    do
-                    {
-                        Thread.Sleep(100);
-
-                        pos_x = GetCurrentPos(1);
-                    } while (pos_x < INKCAR_SOA_MAX_X);
+                    if (!WaitInkCarXAxisReach(INKCAR_CLEAN_STATION_X, 1.0, 12000)) throw new TimeoutException("墨车未到达清洗等待位。");
 
                     // X轴已经安全，移动Y轴
                     //BackToStation(116/*96 + 25*//*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//停靠在里侧，向外侧步进喷头幅 面^^^^^^^^^^^^^^^^^//96MM
@@ -8202,12 +8235,7 @@ namespace BinderJetting
                     BackToStation(INKCAR_CLEAN_STATION_X, (float)ReturnVelocity2, false, false, 1.0);
 
                     // 判断X坐标是否已经超出SOA的最大X坐标位
-                    do
-                    {
-                        Thread.Sleep(100);
-
-                        pos_x = GetCurrentPos(1);
-                    } while (pos_x < INKCAR_SOA_MAX_X);
+                    if (!WaitInkCarXAxisReach(INKCAR_CLEAN_STATION_X, 1.0, 12000)) throw new TimeoutException("墨车未到达清洗等待位。");
 
                     // X轴已经安全，移动Y轴
                     //BackToStation(116/*96 + 25*//*25*/, (float)ReturnVelocity2/*ReturnVelocity1*/, true, true, 1);//停靠在里侧，向外侧步进喷头幅 面^^^^^^^^^^^^^^^^^//96MM
@@ -8466,10 +8494,10 @@ namespace BinderJetting
                 Log4Net.Info(msg);
 
                 {
-                    const double requestedCleanX = 860.0;
+                    double requestedCleanX = SmallMachineConfiguration.Park;
                     double cleanStationY = INKCAR_CLEAN_STATION_Y;
                     double pressInkX = INKCAR_CLEAN_STATION_X;
-                    double cleanX = Math.Min(requestedCleanX, XMaxDistanceMM - 10);
+                    double cleanX = requestedCleanX;
                     const double scraperCleanAngleDeg = 145.0;
                     float wipeBackSpeed = ResolveCleanWipeBackSpeedMmS();
                     // 压墨时长与旧版/参数页一致：直接压墨 m_dPressInkTime，压墨泵 m_dPressInkTime2（非写死 2s）
@@ -8600,8 +8628,7 @@ namespace BinderJetting
                     if (k_RYSYSParamAutoPrintParamInTest.m_nCleanWipeInkXPositive == 0) { wipeDir = 1; }
                     double currentX = GetCurrentPos(1);
                     double targetX = currentX + wipeDir * wipeMm;
-                    if (targetX < 5) { targetX = 5; }
-                    if (targetX > XMaxDistanceMM - 5) { targetX = XMaxDistanceMM - 5; }
+                    SmallMachineConfiguration.CheckTarget(SmallMachineConfiguration.Ink, targetX);
                     BackToStation(targetX, (float)cleanCarSpd, false, true, 1);
                     msg = $"新版清洗：墨车刮拭横移完成，目标X≈{targetX:F2}mm";
                     Log4Net.Info(msg);
@@ -10093,6 +10120,7 @@ namespace BinderJetting
         /// DONE::2. 修改落粉位置
         public void NewAutoSupplyPowderThread2CureFirst(ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, float BackCleanMovSpeed, Action powderReturnSafeCallback = null)//20220512新建：新的上送粉铺粉逻辑
         {
+            ApplySmallMachinePowderParameters();
             string msg = $"进入自动铺粉逻辑：NewAutoSupplyPowderThread2";
             Log4Net.Info(msg);
 
@@ -10154,11 +10182,14 @@ namespace BinderJetting
                 double vel = 2/*1*/;//Z向运动速度为1mm/s//20230403修改：
                 double TrapSpace = -((double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / (double)1000 + (double)1500 / (double)1000);//20220525新建批注：层厚并入下降1500μm补偿
                 bool pass2ParallelPrepConsumed = TryConsumePass2ParallelPowderPreparation(k_nCurrentLayer + 1);
+                bool deferStationFeedToReturn = IsMeteorPhysicalHomeFastPrintMotionBranch();
                 if (!pass2ParallelPrepConsumed)
-                    RunPowderPrepParallel_ZDownAndStationFeed("NewAutoSupplyPowderThread2CureFirst", vel, TrapSpace);
+                    RunPowderPrepParallel_ZDownAndStationFeed("NewAutoSupplyPowderThread2CureFirst", vel, TrapSpace, !deferStationFeedToReturn);
                 msg = pass2ParallelPrepConsumed
-                    ? "CureFirst: consumed Pass2 parallel axis8/station-feed prep; skip duplicate prep."
-                    : $"CureFirst: parallel axis8 down and axis3 station feed done, TrapSpace={{-{TrapSpace}mm}}";
+                    ? "CureFirst: consumed Pass2 parallel axis8 prep; skip duplicate prep."
+                    : deferStationFeedToReturn
+                        ? $"CureFirst fast mode: axis8 down done; axis3 feed deferred to axis7 return, TrapSpace={{-{TrapSpace}mm}}"
+                        : $"CureFirst: parallel axis8 down and axis3 station feed done, TrapSpace={{-{TrapSpace}mm}}";
                 Log4Net.Info(msg);
 
                 /*****************************************=========>>>***************************************/
@@ -10753,6 +10784,13 @@ namespace BinderJetting
 #endif
                     Log4Net.Info($"Axis8DirDiag: Auto上升层厚(回站补发), cur={GetCurrentPos(8):F3}mm, trap={TrapSpace:F3}mm, dir={(TrapSpace < 0 ? "负向=对应手动负向点动" : "正向=对应手动正向点动")}");
                     axis8ReturnRiseIssued = true;
+                }
+
+                if (deferStationFeedToReturn)
+                {
+                    WaitGoogolAxisTrapDone(7, "NewAutoSupplyPowderThread2CureFirst_fastReturn_axis7", 3000);
+                    bool postReturnFeedStarted = StartPowderStationFeedMotion("NewAutoSupplyPowderThread2CureFirst_fastReturn", false);
+                    FinishPowderStationFeedMotion("NewAutoSupplyPowderThread2CureFirst_fastReturn", postReturnFeedStarted);
                 }
 
                 RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dRollerSpeed;//201029批注：复位辊子速度为回铺辊速 //进入下一打印环节；等待继续铺
@@ -11386,6 +11424,7 @@ namespace BinderJetting
          */
         public void NewAutoSupplyPowderThread2(ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, Action powderReturnSafeCallback = null)//20220512新建：新的上送粉铺粉逻辑
         {
+            ApplySmallMachinePowderParameters();
             string msg = $"进入自动铺粉逻辑：NewAutoSupplyPowderThread2";
             Log4Net.Info(msg);
 
@@ -11441,11 +11480,14 @@ namespace BinderJetting
                 double TrapSpace = -((double)k_RYSYSParamAutoPrintParamInTest.m_nLayerThick / (double)1000 + axis8BacklashCompensationMm);//层厚并入轴8回差补偿
                 bool pass2ParallelPrepConsumed = TryConsumePass2ParallelPowderPreparation(k_nCurrentLayer + 1);
                 bool pass2ParallelAxis7StageConsumed = pass2ParallelPrepConsumed && TryConsumePass2ParallelAxis7Stage(k_nCurrentLayer + 1);
+                bool deferStationFeedToReturn = IsMeteorPhysicalHomeFastPrintMotionBranch();
                 if (!pass2ParallelPrepConsumed)
-                    RunPowderPrepParallel_ZDownAndStationFeed("NewAutoSupplyPowderThread2", vel, TrapSpace);
+                    RunPowderPrepParallel_ZDownAndStationFeed("NewAutoSupplyPowderThread2", vel, TrapSpace, !deferStationFeedToReturn);
                 msg = pass2ParallelPrepConsumed
-                    ? "AutoSupplyPowder: consumed Pass2 parallel axis8/station-feed prep; skip duplicate prep."
-                    : $"AutoSupplyPowder: parallel axis8 down and axis3 station feed done, TrapSpace={{-{TrapSpace}mm}}";
+                    ? "AutoSupplyPowder: consumed Pass2 parallel axis8 prep; skip duplicate prep."
+                    : deferStationFeedToReturn
+                        ? $"AutoSupplyPowder fast mode: axis8 down done; axis3 feed deferred to axis7 return, TrapSpace={{-{TrapSpace}mm}}"
+                        : $"AutoSupplyPowder: parallel axis8 down and axis3 station feed done, TrapSpace={{-{TrapSpace}mm}}";
                 Log4Net.Info(msg);
 
                 //20230313新增：单独下降层厚，精度不够：回程1500um
@@ -11798,6 +11840,13 @@ namespace BinderJetting
 #endif
                     Log4Net.Info($"Axis8DirDiag: Auto上升层厚(回站补发), cur={GetCurrentPos(8):F3}mm, trap={TrapSpace:F3}mm, dir={(TrapSpace < 0 ? "负向=对应手动负向点动" : "正向=对应手动正向点动")}");
                     axis8ReturnRiseIssued = true;
+                }
+
+                if (deferStationFeedToReturn)
+                {
+                    WaitGoogolAxisTrapDone(7, "NewAutoSupplyPowderThread2_fastReturn_axis7", 3000);
+                    bool postReturnFeedStarted = StartPowderStationFeedMotion("NewAutoSupplyPowderThread2_fastReturn", false);
+                    FinishPowderStationFeedMotion("NewAutoSupplyPowderThread2_fastReturn", postReturnFeedStarted);
                 }
 
                 RollerParam = k_RYSYSParamAutoPrintParamInTest.m_dRollerSpeed;//201029批注：复位辊子速度为回铺辊速 //进入下一打印环节；等待继续铺
@@ -12629,7 +12678,7 @@ namespace BinderJetting
                         bool axis7StageCompleted;
                         lock (GoogolMotionMap.PowderTrainMotionGate)
                         {
-                            RunPowderPrepParallel_ZDownAndStationFeed("Pass2ParallelPowderPrep", vel, trapSpace);
+                            RunPowderPrepParallel_ZDownAndStationFeed("Pass2ParallelPowderPrep", vel, trapSpace, false);
                         }
 
                         axis7StageCompleted = axis7StageTask.GetAwaiter().GetResult();
@@ -12715,11 +12764,11 @@ namespace BinderJetting
         }
 
         /// <summary>快速分支：809→525 可与 StartJob 并行；须到 525 停稳后再 Signal 放行 STARTSCAN，swath 预载完再启动 525→15 扫程。</summary>
-        private bool MoveInkCarXToApproachAndWaitPass0SwathPhysicalFast(int layerK, float speed, int timeoutMs)
+        private bool MoveInkCarXToApproachAndWaitPass0SwathPhysicalFast(int layerK, float speed, int timeoutMs, bool signalMeteorGates)
         {
             DateTime parallelStart = DateTime.Now;
-            bool earlyPreheatConsumed = TryConsumePowderReturnEarlyPass0Preheat(layerK);
-            if (!earlyPreheatConsumed)
+            bool earlyPreheatConsumed = signalMeteorGates && TryConsumePowderReturnEarlyPass0Preheat(layerK);
+            if (signalMeteorGates && !earlyPreheatConsumed)
                 MeteorPrintEngine.SignalPrintThreadLayerPass0PreheatReady(layerK, "pass0-approach525-physical-fast");
             // 回程安全点已提前发出 750→准备位运动时，不重复下发同轴 Trap 指令；仅等待该运动到位。
             if (!earlyPreheatConsumed)
@@ -12731,7 +12780,8 @@ namespace BinderJetting
                 return false;
             }
 
-            MeteorPrintEngine.SignalPrintThreadLayerPass0ReadyForMeteorSubmit(layerK);
+            if (signalMeteorGates)
+                MeteorPrintEngine.SignalPrintThreadLayerPass0ReadyForMeteorSubmit(layerK);
             if (!MeteorPrintEngine.WaitPass0FirstSwathMeteorReady(timeoutMs))
             {
                 Log4Net.Info($"[MeteorMotionBranch] physical_home_fast Pass0 swath preload timeout timeoutMs={timeoutMs}");
@@ -12797,11 +12847,11 @@ namespace BinderJetting
         /// <summary>物理 Home 快速分支 Pass0：750→525 过 Home 并行首 swath；无每层 PiSetHome/663.5；扫程终点与 Y 换带仍须等停。</summary>
         private bool RunAutoPrintThread5Pass0PhysicalHomeFast(
             int meteorMotionLayerK, double passStartBaseY, double passPitchY,
-            double returnVelocity1, double returnVelocity2, double yJetOffWidth)
+            double returnVelocity1, double returnVelocity2, double yJetOffWidth, bool signalMeteorGates)
         {
             Log4Net.Info("[MeteorMotionBranch] physical_home_fast Pass0 begin");
             int layerK = k_nCurrentLayer + 1;
-            if (!MoveInkCarXToApproachAndWaitPass0SwathPhysicalFast(layerK, (float)returnVelocity2, 10000))
+            if (!MoveInkCarXToApproachAndWaitPass0SwathPhysicalFast(layerK, (float)returnVelocity2, 10000, signalMeteorGates))
             {
                 _meteorMotionAbortLayerK = meteorMotionLayerK;
                 Log4Net.Info("AutoPrintThread5[physical_home_fast]: Pass0 approach+swath parallel failed; abort");
@@ -12839,7 +12889,8 @@ namespace BinderJetting
             BackToStation((float)pass1TargetY, (float)returnVelocity1, true, false, 1);
             if (MeteorPrintEngine.IsSplitJobPerPassEnabled())
                 MeteorPrintEngine.TryCompleteDeferredEndJob("Pass0AtScanLowEndAfterPass1YStart");
-            MeteorPrintEngine.SignalPrintThreadPassReadyForMeteorSubmit(k_nCurrentLayer + 1, 1, "pass1-prestart-during-y-physical-fast");
+            if (signalMeteorGates)
+                MeteorPrintEngine.SignalPrintThreadPassReadyForMeteorSubmit(k_nCurrentLayer + 1, 1, "pass1-prestart-during-y-physical-fast");
             if (!WaitInkCarYAxisReach(pass1TargetY, InkCarPassYReachToleranceMm, 15000))
             {
                 _meteorMotionAbortLayerK = meteorMotionLayerK;
@@ -12852,7 +12903,7 @@ namespace BinderJetting
 
         private bool RunAutoPrintThread5Pass1PhysicalHomeFast(
             int meteorMotionLayerK, double passStartBaseY, double passPitchY,
-            double returnVelocity1, double yJetOffWidth)
+            double returnVelocity1, double yJetOffWidth, bool signalMeteorGates)
         {
             Log4Net.Info("[MeteorMotionBranch] physical_home_fast Pass1 begin");
             if (!WaitInkCarXNearScanEndpoint(InkCarScanLowXMm, MeteorPhysicalHomeFastScanEndpointToleranceMm, 3000))
@@ -12907,7 +12958,8 @@ namespace BinderJetting
             BackToStation((float)pass2TargetY, (float)returnVelocity1, true, false, 1);
             if (MeteorPrintEngine.IsSplitJobPerPassEnabled())
                 MeteorPrintEngine.TryCompleteDeferredEndJob("Pass1AtScanHighEndAfterPass2YStartPhysicalFast");
-            MeteorPrintEngine.SignalPrintThreadPassReadyForMeteorSubmit(k_nCurrentLayer + 1, 2, "pass2-prestart-during-y-physical-fast");
+            if (signalMeteorGates)
+                MeteorPrintEngine.SignalPrintThreadPassReadyForMeteorSubmit(k_nCurrentLayer + 1, 2, "pass2-prestart-during-y-physical-fast");
             if (!WaitInkCarYAxisReach(pass2TargetY, InkCarPassYReachToleranceMm, 15000))
             {
                 _meteorMotionAbortLayerK = meteorMotionLayerK;
@@ -12952,7 +13004,8 @@ namespace BinderJetting
         private bool RunAutoPrintThread5Pass2PhysicalHomeFast(
             int meteorMotionLayerK, double passStartBaseY, double passPitchY,
             double returnVelocity1, double returnVelocity2, double yJetOffWidth,
-            ref SendMessageToCamera toCamera, int recordLayerIndex, int pauseFlag, int notGoCleanStationFlag)
+            ref SendMessageToCamera toCamera, int recordLayerIndex, int pauseFlag, int notGoCleanStationFlag,
+            bool isFinalScanRepeat)
         {
             Log4Net.Info("[MeteorMotionBranch] physical_home_fast Pass2 begin");
             double pass2TargetY = passStartBaseY + 2 * passPitchY - yJetOffWidth;
@@ -13010,6 +13063,11 @@ namespace BinderJetting
             }
             MeteorPrintEngine.LogDualCoordSnapshot("Pass2AtScanLowEndPhysicalFast", GetCurrentPos(1));
             MeteorPrintEngine.LogScanPassMotionCheck("Pass2AfterScanPhysicalFast", GetCurrentPos(1));
+            if (!isFinalScanRepeat)
+            {
+                Log4Net.Info("[PhysicalHomeDoubleScan] first P0/P1/P2 round complete; keep current layer active, suppress EndJob/clean/powder/camera and continue second round");
+                return true;
+            }
             LogInkCarLayerScan750ToPass2LowTiming("Pass2AtScanLowEndPhysicalFast");
 
             if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[3])
@@ -13100,13 +13158,81 @@ namespace BinderJetting
             return true;
         }
 
+        private void RunSmallMachineScan(int command, int scan, float speed)
+        {
+            if (command != 1) return;
+            var plan = SmallMachineConfiguration.JobPlan;
+            if (Single.IsNaN(speed) || Single.IsInfinity(speed) || speed <= 0) throw new InvalidOperationException("墨车速度必须为正数。");
+            m_szMovSpeed = speed;
+            if (scan >= plan.ScanCount)
+            {
+                EnsureInkCarAtCleanWaitStation(speed, "SmallMachinePause");
+                return;
+            }
+            try
+            {
+                if (scan == 0)
+                {
+                    SmallMachineConfiguration.ResetLayer();
+                    if (Math.Abs(GetCurrentPos(7) - SmallMachineConfiguration.Powder.HomePositionMm) > 1)
+                        throw new InvalidOperationException("铺粉车未回到等待位，禁止墨车喷印。");
+                    EnsureInkCarAtCleanWaitStation(speed, "SmallMachineLayerStart");
+                    if (!MeteorPrintEngine.SetFlash(false)) throw new InvalidOperationException("关闭闪喷失败。");
+                    if (!SmallMachineConfiguration.PccHomeEstablished)
+                    {
+                        // 首层在高端建立 PCC 零点；返回低端后 AbsX 为正，两个方向共用同一坐标窗口。
+                        BackToStation(plan.HighMm, speed, false, false, 1);
+                        if (!WaitInkCarXAxisReachWithProfileStopped(plan.HighMm, 1, 30000)) throw new TimeoutException("PCC 定标准备点未到位。");
+                        if (!MeteorPrintEngine.SetFixedHomeAfterMechanicalHome("SmallMachineHighEnd")) throw new InvalidOperationException("PCC 高端坐标初始化失败。");
+                        EnsureInkCarAtCleanWaitStation(speed, "SmallMachineAfterPccHome");
+                        SmallMachineConfiguration.PccHomeEstablished = true;
+                    }
+                    MeteorPrintEngine.SignalPrintThreadLayerPass0PreheatReady(k_nCurrentLayer + 1, "SmallMachineOutbound");
+                    if (!MeteorPrintEngine.WaitPass0PreheatStartJobDoneIfEnabled(30000)) throw new TimeoutException("Meteor STARTJOB 未完成。");
+                }
+                if (!WaitInkCarXAxisReach(plan.Start(scan), 1, 12000)) throw new TimeoutException("墨车未到扫描起点。");
+                MeteorPrintEngine.SignalPrintThreadPassReadyForMeteorSubmit(k_nCurrentLayer + 1, scan, "SmallMachineScan");
+                SmallMachineConfiguration.WaitData(scan);
+                BackToStation(plan.End(scan), speed, false, false, 1);
+                if (!WaitInkCarXAxisReachWithProfileStopped(plan.End(scan), 1, 30000)) throw new TimeoutException("墨车扫程未完成。");
+                if (scan == plan.ScanCount - 1)
+                {
+                    if (!MeteorPrintEngine.SendEndJob()) throw new InvalidOperationException("Meteor ENDJOB 失败。");
+                    // 单程模式返程不喷；往返模式此时已在 118 mm。
+                    EnsureInkCarAtCleanWaitStation(speed, "SmallMachineLayerComplete");
+                }
+                SmallMachineConfiguration.MotionFinished(scan);
+            }
+            catch (Exception ex)
+            {
+                SmallMachineConfiguration.Fail(ex);
+                motionMap.StopMotion(1, true);
+                MeteorPrintEngine.StopJob();
+                throw;
+            }
+        }
+
         public void AutoPrintThread5(int Command, int PassIndex, float m_MovSpeed, float m_BackCleanMovSpeed, ref SendMessageToCamera toCamera, int RecordLayerIndex, int RecordProcessIndex, int PauseFlag, double YJetOffWidth, int NotGoCleanStationFlag,double YJetBaseOffWidth)//20220513新建:自动喷墨运动动作
         {
-            string msg = $"进入：AutoPrintThread5！Command={Command}, PassIndex={PassIndex}, m_MovSpeed={m_MovSpeed}, m_BackCleanMovSpeed={m_BackCleanMovSpeed}";
+            if (SmallMachineConfiguration.UseSmallScan)
+            {
+                RunSmallMachineScan(Command, PassIndex, m_MovSpeed);
+                return;
+            }
+            SmallMachineConfiguration.EnsureConfigured();
+            m_szMovSpeed = m_MovSpeed;
+            int scanStepIndex = PassIndex;
+            bool doubleScanEnabled = PrintRasterConfig.IsPhysicalHomeDoubleScanEnabled();
+            bool isDoubleScanStep = doubleScanEnabled && scanStepIndex >= 0 && scanStepIndex < 6;
+            int scanRepeatIndex = isDoubleScanStep ? scanStepIndex / 3 : 0;
+            bool isFinalScanRepeat = !isDoubleScanStep || scanRepeatIndex == 1;
+            if (isDoubleScanStep)
+                PassIndex = scanStepIndex % 3;
+            string msg = $"进入：AutoPrintThread5！Command={Command}, ScanStepIndex={scanStepIndex}, PassIndex={PassIndex}, ScanRepeat={scanRepeatIndex + 1}, FinalRepeat={isFinalScanRepeat}, m_MovSpeed={m_MovSpeed}, m_BackCleanMovSpeed={m_BackCleanMovSpeed}";
             Log4Net.Info(msg);//20230317新建：解决20230314打印94层中途停止的潜在问题
 
             int meteorMotionLayerK = k_nCurrentLayer + 1;
-            if (PassIndex == 0)
+            if (scanStepIndex == 0)
                 _meteorMotionAbortLayerK = -1;
             else if (_meteorMotionAbortLayerK == meteorMotionLayerK)
             {
@@ -13140,23 +13266,30 @@ namespace BinderJetting
                             // 运动分支：physical_home_fast | precision_pisethome | 默认稳妥序（无每层 663.5 Home）
                             {
                                 int layerK = k_nCurrentLayer + 1;
-                                MeteorPrintEngine.InkCarGoogolRasterSample rasterAt750 = ReadInkCarGoogolRasterForMeteor();
-                                MeteorPrintEngine.PublishInkCarRasterAt750(rasterAt750.GoogolEncPulse, rasterAt750.GoogolEncMm, layerK);
-                                MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtCleanStationWait", GetCurrentPos(1), layerK);
-                                _inkCarLayerScan750ToPass2LowStartUtc = DateTime.UtcNow;
-                                string motionBranch = IsMeteorPhysicalHomeFastPrintMotionBranch() ? MeteorAutoPrintMotionBranchPhysicalFast
-                                    : (IsMeteorPrecisionPiSetHomeMotionBranch() ? MeteorAutoPrintMotionBranchPrecision : "default");
-                                Log4Net.Info($"[InkCarTiming] marker=LayerScan750ToPass2LowBegin layerK={layerK} motionBranch={motionBranch} conservativeTiming={IsInkCarConservativeTimingEnabled()} fastOfficialQueued={IsInkCarFastOfficialQueuedMotionEnabled()} utc={_inkCarLayerScan750ToPass2LowStartUtc:O}");
+                                if (scanRepeatIndex == 0)
+                                {
+                                    MeteorPrintEngine.InkCarGoogolRasterSample rasterAt750 = ReadInkCarGoogolRasterForMeteor();
+                                    MeteorPrintEngine.PublishInkCarRasterAt750(rasterAt750.GoogolEncPulse, rasterAt750.GoogolEncMm, layerK);
+                                    MeteorPrintEngine.LogDualCoordSnapshot("Pass0AtCleanStationWait", GetCurrentPos(1), layerK);
+                                    _inkCarLayerScan750ToPass2LowStartUtc = DateTime.UtcNow;
+                                    string motionBranch = IsMeteorPhysicalHomeFastPrintMotionBranch() ? MeteorAutoPrintMotionBranchPhysicalFast
+                                        : (IsMeteorPrecisionPiSetHomeMotionBranch() ? MeteorAutoPrintMotionBranchPrecision : "default");
+                                    Log4Net.Info($"[InkCarTiming] marker=LayerScan750ToPass2LowBegin layerK={layerK} motionBranch={motionBranch} conservativeTiming={IsInkCarConservativeTimingEnabled()} fastOfficialQueued={IsInkCarFastOfficialQueuedMotionEnabled()} utc={_inkCarLayerScan750ToPass2LowStartUtc:O}");
+                                }
+                                else
+                                {
+                                    Log4Net.Info($"[PhysicalHomeDoubleScan] begin second P0/P1/P2 round layerK={layerK}; retain first-round timing and raster anchors");
+                                }
                             }
                             BackToStation(passStartBaseY - YJetOffWidth, (float)ReturnVelocity2, true, false, 1);//准备 Y；physical_home_fast 下与 X approach 并行，Pass0 开扫前再确认到位
                             if (IsMeteorPhysicalHomeFastPrintMotionBranch())
                             {
                                 ClearMeteorImageXStartFixedProcessOverrides();
                                 ApplyMeteorPhysicalHomeFastXStartTuningProcessOverrides();
-                                if (!RunAutoPrintThread5Pass0PhysicalHomeFast(meteorMotionLayerK, passStartBaseY, passPitchY, ReturnVelocity1, ReturnVelocity2, YJetOffWidth))
+                                if (!RunAutoPrintThread5Pass0PhysicalHomeFast(meteorMotionLayerK, passStartBaseY, passPitchY, ReturnVelocity1, ReturnVelocity2, YJetOffWidth, scanRepeatIndex == 0))
                                     return;
 #region 监控指令：喷墨拍摄位点2
-                                if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
+                                if (isFinalScanRepeat && toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[1])
                                 {
                                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 2);//20230113新建且批注：监控发送指令
                                 }
@@ -13319,10 +13452,10 @@ namespace BinderJetting
                         case 1://第2 PASS：swath 先入 PCC，再启动 15→485 扫程，避免小 Xleft 窗口被错过
                             if (IsMeteorPhysicalHomeFastPrintMotionBranch())
                             {
-                                if (!RunAutoPrintThread5Pass1PhysicalHomeFast(meteorMotionLayerK, passStartBaseY, passPitchY, ReturnVelocity1, YJetOffWidth))
+                                if (!RunAutoPrintThread5Pass1PhysicalHomeFast(meteorMotionLayerK, passStartBaseY, passPitchY, ReturnVelocity1, YJetOffWidth, scanRepeatIndex == 0))
                                     return;
 #region 监控指令：喷墨拍摄位点3
-                                if (toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
+                                if (isFinalScanRepeat && toCamera != null && toCamera.k_MonitorPrintParam != null && toCamera.k_MonitorPrintParam.m_anJettingBinderBedMonitorFlags[2])
                                 {
                                     toCamera.SendMessageFromSharedMemory(false, RecordLayerIndex, 3);//20230113新建且批注：监控发送指令
                                 }
@@ -13400,7 +13533,7 @@ namespace BinderJetting
                         case 2://第3 PASS：swath 先入 PCC，再启动 485→15 扫程；pass 切换靠 natural PD（不用 ForcePD）
                             if (IsMeteorPhysicalHomeFastPrintMotionBranch())
                             {
-                                if (!RunAutoPrintThread5Pass2PhysicalHomeFast(meteorMotionLayerK, passStartBaseY, passPitchY, ReturnVelocity1, ReturnVelocity2, YJetOffWidth, ref toCamera, RecordLayerIndex, PauseFlag, NotGoCleanStationFlag))
+                                if (!RunAutoPrintThread5Pass2PhysicalHomeFast(meteorMotionLayerK, passStartBaseY, passPitchY, ReturnVelocity1, ReturnVelocity2, YJetOffWidth, ref toCamera, RecordLayerIndex, PauseFlag, NotGoCleanStationFlag, isFinalScanRepeat))
                                     return;
                                 break;
                             }
@@ -13763,6 +13896,25 @@ namespace BinderJetting
             SetProcessEnv("METEOR_IMAGE_XSTART_FIXED_PX", "-1");
         }
 
+        /// <summary>快速模式不再屏蔽固定 XStart：将用户/系统配置恢复到当前进程；未配置则清除旧模式遗留的进程覆盖。</summary>
+        private static void RestoreMeteorImageXStartFixedProcessOverridesFromExternal()
+        {
+            string[] names =
+            {
+                "METEOR_IMAGE_XSTART_FIXED_FWD_PX",
+                "METEOR_IMAGE_XSTART_FIXED_REV_PX",
+                "METEOR_IMAGE_XSTART_FIXED_PX"
+            };
+            foreach (string name in names)
+            {
+                string externalValue = GetExternalEnvValue(name);
+                if (string.IsNullOrWhiteSpace(externalValue))
+                    ClearProcessEnv(name);
+                else
+                    SetProcessEnv(name, externalValue);
+            }
+        }
+
         private static void ApplyMeteorPhysicalHomeFastXStartTuningProcessOverrides()
         {
             SetProcessIntEnvWithExternalOverride("METEOR_IMAGE_XSTART_OFFSET_PX", MeteorPhysicalHomeFastFwdLeadInOffsetPx, -4096, 4096);
@@ -13830,6 +13982,7 @@ namespace BinderJetting
         private void ApplyMeteorPiSetHomePhysicalHomeFixedXStartMode()
         {
             SetProcessEnv("METEOR_AUTO_PRINT_MOTION_BRANCH", MeteorAutoPrintMotionBranchPrecision);
+            SetProcessEnv(PrintRasterConfig.PhysicalHomeDoubleScanModeEnv, "0");
             SetProcessEnv(PowderReturnEarlyPass0PrepModeEnv, "0");
             SetProcessEnv("METEOR_OFFICIAL_QUEUED_SCAN_MODE", "1");
             SetProcessEnv("METEOR_PER_LAYER_HOME_MODE", "1");
@@ -13885,6 +14038,29 @@ namespace BinderJetting
             catch { }
         }
 
+        private void UpdateMeteorPhysicalHomeDoubleScanButtonText()
+        {
+            try
+            {
+                if (buttonMeteorPhysicalHomeDoubleScan == null)
+                    return;
+                bool physicalHomeFast = IsMeteorPhysicalHomeFastPrintMotionBranch();
+                bool active = PrintRasterConfig.IsPhysicalHomeDoubleScanEnabled();
+                int shiftPixels = PrintRasterConfig.GetPhysicalHomeDoubleScanShiftPixels();
+                buttonMeteorPhysicalHomeDoubleScan.Enabled = physicalHomeFast;
+                buttonMeteorPhysicalHomeDoubleScan.Text = active
+                    ? "双次扫描已启用\r\nY错位" + shiftPixels + "px"
+                    : "双次扫描\r\nY错位" + shiftPixels + "px";
+                buttonMeteorPhysicalHomeDoubleScan.BackColor = active
+                    ? Color.Gold
+                    : (physicalHomeFast ? Color.LemonChiffon : Color.Gainsboro);
+                buttonMeteorPhysicalHomeDoubleScan.ForeColor = active
+                    ? Color.DarkRed
+                    : (physicalHomeFast ? Color.DarkGoldenrod : Color.DimGray);
+            }
+            catch { }
+        }
+
         private bool IsPowderReturnEarlyPass0PrepUiMode()
         {
             return IsMeteorPhysicalHomeFastPrintMotionBranch()
@@ -13910,6 +14086,7 @@ namespace BinderJetting
         private void ApplyMeteorPhysicalHomeFastPrintMode()
         {
             SetProcessEnv("METEOR_AUTO_PRINT_MOTION_BRANCH", MeteorAutoPrintMotionBranchPhysicalFast);
+            SetProcessEnv(PrintRasterConfig.PhysicalHomeDoubleScanModeEnv, "0");
             SetProcessEnv(PowderReturnEarlyPass0PrepModeEnv, "0");
             SetProcessEnv("METEOR_PISET_HOME_AT_JOB_START", "0");
             SetProcessEnv("METEOR_PER_LAYER_HOME_MODE", "0");
@@ -13935,13 +14112,14 @@ namespace BinderJetting
             SetProcessIntEnvWithExternalOverride("METEOR_PASS_SWATH_DOCS_POLL_MS", "100", 20, 200);
             SetProcessEnv("METEOR_INKCAR_SCAN_APPROACH_HIGH_MM", "635");
             SetProcessEnv("METEOR_INKCAR_SCAN_HIGH_END_MM", "635");
-            ClearMeteorPassFixedXStartProcessOverrides();
-            SetProcessIntEnvWithExternalOverride("METEOR_PASS0_FWD_XSTART_PX", MeteorPhysicalHomeFastPass0FwdXStartPx, 1, 20000);
-            SetProcessIntEnvWithExternalOverride("METEOR_PASS1_REV_XSTART_PX", MeteorPhysicalHomeFastPass1RevXStartPx, 1, 20000);
-            SetProcessIntEnvWithExternalOverride("METEOR_PASS2_FWD_XSTART_PX", MeteorPhysicalHomeFastPass2FwdXStartPx, 1, 20000);
+            // 每 Pass 固定 XStart 改为仅由用户/系统环境变量显式启用；未设置时为 0，
+            // TryGetPassSpecificImageXStartPixels 会回退至 unified/live AbsX 对齐，而非覆盖为历史标定常数。
+            SetProcessIntEnvWithExternalOverride("METEOR_PASS0_FWD_XSTART_PX", "0", 0, 20000);
+            SetProcessIntEnvWithExternalOverride("METEOR_PASS1_REV_XSTART_PX", "0", 0, 20000);
+            SetProcessIntEnvWithExternalOverride("METEOR_PASS2_FWD_XSTART_PX", "0", 0, 20000);
             SetProcessEnv("METEOR_PASS1_REV_HDC_WINDOW_PAD_PX", "0");
             SetProcessEnv("METEOR_PURE_METEOR_TRIGGER_PASS", "0");
-            ClearMeteorImageXStartFixedProcessOverrides();
+            RestoreMeteorImageXStartFixedProcessOverridesFromExternal();
             ApplyMeteorPhysicalHomeFastXStartTuningProcessOverrides();
             Log4Net.Info($"Meteor physical_home_fast effective env: pass0FwdXStart={GetProcessEnv("METEOR_PASS0_FWD_XSTART_PX")}; pass1RevXStart={GetProcessEnv("METEOR_PASS1_REV_XSTART_PX")}; pass2FwdXStart={GetProcessEnv("METEOR_PASS2_FWD_XSTART_PX")}; pass1RevHdcWindowPad={GetProcessEnv("METEOR_PASS1_REV_HDC_WINDOW_PAD_PX")}; minStartJobGapMs={GetProcessEnv("METEOR_MIN_MS_AFTER_STARTJOB_FOR_SETHOME")}; passSwathDocsMin={GetProcessEnv("METEOR_PASS_SWATH_DOCS_MIN")}; passSwathDocsWaitMs={GetProcessEnv("METEOR_PASS_SWATH_DOCS_WAIT_MS")}; passSwathDocsPollMs={GetProcessEnv("METEOR_PASS_SWATH_DOCS_POLL_MS")}; imageXStartOffset={GetProcessEnv("METEOR_IMAGE_XSTART_OFFSET_PX")}; pass1RevExtra={GetProcessEnv("METEOR_PASS1_REV_EXTRA_OFFSET_PX")}; pass2FwdExtra={GetProcessEnv("METEOR_PASS2_FWD_EXTRA_OFFSET_PX")}; imageMaxWidthPx={GetProcessEnv("METEOR_IMAGE_MAX_WIDTH_PX")}; swathPayloadDiag={GetProcessEnv("METEOR_SWATH_PAYLOAD_DIAG")}");
             InvalidateInkCarMotionTimingCache();
@@ -13959,6 +14137,7 @@ namespace BinderJetting
             ApplyMeteorPiSetHomePhysicalHomeFixedXStartMode();
             UpdateMeteorPiSetHomeFixedXStartButtonText();
             UpdateMeteorPhysicalHomeFastPrintButtonText();
+            UpdateMeteorPhysicalHomeDoubleScanButtonText();
             UpdatePowderReturnEarlyPass0PrepButtonText();
             string config = MeteorPrintEngine.DescribeBatchSwathModeConfig();
             Log4Net.Info($"Meteor 精扫分支(precision_pisethome)已设置：{config}; pass0Fwd={MeteorPiSetHomeFixedPass0FwdXStartPx}, pass1Rev={MeteorPiSetHomeFixedPass1RevXStartPx}, pass2Fwd={MeteorPiSetHomeFixedPass2FwdXStartPx}; motionBranch={MeteorAutoPrintMotionBranchPrecision}");
@@ -13977,10 +14156,44 @@ namespace BinderJetting
             ApplyMeteorPhysicalHomeFastPrintMode();
             UpdateMeteorPhysicalHomeFastPrintButtonText();
             UpdateMeteorPiSetHomeFixedXStartButtonText();
+            UpdateMeteorPhysicalHomeDoubleScanButtonText();
             UpdatePowderReturnEarlyPass0PrepButtonText();
             string config = MeteorPrintEngine.DescribeBatchSwathModeConfig();
-            Log4Net.Info($"Meteor 快速分支(physical_home_fast)已设置：{config}; motionBranch={MeteorAutoPrintMotionBranchPhysicalFast}; 无每层PiSetHome/663.5停靠; approachHighMm=635; highEndMm=635; pass0FwdXStart={MeteorPhysicalHomeFastPass0FwdXStartPx}; pass1RevXStart={MeteorPhysicalHomeFastPass1RevXStartPx}; pass2FwdXStart={MeteorPhysicalHomeFastPass2FwdXStartPx}; unifiedLayerBatch=1; forcePd=0; 已关闭用户级METEOR_IMAGE_XSTART_FIXED_*; imageMaxWidthPx={MeteorPhysicalHomeFastImageMaxWidthPx}; fwdLeadInPx={MeteorPhysicalHomeFastFwdLeadInOffsetPx}; pass1RevExtraPx={MeteorPhysicalHomeFastPass1RevExtraOffsetPx}");
-            MessageBox.Show("已切换为物理 Home 快速打印分支。\r\n750→635 过 Home；XStart=2500/8500/2500；高端收口=635；每层统一发送3PASS，入队软等待上限1400ms；ForcePD=0。\r\n进程内已清除用户级固定 XStart 覆盖，并设置单次 IMAGE 宽度上限 7244px（约460mm@400DPI）。\r\n对下一次打印生效。");
+            Log4Net.Info($"Meteor 快速分支(physical_home_fast)已设置：{config}; motionBranch={MeteorAutoPrintMotionBranchPhysicalFast}; 无每层PiSetHome/663.5停靠; approachHighMm=635; highEndMm=635; pass0FwdXStart={GetProcessEnv("METEOR_PASS0_FWD_XSTART_PX")}; pass1RevXStart={GetProcessEnv("METEOR_PASS1_REV_XSTART_PX")}; pass2FwdXStart={GetProcessEnv("METEOR_PASS2_FWD_XSTART_PX")}; unifiedLayerBatch=1; forcePd=0; 保留用户级METEOR_IMAGE_XSTART_FIXED_*; imageMaxWidthPx={GetProcessEnv("METEOR_IMAGE_MAX_WIDTH_PX")}; fwdLeadInPx={GetProcessEnv("METEOR_IMAGE_XSTART_OFFSET_PX")}; pass1RevExtraPx={GetProcessEnv("METEOR_PASS1_REV_EXTRA_OFFSET_PX")}");
+            MessageBox.Show("已切换为物理 Home 快速打印分支。\r\n750→635 过 Home；每层统一发送3PASS，入队软等待上限1400ms；ForcePD=0。\r\n每 Pass XStart 与固定 XStart 以用户/系统环境变量为准；未设置每 Pass XStart 时使用动态 unified/live AbsX 对齐。\r\n对下一次打印生效。");
+        }
+
+        private void buttonMeteorPhysicalHomeDoubleScan_Click(object sender, EventArgs e)
+        {
+            if (HasAutoMotionThreadRunning())
+            {
+                MessageBox.Show("当前有自动打印/清洗/固化线程运行，请停止后再切换双次扫描模式。");
+                Log4Net.Info("[PhysicalHomeDoubleScan] toggle rejected: auto motion thread is running");
+                return;
+            }
+
+            if (!IsMeteorPhysicalHomeFastPrintMotionBranch())
+            {
+                MessageBox.Show("请先开启“切到物理 Home 快速打印”，再启用双次扫描。");
+                UpdateMeteorPhysicalHomeDoubleScanButtonText();
+                return;
+            }
+
+            string configuredShift = GetProcessEnv(PrintRasterConfig.PhysicalHomeDoubleScanShiftPixelsEnv);
+            int ignoredShift;
+            if (string.IsNullOrWhiteSpace(configuredShift) || !int.TryParse(configuredShift.Trim(), out ignoredShift))
+                SetProcessEnv(PrintRasterConfig.PhysicalHomeDoubleScanShiftPixelsEnv,
+                    PrintRasterConfig.PhysicalHomeDoubleScanDefaultShiftPixels.ToString());
+
+            bool enable = !PrintRasterConfig.IsPhysicalHomeDoubleScanEnabled();
+            SetProcessEnv(PrintRasterConfig.PhysicalHomeDoubleScanModeEnv, enable ? "1" : "0");
+            int shiftPixels = PrintRasterConfig.GetPhysicalHomeDoubleScanShiftPixels();
+            double shiftMm = PrintRasterConfig.GetPhysicalHomeDoubleScanShiftMm(PrintRasterConfig.SliceDpi);
+            UpdateMeteorPhysicalHomeDoubleScanButtonText();
+            Log4Net.Info($"[PhysicalHomeDoubleScan] mode={(enable ? "enabled" : "disabled")}; repeatCount={(enable ? 2 : 1)}; scanSteps={(enable ? 6 : 3)}; secondRoundImageYStartPx={(enable ? shiftPixels : 0)}; secondRoundMechanicalYMinusMm={(enable ? shiftMm : 0.0):F3}; dpi={PrintRasterConfig.SliceDpi}");
+            MessageBox.Show(enable
+                ? $"已启用双次扫描：每层执行 P0/P1/P2 两轮，共 6 次扫描；仅第 6 次扫描后进入铺粉等下一节拍。\r\n第二轮机械 Y 向偏移 -{shiftMm:F3} mm，Meteor 图片 YStart 同时补偿 +{shiftPixels} px，保持图形位置不变。\r\n对下一次打印生效。"
+                : "已关闭双次扫描，恢复每层 3PASS 单轮扫描。\r\n对下一次打印生效。");
         }
 
         private void buttonPowderReturnEarlyPass0Prep_Click(object sender, EventArgs e)
@@ -14802,7 +15015,7 @@ namespace BinderJetting
 
         private void RefreshInkCarHomeFlag()
         {
-            InkCarHomeFlag = InkCarXHomeFlag && InkCarYHomeFlag;
+            InkCarHomeFlag = InkCarXHomeFlag;
         }
 
         private void UpdateInkCarHomeButtonText()
@@ -14975,15 +15188,11 @@ namespace BinderJetting
                 RunInkCarAxisHome(1, true, XMaxDistanceMM - 50.0, "X");
                 LogInkCarXHomeDiagnostic("X回零完成后");
                 LogInkCarXHomeDiagnostic("Y回零开始前");
-                RunInkCarAxisHome(2, false, 50.0, "Y");
+                // 小型机只回零 X；不使能或回零 Y。
                 LogInkCarXHomeDiagnostic("Y回零完成后");
 
-                if (InkCarHomeFlag && MeteorPrintEngine.IsOfficialQueuedScanModeEnabled()
-                    && !MeteorPrintEngine.IsPerLayerHome800ModeEnabled())
-                {
-                    bool meteorHomeOk = MeteorPrintEngine.SetFixedHomeAfterMechanicalHome("InkCarXYMechanicalHome");
-                    Log4Net.Info($"墨车XY机械回零后设置Meteor固定Home：result={meteorHomeOk}");
-                }
+                // 机械回零结束点为配置高限位回退 50mm；PCC Home 在打印高端停稳后建立。
+                Log4Net.Info($"墨车机械回零完成；Meteor PiSetHome 延后到小机首层 {SmallMachineConfiguration.PrintHigh}mm 高端停稳点执行。");
 
                 FinalizeInkCarGoogolHome(InkCarHomeFlag);
             }
@@ -15289,16 +15498,14 @@ namespace BinderJetting
                 Log4Net.Info($"墨车轴{Axis}限位回零：初始位设置完成，当前显示位置={homeReadBackMm:F3}mm");
                 LogInkCarAxisSnapshot($"墨车轴{Axis}限位回零：零位设定后轴快照");
                 Log4Net.Info($"墨车轴{Axis}限位回零：坐标设定检查，目标位置={HomeMm:F3}mm，实际位置={homeReadBackMm:F3}mm，结果={(homeMatch ? "OK" : "NG")}");
-                Log4Net.Info($"墨车轴{Axis}限位回零：退出，结果=OK");
-                return true;
+                Log4Net.Info($"墨车轴{Axis}限位回零：退出，结果={(homeMatch ? "OK" : "NG")}");
+                return homeMatch;
             }
             catch (Exception ex)
             {
                 Log4Net.Error($"墨车轴{Axis}限位回零异常：{ex}");
                 try
                 {
-                    if (!WaitForInkCarPrfPosition(Axis, retreatPulse, 500, TimeSpan.FromSeconds(10)))
-                        Log4Net.Info($"墨车轴{Axis}限位回零：负限位回退后规划位置等待超时（将继续尝试清状态并设定编码器）");
                     motionMap.ClrLimitAndAbrupt(Axis);
                     motionMap.StopMotion(Axis, true);
                 }
@@ -15314,6 +15521,7 @@ namespace BinderJetting
 
         private void RunInkCarAxisHome(short Axis, bool SearchPositiveDirection, double HomeMm, string AxisName)
         {
+            if (Axis == 2) return;
             string msg = $"开启墨车{AxisName}轴回零";
             Log4Net.Info(msg);
             Log4Net.Info($"RunInkCarAxisHome: enter, Axis={Axis}, AxisName={AxisName}, SearchPositiveDirection={SearchPositiveDirection}, HomeMm={HomeMm:F3}");
@@ -15337,7 +15545,7 @@ namespace BinderJetting
             double currentX = GetCurrentPos(1);
             double currentY = GetCurrentPos(2);
             Log4Net.Info($"墨车{AxisName}轴回零后坐标读回：X={currentX:F3}mm，Y={currentY:F3}mm");
-            Log4Net.Info($"墨车{AxisName}轴回零后参考设定：X=810.000mm，Y=50.000mm");
+                Log4Net.Info($"墨车{AxisName}轴回零后参考设定：X={XMaxDistanceMM - 50.0:F3}mm；小机无 Y 运动");
 
             double axisReadBackMm = Axis == 1 ? currentX : currentY;
             bool axisMatch = Math.Abs(axisReadBackMm - HomeMm) <= 0.5;
@@ -16510,7 +16718,6 @@ namespace BinderJetting
 
 
         bool openValueFlag = true;
-        private double retreatPulse;
 
         private void button9_Click(object sender, EventArgs e)
         {

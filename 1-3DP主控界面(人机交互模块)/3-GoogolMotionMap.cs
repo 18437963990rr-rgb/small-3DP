@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +28,7 @@ namespace Motion
         /// 在 <see cref="InitCardConfiguration"/> 里，<see cref="EncOff"/> 会对 1~8 路编码器切到「内部脉冲计数」。
         /// 若 MCT/电气上轴1为「外接光栅进卡 + 卡上闭环」，必须对轴1再 <see cref="gts.mc.GT_EncOn"/>；cfg 中 <c>[encoder1] active=2</c> 须与外编接线一致。开环脉冲无此外编时请置 <c>false</c>。
         /// </summary>
-        public bool EnableAxis1ExternalEncoderAfterInit = true;
+        public readonly bool EnableAxis1ExternalEncoderAfterInit = false; // X 步进开环；Meteor 光栅独立保留。
 
         /// <summary>
         /// 在 <see cref="InitCardConfiguration"/> 里，<see cref="EncOff"/> 会对 1~8 路编码器切到「内部脉冲计数」。
@@ -239,6 +239,12 @@ namespace Motion
         public void SetDo(short DoNumber, bool value)
         //public static void SetDo(short DoNumber, bool value)
         {
+            if (DoNumber == LaserAdd.SmallPrinter.PowderFeedOutput.ApiChannel)
+            {
+                if (!value) LaserAdd.SmallPrinter.PowderFeedOutput.Set(false);
+                else LogMotionDebug("EXO10 已专用于落粉，忽略旧通用输出开启请求。");
+                return;
+            }
             short sRtn;
             //sRtn = gts.mc.GT_SetDoBit(cardNumber,
             //    gts.mc.MC_GPO,              // 指定数字IO类型是通用输出c
@@ -272,7 +278,7 @@ namespace Motion
         /// </summary>
         private void TryEncOnExternalEncoder(short axis, bool enabled, string logLabel, string context = null)
         {
-            if (!enabled)
+            if (axis == 1 || !enabled)
             {
                 return;
             }
@@ -308,6 +314,7 @@ namespace Motion
         /// <param name="SinkPostion"></param>
         public bool SetBackSpreaderAxis(short AXIS, double homeVel/*单位 圈/s*/, int search_home/*原点搜索值：2圈，一定可搜索到原点，单位圈数*/, double SinkPostion/*开槽位置：确保开槽位置的运动准确，单位度数*/)
         {
+            BinderJetting.SmallMachineConfiguration.RejectRemovedAxis(AXIS);
             try
             {
             short sRtn = gts.mc.GT_ClrSts(cardNumber, AXIS, 8); Commandhandler("GT_ClrSts", sRtn);//(0-1)清除指定轴的报警和限位 
@@ -409,6 +416,7 @@ namespace Motion
         }
         public bool TrapMoveSpreaderAxis(short AXIS, double homeVel/*单位 圈/s*/, double SinkPostion/*开槽位置：确保开槽位置的运动准确，单位度数*/)
         {
+            BinderJetting.SmallMachineConfiguration.RejectRemovedAxis(AXIS);
             try
             {
             short sRtn = gts.mc.GT_ClrSts(cardNumber, AXIS, 8); Commandhandler("GT_ClrSts", sRtn);//(0-1)清除指定轴的报警和限位 
@@ -576,6 +584,7 @@ namespace Motion
         /// </summary>
         public bool SetBackHome(short AXIS, double/*int*/ home_value /*原点复位值*/, double homeVel, int search_home/*搜索距离(mm)×内部再×1000 为脉冲*/, double/*int*/ home_offset/*第二段增量(mm，有符号)*/, ref bool PowderCarHomeFlag)
         {
+            BinderJetting.SmallMachineConfiguration.RejectRemovedAxis(AXIS);
             //(0-1)清除指定轴的报警和限位
             try
             {
@@ -585,14 +594,14 @@ namespace Motion
             //(0-2)驱动器使能
             sRtn = gts.mc.GT_AxisOn(0, AXIS);
             Commandhandler("GT_AxisOn", sRtn);
-            LogInfo($"SetBackHome: AXIS={AXIS} 即将全轴 EncOff；若轴1/2/8依赖外接光栅，将在 finally 中恢复 GT_EncOn");
+            LogInfo($"SetBackHome: AXIS={AXIS} 仅切换当前轴为内部脉冲计数，不改动其它轴反馈源");
             uint axis8ClockBefore = 0;
             int axis8StatusBefore = 0;
             mc.GT_GetSts(cardNumber, 8, out axis8StatusBefore, 1, out axis8ClockBefore);
             double[] axisEncBefore = GetEncPos();
             double axis8EncBefore = (axisEncBefore != null && axisEncBefore.Length >= 8) ? axisEncBefore[7] : double.NaN;
             LogInfo($"SetBackHome: before EncOff, Axis8ExtEncCfg={EnableAxis8ExternalEncoderAfterInit}, axis8Sts=0x{axis8StatusBefore:X}, axis8Enc={axis8EncBefore:F1}");
-            EncOff();//20200226新建：使用内部脉冲计数器          
+            EncOffSingleAxis(AXIS);//步进回零仅使用当前轴内部脉冲计数，禁止全轴 EncOff 干扰成型缸反馈。
 
             // (1)启动Home捕获
             /*short */
@@ -723,7 +732,9 @@ namespace Motion
                 int setPulse = (int)(home_value * 1000);//仅参数中的停靠/逻辑坐标（mm→脉冲）
                 sRtn = mc.GT_SetEncPos(cardNumber, AXIS, setPulse);//沿用本轴历史约定：显示与规划极性需与 Trap/Jog 一致时再整体改号
                 Commandhandler("GT_SetEncPos", sRtn);
-                LogInfo($"SetBackHome: AXIS={AXIS} 回退后 ZeroPos+SetEncPos, 逻辑坐标写入 pulse={setPulse} (home_value={home_value:F3} mm)");
+                sRtn = mc.GT_SetPrfPos(cardNumber, AXIS, setPulse);//回零完成后规划坐标必须与内部计数坐标一致。
+                Commandhandler("GT_SetPrfPos", sRtn);
+                LogInfo($"SetBackHome: AXIS={AXIS} 回退后 ZeroPos+SetEncPos+SetPrfPos, 逻辑坐标写入 pulse={setPulse} (home_value={home_value:F3} mm)");
 #if false
                 MessageBox.Show("Home成功！！" + ",捕获规划器数值:" + prfPos1 + "，捕获编码器数值：" + encPos1 + "；" +
                     "终止规划器数值：" + prfPos + "终止编码器数值：" + encPos + "。目标设置数值：" + (int)(home_value * 1000));
@@ -734,7 +745,10 @@ namespace Motion
             }
             finally
             {
-                RestoreExternalEncodersAfterGlobalEncOff($"SetBackHome AXIS={AXIS} finally");
+                // 本方法只关闭当前轴反馈；仅当当前轴本来配置为外部反馈时恢复该轴。
+                if (AXIS == 1) TryEncOnExternalEncoder(1, EnableAxis1ExternalEncoderAfterInit, "轴1(墨车X)", "SetBackHome finally");
+                else if (AXIS == 2) TryEncOnExternalEncoder(2, EnableAxis2ExternalEncoderAfterInit, "轴2(墨车Y)", "SetBackHome finally");
+                else if (AXIS == 8) TryEncOnExternalEncoder(8, EnableAxis8ExternalEncoderAfterInit, "轴8(成型缸)", "SetBackHome finally");
                 uint axis8ClockAfter = 0;
                 int axis8StatusAfter = 0;
                 mc.GT_GetSts(cardNumber, 8, out axis8StatusAfter, 1, out axis8ClockAfter);
@@ -786,7 +800,13 @@ namespace Motion
         //根据（a）轴号、(b)类型、（c）卡号没卵用——————选择初始化的轴类型
         public void InitCardConfiguration()//20200111修改：下载配置文件/固高的限位设置bug/固高的限位设置bug
         {
-            gts.mc.GT_LoadConfig(cardNumber, "GTS800-加限位.cfg");//下载配置文件
+            string configPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "GTS800-加限位.cfg");
+            if (!System.IO.File.Exists(configPath))
+                throw new System.IO.FileNotFoundException("未找到固高机台配置文件，禁止启动运动控制。", configPath);
+            short loadConfigResult = gts.mc.GT_LoadConfig(cardNumber, configPath);//下载配置文件
+            if (loadConfigResult != 0)
+                throw new InvalidOperationException("固高机台配置文件加载失败：" + loadConfigResult + "，路径：" + configPath);
+            LaserAdd.SmallPrinter.PowderFeedOutput.Set(false);
 #if false //20220505屏蔽此前的固高限位bug修复策略
             //ushort sValue = 0xFCFF/*0xFFFF*/;//20200111修改：固高的限位设置bug//20200426修改为FCFF:为Od1111110011111111
             ushort sValue = 0xF0FF/*0xFFFF*/;//20200111修改：固高的限位设置bug//20200426修改为FCFF:为Od1111110011111111//20200623修改：修改6轴限位触发电平
@@ -797,6 +817,7 @@ namespace Motion
             //gts.mc.GT_LmtSns(cardNumber, sValue);//20200111修改：固高的限位设置bug
 #endif
             EncOff();//20200226新建：使用内部脉冲计数器
+            EncOffSingleAxis(1); // 检查 X 开环计数切换结果；不改变 Meteor PCC。
 
             //gts.mc.GT_EncSns(cardNumber,2);//20220512新建批注：固高的2轴外部编码器输入相反
 
@@ -940,6 +961,7 @@ namespace Motion
         //正反方向点位运动
         public void TrapMotion(short AXIS, ref mc.TTrapPrm p_trap, int position, double vel, double RollerParam, int RollerDirection, bool WaitStopFlag)//注意：位置的类型为int，不是double；
         {
+            BinderJetting.SmallMachineConfiguration.RejectRemovedAxis(AXIS);
             short sRtn;//第二部分——本部分是重点（1）准备运动（a）清除各轴的报警和限位，必须的
 
             double trapStartEnc = double.NaN;
@@ -1181,6 +1203,7 @@ namespace Motion
         //正反方向JOG运动
         public void JogMotion(short AXIS, ref mc.TJogPrm p_jog, double vel, double RollerParam)
         {
+            BinderJetting.SmallMachineConfiguration.RejectRemovedAxis(AXIS);
             short sRtn;//指令返回代码//回零之前，必要的保证工作://(1)先重新暂停一下所有的运动//（2）清楚所有的报警状态
 
             //（2）开启当前轴的JOG运动
@@ -1203,6 +1226,11 @@ namespace Motion
 
         public void StopMotion(short AXIS, bool bImmeStop = false)//平滑停止运动
         {
+            if (AXIS == 3)
+            {
+                LaserAdd.SmallPrinter.PowderFeedOutput.Set(false);
+                return;
+            }
             //gts.mc.GT_Stop(cardNumber, 1 << (AXIS - 1), 0);//停止JOG运动——————使用的是平滑停止的方式——————此处需要修改
             //gts.mc.GT_Stop(cardNumber, 1 << (AXIS - 1), 1);//停止JOG运动——————使用的是紧急停止的方式——————此处需要修改
             gts.mc.GT_Stop(cardNumber, 1 << (AXIS - 1), 1 << (AXIS - 1));//停止JOG运动——————使用的是紧急停止的方式——————此处需要修改
@@ -1210,6 +1238,8 @@ namespace Motion
 
         public void StopMultiMotion(int Mask, int Option)//同时停止多轴运动：20200220添加——用于手动急停按钮
         {
+            try { LaserAdd.SmallPrinter.PowderFeedOutput.Set(false); }
+            catch (Exception ex) { LogMotionDebug("停止落粉失败：" + ex.Message); }
             //gts.mc.GT_Stop(cardNumber, 1 << (AXIS - 1), 0);//停止JOG运动——————使用的是平滑停止的方式——————此处需要修改
             //gts.mc.GT_Stop(cardNumber, 1 << (AXIS - 1), 1);//停止JOG运动——————使用的是紧急停止的方式——————此处需要修改
             gts.mc.GT_Stop(cardNumber, Mask/*1 << (AXIS - 1)*/, Option /*1 << (AXIS - 1)*/);//停止JOG运动——————使用的是紧急停止的方式——————此处需要修改
@@ -1374,12 +1404,14 @@ namespace Motion
         {
             short sRtn = gts.mc.GT_EncOff(cardNumber, axis);
             Commandhandler($"GT_EncOff axis={axis}", sRtn);
+            if (axis == 1 && sRtn != 0) throw new InvalidOperationException("X 轴切换内部脉冲计数失败：" + sRtn);
         }
 
         public void EncOn()//设置为脉冲计数器形式//20200226新建：
         {
             for (short i = 1; i <= 8; i++)//20200226新建：
             {
+                if (i == 1) { EncOffSingleAxis(1); continue; } // 禁止旧全轴恢复路径重新启用 X 外编。
                 gts.mc.GT_EncOn(cardNumber, i);//encoder计数值为正整数
             }
         }

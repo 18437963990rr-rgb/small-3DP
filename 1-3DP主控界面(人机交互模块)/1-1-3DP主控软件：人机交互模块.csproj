@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Costura.Fody.3.3.3\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody.3.3.3\build\Costura.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -197,6 +197,7 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
@@ -244,6 +245,17 @@
     <Compile Include="11-PluginInterface.cs" />
     <Compile Include="2-SerializeParam.cs" />
     <Compile Include="3-GoogolMotionMap.cs" />
+    <Compile Include="SmallMachineConfiguration.cs" />
+    <Compile Include="..\SmallPrinter\PowderFeedOutput.cs">
+      <Link>PowderFeedOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\SmallPrinter\DeviceProfile.cs">
+      <Link>DeviceProfile.cs</Link>
+    </Compile>
+    <Content Include="..\SmallPrinter\SmallPrinterProfile.json">
+      <Link>SmallPrinterProfile.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Compile Include="4-MeteorPrintEngine.cs" />
     <Compile Include="PrintLayerTransitionAnchors.cs" />
     <Compile Include="5-SharpControl.cs" />
@@ -277,6 +289,12 @@
     </Compile>
     <Compile Include="SendMessageToCamera.Designer.cs">
       <DependentUpon>SendMessageToCamera.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl1.Designer.cs">
+      <DependentUpon>UserControl1.cs</DependentUpon>
     </Compile>
     <Compile Include="打印区间确认.cs">
       <SubType>Form</SubType>
@@ -397,12 +415,21 @@
       <DependentUpon>退出确认.cs</DependentUpon>
     </Compile>
     <None Include="app.manifest" />
+    <Content Include="GTS800-加限位.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\MonitorIcon-38x38.png" />
     <None Include="Resources\MonitorIcon-35x35.png" />
     <None Include="Resources\Stream38x38.png" />
     <None Include="Resources\Stream-38x38.png" />
     <None Include="Resources\DataProc - 38x38.png" />
     <None Include="Resources\Stream.bmp" />
+    <Content Include="Resources\red1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\green1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="JOB传送确认.resx">
       <DependentUpon>JOB传送确认.cs</DependentUpon>
     </EmbeddedResource>
@@ -439,6 +466,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="手动操作界面.resx">
       <DependentUpon>手动操作界面.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="校准参数输入.resx">
       <DependentUpon>校准参数输入.cs</DependentUpon>

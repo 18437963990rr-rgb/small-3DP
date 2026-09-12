@@ -1,3 +1,5 @@
+using System;
+
 namespace LaserAdd.PrintRaster
 {
     /// <summary>
@@ -5,18 +7,53 @@ namespace LaserAdd.PrintRaster
     /// </summary>
     public static class PrintRasterConfig
     {
-        public const int PlateWidthMm = 465;
-        // 双喷头单 PASS 有效 Y 覆盖为 64.96 × 2 mm；三 PASS 完整覆盖幅面为 389.76 mm。
-        // 该值小于 Y 轴可安全到达的 460 mm，保留机械行程余量。
-        public const float PlateHeightMm = 64.96f * 2 * 3;
+        public const int PlateWidthMm = 100;
+        // 有效幅面暂沿用小型机 100 × 60 mm，独立于墨车 118–412 mm 机械行程。
+        public const float PlateHeightMm = 60;
         /// <summary>与 AutoPrintThread5 passStartBaseY 一致（mm，平台坐标，0=下沿）。</summary>
         public const double MeteorPassYInstallCompensationMm = 1.5;
-        public const double MeteorPassStartBaseYMm = 55.0 - MeteorPassYInstallCompensationMm;
+        public const double MeteorPassStartBaseYMm = 0;
         /// <summary>与 InkCarPassPitchYMm 一致：64.96×2 mm。</summary>
-        public const double MeteorPassPitchYMm = 64.96 * 2.0 - MeteorPassYInstallCompensationMm;
-        public const int MeteorPassCountPerLayer = 3;
+        public const double MeteorPassPitchYMm = 0;
+        public const int MeteorPassCountPerLayer = 1;
         /// <summary>RIP 整板与主程序 Meteor 单层光栅默认 DPI（与历史 RipPlateConfig.RipDpi 一致）。</summary>
         public const int SliceDpi = 400;
+
+        public const string PhysicalHomeDoubleScanModeEnv = "METEOR_PHYSICAL_HOME_DOUBLE_SCAN";
+        public const string PhysicalHomeDoubleScanShiftPixelsEnv = "METEOR_PHYSICAL_HOME_DOUBLE_SCAN_SHIFT_PX";
+        public const int PhysicalHomeDoubleScanDefaultShiftPixels = 10;
+
+        /// <summary>仅在 physical_home_fast 分支中允许启用同层两轮 3PASS。</summary>
+        public static bool IsPhysicalHomeDoubleScanEnabled()
+        {
+            // 无 Y 轴，不允许旧环境变量重新启用两轮三 PASS。
+            return false;
+        }
+
+        public static int GetPhysicalHomeDoubleScanShiftPixels()
+        {
+            try
+            {
+                string value = Environment.GetEnvironmentVariable(PhysicalHomeDoubleScanShiftPixelsEnv);
+                int pixels;
+                if (!string.IsNullOrWhiteSpace(value) && int.TryParse(value.Trim(), out pixels))
+                    return Math.Max(1, Math.Min(256, pixels));
+            }
+            catch { }
+            return PhysicalHomeDoubleScanDefaultShiftPixels;
+        }
+
+        public static double GetPhysicalHomeDoubleScanShiftMm(double dpi)
+        {
+            if (dpi <= 0.0)
+                dpi = SliceDpi;
+            return GetPhysicalHomeDoubleScanShiftPixels() * 25.4 / dpi;
+        }
+
+        public static int GetPhysicalHomeLayerScanStepCount()
+        {
+            return IsPhysicalHomeDoubleScanEnabled() ? 6 : MeteorPassCountPerLayer;
+        }
 
         public static float PlateCenterOffsetXMm => PlateWidthMm * 0.5f;
         public static float PlateCenterOffsetYMm => PlateHeightMm * 0.5f;
@@ -39,7 +76,7 @@ namespace LaserAdd.PrintRaster
         /// </summary>
         public const int SwathBaseRowsPerPrintHead = 1024;
         /// <summary>1=单喷头条带 1024 行；2=双喷头条带 2048 行。与 Meteor/喷头 cfg 需一致。切回单喷改为 1 并重新生成。</summary>
-        public const int PrintHeadCount = 2;
+        public const int PrintHeadCount = 1;
         /// <summary>Y 向 swath 条带高度（像素行）= <see cref="SwathBaseRowsPerPrintHead"/> * <see cref="PrintHeadCount"/>。</summary>
         public static int SwathStripHeightPixels => SwathBaseRowsPerPrintHead * PrintHeadCount;
 

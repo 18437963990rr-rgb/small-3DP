@@ -47,6 +47,16 @@ namespace BinderJetting
             this.label1 = new System.Windows.Forms.Label();
             this.ManulDebugTAB = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.MoveUpBtn8 = new System.Windows.Forms.Button();
+            this.ZeroLabel8 = new System.Windows.Forms.PictureBox();
+            this.PLLabel8 = new System.Windows.Forms.PictureBox();
+            this.NLLabel8 = new System.Windows.Forms.PictureBox();
+            this.MoveDownBtn8 = new System.Windows.Forms.Button();
+            this.homeButton8 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.comboBox12 = new System.Windows.Forms.ComboBox();
+            this.label136 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.comboBox10 = new System.Windows.Forms.ComboBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -84,7 +94,6 @@ namespace BinderJetting
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
-            this.comboBox12 = new System.Windows.Forms.ComboBox();
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.label66 = new System.Windows.Forms.Label();
             this.label65 = new System.Windows.Forms.Label();
@@ -101,14 +110,7 @@ namespace BinderJetting
             this.label57 = new System.Windows.Forms.Label();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
             this.HomeEndsLabel7 = new System.Windows.Forms.CheckBox();
-            this.PLLabel8 = new System.Windows.Forms.Label();
-            this.homeButton8 = new System.Windows.Forms.Button();
-            this.MoveUpBtn8 = new System.Windows.Forms.Button();
-            this.ZeroLabel8 = new System.Windows.Forms.Label();
-            this.NLLabel8 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
             this.label53 = new System.Windows.Forms.Label();
-            this.MoveDownBtn8 = new System.Windows.Forms.Button();
             this.velLabel7 = new System.Windows.Forms.TextBox();
             this.stepLabel7 = new System.Windows.Forms.TextBox();
             this.MoveModeLabel7 = new System.Windows.Forms.CheckBox();
@@ -200,34 +202,6 @@ namespace BinderJetting
             this.stepLabel3 = new System.Windows.Forms.TextBox();
             this.MoveModeLabel3 = new System.Windows.Forms.CheckBox();
             this.label25 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.HomeEndsLabel2 = new System.Windows.Forms.CheckBox();
-            this.PLLabel3 = new System.Windows.Forms.Label();
-            this.homeButton3 = new System.Windows.Forms.Button();
-            this.MoveUpBtn3 = new System.Windows.Forms.Button();
-            this.ZeroLabel3 = new System.Windows.Forms.Label();
-            this.NLLabel3 = new System.Windows.Forms.Label();
-            this.button10 = new System.Windows.Forms.Button();
-            this.label15 = new System.Windows.Forms.Label();
-            this.MoveDownBtn3 = new System.Windows.Forms.Button();
-            this.velLabel2 = new System.Windows.Forms.TextBox();
-            this.stepLabel2 = new System.Windows.Forms.TextBox();
-            this.MoveModeLabel2 = new System.Windows.Forms.CheckBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.HomeEndsLabel1 = new System.Windows.Forms.CheckBox();
-            this.PLLabel2 = new System.Windows.Forms.Label();
-            this.homeButton2 = new System.Windows.Forms.Button();
-            this.MoveUpBtn2 = new System.Windows.Forms.Button();
-            this.ZeroLabel2 = new System.Windows.Forms.Label();
-            this.NLLabel2 = new System.Windows.Forms.Label();
-            this.button6 = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.MoveDownBtn2 = new System.Windows.Forms.Button();
-            this.velLabel1 = new System.Windows.Forms.TextBox();
-            this.stepLabel1 = new System.Windows.Forms.TextBox();
-            this.MoveModeLabel1 = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.button41 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.button9 = new System.Windows.Forms.Button();
@@ -471,9 +445,10 @@ namespace BinderJetting
             this.labelPass2YTrim = new System.Windows.Forms.Label();
             this.textBox49 = new System.Windows.Forms.TextBox();
             this.labelPass0YTrim = new System.Windows.Forms.Label();
-            this.buttonMeteorPiSetHomeFixedXStart = new System.Windows.Forms.Button();
-            this.buttonMeteorPhysicalHomeFastPrint = new System.Windows.Forms.Button();
             this.buttonPowderReturnEarlyPass0Prep = new System.Windows.Forms.Button();
+            this.buttonMeteorPhysicalHomeDoubleScan = new System.Windows.Forms.Button();
+            this.buttonMeteorPhysicalHomeFastPrint = new System.Windows.Forms.Button();
+            this.buttonMeteorPiSetHomeFixedXStart = new System.Windows.Forms.Button();
             this.button17 = new System.Windows.Forms.Button();
             this.label134 = new System.Windows.Forms.Label();
             this.textBox40 = new System.Windows.Forms.TextBox();
@@ -495,18 +470,19 @@ namespace BinderJetting
             this.label127 = new System.Windows.Forms.Label();
             this.textBox48 = new System.Windows.Forms.TextBox();
             this.label131 = new System.Windows.Forms.Label();
-            this.label136 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.ManulDebugTAB.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ZeroLabel8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PLLabel8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NLLabel8)).BeginInit();
             this.groupBox25.SuspendLayout();
             this.groupBox24.SuspendLayout();
             this.groupBox19.SuspendLayout();
             this.groupBox20.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox26.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -755,7 +731,8 @@ namespace BinderJetting
             // 
             // tabPage1
             // 
-            this.tabPage1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tabPage1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.tabPage1.Controls.Add(this.panel2);
             this.tabPage1.Controls.Add(this.comboBox12);
             this.tabPage1.Controls.Add(this.label136);
             this.tabPage1.Controls.Add(this.comboBox2);
@@ -821,8 +798,6 @@ namespace BinderJetting
             this.tabPage1.Controls.Add(this.groupBox20);
             this.tabPage1.Controls.Add(this.groupBox5);
             this.tabPage1.Controls.Add(this.groupBox4);
-            this.tabPage1.Controls.Add(this.groupBox3);
-            this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.button41);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -832,6 +807,153 @@ namespace BinderJetting
             this.tabPage1.Size = new System.Drawing.Size(953, 712);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "送料系统手动控制";
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panel2.Controls.Add(this.MoveUpBtn8);
+            this.panel2.Controls.Add(this.ZeroLabel8);
+            this.panel2.Controls.Add(this.PLLabel8);
+            this.panel2.Controls.Add(this.NLLabel8);
+            this.panel2.Controls.Add(this.MoveDownBtn8);
+            this.panel2.Controls.Add(this.homeButton8);
+            this.panel2.Controls.Add(this.button5);
+            this.panel2.Location = new System.Drawing.Point(118, 239);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(344, 156);
+            this.panel2.TabIndex = 216;
+            // 
+            // MoveUpBtn8
+            // 
+            this.MoveUpBtn8.AutoSize = true;
+            this.MoveUpBtn8.BackColor = System.Drawing.Color.Transparent;
+            this.MoveUpBtn8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.MoveUpBtn8.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.MoveUpBtn8.Image = ((System.Drawing.Image)(resources.GetObject("MoveUpBtn8.Image")));
+            this.MoveUpBtn8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.MoveUpBtn8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.MoveUpBtn8.Location = new System.Drawing.Point(7, 8);
+            this.MoveUpBtn8.Name = "MoveUpBtn8";
+            this.MoveUpBtn8.Size = new System.Drawing.Size(85, 50);
+            this.MoveUpBtn8.TabIndex = 2;
+            this.MoveUpBtn8.Tag = "15";
+            this.MoveUpBtn8.Text = "上升";
+            this.MoveUpBtn8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.MoveUpBtn8.UseVisualStyleBackColor = false;
+            // 
+            // ZeroLabel8
+            // 
+            this.ZeroLabel8.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ZeroLabel8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.ZeroLabel8.Location = new System.Drawing.Point(265, 64);
+            this.ZeroLabel8.Name = "ZeroLabel8";
+            this.ZeroLabel8.Size = new System.Drawing.Size(40, 40);
+            this.ZeroLabel8.TabIndex = 49;
+            this.ZeroLabel8.TabStop = false;
+            this.ZeroLabel8.Tag = "2";
+            // 
+            // PLLabel8
+            // 
+            this.PLLabel8.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.PLLabel8.ErrorImage = null;
+            this.PLLabel8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.PLLabel8.Location = new System.Drawing.Point(265, 9);
+            this.PLLabel8.Name = "PLLabel8";
+            this.PLLabel8.Size = new System.Drawing.Size(40, 40);
+            this.PLLabel8.TabIndex = 48;
+            this.PLLabel8.TabStop = false;
+            this.PLLabel8.Tag = "1";
+            // 
+            // NLLabel8
+            // 
+            this.NLLabel8.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.NLLabel8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.NLLabel8.Location = new System.Drawing.Point(265, 106);
+            this.NLLabel8.Name = "NLLabel8";
+            this.NLLabel8.Size = new System.Drawing.Size(40, 40);
+            this.NLLabel8.TabIndex = 50;
+            this.NLLabel8.TabStop = false;
+            this.NLLabel8.Tag = "3";
+            // 
+            // MoveDownBtn8
+            // 
+            this.MoveDownBtn8.AutoSize = true;
+            this.MoveDownBtn8.BackColor = System.Drawing.Color.Transparent;
+            this.MoveDownBtn8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.MoveDownBtn8.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.MoveDownBtn8.Image = ((System.Drawing.Image)(resources.GetObject("MoveDownBtn8.Image")));
+            this.MoveDownBtn8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.MoveDownBtn8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.MoveDownBtn8.Location = new System.Drawing.Point(7, 80);
+            this.MoveDownBtn8.Name = "MoveDownBtn8";
+            this.MoveDownBtn8.Size = new System.Drawing.Size(85, 50);
+            this.MoveDownBtn8.TabIndex = 20;
+            this.MoveDownBtn8.Tag = "16";
+            this.MoveDownBtn8.Text = "下降";
+            this.MoveDownBtn8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.MoveDownBtn8.UseVisualStyleBackColor = false;
+            // 
+            // homeButton8
+            // 
+            this.homeButton8.AutoSize = true;
+            this.homeButton8.BackColor = System.Drawing.Color.Transparent;
+            this.homeButton8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.homeButton8.Enabled = false;
+            this.homeButton8.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.homeButton8.Image = ((System.Drawing.Image)(resources.GetObject("homeButton8.Image")));
+            this.homeButton8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.homeButton8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.homeButton8.Location = new System.Drawing.Point(95, 8);
+            this.homeButton8.Margin = new System.Windows.Forms.Padding(0);
+            this.homeButton8.Name = "homeButton8";
+            this.homeButton8.Size = new System.Drawing.Size(85, 50);
+            this.homeButton8.TabIndex = 21;
+            this.homeButton8.Tag = "8";
+            this.homeButton8.Text = "起点";
+            this.homeButton8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.homeButton8.UseVisualStyleBackColor = false;
+            this.homeButton8.Click += new System.EventHandler(this.HomeBtn_Click);
+            // 
+            // button5
+            // 
+            this.button5.AutoSize = true;
+            this.button5.BackColor = System.Drawing.Color.Transparent;
+            this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.button5.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.button5.Image = ((System.Drawing.Image)(resources.GetObject("button5.Image")));
+            this.button5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.button5.Location = new System.Drawing.Point(95, 80);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(85, 50);
+            this.button5.TabIndex = 21;
+            this.button5.Tag = "8";
+            this.button5.Text = "停止";
+            this.button5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.StopBtn_Click);
+            // 
+            // comboBox12
+            // 
+            this.comboBox12.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox12.FormattingEnabled = true;
+            this.comboBox12.Items.AddRange(new object[] {
+            "A-反向辊子",
+            "B-同向辊子"});
+            this.comboBox12.Location = new System.Drawing.Point(418, 671);
+            this.comboBox12.Name = "comboBox12";
+            this.comboBox12.Size = new System.Drawing.Size(71, 20);
+            this.comboBox12.TabIndex = 212;
+            // 
+            // label136
+            // 
+            this.label136.AutoSize = true;
+            this.label136.Font = new System.Drawing.Font("宋体", 9.5F, System.Drawing.FontStyle.Bold);
+            this.label136.Location = new System.Drawing.Point(342, 673);
+            this.label136.Name = "label136";
+            this.label136.Size = new System.Drawing.Size(77, 13);
+            this.label136.TabIndex = 215;
+            this.label136.Text = "粗辊转向：";
             // 
             // comboBox2
             // 
@@ -1224,18 +1346,6 @@ namespace BinderJetting
             this.textBox8.Text = "100";
             this.textBox8.Visible = false;
             // 
-            // comboBox12
-            // 
-            this.comboBox12.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox12.FormattingEnabled = true;
-            this.comboBox12.Items.AddRange(new object[] {
-            "A-反向辊子",
-            "B-同向辊子"});
-            this.comboBox12.Location = new System.Drawing.Point(418, 671);
-            this.comboBox12.Name = "comboBox12";
-            this.comboBox12.Size = new System.Drawing.Size(71, 20);
-            this.comboBox12.TabIndex = 212;
-            // 
             // textBox13
             // 
             this.textBox13.Font = new System.Drawing.Font("微软雅黑", 8.5F);
@@ -1394,22 +1504,19 @@ namespace BinderJetting
             this.groupBox25.BackColor = System.Drawing.Color.WhiteSmoke;
             this.groupBox25.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.groupBox25.Controls.Add(this.HomeEndsLabel7);
-            this.groupBox25.Controls.Add(this.PLLabel8);
-            this.groupBox25.Controls.Add(this.homeButton8);
-            this.groupBox25.Controls.Add(this.MoveUpBtn8);
-            this.groupBox25.Controls.Add(this.ZeroLabel8);
-            this.groupBox25.Controls.Add(this.NLLabel8);
-            this.groupBox25.Controls.Add(this.button5);
             this.groupBox25.Controls.Add(this.label53);
-            this.groupBox25.Controls.Add(this.MoveDownBtn8);
             this.groupBox25.Controls.Add(this.velLabel7);
             this.groupBox25.Controls.Add(this.stepLabel7);
             this.groupBox25.Controls.Add(this.MoveModeLabel7);
             this.groupBox25.Controls.Add(this.label54);
             this.groupBox25.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox25.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox25.Location = new System.Drawing.Point(10, 200);
+            this.groupBox25.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.groupBox25.Location = new System.Drawing.Point(325, 5);
+            this.groupBox25.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox25.Name = "groupBox25";
+            this.groupBox25.Padding = new System.Windows.Forms.Padding(0);
+            this.groupBox25.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.groupBox25.Size = new System.Drawing.Size(296, 200);
             this.groupBox25.TabIndex = 140;
             this.groupBox25.TabStop = false;
@@ -1421,110 +1528,12 @@ namespace BinderJetting
             this.HomeEndsLabel7.Enabled = false;
             this.HomeEndsLabel7.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.HomeEndsLabel7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.HomeEndsLabel7.Location = new System.Drawing.Point(199, 161);
+            this.HomeEndsLabel7.Location = new System.Drawing.Point(196, 158);
             this.HomeEndsLabel7.Name = "HomeEndsLabel7";
             this.HomeEndsLabel7.Size = new System.Drawing.Size(86, 21);
             this.HomeEndsLabel7.TabIndex = 125;
             this.HomeEndsLabel7.Text = "切换Home";
             this.HomeEndsLabel7.UseVisualStyleBackColor = true;
-            // 
-            // PLLabel8
-            // 
-            this.PLLabel8.BackColor = System.Drawing.Color.Lime;
-            this.PLLabel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PLLabel8.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.PLLabel8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.PLLabel8.Location = new System.Drawing.Point(204, 33);
-            this.PLLabel8.Name = "PLLabel8";
-            this.PLLabel8.Size = new System.Drawing.Size(70, 24);
-            this.PLLabel8.TabIndex = 48;
-            this.PLLabel8.Tag = "1";
-            this.PLLabel8.Text = "PL";
-            this.PLLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // homeButton8
-            // 
-            this.homeButton8.AutoSize = true;
-            this.homeButton8.BackColor = System.Drawing.Color.Transparent;
-            this.homeButton8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.homeButton8.Enabled = false;
-            this.homeButton8.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.homeButton8.Image = ((System.Drawing.Image)(resources.GetObject("homeButton8.Image")));
-            this.homeButton8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.homeButton8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.homeButton8.Location = new System.Drawing.Point(97, 22);
-            this.homeButton8.Margin = new System.Windows.Forms.Padding(0);
-            this.homeButton8.Name = "homeButton8";
-            this.homeButton8.Size = new System.Drawing.Size(85, 50);
-            this.homeButton8.TabIndex = 21;
-            this.homeButton8.Tag = "8";
-            this.homeButton8.Text = "起点";
-            this.homeButton8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.homeButton8.UseVisualStyleBackColor = false;
-            this.homeButton8.Click += new System.EventHandler(this.HomeBtn_Click);
-            // 
-            // MoveUpBtn8
-            // 
-            this.MoveUpBtn8.AutoSize = true;
-            this.MoveUpBtn8.BackColor = System.Drawing.Color.Transparent;
-            this.MoveUpBtn8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.MoveUpBtn8.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.MoveUpBtn8.Image = ((System.Drawing.Image)(resources.GetObject("MoveUpBtn8.Image")));
-            this.MoveUpBtn8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.MoveUpBtn8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveUpBtn8.Location = new System.Drawing.Point(6, 22);
-            this.MoveUpBtn8.Name = "MoveUpBtn8";
-            this.MoveUpBtn8.Size = new System.Drawing.Size(85, 50);
-            this.MoveUpBtn8.TabIndex = 2;
-            this.MoveUpBtn8.Tag = "15";
-            this.MoveUpBtn8.Text = "上升";
-            this.MoveUpBtn8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.MoveUpBtn8.UseVisualStyleBackColor = false;
-            // 
-            // ZeroLabel8
-            // 
-            this.ZeroLabel8.BackColor = System.Drawing.Color.Lime;
-            this.ZeroLabel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ZeroLabel8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.ZeroLabel8.Location = new System.Drawing.Point(204, 63);
-            this.ZeroLabel8.Name = "ZeroLabel8";
-            this.ZeroLabel8.Size = new System.Drawing.Size(70, 24);
-            this.ZeroLabel8.TabIndex = 49;
-            this.ZeroLabel8.Tag = "2";
-            this.ZeroLabel8.Text = "ZERO";
-            this.ZeroLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // NLLabel8
-            // 
-            this.NLLabel8.BackColor = System.Drawing.Color.Lime;
-            this.NLLabel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.NLLabel8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.NLLabel8.Location = new System.Drawing.Point(204, 93);
-            this.NLLabel8.Name = "NLLabel8";
-            this.NLLabel8.Size = new System.Drawing.Size(70, 24);
-            this.NLLabel8.TabIndex = 50;
-            this.NLLabel8.Tag = "3";
-            this.NLLabel8.Text = "NL";
-            this.NLLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // button5
-            // 
-            this.button5.AutoSize = true;
-            this.button5.BackColor = System.Drawing.Color.Transparent;
-            this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button5.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.button5.Image = ((System.Drawing.Image)(resources.GetObject("button5.Image")));
-            this.button5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button5.Location = new System.Drawing.Point(97, 77);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(85, 50);
-            this.button5.TabIndex = 21;
-            this.button5.Tag = "8";
-            this.button5.Text = "停止";
-            this.button5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.StopBtn_Click);
             // 
             // label53
             // 
@@ -1535,24 +1544,6 @@ namespace BinderJetting
             this.label53.Size = new System.Drawing.Size(80, 25);
             this.label53.TabIndex = 15;
             this.label53.Text = "速度(rev/s)";
-            // 
-            // MoveDownBtn8
-            // 
-            this.MoveDownBtn8.AutoSize = true;
-            this.MoveDownBtn8.BackColor = System.Drawing.Color.Transparent;
-            this.MoveDownBtn8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.MoveDownBtn8.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.MoveDownBtn8.Image = ((System.Drawing.Image)(resources.GetObject("MoveDownBtn8.Image")));
-            this.MoveDownBtn8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.MoveDownBtn8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveDownBtn8.Location = new System.Drawing.Point(7, 77);
-            this.MoveDownBtn8.Name = "MoveDownBtn8";
-            this.MoveDownBtn8.Size = new System.Drawing.Size(85, 50);
-            this.MoveDownBtn8.TabIndex = 20;
-            this.MoveDownBtn8.Tag = "16";
-            this.MoveDownBtn8.Text = "下降";
-            this.MoveDownBtn8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.MoveDownBtn8.UseVisualStyleBackColor = false;
             // 
             // velLabel7
             // 
@@ -1577,7 +1568,7 @@ namespace BinderJetting
             this.MoveModeLabel7.AutoSize = true;
             this.MoveModeLabel7.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.MoveModeLabel7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveModeLabel7.Location = new System.Drawing.Point(199, 138);
+            this.MoveModeLabel7.Location = new System.Drawing.Point(196, 135);
             this.MoveModeLabel7.Name = "MoveModeLabel7";
             this.MoveModeLabel7.Size = new System.Drawing.Size(75, 21);
             this.MoveModeLabel7.TabIndex = 14;
@@ -2798,425 +2789,11 @@ namespace BinderJetting
             this.label25.TabIndex = 17;
             this.label25.Text = "转动量(rev)";
             // 
-            // groupBox3
-            // 
-            this.groupBox3.BackColor = System.Drawing.Color.GhostWhite;
-            this.groupBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.groupBox3.Controls.Add(this.HomeEndsLabel2);
-            this.groupBox3.Controls.Add(this.PLLabel3);
-            this.groupBox3.Controls.Add(this.homeButton3);
-            this.groupBox3.Controls.Add(this.MoveUpBtn3);
-            this.groupBox3.Controls.Add(this.ZeroLabel3);
-            this.groupBox3.Controls.Add(this.NLLabel3);
-            this.groupBox3.Controls.Add(this.button10);
-            this.groupBox3.Controls.Add(this.label15);
-            this.groupBox3.Controls.Add(this.MoveDownBtn3);
-            this.groupBox3.Controls.Add(this.velLabel2);
-            this.groupBox3.Controls.Add(this.stepLabel2);
-            this.groupBox3.Controls.Add(this.MoveModeLabel2);
-            this.groupBox3.Controls.Add(this.label19);
-            this.groupBox3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox3.Location = new System.Drawing.Point(323, 200);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(296, 200);
-            this.groupBox3.TabIndex = 102;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "落粉轴运动（步进-3）";
-            // 
-            // HomeEndsLabel2
-            // 
-            this.HomeEndsLabel2.AutoSize = true;
-            this.HomeEndsLabel2.Enabled = false;
-            this.HomeEndsLabel2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.HomeEndsLabel2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.HomeEndsLabel2.Location = new System.Drawing.Point(201, 161);
-            this.HomeEndsLabel2.Name = "HomeEndsLabel2";
-            this.HomeEndsLabel2.Size = new System.Drawing.Size(86, 21);
-            this.HomeEndsLabel2.TabIndex = 123;
-            this.HomeEndsLabel2.Text = "切换Home";
-            this.HomeEndsLabel2.UseVisualStyleBackColor = true;
-            // 
-            // PLLabel3
-            // 
-            this.PLLabel3.BackColor = System.Drawing.Color.Lime;
-            this.PLLabel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PLLabel3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.PLLabel3.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.PLLabel3.Location = new System.Drawing.Point(202, 30);
-            this.PLLabel3.Name = "PLLabel3";
-            this.PLLabel3.Size = new System.Drawing.Size(70, 24);
-            this.PLLabel3.TabIndex = 48;
-            this.PLLabel3.Tag = "1";
-            this.PLLabel3.Text = "PL";
-            this.PLLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // homeButton3
-            // 
-            this.homeButton3.AutoSize = true;
-            this.homeButton3.BackColor = System.Drawing.Color.Transparent;
-            this.homeButton3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.homeButton3.Enabled = false;
-            this.homeButton3.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.homeButton3.Image = ((System.Drawing.Image)(resources.GetObject("homeButton3.Image")));
-            this.homeButton3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.homeButton3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.homeButton3.Location = new System.Drawing.Point(97, 22);
-            this.homeButton3.Margin = new System.Windows.Forms.Padding(0);
-            this.homeButton3.Name = "homeButton3";
-            this.homeButton3.Size = new System.Drawing.Size(85, 50);
-            this.homeButton3.TabIndex = 21;
-            this.homeButton3.Tag = "3";
-            this.homeButton3.Text = "起点";
-            this.homeButton3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.homeButton3.UseVisualStyleBackColor = false;
-            this.homeButton3.Click += new System.EventHandler(this.HomeBtn_Click);
-            // 
-            // MoveUpBtn3
-            // 
-            this.MoveUpBtn3.AutoSize = true;
-            this.MoveUpBtn3.BackColor = System.Drawing.Color.Transparent;
-            this.MoveUpBtn3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.MoveUpBtn3.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.MoveUpBtn3.Image = ((System.Drawing.Image)(resources.GetObject("MoveUpBtn3.Image")));
-            this.MoveUpBtn3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.MoveUpBtn3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveUpBtn3.Location = new System.Drawing.Point(6, 22);
-            this.MoveUpBtn3.Name = "MoveUpBtn3";
-            this.MoveUpBtn3.Size = new System.Drawing.Size(85, 50);
-            this.MoveUpBtn3.TabIndex = 2;
-            this.MoveUpBtn3.Tag = "5";
-            this.MoveUpBtn3.Text = "正转";
-            this.MoveUpBtn3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.MoveUpBtn3.UseVisualStyleBackColor = false;
-            // 
-            // ZeroLabel3
-            // 
-            this.ZeroLabel3.BackColor = System.Drawing.Color.Lime;
-            this.ZeroLabel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ZeroLabel3.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.ZeroLabel3.Location = new System.Drawing.Point(202, 60);
-            this.ZeroLabel3.Name = "ZeroLabel3";
-            this.ZeroLabel3.Size = new System.Drawing.Size(70, 24);
-            this.ZeroLabel3.TabIndex = 49;
-            this.ZeroLabel3.Tag = "2";
-            this.ZeroLabel3.Text = "ZERO";
-            this.ZeroLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // NLLabel3
-            // 
-            this.NLLabel3.BackColor = System.Drawing.Color.Lime;
-            this.NLLabel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.NLLabel3.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.NLLabel3.Location = new System.Drawing.Point(202, 90);
-            this.NLLabel3.Name = "NLLabel3";
-            this.NLLabel3.Size = new System.Drawing.Size(70, 24);
-            this.NLLabel3.TabIndex = 50;
-            this.NLLabel3.Tag = "3";
-            this.NLLabel3.Text = "NL";
-            this.NLLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // button10
-            // 
-            this.button10.AutoSize = true;
-            this.button10.BackColor = System.Drawing.Color.Transparent;
-            this.button10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button10.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.button10.Image = ((System.Drawing.Image)(resources.GetObject("button10.Image")));
-            this.button10.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button10.Location = new System.Drawing.Point(97, 77);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(85, 50);
-            this.button10.TabIndex = 21;
-            this.button10.Tag = "3";
-            this.button10.Text = "停止";
-            this.button10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button10.UseVisualStyleBackColor = false;
-            this.button10.Click += new System.EventHandler(this.StopBtn_Click);
-            // 
-            // label15
-            // 
-            this.label15.Font = new System.Drawing.Font("宋体", 9F);
-            this.label15.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label15.Location = new System.Drawing.Point(9, 139);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(83, 25);
-            this.label15.TabIndex = 15;
-            this.label15.Text = "转速(rev/s)";
-            // 
-            // MoveDownBtn3
-            // 
-            this.MoveDownBtn3.AutoSize = true;
-            this.MoveDownBtn3.BackColor = System.Drawing.Color.Transparent;
-            this.MoveDownBtn3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.MoveDownBtn3.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.MoveDownBtn3.Image = ((System.Drawing.Image)(resources.GetObject("MoveDownBtn3.Image")));
-            this.MoveDownBtn3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.MoveDownBtn3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveDownBtn3.Location = new System.Drawing.Point(7, 77);
-            this.MoveDownBtn3.Name = "MoveDownBtn3";
-            this.MoveDownBtn3.Size = new System.Drawing.Size(85, 50);
-            this.MoveDownBtn3.TabIndex = 20;
-            this.MoveDownBtn3.Tag = "6";
-            this.MoveDownBtn3.Text = "反转";
-            this.MoveDownBtn3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.MoveDownBtn3.UseVisualStyleBackColor = false;
-            // 
-            // velLabel2
-            // 
-            this.velLabel2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.velLabel2.Location = new System.Drawing.Point(93, 133);
-            this.velLabel2.Name = "velLabel2";
-            this.velLabel2.Size = new System.Drawing.Size(42, 23);
-            this.velLabel2.TabIndex = 16;
-            this.velLabel2.Text = "1";
-            // 
-            // stepLabel2
-            // 
-            this.stepLabel2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.stepLabel2.Location = new System.Drawing.Point(93, 161);
-            this.stepLabel2.Name = "stepLabel2";
-            this.stepLabel2.Size = new System.Drawing.Size(42, 23);
-            this.stepLabel2.TabIndex = 19;
-            this.stepLabel2.Text = "2";
-            // 
-            // MoveModeLabel2
-            // 
-            this.MoveModeLabel2.AutoSize = true;
-            this.MoveModeLabel2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.MoveModeLabel2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveModeLabel2.Location = new System.Drawing.Point(201, 135);
-            this.MoveModeLabel2.Name = "MoveModeLabel2";
-            this.MoveModeLabel2.Size = new System.Drawing.Size(75, 21);
-            this.MoveModeLabel2.TabIndex = 14;
-            this.MoveModeLabel2.Tag = "3";
-            this.MoveModeLabel2.Text = "切换点动";
-            this.MoveModeLabel2.UseVisualStyleBackColor = true;
-            this.MoveModeLabel2.CheckedChanged += new System.EventHandler(this.MoveModeLabel0_CheckedChanged);
-            // 
-            // label19
-            // 
-            this.label19.Font = new System.Drawing.Font("宋体", 9F);
-            this.label19.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label19.Location = new System.Drawing.Point(9, 165);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(72, 21);
-            this.label19.TabIndex = 17;
-            this.label19.Text = "转动量(rev)";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.BackColor = System.Drawing.Color.Lavender;
-            this.groupBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.groupBox2.Controls.Add(this.HomeEndsLabel1);
-            this.groupBox2.Controls.Add(this.PLLabel2);
-            this.groupBox2.Controls.Add(this.homeButton2);
-            this.groupBox2.Controls.Add(this.MoveUpBtn2);
-            this.groupBox2.Controls.Add(this.ZeroLabel2);
-            this.groupBox2.Controls.Add(this.NLLabel2);
-            this.groupBox2.Controls.Add(this.button6);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.MoveDownBtn2);
-            this.groupBox2.Controls.Add(this.velLabel1);
-            this.groupBox2.Controls.Add(this.stepLabel1);
-            this.groupBox2.Controls.Add(this.MoveModeLabel1);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox2.Location = new System.Drawing.Point(323, 5);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(296, 190);
-            this.groupBox2.TabIndex = 51;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "墨车Y运动（伺服-2）";
-            // 
-            // HomeEndsLabel1
-            // 
-            this.HomeEndsLabel1.AutoSize = true;
-            this.HomeEndsLabel1.Enabled = false;
-            this.HomeEndsLabel1.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.HomeEndsLabel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.HomeEndsLabel1.Location = new System.Drawing.Point(201, 164);
-            this.HomeEndsLabel1.Name = "HomeEndsLabel1";
-            this.HomeEndsLabel1.Size = new System.Drawing.Size(86, 21);
-            this.HomeEndsLabel1.TabIndex = 121;
-            this.HomeEndsLabel1.Text = "切换Home";
-            this.HomeEndsLabel1.UseVisualStyleBackColor = true;
-            // 
-            // PLLabel2
-            // 
-            this.PLLabel2.BackColor = System.Drawing.Color.Lime;
-            this.PLLabel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PLLabel2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.PLLabel2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.PLLabel2.Location = new System.Drawing.Point(202, 30);
-            this.PLLabel2.Name = "PLLabel2";
-            this.PLLabel2.Size = new System.Drawing.Size(70, 24);
-            this.PLLabel2.TabIndex = 48;
-            this.PLLabel2.Tag = "1";
-            this.PLLabel2.Text = "PL";
-            this.PLLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // homeButton2
-            // 
-            this.homeButton2.AutoSize = true;
-            this.homeButton2.BackColor = System.Drawing.Color.Transparent;
-            this.homeButton2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.homeButton2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.homeButton2.Image = ((System.Drawing.Image)(resources.GetObject("homeButton2.Image")));
-            this.homeButton2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.homeButton2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.homeButton2.Location = new System.Drawing.Point(97, 22);
-            this.homeButton2.Margin = new System.Windows.Forms.Padding(0);
-            this.homeButton2.Name = "homeButton2";
-            this.homeButton2.Size = new System.Drawing.Size(85, 50);
-            this.homeButton2.TabIndex = 21;
-            this.homeButton2.Tag = "2";
-            this.homeButton2.Text = "起点";
-            this.homeButton2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.homeButton2.UseVisualStyleBackColor = false;
-            this.homeButton2.Click += new System.EventHandler(this.HomeBtn_Click);
-            // 
-            // MoveUpBtn2
-            // 
-            this.MoveUpBtn2.AutoSize = true;
-            this.MoveUpBtn2.BackColor = System.Drawing.Color.Transparent;
-            this.MoveUpBtn2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.MoveUpBtn2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.MoveUpBtn2.Image = ((System.Drawing.Image)(resources.GetObject("MoveUpBtn2.Image")));
-            this.MoveUpBtn2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.MoveUpBtn2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveUpBtn2.Location = new System.Drawing.Point(6, 22);
-            this.MoveUpBtn2.Name = "MoveUpBtn2";
-            this.MoveUpBtn2.Size = new System.Drawing.Size(85, 50);
-            this.MoveUpBtn2.TabIndex = 2;
-            this.MoveUpBtn2.Tag = "3";
-            this.MoveUpBtn2.Text = "正向";
-            this.MoveUpBtn2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.MoveUpBtn2.UseVisualStyleBackColor = false;
-            // 
-            // ZeroLabel2
-            // 
-            this.ZeroLabel2.BackColor = System.Drawing.Color.Lime;
-            this.ZeroLabel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ZeroLabel2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.ZeroLabel2.Location = new System.Drawing.Point(202, 60);
-            this.ZeroLabel2.Name = "ZeroLabel2";
-            this.ZeroLabel2.Size = new System.Drawing.Size(70, 24);
-            this.ZeroLabel2.TabIndex = 49;
-            this.ZeroLabel2.Tag = "2";
-            this.ZeroLabel2.Text = "ZERO";
-            this.ZeroLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // NLLabel2
-            // 
-            this.NLLabel2.BackColor = System.Drawing.Color.Lime;
-            this.NLLabel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.NLLabel2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.NLLabel2.Location = new System.Drawing.Point(202, 90);
-            this.NLLabel2.Name = "NLLabel2";
-            this.NLLabel2.Size = new System.Drawing.Size(70, 24);
-            this.NLLabel2.TabIndex = 50;
-            this.NLLabel2.Tag = "3";
-            this.NLLabel2.Text = "NL";
-            this.NLLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // button6
-            // 
-            this.button6.AutoSize = true;
-            this.button6.BackColor = System.Drawing.Color.Transparent;
-            this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button6.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.button6.Image = ((System.Drawing.Image)(resources.GetObject("button6.Image")));
-            this.button6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button6.Location = new System.Drawing.Point(97, 77);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(85, 50);
-            this.button6.TabIndex = 21;
-            this.button6.Tag = "2";
-            this.button6.Text = "停止";
-            this.button6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button6.UseVisualStyleBackColor = false;
-            this.button6.Click += new System.EventHandler(this.StopBtn_Click);
-            // 
-            // label5
-            // 
-            this.label5.Font = new System.Drawing.Font("宋体", 9F);
-            this.label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label5.Location = new System.Drawing.Point(9, 139);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(70, 25);
-            this.label5.TabIndex = 15;
-            this.label5.Text = "速度(mm/s)";
-            // 
-            // MoveDownBtn2
-            // 
-            this.MoveDownBtn2.AutoSize = true;
-            this.MoveDownBtn2.BackColor = System.Drawing.Color.Transparent;
-            this.MoveDownBtn2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.MoveDownBtn2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.MoveDownBtn2.Image = ((System.Drawing.Image)(resources.GetObject("MoveDownBtn2.Image")));
-            this.MoveDownBtn2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.MoveDownBtn2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveDownBtn2.Location = new System.Drawing.Point(7, 77);
-            this.MoveDownBtn2.Name = "MoveDownBtn2";
-            this.MoveDownBtn2.Size = new System.Drawing.Size(85, 50);
-            this.MoveDownBtn2.TabIndex = 20;
-            this.MoveDownBtn2.Tag = "4";
-            this.MoveDownBtn2.Text = "反向";
-            this.MoveDownBtn2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.MoveDownBtn2.UseVisualStyleBackColor = false;
-            // 
-            // velLabel1
-            // 
-            this.velLabel1.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.velLabel1.Location = new System.Drawing.Point(81, 133);
-            this.velLabel1.Name = "velLabel1";
-            this.velLabel1.Size = new System.Drawing.Size(42, 23);
-            this.velLabel1.TabIndex = 16;
-            this.velLabel1.Text = "50";
-            // 
-            // stepLabel1
-            // 
-            this.stepLabel1.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.stepLabel1.Location = new System.Drawing.Point(81, 161);
-            this.stepLabel1.Name = "stepLabel1";
-            this.stepLabel1.Size = new System.Drawing.Size(42, 23);
-            this.stepLabel1.TabIndex = 19;
-            this.stepLabel1.Text = "50";
-            // 
-            // MoveModeLabel1
-            // 
-            this.MoveModeLabel1.AutoSize = true;
-            this.MoveModeLabel1.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.MoveModeLabel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoveModeLabel1.Location = new System.Drawing.Point(201, 138);
-            this.MoveModeLabel1.Name = "MoveModeLabel1";
-            this.MoveModeLabel1.Size = new System.Drawing.Size(75, 21);
-            this.MoveModeLabel1.TabIndex = 14;
-            this.MoveModeLabel1.Tag = "2";
-            this.MoveModeLabel1.Text = "切换点动";
-            this.MoveModeLabel1.UseVisualStyleBackColor = true;
-            this.MoveModeLabel1.CheckedChanged += new System.EventHandler(this.MoveModeLabel0_CheckedChanged);
-            // 
-            // label7
-            // 
-            this.label7.Font = new System.Drawing.Font("宋体", 9F);
-            this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label7.Location = new System.Drawing.Point(9, 165);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(72, 21);
-            this.label7.TabIndex = 17;
-            this.label7.Text = "移动量(mm)";
-            // 
             // button41
             // 
             this.button41.AutoSize = true;
             this.button41.BackColor = System.Drawing.Color.Transparent;
             this.button41.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button41.DialogResult = System.Windows.Forms.DialogResult.None;
             this.button41.Image = ((System.Drawing.Image)(resources.GetObject("button41.Image")));
             this.button41.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button41.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -3323,7 +2900,6 @@ namespace BinderJetting
             this.button20.AutoSize = true;
             this.button20.BackColor = System.Drawing.Color.Transparent;
             this.button20.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button20.DialogResult = System.Windows.Forms.DialogResult.None;
             this.button20.Image = ((System.Drawing.Image)(resources.GetObject("button20.Image")));
             this.button20.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button20.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -3851,7 +3427,7 @@ namespace BinderJetting
             // 
             this.InkCarHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.InkCarHomeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.InkCarHomeBtn.Location = new System.Drawing.Point(177, 278);
+            this.InkCarHomeBtn.Location = new System.Drawing.Point(172, 276);
             this.InkCarHomeBtn.Name = "InkCarHomeBtn";
             this.InkCarHomeBtn.Size = new System.Drawing.Size(60, 29);
             this.InkCarHomeBtn.TabIndex = 170;
@@ -4303,7 +3879,7 @@ namespace BinderJetting
             // 
             this.PowderHomeBtn.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.PowderHomeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PowderHomeBtn.Location = new System.Drawing.Point(121, 278);
+            this.PowderHomeBtn.Location = new System.Drawing.Point(115, 276);
             this.PowderHomeBtn.Name = "PowderHomeBtn";
             this.PowderHomeBtn.Size = new System.Drawing.Size(60, 29);
             this.PowderHomeBtn.TabIndex = 61;
@@ -6232,6 +5808,7 @@ namespace BinderJetting
             this.tabPage3.Controls.Add(this.textBox49);
             this.tabPage3.Controls.Add(this.labelPass0YTrim);
             this.tabPage3.Controls.Add(this.buttonPowderReturnEarlyPass0Prep);
+            this.tabPage3.Controls.Add(this.buttonMeteorPhysicalHomeDoubleScan);
             this.tabPage3.Controls.Add(this.buttonMeteorPhysicalHomeFastPrint);
             this.tabPage3.Controls.Add(this.buttonMeteorPiSetHomeFixedXStart);
             this.tabPage3.Controls.Add(this.button17);
@@ -6309,18 +5886,31 @@ namespace BinderJetting
             this.labelPass0YTrim.TabIndex = 246;
             this.labelPass0YTrim.Text = "Pass0 Y补偿(mm)";
             // 
-            // buttonMeteorPiSetHomeFixedXStart
+            // buttonPowderReturnEarlyPass0Prep
             // 
-            this.buttonMeteorPiSetHomeFixedXStart.BackColor = System.Drawing.Color.Honeydew;
-            this.buttonMeteorPiSetHomeFixedXStart.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
-            this.buttonMeteorPiSetHomeFixedXStart.ForeColor = System.Drawing.Color.DarkGreen;
-            this.buttonMeteorPiSetHomeFixedXStart.Location = new System.Drawing.Point(666, 229);
-            this.buttonMeteorPiSetHomeFixedXStart.Name = "buttonMeteorPiSetHomeFixedXStart";
-            this.buttonMeteorPiSetHomeFixedXStart.Size = new System.Drawing.Size(162, 42);
-            this.buttonMeteorPiSetHomeFixedXStart.TabIndex = 245;
-            this.buttonMeteorPiSetHomeFixedXStart.Text = "切到PiSetHome\r\n固定XStart";
-            this.buttonMeteorPiSetHomeFixedXStart.UseVisualStyleBackColor = false;
-            this.buttonMeteorPiSetHomeFixedXStart.Click += new System.EventHandler(this.buttonMeteorPiSetHomeFixedXStart_Click);
+            this.buttonPowderReturnEarlyPass0Prep.BackColor = System.Drawing.Color.MistyRose;
+            this.buttonPowderReturnEarlyPass0Prep.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
+            this.buttonPowderReturnEarlyPass0Prep.ForeColor = System.Drawing.Color.Maroon;
+            this.buttonPowderReturnEarlyPass0Prep.Location = new System.Drawing.Point(666, 325);
+            this.buttonPowderReturnEarlyPass0Prep.Name = "buttonPowderReturnEarlyPass0Prep";
+            this.buttonPowderReturnEarlyPass0Prep.Size = new System.Drawing.Size(162, 42);
+            this.buttonPowderReturnEarlyPass0Prep.TabIndex = 251;
+            this.buttonPowderReturnEarlyPass0Prep.Text = "粉车回程提前\r\nPass0预备";
+            this.buttonPowderReturnEarlyPass0Prep.UseVisualStyleBackColor = false;
+            this.buttonPowderReturnEarlyPass0Prep.Click += new System.EventHandler(this.buttonPowderReturnEarlyPass0Prep_Click);
+            // 
+            // buttonMeteorPhysicalHomeDoubleScan
+            // 
+            this.buttonMeteorPhysicalHomeDoubleScan.BackColor = System.Drawing.Color.LemonChiffon;
+            this.buttonMeteorPhysicalHomeDoubleScan.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
+            this.buttonMeteorPhysicalHomeDoubleScan.ForeColor = System.Drawing.Color.DarkGoldenrod;
+            this.buttonMeteorPhysicalHomeDoubleScan.Location = new System.Drawing.Point(834, 277);
+            this.buttonMeteorPhysicalHomeDoubleScan.Name = "buttonMeteorPhysicalHomeDoubleScan";
+            this.buttonMeteorPhysicalHomeDoubleScan.Size = new System.Drawing.Size(112, 42);
+            this.buttonMeteorPhysicalHomeDoubleScan.TabIndex = 252;
+            this.buttonMeteorPhysicalHomeDoubleScan.Text = "双次扫描\r\nY错位10px";
+            this.buttonMeteorPhysicalHomeDoubleScan.UseVisualStyleBackColor = false;
+            this.buttonMeteorPhysicalHomeDoubleScan.Click += new System.EventHandler(this.buttonMeteorPhysicalHomeDoubleScan_Click);
             // 
             // buttonMeteorPhysicalHomeFastPrint
             // 
@@ -6334,19 +5924,19 @@ namespace BinderJetting
             this.buttonMeteorPhysicalHomeFastPrint.Text = "切到物理Home\r\n快速打印";
             this.buttonMeteorPhysicalHomeFastPrint.UseVisualStyleBackColor = false;
             this.buttonMeteorPhysicalHomeFastPrint.Click += new System.EventHandler(this.buttonMeteorPhysicalHomeFastPrint_Click);
-            //
-            // buttonPowderReturnEarlyPass0Prep
-            //
-            this.buttonPowderReturnEarlyPass0Prep.BackColor = System.Drawing.Color.MistyRose;
-            this.buttonPowderReturnEarlyPass0Prep.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
-            this.buttonPowderReturnEarlyPass0Prep.ForeColor = System.Drawing.Color.Maroon;
-            this.buttonPowderReturnEarlyPass0Prep.Location = new System.Drawing.Point(666, 325);
-            this.buttonPowderReturnEarlyPass0Prep.Name = "buttonPowderReturnEarlyPass0Prep";
-            this.buttonPowderReturnEarlyPass0Prep.Size = new System.Drawing.Size(162, 42);
-            this.buttonPowderReturnEarlyPass0Prep.TabIndex = 251;
-            this.buttonPowderReturnEarlyPass0Prep.Text = "粉车回程提前\r\nPass0预备";
-            this.buttonPowderReturnEarlyPass0Prep.UseVisualStyleBackColor = false;
-            this.buttonPowderReturnEarlyPass0Prep.Click += new System.EventHandler(this.buttonPowderReturnEarlyPass0Prep_Click);
+            // 
+            // buttonMeteorPiSetHomeFixedXStart
+            // 
+            this.buttonMeteorPiSetHomeFixedXStart.BackColor = System.Drawing.Color.Honeydew;
+            this.buttonMeteorPiSetHomeFixedXStart.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
+            this.buttonMeteorPiSetHomeFixedXStart.ForeColor = System.Drawing.Color.DarkGreen;
+            this.buttonMeteorPiSetHomeFixedXStart.Location = new System.Drawing.Point(666, 229);
+            this.buttonMeteorPiSetHomeFixedXStart.Name = "buttonMeteorPiSetHomeFixedXStart";
+            this.buttonMeteorPiSetHomeFixedXStart.Size = new System.Drawing.Size(162, 42);
+            this.buttonMeteorPiSetHomeFixedXStart.TabIndex = 245;
+            this.buttonMeteorPiSetHomeFixedXStart.Text = "切到PiSetHome\r\n固定XStart";
+            this.buttonMeteorPiSetHomeFixedXStart.UseVisualStyleBackColor = false;
+            this.buttonMeteorPiSetHomeFixedXStart.Click += new System.EventHandler(this.buttonMeteorPiSetHomeFixedXStart_Click);
             // 
             // button17
             // 
@@ -6571,16 +6161,6 @@ namespace BinderJetting
             this.label131.TabIndex = 216;
             this.label131.Text = "去程出光(轴7mm)";
             // 
-            // label136
-            // 
-            this.label136.AutoSize = true;
-            this.label136.Font = new System.Drawing.Font("宋体", 9.5F, System.Drawing.FontStyle.Bold);
-            this.label136.Location = new System.Drawing.Point(342, 673);
-            this.label136.Name = "label136";
-            this.label136.Size = new System.Drawing.Size(77, 13);
-            this.label136.TabIndex = 215;
-            this.label136.Text = "粗辊转向：";
-            // 
             // 手动操作
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -6604,6 +6184,11 @@ namespace BinderJetting
             this.ManulDebugTAB.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ZeroLabel8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PLLabel8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NLLabel8)).EndInit();
             this.groupBox25.ResumeLayout(false);
             this.groupBox25.PerformLayout();
             this.groupBox24.ResumeLayout(false);
@@ -6616,10 +6201,6 @@ namespace BinderJetting
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.groupBox26.ResumeLayout(false);
@@ -6774,40 +6355,12 @@ namespace BinderJetting
         private System.Windows.Forms.TextBox stepLabel3;
         private System.Windows.Forms.CheckBox MoveModeLabel3;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label PLLabel3;
-        private System.Windows.Forms.Button homeButton3;
-        private System.Windows.Forms.Button MoveUpBtn3;
-        private System.Windows.Forms.Label ZeroLabel3;
-        private System.Windows.Forms.Label NLLabel3;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Button MoveDownBtn3;
-        private System.Windows.Forms.TextBox velLabel2;
-        private System.Windows.Forms.TextBox stepLabel2;
-        private System.Windows.Forms.CheckBox MoveModeLabel2;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label PLLabel2;
-        private System.Windows.Forms.Button homeButton2;
-        private System.Windows.Forms.Button MoveUpBtn2;
-        private System.Windows.Forms.Label ZeroLabel2;
-        private System.Windows.Forms.Label NLLabel2;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button MoveDownBtn2;
-        private System.Windows.Forms.TextBox velLabel1;
-        private System.Windows.Forms.TextBox stepLabel1;
-        private System.Windows.Forms.CheckBox MoveModeLabel1;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button button20;
         private System.Windows.Forms.Button button22;
         private System.Windows.Forms.CheckBox HomeEndsLabel0;
         private System.Windows.Forms.CheckBox HomeEndsLabel5;
         private System.Windows.Forms.CheckBox HomeEndsLabel4;
         private System.Windows.Forms.CheckBox HomeEndsLabel3;
-        private System.Windows.Forms.CheckBox HomeEndsLabel2;
-        private System.Windows.Forms.CheckBox HomeEndsLabel1;
         private System.Windows.Forms.GroupBox groupBox19;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -6922,11 +6475,11 @@ namespace BinderJetting
         private System.Windows.Forms.Label label52;
         private System.Windows.Forms.GroupBox groupBox25;
         private System.Windows.Forms.CheckBox HomeEndsLabel7;
-        private System.Windows.Forms.Label PLLabel8;
+        private System.Windows.Forms.PictureBox PLLabel8;
         private System.Windows.Forms.Button homeButton8;
         private System.Windows.Forms.Button MoveUpBtn8;
-        private System.Windows.Forms.Label ZeroLabel8;
-        private System.Windows.Forms.Label NLLabel8;
+        private System.Windows.Forms.PictureBox ZeroLabel8;
+        private System.Windows.Forms.PictureBox NLLabel8;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label label53;
         private System.Windows.Forms.Button MoveDownBtn8;
@@ -7096,6 +6649,7 @@ namespace BinderJetting
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Button buttonMeteorPiSetHomeFixedXStart;
         private System.Windows.Forms.Button buttonMeteorPhysicalHomeFastPrint;
+        private System.Windows.Forms.Button buttonMeteorPhysicalHomeDoubleScan;
         private System.Windows.Forms.Button buttonPowderReturnEarlyPass0Prep;
         private System.Windows.Forms.ComboBox comboBox11;
         private System.Windows.Forms.Label label132;
@@ -7124,5 +6678,6 @@ namespace BinderJetting
         private System.Windows.Forms.TextBox textBox50;
         private System.Windows.Forms.Label labelPassYTrimHint;
         private System.Windows.Forms.Label label136;
+        private System.Windows.Forms.Panel panel2;
     }
 }

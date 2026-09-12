@@ -1,4 +1,4 @@
-﻿namespace BinderJetting
+namespace BinderJetting
 {
     partial class 主界面
     {
@@ -48,7 +48,6 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.PowderBtn = new System.Windows.Forms.Button();
             this.BmpTestBtn = new System.Windows.Forms.Button();
             this.CleanBtn = new System.Windows.Forms.Button();
             this.InkCarBackBtn = new System.Windows.Forms.Button();
@@ -59,11 +58,9 @@
             this.StartJobBtn = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.JobsParaBtn = new System.Windows.Forms.Button();
-            this.DevElecBtn = new System.Windows.Forms.Button();
             this.StopOutBtn = new System.Windows.Forms.Button();
             this.ShoveBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.PicComposeBtn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.FlashBtn = new System.Windows.Forms.Button();
             this.ImportCliBtn = new System.Windows.Forms.Button();
@@ -304,7 +301,6 @@
             this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.PowderBtn);
             this.panel1.Controls.Add(this.BmpTestBtn);
             this.panel1.Controls.Add(this.CleanBtn);
             this.panel1.Controls.Add(this.InkCarBackBtn);
@@ -315,11 +311,9 @@
             this.panel1.Controls.Add(this.StartJobBtn);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.JobsParaBtn);
-            this.panel1.Controls.Add(this.DevElecBtn);
             this.panel1.Controls.Add(this.StopOutBtn);
             this.panel1.Controls.Add(this.ShoveBtn);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.PicComposeBtn);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.FlashBtn);
             this.panel1.Controls.Add(this.ImportCliBtn);
@@ -382,16 +376,6 @@
             resources.ApplyResources(this.button1, "button1");
             this.button1.Name = "button1";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // PowderBtn
-            // 
-            resources.ApplyResources(this.PowderBtn, "PowderBtn");
-            this.PowderBtn.BackColor = System.Drawing.Color.MintCream;
-            this.PowderBtn.ForeColor = System.Drawing.Color.Black;
-            this.PowderBtn.Name = "PowderBtn";
-            this.toolTip1.SetToolTip(this.PowderBtn, resources.GetString("PowderBtn.ToolTip"));
-            this.PowderBtn.UseVisualStyleBackColor = true;
-            this.PowderBtn.Click += new System.EventHandler(this.PowderBtn_Click);
             // 
             // BmpTestBtn
             // 
@@ -473,16 +457,6 @@
             this.JobsParaBtn.UseVisualStyleBackColor = true;
             this.JobsParaBtn.Click += new System.EventHandler(this.JobsParaBtn_Click);
             // 
-            // DevElecBtn
-            // 
-            this.DevElecBtn.BackColor = System.Drawing.Color.MintCream;
-            this.DevElecBtn.BackgroundImage = global::LaserADD_BinderJetter.ResourceMenu.Home_35x35;
-            resources.ApplyResources(this.DevElecBtn, "DevElecBtn");
-            this.DevElecBtn.Name = "DevElecBtn";
-            this.toolTip1.SetToolTip(this.DevElecBtn, resources.GetString("DevElecBtn.ToolTip"));
-            this.DevElecBtn.UseVisualStyleBackColor = true;
-            this.DevElecBtn.Click += new System.EventHandler(this.ElecBtn_Click);
-            // 
             // StopOutBtn
             // 
             resources.ApplyResources(this.StopOutBtn, "StopOutBtn");
@@ -507,16 +481,6 @@
             this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            // 
-            // PicComposeBtn
-            // 
-            resources.ApplyResources(this.PicComposeBtn, "PicComposeBtn");
-            this.PicComposeBtn.BackColor = System.Drawing.Color.MintCream;
-            this.PicComposeBtn.ForeColor = System.Drawing.Color.Black;
-            this.PicComposeBtn.Name = "PicComposeBtn";
-            this.toolTip1.SetToolTip(this.PicComposeBtn, resources.GetString("PicComposeBtn.ToolTip"));
-            this.PicComposeBtn.UseVisualStyleBackColor = true;
-            this.PicComposeBtn.Click += new System.EventHandler(this.PicComposeBtn_Click);
             // 
             // label2
             // 
@@ -724,15 +688,14 @@
             // 
             // toolStripStatusLabel3
             // 
-            this.toolStripStatusLabel3.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
             resources.ApplyResources(this.toolStripStatusLabel3, "toolStripStatusLabel3");
             // 
             // renderControl1
             // 
+            resources.ApplyResources(this.renderControl1, "renderControl1");
             this.renderControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.renderControl1.ContextMenuStrip = this.CadContextMenuStrip;
-            resources.ApplyResources(this.renderControl1, "renderControl1");
             this.renderControl1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.renderControl1.Name = "renderControl1";
             this.renderControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint_1);
@@ -861,7 +824,6 @@
             resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
             this.toolStripStatusLabel1.BackColor = System.Drawing.Color.Snow;
             this.toolStripStatusLabel1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.toolStripStatusLabel1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             // 
             // PrinterStatusLabel
@@ -869,7 +831,6 @@
             resources.ApplyResources(this.PrinterStatusLabel, "PrinterStatusLabel");
             this.PrinterStatusLabel.BackColor = System.Drawing.Color.Snow;
             this.PrinterStatusLabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.PrinterStatusLabel.Margin = new System.Windows.Forms.Padding(0, 3, 0, 2);
             this.PrinterStatusLabel.Name = "PrinterStatusLabel";
             // 
             // button4
@@ -1761,7 +1722,6 @@
         private System.Windows.Forms.Button MaintainBtn;
         private System.Windows.Forms.Button ImportCliBtn;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button PicComposeBtn;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label WorkRate;
         private System.Windows.Forms.Label ProcessRate;
@@ -1769,7 +1729,6 @@
         private System.Windows.Forms.ProgressBar JobsProgressBar;
         private System.Windows.Forms.Button StopOutBtn;
         private System.Windows.Forms.Button ManulBtn;
-        private System.Windows.Forms.Button DevElecBtn;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Button JobsParaBtn;
         private System.Windows.Forms.Label label20;
@@ -1823,7 +1782,6 @@
         private System.Windows.Forms.Button SaveBMPBtn;
         private System.Windows.Forms.ContextMenuStrip CadContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem MainMenuBtn;
-        private System.Windows.Forms.Button PowderBtn;
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button button1;

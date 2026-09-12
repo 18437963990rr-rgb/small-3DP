@@ -237,7 +237,7 @@ namespace BinderJetting
             this.DigtalOut11.Size = new System.Drawing.Size(99, 68);
             this.DigtalOut11.TabIndex = 32;
             this.DigtalOut11.Tag = "11";
-            this.DigtalOut11.Text = "绿灯指示";
+            this.DigtalOut11.Text = "落粉开合(EXO10)";
             this.DigtalOut11.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.DigtalOut11.UseVisualStyleBackColor = false;
             this.DigtalOut11.Click += new System.EventHandler(this.GoogolDigtalOut_Click);

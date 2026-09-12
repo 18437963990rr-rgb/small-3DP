@@ -1,0 +1,134 @@
+{
+  "ProductName": "小型单喷头 Binder Jetting",
+  "PlateWidthMm": 100,
+  "PlateHeightMm": 60,
+  "SliceDpi": 400,
+  "PrintHeadCount": 1,
+  "PassesPerLayer": 1,
+  "InkCarParkPositionMm": 118,
+  "InkCarMoisturizingPositionMm": 20,
+  "InkCarPrintMinimumMm": 118,
+  "InkCarPrintMaximumMm": 370,
+  "PowderFeedDurationMs": 0,
+  "DirectionMode": 3,
+  "PrintStartOffsetMm": -1,
+  "SwathRowsPerHead": 1024,
+  "EnableUv": false,
+  "EnableCamera": false,
+  "EnableVacuum": true,
+  "GtsTelemetry": {
+    "Enabled": true,
+    "CardNumber": 0,
+    "PollIntervalMs": 500
+  },
+  "MeteorTelemetry": {
+    "Enabled": true,
+    "PccNumber": 1,
+    "HeadNumber": 1,
+    "ApiDirectory": "",
+    "PrintEngineConfigPath": "C:\\Users\\Public\\Documents\\Meteor\\Config\\PccE\\DefaultStarfire_PccE.cfg",
+    "TemperatureField": "Temperature1",
+    "TemperatureScale": 0.1,
+    "VoltageField": "Voltages[0]",
+    "VoltageScale": 0.001,
+    "SpitCount": 200
+  },
+  "HeadCleaning": {
+    "Enabled": true,
+    "PressInkPositionMm": 155,
+    "CleanPositionMm": 118,
+    "PressInkDurationMs": 1500,
+    "ScraperPulsesPerRevolution": 6400,
+    "ScraperWipeAngleDegrees": 145,
+    "ScraperDirectionSign": -1,
+    "ScraperSpeedRevolutionsPerSecond": 0.5,
+    "ScraperAccelerationRevolutionsPerSecond2": 0.5
+  },
+  "Infrared": {
+    "Enabled": true,
+    "DacChannel": 11,
+    "DefaultPowerPercent": 50
+  },
+  "DigitalOutputs": [
+    {
+      "Role": 2,
+      "Channel": 11,
+      "ActiveLow": true
+    },
+    {
+      "Role": 0,
+      "Channel": 3,
+      "ActiveLow": true
+    },
+    {
+      "Role": 1,
+      "Channel": -1,
+      "ActiveLow": true
+    },
+    {
+      "Role": 3,
+      "Channel": 13,
+      "ActiveLow": true
+    }
+  ],
+  "Axes": [
+    {
+      "Role": 0,
+      "AxisNumber": 4,
+      "HomePositionMm": 0,
+      "MinimumPositionMm": -360,
+      "MaximumPositionMm": 360,
+      "VelocityMmPerSecond": 30,
+      "AccelerationMmPerSecond2": 100
+    },
+    {
+      "Role": 1,
+      "AxisNumber": 7,
+      "PulsesPerMillimeter": 1000,
+      "PositionSign": 1,
+      "HomePositionMm": 5,
+      "MinimumPositionMm": 5,
+      "MaximumPositionMm": 255,
+      "VelocityMmPerSecond": 50,
+      "AccelerationMmPerSecond2": 300
+    },
+    {
+      "Role": 2,
+      "AxisNumber": 8,
+      "HomePositionMm": 0,
+      "MinimumPositionMm": -150,
+      "MaximumPositionMm": 10,
+      "VelocityMmPerSecond": 5,
+      "AccelerationMmPerSecond2": 30
+    },
+    {
+      "Role": 3,
+      "AxisNumber": 5,
+      "HomePositionMm": 0,
+      "MinimumPositionMm": -360,
+      "MaximumPositionMm": 360,
+      "VelocityMmPerSecond": 30,
+      "AccelerationMmPerSecond2": 100
+    },
+    {
+      "Role": 4,
+      "AxisNumber": 6,
+      "HomePositionMm": 0,
+      "MinimumPositionMm": -360,
+      "MaximumPositionMm": 360,
+      "VelocityMmPerSecond": 30,
+      "AccelerationMmPerSecond2": 100
+    },
+    {
+      "Role": 5,
+      "AxisNumber": 1,
+      "PulsesPerMillimeter": 1000,
+      "PositionSign": 1,
+      "HomePositionMm": 0,
+      "MinimumPositionMm": 0,
+      "MaximumPositionMm": 370,
+      "VelocityMmPerSecond": 100,
+      "AccelerationMmPerSecond2": 500
+    }
+  ]
+}

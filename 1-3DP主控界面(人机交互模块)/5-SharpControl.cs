@@ -1,7 +1,6 @@
 #define DataProcessDebugMode
 //#define SinglePassPrintMode
 #define TwoPassPrintMode
-//#define TwoPassPrintPerSixTimes  // 已停用：6 PASS 大图分条渲染
 #define TwoPassPrintPerThreeTimes  // [2026-06-01] 单层 3 PASS；墨车运动主路径见工业控制 Command=6→AutoPrintThread5，数据见本文件 RenderToWic/MeteorPrintEngine
 //#define TEMP_METEOR_BITMAP_EXPORT
 
@@ -1695,10 +1694,21 @@ namespace BinderJetting
 #if TEMP_METEOR_BITMAP_EXPORT
                 ExportTemporaryBitmap(clone, "RenderToWic-clone", index, subindex, RePrintTimes);
 #endif
+                if (SmallMachineConfiguration.UseSmallScan)
+                {
+                    try { SendSmallMachineLayer(clone, index, subindex, RePrintTimes, ActualStartNum); }
+                    finally { clone.Dispose(); }
+                    return;
+                }
                 if (SimplifiedMeteorAutoFlowMode)
                 {
                     int stripIndexSimple = 0;
                     bool anySwathSent = false;
+                    bool physicalHomeDoubleScan = PrintRasterConfig.IsPhysicalHomeDoubleScanEnabled();
+                    int scanRepeatCount = physicalHomeDoubleScan ? 2 : 1;
+                    int secondRoundYShiftPixels = physicalHomeDoubleScan
+                        ? PrintRasterConfig.GetPhysicalHomeDoubleScanShiftPixels()
+                        : 0;
                     int meteorRasterCutWidthPx = ResolveMeteorRasterCutWidthPixels(clone.Width);
                     uint actualScanJobWidth = (uint)Math.Max(1, clone.Width);
                     if (meteorRasterCutWidthPx > 0 && meteorRasterCutWidthPx < clone.Width)
@@ -1747,24 +1757,30 @@ namespace BinderJetting
                     else
                         Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode 3PASS 按 pass 门控逐条发送；EndJob 默认在 swath 发完后立即发送");
                     // SwathImageSplitter：从 row 0 向下按固定 2048 行切分（测试路径；PassPlatformYCrop 物理 Y 裁切已暂时停用）
-                    Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode SwathImageSplitter stripHeightPx=" + PrintRasterConfig.SwathStripHeightPixels + " yJetOff=0 mode=rowTopDown");
-                    int splitterRet = SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, (strip, swathTop) =>
+                    Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode SwathImageSplitter stripHeightPx=" + PrintRasterConfig.SwathStripHeightPixels + " scanRepeatCount=" + scanRepeatCount + " secondRoundYShiftPx=" + secondRoundYShiftPixels + " mode=rowTopDown");
+                    int splitterRet = 1;
+                    for (int rasterRepeatIndex = 0; rasterRepeatIndex < scanRepeatCount; rasterRepeatIndex++)
                     {
-                        int passIndex = stripIndexSimple;
+                        splitterRet = SwathImageSplitter.SplitLayerToSwathStripsAndProcess(clone, (strip, swathTop) =>
+                        {
+                        int scanStepIndex = stripIndexSimple;
+                        int passIndex = scanStepIndex % 3;
+                        int scanRepeatIndex = scanStepIndex / 3;
+                        int imageYShiftPixels = scanRepeatIndex > 0 ? secondRoundYShiftPixels : 0;
                         MeteorPrintEngine.SetPendingSwathPassIndex(passIndex);
                         if (batchStartScanGateSplit || passLiveAbsXGateSplit || passGateAnchorXStart || allFwdDiagnostic)
                         {
                             MeteorPrintEngine.SuppressScanMotionGateForNextWrite = false;
-                            if (passIndex == 0)
+                            if (scanStepIndex == 0)
                                 MeteorPrintEngine.WaitPassGateBeforeMeteorSubmitIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode:" + (passGateAnchorXStart ? "PassGateAnchorXStartPass0" : passLiveAbsXGateSplit ? "PassLiveAbsXPass0" : "BatchGateSplitPass0"), index, 0, ActualStartNum);
                             else if (!passGateAnchorXStart)
                                 MeteorPrintEngine.WaitPassGateBeforeMeteorSubmitIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode:" + (passGateAnchorXStart ? "PassGateAnchorXStartPass" : passLiveAbsXGateSplit ? "PassLiveAbsXPass" : "BatchGateSplitPass") + passIndex, index, passIndex, ActualStartNum);
                         }
                         else if (batchSwathMode)
                         {
-                            if (passIndex == 0)
+                            if (scanStepIndex == 0)
                                 MeteorPrintEngine.WaitPassGateBeforeMeteorSubmitIfEnabled("RenderToWic:SimplifiedMeteorAutoFlowMode:Pass0", index, 0, ActualStartNum);
-                            MeteorPrintEngine.SuppressScanMotionGateForNextWrite = passIndex > 0;
+                            MeteorPrintEngine.SuppressScanMotionGateForNextWrite = scanStepIndex > 0;
                         }
                         else
                         {
@@ -1788,8 +1804,8 @@ namespace BinderJetting
                             Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode SPLIT-JOB-PER-PASS StartJob完成, passIndex=" + passIndex + ", scanJobWidth=" + actualScanJobWidth);
                         }
                         royal.royal.g_prtimg_layer.nPrtDir = allFwdDiagnostic ? 1 : ((passIndex % 2 == 0) ? 1 : 0);
-                        royal.royal.g_prtimg_layer.nYJetOff = 0;
-                        int writeRet = WriteImgLayerData(strip, index, subindex, RePrintTimes, true, 0);
+                        royal.royal.g_prtimg_layer.nYJetOff = imageYShiftPixels;
+                        int writeRet = WriteImgLayerData(strip, index, subindex, RePrintTimes, true, imageYShiftPixels);
                         if (splitJobPerPass)
                             MeteorPrintEngine.MarkDeferredEndJobAfterPassSwaths("RenderToWic:SimplifiedMeteorAutoFlowMode:SplitJobPass" + passIndex);
                         anySwathSent = true;
@@ -1798,10 +1814,13 @@ namespace BinderJetting
                             MeteorPrintEngine.SignalBatchSwathsMeteorReady("RenderToWic:SimplifiedMeteorAutoFlowMode:" + (passGateAnchorXStart ? "PassGateAnchorXStartPass0Flush" : "PassLiveAbsXCompPass0Flush"));
                             Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode " + (passGateAnchorXStart ? "PASS-GATE-ANCHOR-XSTART" : "PASS-LIVE-ABSX-COMP") + " Pass0 已入队并 Flush，放行 Pass0 扫程；Pass1/2 待各自 gate");
                         }
-                        Log4Net.Info("RenderToWic: Simplified 3PASS stripProcessor 完成, stripIndexSimple=" + passIndex + ", swathTopInLayer=" + swathTop + ", batchSwathMode=" + batchSwathMode + ", suppressScanMotionGate=" + MeteorPrintEngine.SuppressScanMotionGateForNextWrite + ", nPrtDir=" + royal.royal.g_prtimg_layer.nPrtDir + ", nYJetOff=0, writeRet=" + writeRet);
+                        Log4Net.Info("RenderToWic: Simplified stripProcessor 完成, scanStepIndex=" + scanStepIndex + ", passIndex=" + passIndex + ", repeat=" + (scanRepeatIndex + 1) + ", swathTopInLayer=" + swathTop + ", batchSwathMode=" + batchSwathMode + ", suppressScanMotionGate=" + MeteorPrintEngine.SuppressScanMotionGateForNextWrite + ", nPrtDir=" + royal.royal.g_prtimg_layer.nPrtDir + ", nYJetOff=" + imageYShiftPixels + ", writeRet=" + writeRet);
                         stripIndexSimple++;
                         return writeRet > 0 ? writeRet : 1;
-                    }, 0, -1);
+                        }, 0, -1);
+                        if (splitterRet <= 0)
+                            break;
+                    }
                     if (splitterRet <= 0)
                     {
                         Log4Net.Info("RenderToWic: SimplifiedMeteorAutoFlowMode SwathImageSplitter aborted or failed, splitterRet=" + splitterRet + ", stripIndexSimple=" + stripIndexSimple);
@@ -2099,22 +2118,6 @@ namespace BinderJetting
 #endif
 
 #if TwoPassPrintMode
-#if false // 原 TwoPassPrintPerSixTimes：6 PASS 停用
-                System.Drawing.Bitmap outputImage = null;
-                CreatTwoPassFigure(0/*1280,*//*355*/, 6, clone, ref outputImage);
-#if TEMP_METEOR_BITMAP_EXPORT
-                ExportTemporaryBitmap(outputImage, "RenderToWic2-outputImage-6pass", index, subindex, RePrintTimes);
-#endif
-                if (outputImage != null)
-                {
-                }
-                int stripIndex6 = 0;
-                Log4Net.Info($"RenderToWic2: 复用外层已启动的 JOB，outputImage={outputImage.Width}x{outputImage.Height}, index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndex6}");
-                SwathImageSplitter.SplitLayerToSwathStripsAndProcess(outputImage, (strip, swathTop) => { royal.royal.g_prtimg_layer.nPrtDir = (stripIndex6 % 2 == 0) ? 1 : 0; WriteImgLayerData(strip, index, subindex, RePrintTimes, false, swathTop); stripIndex6++; }, 0, -1);
-                Log4Net.Info($"RenderToWic2: 条带发送完成，外层 JOB 仍由调用方统一结束，index={index}, subindex={subindex}, RePrintTimes={RePrintTimes}, stripIndex={stripIndex6}");
-                outputImage.Dispose();
-#endif
-
 #if TwoPassPrintPerThreeTimes
                 System.Drawing.Bitmap outputImage2 = null;
                 outputImage2 = clone.Clone(new System.Drawing.Rectangle(0, 0, clone.Width, clone.Height), System.Drawing.Imaging.PixelFormat.Format1bppIndexed);
@@ -2444,6 +2447,40 @@ namespace BinderJetting
         /// <summary>
         /// 20200609：传输数据测试;传输BMP格式，载入1层的BMP数据//20200409批注：内存中的bmp文件的存储方式是从上到下，从左到右；BMP文件的存储方式是从下到上，从左到右；           
         /// </summary>
+        private void SendSmallMachineLayer(System.Drawing.Bitmap image, int index, int subindex, int repeats, int layerStart)
+        {
+            var plan = SmallMachineConfiguration.JobPlan;
+            try
+            {
+                if (image.Height > PrintRasterConfig.SwathStripHeightPixels)
+                    throw new InvalidOperationException("整层图像超过单喷头覆盖范围。");
+                MeteorPrintEngine.WaitPass0PreheatGateBeforeStartJobIfEnabled("SmallMachine:StartJob", index, layerStart);
+                MeteorPrintEngine.SetPendingScanJobWidth((uint)image.Width);
+                if (MeteorPrintEngine.StartJob(ref royal.royal.g_PrtJobItem) < 0 || !MeteorPrintEngine.SendStartJob(0, (uint)image.Width))
+                    throw new InvalidOperationException("小型机 Meteor STARTJOB 失败。");
+                for (int scan = 0; scan < plan.ScanCount; scan++)
+                {
+                    MeteorPrintEngine.WaitPassGateBeforeMeteorSubmitIfEnabled("SmallMachine:Scan", index, scan, layerStart);
+                    MeteorPrintEngine.SetPendingSwathPassIndex(scan);
+                    // 现有固高/PCC 方向约定：X 增大为 REV，X 减小为 FWD。
+                    royal.royal.g_prtimg_layer.nPrtDir = plan.TowardsHighEnd(scan) ? 0 : 1;
+                    royal.royal.g_prtimg_layer.nYJetOff = 0;
+                    MeteorPrintEngine.SuppressScanMotionGateForNextWrite = true;
+                    int result = WriteImgLayerData(image, index, subindex, repeats, true, 0);
+                    if (result <= 0) throw new InvalidOperationException("小型机扫描数据发送失败：" + result);
+                    SmallMachineConfiguration.DataQueued(scan);
+                    SmallMachineConfiguration.WaitMotion(scan);
+                }
+            }
+            catch (Exception ex)
+            {
+                SmallMachineConfiguration.Fail(ex);
+                MeteorPrintEngine.StopJob();
+                throw;
+            }
+            finally { MeteorPrintEngine.SuppressScanMotionGateForNextWrite = false; SmallMachineConfiguration.DataLayerFinished(); }
+        }
+
         private int WriteImgLayerData(System.Drawing.Bitmap clone, int index, int subindex, int RePrintTimes, bool ReverseColor, int swathYOffset = 0/*,int PrtDirFlag, bool SpreadPowerFlagDir*/)//201030修改：//必须放在1个独立的线程中//文件的本质就是保存在HD的字节流
         {
             Log4Net.Info("WriteImgLayerData: enter, layer=" + index + ", sub=" + subindex + ", RePrintTimes=" + RePrintTimes + ", ReverseColor=" + ReverseColor + ", swathYOffset=" + swathYOffset + ", bitmap=" + clone.Width + "x" + clone.Height + ", pixelFormat=" + clone.PixelFormat + ", threadId=" + System.Threading.Thread.CurrentThread.ManagedThreadId);
